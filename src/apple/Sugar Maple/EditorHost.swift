@@ -54,6 +54,15 @@ final class EditorHost: NSObject, WKScriptMessageHandlerWithReply, WKNavigationD
             guard let value = body["value"] else { throw HostError.message("Missing checkpoint") }
             try JSONSerialization.data(withJSONObject: value).write(to: support.appendingPathComponent("recovery.json"), options: .atomic)
             return ["ok": true]
+        case "file.export":
+            guard let name = body["name"] as? String else { throw HostError.message("Missing export name") }
+            let data: Data
+            if let text = body["text"] as? String { data = Data(text.utf8) }
+            else if let base64 = body["base64"] as? String, let decoded = Data(base64Encoded: base64) { data = decoded }
+            else { throw HostError.message("Missing export data") }
+            let panel = NSSavePanel(); panel.nameFieldStringValue = name
+            guard await panel.begin() == .OK, let url = panel.url else { return ["cancelled": true] }
+            try data.write(to: url, options: .atomic); return ["ok": true]
         case "file.save":
             guard let value = body["value"] as? [String: Any], let document = value["document"] as? [String: Any] else { throw HostError.message("Missing document") }
             if fileURL == nil {

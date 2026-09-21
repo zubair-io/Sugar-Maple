@@ -23,7 +23,50 @@ const tx = {
   documentId: current.documentId,
   expectedRevision: current.revision,
   requestId: crypto.randomUUID(),
-  operations: [{ type: "page.add", id, name: "MCP acceptance" }],
+  operations: [
+    { type: "page.add", id, name: "MCP acceptance" },
+    {
+      type: "node.add",
+      node: {
+        id: id + "-board",
+        pageId: id,
+        kind: "artboard",
+        name: "MCP acceptance board",
+        width: 600,
+        height: 400,
+        x: 0,
+        y: 0,
+      },
+    },
+    {
+      type: "node.add",
+      node: {
+        id: id + "-text",
+        pageId: id,
+        parentId: id + "-board",
+        kind: "text",
+        text: "Agent → live editor",
+        x: 32,
+        y: 32,
+        width: 400,
+        height: 60,
+      },
+    },
+    {
+      type: "node.add",
+      node: {
+        id: id + "-shape",
+        pageId: id,
+        parentId: id + "-board",
+        kind: "rectangle",
+        fill: "#2563eb",
+        x: 32,
+        y: 120,
+        width: 240,
+        height: 120,
+      },
+    },
+  ],
 };
 const created = await tool("transaction.apply", tx);
 assert.equal((await tool("transaction.apply", tx)).revision, created.revision);
@@ -32,6 +75,32 @@ const stale: any = await http.callTool({
   arguments: { ...tx, requestId: crypto.randomUUID() },
 });
 assert.equal(stale.isError, true);
+await tool("selection.set", { id: id + "-board" });
+await tool("viewport.fit");
+const layout = await tool("layout.inspect");
+assert.equal(layout.revision, created.revision);
+assert.equal(
+  layout.nodes.filter((n: any) => n.rendered && n.bounds.width > 0).length,
+  3,
+);
+assert.ok(
+  (
+    await tool("code.export", { id: id + "-board", target: "swiftui" })
+  ).code.includes("Agent → live editor"),
+);
+const captured: any = await http.callTool({
+  name: "render.capture",
+  arguments: {
+    documentId: current.documentId,
+    expectedRevision: created.revision,
+  },
+});
+assert.ok(!captured.isError);
+assert.equal(captured.content[0].mimeType, "image/png");
+await Bun.write(
+  "build/evidence/mcp-created-elements.png",
+  Buffer.from(captured.content[0].data, "base64"),
+);
 await tool("history.undo", {
   documentId: current.documentId,
   expectedRevision: created.revision,

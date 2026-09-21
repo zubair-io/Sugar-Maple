@@ -1,3 +1,4 @@
+import { applyComposition, propagate } from './composition';
 import * as Y from 'yjs';
 import {
   blankDocument,
@@ -47,7 +48,7 @@ export class DocumentStore {
       }
       const records =
         key === 'tokens' ? doc.tokens : Object.fromEntries(doc[key].map((v) => [v.id, v]));
-      for (const k of Array.from(map.keys())) if (!(k in records)) map.delete(k);
+      for (const k of Array.from(map.keys())) if (!Object.hasOwn(records, k)) map.delete(k);
       for (const [k, value] of Object.entries(records)) {
         if (typeof value === 'string') {
           if (map.get(k) !== value) map.set(k, value);
@@ -107,6 +108,7 @@ export class DocumentStore {
   }
 }
 function applyOperation(doc: SceneDocument, op: Operation, ids: string[]) {
+  if (applyComposition(doc, op, ids)) return;
   switch (op.type) {
     case 'document.rename':
       doc.name = op.name;
@@ -147,6 +149,7 @@ function applyOperation(doc: SceneDocument, op: Operation, ids: string[]) {
       const n = doc.nodes.find((n) => n.id === op.id);
       if (!n) throw Error('Node not found');
       Object.assign(n, op.patch);
+      propagate(doc, n, op.patch);
       break;
     }
     case 'node.remove':
@@ -168,5 +171,7 @@ function removeNode(doc: SceneDocument, id: string) {
       ...n,
       targetId: n.targetId && removed.has(n.targetId) ? null : n.targetId,
       componentId: n.componentId && removed.has(n.componentId) ? null : n.componentId,
+      repeatTemplateId:
+        n.repeatTemplateId && removed.has(n.repeatTemplateId) ? null : n.repeatTemplateId,
     }));
 }

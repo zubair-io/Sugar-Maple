@@ -12,7 +12,17 @@ export const NodeSchema = z
     id,
     pageId: id,
     parentId: id.nullable().default(null),
-    kind: z.enum(['artboard', 'frame', 'rectangle', 'ellipse', 'text', 'button', 'input', 'image']),
+    kind: z.enum([
+      'artboard',
+      'frame',
+      'rectangle',
+      'ellipse',
+      'text',
+      'button',
+      'input',
+      'image',
+      'path',
+    ]),
     name: z.string().min(1).max(200),
     x: finite.default(0),
     y: finite.default(0),
@@ -38,7 +48,20 @@ export const NodeSchema = z
     targetId: id.nullable().default(null),
     transition: z.enum(['instant', 'dissolve']).default('instant'),
     asset: z.string().max(8000000).default(''),
+    pathData: z
+      .string()
+      .max(100000)
+      .regex(/^[MmLlHhVvCcSsQqTtAaZz0-9eE+.,\s-]*$/)
+      .default(''),
+    viewBox: z
+      .string()
+      .regex(/^-?[0-9.]+ -?[0-9.]+ [0-9.]+ [0-9.]+$/)
+      .default('0 0 100 100'),
     componentId: id.nullable().default(null),
+    isComponent: z.boolean().default(false),
+    overrides: z.array(z.string()).default([]),
+    repeatTemplateId: id.nullable().default(null),
+    repeatIndex: z.number().int().min(0).max(99).nullable().default(null),
     fillToken: z.string().max(128).default(''),
   })
   .strict();
@@ -74,6 +97,32 @@ const patchNode = z
   .strict();
 const addNode = NodeSchema.partial().required({ kind: true, pageId: true });
 export const OperationSchema = z.discriminatedUnion('type', [
+  z.object({ type: z.literal('component.create'), id }).strict(),
+  z
+    .object({
+      type: z.literal('component.insert'),
+      id,
+      pageId: id,
+      x: finite.default(0),
+      y: finite.default(0),
+    })
+    .strict(),
+  z.object({ type: z.literal('component.detach'), id }).strict(),
+  z
+    .object({
+      type: z.literal('repeat.create'),
+      id,
+      count: z.number().int().min(2).max(100),
+      columns: z.number().int().min(1).max(20),
+    })
+    .strict(),
+  z
+    .object({
+      type: z.literal('repeat.populate'),
+      id,
+      values: z.array(z.string().max(20000)).max(100),
+    })
+    .strict(),
   z
     .object({ type: z.literal('page.add'), id: id.optional(), name: z.string().min(1).max(200) })
     .strict(),
@@ -84,7 +133,17 @@ export const OperationSchema = z.discriminatedUnion('type', [
   z.object({ type: z.literal('node.remove'), id }).strict(),
   z.object({ type: z.literal('document.rename'), name: z.string().min(1).max(200) }).strict(),
   z
-    .object({ type: z.literal('token.set'), name: z.string().regex(/^[\w.-]+$/), value: color })
+    .object({
+      type: z.literal('token.set'),
+      name: z
+        .string()
+        .regex(/^[\w.-]+$/)
+        .refine(
+          (name) => !['__proto__', 'constructor', 'prototype'].includes(name),
+          'Reserved token name',
+        ),
+      value: color,
+    })
     .strict(),
 ]);
 export type Operation = z.infer<typeof OperationSchema>;
