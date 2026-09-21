@@ -1,0 +1,28 @@
+# macOS and Xcode user state
+.DS_Store
+xcuserdata/
+*.xcuserstate
+DerivedData/
+build/
+.build/
+
+# Local dependencies and caches
+node_modules/
+.angular/
+dist/
+__pycache__/
+*.pyc
+
+# Local secrets
+.env
+.env.*
+!.env.example
+
+# Local issue exports and publishing data; keep architecture documentation
+/docs/planning/issues/
+/docs/planning/all-issues.md
+/docs/planning/backlog.json
+/docs/planning/issue-map.json
+/docs/planning/verification.json
+/docs/planning/build_backlog.py
+/docs/planning/publish_issues.py
