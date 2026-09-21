@@ -55,5 +55,6 @@ macOS is the first implementation target. The browser editor remains a subsequen
 - [MVP issue index](docs/planning/README.md)
 - [MVP tracker](https://github.com/zubair-io/Sugar-Maple/issues/1)
 - [Contributor and agent guidance](AGENTS.md)
+- [Jules review setup and session cleanup](docs/development/jules.md)
 
 The architecture decisions and current issue acceptance criteria take precedence over older RFC details. Implementation is delivered through incremental, stacked pull requests. Local issue Markdown exports and publishing data are intentionally excluded from Git.
