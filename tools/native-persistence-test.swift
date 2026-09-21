@@ -11,6 +11,13 @@ import Foundation
         do { try DocumentPackage.write(["document":["version":99]], to:root); fatalError("Invalid checkpoint accepted") } catch {}
         let preserved = try DocumentPackage.read(root)
         precondition(NSDictionary(dictionary: checkpoint).isEqual(to: preserved))
-        print("PASS: real .syrup save/reopen and invalid-write preservation")
+        let fingerprint = try DocumentPackage.fingerprint(root)
+        var external = checkpoint
+        external["external"] = true
+        try DocumentPackage.write(external, to: root)
+        do { try DocumentPackage.write(checkpoint, to: root, expectedFingerprint: fingerprint); fatalError("External edit overwritten") } catch {}
+        let latest = try DocumentPackage.read(root)
+        precondition(latest["external"] as? Bool == true)
+        print("PASS: real .syrup save/reopen and invalid-write preservation and external-change conflict")
     }
 }

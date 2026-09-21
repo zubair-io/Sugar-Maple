@@ -10,6 +10,8 @@ final class EditorHost: NSObject, WKScriptMessageHandlerWithReply, WKNavigationD
     var serverStatus = "Starting"
     var fileURL: URL?
     var pendingOpenURL: URL?
+    var fileFingerprint: String?
+    var pendingFingerprint: String?
     let support = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0].appendingPathComponent("SugarMaple", isDirectory: true)
 
     override init() {
@@ -45,8 +47,8 @@ final class EditorHost: NSObject, WKScriptMessageHandlerWithReply, WKNavigationD
             NSPasteboard.general.clearContents(); NSPasteboard.general.setString(text, forType: .string)
             return ["ok": true]
         case "clipboard.read": return ["text": NSPasteboard.general.string(forType: .string) ?? ""]
-        case "file.reset": fileURL = nil; return ["ok": true]
-        case "file.acceptOpen": fileURL = pendingOpenURL; pendingOpenURL = nil; return ["ok": true]
+        case "file.reset": fileURL = nil; fileFingerprint = nil; return ["ok": true]
+        case "file.acceptOpen": fileURL = pendingOpenURL; fileFingerprint = pendingFingerprint; pendingOpenURL = nil; pendingFingerprint = nil; return ["ok": true]
         case "recovery.load":
             let url = support.appendingPathComponent("recovery.json")
             return FileManager.default.fileExists(atPath: url.path) ? try JSONSerialization.jsonObject(with: Data(contentsOf: url)) : NSNull()
@@ -65,20 +67,22 @@ final class EditorHost: NSObject, WKScriptMessageHandlerWithReply, WKNavigationD
             try data.write(to: url, options: .atomic); return ["ok": true]
         case "file.save":
             guard let value = body["value"] as? [String: Any], let document = value["document"] as? [String: Any] else { throw HostError.message("Missing document") }
-            if fileURL == nil {
+            var destination = fileURL
+            if destination == nil || body["saveAs"] as? Bool == true {
                 let panel = NSSavePanel(); panel.nameFieldStringValue = "\(document["name"] as? String ?? "Untitled").syrup"
                 panel.canCreateDirectories = true; panel.title = "Save Sugar Maple document"
                 guard await panel.begin() == .OK, let url = panel.url else { return ["cancelled": true] }
-                fileURL = url
+                destination = url
             }
-            let url = fileURL!
-            try DocumentPackage.write(value, to: url)
+            let url = destination!
+            try DocumentPackage.write(value, to: url, expectedFingerprint: url == fileURL ? fileFingerprint : nil)
+            fileURL = url; fileFingerprint = try DocumentPackage.fingerprint(url)
             return ["ok": true]
         case "file.open":
             let panel = NSOpenPanel(); panel.canChooseDirectories = true; panel.canChooseFiles = true
             panel.allowsMultipleSelection = false; panel.title = "Open .syrup document"
             guard await panel.begin() == .OK, let url = panel.url else { return ["cancelled": true] }
-            let result = try DocumentPackage.read(url); pendingOpenURL = url
+            let result = try DocumentPackage.read(url); pendingOpenURL = url; pendingFingerprint = try DocumentPackage.fingerprint(url)
             return result
         default: throw HostError.message("Unknown native action")
         }
