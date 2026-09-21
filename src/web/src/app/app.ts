@@ -453,7 +453,7 @@ export class App {
     if (event.metaKey || event.ctrlKey) {
       if (event.key === 's') {
         event.preventDefault();
-        this.e.save();
+        this.e.save(event.shiftKey);
       }
       if (typing) return;
       if (event.key === 'z') {

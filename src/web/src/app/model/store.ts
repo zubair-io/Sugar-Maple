@@ -1,3 +1,4 @@
+import { delta, applyDelta, JournalSchema, type JournalEntry } from './journal';
 import { applyComposition, propagate } from './composition';
 import * as Y from 'yjs';
 import {
@@ -21,9 +22,47 @@ export class DocumentStore {
     string,
     { signature: string; result: ReturnType<DocumentStore['result']> }
   >();
+  private base: SceneDocument;
+  private journal: JournalEntry[] = [];
   revision = 0;
   constructor(doc: SceneDocument = blankDocument()) {
-    this.write(validateDocument(doc));
+    this.base = validateDocument(doc);
+    this.write(this.base);
+  }
+  static fromCheckpoint(value: any): DocumentStore {
+    if (!value || typeof value !== 'object') throw Error('Invalid document checkpoint');
+    if (value.checkpointVersion === undefined)
+      return new DocumentStore(validateDocument(value.document));
+    if (value.checkpointVersion !== 2) throw Error('Unsupported checkpoint version');
+    const entries = JournalSchema.parse(value.journal);
+    const store = new DocumentStore(validateDocument(value.base));
+    for (const entry of entries) {
+      if (entry.kind === 'edit') {
+        const next = validateDocument(applyDelta(store.document, entry.delta));
+        if (
+          entry.receipt.documentId !== store.document.id ||
+          entry.receipt.revision !== store.revision + 1 ||
+          store.receipts.has(entry.requestId)
+        )
+          throw Error('Invalid journal receipt');
+        const transaction = TransactionSchema.parse(JSON.parse(entry.signature));
+        if (
+          transaction.documentId !== store.document.id ||
+          transaction.expectedRevision !== store.revision ||
+          transaction.requestId !== entry.requestId
+        )
+          throw Error('Invalid journal transaction');
+        store.ydoc.transact(() => store.write(next), entry.origin);
+        store.revision++;
+        store.receipts.set(entry.requestId, { signature: entry.signature, result: entry.receipt });
+        store.journal.push(entry);
+      } else if (entry.kind === 'undo') store.undo();
+      else store.redo();
+    }
+    const projection = validateDocument(value.document);
+    if (canonical(store.document) !== canonical(projection))
+      throw Error('Document projection does not match its history');
+    return store;
   }
   get document(): SceneDocument {
     return {
@@ -64,7 +103,12 @@ export class DocumentStore {
       }
     }
   }
-  result(ids: string[] = []) {
+  result(ids: string[] = []): {
+    documentId: string;
+    revision: number;
+    ids: string[];
+    transactionId: string;
+  } {
     return { documentId: this.document.id, revision: this.revision, ids, transactionId: uid() };
   }
   transact(input: unknown, origin: 'human' | 'agent' = 'human') {
@@ -77,7 +121,8 @@ export class DocumentStore {
     }
     if (tx.documentId !== this.document.id) throw Error('Wrong document');
     if (tx.expectedRevision !== this.revision) throw Error('Stale revision');
-    const doc = structuredClone(this.document),
+    const before = this.document;
+    const doc = structuredClone(before),
       ids: string[] = [];
     for (const op of tx.operations) applyOperation(doc, op, ids);
     validateDocument(doc);
@@ -85,15 +130,25 @@ export class DocumentStore {
     this.revision++;
     const result = this.result(ids);
     this.receipts.set(tx.requestId, { signature, result });
+    this.journal.push({
+      kind: 'edit',
+      origin,
+      delta: delta(before, doc),
+      requestId: tx.requestId,
+      signature,
+      receipt: result,
+    });
     return result;
   }
   undo() {
     this.history.undo();
+    this.journal.push({ kind: 'undo' });
     this.revision++;
     return this.result();
   }
   redo() {
     this.history.redo();
+    this.journal.push({ kind: 'redo' });
     this.revision++;
     return this.result();
   }
@@ -104,7 +159,12 @@ export class DocumentStore {
     return this.history.redoStack.length > 0;
   }
   checkpoint() {
-    return { document: this.document, crdt: Array.from(Y.encodeStateAsUpdate(this.ydoc)) };
+    return structuredClone({
+      checkpointVersion: 2,
+      document: this.document,
+      base: this.base,
+      journal: this.journal,
+    });
   }
 }
 function applyOperation(doc: SceneDocument, op: Operation, ids: string[]) {
@@ -174,4 +234,12 @@ function removeNode(doc: SceneDocument, id: string) {
       repeatTemplateId:
         n.repeatTemplateId && removed.has(n.repeatTemplateId) ? null : n.repeatTemplateId,
     }));
+}
+
+function canonical(value: unknown) {
+  return JSON.stringify(value, (_, item) =>
+    item && typeof item === 'object' && !Array.isArray(item)
+      ? Object.fromEntries(Object.entries(item).sort(([a], [b]) => a.localeCompare(b)))
+      : item,
+  );
 }

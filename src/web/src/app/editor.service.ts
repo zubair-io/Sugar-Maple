@@ -87,7 +87,7 @@ export class EditorService {
         : ((await this.recovery!.read()) ??
           JSON.parse(localStorage.getItem('sugar-maple-recovery') ?? 'null'));
       if (saved?.document) {
-        this.replace(saved.document);
+        this.replace(saved.document, saved);
         this.status.set('Recovered — save to a file');
       }
       if (this.native) {
@@ -144,10 +144,12 @@ export class EditorService {
       return null;
     }
   }
-  replace(doc: SceneDocument) {
-    this.store = new DocumentStore(validateDocument(doc));
+  replace(doc: SceneDocument, checkpoint?: unknown) {
+    this.store = checkpoint
+      ? DocumentStore.fromCheckpoint(checkpoint)
+      : new DocumentStore(validateDocument(doc));
     this.doc.set(this.store.document);
-    this.revision.set(0);
+    this.revision.set(this.store.revision);
     this.pageId.set(doc.pages[0].id);
     this.select(null);
     this.dirty.set(true);
@@ -224,12 +226,12 @@ export class EditorService {
     const nodes = this.selectedRoots().filter((n) => !n.locked);
     if (nodes.length) this.perform(nodes.map((n) => ({ type: 'node.remove', id: n.id })));
   }
-  async save() {
+  async save(saveAs = false) {
     try {
       const revision = this.revision(),
         documentId = this.doc().id;
       if (this.native) {
-        const result = await this.bridge('file.save', { value: this.store.checkpoint() });
+        const result = await this.bridge('file.save', { value: this.store.checkpoint(), saveAs });
         if (result.cancelled) return;
         const unchanged = this.revision() === revision && this.doc().id === documentId;
         this.dirty.set(!unchanged);
@@ -258,7 +260,7 @@ export class EditorService {
       if (this.native) {
         const result = await this.bridge('file.open');
         if (result.cancelled) return;
-        this.replace(result.document);
+        this.replace(result.document, result);
         await this.bridge('file.acceptOpen');
         this.dirty.set(false);
         this.status.set('Opened .syrup bundle');
@@ -270,7 +272,7 @@ export class EditorService {
         input.onchange = async () => {
           try {
             const value = JSON.parse(await input.files![0].text());
-            this.replace(value.document);
+            this.replace(value.document, value);
             this.status.set('Imported checkpoint');
             this.recover();
           } catch (e) {

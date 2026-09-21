@@ -35,6 +35,15 @@ await page.reload();
 await page.waitForFunction(() => document.querySelectorAll('[data-node-id]').length === 2);
 state = await page.evaluate(() => window.sugarMaple.dispatch('document.get'));
 if (state.document.nodes.length !== 2) throw Error('Recovery failed');
+await page.keyboard.press('Meta+z');
+const undone = await page.evaluate(() => window.sugarMaple.dispatch('document.get'));
+if (undone.document.nodes.find((n: any) => n.id === text.id).x !== text.x)
+  throw Error('Recovered undo history failed');
+await page.keyboard.press('Meta+Shift+z');
+const redone = await page.evaluate(() => window.sugarMaple.dispatch('document.get'));
+if (redone.document.nodes.find((n: any) => n.id === text.id).x !== text.x + 50)
+  throw Error('Recovered redo history failed');
+
 await mkdir('build/evidence', { recursive: true });
 await page.screenshot({ path: 'build/evidence/browser-editor.png' });
 await browser.close();

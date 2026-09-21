@@ -68,3 +68,11 @@ bun src/web/tests/handoff-e2e.ts
 Run all browser/consumer jobs with `bun run test:e2e`; it starts and cleans up its own dev server when needed. Chrome must be installed. CI installs Chrome and runs these jobs as well as the model tests and production build.
 
 Native pointer acceptance (with the app running): `bun tools/native-pointer-test.ts setup`, drag the blue rectangle once, then `bun tools/native-pointer-test.ts verify`. The verification reads the changed coordinates through MCP, captures the actual window, and undoes the pointer gesture and original agent batch separately. This flow was exercised against the local WKWebView build. Layout settling includes an occluded-window fallback because WKWebView suspends animation-frame callbacks in the background.
+
+## Durable history checkpoint
+
+Checkpoint version 2 stores an initial scene plus an ordered semantic command journal. Replaying it through the same Yjs transaction/undo machinery restores grouped undo, redo branches, revisions and retry receipts. The materialized document is a verified projection; mismatches reject the file. Legacy checkpoints still open, starting a new history. This is an application journal while the CRDT storage comparison remains provisional, not the final CRDT append-log/package layout from #7.
+
+Checkpoints are immutable snapshots so asynchronous persistence cannot combine an older scene with newer history. Save As writes a new user-selected destination. Saving an opened file compares its SHA-256 fingerprint and rejects external edits; the user can reopen or Save As. Filesystem coordination across other processes during the final write remains a release hardening task. Package writes retain the current 32 MB limit with an explicit size error.
+
+Tests cover reload/undo/redo through real IndexedDB, retained retry receipts, corrupted projections, legacy format loading, a 5,000-node round-trip, and external-file change protection. Canonical manifest/assets directories, asynchronous append logging, compaction and crash injection during append remain open.
