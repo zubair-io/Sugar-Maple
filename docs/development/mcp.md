@@ -36,3 +36,11 @@ Coordinates are parent-relative CSS pixels. Reuse a request ID only for an ident
 `document.new` replaces the current editor document. Save current work first. Save/open use the Mac file picker and are not exposed as arbitrary-path MCP tools.
 
 ChatGPT client connection has not been validated. Direct loopback access depends on the client's MCP support; this implementation does not create a public tunnel.
+
+## Composition and rendered geometry
+
+The transaction schema returned by `capabilities` includes `component.create`, `component.insert`, `component.detach`, `repeat.create` and `repeat.populate`. Repeat text values are a JSON string array. Read the discovered schema rather than assuming unsupported operations.
+
+After selecting a node with `selection.set`, call `viewport.fit` to frame its page, then `layout.inspect` to read actual DOM bounds in viewport CSS pixels. These are measured bounds after layout, distinct from authored parent-relative coordinates. `render.capture` remains revision-bound. `code.export` accepts `svg` and complete `swiftui` source; unsupported vector-to-SwiftUI conversion returns an explicit tool error.
+
+The official SDK integration test creates and renders a temporary artboard/text/rectangle batch, checks bounds, exports SwiftUI, captures PNG evidence, then undoes the batch and verifies the original document is restored.

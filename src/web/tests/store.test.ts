@@ -84,3 +84,44 @@ test('updating geometry preserves text, size, appearance and hierarchy', () => {
   s.transact(tx(s, [{ type: 'node.update', id: r.ids[0], patch: { x: 50 } }]));
   expect(s.document.nodes[0]).toEqual({ ...before, x: 50 });
 });
+
+test('component instances follow master styles while preserving text overrides', () => {
+  const s = new DocumentStore(),
+    pageId = s.document.pages[0].id;
+  const master = s.transact(
+    tx(s, [{ type: 'node.add', node: { kind: 'text', pageId, text: 'Master' } }]),
+  ).ids[0];
+  s.transact(tx(s, [{ type: 'component.create', id: master }]));
+  const instance = s.transact(
+    tx(s, [{ type: 'component.insert', id: master, pageId, x: 300, y: 0 }]),
+  ).ids[0];
+  s.transact(tx(s, [{ type: 'node.update', id: instance, patch: { text: 'Override' } }]));
+  s.transact(
+    tx(s, [{ type: 'node.update', id: master, patch: { text: 'New master', fill: '#123456' } }]),
+  );
+  const node = s.document.nodes.find((n) => n.id === instance)!;
+  expect(node.text).toBe('Override');
+  expect(node.fill).toBe('#123456');
+  expect(node.x).toBe(300);
+});
+test('repeat grid creates linked cells and populates independent values atomically', () => {
+  const s = new DocumentStore(),
+    pageId = s.document.pages[0].id;
+  const source = s.transact(
+    tx(s, [{ type: 'node.add', node: { kind: 'text', pageId, text: 'Cell' } }]),
+  ).ids[0];
+  const grid = s.transact(tx(s, [{ type: 'repeat.create', id: source, count: 6, columns: 3 }]))
+    .ids[0];
+  expect(s.document.nodes.filter((n) => n.parentId === grid).length).toBe(6);
+  s.transact(tx(s, [{ type: 'repeat.populate', id: grid, values: ['One', 'Two', 'Three'] }]));
+  expect(
+    s.document.nodes
+      .filter((n) => n.parentId === grid)
+      .slice(0, 3)
+      .map((n) => n.text),
+  ).toEqual(['One', 'Two', 'Three']);
+  s.undo();
+  expect(s.document.nodes.filter((n) => n.parentId === grid).every((n) => n.text === 'Cell')).toBe(
+    true,
+  );
+});

@@ -1,3 +1,5 @@
+import { importTokens, exportTokens } from './model/tokens';
+import { svgImport, svgExport } from './model/svg';
 import { Injectable, computed, signal } from '@angular/core';
 import { DocumentStore } from './model/store';
 import {
@@ -37,13 +39,14 @@ export class EditorService {
   );
   readonly roots = computed(() => this.pageNodes().filter((n) => !n.parentId));
   readonly native = !!window.webkit;
-  private recoveryTimer: any;
   constructor() {
     window.sugarMaple = {
       dispatch: (method: string, args: any) => this.dispatch(method, args),
-      ready: true,
+      ready: false,
     };
-    this.restore();
+    this.restore().finally(() => {
+      window.sugarMaple.ready = true;
+    });
   }
   async bridge(action: string, payload: any = {}) {
     if (!window.webkit) throw Error('This action requires the Mac app');
@@ -77,8 +80,7 @@ export class EditorService {
     if (!this.doc().pages.some((p) => p.id === this.pageId()))
       this.pageId.set(this.doc().pages[0].id);
     if (!this.doc().nodes.some((n) => n.id === this.selected())) this.selected.set(null);
-    clearTimeout(this.recoveryTimer);
-    this.recoveryTimer = setTimeout(() => this.recover(), 500);
+    this.recover();
   }
   async recover() {
     try {
@@ -269,8 +271,19 @@ export class EditorService {
       if (value.format !== 'sugar-maple-elements' || !Array.isArray(value.nodes))
         throw Error('Clipboard does not contain editable Sugar Maple elements');
       const ids = new Map<string, string>(value.nodes.map((n: SceneNode) => [n.id, uid()]));
-      this.perform(
-        value.nodes.map((n: SceneNode) => ({
+      const tokenOps: Operation[] = [];
+      const tokenNames = new Map<string, string>();
+      for (const [name, color] of Object.entries(value.tokens ?? {})) {
+        let imported = name;
+        let suffix = 1;
+        while (this.doc().tokens[imported] && this.doc().tokens[imported] !== color)
+          imported = name + '_copy' + suffix++;
+        tokenNames.set(name, imported);
+        tokenOps.push({ type: 'token.set', name: imported, value: color as string });
+      }
+      this.perform([
+        ...tokenOps,
+        ...value.nodes.map((n: SceneNode) => ({
           type: 'node.add',
           node: {
             ...n,
@@ -279,17 +292,72 @@ export class EditorService {
             parentId: ids.get(n.parentId ?? '') ?? null,
             targetId: ids.get(n.targetId ?? '') ?? null,
             componentId: ids.get(n.componentId ?? '') ?? null,
+            repeatTemplateId: ids.get(n.repeatTemplateId ?? '') ?? null,
+            fillToken: tokenNames.get(n.fillToken) ?? n.fillToken,
             x: n.parentId ? n.x : n.x + 24,
             y: n.parentId ? n.y : n.y + 24,
           },
         })),
-      );
+      ]);
+    } catch (e) {
+      this.report(e);
+    }
+  }
+  async loadTokens(file: File) {
+    try {
+      this.perform(importTokens(JSON.parse(await file.text())));
+    } catch (e) {
+      this.report(e);
+    }
+  }
+  async saveTokens() {
+    try {
+      const text = exportTokens(this.doc());
+      if (this.native) await this.bridge('file.export', { name: 'tokens.json', text });
+      else download('tokens.json', text, 'application/json');
+    } catch (e) {
+      this.report(e);
+    }
+  }
+  async exportAsset(format: 'svg' | 'png') {
+    try {
+      const node = this.node();
+      if (!node) return;
+      const svg = svgExport(this.doc(), node.id);
+      if (format === 'svg') {
+        if (this.native) await this.bridge('file.export', { name: node.name + '.svg', text: svg });
+        else download(node.name + '.svg', svg, 'image/svg+xml');
+      } else {
+        const image = new Image();
+        image.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
+        await image.decode();
+        const canvas = document.createElement('canvas');
+        canvas.width = node.width;
+        canvas.height = node.height;
+        canvas.getContext('2d')!.drawImage(image, 0, 0);
+        const data = canvas.toDataURL('image/png');
+        if (this.native)
+          await this.bridge('file.export', {
+            name: node.name + '.png',
+            base64: data.split(',')[1],
+          });
+        else {
+          const a = document.createElement('a');
+          a.href = data;
+          a.download = node.name + '.png';
+          a.click();
+        }
+      }
     } catch (e) {
       this.report(e);
     }
   }
   async image(file: File) {
     try {
+      if (file.name.toLowerCase().endsWith('.svg')) {
+        this.perform(svgImport(await file.text(), this.pageId(), file.name));
+        return;
+      }
       if (!['image/png', 'image/jpeg', 'image/webp'].includes(file.type) || file.size > 5000000)
         throw Error('Choose a PNG, JPEG or WebP under 5 MB');
       const reader = new FileReader();
@@ -348,6 +416,30 @@ export class EditorService {
         this.selected.set(args.id);
         this.pageId.set(this.node()!.pageId);
         return this.store.result();
+      case 'viewport.fit':
+        return window.sugarMaple.viewport.fit();
+      case 'layout.inspect': {
+        await document.fonts.ready;
+        await new Promise((r) => requestAnimationFrame(r));
+        const canvas = document.querySelector('.viewport')!.getBoundingClientRect();
+        return {
+          documentId: this.doc().id,
+          revision: this.revision(),
+          pageId: this.pageId(),
+          viewport: { x: canvas.x, y: canvas.y, width: canvas.width, height: canvas.height },
+          nodes: this.pageNodes().map((n) => {
+            const element = document.querySelector(`[data-node-id="${n.id}"]`);
+            const rect = element?.getBoundingClientRect();
+            return {
+              id: n.id,
+              rendered: !!rect,
+              bounds: rect
+                ? { x: rect.x, y: rect.y, width: rect.width, height: rect.height }
+                : null,
+            };
+          }),
+        };
+      }
       case 'code.export':
         return { code: exportNode(this.doc(), args.id, args.target) };
       case 'render.ready':
@@ -361,7 +453,17 @@ export class EditorService {
           protocolVersion: 1,
           coordinateUnits: 'CSS pixels; parent relative',
           transactionSchema: TransactionSchema.toJSONSchema(),
-          kinds: ['artboard', 'frame', 'rectangle', 'ellipse', 'text', 'button', 'input', 'image'],
+          kinds: [
+            'artboard',
+            'frame',
+            'rectangle',
+            'ellipse',
+            'text',
+            'button',
+            'input',
+            'image',
+            'path',
+          ],
         };
       default:
         throw Error('Unknown command');

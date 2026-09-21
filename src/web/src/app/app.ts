@@ -1,3 +1,4 @@
+import { cloneTree } from './model/composition';
 import { Component, inject, signal, computed, HostListener } from '@angular/core';
 import { KeyValuePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -25,8 +26,8 @@ export class App {
   readonly code = computed(() => {
     try {
       return this.e.selected() ? exportNode(this.e.doc(), this.e.selected()!, this.target()) : '';
-    } catch {
-      return '';
+    } catch (error) {
+      return 'Unsupported export: ' + (error instanceof Error ? error.message : String(error));
     }
   });
   readonly previewNode = computed(() => {
@@ -61,7 +62,15 @@ export class App {
     'button',
     'input',
   ] as const;
-  readonly targets: ExportTarget[] = ['html', 'tailwind', 'angular', 'css', 'swiftui', 'editable'];
+  readonly targets: ExportTarget[] = [
+    'html',
+    'tailwind',
+    'angular',
+    'css',
+    'swiftui',
+    'editable',
+    'svg',
+  ];
   readonly modes = ['Design', 'Prototype', 'Developer'] as const;
   private gesture: {
     id?: string;
@@ -75,6 +84,14 @@ export class App {
     pan?: boolean;
     element?: HTMLElement;
   } | null = null;
+  constructor() {
+    window.sugarMaple.viewport = {
+      fit: () => {
+        this.fit();
+        return { zoom: this.zoom(), pan: this.pan() };
+      },
+    };
+  }
   value(event: Event) {
     return (event.target as HTMLInputElement).value;
   }
@@ -179,11 +196,20 @@ export class App {
   fit() {
     const nodes = this.e.roots();
     if (!nodes.length) return;
-    const maxX = Math.max(...nodes.map((n) => n.x + n.width)),
-      maxY = Math.max(...nodes.map((n) => n.y + n.height));
+    const minX = Math.min(...nodes.map((n) => n.x)),
+      minY = Math.min(...nodes.map((n) => n.y));
+    const width = Math.max(...nodes.map((n) => n.x + n.width)) - minX;
+    const height = Math.max(...nodes.map((n) => n.y + n.height)) - minY;
     const board = document.querySelector('.viewport')!.getBoundingClientRect();
-    this.zoom.set(Math.min(1, (board.width - 100) / maxX, (board.height - 100) / maxY));
-    this.pan.set({ x: 40, y: 40 });
+    const zoom = Math.max(
+      0.01,
+      Math.min(1, (board.width - 80) / width, (board.height - 80) / height),
+    );
+    this.zoom.set(zoom);
+    this.pan.set({
+      x: (board.width - width * zoom) / 2 - minX * zoom,
+      y: (board.height - height * zoom) / 2 - minY * zoom,
+    });
   }
   world(n: SceneNode) {
     let x = n.x,
@@ -218,23 +244,43 @@ export class App {
   repeat() {
     const n = this.e.node();
     if (!n) return;
-    const ops: Operation[] = [];
-    for (let i = 1; i <= 3; i++)
-      ops.push({
-        type: 'node.add',
-        node: { ...n, id: uid(), x: n.x + i * (n.width + 16), name: n.name + ' ' + (i + 1) },
-      });
-    this.e.perform(ops);
+    const result = this.e.perform([{ type: 'repeat.create', id: n.id, count: 6, columns: 3 }]);
+    if (result) this.e.selected.set(result.ids[0]);
+  }
+  makeComponent() {
+    const n = this.e.node();
+    if (n) this.e.perform([{ type: 'component.create', id: n.id }]);
+  }
+  insertComponent(id: string) {
+    const result = this.e.perform([
+      { type: 'component.insert', id, pageId: this.e.pageId(), x: 80, y: 80 },
+    ]);
+    if (result) this.e.selected.set(result.ids[0]);
+  }
+  populate(value: string) {
+    try {
+      const values = JSON.parse(value);
+      this.e.perform([{ type: 'repeat.populate', id: this.e.selected()!, values }]);
+    } catch (e) {
+      this.e.report(e);
+    }
   }
   duplicate() {
     const n = this.e.node();
-    if (n)
-      this.e.perform([
-        {
-          type: 'node.add',
-          node: { ...n, id: uid(), name: n.name + ' copy', x: n.x + 24, y: n.y + 24 },
-        },
-      ]);
+    if (!n) return;
+    const nodes = cloneTree(this.e.doc(), n.id, {
+      pageId: n.pageId,
+      parentId: n.parentId,
+      x: n.x + 24,
+      y: n.y + 24,
+      linked: false,
+    });
+    const result = this.e.perform(nodes.map((node) => ({ type: 'node.add', node })));
+    if (result) this.e.selected.set(result.ids[0]);
+  }
+  async importTokens(event: Event) {
+    const file = (event.target as HTMLInputElement).files?.[0];
+    if (file) await this.e.loadTokens(file);
   }
   async importImage(event: Event) {
     const f = (event.target as HTMLInputElement).files?.[0];

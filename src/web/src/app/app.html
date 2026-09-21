@@ -77,6 +77,12 @@
             <p class="muted empty-layers">Your page is ready.<br />Add an artboard to begin.</p>
           }
         } @else if (tab() === 'Assets') {
+          <div class="section-heading">DOCUMENT COMPONENTS</div>
+          @for (component of e.doc().nodes; track component.id) {
+            @if (component.isComponent) {
+              <button (click)="insertComponent(component.id)">◇ {{ component.name }}</button>
+            }
+          }
           <div class="section-heading">PRIMITIVES</div>
           <div class="asset-grid">
             @for (kind of kinds; track kind) {
@@ -84,14 +90,20 @@
             }
           </div>
           <label class="file-button"
-            >Import image<input
+            >Import image / SVG<input
               type="file"
-              accept="image/png,image/jpeg,image/webp"
+              accept="image/png,image/jpeg,image/webp,image/svg+xml"
               (change)="importImage($event)"
           /></label>
-          <p class="muted">PNG, JPEG or WebP · up to 5 MB</p>
+          <p class="muted">PNG/JPEG/WebP · 5 MB; simple SVG · 1 MB</p>
         } @else {
           <div class="section-heading">DOCUMENT COLORS</div>
+          <label class="file-button"
+            >Import DTCG colors<input
+              type="file"
+              accept=".json"
+              (change)="importTokens($event)" /></label
+          ><button (click)="e.saveTokens()">Export DTCG colors</button>
           @for (token of e.doc().tokens | keyvalue; track token.key) {
             <label
               >{{ token.key
@@ -258,8 +270,22 @@
               </label>
             }
             <div class="actions">
+              <button (click)="makeComponent()">Make component</button>
+              @if (n.componentId) {
+                <button (click)="e.perform([{ type: 'component.detach', id: n.id }])">
+                  Detach instance
+                </button>
+              }
+              @if (n.repeatTemplateId) {
+                <label
+                  >Grid data (JSON array)<textarea
+                    #gridData
+                    placeholder='["First", "Second"]'
+                  ></textarea></label
+                ><button (click)="populate(gridData.value)">Populate cells</button>
+              }
               <button (click)="duplicate()">Duplicate</button
-              ><button (click)="repeat()">Repeat ×4</button
+              ><button (click)="repeat()">Repeat Grid</button
               ><button class="danger" (click)="e.remove()">Delete</button>
             </div>
           } @else if (e.mode() === 'Prototype') {
@@ -290,7 +316,9 @@
             >
             <pre tabindex="0">{{ code() }}</pre>
             <div class="actions">
-              <button (click)="e.copy(target())">Copy code</button
+              <button (click)="e.exportAsset('svg')">Export SVG</button
+              ><button (click)="e.exportAsset('png')">Export PNG</button
+              ><button (click)="e.copy(target())">Copy code</button
               ><button (click)="e.copy('name')">Copy name</button
               ><button (click)="e.copy('editable')">Copy element</button>
             </div>

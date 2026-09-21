@@ -41,3 +41,18 @@ The MCP integration test temporarily adds a page and undoes it. Native snapshot 
 The initial checkpoint covers pages, semantic primitives, parent relationships, basic CSS layouts, manual geometry, color tokens, preview navigation, developer snippets, editable clipboard payloads, checkpoint persistence and the early MCP loop. Durable history across restarts, complete asset import/export, full component/Repeat Grid semantics, advanced selection, complete export fidelity and release packaging remain tracked MVP work. The document format remains version 1 with an explicit version check; migration fixtures are required before changing it.
 
 Browser recovery currently uses a local checkpoint; the native app stores a recovery checkpoint separately from the user-selected `.syrup` package. Recovery must never be described as a successful save to that package.
+
+## Composition and handoff increment
+
+Linked instances now propagate master property edits while retaining per-instance overrides. Repeat Grid creates a grid of linked cells and populates text from a JSON array. Duplicating a frame includes its subtree. Color tokens import from DTCG opaque sRGB values (aliases resolve on import) and export as DTCG values. Other token types are rejected explicitly.
+
+Developer handoff includes complete SwiftUI view source with `@State` fields and action callbacks, plus semantic web/Tailwind output. The generated Swift fixture is type-checked with `swiftc`. SwiftUI vector-path export is explicitly unsupported; named images require assets in the consuming native catalog.
+
+SVG import is a bounded subset: explicit six-digit colors and supported geometry, no scripts, styles, transforms, filters or external references. Unsupported inputs fail before mutation. SVG/PNG output is generated from scene semantics. These formats approximate platform text/control rendering; they are not a claim of pixel-identical native/web export.
+
+```sh
+bun src/web/tests/export-fixture.ts
+swiftc -typecheck build/evidence/ExportFixture.swift
+# With browser dev server running:
+bun src/web/tests/handoff-e2e.ts
+```
