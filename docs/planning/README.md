@@ -2,7 +2,7 @@
 
 Tracker: https://github.com/zubair-io/Sugar-Maple/issues/1
 
-Architecture recommendation: [architecture.md](architecture.md). Project RFC: [RFC-2026-SYRUP-001](../rfcs/RFC-2026-SYRUP-001.md).
+Editor UI contract: [editor-ui.md](../design/editor-ui.md). Architecture recommendation: [architecture.md](architecture.md). Project RFC: [RFC-2026-SYRUP-001](../rfcs/RFC-2026-SYRUP-001.md).
 
 ## M1 — Foundations
 
@@ -10,8 +10,9 @@ Architecture recommendation: [architecture.md](architecture.md). Project RFC: [R
 - [3 — [MVP] Bootstrap reproducible Angular and macOS development builds](https://github.com/zubair-io/Sugar-Maple/issues/3)
 - [4 — [MVP] Integrate the existing _Maple UI library and tokens](https://github.com/zubair-io/Sugar-Maple/issues/4)
 - [5 — [MVP] Bundle the editor in WKWebView with a typed native bridge](https://github.com/zubair-io/Sugar-Maple/issues/5)
-- [6 — [MVP] Define the scene graph, Yjs commands and undo/redo transactions](https://github.com/zubair-io/Sugar-Maple/issues/6)
+- [6 — [MVP] Define the scene graph and validate the CRDT and undo contract](https://github.com/zubair-io/Sugar-Maple/issues/6)
 - [7 — [MVP] Implement local .syrup persistence, autosave and crash recovery](https://github.com/zubair-io/Sugar-Maple/issues/7)
+- [20 — [MVP] Bring up the MCP server and live editor command loop early](https://github.com/zubair-io/Sugar-Maple/issues/20)
 
 ## M2 — Design editor
 
@@ -30,7 +31,7 @@ Architecture recommendation: [architecture.md](architecture.md). Project RFC: [R
 - [17 — [MVP] Copy idiomatic SwiftUI with optional design-system mappings](https://github.com/zubair-io/Sugar-Maple/issues/17)
 - [18 — [MVP] Copy and paste editable UI elements across documents](https://github.com/zubair-io/Sugar-Maple/issues/18)
 - [19 — [MVP] Import local assets and export selection as SVG or PNG](https://github.com/zubair-io/Sugar-Maple/issues/19)
-- [20 — [MVP] Expose local MCP inspection and transactional document editing](https://github.com/zubair-io/Sugar-Maple/issues/20)
+- [27 — [MVP] Extend the early MCP loop to complete feature coverage and native packaging](https://github.com/zubair-io/Sugar-Maple/issues/27)
 
 ## M4 — MVP release
 

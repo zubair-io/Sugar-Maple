@@ -15,6 +15,10 @@ Use **HTML + inline SVG** inside a shared Angular editor, hosted by WKWebView on
 
 This is an engineering recommendation based on the requested UI reuse and handoff. It does not establish performance superiority. Canvas does not preserve drawn items as semantic DOM elements; SVG exposes vector content through its DOM. See [MDN Canvas](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/canvas) and [MDN SVG](https://developer.mozilla.org/en-US/docs/Web/SVG).
 
+## Editor interface contract
+
+The [desktop editor UI specification](../design/editor-ui.md) defines the three-column shell, dimensions, Design/Prototype/Developer modes, contextual inspectors, sidebar tabs, canvas affordances, status feedback and accessibility. It separates full-product UI entries from currently executable feature scope and preserves the early MCP delivery sequence.
+
 ## Host UI versus canvas output
 
 **`_Maple` is the UI library for authoring the Sugar Maple application chrome/shell; the canvas renders arbitrary UI compositions that map outward to standard code-export targets.** Sugar Maple is a visual UI workbench, not a previewer constrained to a photo application component catalog.
@@ -41,7 +45,7 @@ flowchart LR
     Chrome[Maple UI chrome only] --> Host
 ```
 
-The local Yjs scene graph is the single authoritative source of truth. The versioned scene graph owns stable node IDs, optional design-system bindings, props, slots, tokens, layout rules and prototype links. Rendered DOM and generated code are projections. All mutations, including paste and MCP, use the same validated transaction dispatcher. MCP remains embedded/local-only, with Streamable HTTP at `127.0.0.1:48480` and a stdio transport adapter; every agent mutation uses an atomic, undoable `AgentTransaction` without corrupting human history. Native SwiftUI is a copy/export target, not a second editor implementation.
+The local CRDT scene graph is the single authoritative source of truth. Yjs is provisional; issue #6 compares Automerge against the same editing/undo fixtures before the durable format is finalized. The versioned scene graph owns stable node IDs, optional design-system bindings, props, slots, tokens, layout rules and prototype links. Rendered DOM and generated code are projections. All mutations, including paste and MCP, use the same validated transaction dispatcher. MCP remains embedded/local-only, with Streamable HTTP at `127.0.0.1:48480` and a stdio transport adapter; every agent mutation uses an atomic, undoable `AgentTransaction` without corrupting human history. Native SwiftUI is a copy/export target, not a second editor implementation.
 
 Ordered node wrappers can contain HTML or inline SVG, with separate selection overlays. A single global SVG layer above all HTML would break arbitrary mixed z-order. Validate transforms, nested clipping, pointer capture, text IME, keyboard focus and editor/preview event routing in the first spike. Avoid depending on SVG foreignObject for all live controls or pretending serialized DOM is portable SVG.
 
@@ -85,3 +89,11 @@ For every selected node, preserve its authored name, exact props/variant/label a
 ## MVP completion scenario
 
 On a fresh offline macOS install: create two responsive artboards using semantic primitives and a user-created non-Maple component, add repeated content and local assets, connect a button to the second artboard, preview at desktop/tablet/mobile widths, inspect a component name and tokens, copy working web/native snippets, paste an editable frame into a second document, save/restart/reopen, then perform and undo one MCP edit. Run the equivalent browser-supported flow and compile the generated code fixtures. A release is blocked until all linked MVP issues pass their acceptance criteria.
+
+## Build the agent/editor loop first
+
+Issue #20 belongs to Foundations and depends only on workspace bootstrap (#3). The latest delivery decision is macOS first: a Swift MCP server embedded in the Mac app drives a minimal bundled WKWebView editor. The first workflow creates files, pages and items, then edits, saves and reopens them through the shared command path. The loop includes real MCP HTTP and stdio transports, node inspection, revision-bound images and grouped undo. Add user-story and jobs-to-be-done acceptance tests as each workflow lands. The MCP host forwards commands to the editor-owned document through a typed bridge; it does not create a separate writable document. One dev command launches the editor and server, and a real client test proves agent create → visible UI → human drag → agent read → undo.
+
+The full whiteboard, storage, components and exporters extend that same contract. Later MCP coverage completes packaging hardening and all feature-specific tools. New feature PRs add their command, schema, tool and end-to-end test together. Session-local documents in the first slice must be visibly unsaved; persistence is a separate gate.
+
+The bounded Yjs/Automerge comparison in #6 covers human/agent undo, concurrency, recovery, text/drag behavior and measured storage/runtime costs. Keep library-specific objects inside the document store and ship one selected implementation. #7 depends on that decision; #20 can begin with the provisional store.

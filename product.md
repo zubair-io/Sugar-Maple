@@ -109,6 +109,23 @@ Sugar Maple Canvas Client (HTML/CSS + Inline SVG)
 
 ---
 
+## 4.6. Desktop Editor Layout and Interaction
+
+The [desktop editor UI specification](docs/design/editor-ui.md) is the authoritative interface contract, incorporating the supplied desktop layout brief. It defines the 1440 × 900 reference workstation, neutral dark Maple chrome, 48px unified titlebar, resizable/collapsible 280px left sidebar and 320px right inspector, flexible HTML/SVG canvas, and 28px status bar.
+
+| Requirement ID | Feature | Specification | Priority |
+| --- | --- | --- | --- |
+| **UI-001** | **Three-column shell** | Exact region geometry, panel resize limits, collapse/restore and constrained-window overflow behavior. | **P0** |
+| **UI-002** | **Three editor modes** | Design, Prototype and Developer modes with a shared document/selection/camera and contextual inspector contents. | **P0** |
+| **UI-003** | **Document navigation and libraries** | Document tabs, Layers/Assets/Tokens tabs, filtering, tree actions, component insertion, token modes and new-file actions. | **P0** |
+| **UI-004** | **Canvas affordances** | Dot grid, artboard labels, selection handles, spacing measurements, Repeat Grid controls and prototype wires. | **P0** |
+| **UI-005** | **Developer handoff interface** | Node identity, optional mappings, token table, distinct copy targets and an exact-payload code preview. | **P0** |
+| **UI-006** | **Truthful status and accessibility** | Real save/agent transaction states, keyboard operation, focus/IME handling, accessible resizing and reduced-motion behavior. | **P0** |
+
+The UI specification distinguishes executable MVP features from later history, advanced interactions and an as-yet-unspecified Figma importer. It does not delay the minimal MCP/editor integration in issue #20 until the full shell exists.
+
+---
+
 ## 5. Non-Functional Requirements
 
 ### Performance & Scalability

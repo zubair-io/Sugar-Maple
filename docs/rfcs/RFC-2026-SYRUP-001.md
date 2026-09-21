@@ -132,6 +132,12 @@ Enables design of conversational voice interfaces and voice-driven application c
 
 ---
 
+## 3.7 Desktop Editor Interface
+
+The [desktop editor UI specification](../design/editor-ui.md) defines the 1440 × 900 shell and its Design, Prototype and Developer modes. It covers the 48px titlebar, resizable Layers/Assets/Tokens sidebar, infinite HTML/SVG workspace, contextual inspector, 28px status bar, developer copy controls and actual save/MCP transaction feedback. Follow its feature-availability rules when implementing the full interface.
+
+---
+
 ## 4. Model Context Protocol (MCP) Server Architecture
 
 Syrup embeds an internal, lightweight Model Context Protocol (MCP) server to allow local and remote AI agents to inspect, manipulate, generate, and review designs programmatically.
