@@ -1,12 +1,21 @@
+import { subtree } from './composition';
 import { NodeSchema, uid, type SceneDocument, type SceneNode, type Operation } from './schema';
 const escape = (s: string) =>
   s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 export function svgExport(doc: SceneDocument, id: string) {
   const root = doc.nodes.find((n) => n.id === id);
   if (!root) throw Error('Node not found');
+  if (subtree(doc, id).some((n) => n.widthMode !== 'fixed' || n.heightMode !== 'fixed'))
+    throw Error(
+      'SVG/PNG responsive sizing is not yet supported; choose fixed dimensions before exporting.',
+    );
   const render = (n: SceneNode, x: number, y: number): string => {
     if (n.hidden) return '';
-    const fill = n.fillToken ? (doc.tokens[n.fillToken] ?? n.fill) : n.fill;
+    const fill = !n.fillEnabled
+      ? 'none'
+      : n.fillToken
+        ? (doc.tokens[n.fillToken] ?? n.fill)
+        : n.fill;
     const base = `fill="${fill}" stroke="${n.stroke}" stroke-width="${n.strokeWidth}"`;
     let shape =
       n.kind === 'ellipse'

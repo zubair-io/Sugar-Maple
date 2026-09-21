@@ -4,7 +4,6 @@ import type { SceneDocument, SceneNode } from './schema';
 export type ExportTarget = 'html' | 'tailwind' | 'angular' | 'css' | 'swiftui' | 'editable' | 'svg';
 const escape = (v: string) =>
   v.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-const swift = (v: string) => JSON.stringify(v).replace(/\\u([0-9a-f]{4})/gi, '\\u{$1}');
 export function nodeStyles(n: SceneNode, doc: SceneDocument): Record<string, string | number> {
   const parent = doc.nodes.find((v) => v.id === n.parentId);
   return {
@@ -14,10 +13,35 @@ export function nodeStyles(n: SceneNode, doc: SceneDocument): Record<string, str
     position: parent && parent.layout !== 'free' ? 'relative' : 'absolute',
     left: parent && parent.layout !== 'free' ? 0 : n.x,
     top: parent && parent.layout !== 'free' ? 0 : n.y,
-    width: n.width,
-    height: n.height,
+    width:
+      n.widthMode === 'hug'
+        ? 'max-content'
+        : n.widthMode === 'fill'
+          ? parent?.layout === 'horizontal'
+            ? 0
+            : '100%'
+          : n.widthMode === 'percent'
+            ? n.widthPercent + '%'
+            : n.width,
+    height:
+      n.heightMode === 'hug'
+        ? 'max-content'
+        : n.heightMode === 'fill'
+          ? parent?.layout === 'vertical'
+            ? 0
+            : '100%'
+          : n.heightMode === 'percent'
+            ? n.heightPercent + '%'
+            : n.height,
+    minWidth: 0,
+    minHeight: 0,
+    flexGrow:
+      (n.widthMode === 'fill' && parent?.layout === 'horizontal') ||
+      (n.heightMode === 'fill' && parent?.layout === 'vertical')
+        ? 1
+        : 0,
     background:
-      n.kind === 'path'
+      n.kind === 'path' || !n.fillEnabled
         ? 'transparent'
         : n.fillToken
           ? (doc.tokens[n.fillToken] ?? n.fill)
@@ -43,14 +67,16 @@ function css(n: SceneNode, doc: SceneDocument) {
   return Object.entries(nodeStyles(n, doc))
     .map(
       ([k, v]) =>
-        `${k.replace(/[A-Z]/g, (m) => '-' + m.toLowerCase())}:${v}${typeof v === 'number' && !['opacity', 'fontWeight', 'flexShrink'].includes(k) ? 'px' : ''}`,
+        `${k.replace(/[A-Z]/g, (m) => '-' + m.toLowerCase())}:${v}${typeof v === 'number' && !['opacity', 'fontWeight', 'flexShrink', 'flexGrow'].includes(k) ? 'px' : ''}`,
     )
     .join(';');
 }
 export function exportNode(doc: SceneDocument, id: string, target: ExportTarget): string {
   const n = doc.nodes.find((n) => n.id === id);
   if (!n) throw Error('Select an element');
-  const children = doc.nodes.filter((v) => v.parentId === id).sort((a, b) => a.order - b.order);
+  const children = doc.nodes
+    .filter((v) => v.parentId === id && !v.hidden)
+    .sort((a, b) => a.order - b.order);
   if (target === 'editable') {
     const ids = new Set([id]);
     let size = 0;
@@ -85,7 +111,7 @@ export function exportNode(doc: SceneDocument, id: string, target: ExportTarget)
             : 'div';
   const style =
     css(n, doc) +
-    (n.fillToken
+    (n.fillToken && n.fillEnabled
       ? `;--${n.fillToken.replace(/\./g, '-')}:${doc.tokens[n.fillToken] ?? n.fill};background:var(--${n.fillToken.replace(/\./g, '-')})`
       : '');
   const attrs =
@@ -95,5 +121,5 @@ export function exportNode(doc: SceneDocument, id: string, target: ExportTarget)
           .map((s) => '[' + s.replace(/ /g, '_') + ']')
           .join(' ')}"`
       : `style="${escape(style)}"`;
-  return `<${tag} ${attrs}${tag === 'input' ? ` placeholder="${escape(n.text)}"` : tag === 'img' ? ` src="${escape(n.asset)}" alt="${escape(n.name)}"` : ''}>${['input', 'img'].includes(tag) ? '' : escape(n.text) + children.map((v) => exportNode(doc, v.id, target)).join('') + `</${tag}>`}`;
+  return `<${tag}${target === 'angular' ? ' ngNonBindable' : ''} ${attrs}${tag === 'input' ? ` placeholder="${escape(n.text)}"` : tag === 'img' ? ` src="${escape(n.asset)}" alt="${escape(n.name)}"` : ''}>${['input', 'img'].includes(tag) ? '' : (target === 'angular' ? escape(n.text).replace(/[@{}]/g, (c) => '&#' + c.charCodeAt(0) + ';') : escape(n.text)) + children.map((v) => exportNode(doc, v.id, target)).join('') + `</${tag}>`}`;
 }

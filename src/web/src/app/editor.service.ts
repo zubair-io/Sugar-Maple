@@ -1,3 +1,4 @@
+import { RecoveryStore } from './model/recovery';
 import { importTokens, exportTokens } from './model/tokens';
 import { svgImport, svgExport } from './model/svg';
 import { Injectable, computed, signal } from '@angular/core';
@@ -24,10 +25,12 @@ export class EditorService {
   store = new DocumentStore();
   readonly doc = signal(this.store.document);
   readonly revision = signal(0);
-  readonly selected = signal<string | null>(null);
+  readonly selection = signal<string[]>([]);
+  readonly selected = computed(() => this.selection()[0] ?? null);
   readonly pageId = signal(this.doc().pages[0].id);
   readonly dirty = signal(true);
   readonly status = signal('Unsaved');
+  readonly ready = signal(false);
   readonly error = signal('');
   readonly mcp = signal(window.webkit ? 'Starting' : 'Mac app required for MCP');
   readonly mode = signal<'Design' | 'Prototype' | 'Developer'>('Design');
@@ -39,13 +42,38 @@ export class EditorService {
   );
   readonly roots = computed(() => this.pageNodes().filter((n) => !n.parentId));
   readonly native = !!window.webkit;
+  private recovery = this.native ? null : new RecoveryStore();
   constructor() {
     window.sugarMaple = {
       dispatch: (method: string, args: any) => this.dispatch(method, args),
       ready: false,
     };
     this.restore().finally(() => {
+      this.ready.set(true);
       window.sugarMaple.ready = true;
+    });
+  }
+  select(id: string | null, extend = false) {
+    this.selection.update((ids) =>
+      id === null
+        ? []
+        : !extend
+          ? [id]
+          : ids.includes(id)
+            ? ids.filter((v) => v !== id)
+            : [...ids, id],
+    );
+  }
+  selectedRoots() {
+    const ids = new Set(this.selection());
+    return this.pageNodes().filter((n) => {
+      if (!ids.has(n.id)) return false;
+      let parent = n.parentId;
+      while (parent) {
+        if (ids.has(parent)) return false;
+        parent = this.doc().nodes.find((v) => v.id === parent)?.parentId ?? null;
+      }
+      return true;
     });
   }
   async bridge(action: string, payload: any = {}) {
@@ -56,7 +84,8 @@ export class EditorService {
     try {
       const saved = this.native
         ? await this.bridge('recovery.load')
-        : JSON.parse(localStorage.getItem('sugar-maple-recovery') ?? 'null');
+        : ((await this.recovery!.read()) ??
+          JSON.parse(localStorage.getItem('sugar-maple-recovery') ?? 'null'));
       if (saved?.document) {
         this.replace(saved.document);
         this.status.set('Recovered — save to a file');
@@ -79,14 +108,17 @@ export class EditorService {
     this.status.set('Unsaved changes');
     if (!this.doc().pages.some((p) => p.id === this.pageId()))
       this.pageId.set(this.doc().pages[0].id);
-    if (!this.doc().nodes.some((n) => n.id === this.selected())) this.selected.set(null);
+    this.selection.update((ids) => ids.filter((id) => this.doc().nodes.some((n) => n.id === id)));
     this.recover();
   }
   async recover() {
     try {
       const value = this.store.checkpoint();
       if (this.native) await this.bridge('recovery.save', { value });
-      else localStorage.setItem('sugar-maple-recovery', JSON.stringify(value));
+      else {
+        await this.recovery!.write(value);
+        localStorage.removeItem('sugar-maple-recovery');
+      }
     } catch (e) {
       this.report(e);
     }
@@ -117,17 +149,17 @@ export class EditorService {
     this.doc.set(this.store.document);
     this.revision.set(0);
     this.pageId.set(doc.pages[0].id);
-    this.selected.set(null);
+    this.select(null);
     this.dirty.set(true);
   }
-  newDocument() {
+  async newDocument() {
     if (
       this.dirty() &&
       this.doc().nodes.length &&
       !confirm('Create a new file? Save your current work first if you want to keep it.')
     )
       return;
-    this.bridge('file.reset').catch(() => {});
+    if (this.native) await this.bridge('file.reset');
     this.replace(blankDocument());
     this.status.set('Unsaved');
     this.recover();
@@ -174,7 +206,7 @@ export class EditorService {
         },
       },
     ]);
-    if (result) this.selected.set(result.ids[0]);
+    if (result) this.select(result.ids[0]);
   }
   update(patch: Partial<SceneNode>) {
     const n = this.node();
@@ -189,8 +221,8 @@ export class EditorService {
     this.refresh();
   }
   remove() {
-    const n = this.node();
-    if (n) this.perform([{ type: 'node.remove', id: n.id }]);
+    const nodes = this.selectedRoots().filter((n) => !n.locked);
+    if (nodes.length) this.perform(nodes.map((n) => ({ type: 'node.remove', id: n.id })));
   }
   async save() {
     try {
@@ -240,6 +272,7 @@ export class EditorService {
             const value = JSON.parse(await input.files![0].text());
             this.replace(value.document);
             this.status.set('Imported checkpoint');
+            this.recover();
           } catch (e) {
             this.report(e);
           }
@@ -331,6 +364,8 @@ export class EditorService {
         const image = new Image();
         image.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
         await image.decode();
+        if (node.width * node.height > 16000000)
+          throw Error('PNG export is limited to 16 million pixels; use SVG for larger selections');
         const canvas = document.createElement('canvas');
         canvas.width = node.width;
         canvas.height = node.height;
@@ -377,7 +412,7 @@ export class EditorService {
             },
           },
         ]);
-        if (result) this.selected.set(result.ids[0]);
+        if (result) this.select(result.ids[0]);
       };
       reader.readAsDataURL(file);
     } catch (e) {
@@ -413,14 +448,13 @@ export class EditorService {
         return this.store.result();
       case 'selection.set':
         if (!this.doc().nodes.some((n) => n.id === args.id)) throw Error('Node not found');
-        this.selected.set(args.id);
+        this.select(args.id);
         this.pageId.set(this.node()!.pageId);
         return this.store.result();
       case 'viewport.fit':
         return window.sugarMaple.viewport.fit();
       case 'layout.inspect': {
-        await document.fonts.ready;
-        await new Promise((r) => requestAnimationFrame(r));
+        await this.settleLayout();
         const canvas = document.querySelector('.viewport')!.getBoundingClientRect();
         return {
           documentId: this.doc().id,
@@ -444,8 +478,7 @@ export class EditorService {
         return { code: exportNode(this.doc(), args.id, args.target) };
       case 'render.ready':
         this.checkTarget(args);
-        await document.fonts.ready;
-        await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
+        await this.settleLayout();
         this.checkTarget(args);
         return this.store.result();
       case 'capabilities':
@@ -468,6 +501,31 @@ export class EditorService {
       default:
         throw Error('Unknown command');
     }
+  }
+  private async settleLayout() {
+    let timeout: ReturnType<typeof setTimeout> | undefined;
+    try {
+      await Promise.race([
+        document.fonts.ready,
+        new Promise((_, reject) => {
+          timeout = setTimeout(() => reject(Error('Font loading timed out')), 5000);
+        }),
+      ]);
+    } finally {
+      clearTimeout(timeout);
+    }
+    // WKWebView suspends RAF when occluded. Its snapshot API still lays out the page;
+    // force CSS layout after a bounded Angular render opportunity in that case.
+    await new Promise<void>((resolve) => {
+      const timer = setTimeout(resolve, 200);
+      requestAnimationFrame(() =>
+        requestAnimationFrame(() => {
+          clearTimeout(timer);
+          resolve();
+        }),
+      );
+    });
+    document.documentElement.getBoundingClientRect();
   }
   checkTarget(args: any) {
     if (args.documentId !== this.doc().id) throw Error('Wrong document');

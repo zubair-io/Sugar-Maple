@@ -500,3 +500,9 @@ footer > span:last-child {
     width: 28px;
   }
 }
+.marquee {
+  position: absolute;
+  pointer-events: none;
+  border: 1px solid #60a5fa;
+  background: #3b82f620;
+}

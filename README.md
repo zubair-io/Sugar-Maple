@@ -2,7 +2,7 @@
 
 A local-first visual UI design, prototyping, and developer-handoff workbench for macOS.
 
-The first working implementation includes an Angular editor bundled in a Mac WKWebView, pages and editable primitives, basic layout and inspector controls, local document checkpoints, and a Swift MCP server operating on the same document. The broader MVP is still in progress; see the [acceptance stories and current boundaries](docs/development/mvp-acceptance.md).
+The working implementation includes an Angular editor bundled in a Mac WKWebView, pages and editable primitives, multi-selection, responsive CSS layouts, linked components, Repeat Grid text data, click-through preview, portable code exports, local document checkpoints, and a Swift MCP server operating on the same document. The broader MVP is still in progress; see the [acceptance stories and current boundaries](docs/development/mvp-acceptance.md).
 
 ## Run
 
@@ -28,7 +28,7 @@ For Xcode development, run `bun run build:web` first, then open `src/apple/Sugar
 ```sh
 bun test src/web/tests
 bun run build:web
-# With browser dev server running and Google Chrome installed:
+# With Google Chrome installed (starts its own dev server when needed):
 bun run test:e2e
 # With Mac app running:
 bun run test:mcp
