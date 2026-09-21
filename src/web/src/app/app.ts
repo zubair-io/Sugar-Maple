@@ -112,6 +112,37 @@ export class App {
       },
     };
   }
+  fillStyle(type: string) {
+    const n = this.e.node();
+    if (!n) return;
+    this.e.update({
+      gradient:
+        type === 'solid'
+          ? null
+          : {
+              type: type as 'linear' | 'radial',
+              angle: 180,
+              centerX: 50,
+              centerY: 50,
+              radiusX: 50,
+              radiusY: 50,
+              stops: [
+                { offset: 0, color: n.fill, opacity: 1 },
+                { offset: 1, color: '#18181b', opacity: 1 },
+              ],
+            },
+    });
+  }
+  gradientStop(index: number, color: string) {
+    const gradient = this.e.node()?.gradient;
+    if (!gradient) return;
+    this.e.update({
+      gradient: {
+        ...gradient,
+        stops: gradient.stops.map((s, i) => (i === index ? { ...s, color } : s)),
+      },
+    });
+  }
   value(event: Event) {
     return (event.target as HTMLInputElement).value;
   }

@@ -34,6 +34,30 @@ export const NodeSchema = z
     heightPercent: z.number().min(1).max(100).default(100),
     rotation: finite.default(0),
     radius: z.number().min(0).max(500).default(0),
+    gradient: z
+      .object({
+        type: z.enum(['linear', 'radial']),
+        angle: z.number().finite().min(-360).max(360).default(180),
+        centerX: z.number().min(0).max(100).default(50),
+        centerY: z.number().min(0).max(100).default(50),
+        radiusX: z.number().min(0.1).max(200).default(50),
+        radiusY: z.number().min(0.1).max(200).default(50),
+        stops: z
+          .array(
+            z
+              .object({
+                offset: z.number().min(0).max(1),
+                color,
+                opacity: z.number().min(0).max(1).default(1),
+              })
+              .strict(),
+          )
+          .min(2)
+          .max(16),
+      })
+      .strict()
+      .nullable()
+      .default(null),
     fillEnabled: z.boolean().default(true),
     fill: color.default('#ffffff'),
     color: color.default('#18181b'),
@@ -179,6 +203,9 @@ export function validateDocument(value: unknown): SceneDocument {
   if (pages.size !== doc.pages.length || nodes.size !== doc.nodes.length)
     throw Error('Duplicate IDs');
   for (const n of doc.nodes) {
+    if (n.gradient && n.kind === 'path') throw Error('Path gradients are not supported yet');
+    if (n.gradient && n.gradient.stops.some((s, i, a) => i > 0 && s.offset < a[i - 1].offset))
+      throw Error('Gradient stops must be ordered');
     if (!pages.has(n.pageId)) throw Error('Missing page');
     if (n.asset && !/^data:image\/(png|jpeg|webp);base64,[A-Za-z0-9+/=]+$/.test(n.asset))
       throw Error('Only embedded PNG/JPEG/WebP images are supported');
