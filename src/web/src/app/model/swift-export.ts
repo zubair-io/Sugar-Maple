@@ -14,6 +14,10 @@ export function swiftExport(doc: SceneDocument, id: string) {
     throw Error(
       'SwiftUI responsive sizing is not yet supported; choose fixed dimensions before exporting.',
     );
+  if (subtree(doc, id).some((n) => n.gradient))
+    throw Error(
+      'SwiftUI gradient export is not yet supported; use a solid fill or a web/SVG target.',
+    );
   const inputs = subtree(doc, id).filter((n) => n.kind === 'input');
   const body = (n: SceneNode, nested = false): string => {
     const children = doc.nodes

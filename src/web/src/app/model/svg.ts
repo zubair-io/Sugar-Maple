@@ -1,3 +1,4 @@
+import { gradientSVG } from './gradient';
 import { subtree } from './composition';
 import { NodeSchema, uid, type SceneDocument, type SceneNode, type Operation } from './schema';
 const escape = (s: string) =>
@@ -16,13 +17,15 @@ export function svgExport(doc: SceneDocument, id: string) {
       : n.fillToken
         ? (doc.tokens[n.fillToken] ?? n.fill)
         : n.fill;
-    const base = `fill="${fill}" stroke="${n.stroke}" stroke-width="${n.strokeWidth}"`;
+    const base = `fill="${n.gradient && n.fillEnabled ? `url(#gradient-${n.id})` : fill}" stroke="${n.stroke}" stroke-width="${n.strokeWidth}"`;
+    const gradient = n.gradient && n.fillEnabled ? `<defs>${gradientSVG(n)}</defs>` : '';
     let shape =
       n.kind === 'ellipse'
         ? `<ellipse cx="${n.width / 2}" cy="${n.height / 2}" rx="${n.width / 2}" ry="${n.height / 2}" ${base}/>`
         : n.kind === 'path'
           ? `<svg width="${n.width}" height="${n.height}" viewBox="${n.viewBox}" preserveAspectRatio="none"><path d="${escape(n.pathData)}" ${base}/></svg>`
           : `<rect width="${n.width}" height="${n.height}" rx="${n.radius}" ${base}/>`;
+    shape = gradient + shape;
     if (n.kind === 'image')
       shape += `<image href="${n.asset}" width="${n.width}" height="${n.height}" preserveAspectRatio="xMidYMid slice"/>`;
     if (n.text)

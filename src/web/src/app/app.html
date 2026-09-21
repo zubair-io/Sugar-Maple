@@ -298,6 +298,28 @@
               }
             }
             <div class="section-heading">APPEARANCE</div>
+            @if (n.kind !== 'path') {
+              <label
+                >Fill style<select
+                  [ngModel]="n.gradient?.type ?? 'solid'"
+                  (ngModelChange)="fillStyle($event)"
+                >
+                  <option value="solid">Solid</option>
+                  <option value="linear">Linear gradient</option>
+                  <option value="radial">Radial gradient</option>
+                </select></label
+              >
+              @if (n.gradient; as gradient) {
+                @for (stop of gradient.stops; track $index) {
+                  <label
+                    >Stop {{ stop.offset * 100 }}%<input
+                      type="color"
+                      [value]="stop.color"
+                      (change)="gradientStop($index, value($event))"
+                  /></label>
+                }
+              }
+            }
             <label
               >Fill enabled<input
                 type="checkbox"

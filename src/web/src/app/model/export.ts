@@ -1,3 +1,4 @@
+import { gradientCSS } from './gradient';
 import { svgExport } from './svg';
 import { swiftExport } from './swift-export';
 import type { SceneDocument, SceneNode } from './schema';
@@ -43,12 +44,14 @@ export function nodeStyles(n: SceneNode, doc: SceneDocument): Record<string, str
     background:
       n.kind === 'path' || !n.fillEnabled
         ? 'transparent'
-        : n.fillToken
-          ? (doc.tokens[n.fillToken] ?? n.fill)
-          : n.fill,
+        : n.gradient
+          ? gradientCSS(n.gradient)
+          : n.fillToken
+            ? (doc.tokens[n.fillToken] ?? n.fill)
+            : n.fill,
     color: n.color,
     borderRadius: n.kind === 'ellipse' ? '50%' : n.radius,
-    border: `${n.strokeWidth}px solid ${n.stroke}`,
+    border: n.kind === 'path' ? 'none' : `${n.strokeWidth}px solid ${n.stroke}`,
     opacity: n.opacity,
     fontSize: n.fontSize,
     fontWeight: n.fontWeight,
@@ -111,7 +114,7 @@ export function exportNode(doc: SceneDocument, id: string, target: ExportTarget)
             : 'div';
   const style =
     css(n, doc) +
-    (n.fillToken && n.fillEnabled
+    (n.fillToken && n.fillEnabled && !n.gradient
       ? `;--${n.fillToken.replace(/\./g, '-')}:${doc.tokens[n.fillToken] ?? n.fill};background:var(--${n.fillToken.replace(/\./g, '-')})`
       : '');
   const attrs =

@@ -76,3 +76,9 @@ Checkpoint version 2 stores an initial scene plus an ordered semantic command jo
 Checkpoints are immutable snapshots so asynchronous persistence cannot combine an older scene with newer history. Save As writes a new user-selected destination. Saving an opened file compares its SHA-256 fingerprint and rejects external edits; the user can reopen or Save As. Filesystem coordination across other processes during the final write remains a release hardening task. Package writes retain the current 32 MB limit with an explicit size error.
 
 Tests cover reload/undo/redo through real IndexedDB, retained retry receipts, corrupted projections, legacy format loading, a 5,000-node round-trip, and external-file change protection. Canonical manifest/assets directories, asynchronous append logging, compaction and crash injection during append remain open.
+
+## Real design drawing fixture
+
+The supplied Maple phone preview is recreated as 37 editable nodes: frames, text, vector paths, linear gradients and radial gradients with alpha stops. No flattened image is used. Browser tests compare the SVG and CSS photo-region pixels with a mean per-channel tolerance of 3/255, and exercise edit/reload/undo. `bun tools/draw-maple-reference.ts` creates the same scene through the live Swift MCP endpoint on a new page, captures the Mac window, and writes a verified `.syrup` checkpoint under `build/evidence/`. Existing pages are preserved; the drawing is one undoable batch.
+
+The gradient inspector supports fill type and stop colors; normalized gradient geometry and alpha stops are also available through validated node commands. Gradients round-trip in editable payloads, HTML/CSS/Tailwind and SVG/PNG. SwiftUI gradient export and path gradients are explicitly unsupported. A general Sketch importer is not yet enabled; the source archive was read only to build this specific drawing fixture.

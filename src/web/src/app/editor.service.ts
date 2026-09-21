@@ -423,6 +423,8 @@ export class EditorService {
   }
   async dispatch(method: string, args: any = {}) {
     switch (method) {
+      case 'document.checkpoint':
+        return this.store.checkpoint();
       case 'document.get':
         return { ...this.store.result(), document: this.doc() };
       case 'document.new':

@@ -31,7 +31,9 @@
           <path
             [attr.d]="node().pathData"
             [attr.fill]="
-              node().fillEnabled ? (document().tokens[node().fillToken] ?? node().fill) : 'none'
+              node().fillEnabled && !node().gradient
+                ? (document().tokens[node().fillToken] ?? node().fill)
+                : 'none'
             "
             [attr.stroke]="node().stroke"
             [attr.stroke-width]="node().strokeWidth"
@@ -46,7 +48,9 @@
             rx="50"
             ry="50"
             [attr.fill]="
-              node().fillEnabled ? (document().tokens[node().fillToken] ?? node().fill) : 'none'
+              node().fillEnabled && !node().gradient
+                ? (document().tokens[node().fillToken] ?? node().fill)
+                : 'none'
             "
           />
         </svg>
