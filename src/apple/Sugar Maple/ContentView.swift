@@ -1,17 +1,8 @@
 import SwiftUI
-import Playgrounds
+import WebKit
 
-struct ContentView: View {
-    var body: some View {
-        Text("Hello, world!")
-            .padding()
-    }
-}
-
-#Preview {
-    ContentView()
-}
-
-#Playground {
-    _ = 1 + 2
+struct ContentView: NSViewRepresentable {
+    let host: EditorHost
+    func makeNSView(context: Context) -> WKWebView { host.webView }
+    func updateNSView(_ nsView: WKWebView, context: Context) {}
 }

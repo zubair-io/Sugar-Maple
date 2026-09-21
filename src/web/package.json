@@ -1,0 +1,35 @@
+{
+  "name": "sugar-maple-editor",
+  "version": "0.0.0",
+  "scripts": {
+    "start": "bun --bun ../../node_modules/@angular/cli/bin/ng.js serve --host 127.0.0.1",
+    "build": "bun --bun ../../node_modules/@angular/cli/bin/ng.js build --base-href ./",
+    "typecheck": "tsc --noEmit -p tsconfig.app.json"
+  },
+  "private": true,
+  "packageManager": "bun@1.4.2",
+  "dependencies": {
+    "@angular/common": "22.1.7",
+    "@angular/compiler": "22.1.7",
+    "@angular/core": "22.1.7",
+    "@angular/forms": "22.1.7",
+    "@angular/platform-browser": "22.1.7",
+    "@angular/router": "22.1.7",
+    "rxjs": "~7.8.0",
+    "tslib": "^2.3.0",
+    "yjs": "13.6.31",
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "@angular/build": "22.1.8",
+    "@angular/cli": "22.1.8",
+    "@angular/compiler-cli": "22.1.7",
+    "prettier": "^3.8.1",
+    "typescript": "~6.0.2",
+    "@automerge/automerge": "3.5.0",
+    "@playwright/test": "1.63.0",
+    "tailwindcss": "^4.2.0",
+    "@tailwindcss/postcss": "^4.2.0"
+  },
+  "type": "module"
+}

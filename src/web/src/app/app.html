@@ -1,0 +1,349 @@
+<div class="app-shell">
+  <header class="topbar">
+    <span class="brand">✳</span
+    ><input
+      class="document-title"
+      aria-label="Document name"
+      [ngModel]="e.doc().name"
+      (change)="e.perform([{ type: 'document.rename', name: value($event) }])"
+    />
+    <span class="unsaved" [title]="e.status()">{{ e.dirty() ? '●' : '' }}</span>
+    <button (click)="e.newDocument()" title="New file">New</button
+    ><button (click)="e.open()">Open</button><button (click)="e.save()">Save</button>
+    <nav class="mode-switch" aria-label="Editor mode">
+      @for (mode of modes; track mode) {
+        <button [class.active]="e.mode() === mode" (click)="e.mode.set(mode)">{{ mode }}</button>
+      }
+    </nav>
+    <span class="mcp" [title]="e.mcp()">◉ {{ e.native ? 'MCP' : 'Browser' }}</span>
+    <mui-button variant="secondary" size="sm" (pressed)="startPreview()">▶ Preview</mui-button>
+  </header>
+  <div class="workspace" [class.no-left]="!left()" [class.no-right]="!right()">
+    @if (left()) {
+      <aside class="sidebar">
+        <nav class="tabs">
+          @for (t of ['Layers', 'Assets', 'Tokens']; track t) {
+            <button [class.active]="tab() === t" (click)="tab.set(t)">{{ t }}</button>
+          }
+        </nav>
+        @if (tab() === 'Layers') {
+          <div class="section-heading">
+            PAGES <button aria-label="Add page" (click)="addPage()">+</button>
+          </div>
+          @for (page of e.doc().pages; track page.id) {
+            <div class="page-row" [class.active]="e.pageId() === page.id">
+              <button (click)="selectPage(page.id)">▤ {{ page.name }}</button
+              ><button
+                aria-label="Delete page"
+                [disabled]="e.doc().pages.length === 1"
+                (click)="e.perform([{ type: 'page.remove', id: page.id }])"
+              >
+                ×
+              </button>
+            </div>
+          }
+          <div class="section-heading">
+            LAYERS <span>{{ e.pageNodes().length }}</span>
+          </div>
+          @for (node of e.pageNodes(); track node.id) {
+            <div
+              class="layer-row"
+              [class.active]="e.selected() === node.id"
+              [style.padding-left.px]="node.parentId ? 24 : 12"
+            >
+              <button (click)="e.selected.set(node.id)">
+                <span class="node-icon">{{
+                  node.kind === 'text' ? 'T' : node.kind === 'artboard' ? '▣' : '◇'
+                }}</span
+                >{{ node.name }}</button
+              ><button
+                aria-label="Toggle visibility"
+                (click)="
+                  e.perform([{ type: 'node.update', id: node.id, patch: { hidden: !node.hidden } }])
+                "
+              >
+                {{ node.hidden ? '○' : '◉' }}</button
+              ><button
+                aria-label="Toggle lock"
+                (click)="
+                  e.perform([{ type: 'node.update', id: node.id, patch: { locked: !node.locked } }])
+                "
+              >
+                {{ node.locked ? '▣' : '▫' }}
+              </button>
+            </div>
+          }
+          @if (!e.pageNodes().length) {
+            <p class="muted empty-layers">Your page is ready.<br />Add an artboard to begin.</p>
+          }
+        } @else if (tab() === 'Assets') {
+          <div class="section-heading">PRIMITIVES</div>
+          <div class="asset-grid">
+            @for (kind of kinds; track kind) {
+              <button (click)="e.add(kind)"><span>◇</span>{{ kind }}</button>
+            }
+          </div>
+          <label class="file-button"
+            >Import image<input
+              type="file"
+              accept="image/png,image/jpeg,image/webp"
+              (change)="importImage($event)"
+          /></label>
+          <p class="muted">PNG, JPEG or WebP · up to 5 MB</p>
+        } @else {
+          <div class="section-heading">DOCUMENT COLORS</div>
+          @for (token of e.doc().tokens | keyvalue; track token.key) {
+            <label
+              >{{ token.key
+              }}<input
+                type="color"
+                [value]="token.value"
+                (change)="
+                  e.perform([{ type: 'token.set', name: token.key, value: value($event) }])
+                "
+            /></label>
+          }
+          <label>Token name<input #tokenName placeholder="color.brand" /></label
+          ><label>Color<input #tokenColor type="color" value="#2563eb" /></label>
+          <button
+            (click)="
+              e.perform([{ type: 'token.set', name: tokenName.value, value: tokenColor.value }])
+            "
+          >
+            Add color token
+          </button>
+        }
+        <div class="sidebar-bottom">SUGAR MAPLE <span>Local workspace</span></div>
+      </aside>
+    }
+    <main class="canvas-shell">
+      <div class="canvas-toolbar">
+        <button (click)="left.set(!left())" aria-label="Toggle layers">☷</button>
+        <div class="tools">
+          @for (kind of kinds; track kind) {
+            <button
+              [disabled]="e.mode() !== 'Design'"
+              (click)="e.add(kind)"
+              [title]="'Add ' + kind"
+              [attr.aria-label]="'Add ' + kind"
+            >
+              {{
+                kind === 'artboard'
+                  ? '▣'
+                  : kind === 'frame'
+                    ? '▢'
+                    : kind === 'text'
+                      ? 'T'
+                      : kind === 'rectangle'
+                        ? '□'
+                        : kind === 'ellipse'
+                          ? '○'
+                          : kind === 'button'
+                            ? '▰'
+                            : '▤'
+              }}
+            </button>
+          }
+        </div>
+        <button (click)="fit()">Fit</button
+        ><button (click)="right.set(!right())" aria-label="Toggle inspector">☷</button>
+      </div>
+      <div class="viewport" (pointerdown)="background($event)" (wheel)="wheel($event)">
+        <div
+          class="world"
+          [style.transform]="'translate(' + pan().x + 'px,' + pan().y + 'px) scale(' + zoom() + ')'"
+        >
+          @for (node of e.roots(); track node.id) {
+            @if (node.kind === 'artboard') {
+              <div class="artboard-label" [style.left.px]="node.x" [style.top.px]="node.y - 28">
+                {{ node.name }} <span>{{ node.width }} × {{ node.height }}</span>
+              </div>
+            }
+            <scene-node
+              [node]="node"
+              [document]="e.doc()"
+              [selected]="e.selected()"
+              (pick)="pick($event)"
+            />
+          }
+          @if (e.node(); as n) {
+            @if (e.mode() === 'Design' && !n.locked) {
+              <button
+                class="resize-handle"
+                aria-label="Resize selected element"
+                [style.left.px]="world(n).x + n.width - 5"
+                [style.top.px]="world(n).y + n.height - 5"
+                (pointerdown)="resize($event)"
+              ></button>
+            }
+          }
+        </div>
+        @if (!e.pageNodes().length) {
+          <div class="empty-canvas">
+            <div class="empty-artboards">▱</div>
+            <h1>Make room for your next idea.</h1>
+            <p>Build a screen. Explore a flow. Make it yours.</p>
+            <mui-button variant="primary" (pressed)="e.add('artboard')"
+              >Create an artboard <kbd>F</kbd></mui-button
+            ><span>or add a shape, text, or a native control</span>
+          </div>
+        }
+      </div>
+    </main>
+    @if (right()) {
+      <aside class="inspector">
+        <div class="inspector-heading">
+          {{ e.mode() }} <span>{{ e.node()?.kind ?? 'Document' }}</span>
+        </div>
+        @if (e.node(); as n) {
+          <label
+            >Layer name<input [ngModel]="n.name" (change)="patch('name', value($event))"
+          /></label>
+          @if (e.mode() === 'Design') {
+            <div class="section-heading">TRANSFORM</div>
+            <div class="fields">
+              @for (field of numericFields; track field) {
+                <label
+                  >{{ field
+                  }}<input
+                    type="number"
+                    [ngModel]="n[field]"
+                    (change)="patch(field, +value($event))"
+                /></label>
+              }
+            </div>
+            <label
+              >Parent<select [ngModel]="n.parentId" (ngModelChange)="patch('parentId', $event)">
+                <option [ngValue]="null">Page root</option>
+                @for (parent of parentOptions(); track parent.id) {
+                  <option [value]="parent.id">{{ parent.name }}</option>
+                }
+              </select></label
+            >
+            <label
+              >Layout<select [ngModel]="n.layout" (ngModelChange)="patch('layout', $event)">
+                @for (layout of ['free', 'horizontal', 'vertical', 'grid']; track layout) {
+                  <option [value]="layout">{{ layout }}</option>
+                }
+              </select></label
+            >
+            <div class="section-heading">APPEARANCE</div>
+            <label
+              >Fill<input
+                type="color"
+                [value]="n.fill"
+                (change)="patch('fill', value($event))" /></label
+            ><label
+              >Text color<input
+                type="color"
+                [value]="n.color"
+                (change)="patch('color', value($event))" /></label
+            ><label
+              >Fill token<select
+                [ngModel]="n.fillToken"
+                (ngModelChange)="patch('fillToken', $event)"
+              >
+                <option value="">Literal color</option>
+                @for (token of e.doc().tokens | keyvalue; track token.key) {
+                  <option [value]="token.key">{{ token.key }}</option>
+                }
+              </select></label
+            >
+            @if (['text', 'button', 'input'].includes(n.kind)) {
+              <label
+                >Text<textarea
+                  [ngModel]="n.text"
+                  (change)="patch('text', value($event))"
+                ></textarea>
+              </label>
+            }
+            <div class="actions">
+              <button (click)="duplicate()">Duplicate</button
+              ><button (click)="repeat()">Repeat ×4</button
+              ><button class="danger" (click)="e.remove()">Delete</button>
+            </div>
+          } @else if (e.mode() === 'Prototype') {
+            <div class="section-heading">ON CLICK / TAP</div>
+            <label
+              >Navigate to<select
+                [ngModel]="n.targetId"
+                (ngModelChange)="patch('targetId', $event)"
+              >
+                <option [ngValue]="null">No action</option>
+                @for (board of e.roots(); track board.id) {
+                  @if (board.kind === 'artboard') {
+                    <option [value]="board.id">{{ board.name }}</option>
+                  }
+                }
+              </select></label
+            >
+            <p class="muted">Open Preview to follow this link.</p>
+          } @else {
+            <div class="section-heading">DEVELOPER HANDOFF</div>
+            <p class="muted">Semantic {{ n.kind }} · {{ n.width }} × {{ n.height }}</p>
+            <label
+              >Export target<select [ngModel]="target()" (ngModelChange)="target.set($event)">
+                @for (t of targets; track t) {
+                  <option [value]="t">{{ t }}</option>
+                }
+              </select></label
+            >
+            <pre tabindex="0">{{ code() }}</pre>
+            <div class="actions">
+              <button (click)="e.copy(target())">Copy code</button
+              ><button (click)="e.copy('name')">Copy name</button
+              ><button (click)="e.copy('editable')">Copy element</button>
+            </div>
+          }
+        } @else {
+          <div class="inspector-empty">
+            <span>⌖</span>
+            <h3>Every detail, in reach.</h3>
+            <p>Select a layer to edit its properties, connect a flow, or inspect its code.</p>
+          </div>
+        }
+      </aside>
+    }
+  </div>
+  <footer>
+    <button (click)="e.undo()" [disabled]="!e.store.canUndo" title="Undo Cmd+Z">↶</button
+    ><button (click)="e.redo()" [disabled]="!e.store.canRedo">↷</button><span>{{ e.status() }}</span
+    ><span class="footer-center">{{ e.mcp() }}</span
+    ><button (click)="preset(1440)">Desktop</button><button (click)="preset(834)">Tablet</button
+    ><button (click)="preset(393)">Mobile</button
+    ><input
+      aria-label="Zoom"
+      type="range"
+      min="0.1"
+      max="2"
+      step="0.05"
+      [ngModel]="zoom()"
+      (ngModelChange)="zoom.set(+$event)"
+    /><span>{{ (zoom() * 100).toFixed(0) }}%</span>
+  </footer>
+  @if (e.error()) {
+    <div role="alert" class="error-toast">
+      {{ e.error() }}<button aria-label="Dismiss error" (click)="e.error.set('')">×</button>
+    </div>
+  }
+  @if (previewNode(); as n) {
+    <div class="preview-backdrop">
+      <header>
+        <strong>{{ n.name }} · Preview</strong
+        ><button [disabled]="!previewHistory.length" (click)="preview.set(previewHistory.pop()!)">
+          Back</button
+        ><button (click)="preview.set(null)">Close preview</button>
+      </header>
+      <div class="preview-scroll">
+        <div class="preview-stage" [style.width.px]="n.width" [style.height.px]="n.height">
+          <scene-node
+            [node]="n"
+            [document]="e.doc()"
+            [preview]="true"
+            (activate)="activate($event)"
+          />
+        </div>
+      </div>
+    </div>
+  }
+</div>

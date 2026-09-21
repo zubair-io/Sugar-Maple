@@ -1,0 +1,12 @@
+@import 'tailwindcss/theme';
+@import 'tailwindcss/utilities';
+@source "./app/chrome/maple";
+@theme {
+  --color-primary: #c4493a;
+  --color-primary-dim: #422016;
+  --color-surface: #262524;
+  --color-surface-hover: #3a3836;
+  --color-border: #44403c;
+  --color-text-main: #e7e5e4;
+  --color-text-muted: #a8a29e;
+}

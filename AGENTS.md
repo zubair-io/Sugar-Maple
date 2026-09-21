@@ -65,7 +65,7 @@ src/apple/Sugar Maple.xcodeproj/
 src/apple/Sugar Maple/
 ```
 
-The app is currently an Xcode scaffold. The Angular workspace, document packages, MCP server and their test commands are planned work, not existing implementations. Update this section and add runnable build instructions as those targets land. Do not copy sibling repository commands or assume their toolchain/paths are installed here.
+The first editor implementation is in `src/web`, with the Swift host under `src/apple`. Use Bun (`bun install`, `bun test src/web/tests`, `bun run build:web`, `bun run dev:mac`). Current scope and verification are recorded in `docs/development/mvp-acceptance.md`. The full MVP tracker remains open. Do not assume planned capabilities have shipped.
 
 `../_Maple` and `../Just-Maple` are reference sources. Neither sibling checkout may be required for a clean CI/release build. Record provenance and dependency versions when porting code, along with applicable notices.
 
