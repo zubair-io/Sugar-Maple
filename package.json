@@ -1,0 +1,24 @@
+{
+  "name": "sugar-maple",
+  "private": true,
+  "packageManager": "bun@1.4.2",
+  "scripts": {
+    "dev": "bun run --cwd src/web start",
+    "build:web": "bun run --cwd src/web build",
+    "test": "bun test src/web/tests",
+    "build:mac": "bun tools/build-mac.ts",
+    "dev:mac": "bun tools/build-mac.ts --open",
+    "test:e2e": "bun src/web/tests/editor-e2e.ts",
+    "test:mcp": "bun tools/mcp-integration.ts"
+  },
+  "devDependencies": {
+    "@angular/cli": "22.1.8",
+    "@modelcontextprotocol/sdk": "1.30.0",
+    "@socketsecurity/bun-security-scanner": "1.1.2",
+    "bun": "1.4.2",
+    "node": "26.9.0"
+  },
+  "workspaces": [
+    "src/web"
+  ]
+}
