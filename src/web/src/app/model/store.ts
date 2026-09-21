@@ -1,3 +1,4 @@
+import { synchronizeComponents } from './component-sync';
 import { delta, applyDelta, JournalSchema, type JournalEntry } from './journal';
 import { applyComposition, propagate } from './composition';
 import * as Y from 'yjs';
@@ -126,6 +127,8 @@ export class DocumentStore {
       ids: string[] = [];
     for (const op of tx.operations) applyOperation(doc, op, ids);
     validateDocument(doc);
+    synchronizeComponents(doc, before);
+    validateDocument(doc);
     this.ydoc.transact(() => this.write(doc), origin);
     this.revision++;
     const result = this.result(ids);
@@ -208,12 +211,24 @@ function applyOperation(doc: SceneDocument, op: Operation, ids: string[]) {
     case 'node.update': {
       const n = doc.nodes.find((n) => n.id === op.id);
       if (!n) throw Error('Node not found');
+      if (
+        inheritedChild(doc, n) &&
+        (op.patch.parentId !== undefined || op.patch.order !== undefined)
+      )
+        throw Error('Detach the instance before changing its layer structure');
       Object.assign(n, op.patch);
       propagate(doc, n, op.patch);
       break;
     }
     case 'node.remove':
       if (!doc.nodes.some((n) => n.id === op.id)) throw Error('Node not found');
+      if (
+        inheritedChild(
+          doc,
+          doc.nodes.find((n) => n.id === op.id)!,
+        )
+      )
+        throw Error('Detach the instance before deleting an inherited layer');
       removeNode(doc, op.id);
       break;
   }
@@ -241,5 +256,13 @@ function canonical(value: unknown) {
     item && typeof item === 'object' && !Array.isArray(item)
       ? Object.fromEntries(Object.entries(item).sort(([a], [b]) => a.localeCompare(b)))
       : item,
+  );
+}
+
+function inheritedChild(doc: SceneDocument, node: SceneDocument['nodes'][number]) {
+  const source = doc.nodes.find((n) => n.id === node.componentId);
+  return (
+    !!source?.parentId &&
+    doc.nodes.some((n) => n.id === node.parentId && n.componentId === source.parentId)
   );
 }
