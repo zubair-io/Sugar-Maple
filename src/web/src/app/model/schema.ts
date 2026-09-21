@@ -100,7 +100,7 @@ const patchNode = z
   )
   .partial()
   .strict();
-const addNode = NodeSchema.partial().required({ kind: true, pageId: true });
+const addNode = patchNode.extend({ id: id.optional() }).required({ kind: true, pageId: true });
 export const OperationSchema = z.discriminatedUnion('type', [
   z.object({ type: z.literal('component.create'), id }).strict(),
   z
@@ -192,8 +192,19 @@ export function validateDocument(value: unknown): SceneDocument {
         throw Error('Invalid parent');
       parent = p.parentId;
     }
-    if (n.targetId && !nodes.has(n.targetId)) throw Error('Missing prototype target');
-    if (n.componentId && !nodes.has(n.componentId)) throw Error('Missing component master');
+    if (n.targetId && nodes.get(n.targetId)?.kind !== 'artboard')
+      throw Error('Prototype target must be an artboard');
+    const components = new Set([n.id]);
+    let master = n.componentId;
+    while (master) {
+      if (components.has(master)) throw Error('Component cycle');
+      components.add(master);
+      const source = nodes.get(master);
+      if (!source) throw Error('Missing component master');
+      master = source.componentId;
+    }
+    if (n.repeatTemplateId && nodes.get(n.repeatTemplateId)?.parentId !== n.id)
+      throw Error('Repeat template must be a child of its grid');
   }
   return doc;
 }
