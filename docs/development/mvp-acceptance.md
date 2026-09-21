@@ -38,7 +38,7 @@ The MCP integration test temporarily adds a page and undoes it. Native snapshot 
 
 ## Current boundaries
 
-The initial checkpoint covers pages, semantic primitives, parent relationships, basic CSS layouts, manual geometry, color tokens, preview navigation, developer snippets, editable clipboard payloads, checkpoint persistence and the early MCP loop. Durable history across restarts, complete asset import/export, full component/Repeat Grid semantics, advanced selection, complete export fidelity and release packaging remain tracked MVP work. The document format remains version 1 with an explicit version check; migration fixtures are required before changing it.
+The initial checkpoint covers pages, semantic primitives, parent relationships, basic CSS layouts, manual geometry, color tokens, preview navigation, developer snippets, editable clipboard payloads, checkpoint persistence and the early MCP loop. Complete asset import/export, full component/Repeat Grid semantics, advanced selection, complete export fidelity and release packaging remain tracked MVP work. The document format remains version 1 with an explicit version check; migration fixtures are required before changing it.
 
 Browser recovery currently uses a local checkpoint; the native app stores a recovery checkpoint separately from the user-selected `.syrup` package. Recovery must never be described as a successful save to that package.
 
@@ -63,7 +63,7 @@ bun src/web/tests/handoff-e2e.ts
 - Shift-click and marquee select multiple nodes. Sibling grouping preserves positions with a transparent frame; grouped drags, alignment, delete and undo use atomic command batches. Layer search, hierarchy indentation, ordering and page rename are available. Arrow keys nudge by 1px; Shift changes the step to 10px.
 - Browser recovery uses real IndexedDB transactions with strict durability requested. An old localStorage checkpoint can be read and migrates on the next edit. Loading blocks UI interaction until recovery finishes. This is recovery storage, not a user-selected document save.
 - Generated Angular templates treat design text as literal content. A separate strict-template consumer compiles the export; Tailwind 4 generates the exported utility classes and a real browser verifies geometry against semantic HTML.
-- SVG/PNG and SwiftUI currently reject responsive-size nodes rather than silently emitting fixed approximations. Rotated-parent pointer manipulation, eight-handle resizing, snapping, full pin constraints and durable undo history remain open.
+- SVG/PNG and SwiftUI currently reject responsive-size nodes rather than silently emitting fixed approximations. Rotated-parent pointer manipulation, eight-handle resizing, snapping, full pin constraints remain open.
 
 Run all browser/consumer jobs with `bun run test:e2e`; it starts and cleans up its own dev server when needed. Chrome must be installed. CI installs Chrome and runs these jobs as well as the model tests and production build.
 
@@ -82,3 +82,11 @@ Tests cover reload/undo/redo through real IndexedDB, retained retry receipts, co
 The supplied Maple phone preview is recreated as 37 editable nodes: frames, text, vector paths, linear gradients and radial gradients with alpha stops. No flattened image is used. Browser tests compare the SVG and CSS photo-region pixels with a mean per-channel tolerance of 3/255, and exercise edit/reload/undo. `bun tools/draw-maple-reference.ts` creates the same scene through the live Swift MCP endpoint on a new page, captures the Mac window, and writes a verified `.syrup` checkpoint under `build/evidence/`. Existing pages are preserved; the drawing is one undoable batch.
 
 The gradient inspector supports fill type and stop colors; normalized gradient geometry and alpha stops are also available through validated node commands. Gradients round-trip in editable payloads, HTML/CSS/Tailwind and SVG/PNG. SwiftUI gradient export and path gradients are explicitly unsupported. A general Sketch importer is not yet enabled; the source archive was read only to build this specific drawing fixture.
+
+## Component structure and named variants
+
+Instances now follow master layer additions, removal, reparenting and ordering while retaining stable IDs and explicit property overrides. Nested definitions synchronize in dependency order; recursive containment is rejected atomically. Inherited layers must be detached before independently deleting or reparenting them. Named variants provide root style/text deltas; the inspector creates fill variants, switches an instance's variant and resets its overrides. Developer mode displays component identity, variant and override count. Reset retains the instance root's placement and restores inherited child positions.
+
+Model tests cover nested structure, override precedence, reset, invalid cycles and history replay. The browser job exercises creation, insertion, variant selection, reset and recovery. `bun tools/mcp-components-test.ts` exercises the real native transport, measures rendered inherited layers, captures the window, and undoes its four test batches while preserving the existing document. Structural variants, component swaps, platform registry bindings and complete Repeat Grid/component composition remain open; this increment does not close #12 or #15.
+
+Native restart acceptance: run `bun tools/native-history-test.ts setup`, quit/reopen the app, then run `bun tools/native-history-test.ts verify`. This was executed against the bundled WKWebView app and verified scene/revision recovery, retained idempotent retry receipt, undo and redo before restoring the original scene.

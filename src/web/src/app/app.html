@@ -98,7 +98,12 @@
           <div class="section-heading">DOCUMENT COMPONENTS</div>
           @for (component of e.doc().nodes; track component.id) {
             @if (component.isComponent) {
-              <button (click)="insertComponent(component.id)">◇ {{ component.name }}</button>
+              <button
+                [attr.aria-label]="'Insert component ' + component.name"
+                (click)="insertComponent(component.id)"
+              >
+                ◇ {{ component.name }}
+              </button>
             }
           }
           <div class="section-heading">PRIMITIVES</div>
@@ -355,6 +360,37 @@
                 ></textarea>
               </label>
             }
+            @if (n.isComponent) {
+              <div class="section-heading">COMPONENT VARIANTS</div>
+              <label>Variant name<input #variantName placeholder="Pressed" /></label
+              ><label>Variant fill<input #variantFill type="color" value="#475569" /></label
+              ><button (click)="addVariant(variantName.value, variantFill.value)">
+                Add variant
+              </button>
+              @for (variant of n.variants | keyvalue; track variant.key) {
+                <p class="muted">{{ variant.key }}</p>
+              }
+            }
+            @if (master(); as source) {
+              <label
+                >Variant<select
+                  aria-label="Variant"
+                  [ngModel]="n.variantName"
+                  (ngModelChange)="
+                    e.perform([{ type: 'component.variant', id: n.id, name: $event }])
+                  "
+                >
+                  <option value="Default">Default</option>
+                  @for (variant of source.variants | keyvalue; track variant.key) {
+                    <option [value]="variant.key">{{ variant.key }}</option>
+                  }
+                </select></label
+              >
+              <p class="muted">{{ source.name }} · {{ n.overrides.length }} overrides</p>
+              <button (click)="e.perform([{ type: 'component.reset', id: n.id }])">
+                Reset overrides
+              </button>
+            }
             <div class="actions">
               @if (e.selection().length > 1) {
                 <button (click)="group()">Group selection</button
@@ -400,6 +436,12 @@
           } @else {
             <div class="section-heading">DEVELOPER HANDOFF</div>
             <p class="muted">Semantic {{ n.kind }} · {{ n.width }} × {{ n.height }}</p>
+            @if (master(); as source) {
+              <p class="muted">
+                Component: {{ source.name }} · Variant: {{ n.variantName }} ·
+                {{ n.overrides.length }} overrides
+              </p>
+            }
             <label
               >Export target<select [ngModel]="target()" (ngModelChange)="target.set($event)">
                 @for (t of targets; track t) {

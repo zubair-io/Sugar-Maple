@@ -27,6 +27,7 @@ try {
     "handoff-e2e",
     "web-consumer",
     "maple-design-e2e",
+    "components-e2e",
   ]) {
     const test = Bun.spawn([process.execPath, `src/web/tests/${name}.ts`], {
       stdout: "inherit",

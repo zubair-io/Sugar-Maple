@@ -51,6 +51,9 @@ export class App {
       ? { ...n, x: 0, y: 0, width: this.previewWidth() ?? n.width, widthMode: 'fixed' as const }
       : null;
   });
+  readonly master = computed(() =>
+    this.e.doc().nodes.find((n) => n.id === this.e.node()?.componentId && n.isComponent),
+  );
   readonly parentOptions = computed(() =>
     this.e
       .pageNodes()
@@ -434,6 +437,11 @@ export class App {
     if (!n) return;
     const result = this.e.perform([{ type: 'repeat.create', id: n.id, count: 6, columns: 3 }]);
     if (result) this.e.select(result.ids[0]);
+  }
+  addVariant(name: string, fill: string) {
+    const n = this.e.node();
+    if (n?.isComponent && name.trim())
+      this.e.update({ variants: { ...n.variants, [name.trim()]: { fill } } });
   }
   makeComponent() {
     const n = this.e.node();

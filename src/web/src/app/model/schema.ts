@@ -88,6 +88,28 @@ export const NodeSchema = z
       .default('0 0 100 100'),
     componentId: id.nullable().default(null),
     isComponent: z.boolean().default(false),
+    variantName: z.string().min(1).max(80).default('Default'),
+    variants: z
+      .record(
+        z
+          .string()
+          .min(1)
+          .max(80)
+          .refine((name) => !['__proto__', 'prototype', 'constructor', 'Default'].includes(name)),
+        z
+          .object({
+            fill: color,
+            color,
+            text: z.string().max(20000),
+            radius: z.number().min(0).max(500),
+            opacity: z.number().min(0).max(1),
+            stroke: color,
+            strokeWidth: z.number().min(0).max(50),
+          })
+          .partial()
+          .strict(),
+      )
+      .default({}),
     overrides: z.array(z.string()).default([]),
     repeatTemplateId: id.nullable().default(null),
     repeatIndex: z.number().int().min(0).max(99).nullable().default(null),
@@ -126,6 +148,8 @@ const patchNode = z
   .strict();
 const addNode = patchNode.extend({ id: id.optional() }).required({ kind: true, pageId: true });
 export const OperationSchema = z.discriminatedUnion('type', [
+  z.object({ type: z.literal('component.variant'), id, name: z.string().min(1).max(80) }).strict(),
+  z.object({ type: z.literal('component.reset'), id }).strict(),
   z.object({ type: z.literal('component.create'), id }).strict(),
   z
     .object({
@@ -233,5 +257,35 @@ export function validateDocument(value: unknown): SceneDocument {
     if (n.repeatTemplateId && nodes.get(n.repeatTemplateId)?.parentId !== n.id)
       throw Error('Repeat template must be a child of its grid');
   }
+  componentOrder(doc);
   return doc;
+}
+export function componentOrder(doc: SceneDocument): string[] {
+  const nodes = new Map(doc.nodes.map((n) => [n.id, n]));
+  const dependencies = new Map(
+    doc.nodes.filter((n) => n.isComponent).map((n) => [n.id, new Set<string>()]),
+  );
+  for (const n of doc.nodes) {
+    const dependency = n.isComponent ? n.id : n.componentId;
+    if (!dependency || !dependencies.has(dependency)) continue;
+    let parent = n.parentId;
+    while (parent) {
+      dependencies.get(parent)?.add(dependency);
+      parent = nodes.get(parent)?.parentId ?? null;
+    }
+  }
+  const visited = new Set<string>(),
+    active = new Set<string>(),
+    order: string[] = [];
+  const check = (id: string) => {
+    if (active.has(id)) throw Error('Recursive component containment');
+    if (visited.has(id)) return;
+    active.add(id);
+    for (const dependency of dependencies.get(id) ?? []) check(dependency);
+    active.delete(id);
+    visited.add(id);
+    order.push(id);
+  };
+  for (const id of dependencies.keys()) check(id);
+  return order;
 }

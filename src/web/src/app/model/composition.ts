@@ -25,6 +25,7 @@ export function cloneTree(
       x: n.id === id ? options.x : n.x,
       y: n.id === id ? options.y : n.y,
       isComponent: false,
+      variants: {},
       componentId: options.linked ? n.id : null,
       overrides: [],
       targetId: n.targetId ? (ids.get(n.targetId) ?? n.targetId) : null,
@@ -36,6 +37,8 @@ export function cloneTree(
 export function applyComposition(doc: SceneDocument, op: Operation, ids: string[]): boolean {
   if (
     ![
+      'component.variant',
+      'component.reset',
       'component.create',
       'component.insert',
       'component.detach',
@@ -48,6 +51,37 @@ export function applyComposition(doc: SceneDocument, op: Operation, ids: string[
     node = doc.nodes.find((n) => n.id === id);
   if (!node) throw Error('Node not found');
   switch (op.type) {
+    case 'component.variant': {
+      const master = doc.nodes.find((n) => n.id === node.componentId && n.isComponent);
+      if (!master || (op.name !== 'Default' && !master.variants[op.name]))
+        throw Error('Unknown component variant');
+      node.variantName = op.name;
+      return true;
+    }
+    case 'component.reset': {
+      if (!node.componentId) throw Error('Select a component instance');
+      for (const n of subtree(doc, id)) {
+        const source = doc.nodes.find((v) => v.id === n.componentId);
+        if (!source) continue;
+        const keep = {
+          id: n.id,
+          pageId: n.pageId,
+          parentId: n.parentId,
+          order: n.order,
+          x: n.id === id ? n.x : source.x,
+          y: n.id === id ? n.y : source.y,
+          repeatTemplateId: n.repeatTemplateId,
+          targetId: n.targetId,
+          componentId: n.componentId,
+          isComponent: false,
+          variants: {},
+          variantName: n.variantName,
+          overrides: [],
+        };
+        Object.assign(n, structuredClone(source), keep);
+      }
+      return true;
+    }
     case 'component.create':
       if (node.componentId) throw Error('Detach the instance before making a master');
       node.isComponent = true;
@@ -131,7 +165,12 @@ export function applyComposition(doc: SceneDocument, op: Operation, ids: string[
       return false;
   }
 }
-export function propagate(doc: SceneDocument, source: SceneNode, patch: Partial<SceneNode>) {
+export function propagate(
+  doc: SceneDocument,
+  source: SceneNode,
+  patch: Partial<SceneNode>,
+  trackOverrides = true,
+) {
   const structural = new Set([
     'id',
     'pageId',
@@ -142,14 +181,29 @@ export function propagate(doc: SceneDocument, source: SceneNode, patch: Partial<
     'overrides',
     'repeatTemplateId',
     'repeatIndex',
-    'x',
-    'y',
+    'variants',
+    'variantName',
   ]);
-  for (const n of doc.nodes.filter((n) => n.componentId === source.id)) {
-    for (const [key, value] of Object.entries(patch))
-      if (!structural.has(key) && !n.overrides.includes(key)) (n as any)[key] = value;
-  }
-  if (source.componentId)
+  const visit = (source: SceneNode, fields: Partial<SceneNode>, visited: Set<string>) => {
+    if (visited.has(source.id)) return;
+    visited.add(source.id);
+    for (const n of doc.nodes.filter((n) => n.componentId === source.id)) {
+      const changes: Partial<SceneNode> = {};
+      for (const [key, value] of Object.entries(fields)) {
+        const placement =
+          (key === 'x' || key === 'y') && (source.isComponent || source.repeatIndex !== null);
+        const variant =
+          source.isComponent && Object.hasOwn(source.variants[n.variantName] ?? {}, key);
+        if (!structural.has(key) && !placement && !variant && !n.overrides.includes(key)) {
+          (n as any)[key] = value;
+          (changes as any)[key] = value;
+        }
+      }
+      visit(n, changes, visited);
+    }
+  };
+  visit(source, patch, new Set());
+  if (trackOverrides && source.componentId)
     for (const key of Object.keys(patch))
       if (!structural.has(key) && !source.overrides.includes(key)) source.overrides.push(key);
 }
