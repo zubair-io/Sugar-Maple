@@ -1,12 +1,12 @@
 @if (!node().hidden) {
   <div
     class="node"
-    [class.selected]="selected() === node().id && !preview()"
+    [class.selected]="selected().includes(node().id) && !preview()"
     [ngStyle]="style()"
     [attr.data-node-id]="node().id"
     [attr.aria-label]="node().name"
     (pointerdown)="!preview() && pick.emit({ event: $event, node: node() })"
-    (click)="preview() && activate.emit(node())"
+    (click)="onActivate($event)"
   >
     @switch (node().kind) {
       @case ('text') {

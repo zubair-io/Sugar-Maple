@@ -1,4 +1,4 @@
-<div class="app-shell">
+<div class="app-shell" [attr.inert]="e.ready() ? null : ''">
   <header class="topbar">
     <span class="brand">✳</span
     ><input
@@ -32,7 +32,8 @@
           </div>
           @for (page of e.doc().pages; track page.id) {
             <div class="page-row" [class.active]="e.pageId() === page.id">
-              <button (click)="selectPage(page.id)">▤ {{ page.name }}</button
+              <button (dblclick)="renamePage(page.id, page.name)" (click)="selectPage(page.id)">
+                ▤ {{ page.name }}</button
               ><button
                 aria-label="Delete page"
                 [disabled]="e.doc().pages.length === 1"
@@ -45,13 +46,20 @@
           <div class="section-heading">
             LAYERS <span>{{ e.pageNodes().length }}</span>
           </div>
-          @for (node of e.pageNodes(); track node.id) {
+          <label
+            >Find layer<input
+              aria-label="Find layer"
+              [ngModel]="search()"
+              (ngModelChange)="search.set($event)"
+          /></label>
+          @for (row of layers(); track row.node.id) {
+            @let node = row.node;
             <div
               class="layer-row"
-              [class.active]="e.selected() === node.id"
-              [style.padding-left.px]="node.parentId ? 24 : 12"
+              [class.active]="e.selection().includes(node.id)"
+              [style.padding-left.px]="12 + row.depth * 14"
             >
-              <button (click)="e.selected.set(node.id)">
+              <button (click)="e.select(node.id, $event.shiftKey)">
                 <span class="node-icon">{{
                   node.kind === 'text' ? 'T' : node.kind === 'artboard' ? '▣' : '◇'
                 }}</span
@@ -72,6 +80,15 @@
                 {{ node.locked ? '▣' : '▫' }}
               </button>
             </div>
+          }
+          @if (marquee(); as box) {
+            <div
+              class="marquee"
+              [style.left.px]="box.x"
+              [style.top.px]="box.y"
+              [style.width.px]="box.width"
+              [style.height.px]="box.height"
+            ></div>
           }
           @if (!e.pageNodes().length) {
             <p class="muted empty-layers">Your page is ready.<br />Add an artboard to begin.</p>
@@ -174,12 +191,20 @@
             <scene-node
               [node]="node"
               [document]="e.doc()"
-              [selected]="e.selected()"
+              [selected]="e.selection()"
               (pick)="pick($event)"
             />
           }
           @if (e.node(); as n) {
-            @if (e.mode() === 'Design' && !n.locked) {
+            @if (
+              e.mode() === 'Design' &&
+              !n.locked &&
+              e.selection().length === 1 &&
+              canMove(n) &&
+              n.rotation === 0 &&
+              n.widthMode === 'fixed' &&
+              n.heightMode === 'fixed'
+            ) {
               <button
                 class="resize-handle"
                 aria-label="Resize selected element"
@@ -190,6 +215,15 @@
             }
           }
         </div>
+        @if (marquee(); as box) {
+          <div
+            class="marquee"
+            [style.left.px]="box.x"
+            [style.top.px]="box.y"
+            [style.width.px]="box.width"
+            [style.height.px]="box.height"
+          ></div>
+        }
         @if (!e.pageNodes().length) {
           <div class="empty-canvas">
             <div class="empty-artboards">▱</div>
@@ -239,7 +273,36 @@
                 }
               </select></label
             >
+            <div class="section-heading">RESPONSIVE SIZING</div>
+            @for (axis of ['width', 'height']; track axis) {
+              <label
+                >{{ axis }} sizing<select
+                  [ngModel]="axis === 'width' ? n.widthMode : n.heightMode"
+                  (ngModelChange)="patch(axis + 'Mode', $event)"
+                >
+                  @for (mode of ['fixed', 'fill', 'hug', 'percent']; track mode) {
+                    <option [value]="mode">{{ mode }}</option>
+                  }
+                </select></label
+              >
+              @if ((axis === 'width' ? n.widthMode : n.heightMode) === 'percent') {
+                <label
+                  >{{ axis }} %<input
+                    type="number"
+                    min="1"
+                    max="100"
+                    [ngModel]="axis === 'width' ? n.widthPercent : n.heightPercent"
+                    (change)="patch(axis + 'Percent', +value($event))"
+                /></label>
+              }
+            }
             <div class="section-heading">APPEARANCE</div>
+            <label
+              >Fill enabled<input
+                type="checkbox"
+                [ngModel]="n.fillEnabled"
+                (ngModelChange)="patch('fillEnabled', $event)"
+            /></label>
             <label
               >Fill<input
                 type="color"
@@ -270,6 +333,11 @@
               </label>
             }
             <div class="actions">
+              @if (e.selection().length > 1) {
+                <button (click)="group()">Group selection</button
+                ><button (click)="align('x')">Align left</button
+                ><button (click)="align('y')">Align top</button>
+              }
               <button (click)="makeComponent()">Make component</button>
               @if (n.componentId) {
                 <button (click)="e.perform([{ type: 'component.detach', id: n.id }])">
@@ -284,7 +352,9 @@
                   ></textarea></label
                 ><button (click)="populate(gridData.value)">Populate cells</button>
               }
-              <button (click)="duplicate()">Duplicate</button
+              <button (click)="reorder(-1)">Move earlier</button
+              ><button (click)="reorder(1)">Move later</button
+              ><button (click)="duplicate()">Duplicate</button
               ><button (click)="repeat()">Repeat Grid</button
               ><button class="danger" (click)="e.remove()">Delete</button>
             </div>
@@ -358,6 +428,15 @@
     <div class="preview-backdrop">
       <header>
         <strong>{{ n.name }} · Preview</strong
+        ><select
+          aria-label="Preview viewport"
+          [ngModel]="previewWidth()"
+          (ngModelChange)="previewWidth.set($event)"
+        >
+          <option [ngValue]="null">Authored size</option>
+          <option [ngValue]="1440">Desktop · 1440</option>
+          <option [ngValue]="834">Tablet · 834</option>
+          <option [ngValue]="393">Mobile · 393</option></select
         ><button [disabled]="!previewHistory.length" (click)="preview.set(previewHistory.pop()!)">
           Back</button
         ><button (click)="preview.set(null)">Close preview</button>
@@ -375,3 +454,7 @@
     </div>
   }
 </div>
+
+@if (!e.ready()) {
+  <div class="error-toast" role="status">Opening local workspace…</div>
+}

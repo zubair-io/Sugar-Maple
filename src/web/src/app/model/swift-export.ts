@@ -10,12 +10,18 @@ export function swiftExport(doc: SceneDocument, id: string) {
   if (!root) throw Error('Node not found');
   if (subtree(doc, id).some((n) => n.kind === 'path'))
     throw Error('SwiftUI path export is not yet supported; export this vector as SVG.');
+  if (subtree(doc, id).some((n) => n.widthMode !== 'fixed' || n.heightMode !== 'fixed'))
+    throw Error(
+      'SwiftUI responsive sizing is not yet supported; choose fixed dimensions before exporting.',
+    );
   const inputs = subtree(doc, id).filter((n) => n.kind === 'input');
   const body = (n: SceneNode, nested = false): string => {
     const children = doc.nodes
       .filter((v) => v.parentId === n.id && !v.hidden)
       .sort((a, b) => a.order - b.order);
-    const fill = color(n.fillToken ? (doc.tokens[n.fillToken] ?? n.fill) : n.fill);
+    const fill = !n.fillEnabled
+      ? 'Color.clear'
+      : color(n.fillToken ? (doc.tokens[n.fillToken] ?? n.fill) : n.fill);
     let view: string;
     if (n.kind === 'text')
       view = `Text(${quoted(n.text)})\n.font(.system(size: ${n.fontSize}, weight: ${n.fontWeight >= 600 ? '.semibold' : '.regular'}))`;

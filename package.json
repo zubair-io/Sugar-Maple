@@ -8,7 +8,7 @@
     "test": "bun test src/web/tests",
     "build:mac": "bun tools/build-mac.ts",
     "dev:mac": "bun tools/build-mac.ts --open",
-    "test:e2e": "bun src/web/tests/editor-e2e.ts",
+    "test:e2e": "bun tools/browser-acceptance.ts",
     "test:mcp": "bun tools/mcp-integration.ts"
   },
   "devDependencies": {

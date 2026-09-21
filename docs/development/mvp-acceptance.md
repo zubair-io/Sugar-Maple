@@ -56,3 +56,15 @@ swiftc -typecheck build/evidence/ExportFixture.swift
 # With browser dev server running:
 bun src/web/tests/handoff-e2e.ts
 ```
+
+## Responsive editing and recovery increment
+
+- Width/height support fixed, fill, hug and percentage CSS sizing. Preview presets change the preview width without editing the saved artboard. Click-through and Back remain preview-only state.
+- Shift-click and marquee select multiple nodes. Sibling grouping preserves positions with a transparent frame; grouped drags, alignment, delete and undo use atomic command batches. Layer search, hierarchy indentation, ordering and page rename are available. Arrow keys nudge by 1px; Shift changes the step to 10px.
+- Browser recovery uses real IndexedDB transactions with strict durability requested. An old localStorage checkpoint can be read and migrates on the next edit. Loading blocks UI interaction until recovery finishes. This is recovery storage, not a user-selected document save.
+- Generated Angular templates treat design text as literal content. A separate strict-template consumer compiles the export; Tailwind 4 generates the exported utility classes and a real browser verifies geometry against semantic HTML.
+- SVG/PNG and SwiftUI currently reject responsive-size nodes rather than silently emitting fixed approximations. Rotated-parent pointer manipulation, eight-handle resizing, snapping, full pin constraints and durable undo history remain open.
+
+Run all browser/consumer jobs with `bun run test:e2e`; it starts and cleans up its own dev server when needed. Chrome must be installed. CI installs Chrome and runs these jobs as well as the model tests and production build.
+
+Native pointer acceptance (with the app running): `bun tools/native-pointer-test.ts setup`, drag the blue rectangle once, then `bun tools/native-pointer-test.ts verify`. The verification reads the changed coordinates through MCP, captures the actual window, and undoes the pointer gesture and original agent batch separately. This flow was exercised against the local WKWebView build. Layout settling includes an occluded-window fallback because WKWebView suspends animation-frame callbacks in the background.

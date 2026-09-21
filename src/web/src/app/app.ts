@@ -20,6 +20,21 @@ export class App {
   readonly tab = signal('Layers');
   readonly target = signal<ExportTarget>('html');
   readonly preview = signal<string | null>(null);
+  readonly previewWidth = signal<number | null>(null);
+  readonly search = signal('');
+  readonly layers = computed(() => {
+    const all = this.e.pageNodes(),
+      rows: { node: SceneNode; depth: number }[] = [];
+    const visit = (parentId: string | null, depth: number) => {
+      for (const node of all.filter((n) => n.parentId === parentId)) {
+        if (node.name.toLowerCase().includes(this.search().toLowerCase()))
+          rows.push({ node, depth });
+        visit(node.id, depth + 1);
+      }
+    };
+    visit(null, 0);
+    return rows;
+  });
   readonly previewHistory: string[] = [];
   readonly left = signal(true);
   readonly right = signal(true);
@@ -32,7 +47,9 @@ export class App {
   });
   readonly previewNode = computed(() => {
     const n = this.e.doc().nodes.find((n) => n.id === this.preview());
-    return n ? { ...n, x: 0, y: 0 } : null;
+    return n
+      ? { ...n, x: 0, y: 0, width: this.previewWidth() ?? n.width, widthMode: 'fixed' as const }
+      : null;
   });
   readonly parentOptions = computed(() =>
     this.e
@@ -72,8 +89,11 @@ export class App {
     'svg',
   ];
   readonly modes = ['Design', 'Prototype', 'Developer'] as const;
+  readonly marquee = signal<{ x: number; y: number; width: number; height: number } | null>(null);
   private gesture: {
     id?: string;
+    marquee?: boolean;
+    nodes?: { id: string; x: number; y: number; element: HTMLElement }[];
     startX: number;
     startY: number;
     x: number;
@@ -98,6 +118,22 @@ export class App {
   patch(key: string, value: any) {
     this.e.update({ [key]: value });
   }
+  renamePage(id: string, name: string) {
+    const next = prompt('Page name', name);
+    if (next?.trim()) this.e.perform([{ type: 'page.update', id, name: next.trim() }]);
+  }
+  reorder(direction: number) {
+    const n = this.e.node();
+    if (!n) return;
+    const siblings = this.e.pageNodes().filter((v) => v.parentId === n.parentId);
+    const index = siblings.findIndex((v) => v.id === n.id),
+      next = index + direction;
+    if (next < 0 || next >= siblings.length) return;
+    [siblings[index], siblings[next]] = [siblings[next], siblings[index]];
+    this.e.perform(
+      siblings.map((v, order) => ({ type: 'node.update', id: v.id, patch: { order } })),
+    );
+  }
   addPage() {
     const r = this.e.perform([
       { type: 'page.add', name: 'Page ' + (this.e.doc().pages.length + 1) },
@@ -106,17 +142,41 @@ export class App {
   }
   selectPage(id: string) {
     this.e.pageId.set(id);
-    this.e.selected.set(null);
+    this.e.select(null);
+  }
+  canMove(n: SceneNode) {
+    if (n.locked) return false;
+    const parent = this.e.doc().nodes.find((p) => p.id === n.parentId);
+    if (parent && parent.layout !== 'free') return false;
+    let ancestor = parent;
+    while (ancestor) {
+      if (ancestor.rotation) return false;
+      ancestor = this.e.doc().nodes.find((p) => p.id === ancestor!.parentId);
+    }
+    return true;
   }
   pick({ event, node }: { event: PointerEvent; node: SceneNode }) {
     event.stopPropagation();
     if (event.button !== 0 || node.locked) return;
-    this.e.selected.set(node.id);
+    if (event.shiftKey) {
+      this.e.select(node.id, true);
+      return;
+    }
+    if (!this.e.selection().includes(node.id)) this.e.select(node.id);
     if (this.e.mode() !== 'Design') return;
     const parent = this.e.doc().nodes.find((n) => n.id === node.parentId);
-    if (parent && parent.layout !== 'free') return;
+    if (!this.canMove(node)) return;
     this.gesture = {
       id: node.id,
+      nodes: this.e
+        .selectedRoots()
+        .filter((n) => this.canMove(n))
+        .map((n) => ({
+          id: n.id,
+          x: n.x,
+          y: n.y,
+          element: document.querySelector(`[data-node-id="${n.id}"]`)!,
+        })),
       startX: event.clientX,
       startY: event.clientY,
       x: node.x,
@@ -150,13 +210,26 @@ export class App {
         y: this.pan().y,
         pan: true,
       };
-    } else this.e.selected.set(null);
+    } else if (event.button === 0) {
+      this.e.select(null);
+      this.gesture = { startX: event.clientX, startY: event.clientY, x: 0, y: 0, marquee: true };
+    }
   }
   @HostListener('window:pointermove', ['$event']) move(event: PointerEvent) {
     const g = this.gesture;
     if (!g) return;
     const dx = event.clientX - g.startX,
       dy = event.clientY - g.startY;
+    if (g.marquee) {
+      const viewport = document.querySelector('.viewport')!.getBoundingClientRect();
+      this.marquee.set({
+        x: Math.min(event.clientX, g.startX) - viewport.x,
+        y: Math.min(event.clientY, g.startY) - viewport.y,
+        width: Math.abs(dx),
+        height: Math.abs(dy),
+      });
+      return;
+    }
     if (g.pan) {
       this.pan.set({ x: g.x + dx, y: g.y + dy });
       return;
@@ -166,26 +239,62 @@ export class App {
       g.element.style.width = Math.max(1, g.width! + dx / this.zoom()) + 'px';
       g.element.style.height = Math.max(1, g.height! + dy / this.zoom()) + 'px';
     } else {
-      g.element.style.left = g.x + dx / this.zoom() + 'px';
-      g.element.style.top = g.y + dy / this.zoom() + 'px';
+      for (const n of g.nodes ?? []) {
+        n.element.style.left = n.x + dx / this.zoom() + 'px';
+        n.element.style.top = n.y + dy / this.zoom() + 'px';
+      }
     }
   }
   @HostListener('window:pointerup', ['$event']) end(event: PointerEvent) {
     const g = this.gesture;
     this.gesture = null;
+    if (g?.marquee) {
+      this.marquee.set(null);
+      const x = Math.min(g.startX, event.clientX),
+        y = Math.min(g.startY, event.clientY),
+        right = Math.max(g.startX, event.clientX),
+        bottom = Math.max(g.startY, event.clientY);
+      this.e.selection.set(
+        this.e
+          .pageNodes()
+          .filter((n) => {
+            const r = document.querySelector(`[data-node-id="${n.id}"]`)?.getBoundingClientRect();
+            return !n.locked && r && r.x >= x && r.y >= y && r.right <= right && r.bottom <= bottom;
+          })
+          .map((n) => n.id),
+      );
+      return;
+    }
     if (!g?.id) return;
     const dx = (event.clientX - g.startX) / this.zoom(),
       dy = (event.clientY - g.startY) / this.zoom();
     if (Math.abs(dx) + Math.abs(dy) < 1) return;
-    this.e.perform([
-      {
-        type: 'node.update',
-        id: g.id,
-        patch: g.resize
-          ? { width: Math.max(1, g.width! + dx), height: Math.max(1, g.height! + dy) }
-          : { x: g.x + dx, y: g.y + dy },
-      },
-    ]);
+    this.e.perform(
+      g.resize
+        ? [
+            {
+              type: 'node.update',
+              id: g.id,
+              patch: {
+                width: Math.min(10000, Math.max(1, g.width! + dx)),
+                height: Math.min(10000, Math.max(1, g.height! + dy)),
+              },
+            },
+          ]
+        : (g.nodes ?? []).map((n) => ({
+            type: 'node.update',
+            id: n.id,
+            patch: {
+              x: Math.max(-100000, Math.min(100000, n.x + dx)),
+              y: Math.max(-100000, Math.min(100000, n.y + dy)),
+            },
+          })),
+    );
+    for (const n of g.nodes ?? []) {
+      const saved = this.e.doc().nodes.find((v) => v.id === n.id)!;
+      n.element.style.left = saved.x + 'px';
+      n.element.style.top = saved.y + 'px';
+    }
   }
   wheel(event: WheelEvent) {
     event.preventDefault();
@@ -223,10 +332,58 @@ export class App {
     }
     return { x, y };
   }
+  align(axis: 'x' | 'y') {
+    const nodes = this.e.selectedRoots().filter((n) => !n.locked);
+    if (nodes.length < 2 || nodes.some((n) => n.parentId !== nodes[0].parentId)) {
+      this.e.error.set('Select siblings to align.');
+      return;
+    }
+    const value = Math.min(...nodes.map((n) => n[axis]));
+    this.e.perform(nodes.map((n) => ({ type: 'node.update', id: n.id, patch: { [axis]: value } })));
+  }
+  group() {
+    const nodes = this.e.selectedRoots();
+    if (
+      nodes.length < 2 ||
+      nodes.some((n) => n.locked || n.rotation || n.parentId !== nodes[0].parentId) ||
+      this.e.doc().nodes.some((n) => n.id === nodes[0].parentId && n.layout !== 'free')
+    ) {
+      this.e.error.set('Group unlocked, unrotated siblings in a free layout.');
+      return;
+    }
+    const x = Math.min(...nodes.map((n) => n.x)),
+      y = Math.min(...nodes.map((n) => n.y)),
+      id = uid();
+    const result = this.e.perform([
+      {
+        type: 'node.add',
+        node: {
+          id,
+          kind: 'frame',
+          pageId: this.e.pageId(),
+          parentId: nodes[0].parentId,
+          name: 'Group',
+          fillEnabled: false,
+          x,
+          y,
+          width: Math.max(...nodes.map((n) => n.x + n.width)) - x,
+          height: Math.max(...nodes.map((n) => n.y + n.height)) - y,
+          padding: 0,
+        },
+      },
+      ...nodes.map((n) => ({
+        type: 'node.update' as const,
+        id: n.id,
+        patch: { parentId: id, x: n.x - x, y: n.y - y },
+      })),
+    ]);
+    if (result) this.e.select(id);
+  }
   startPreview() {
     const n = this.e.node();
     const board = n?.kind === 'artboard' ? n : this.e.roots().find((n) => n.kind === 'artboard');
     if (board) {
+      this.previewWidth.set(null);
       this.previewHistory.length = 0;
       this.preview.set(board.id);
     } else this.e.error.set('Create an artboard to preview.');
@@ -245,7 +402,7 @@ export class App {
     const n = this.e.node();
     if (!n) return;
     const result = this.e.perform([{ type: 'repeat.create', id: n.id, count: 6, columns: 3 }]);
-    if (result) this.e.selected.set(result.ids[0]);
+    if (result) this.e.select(result.ids[0]);
   }
   makeComponent() {
     const n = this.e.node();
@@ -255,7 +412,7 @@ export class App {
     const result = this.e.perform([
       { type: 'component.insert', id, pageId: this.e.pageId(), x: 80, y: 80 },
     ]);
-    if (result) this.e.selected.set(result.ids[0]);
+    if (result) this.e.select(result.ids[0]);
   }
   populate(value: string) {
     try {
@@ -276,7 +433,7 @@ export class App {
       linked: false,
     });
     const result = this.e.perform(nodes.map((node) => ({ type: 'node.add', node })));
-    if (result) this.e.selected.set(result.ids[0]);
+    if (result) this.e.select(result.ids[0]);
   }
   async importTokens(event: Event) {
     const file = (event.target as HTMLInputElement).files?.[0];
@@ -290,7 +447,7 @@ export class App {
     const typing = (event.target as HTMLElement).matches('input,textarea,select,[contenteditable]');
     if (event.key === 'Escape') {
       this.preview.set(null);
-      this.e.selected.set(null);
+      this.e.select(null);
       return;
     }
     if (event.metaKey || event.ctrlKey) {
@@ -317,7 +474,28 @@ export class App {
       }
       return;
     }
-    if (typing || this.preview()) return;
+    if (typing || this.preview() || this.e.mode() !== 'Design') return;
+    if (
+      ['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(event.key) &&
+      this.e.node() &&
+      !this.e.node()!.locked
+    ) {
+      event.preventDefault();
+      const n = this.e.node()!,
+        step = event.shiftKey ? 10 : 1;
+      const nodes = this.e.selectedRoots().filter((n) => this.canMove(n));
+      if (nodes.length)
+        this.e.perform(
+          nodes.map((n) => ({
+            type: 'node.update',
+            id: n.id,
+            patch: {
+              x: n.x + (event.key === 'ArrowLeft' ? -step : event.key === 'ArrowRight' ? step : 0),
+              y: n.y + (event.key === 'ArrowUp' ? -step : event.key === 'ArrowDown' ? step : 0),
+            },
+          })),
+        );
+    }
     if (event.key === 'Backspace' || event.key === 'Delete') this.e.remove();
     if (event.key === 'f') this.e.add('artboard');
     if (event.key === 'r') this.e.add('rectangle');
