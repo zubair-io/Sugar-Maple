@@ -125,3 +125,31 @@ test('repeat grid creates linked cells and populates independent values atomical
     true,
   );
 });
+
+test('new nodes append in order; invalid prototype and component links reject atomically', () => {
+  const store = new DocumentStore();
+  const apply = (operations: any[]) =>
+    store.transact({
+      documentId: store.document.id,
+      expectedRevision: store.revision,
+      requestId: uid(),
+      operations,
+    });
+  const pageId = store.document.pages[0].id;
+  apply([
+    { type: 'node.add', node: { id: 'a', kind: 'rectangle', pageId } },
+    { type: 'node.add', node: { id: 'b', kind: 'rectangle', pageId } },
+  ]);
+  expect(store.document.nodes.map((n) => n.order)).toEqual([0, 1]);
+  const before = store.document;
+  expect(() => apply([{ type: 'node.update', id: 'a', patch: { targetId: 'b' } }])).toThrow(
+    'artboard',
+  );
+  expect(() =>
+    apply([
+      { type: 'node.update', id: 'a', patch: { componentId: 'b' } },
+      { type: 'node.update', id: 'b', patch: { componentId: 'a' } },
+    ]),
+  ).toThrow('cycle');
+  expect(store.document).toEqual(before);
+});

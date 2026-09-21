@@ -93,6 +93,7 @@ export function applyComposition(doc: SceneDocument, op: Operation, ids: string[
       node.y = 0;
       node.parentId = grid.id;
       node.repeatIndex = 0;
+      node.order = 0;
       for (let i = 1; i < op.count; i++) {
         const clones = cloneTree(doc, id, {
           pageId: node.pageId,
