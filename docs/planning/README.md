@@ -44,4 +44,3 @@ Editor UI contract: [editor-ui.md](../design/editor-ui.md). Architecture recomme
 - [24 — [Post-MVP] Add prototype state machines, auto-animate and voice](https://github.com/zubair-io/Sugar-Maple/issues/24)
 - [25 — [Post-MVP] Extend code linkage and native export coverage](https://github.com/zubair-io/Sugar-Maple/issues/25)
 - [26 — [Post-MVP] Add automatic responsive inference and advanced component behavior](https://github.com/zubair-io/Sugar-Maple/issues/26)
-
