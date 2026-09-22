@@ -59,6 +59,6 @@
       }
     </article>
   } @empty {
-    <p class="empty">No {{ status() === 'all' ? '' : status() }} comments on this page.</p>
+    <p class="empty">No {{ status() === 'all' ? '' : status() + ' ' }}comments on this page.</p>
   }
 </section>

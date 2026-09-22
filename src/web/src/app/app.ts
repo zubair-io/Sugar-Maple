@@ -58,6 +58,8 @@ export class App {
       .filter((n) => n.kind === 'artboard')
       .map((n) => ({ value: n.id, label: n.name })),
   ]);
+  readonly layoutOptions = this.options(['free', 'horizontal', 'vertical', 'grid']);
+  readonly sizingOptions = this.options(['fixed', 'fill', 'hug', 'percent']);
   readonly fillStyleOptions = [
     { value: 'solid', label: 'Solid' },
     { value: 'linear', label: 'Linear gradient' },
@@ -144,6 +146,7 @@ export class App {
     'editable',
     'svg',
   ];
+  readonly exportOptions = this.options(this.targets);
   readonly modes = ['Design', 'Prototype', 'Developer'] as const;
   readonly marquee = signal<{ x: number; y: number; width: number; height: number } | null>(null);
   private gesture: {
@@ -236,8 +239,11 @@ export class App {
   createFolder(name: string) {
     if (name.trim()) this.e.perform([{ type: 'folder.add', name: name.trim() }]);
   }
-  renameFolder(id: string, name: string) {
-    if (name.trim()) this.e.perform([{ type: 'folder.update', id, name: name.trim() }]);
+  renameFolder(id: string, event: Event) {
+    const input = event.target as HTMLInputElement;
+    const name = input.value.trim();
+    if (name) this.e.perform([{ type: 'folder.update', id, name }]);
+    input.value = this.e.doc().folders.find((folder) => folder.id === id)?.name ?? '';
   }
   movePage(folderId: string) {
     this.e.perform([{ type: 'page.update', id: this.e.pageId(), folderId: folderId || null }]);
