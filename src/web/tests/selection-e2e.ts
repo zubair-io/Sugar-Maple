@@ -58,6 +58,7 @@ const group = doc.nodes.find((n: any) => n.name === 'Group');
 assert.equal(group.fillEnabled, false);
 assert.equal(doc.nodes.find((n: any) => n.id === 'first').parentId, group.id);
 await page.keyboard.press('Meta+z');
+await page.getByRole('button', { name: 'Layers', exact: true }).click();
 await expect(page.locator('.layer-row')).toHaveCount(2);
 await page.keyboard.press('Meta+z');
 doc = (await page.evaluate(() => window.sugarMaple.dispatch('document.get'))).document;

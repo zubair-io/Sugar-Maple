@@ -60,11 +60,15 @@ MCP states must reflect the actual host/client/transaction lifecycle: starting, 
 
 ## 4. Left sidebar
 
-The header contains compact icon-and-label tabs: **Layers | Assets | Tokens**. Retain each tab's search/expansion state when switching modes.
+The header contains compact icon-and-label tabs: **Pages | Layers | Assets | Tokens**. Retain each tab's search/expansion state when switching modes.
+
+### Pages
+
+Open this section by default. Keep page creation, renaming, removal and folder organization here. Selecting a page updates the canvas while leaving Pages open for browsing. Section switching preserves the active page, selection, layer filter and folder expansion state.
 
 ### Layers
 
-Place a layer-name filter at the top, followed by a hierarchical tree. Show pages, artboards, frames, groups, Repeat Grids, horizontal/vertical stacks, text, vector paths and component instances with distinct icons and indentation.
+Show the current page name with a Change page action that opens Pages. Place a layer-name filter below it, followed by a hierarchical tree for the active page only. Show artboards, frames, groups, Repeat Grids, horizontal/vertical stacks, text, vector paths and component instances with distinct icons and indentation.
 
 Example hierarchy:
 
@@ -259,7 +263,7 @@ This UI contract does not make the completed three-column shell a prerequisite f
 - At 1440 × 900, bars measure 48px/28px and default sidebars measure 280px/320px, with a flexible canvas between them. No titlebar controls overlap or clip.
 - Both panel resize ranges and collapse/restore paths work by pointer and keyboard, including narrow-window overflow behavior.
 - All three modes switch inspector contents and canvas affordances while retaining document, selection and camera.
-- Layers, Assets and Tokens support their specified controls, with actual document data and no host-theme leakage into canvas content.
+- Pages, Layers, Assets and Tokens support their specified controls, with actual document data and no host-theme leakage into canvas content.
 - The sign-in/dashboard fixture displays at a consistent camera scale, with correct selection bounds, measured spacing guides, Repeat Grid handles and prototype wire.
 - Design properties, prototype links and presets invoke the intended command or ephemeral-preview action; text editing does not trigger global tool shortcuts.
 - Developer identity, tokens, selected snippet and copied payload agree; custom/unmapped nodes retain portable outputs.

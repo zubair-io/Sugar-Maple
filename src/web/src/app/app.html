@@ -29,12 +29,16 @@
   <div class="workspace" [class.no-left]="!left()" [class.no-right]="!right()">
     @if (left()) {
       <aside class="sidebar">
-        <nav class="tabs">
-          @for (t of ['Layers', 'Assets', 'Tokens']; track t) {
-            <button [class.active]="tab() === t" (click)="tab.set(t)">{{ t }}</button>
+        <nav class="tabs" aria-label="Sidebar sections">
+          @for (t of ['Pages', 'Layers', 'Assets', 'Tokens']; track t) {
+            <button
+              [class.active]="tab() === t"
+              [attr.aria-pressed]="tab() === t"
+              (click)="tab.set(t)"
+            >{{ t }}</button>
           }
         </nav>
-        @if (tab() === 'Layers') {
+        @if (tab() === 'Pages') {
           <div class="section-heading">
             PAGES <button aria-label="Add page" (click)="addPage()">+</button>
           </div>
@@ -106,6 +110,10 @@
               }
             </select></label
           >
+        } @else if (tab() === 'Layers') {
+          <button class="current-page" (click)="tab.set('Pages')" aria-label="Browse pages">
+            ▤ {{ currentPageName() }} <span>Change page</span>
+          </button>
           <div class="section-heading">
             LAYERS <span>{{ e.pageNodes().length }}</span>
           </div>
