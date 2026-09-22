@@ -33,8 +33,11 @@ const article = p.locator('page-comments article');
 await expect(article).toBeFocused();
 await expect(article).toHaveClass(/highlighted/);
 const pin = p.getByRole('button', { name: /^Open comment:/ });
+const iconBox = await pin.locator('svg').boundingBox();
 const pinBox = await pin.boundingBox(),
   viewport = await p.locator('.viewport').boundingBox();
+assert.ok(Math.abs(iconBox!.x + iconBox!.width / 2 - pinBox!.x - pinBox!.width / 2) < 0.5);
+assert.ok(Math.abs(iconBox!.y + iconBox!.height / 2 - pinBox!.y - pinBox!.height / 2) < 0.5);
 assert.ok(Math.abs(pinBox!.x + 16 - viewport!.x - 220) < 1);
 assert.ok(Math.abs(pinBox!.y + 16 - viewport!.y - 160) < 1);
 await p.getByRole('button', { name: 'Details', exact: true }).click();
@@ -62,7 +65,8 @@ await p.getByRole('button', { name: '▤ Page 1', exact: true }).click();
 await expect(article).toHaveCount(1);
 await p.getByRole('button', { name: 'Resolve', exact: true }).click();
 await expect(article).toHaveCount(0);
-await pin.click(); // A resolved bubble reveals the resolved thread too.
+await expect(pin).toHaveCount(0);
+await p.getByLabel('Comment status').selectOption('resolved');
 await expect(article).toContainText('Resolved by you');
 await p.getByLabel('Reply to comment ' + id).fill('Please also use sentence case.');
 await p.getByRole('button', { name: 'Reply', exact: true }).click();
@@ -91,9 +95,11 @@ await p.evaluate(
   },
   { id, pageId: firstPage },
 );
-await p.getByRole('button', { name: /^Open comment:/ }).click();
+await expect(pin).toHaveCount(0);
+await p.getByLabel('Comment status').selectOption('resolved');
 await expect(article).toContainText('Resolved by agent');
 await p.getByRole('button', { name: 'Reopen', exact: true }).click();
+await expect(pin).toBeVisible();
 await p.getByLabel('Comment status').selectOption('open');
 // Cancelling placement never creates an empty thread.
 await p.getByRole('button', { name: 'Add comment', exact: true }).click();

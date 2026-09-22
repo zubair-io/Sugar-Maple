@@ -138,3 +138,9 @@ Validation: 22 model tests; all eleven browser acceptance jobs, including actual
 Details and Comments share right-panel tabs. Comments lists only the active page. The canvas toolbar's Comment tool opens a position-bound composer; posting creates an undoable/autosaved anchor, while cancelling leaves no empty thread. Drafts stay associated with their page in memory; reply drafts survive tab changes. Bubble selection opens/expands Comments, switches the status filter when needed and focuses/pulses the matching thread. Reduced motion disables the pulse. Pins remain readable at different zoom levels, cannot move authored elements, and do not appear in design exports/preview. Existing unpinned comments remain in the list.
 
 Validation: 23 model tests, all eleven browser/consumer acceptance jobs, production Angular/macOS builds, plus a focused pinned-feedback rerun. Checks include world-coordinate projection, node-input isolation, current-page scope, hidden-panel reveal, keyboard placement/cancellation, anchor reload/undo and legacy migration. The real Mac UI → MCP read with anchor → agent edit/reply/resolve → native capture → undo loop passed and restored the original document.
+
+### Comment bubble cleanup
+
+Resolved threads no longer render canvas bubbles; they remain available in the Comments status filter. Reopening restores the bubble. Reset native button padding and use an 18px SVG with a centered viewBox inside the 32px pin.
+
+The pinned-feedback browser flow passes with explicit resolve-hide/reopen-show checks and measured horizontal/vertical icon centering. Web/macOS builds passed and the app was relaunched without discarding drafts.
