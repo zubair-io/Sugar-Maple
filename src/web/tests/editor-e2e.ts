@@ -1,4 +1,4 @@
-import { chromium } from '@playwright/test';
+import { chromium, expect } from '@playwright/test';
 import { mkdir } from 'node:fs/promises';
 const browser = await chromium.launch({ channel: 'chrome', headless: true });
 const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
@@ -45,6 +45,49 @@ if (redone.document.nodes.find((n: any) => n.id === text.id).x !== text.x + 50)
   throw Error('Recovered redo history failed');
 
 await mkdir('build/evidence', { recursive: true });
+
+await page.getByRole('button', { name: 'Design', exact: true }).click();
+await expect(page.locator('.inspector-heading')).toContainText('Details');
+await page.getByRole('button', { name: 'Layers', exact: true }).click();
+await page.getByLabel('Find layer', { exact: true }).fill('Hello');
+const beforePanels = await page.evaluate(() => window.sugarMaple.dispatch('document.get'));
+const initialCanvas = await page.locator('.canvas-shell').boundingBox();
+await page.getByRole('button', { name: 'Collapse left panel', exact: true }).click();
+await expect(page.locator('#left-panel')).toBeHidden();
+await page.getByRole('button', { name: 'Collapse right panel', exact: true }).focus();
+await page.keyboard.press('Enter');
+await expect(page.locator('#right-panel')).toBeHidden();
+await expect(page.getByRole('button', { name: 'Expand right panel', exact: true })).toBeFocused();
+await expect(page.getByRole('button', { name: 'Expand right panel', exact: true })).toHaveAttribute(
+  'aria-expanded',
+  'false',
+);
+const fullCanvas = await page.locator('.canvas-shell').boundingBox();
+if (fullCanvas!.width < initialCanvas!.width + 590)
+  throw Error('Collapsed panels did not release canvas space');
+await page.screenshot({ path: 'build/evidence/panels-collapsed-browser.png' });
+await page.getByRole('button', { name: 'Expand left panel', exact: true }).click();
+await expect(page.getByLabel('Find layer', { exact: true })).toHaveValue('Hello');
+await page.getByRole('button', { name: 'Expand right panel', exact: true }).focus();
+await page.keyboard.press('Space');
+await expect(page.locator('#right-panel')).toBeVisible();
+await expect(page.locator('.inspector-heading')).toContainText('Details');
+await page.getByRole('button', { name: 'Comments', exact: true }).click();
+await page
+  .getByLabel('New page comment', { exact: true })
+  .fill('Draft kept when the panel is hidden');
+await page.getByRole('button', { name: 'Collapse right panel', exact: true }).click();
+await page.getByRole('button', { name: 'Expand right panel', exact: true }).click();
+await expect(page.getByLabel('New page comment', { exact: true })).toHaveValue(
+  'Draft kept when the panel is hidden',
+);
+await page.getByRole('button', { name: 'Comments', exact: true }).click();
+const afterPanels = await page.evaluate(() => window.sugarMaple.dispatch('document.get'));
+if (
+  beforePanels.revision !== afterPanels.revision ||
+  JSON.stringify(beforePanels.document) !== JSON.stringify(afterPanels.document)
+)
+  throw Error('Panel navigation mutated the document');
 await page.screenshot({ path: 'build/evidence/browser-editor.png' });
 await browser.close();
 if (errors.length) throw Error(errors.join('\n'));

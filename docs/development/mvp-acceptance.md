@@ -104,3 +104,9 @@ Model fixtures cover author origin, an atomic agent fix/reply/resolve, retry rec
 ### Separate Pages section
 
 The sidebar opens on Pages, alongside Layers, Assets and Tokens. Pages owns the existing folder and page controls; Layers shows only the current page's elements with a Change page shortcut. Switching sections retains page selection, the layer filter and folder expansion. Verified through the existing nine browser acceptance jobs (including folder navigation/filter retention), production web/macOS builds and native page-to-layer navigation. Existing bundle/style budget warnings remain.
+
+### Details and panel collapse
+
+Design mode labels its right panel Details. Directional panel buttons at either end of the canvas toolbar expose Collapse/Expand tooltips and accessible expanded state, remaining reachable when either or both panels are hidden. Hidden panels retain their mounted content, including layer filters and unposted comment drafts; collapse does not change document state.
+
+The browser editor acceptance check verifies independent collapse, full canvas width, keyboard Enter/Space restoration, retained filters/drafts and unchanged document/revision. Production web and macOS builds passed. Native interaction verification for this increment was deferred because the user was typing an unposted comment in the running app; the rebuilt app is ready for the next restart. Existing bundle/style budget warnings remain.
