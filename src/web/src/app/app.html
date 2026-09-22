@@ -70,7 +70,7 @@
               <input
                 [attr.aria-label]="'Rename folder ' + row.name"
                 [value]="row.name"
-                (change)="renameFolder(row.id, value($event))"
+                (change)="renameFolder(row.id, $event)"
               />
               <mui-button
                 variant="ghost"
@@ -224,7 +224,7 @@
         <button
           class="panel-toggle"
           (click)="left.set(!left())"
-          [attr.aria-label]="left() ? 'Collapse left panel' : 'Expand left panel'"
+          aria-label="Toggle left panel"
           [title]="left() ? 'Collapse left panel' : 'Expand left panel'"
           [attr.aria-expanded]="left()"
           aria-controls="left-panel"
@@ -274,7 +274,7 @@
         ><button
           class="panel-toggle"
           (click)="right.set(!right())"
-          [attr.aria-label]="right() ? 'Collapse right panel' : 'Expand right panel'"
+          aria-label="Toggle right panel"
           [title]="right() ? 'Collapse right panel' : 'Expand right panel'"
           [attr.aria-expanded]="right()"
           aria-controls="right-panel"
@@ -393,7 +393,7 @@
               >Layout<mui-select
                 ariaLabel="Layout"
                 [value]="n.layout"
-                [options]="options(['free', 'horizontal', 'vertical', 'grid'])"
+                [options]="layoutOptions"
                 (valueChange)="patch('layout', $event)"
             /></label>
             <div class="section-heading">RESPONSIVE SIZING</div>
@@ -402,7 +402,7 @@
                 >{{ axis }} sizing<mui-select
                   [ariaLabel]="axis + ' sizing'"
                   [value]="axis === 'width' ? n.widthMode : n.heightMode"
-                  [options]="options(['fixed', 'fill', 'hug', 'percent'])"
+                  [options]="sizingOptions"
                   (valueChange)="patch(axis + 'Mode', $event)"
               /></label>
               @if ((axis === 'width' ? n.widthMode : n.heightMode) === 'percent') {
@@ -542,7 +542,7 @@
               >Export target<mui-select
                 ariaLabel="Export target"
                 [value]="target()"
-                [options]="options(targets)"
+                [options]="exportOptions"
                 (valueChange)="target.set($any($event))"
             /></label>
             <pre tabindex="0">{{ code() }}</pre>
