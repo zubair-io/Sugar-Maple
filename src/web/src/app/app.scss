@@ -506,3 +506,23 @@ footer > span:last-child {
   border: 1px solid #60a5fa;
   background: #3b82f620;
 }
+
+.folder-create {
+  display: flex;
+  gap: 4px;
+  padding: 4px 12px 10px;
+  input {
+    min-width: 0;
+    width: 100%;
+  }
+}
+.folder-row input {
+  min-width: 0;
+  flex: 1;
+  background: transparent;
+  border: 0;
+  font-weight: 600;
+}
+.folder-row button:first-child {
+  flex: 0 0 auto;
+}

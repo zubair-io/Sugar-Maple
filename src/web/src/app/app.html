@@ -31,19 +31,74 @@
           <div class="section-heading">
             PAGES <button aria-label="Add page" (click)="addPage()">+</button>
           </div>
-          @for (page of e.doc().pages; track page.id) {
-            <div class="page-row" [class.active]="e.pageId() === page.id">
-              <button (dblclick)="renamePage(page.id, page.name)" (click)="selectPage(page.id)">
-                ▤ {{ page.name }}</button
-              ><button
-                aria-label="Delete page"
-                [disabled]="e.doc().pages.length === 1"
-                (click)="e.perform([{ type: 'page.remove', id: page.id }])"
+          <div class="folder-create">
+            <input
+              #folderName
+              aria-label="New folder name"
+              placeholder="New folder"
+              (keydown.enter)="createFolder(folderName.value); folderName.value = ''"
+            />
+            <button
+              aria-label="Add folder"
+              (click)="createFolder(folderName.value); folderName.value = ''"
+            >
+              + Folder
+            </button>
+          </div>
+          @for (row of pageRows(); track row.id) {
+            @if (row.kind === 'folder') {
+              <div class="page-row folder-row">
+                <button
+                  [attr.aria-label]="'Toggle folder ' + row.name"
+                  [attr.aria-expanded]="!collapsedFolders().includes(row.id)"
+                  (click)="toggleFolder(row.id)"
+                >
+                  {{ collapsedFolders().includes(row.id) ? '▸' : '▾' }} ▱
+                </button>
+                <input
+                  [attr.aria-label]="'Rename folder ' + row.name"
+                  [value]="row.name"
+                  (change)="renameFolder(row.id, value($event))"
+                />
+                <button
+                  [attr.aria-label]="'Remove folder ' + row.name"
+                  title="Remove folder; keep its pages"
+                  (click)="e.perform([{ type: 'folder.remove', id: row.id }])"
+                >
+                  ×
+                </button>
+              </div>
+            } @else {
+              <div
+                class="page-row"
+                [class.active]="e.pageId() === row.id"
+                [style.padding-left.px]="row.folderId ? 20 : 0"
               >
-                ×
-              </button>
-            </div>
+                <button (dblclick)="renamePage(row.id, row.name)" (click)="selectPage(row.id)">
+                  ▤ {{ row.name }}
+                </button>
+                <button
+                  aria-label="Delete page"
+                  [disabled]="e.doc().pages.length === 1"
+                  (click)="e.perform([{ type: 'page.remove', id: row.id }])"
+                >
+                  ×
+                </button>
+              </div>
+            }
           }
+          <label
+            >Page folder<select
+              aria-label="Page folder"
+              [ngModel]="currentFolder() ?? ''"
+              (ngModelChange)="movePage($event)"
+            >
+              <option value="">No folder</option>
+              @for (folder of e.doc().folders; track folder.id) {
+                <option [value]="folder.id">{{ folder.name }}</option>
+              }
+            </select></label
+          >
           <div class="section-heading">
             LAYERS <span>{{ e.pageNodes().length }}</span>
           </div>
