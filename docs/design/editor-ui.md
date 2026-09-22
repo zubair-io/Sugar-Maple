@@ -131,7 +131,9 @@ Repeat Grid selection adds emerald-green right/bottom resize handles and draggab
 
 In **Prototype** mode, show a blue interaction wire between the mobile action button and the desktop artboard. Its chip reads `On Tap → Dissolve (300ms)` for the reference interaction. Endpoints follow node geometry and camera transforms. The wire is inspectable and editable; it is hidden when it would obstruct Design or Developer work.
 
-## 6. Right inspector: Design mode
+## 6. Details panel: Design mode
+
+The right panel is titled **Details** in Design mode. Both side panels have persistent collapse/expand buttons at the left and right ends of the canvas toolbar, with directional panel icons, action tooltips and expanded state. Either or both panels can collapse independently, giving their space to the canvas. Restoring a panel retains its active section, filters and unposted comment draft.
 
 Sections are compact, collapsible and contextual to selection. Show shared values for multi-selection and a clear mixed-value state. Do not display editable properties that do not apply to the selected node.
 

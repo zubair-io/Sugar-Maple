@@ -541,3 +541,26 @@ footer > span:last-child {
   font-size: 11px;
   color: #a49b94;
 }
+
+.sidebar[hidden],
+.inspector[hidden] {
+  display: none;
+}
+.panel-toggle {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 5px;
+}
+.panel-toggle svg {
+  width: 22px;
+  height: 22px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
