@@ -13,6 +13,7 @@ export function applyComment(
     doc.comments.push({
       id,
       pageId: op.pageId,
+      anchor: op.anchor ?? null,
       createdAt: now,
       messages: [{ id: uid(), text: op.text, author, createdAt: now }],
       resolved: false,

@@ -1,0 +1,70 @@
+@if (ui.placing()) {
+  <button
+    class="placement"
+    aria-label="Place comment on canvas"
+    (pointerdown)="place($event)"
+    (click)="$event.detail === 0 && center($event)"
+    (keydown.enter)="center($event)"
+    (keydown.space)="center($event)"
+  >
+    <span>Click to place a comment · Enter to place in center · Esc to cancel</span>
+  </button>
+}
+@for (comment of ui.comments(); track comment.id) {
+  @if (comment.anchor; as anchor) {
+    <button
+      class="comment-pin"
+      [class.resolved]="comment.resolved"
+      [class.selected]="ui.focused()?.id === comment.id"
+      [style.left.px]="x(anchor.x)"
+      [style.top.px]="y(anchor.y)"
+      [attr.aria-label]="'Open comment: ' + comment.messages[0].text"
+      [title]="comment.messages[0].text"
+      (pointerdown)="$event.stopPropagation()"
+      (click)="ui.show(comment.id)"
+    >
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path
+          d="M5 4h14a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-7l-6 4v-4H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z"
+        />
+        <path d="M7 9h10M7 13h6" />
+      </svg>
+    </button>
+  }
+}
+@if (ui.draft(); as draft) {
+  <span
+    class="draft-pin"
+    [style.left.px]="x(draft.x)"
+    [style.top.px]="y(draft.y)"
+    aria-hidden="true"
+    >+</span
+  >
+  <div
+    class="composer"
+    role="dialog"
+    aria-label="New pinned comment"
+    [style.left]="'clamp(8px, ' + (x(draft.x) + 20) + 'px, calc(100% - 288px))'"
+    [style.top]="'clamp(8px, ' + (y(draft.y) + 20) + 'px, calc(100% - 190px))'"
+    (pointerdown)="$event.stopPropagation()"
+    (wheel)="$event.stopPropagation()"
+  >
+    <label
+      >New comment<textarea
+        aria-label="New page comment"
+        rows="3"
+        maxlength="4000"
+        [ngModel]="draft.text"
+        (ngModelChange)="ui.setText($event)"
+        (keydown.meta.enter)="ui.post()"
+        (keydown.control.enter)="ui.post()"
+      ></textarea>
+    </label>
+    <div class="actions">
+      <mui-button size="sm" variant="ghost" (pressed)="ui.cancel()">Cancel</mui-button>
+      <mui-button size="sm" variant="primary" [disabled]="!draft.text.trim()" (pressed)="ui.post()"
+        >Post comment</mui-button
+      >
+    </div>
+  </div>
+}

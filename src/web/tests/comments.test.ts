@@ -92,3 +92,23 @@ test('pre-comment checkpoints and journals open with an empty feedback collectio
   restored.undo();
   expect(restored.document.pages).toHaveLength(1);
 });
+
+test('pinned anchors survive replay and undo; legacy page comments remain unpinned', () => {
+  const s = new DocumentStore(),
+    pageId = s.document.pages[0].id;
+  tx(s, [{ type: 'comment.add', id: 'pin', pageId, text: 'Here', anchor: { x: -40.5, y: 120 } }]);
+  const restored = DocumentStore.fromCheckpoint(s.checkpoint());
+  expect(restored.document.comments[0].anchor).toEqual({ x: -40.5, y: 120 });
+  restored.undo();
+  expect(restored.document.comments).toHaveLength(0);
+  restored.redo();
+  expect(restored.document.comments[0].anchor).toEqual({ x: -40.5, y: 120 });
+  for (const anchor of [{ x: Infinity, y: 0 }, { x: 1 }, { x: 0, y: NaN }])
+    expect(() => tx(s, [{ type: 'comment.add', pageId, text: 'Bad', anchor }])).toThrow();
+  tx(s, [{ type: 'comment.add', id: 'legacy', pageId, text: 'Page feedback' }]);
+  const cp: any = s.checkpoint();
+  delete cp.document.comments[1].anchor;
+  for (const entry of cp.journal)
+    if (entry.delta) for (const c of entry.delta.comments) if (c.id === 'legacy') delete c.anchor;
+  expect(DocumentStore.fromCheckpoint(cp).document.comments[1].anchor).toBeNull();
+});

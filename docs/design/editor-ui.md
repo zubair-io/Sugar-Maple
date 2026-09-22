@@ -283,4 +283,10 @@ Use explicit single-level folders in the Pages list. Do not infer structure from
 
 ### Page feedback amendment
 
-A Comments button with the document's open-thread count switches the right inspector to a page-feedback panel. The page picker identifies the target before posting. Show plain-text threads with You/Agent command-origin labels and timestamps, reply controls, Resolve/Reopen, and current-page/all-page plus open/resolved/all filters. Resolved threads stay inspectable; new replies reopen them. Opening a thread's page changes navigation without modifying authored canvas content. Feedback belongs to the document and participates in undo, recovery and save/open. Do not imply that posting feedback wakes an agent automatically; tell the user to ask their connected agent to review it.
+The right panel has **Details | Comments** tabs, styled like the left sidebar sections. Comments always lists the current page; there is no page picker or all-pages UI. Open/resolved/all status filtering remains available.
+
+Place the **Comment** tool beside the canvas element tools. Activate it, click a canvas position, write in the nearby composer, then Post comment. Enter/Space on the placement surface offers a keyboard alternative at the viewport center; Escape cancels. Placement intercepts node input so it cannot move or activate authored elements. Drafts belong to their page and remain in memory when switching pages; only posting commits/autosaves the thread.
+
+A posted comment with an anchor has a bubble at that page's world-coordinate position. Bubbles follow pan/zoom but retain a readable screen size. Clicking a bubble expands the right panel, activates Comments, reveals the thread even if its status was filtered out, scrolls/focuses it, and briefly pulses its background color. Retain a selected border after the pulse and honor reduced-motion settings. Resolved bubbles are muted but remain inspectable. Legacy unpinned comments stay in the page list without invented positions. Pins are editor annotations and do not enter previews or exported designs.
+
+Threads retain plain text, origin labels, timestamps, replies and Resolve/Reopen. Human and agent changes share document commands, undo and autosave. Posting feedback does not automatically wake an agent.

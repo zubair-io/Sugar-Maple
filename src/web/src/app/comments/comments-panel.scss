@@ -110,3 +110,27 @@ select:focus-visible {
   outline: 2px solid #d6a69f;
   outline-offset: 2px;
 }
+
+article.highlighted {
+  border-color: #d99b90;
+  background: #c4493a12;
+}
+article.pulse {
+  animation: comment-highlight 1.4s ease-out;
+}
+@keyframes comment-highlight {
+  0%,
+  40% {
+    background: #c4493a70;
+    box-shadow: 0 0 0 3px #d99b9055;
+  }
+  100% {
+    background: #c4493a12;
+    box-shadow: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  article.pulse {
+    animation: none;
+  }
+}

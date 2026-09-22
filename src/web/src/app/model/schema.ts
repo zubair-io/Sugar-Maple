@@ -125,11 +125,13 @@ export const PageSchema = z.object({
   folderId: id.nullable().default(null),
 });
 const commentText = z.string().trim().min(1).max(4000);
+const commentAnchor = z.object({ x: finite, y: finite }).strict().nullable().default(null);
 const commentAuthor = z.enum(['human', 'agent']);
 export const CommentSchema = z
   .object({
     id,
     pageId: id,
+    anchor: commentAnchor,
     createdAt: z.string().datetime(),
     messages: z
       .array(
@@ -188,7 +190,13 @@ const patchNode = z
 const addNode = patchNode.extend({ id: id.optional() }).required({ kind: true, pageId: true });
 export const OperationSchema = z.discriminatedUnion('type', [
   z
-    .object({ type: z.literal('comment.add'), id: id.optional(), pageId: id, text: commentText })
+    .object({
+      type: z.literal('comment.add'),
+      id: id.optional(),
+      pageId: id,
+      text: commentText,
+      anchor: commentAnchor.optional(),
+    })
     .strict(),
   z.object({ type: z.literal('comment.reply'), id, text: commentText }).strict(),
   z.object({ type: z.literal('comment.resolve'), id, resolved: z.boolean() }).strict(),

@@ -36,9 +36,10 @@ const previous = await page.evaluate(
   before.documentId,
 );
 assert.deepEqual(previous.document, before.document);
-await page.getByRole('button', { name: 'Comments', exact: true }).click();
-await page.getByLabel('New page comment', { exact: true }).fill('Autosaved feedback');
 await page.getByRole('button', { name: 'Add comment', exact: true }).click();
+await page.getByRole('button', { name: 'Place comment on canvas', exact: true }).press('Enter');
+await page.getByLabel('New page comment', { exact: true }).fill('Autosaved feedback');
+await page.getByRole('button', { name: 'Post comment', exact: true }).click();
 await expect(page.locator('footer')).toContainText('Saved in this browser');
 await page.evaluate(() => window.sugarMaple.flushAutosave());
 await page.reload();

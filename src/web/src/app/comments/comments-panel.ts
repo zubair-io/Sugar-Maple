@@ -1,5 +1,6 @@
 import { MuiSelectComponent } from '../chrome/maple/ui/select/mui-select.component';
-import { Component, computed, inject, signal } from '@angular/core';
+import { CommentUi } from './comment-ui';
+import { Component, computed, inject, signal, ElementRef, afterEveryRender } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { EditorService } from '../editor.service';
@@ -12,59 +13,48 @@ import { EditorService } from '../editor.service';
 })
 export class CommentsPanel {
   readonly e = inject(EditorService);
-  readonly pageOptions = computed(() =>
-    this.e.doc().pages.map((p) => ({ value: p.id, label: p.name })),
-  );
-  readonly scopeOptions = [
-    { value: 'page', label: 'This page' },
-    { value: 'all', label: 'All pages' },
-  ];
+  readonly ui = inject(CommentUi);
+  private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
+  private highlightedRequest = -1;
   readonly statusOptions = [
     { value: 'open', label: 'Open' },
     { value: 'resolved', label: 'Resolved' },
     { value: 'all', label: 'All' },
   ];
-  readonly status = signal('open');
-  readonly scope = signal('page');
-  readonly drafts = signal<Record<string, string>>({});
-  readonly replies = signal<Record<string, string>>({});
+  readonly status = this.ui.status;
+  readonly replies = this.ui.replies;
   readonly notice = signal('');
-  readonly key = computed(() => this.e.doc().id + ':' + this.e.pageId());
-  readonly draft = computed(() => this.drafts()[this.key()] ?? '');
   readonly page = computed(() => this.e.doc().pages.find((p) => p.id === this.e.pageId()));
   readonly threads = computed(() =>
     this.e
       .doc()
       .comments.filter(
         (c) =>
-          (this.scope() === 'all' || c.pageId === this.e.pageId()) &&
+          c.pageId === this.e.pageId() &&
           (this.status() === 'all' || c.resolved === (this.status() === 'resolved')),
       ),
   );
-  setDraft(text: string) {
-    this.drafts.update((d) => ({ ...d, [this.key()]: text }));
+  constructor() {
+    afterEveryRender(() => {
+      const focused = this.ui.focused();
+      if (!focused || focused.request === this.highlightedRequest) return;
+      const article = this.host.nativeElement.querySelector<HTMLElement>(
+        `[data-comment-id="${CSS.escape(focused.id)}"]`,
+      );
+      if (!article || !article.getClientRects().length) return;
+      this.highlightedRequest = focused.request;
+      article.scrollIntoView({
+        block: 'nearest',
+        behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth',
+      });
+      article.focus({ preventScroll: true });
+      article.classList.remove('pulse');
+      void article.offsetWidth;
+      article.classList.add('pulse');
+    });
   }
   setReply(id: string, text: string) {
     this.replies.update((d) => ({ ...d, [id]: text }));
-  }
-  selectPage(id: string) {
-    this.e.pageId.set(id);
-    this.e.select(null);
-    this.notice.set('');
-  }
-  pageName(id: string) {
-    return this.e.doc().pages.find((p) => p.id === id)?.name ?? 'Page';
-  }
-  add() {
-    if (!this.draft().trim()) return;
-    const r = this.e.perform([
-      { type: 'comment.add', pageId: this.e.pageId(), text: this.draft() },
-    ]);
-    if (r) {
-      this.setDraft('');
-      this.status.set('open');
-      this.notice.set('Comment added');
-    }
   }
   reply(id: string) {
     const text = this.replies()[id] ?? '';
