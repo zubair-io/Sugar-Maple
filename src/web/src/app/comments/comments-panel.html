@@ -1,16 +1,12 @@
 <section aria-label="Page comments">
   <h2>Comments</h2>
   <label
-    >Page<select
-      aria-label="Comment page"
-      [ngModel]="e.pageId()"
-      (ngModelChange)="selectPage($event)"
-    >
-      @for (p of e.doc().pages; track p.id) {
-        <option [value]="p.id">{{ p.name }}</option>
-      }
-    </select></label
-  >
+    >Page<mui-select
+      ariaLabel="Comment page"
+      [value]="e.pageId()"
+      [options]="pageOptions()"
+      (valueChange)="selectPage($event)"
+  /></label>
   <label
     >New comment<textarea
       aria-label="New page comment"
@@ -27,26 +23,19 @@
   </p>
   <div class="filters">
     <label
-      >Show<select
-        aria-label="Comment scope"
-        [ngModel]="scope()"
-        (ngModelChange)="scope.set($event)"
-      >
-        <option value="page">This page</option>
-        <option value="all">All pages</option>
-      </select></label
-    >
+      >Show<mui-select
+        ariaLabel="Comment scope"
+        [value]="scope()"
+        [options]="scopeOptions"
+        (valueChange)="scope.set($event)"
+    /></label>
     <label
-      >Status<select
-        aria-label="Comment status"
-        [ngModel]="status()"
-        (ngModelChange)="status.set($event)"
-      >
-        <option value="open">Open</option>
-        <option value="resolved">Resolved</option>
-        <option value="all">All</option>
-      </select></label
-    >
+      >Status<mui-select
+        ariaLabel="Comment status"
+        [value]="status()"
+        [options]="statusOptions"
+        (valueChange)="status.set($event)"
+    /></label>
   </div>
   <p role="status" class="notice">{{ notice() }}</p>
   @for (thread of threads(); track thread.id) {

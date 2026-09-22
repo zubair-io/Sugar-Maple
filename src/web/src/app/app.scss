@@ -307,7 +307,6 @@ kbd {
   font-size: 11px;
 }
 .inspector input,
-.inspector select,
 .inspector textarea,
 .sidebar input {
   width: 65%;
@@ -563,4 +562,14 @@ footer > span:last-child {
   stroke-width: 1.5;
   stroke-linecap: round;
   stroke-linejoin: round;
+}
+
+.page-row:has(mui-button) {
+  min-height: 44px;
+}
+.page-row > mui-button {
+  flex-shrink: 0;
+}
+.preview-backdrop header > mui-select {
+  width: 180px;
 }

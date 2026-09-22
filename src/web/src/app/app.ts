@@ -1,3 +1,4 @@
+import { MuiSelectComponent } from './chrome/maple/ui/select/mui-select.component';
 import { CommentsPanel } from './comments/comments-panel';
 import { cloneTree } from './model/composition';
 import { Component, inject, signal, computed, HostListener } from '@angular/core';
@@ -10,7 +11,14 @@ import { SceneNode, uid, Operation } from './model/schema';
 import { exportNode, ExportTarget } from './model/export';
 @Component({
   selector: 'app-root',
-  imports: [CommentsPanel, KeyValuePipe, FormsModule, SceneNodeView, MuiButtonComponent],
+  imports: [
+    MuiSelectComponent,
+    CommentsPanel,
+    KeyValuePipe,
+    FormsModule,
+    SceneNodeView,
+    MuiButtonComponent,
+  ],
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })
@@ -22,6 +30,42 @@ export class App {
   readonly currentPageName = computed(
     () => this.e.doc().pages.find((p) => p.id === this.e.pageId())?.name ?? 'Page',
   );
+  options(values: readonly string[]) {
+    return values.map((value) => ({ value, label: value }));
+  }
+  readonly folderSelectOptions = computed(() => [
+    { value: '', label: 'No folder' },
+    ...this.e.doc().folders.map((f) => ({ value: f.id, label: f.name })),
+  ]);
+  readonly parentSelectOptions = computed(() => [
+    { value: '', label: 'Page root' },
+    ...this.parentOptions().map((n) => ({ value: n.id, label: n.name })),
+  ]);
+  readonly tokenSelectOptions = computed(() => [
+    { value: '', label: 'Literal color' },
+    ...this.options(Object.keys(this.e.doc().tokens)),
+  ]);
+  readonly variantSelectOptions = computed(() =>
+    this.options(['Default', ...Object.keys(this.master()?.variants ?? {})]),
+  );
+  readonly linkSelectOptions = computed(() => [
+    { value: '', label: 'No action' },
+    ...this.e
+      .roots()
+      .filter((n) => n.kind === 'artboard')
+      .map((n) => ({ value: n.id, label: n.name })),
+  ]);
+  readonly fillStyleOptions = [
+    { value: 'solid', label: 'Solid' },
+    { value: 'linear', label: 'Linear gradient' },
+    { value: 'radial', label: 'Radial gradient' },
+  ];
+  readonly viewportOptions = [
+    { value: '', label: 'Authored size' },
+    { value: '1440', label: 'Desktop · 1440' },
+    { value: '834', label: 'Tablet · 834' },
+    { value: '393', label: 'Mobile · 393' },
+  ];
   readonly target = signal<ExportTarget>('html');
   readonly preview = signal<string | null>(null);
   readonly previewWidth = signal<number | null>(null);

@@ -1,11 +1,103 @@
-// Residue only — everything else moved to template utility classes
-// (see mui-button.component.ts/.html) per the Tailwind conversion recipe
-// (styles/TAILWIND-CONVERSION.md). What's left needs raw CSS: a
-// content/geometry pseudo-element and a custom-timed @keyframes animation,
-// both explicitly allowed as residue by the conversion constraints.
-
-// Minimum 44×44 hit target (button.md Accessibility) even when the visible
-// box is smaller — an invisible centered pad, not a bigger box.
+// Scoped equivalents of Maple's template utilities for Sugar Maple's SCSS build.
+@use '../../generated/ui-tokens' as maple;
+:host {
+  display: inline-flex;
+}
+:host(.is-full-width) {
+  display: flex;
+  width: 100%;
+}
+.mui-button {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  border: 1px solid maple.$maple-color-border;
+  border-radius: 8px;
+  padding: 8px 16px;
+  font:
+    600 13px/1 -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    sans-serif;
+  white-space: nowrap;
+  color: maple.$maple-color-text-main;
+  background: maple.$maple-color-surface;
+  cursor: pointer;
+  transition:
+    background-color 0.2s,
+    color 0.2s,
+    border-color 0.2s,
+    transform 0.2s;
+}
+.size-sm {
+  padding: 4px 8px;
+  font-size: 12px;
+}
+.size-lg {
+  padding: 8px 24px;
+  font-size: 14px;
+}
+.icon-only {
+  padding: 8px;
+  aspect-ratio: 1;
+}
+.variant-ghost {
+  background: transparent;
+  color: maple.$maple-color-text-muted;
+  border-color: transparent;
+}
+.variant-primary {
+  background: maple.$maple-color-primary;
+  border-color: maple.$maple-color-primary;
+}
+.variant-destructive {
+  background: maple.$maple-color-error-bg;
+  color: maple.$maple-color-error-text;
+  border-color: maple.$maple-color-error-text;
+}
+.mui-button:enabled:hover {
+  background: maple.$maple-color-surface-hover;
+  color: maple.$maple-color-text-main;
+}
+.variant-primary:enabled:hover {
+  background: maple.$maple-color-primary;
+}
+.variant-destructive:enabled:hover {
+  background: maple.$maple-color-error-bg;
+  color: maple.$maple-color-error-text;
+}
+.variant-primary:enabled:hover,
+.variant-destructive:enabled:hover {
+  filter: brightness(1.1);
+  transform: translateY(-2px);
+}
+.is-toggled {
+  background: #ffffff0a;
+  border-color: maple.$maple-color-border;
+}
+.is-active {
+  background: maple.$maple-color-primary-dim;
+  color: maple.$maple-color-primary;
+  border-color: maple.$maple-color-primary;
+}
+.is-full-width {
+  width: 100%;
+  justify-content: flex-start;
+}
+.label {
+  min-width: 0;
+  flex: 1;
+}
+.mui-button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+.mui-button:focus-visible {
+  outline: 2px solid maple.$maple-color-primary;
+  outline-offset: 2px;
+}
 .mui-button::before {
   content: '';
   position: absolute;
@@ -14,13 +106,24 @@
   height: 44px;
   transform: translate(-50%, -50%);
 }
-
 .spinner {
-  animation: mui-button-spin 700ms linear infinite;
+  width: 12px;
+  height: 12px;
+  border: 2px solid currentColor;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: mui-button-spin 0.7s linear infinite;
 }
-
 @keyframes mui-button-spin {
   to {
     transform: rotate(360deg);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .mui-button {
+    transition: none;
+  }
+  .spinner {
+    animation: none;
   }
 }
