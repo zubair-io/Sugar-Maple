@@ -22,6 +22,7 @@ try {
   }
   for (const name of [
     "editor-e2e",
+    "file-menu-e2e",
     "selection-e2e",
     "responsive-e2e",
     "handoff-e2e",

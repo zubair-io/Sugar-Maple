@@ -4,10 +4,11 @@ import WebKit
 import UniformTypeIdentifiers
 
 @MainActor @Observable
-final class EditorHost: NSObject, WKScriptMessageHandlerWithReply, WKNavigationDelegate {
+final class EditorHost: NSObject, WKScriptMessageHandlerWithReply, WKNavigationDelegate, WKUIDelegate {
     var webView: WKWebView!
     var server: MCPServer?
     var serverStatus = "Starting"
+    var fileCommandInProgress = false
     var fileURL: URL?
     var pendingOpenURL: URL?
     var fileFingerprint: String?
@@ -21,6 +22,7 @@ final class EditorHost: NSObject, WKScriptMessageHandlerWithReply, WKNavigationD
         config.userContentController.addScriptMessageHandler(self, contentWorld: .page, name: "native")
         webView = WKWebView(frame: .zero, configuration: config)
         webView.navigationDelegate = self
+        webView.uiDelegate = self
         webView.isInspectable = true
         webView.setValue(false, forKey: "drawsBackground")
         webView.load(URLRequest(url: URL(string: "sugar-maple://app/index.html")!))
@@ -28,6 +30,39 @@ final class EditorHost: NSObject, WKScriptMessageHandlerWithReply, WKNavigationD
             try FileManager.default.createDirectory(at: support, withIntermediateDirectories: true)
             server = try MCPServer(host: self)
         } catch { serverStatus = "MCP error: \(error.localizedDescription)" }
+    }
+    enum FileCommand: String {
+        case new, open, save, saveAs
+    }
+    func fileCommand(_ command: FileCommand) {
+        guard !fileCommandInProgress else { return }
+        fileCommandInProgress = true
+        Task { @MainActor in
+            defer { fileCommandInProgress = false }
+            do {
+                _ = try await webView.callAsyncJavaScript(
+                    "if (!window.sugarMaple?.ready) throw new Error('Editor loading'); await window.sugarMaple.fileCommand(command); return true;",
+                    arguments: ["command": command.rawValue], in: nil, contentWorld: .page
+                )
+            } catch {
+                let alert = NSAlert()
+                alert.messageText = "File action could not finish"
+                alert.informativeText = error.localizedDescription
+                if let window = webView.window { await alert.beginSheetModal(for: window) }
+            }
+        }
+    }
+    func webView(_ webView: WKWebView, runJavaScriptConfirmPanelWithMessage message: String,
+                 initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping (Bool) -> Void) {
+        guard frame.isMainFrame, frame.securityOrigin.protocol == "sugar-maple",
+              let window = webView.window else { completionHandler(false); return }
+        let alert = NSAlert()
+        alert.messageText = message
+        alert.addButton(withTitle: "Continue")
+        alert.addButton(withTitle: "Cancel").keyEquivalent = "\u{1b}"
+        alert.beginSheetModal(for: window) { response in
+            completionHandler(response == .alertFirstButtonReturn)
+        }
     }
     func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage, replyHandler: @escaping (Any?, String?) -> Void) {
         guard message.frameInfo.isMainFrame, message.frameInfo.securityOrigin.protocol == "sugar-maple",

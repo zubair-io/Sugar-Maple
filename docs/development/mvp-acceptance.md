@@ -110,3 +110,9 @@ The sidebar opens on Pages, alongside Layers, Assets and Tokens. Pages owns the 
 Design mode labels its right panel Details. Directional panel buttons at either end of the canvas toolbar expose Collapse/Expand tooltips and accessible expanded state, remaining reachable when either or both panels are hidden. Hidden panels retain their mounted content, including layer filters and unposted comment drafts; collapse does not change document state.
 
 The browser editor acceptance check verifies independent collapse, full canvas width, keyboard Enter/Space restoration, retained filters/drafts and unchanged document/revision. Production web and macOS builds passed. Native interaction verification for this increment was deferred because the user was typing an unposted comment in the running app; the rebuilt app is ready for the next restart. Existing bundle/style budget warnings remain.
+
+### Native File menu
+
+New, Open, Save and Save As live in the native macOS File menu with standard keyboard shortcuts; the web toolbar retains them only in browser mode. Menu requests are serialized while a file action is pending and call the same editor lifecycle methods and native package I/O. WKWebView confirmation dialogs now use native sheets, and dirty page/comment-only documents receive the same replacement prompt as documents containing nodes.
+
+Verified the production web/macOS build and browser editor regression. A native-bridge browser fixture verifies toolbar visibility, all four lifecycle routes, dirty page-only cancellation, cancelled-open preservation and absence of duplicate web save shortcuts. This fixture stubs native I/O; it does not prove actual File-menu dispatch or package writes. Live Mac interaction is deferred to the next restart because the current user session contains an unposted comment draft.
