@@ -79,13 +79,15 @@
                 [value]="row.name"
                 (change)="renameFolder(row.id, value($event))"
               />
-              <button
-                [attr.aria-label]="'Remove folder ' + row.name"
+              <mui-button
+                variant="ghost"
+                size="sm"
+                [iconOnly]="true"
+                iconLeading="drawer-close"
+                [ariaLabel]="'Remove folder ' + row.name"
                 title="Remove folder; keep its pages"
-                (click)="e.perform([{ type: 'folder.remove', id: row.id }])"
-              >
-                ×
-              </button>
+                (pressed)="e.perform([{ type: 'folder.remove', id: row.id }])"
+              />
             </div>
           } @else {
             <div
@@ -96,28 +98,26 @@
               <button (dblclick)="renamePage(row.id, row.name)" (click)="selectPage(row.id)">
                 ▤ {{ row.name }}
               </button>
-              <button
-                aria-label="Delete page"
+              <mui-button
+                variant="ghost"
+                size="sm"
+                [iconOnly]="true"
+                iconLeading="drawer-close"
+                ariaLabel="Delete page"
+                title="Delete page"
                 [disabled]="e.doc().pages.length === 1"
-                (click)="e.perform([{ type: 'page.remove', id: row.id }])"
-              >
-                ×
-              </button>
+                (pressed)="e.perform([{ type: 'page.remove', id: row.id }])"
+              />
             </div>
           }
         }
         <label
-          >Page folder<select
-            aria-label="Page folder"
-            [ngModel]="currentFolder() ?? ''"
-            (ngModelChange)="movePage($event)"
-          >
-            <option value="">No folder</option>
-            @for (folder of e.doc().folders; track folder.id) {
-              <option [value]="folder.id">{{ folder.name }}</option>
-            }
-          </select></label
-        >
+          >Page folder<mui-select
+            ariaLabel="Page folder"
+            [value]="currentFolder() ?? ''"
+            [options]="folderSelectOptions()"
+            (valueChange)="movePage($event)"
+        /></label>
       } @else if (tab() === 'Layers') {
         <button class="current-page" (click)="tab.set('Pages')" aria-label="Browse pages">
           ▤ {{ currentPageName() }} <span>Change page</span>
@@ -369,32 +369,28 @@
               }
             </div>
             <label
-              >Parent<select [ngModel]="n.parentId" (ngModelChange)="patch('parentId', $event)">
-                <option [ngValue]="null">Page root</option>
-                @for (parent of parentOptions(); track parent.id) {
-                  <option [value]="parent.id">{{ parent.name }}</option>
-                }
-              </select></label
-            >
+              >Parent<mui-select
+                ariaLabel="Parent"
+                [value]="n.parentId ?? ''"
+                [options]="parentSelectOptions()"
+                (valueChange)="patch('parentId', $event || null)"
+            /></label>
             <label
-              >Layout<select [ngModel]="n.layout" (ngModelChange)="patch('layout', $event)">
-                @for (layout of ['free', 'horizontal', 'vertical', 'grid']; track layout) {
-                  <option [value]="layout">{{ layout }}</option>
-                }
-              </select></label
-            >
+              >Layout<mui-select
+                ariaLabel="Layout"
+                [value]="n.layout"
+                [options]="options(['free', 'horizontal', 'vertical', 'grid'])"
+                (valueChange)="patch('layout', $event)"
+            /></label>
             <div class="section-heading">RESPONSIVE SIZING</div>
             @for (axis of ['width', 'height']; track axis) {
               <label
-                >{{ axis }} sizing<select
-                  [ngModel]="axis === 'width' ? n.widthMode : n.heightMode"
-                  (ngModelChange)="patch(axis + 'Mode', $event)"
-                >
-                  @for (mode of ['fixed', 'fill', 'hug', 'percent']; track mode) {
-                    <option [value]="mode">{{ mode }}</option>
-                  }
-                </select></label
-              >
+                >{{ axis }} sizing<mui-select
+                  [ariaLabel]="axis + ' sizing'"
+                  [value]="axis === 'width' ? n.widthMode : n.heightMode"
+                  [options]="options(['fixed', 'fill', 'hug', 'percent'])"
+                  (valueChange)="patch(axis + 'Mode', $event)"
+              /></label>
               @if ((axis === 'width' ? n.widthMode : n.heightMode) === 'percent') {
                 <label
                   >{{ axis }} %<input
@@ -409,15 +405,12 @@
             <div class="section-heading">APPEARANCE</div>
             @if (n.kind !== 'path') {
               <label
-                >Fill style<select
-                  [ngModel]="n.gradient?.type ?? 'solid'"
-                  (ngModelChange)="fillStyle($event)"
-                >
-                  <option value="solid">Solid</option>
-                  <option value="linear">Linear gradient</option>
-                  <option value="radial">Radial gradient</option>
-                </select></label
-              >
+                >Fill style<mui-select
+                  ariaLabel="Fill style"
+                  [value]="n.gradient?.type ?? 'solid'"
+                  [options]="fillStyleOptions"
+                  (valueChange)="fillStyle($event)"
+              /></label>
               @if (n.gradient; as gradient) {
                 @for (stop of gradient.stops; track $index) {
                   <label
@@ -446,16 +439,12 @@
                 [value]="n.color"
                 (change)="patch('color', value($event))" /></label
             ><label
-              >Fill token<select
-                [ngModel]="n.fillToken"
-                (ngModelChange)="patch('fillToken', $event)"
-              >
-                <option value="">Literal color</option>
-                @for (token of e.doc().tokens | keyvalue; track token.key) {
-                  <option [value]="token.key">{{ token.key }}</option>
-                }
-              </select></label
-            >
+              >Fill token<mui-select
+                ariaLabel="Fill token"
+                [value]="n.fillToken"
+                [options]="tokenSelectOptions()"
+                (valueChange)="patch('fillToken', $event)"
+            /></label>
             @if (['text', 'button', 'input'].includes(n.kind)) {
               <label
                 >Text<textarea
@@ -477,19 +466,14 @@
             }
             @if (master(); as source) {
               <label
-                >Variant<select
-                  aria-label="Variant"
-                  [ngModel]="n.variantName"
-                  (ngModelChange)="
+                >Variant<mui-select
+                  ariaLabel="Variant"
+                  [value]="n.variantName"
+                  [options]="variantSelectOptions()"
+                  (valueChange)="
                     e.perform([{ type: 'component.variant', id: n.id, name: $event }])
                   "
-                >
-                  <option value="Default">Default</option>
-                  @for (variant of source.variants | keyvalue; track variant.key) {
-                    <option [value]="variant.key">{{ variant.key }}</option>
-                  }
-                </select></label
-              >
+              /></label>
               <p class="muted">{{ source.name }} · {{ n.overrides.length }} overrides</p>
               <button (click)="e.perform([{ type: 'component.reset', id: n.id }])">
                 Reset overrides
@@ -524,18 +508,12 @@
           } @else if (e.mode() === 'Prototype') {
             <div class="section-heading">ON CLICK / TAP</div>
             <label
-              >Navigate to<select
-                [ngModel]="n.targetId"
-                (ngModelChange)="patch('targetId', $event)"
-              >
-                <option [ngValue]="null">No action</option>
-                @for (board of e.roots(); track board.id) {
-                  @if (board.kind === 'artboard') {
-                    <option [value]="board.id">{{ board.name }}</option>
-                  }
-                }
-              </select></label
-            >
+              >Navigate to<mui-select
+                ariaLabel="Navigate to"
+                [value]="n.targetId ?? ''"
+                [options]="linkSelectOptions()"
+                (valueChange)="patch('targetId', $event || null)"
+            /></label>
             <p class="muted">Open Preview to follow this link.</p>
           } @else {
             <div class="section-heading">DEVELOPER HANDOFF</div>
@@ -547,12 +525,12 @@
               </p>
             }
             <label
-              >Export target<select [ngModel]="target()" (ngModelChange)="target.set($event)">
-                @for (t of targets; track t) {
-                  <option [value]="t">{{ t }}</option>
-                }
-              </select></label
-            >
+              >Export target<mui-select
+                ariaLabel="Export target"
+                [value]="target()"
+                [options]="options(targets)"
+                (valueChange)="target.set($any($event))"
+            /></label>
             <pre tabindex="0">{{ code() }}</pre>
             <div class="actions">
               <button (click)="e.exportAsset('svg')">Export SVG</button
@@ -590,23 +568,28 @@
   </footer>
   @if (e.error()) {
     <div role="alert" class="error-toast">
-      {{ e.error() }}<button aria-label="Dismiss error" (click)="e.error.set('')">×</button>
+      {{ e.error()
+      }}<mui-button
+        variant="ghost"
+        size="sm"
+        [iconOnly]="true"
+        iconLeading="drawer-close"
+        ariaLabel="Dismiss error"
+        title="Dismiss error"
+        (pressed)="e.error.set('')"
+      />
     </div>
   }
   @if (previewNode(); as n) {
     <div class="preview-backdrop">
       <header>
         <strong>{{ n.name }} · Preview</strong
-        ><select
-          aria-label="Preview viewport"
-          [ngModel]="previewWidth()"
-          (ngModelChange)="previewWidth.set($event)"
-        >
-          <option [ngValue]="null">Authored size</option>
-          <option [ngValue]="1440">Desktop · 1440</option>
-          <option [ngValue]="834">Tablet · 834</option>
-          <option [ngValue]="393">Mobile · 393</option></select
-        ><button [disabled]="!previewHistory.length" (click)="preview.set(previewHistory.pop()!)">
+        ><mui-select
+          ariaLabel="Preview viewport"
+          [value]="previewWidth()?.toString() ?? ''"
+          [options]="viewportOptions"
+          (valueChange)="previewWidth.set($event ? +$event : null)"
+        /><button [disabled]="!previewHistory.length" (click)="preview.set(previewHistory.pop()!)">
           Back</button
         ><button (click)="preview.set(null)">Close preview</button>
       </header>
