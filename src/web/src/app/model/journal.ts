@@ -1,9 +1,18 @@
 import { z } from 'zod';
-import { DocumentSchema, NodeSchema, PageSchema, FolderSchema, type SceneDocument } from './schema';
+import {
+  DocumentSchema,
+  NodeSchema,
+  PageSchema,
+  FolderSchema,
+  CommentSchema,
+  type SceneDocument,
+} from './schema';
 
 const deltaSchema = z
   .object({
     name: z.string().optional(),
+    comments: z.array(CommentSchema).default([]),
+    removedComments: z.array(z.string()).default([]),
     folders: z.array(FolderSchema).default([]),
     removedFolders: z.array(z.string()).default([]),
     pages: z.array(PageSchema),
@@ -50,6 +59,8 @@ export function delta(before: SceneDocument, after: SceneDocument): DocumentDelt
   };
   return {
     ...(before.name !== after.name ? { name: after.name } : {}),
+    comments: changed(before.comments, after.comments),
+    removedComments: removed(before.comments, after.comments),
     folders: changed(before.folders, after.folders),
     removedFolders: removed(before.folders, after.folders),
     pages: changed(before.pages, after.pages),
@@ -71,6 +82,7 @@ export function applyDelta(document: SceneDocument, change: DocumentDelta): Scen
   return {
     ...document,
     name: change.name ?? document.name,
+    comments: update(document.comments, change.comments, change.removedComments),
     folders: update(document.folders, change.folders, change.removedFolders),
     pages: update(document.pages, change.pages, change.removedPages),
     nodes: update(document.nodes, change.nodes, change.removedNodes),

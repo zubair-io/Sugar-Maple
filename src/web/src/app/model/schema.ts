@@ -124,10 +124,42 @@ export const PageSchema = z.object({
   order: finite,
   folderId: id.nullable().default(null),
 });
+const commentText = z.string().trim().min(1).max(4000);
+const commentAuthor = z.enum(['human', 'agent']);
+export const CommentSchema = z
+  .object({
+    id,
+    pageId: id,
+    createdAt: z.string().datetime(),
+    messages: z
+      .array(
+        z
+          .object({
+            id,
+            text: commentText,
+            author: commentAuthor,
+            createdAt: z.string().datetime(),
+          })
+          .strict(),
+      )
+      .min(1)
+      .max(100),
+    resolved: z.boolean().default(false),
+    resolvedBy: commentAuthor.nullable().default(null),
+    resolvedAt: z.string().datetime().nullable().default(null),
+  })
+  .strict();
+export const CommentsQuerySchema = z
+  .object({
+    pageId: id.optional(),
+    status: z.enum(['open', 'resolved', 'all']).default('open'),
+  })
+  .strict();
 export const DocumentSchema = z.object({
   version: z.literal(1),
   id,
   name: z.string().min(1).max(200),
+  comments: z.array(CommentSchema).max(1000).default([]),
   folders: z.array(FolderSchema).max(100).default([]),
   pages: z.array(PageSchema).min(1).max(100),
   nodes: z.array(NodeSchema).max(10000),
@@ -155,6 +187,11 @@ const patchNode = z
   .strict();
 const addNode = patchNode.extend({ id: id.optional() }).required({ kind: true, pageId: true });
 export const OperationSchema = z.discriminatedUnion('type', [
+  z
+    .object({ type: z.literal('comment.add'), id: id.optional(), pageId: id, text: commentText })
+    .strict(),
+  z.object({ type: z.literal('comment.reply'), id, text: commentText }).strict(),
+  z.object({ type: z.literal('comment.resolve'), id, resolved: z.boolean() }).strict(),
   z.object({ type: z.literal('component.variant'), id, name: z.string().min(1).max(80) }).strict(),
   z.object({ type: z.literal('component.reset'), id }).strict(),
   z.object({ type: z.literal('component.create'), id }).strict(),
@@ -239,6 +276,7 @@ export function blankDocument(name = 'Untitled'): SceneDocument {
     version: 1,
     id: uid(),
     name,
+    comments: [],
     folders: [],
     pages: [{ id: uid(), name: 'Page 1', order: 0, folderId: null }],
     nodes: [],
@@ -253,6 +291,18 @@ export function validateDocument(value: unknown): SceneDocument {
     if (page.folderId && !folders.has(page.folderId)) throw Error('Missing page folder');
   const pages = new Set(doc.pages.map((p) => p.id));
   if (doc.pages.some((p) => folders.has(p.id))) throw Error('Page and folder IDs must be distinct');
+  const comments = new Set(doc.comments.map((c) => c.id));
+  if (comments.size !== doc.comments.length) throw Error('Duplicate comment IDs');
+  for (const comment of doc.comments) {
+    if (!pages.has(comment.pageId)) throw Error('Missing comment page');
+    if (new Set(comment.messages.map((m) => m.id)).size !== comment.messages.length)
+      throw Error('Duplicate comment message IDs');
+    if (
+      comment.resolved !== (comment.resolvedAt !== null && comment.resolvedBy !== null) ||
+      (!comment.resolved && (comment.resolvedAt !== null || comment.resolvedBy !== null))
+    )
+      throw Error('Invalid comment resolution');
+  }
   const nodes = new Map(doc.nodes.map((n) => [n.id, n]));
   if (pages.size !== doc.pages.length || nodes.size !== doc.nodes.length)
     throw Error('Duplicate IDs');

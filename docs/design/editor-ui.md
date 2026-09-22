@@ -270,3 +270,7 @@ This UI contract does not make the completed three-column shell a prerequisite f
 ### Page organization amendment
 
 Use explicit single-level folders in the Pages list. Do not infer structure from slashes or prefixed page names. Folder rows expand/collapse and allow inline renaming. The active page has a folder selector including “No folder”; newly added pages inherit that selection. Removing a folder returns its pages to the root without deleting content. Names such as “Overview” and “Evidence” sit under “Home”, while onboarding and notebook screens use their own folders. Prototype targets continue to use stable node IDs across organization changes.
+
+### Page feedback amendment
+
+A Comments button with the document's open-thread count switches the right inspector to a page-feedback panel. The page picker identifies the target before posting. Show plain-text threads with You/Agent command-origin labels and timestamps, reply controls, Resolve/Reopen, and current-page/all-page plus open/resolved/all filters. Resolved threads stay inspectable; new replies reopen them. Opening a thread's page changes navigation without modifying authored canvas content. Feedback belongs to the document and participates in undo, recovery and save/open. Do not imply that posting feedback wakes an agent automatically; tell the user to ask their connected agent to review it.

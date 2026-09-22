@@ -17,6 +17,13 @@
       }
     </nav>
     <span class="mcp" [title]="e.mcp()">◉ {{ e.native ? 'MCP' : 'Browser' }}</span>
+    <button
+      aria-label="Comments"
+      [attr.aria-pressed]="commentsOpen()"
+      (click)="commentsOpen.set(!commentsOpen()); right.set(true)"
+    >
+      Comments {{ openCommentCount() || '' }}
+    </button>
     <mui-button variant="secondary" size="sm" (pressed)="startPreview()">▶ Preview</mui-button>
   </header>
   <div class="workspace" [class.no-left]="!left()" [class.no-right]="!right()">
@@ -299,226 +306,230 @@
     </main>
     @if (right()) {
       <aside class="inspector">
-        <div class="inspector-heading">
-          {{ e.mode() }} <span>{{ e.node()?.kind ?? 'Document' }}</span>
-        </div>
-        @if (e.node(); as n) {
-          <label
-            >Layer name<input [ngModel]="n.name" (change)="patch('name', value($event))"
-          /></label>
-          @if (e.mode() === 'Design') {
-            <div class="section-heading">TRANSFORM</div>
-            <div class="fields">
-              @for (field of numericFields; track field) {
-                <label
-                  >{{ field
-                  }}<input
-                    type="number"
-                    [ngModel]="n[field]"
-                    (change)="patch(field, +value($event))"
-                /></label>
-              }
-            </div>
+        @if (commentsOpen()) {
+          <page-comments />
+        } @else {
+          <div class="inspector-heading">
+            {{ e.mode() }} <span>{{ e.node()?.kind ?? 'Document' }}</span>
+          </div>
+          @if (e.node(); as n) {
             <label
-              >Parent<select [ngModel]="n.parentId" (ngModelChange)="patch('parentId', $event)">
-                <option [ngValue]="null">Page root</option>
-                @for (parent of parentOptions(); track parent.id) {
-                  <option [value]="parent.id">{{ parent.name }}</option>
+              >Layer name<input [ngModel]="n.name" (change)="patch('name', value($event))"
+            /></label>
+            @if (e.mode() === 'Design') {
+              <div class="section-heading">TRANSFORM</div>
+              <div class="fields">
+                @for (field of numericFields; track field) {
+                  <label
+                    >{{ field
+                    }}<input
+                      type="number"
+                      [ngModel]="n[field]"
+                      (change)="patch(field, +value($event))"
+                  /></label>
                 }
-              </select></label
-            >
-            <label
-              >Layout<select [ngModel]="n.layout" (ngModelChange)="patch('layout', $event)">
-                @for (layout of ['free', 'horizontal', 'vertical', 'grid']; track layout) {
-                  <option [value]="layout">{{ layout }}</option>
-                }
-              </select></label
-            >
-            <div class="section-heading">RESPONSIVE SIZING</div>
-            @for (axis of ['width', 'height']; track axis) {
+              </div>
               <label
-                >{{ axis }} sizing<select
-                  [ngModel]="axis === 'width' ? n.widthMode : n.heightMode"
-                  (ngModelChange)="patch(axis + 'Mode', $event)"
-                >
-                  @for (mode of ['fixed', 'fill', 'hug', 'percent']; track mode) {
-                    <option [value]="mode">{{ mode }}</option>
+                >Parent<select [ngModel]="n.parentId" (ngModelChange)="patch('parentId', $event)">
+                  <option [ngValue]="null">Page root</option>
+                  @for (parent of parentOptions(); track parent.id) {
+                    <option [value]="parent.id">{{ parent.name }}</option>
                   }
                 </select></label
               >
-              @if ((axis === 'width' ? n.widthMode : n.heightMode) === 'percent') {
-                <label
-                  >{{ axis }} %<input
-                    type="number"
-                    min="1"
-                    max="100"
-                    [ngModel]="axis === 'width' ? n.widthPercent : n.heightPercent"
-                    (change)="patch(axis + 'Percent', +value($event))"
-                /></label>
-              }
-            }
-            <div class="section-heading">APPEARANCE</div>
-            @if (n.kind !== 'path') {
               <label
-                >Fill style<select
-                  [ngModel]="n.gradient?.type ?? 'solid'"
-                  (ngModelChange)="fillStyle($event)"
-                >
-                  <option value="solid">Solid</option>
-                  <option value="linear">Linear gradient</option>
-                  <option value="radial">Radial gradient</option>
+                >Layout<select [ngModel]="n.layout" (ngModelChange)="patch('layout', $event)">
+                  @for (layout of ['free', 'horizontal', 'vertical', 'grid']; track layout) {
+                    <option [value]="layout">{{ layout }}</option>
+                  }
                 </select></label
               >
-              @if (n.gradient; as gradient) {
-                @for (stop of gradient.stops; track $index) {
+              <div class="section-heading">RESPONSIVE SIZING</div>
+              @for (axis of ['width', 'height']; track axis) {
+                <label
+                  >{{ axis }} sizing<select
+                    [ngModel]="axis === 'width' ? n.widthMode : n.heightMode"
+                    (ngModelChange)="patch(axis + 'Mode', $event)"
+                  >
+                    @for (mode of ['fixed', 'fill', 'hug', 'percent']; track mode) {
+                      <option [value]="mode">{{ mode }}</option>
+                    }
+                  </select></label
+                >
+                @if ((axis === 'width' ? n.widthMode : n.heightMode) === 'percent') {
                   <label
-                    >Stop {{ stop.offset * 100 }}%<input
-                      type="color"
-                      [value]="stop.color"
-                      (change)="gradientStop($index, value($event))"
+                    >{{ axis }} %<input
+                      type="number"
+                      min="1"
+                      max="100"
+                      [ngModel]="axis === 'width' ? n.widthPercent : n.heightPercent"
+                      (change)="patch(axis + 'Percent', +value($event))"
                   /></label>
                 }
               }
-            }
-            <label
-              >Fill enabled<input
-                type="checkbox"
-                [ngModel]="n.fillEnabled"
-                (ngModelChange)="patch('fillEnabled', $event)"
-            /></label>
-            <label
-              >Fill<input
-                type="color"
-                [value]="n.fill"
-                (change)="patch('fill', value($event))" /></label
-            ><label
-              >Text color<input
-                type="color"
-                [value]="n.color"
-                (change)="patch('color', value($event))" /></label
-            ><label
-              >Fill token<select
-                [ngModel]="n.fillToken"
-                (ngModelChange)="patch('fillToken', $event)"
-              >
-                <option value="">Literal color</option>
-                @for (token of e.doc().tokens | keyvalue; track token.key) {
-                  <option [value]="token.key">{{ token.key }}</option>
-                }
-              </select></label
-            >
-            @if (['text', 'button', 'input'].includes(n.kind)) {
-              <label
-                >Text<textarea
-                  [ngModel]="n.text"
-                  (change)="patch('text', value($event))"
-                ></textarea>
-              </label>
-            }
-            @if (n.isComponent) {
-              <div class="section-heading">COMPONENT VARIANTS</div>
-              <label>Variant name<input #variantName placeholder="Pressed" /></label
-              ><label>Variant fill<input #variantFill type="color" value="#475569" /></label
-              ><button (click)="addVariant(variantName.value, variantFill.value)">
-                Add variant
-              </button>
-              @for (variant of n.variants | keyvalue; track variant.key) {
-                <p class="muted">{{ variant.key }}</p>
-              }
-            }
-            @if (master(); as source) {
-              <label
-                >Variant<select
-                  aria-label="Variant"
-                  [ngModel]="n.variantName"
-                  (ngModelChange)="
-                    e.perform([{ type: 'component.variant', id: n.id, name: $event }])
-                  "
+              <div class="section-heading">APPEARANCE</div>
+              @if (n.kind !== 'path') {
+                <label
+                  >Fill style<select
+                    [ngModel]="n.gradient?.type ?? 'solid'"
+                    (ngModelChange)="fillStyle($event)"
+                  >
+                    <option value="solid">Solid</option>
+                    <option value="linear">Linear gradient</option>
+                    <option value="radial">Radial gradient</option>
+                  </select></label
                 >
-                  <option value="Default">Default</option>
-                  @for (variant of source.variants | keyvalue; track variant.key) {
-                    <option [value]="variant.key">{{ variant.key }}</option>
+                @if (n.gradient; as gradient) {
+                  @for (stop of gradient.stops; track $index) {
+                    <label
+                      >Stop {{ stop.offset * 100 }}%<input
+                        type="color"
+                        [value]="stop.color"
+                        (change)="gradientStop($index, value($event))"
+                    /></label>
+                  }
+                }
+              }
+              <label
+                >Fill enabled<input
+                  type="checkbox"
+                  [ngModel]="n.fillEnabled"
+                  (ngModelChange)="patch('fillEnabled', $event)"
+              /></label>
+              <label
+                >Fill<input
+                  type="color"
+                  [value]="n.fill"
+                  (change)="patch('fill', value($event))" /></label
+              ><label
+                >Text color<input
+                  type="color"
+                  [value]="n.color"
+                  (change)="patch('color', value($event))" /></label
+              ><label
+                >Fill token<select
+                  [ngModel]="n.fillToken"
+                  (ngModelChange)="patch('fillToken', $event)"
+                >
+                  <option value="">Literal color</option>
+                  @for (token of e.doc().tokens | keyvalue; track token.key) {
+                    <option [value]="token.key">{{ token.key }}</option>
                   }
                 </select></label
               >
-              <p class="muted">{{ source.name }} · {{ n.overrides.length }} overrides</p>
-              <button (click)="e.perform([{ type: 'component.reset', id: n.id }])">
-                Reset overrides
-              </button>
-            }
-            <div class="actions">
-              @if (e.selection().length > 1) {
-                <button (click)="group()">Group selection</button
-                ><button (click)="align('x')">Align left</button
-                ><button (click)="align('y')">Align top</button>
+              @if (['text', 'button', 'input'].includes(n.kind)) {
+                <label
+                  >Text<textarea
+                    [ngModel]="n.text"
+                    (change)="patch('text', value($event))"
+                  ></textarea>
+                </label>
               }
-              <button (click)="makeComponent()">Make component</button>
-              @if (n.componentId) {
-                <button (click)="e.perform([{ type: 'component.detach', id: n.id }])">
-                  Detach instance
+              @if (n.isComponent) {
+                <div class="section-heading">COMPONENT VARIANTS</div>
+                <label>Variant name<input #variantName placeholder="Pressed" /></label
+                ><label>Variant fill<input #variantFill type="color" value="#475569" /></label
+                ><button (click)="addVariant(variantName.value, variantFill.value)">
+                  Add variant
+                </button>
+                @for (variant of n.variants | keyvalue; track variant.key) {
+                  <p class="muted">{{ variant.key }}</p>
+                }
+              }
+              @if (master(); as source) {
+                <label
+                  >Variant<select
+                    aria-label="Variant"
+                    [ngModel]="n.variantName"
+                    (ngModelChange)="
+                      e.perform([{ type: 'component.variant', id: n.id, name: $event }])
+                    "
+                  >
+                    <option value="Default">Default</option>
+                    @for (variant of source.variants | keyvalue; track variant.key) {
+                      <option [value]="variant.key">{{ variant.key }}</option>
+                    }
+                  </select></label
+                >
+                <p class="muted">{{ source.name }} · {{ n.overrides.length }} overrides</p>
+                <button (click)="e.perform([{ type: 'component.reset', id: n.id }])">
+                  Reset overrides
                 </button>
               }
-              @if (n.repeatTemplateId) {
-                <label
-                  >Grid data (JSON array)<textarea
-                    #gridData
-                    placeholder='["First", "Second"]'
-                  ></textarea></label
-                ><button (click)="populate(gridData.value)">Populate cells</button>
-              }
-              <button (click)="reorder(-1)">Move earlier</button
-              ><button (click)="reorder(1)">Move later</button
-              ><button (click)="duplicate()">Duplicate</button
-              ><button (click)="repeat()">Repeat Grid</button
-              ><button class="danger" (click)="e.remove()">Delete</button>
-            </div>
-          } @else if (e.mode() === 'Prototype') {
-            <div class="section-heading">ON CLICK / TAP</div>
-            <label
-              >Navigate to<select
-                [ngModel]="n.targetId"
-                (ngModelChange)="patch('targetId', $event)"
-              >
-                <option [ngValue]="null">No action</option>
-                @for (board of e.roots(); track board.id) {
-                  @if (board.kind === 'artboard') {
-                    <option [value]="board.id">{{ board.name }}</option>
+              <div class="actions">
+                @if (e.selection().length > 1) {
+                  <button (click)="group()">Group selection</button
+                  ><button (click)="align('x')">Align left</button
+                  ><button (click)="align('y')">Align top</button>
+                }
+                <button (click)="makeComponent()">Make component</button>
+                @if (n.componentId) {
+                  <button (click)="e.perform([{ type: 'component.detach', id: n.id }])">
+                    Detach instance
+                  </button>
+                }
+                @if (n.repeatTemplateId) {
+                  <label
+                    >Grid data (JSON array)<textarea
+                      #gridData
+                      placeholder='["First", "Second"]'
+                    ></textarea></label
+                  ><button (click)="populate(gridData.value)">Populate cells</button>
+                }
+                <button (click)="reorder(-1)">Move earlier</button
+                ><button (click)="reorder(1)">Move later</button
+                ><button (click)="duplicate()">Duplicate</button
+                ><button (click)="repeat()">Repeat Grid</button
+                ><button class="danger" (click)="e.remove()">Delete</button>
+              </div>
+            } @else if (e.mode() === 'Prototype') {
+              <div class="section-heading">ON CLICK / TAP</div>
+              <label
+                >Navigate to<select
+                  [ngModel]="n.targetId"
+                  (ngModelChange)="patch('targetId', $event)"
+                >
+                  <option [ngValue]="null">No action</option>
+                  @for (board of e.roots(); track board.id) {
+                    @if (board.kind === 'artboard') {
+                      <option [value]="board.id">{{ board.name }}</option>
+                    }
                   }
-                }
-              </select></label
-            >
-            <p class="muted">Open Preview to follow this link.</p>
-          } @else {
-            <div class="section-heading">DEVELOPER HANDOFF</div>
-            <p class="muted">Semantic {{ n.kind }} · {{ n.width }} × {{ n.height }}</p>
-            @if (master(); as source) {
-              <p class="muted">
-                Component: {{ source.name }} · Variant: {{ n.variantName }} ·
-                {{ n.overrides.length }} overrides
-              </p>
+                </select></label
+              >
+              <p class="muted">Open Preview to follow this link.</p>
+            } @else {
+              <div class="section-heading">DEVELOPER HANDOFF</div>
+              <p class="muted">Semantic {{ n.kind }} · {{ n.width }} × {{ n.height }}</p>
+              @if (master(); as source) {
+                <p class="muted">
+                  Component: {{ source.name }} · Variant: {{ n.variantName }} ·
+                  {{ n.overrides.length }} overrides
+                </p>
+              }
+              <label
+                >Export target<select [ngModel]="target()" (ngModelChange)="target.set($event)">
+                  @for (t of targets; track t) {
+                    <option [value]="t">{{ t }}</option>
+                  }
+                </select></label
+              >
+              <pre tabindex="0">{{ code() }}</pre>
+              <div class="actions">
+                <button (click)="e.exportAsset('svg')">Export SVG</button
+                ><button (click)="e.exportAsset('png')">Export PNG</button
+                ><button (click)="e.copy(target())">Copy code</button
+                ><button (click)="e.copy('name')">Copy name</button
+                ><button (click)="e.copy('editable')">Copy element</button>
+              </div>
             }
-            <label
-              >Export target<select [ngModel]="target()" (ngModelChange)="target.set($event)">
-                @for (t of targets; track t) {
-                  <option [value]="t">{{ t }}</option>
-                }
-              </select></label
-            >
-            <pre tabindex="0">{{ code() }}</pre>
-            <div class="actions">
-              <button (click)="e.exportAsset('svg')">Export SVG</button
-              ><button (click)="e.exportAsset('png')">Export PNG</button
-              ><button (click)="e.copy(target())">Copy code</button
-              ><button (click)="e.copy('name')">Copy name</button
-              ><button (click)="e.copy('editable')">Copy element</button>
+          } @else {
+            <div class="inspector-empty">
+              <span>⌖</span>
+              <h3>Every detail, in reach.</h3>
+              <p>Select a layer to edit its properties, connect a flow, or inspect its code.</p>
             </div>
           }
-        } @else {
-          <div class="inspector-empty">
-            <span>⌖</span>
-            <h3>Every detail, in reach.</h3>
-            <p>Select a layer to edit its properties, connect a flow, or inspect its code.</p>
-          </div>
         }
       </aside>
     }
