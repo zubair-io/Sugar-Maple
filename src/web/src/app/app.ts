@@ -18,7 +18,10 @@ export class App {
   readonly e = inject(EditorService);
   readonly zoom = signal(0.8);
   readonly pan = signal({ x: 0, y: 0 });
-  readonly tab = signal('Layers');
+  readonly tab = signal('Pages');
+  readonly currentPageName = computed(
+    () => this.e.doc().pages.find((p) => p.id === this.e.pageId())?.name ?? 'Page',
+  );
   readonly target = signal<ExportTarget>('html');
   readonly preview = signal<string | null>(null);
   readonly previewWidth = signal<number | null>(null);

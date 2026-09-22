@@ -49,6 +49,17 @@ await p.keyboard.press('Meta+z');
 await expect(
   p.getByRole('button', { name: 'Toggle folder Main screens', exact: true }),
 ).toBeVisible();
+await p.getByRole('button', { name: '▤ Page 2', exact: true }).click();
+await p.getByRole('button', { name: 'Layers', exact: true }).click();
+await expect(p.getByRole('button', { name: 'Add page', exact: true })).toHaveCount(0);
+await expect(p.getByRole('button', { name: 'Browse pages', exact: true })).toContainText('Page 2');
+await p.getByLabel('Find layer', { exact: true }).fill('heading');
+await p.getByRole('button', { name: 'Browse pages', exact: true }).click();
+await expect(p.getByRole('button', { name: 'Pages', exact: true })).toHaveAttribute('aria-pressed', 'true');
+await p.getByRole('button', { name: 'Tokens', exact: true }).click();
+await p.getByRole('button', { name: 'Layers', exact: true }).click();
+await expect(p.getByLabel('Find layer', { exact: true })).toHaveValue('heading');
+await p.getByRole('button', { name: 'Pages', exact: true }).click();
 await p.screenshot({ path: 'build/evidence/page-folders-browser.png' });
 await b.close();
 console.log(

@@ -97,13 +97,15 @@ button:hover {
 }
 .tabs {
   display: flex;
-  height: 46px;
+  min-height: 46px;
+  flex-shrink: 0;
   align-items: center;
-  padding: 0 10px;
+  padding: 0 6px;
   border-bottom: 1px solid #ffffff0b;
   gap: 4px;
 }
 .tabs button {
+  padding: 6px;
   flex: 1;
   color: #9e9791;
 }
@@ -525,4 +527,17 @@ footer > span:last-child {
 }
 .folder-row button:first-child {
   flex: 0 0 auto;
+}
+
+.current-page {
+  margin: 10px 8px 0;
+  text-align: left;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+.current-page span {
+  display: block;
+  margin-top: 4px;
+  font-size: 11px;
+  color: #a49b94;
 }
