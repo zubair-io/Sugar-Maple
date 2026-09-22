@@ -76,3 +76,9 @@ There are no automatic agent wakeups or notifications. The user can ask their co
 ### Native menu entry point
 
 The host's File menu invokes the editor-only `window.sugarMaple.fileCommand(command)` entry point with one of `new`, `open`, `save`, or `saveAs`. It rejects unknown commands and non-native/loading sessions, and routes to the existing interactive lifecycle methods. This is not an MCP tool: native dialogs and human confirmation belong to the menu flow; the existing MCP document/transaction tools remain unchanged.
+
+### Autosave completion
+
+Transactions still acknowledge committed document state before asynchronous disk persistence. Do not interpret a transaction response as durable storage. Every committed edit/undo/redo schedules the same serialized save used by human editing. The native host writes the document-specific managed or chosen package, retaining separate recovery snapshots. `window.sugarMaple.flushAutosave()` is an internal native lifecycle hook: it waits for queued persistence and rejects if the current document is still dirty. It is not a new advertised MCP tool.
+
+Run `bun tools/mcp-integration.ts` to verify HTTP/stdio edits and undo against the actual bound package, as well as rendered output. The native storage fixture is `swiftc "src/apple/Sugar Maple/DocumentPackage.swift" "src/apple/Sugar Maple/DocumentPersistence.swift" tools/native-autosave-test.swift -o /tmp/sugar-maple-autosave-test && /tmp/sugar-maple-autosave-test`.

@@ -19,11 +19,13 @@ export class RecoveryStore {
       request.onerror = () => reject(request.error);
     });
   }
-  async write(value: unknown): Promise<void> {
+  async write(value: { document: { id: string } }): Promise<void> {
     const db = await this.database;
     return new Promise((resolve, reject) => {
       const transaction = db.transaction('checkpoints', 'readwrite', { durability: 'strict' });
-      transaction.objectStore('checkpoints').put(value, 'active');
+      const store = transaction.objectStore('checkpoints');
+      store.put(value, 'document:' + value.document.id);
+      store.put(value, 'active');
       transaction.oncomplete = () => resolve();
       transaction.onabort = () => reject(transaction.error ?? Error('Recovery write aborted'));
       transaction.onerror = () => reject(transaction.error);

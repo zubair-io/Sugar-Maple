@@ -36,7 +36,7 @@ After the 80px traffic-light offset, show the active document name, for example 
 
 When multiple documents are open, show compact document tabs such as `Sign-In.syrup` and `CheckoutFlow.syrup`. Each tab has an accessible name, active state and close action. Overflow must retain access to all documents. Closing or switching a file follows its actual dirty/persistence state; do not imply changes were saved when they were not.
 
-The save dropdown distinguishes New/Unsaved, Saving, Saved and Save Failed. Version-history entries appear only when backed by an implemented history feature.
+Document changes autosave. New Mac documents save locally without a picker; opened or explicitly saved documents update their chosen file. The save state distinguishes Saving, Saved locally, Saved to .syrup bundle, Saved in this browser and Save Failed. Only mark the current document/revision saved after persistence completes. Version-history entries appear only when backed by an implemented history feature.
 
 ### Native File menu
 

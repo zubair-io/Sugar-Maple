@@ -42,7 +42,7 @@ bun run test:mcp
 - A narrow, pinned `_Maple` UI subset for editor chrome. Authored document primitives remain independent of that library.
 - One editor-owned scene graph and validated, undoable command path shared by human editing and MCP.
 - Swift MCP host at `127.0.0.1:48480`, with a stdio adapter to the same app.
-- Local `.syrup` packages and recovery checkpoints. Yjs currently backs the document store; [CRDT evaluation](docs/planning/crdt-evaluation.md) records the comparison checkpoint.
+- Automatic local saves: new Mac documents get managed `.syrup` packages; opened or explicitly saved documents update their chosen file. The browser saves to IndexedDB. Separate recovery checkpoints protect failed package writes. Yjs currently backs the document store; [CRDT evaluation](docs/planning/crdt-evaluation.md) records the comparison checkpoint.
 
 Neither sibling reference checkout is required to build.
 
@@ -58,3 +58,10 @@ Neither sibling reference checkout is required to build.
 - [Jules review setup and session cleanup](docs/development/jules.md)
 
 Architecture decisions and current acceptance criteria take precedence over older RFC details. Delivery uses incremental, stacked PRs. Local issue Markdown exports and publishing data are intentionally excluded from Git.
+
+
+### Autosave
+
+Edits, posted comments, agent transactions and undo/redo save automatically. The footer shows Saving, Saved locally / Saved to .syrup bundle (Mac), Saved in this browser, or Save failed. New Mac documents are stored under `~/Library/Application Support/SugarMaple/Documents/`; File → Save or Save As chooses a normal file location. Saved locations survive app restarts. Earlier managed documents and per-document recovery snapshots remain on disk when you create another document.
+
+New/Open wait for pending writes; failures retain a replacement confirmation. Normal Mac quitting waits for queued saves and stays open on failure. Browser saves remain local to that browser profile. An unposted comment is still an in-memory draft; posting it adds it to the autosaved document.

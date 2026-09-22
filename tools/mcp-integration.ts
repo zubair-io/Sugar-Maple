@@ -17,6 +17,27 @@ async function tool(name: string, args: any = {}) {
   if (result.isError) throw Error(JSON.stringify(result));
   return JSON.parse(result.content[0].text);
 }
+async function assertAutosaved(document: any) {
+  const deadline = Date.now() + 15000;
+  while (Date.now() < deadline) {
+    try {
+      const bindings = await Bun.file(
+        `${homedir()}/Library/Application Support/SugarMaple/file-bindings.json`,
+      ).json();
+      const url = new URL(bindings[document.id].url);
+      const saved = await Bun.file(
+        new URL("document.json", url.href.replace(/\/?$/, "/")),
+      ).json();
+      if (JSON.stringify(saved.document) === JSON.stringify(document)) return;
+      // Native JSON uses sorted keys; compare structurally.
+      assert.deepEqual(saved.document, document);
+      return;
+    } catch {
+      await Bun.sleep(100);
+    }
+  }
+  throw Error("Current document did not reach its autosave package");
+}
 const current = await tool("document.get");
 const id = crypto.randomUUID();
 const tx = {
@@ -69,6 +90,7 @@ const tx = {
   ],
 };
 const created = await tool("transaction.apply", tx);
+await assertAutosaved((await tool("document.get")).document);
 assert.equal((await tool("transaction.apply", tx)).revision, created.revision);
 const stale: any = await http.callTool({
   name: "transaction.apply",
@@ -106,6 +128,7 @@ await tool("history.undo", {
   expectedRevision: created.revision,
 });
 assert.deepEqual((await tool("document.get")).document, current.document);
+await assertAutosaved(current.document);
 const denied = await fetch("http://127.0.0.1:48480/mcp", {
   method: "POST",
   headers: { "Content-Type": "application/json" },

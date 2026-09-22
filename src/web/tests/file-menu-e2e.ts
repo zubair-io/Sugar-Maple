@@ -10,6 +10,9 @@ await page.addInitScript(() => {
         postMessage: async (message: any) => {
           (window as any).fileCalls.push(message);
           switch (message.action) {
+            case 'file.autosave':
+              if ((window as any).failAutosave) throw Error('Test disk failure');
+              return { ok: true, managed: true };
             case 'recovery.load':
               return null;
             case 'status':
@@ -28,6 +31,9 @@ await page.goto('http://127.0.0.1:4200');
 await page.waitForFunction(() => window.sugarMaple.ready);
 for (const name of ['New', 'Open', 'Save', 'Save As'])
   await expect(page.getByRole('button', { name, exact: true })).toHaveCount(0);
+await page.evaluate(() => {
+  (window as any).failAutosave = true;
+});
 await page.getByRole('button', { name: 'Add page', exact: true }).click();
 const before = await page.evaluate(() => window.sugarMaple.dispatch('document.get'));
 // Page-only documents must be protected even when they contain no canvas nodes.

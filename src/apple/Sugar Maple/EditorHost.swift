@@ -9,11 +9,11 @@ final class EditorHost: NSObject, WKScriptMessageHandlerWithReply, WKNavigationD
     var server: MCPServer?
     var serverStatus = "Starting"
     var fileCommandInProgress = false
-    var fileURL: URL?
     var pendingOpenURL: URL?
-    var fileFingerprint: String?
     var pendingFingerprint: String?
     let support = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0].appendingPathComponent("SugarMaple", isDirectory: true)
+
+    @ObservationIgnored lazy var persistence = DocumentPersistence(root: support)
 
     override init() {
         super.init()
@@ -82,15 +82,21 @@ final class EditorHost: NSObject, WKScriptMessageHandlerWithReply, WKNavigationD
             NSPasteboard.general.clearContents(); NSPasteboard.general.setString(text, forType: .string)
             return ["ok": true]
         case "clipboard.read": return ["text": NSPasteboard.general.string(forType: .string) ?? ""]
-        case "file.reset": fileURL = nil; fileFingerprint = nil; return ["ok": true]
-        case "file.acceptOpen": fileURL = pendingOpenURL; fileFingerprint = pendingFingerprint; pendingOpenURL = nil; pendingFingerprint = nil; return ["ok": true]
-        case "recovery.load":
-            let url = support.appendingPathComponent("recovery.json")
-            return FileManager.default.fileExists(atPath: url.path) ? try JSONSerialization.jsonObject(with: Data(contentsOf: url)) : NSNull()
-        case "recovery.save":
-            guard let value = body["value"] else { throw HostError.message("Missing checkpoint") }
-            try JSONSerialization.data(withJSONObject: value).write(to: support.appendingPathComponent("recovery.json"), options: .atomic)
+        case "file.reset": return ["ok": true]
+        case "file.acceptOpen":
+            guard let url = pendingOpenURL, let fingerprint = pendingFingerprint,
+                  let id = body["documentId"] as? String else { throw HostError.message("Missing opened file") }
+            try await persistence.adopt(url, id: id, fingerprint: fingerprint)
+            pendingOpenURL = nil; pendingFingerprint = nil
             return ["ok": true]
+        case "recovery.load":
+            guard let data = try await persistence.load() else { return NSNull() }
+            return try JSONSerialization.jsonObject(with: data)
+        case "file.autosave":
+            guard let value = body["value"] else { throw HostError.message("Missing checkpoint") }
+            let data = try JSONSerialization.data(withJSONObject: value)
+            let managed = try await persistence.save(data)
+            return ["ok": true, "managed": managed]
         case "file.export":
             guard let name = body["name"] as? String else { throw HostError.message("Missing export name") }
             let data: Data
@@ -102,7 +108,8 @@ final class EditorHost: NSObject, WKScriptMessageHandlerWithReply, WKNavigationD
             try data.write(to: url, options: .atomic); return ["ok": true]
         case "file.save":
             guard let value = body["value"] as? [String: Any], let document = value["document"] as? [String: Any] else { throw HostError.message("Missing document") }
-            var destination = fileURL
+            guard let id = document["id"] as? String else { throw HostError.message("Missing document ID") }
+            var destination = try await persistence.destination(id)
             if destination == nil || body["saveAs"] as? Bool == true {
                 let panel = NSSavePanel(); panel.nameFieldStringValue = "\(document["name"] as? String ?? "Untitled").syrup"
                 panel.canCreateDirectories = true; panel.title = "Save Sugar Maple document"
@@ -110,15 +117,16 @@ final class EditorHost: NSObject, WKScriptMessageHandlerWithReply, WKNavigationD
                 destination = url
             }
             let url = destination!
-            try DocumentPackage.write(value, to: url, expectedFingerprint: url == fileURL ? fileFingerprint : nil)
-            fileURL = url; fileFingerprint = try DocumentPackage.fingerprint(url)
+            let data = try JSONSerialization.data(withJSONObject: value)
+            try await persistence.save(data, to: url)
             return ["ok": true]
         case "file.open":
             let panel = NSOpenPanel(); panel.canChooseDirectories = true; panel.canChooseFiles = true
             panel.allowsMultipleSelection = false; panel.title = "Open .syrup document"
             guard await panel.begin() == .OK, let url = panel.url else { return ["cancelled": true] }
-            let result = try DocumentPackage.read(url); pendingOpenURL = url; pendingFingerprint = try DocumentPackage.fingerprint(url)
-            return result
+            let data = try await persistence.read(url)
+            pendingOpenURL = url; pendingFingerprint = try await persistence.fingerprint(url)
+            return try JSONSerialization.jsonObject(with: data)
         default: throw HostError.message("Unknown native action")
         }
     }

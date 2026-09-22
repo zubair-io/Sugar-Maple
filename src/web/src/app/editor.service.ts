@@ -1,3 +1,4 @@
+import { PersistenceQueue } from './model/persistence-queue';
 import { RecoveryStore } from './model/recovery';
 import { importTokens, exportTokens } from './model/tokens';
 import { svgImport, svgExport } from './model/svg';
@@ -43,6 +44,7 @@ export class EditorService {
   );
   readonly roots = computed(() => this.pageNodes().filter((n) => !n.parentId));
   readonly native = !!window.webkit;
+  private readonly persistence = new PersistenceQueue();
   private recovery = this.native ? null : new RecoveryStore();
   constructor() {
     window.sugarMaple = {
@@ -61,6 +63,11 @@ export class EditorService {
           default:
             throw Error('Unknown file command');
         }
+      },
+      flushAutosave: async () => {
+        await this.persistence.idle();
+        if (this.dirty())
+          throw Error('Automatic save has not completed. Keep the app open and retry Save.');
       },
       ready: false,
     };
@@ -104,12 +111,13 @@ export class EditorService {
           JSON.parse(localStorage.getItem('sugar-maple-recovery') ?? 'null'));
       if (saved?.document) {
         this.replace(saved.document, saved);
-        this.status.set('Recovered — save to a file');
+        this.status.set('Saving…');
       }
       if (this.native) {
         const state = await this.bridge('status');
         this.mcp.set(state.status);
       }
+      await this.recover();
     } catch (e) {
       this.report(e);
     }
@@ -128,15 +136,33 @@ export class EditorService {
     this.recover();
   }
   async recover() {
+    const value = this.store.checkpoint(),
+      revision = this.revision(),
+      documentId = this.doc().id;
+    this.status.set('Saving…');
     try {
-      const value = this.store.checkpoint();
-      if (this.native) await this.bridge('recovery.save', { value });
-      else {
+      const managed = await this.persistence.run(async () => {
+        if (this.native) return (await this.bridge('file.autosave', { value })).managed;
         await this.recovery!.write(value);
         localStorage.removeItem('sugar-maple-recovery');
+        return true;
+      });
+      if (this.doc().id === documentId && this.revision() === revision) {
+        this.dirty.set(false);
+        this.status.set(
+          this.native
+            ? managed
+              ? 'Saved locally'
+              : 'Saved to .syrup bundle'
+            : 'Saved in this browser',
+        );
       }
     } catch (e) {
-      this.report(e);
+      if (this.doc().id === documentId && this.revision() === revision) {
+        this.dirty.set(true);
+        this.status.set('Save failed — retry Save');
+        this.report(e);
+      }
     }
   }
   command(operations: Operation[], origin: 'human' | 'agent' = 'human') {
@@ -171,6 +197,7 @@ export class EditorService {
     this.dirty.set(true);
   }
   async newDocument() {
+    await this.persistence.idle();
     if (
       this.dirty() &&
       !confirm('Create a new file? Save your current work first if you want to keep it.')
@@ -243,35 +270,46 @@ export class EditorService {
   }
   async save(saveAs = false) {
     try {
+      this.status.set('Saving…');
       const revision = this.revision(),
         documentId = this.doc().id;
       if (this.native) {
-        const result = await this.bridge('file.save', { value: this.store.checkpoint(), saveAs });
-        if (result.cancelled) return;
+        const value = this.store.checkpoint();
+        const result = await this.persistence.run(() =>
+          this.bridge('file.save', { value, saveAs }),
+        );
+        if (result.cancelled) {
+          await this.recover();
+          return;
+        }
         const unchanged = this.revision() === revision && this.doc().id === documentId;
-        this.dirty.set(!unchanged);
-        this.status.set(unchanged ? 'Saved to .syrup bundle' : 'Unsaved changes');
+        if (this.doc().id === documentId) {
+          this.dirty.set(!unchanged);
+          this.status.set(unchanged ? 'Saved to .syrup bundle' : 'Saving…');
+        }
       } else {
         download(
           this.doc().name + '.syrup.json',
           JSON.stringify(this.store.checkpoint()),
           'application/json',
         );
-        this.status.set('Exported checkpoint');
+        await this.recover();
       }
     } catch (e) {
-      this.status.set('Save failed');
+      this.dirty.set(true);
+      this.status.set('Save failed — retry Save');
       this.report(e);
     }
   }
   async open() {
     try {
+      await this.persistence.idle();
       if (this.dirty() && !confirm('Open another file and replace unsaved work?')) return;
       if (this.native) {
         const result = await this.bridge('file.open');
         if (result.cancelled) return;
         this.replace(result.document, result);
-        await this.bridge('file.acceptOpen');
+        await this.bridge('file.acceptOpen', { documentId: this.doc().id });
         this.dirty.set(false);
         this.status.set('Opened .syrup bundle');
         this.recover();
