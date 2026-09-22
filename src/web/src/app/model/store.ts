@@ -1,3 +1,4 @@
+import { applyComment } from './comments';
 import { synchronizeComponents } from './component-sync';
 import { delta, applyDelta, JournalSchema, type JournalEntry } from './journal';
 import { applyComposition, propagate } from './composition';
@@ -70,6 +71,9 @@ export class DocumentStore {
       version: 1,
       id: this.root.get('id') as string,
       name: this.root.get('name') as string,
+      comments: Array.from((this.root.get('comments') as Y.Map<any>).values()).map((v) =>
+        v.toJSON(),
+      ),
       folders: Array.from((this.root.get('folders') as Y.Map<any>).values())
         .map((v) => v.toJSON())
         .sort((a, b) => a.order - b.order),
@@ -83,7 +87,7 @@ export class DocumentStore {
   private write(doc: SceneDocument) {
     this.root.set('id', doc.id);
     this.root.set('name', doc.name);
-    for (const key of ['folders', 'pages', 'nodes', 'tokens'] as const) {
+    for (const key of ['comments', 'folders', 'pages', 'nodes', 'tokens'] as const) {
       let map = this.root.get(key) as Y.Map<any> | undefined;
       if (!map) {
         map = new Y.Map();
@@ -128,7 +132,7 @@ export class DocumentStore {
     const before = this.document;
     const doc = structuredClone(before),
       ids: string[] = [];
-    for (const op of tx.operations) applyOperation(doc, op, ids);
+    for (const op of tx.operations) applyOperation(doc, op, ids, origin);
     validateDocument(doc);
     synchronizeComponents(doc, before);
     validateDocument(doc);
@@ -173,7 +177,13 @@ export class DocumentStore {
     });
   }
 }
-function applyOperation(doc: SceneDocument, op: Operation, ids: string[]) {
+function applyOperation(
+  doc: SceneDocument,
+  op: Operation,
+  ids: string[],
+  origin: 'human' | 'agent',
+) {
+  if (applyComment(doc, op, ids, origin)) return;
   if (applyComposition(doc, op, ids)) return;
   switch (op.type) {
     case 'document.rename':
@@ -216,6 +226,7 @@ function applyOperation(doc: SceneDocument, op: Operation, ids: string[]) {
     case 'page.remove': {
       if (!doc.pages.some((p) => p.id === op.id)) throw Error('Page not found');
       doc.pages = doc.pages.filter((p) => p.id !== op.id);
+      doc.comments = doc.comments.filter((c) => c.pageId !== op.id);
       for (const n of [...doc.nodes].filter((n) => n.pageId === op.id)) removeNode(doc, n.id);
       break;
     }

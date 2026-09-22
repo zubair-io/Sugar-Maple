@@ -7,6 +7,7 @@ import {
   blankDocument,
   validateDocument,
   TransactionSchema,
+  CommentsQuerySchema,
   uid,
   type SceneDocument,
   type SceneNode,
@@ -423,6 +424,24 @@ export class EditorService {
   }
   async dispatch(method: string, args: any = {}) {
     switch (method) {
+      case 'comments.list': {
+        const query = CommentsQuerySchema.parse(args);
+        if (query.pageId && !this.doc().pages.some((p) => p.id === query.pageId))
+          throw Error('Page not found');
+        return {
+          ...this.store.result(),
+          comments: this.doc()
+            .comments.filter(
+              (c) =>
+                (!query.pageId || c.pageId === query.pageId) &&
+                (query.status === 'all' || c.resolved === (query.status === 'resolved')),
+            )
+            .map((c) => ({
+              ...c,
+              pageName: this.doc().pages.find((p) => p.id === c.pageId)!.name,
+            })),
+        };
+      }
       case 'document.checkpoint':
         return this.store.checkpoint();
       case 'document.get':
@@ -490,6 +509,7 @@ export class EditorService {
           protocolVersion: 1,
           coordinateUnits: 'CSS pixels; parent relative',
           transactionSchema: TransactionSchema.toJSONSchema(),
+          commentsQuerySchema: CommentsQuerySchema.toJSONSchema(),
           kinds: [
             'artboard',
             'frame',

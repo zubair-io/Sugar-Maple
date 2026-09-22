@@ -16,6 +16,28 @@ let d = await p.evaluate(() => window.sugarMaple.dispatch('document.get'));
 assert.equal(d.document.pages[0].folderId, d.document.pages[1].folderId);
 await p.getByLabel('Rename folder Home', { exact: true }).fill('Main screens');
 await p.getByLabel('Rename folder Home', { exact: true }).blur();
+await p.waitForFunction(
+  () =>
+    new Promise<boolean>((resolve, reject) => {
+      const request = indexedDB.open('sugar-maple', 1);
+      request.onerror = () => reject(request.error);
+      request.onsuccess = () => {
+        const db = request.result;
+        const read = db.transaction('checkpoints').objectStore('checkpoints').get('active');
+        read.onsuccess = () => {
+          const doc = read.result?.document;
+          db.close();
+          resolve(
+            doc?.folders.some((f: any) => f.name === 'Main screens') && doc.pages.length === 2,
+          );
+        };
+        read.onerror = () => {
+          db.close();
+          reject(read.error);
+        };
+      };
+    }),
+);
 await p.reload();
 await p.waitForFunction(() => window.sugarMaple.ready);
 await expect(

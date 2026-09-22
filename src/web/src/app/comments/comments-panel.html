@@ -1,0 +1,102 @@
+<section aria-label="Page comments">
+  <h2>Comments</h2>
+  <label
+    >Page<select
+      aria-label="Comment page"
+      [ngModel]="e.pageId()"
+      (ngModelChange)="selectPage($event)"
+    >
+      @for (p of e.doc().pages; track p.id) {
+        <option [value]="p.id">{{ p.name }}</option>
+      }
+    </select></label
+  >
+  <label
+    >New comment<textarea
+      aria-label="New page comment"
+      maxlength="4000"
+      rows="4"
+      placeholder="What should change on this page?"
+      [ngModel]="draft()"
+      (ngModelChange)="setDraft($event)"
+    ></textarea>
+  </label>
+  <button class="primary" [disabled]="!draft().trim()" (click)="add()">Add comment</button>
+  <p class="hint">
+    Saved with this document. Ask your agent to review open comments when you’re ready.
+  </p>
+  <div class="filters">
+    <label
+      >Show<select
+        aria-label="Comment scope"
+        [ngModel]="scope()"
+        (ngModelChange)="scope.set($event)"
+      >
+        <option value="page">This page</option>
+        <option value="all">All pages</option>
+      </select></label
+    >
+    <label
+      >Status<select
+        aria-label="Comment status"
+        [ngModel]="status()"
+        (ngModelChange)="status.set($event)"
+      >
+        <option value="open">Open</option>
+        <option value="resolved">Resolved</option>
+        <option value="all">All</option>
+      </select></label
+    >
+  </div>
+  <p role="status" class="notice">{{ notice() }}</p>
+  @for (thread of threads(); track thread.id) {
+    <article [attr.data-comment-id]="thread.id" [class.resolved]="thread.resolved">
+      <header>
+        <button class="page-link" (click)="selectPage(thread.pageId)">
+          {{ pageName(thread.pageId) }}</button
+        ><span>{{ thread.resolved ? 'Resolved' : 'Open' }}</span>
+      </header>
+      @for (message of thread.messages; track message.id) {
+        <div class="message">
+          <div class="byline">
+            <strong>{{ message.author === 'human' ? 'You' : 'Agent' }}</strong
+            ><time [attr.datetime]="message.createdAt" [title]="message.createdAt">{{
+              message.createdAt | date: 'MMM d, HH:mm'
+            }}</time>
+          </div>
+          <p>{{ message.text }}</p>
+        </div>
+      }
+      @if (thread.resolved) {
+        <p class="hint">
+          Resolved by {{ thread.resolvedBy === 'human' ? 'you' : 'agent' }} ·
+          {{ thread.resolvedAt | date: 'MMM d, HH:mm' }}
+        </p>
+      }
+      <button (click)="resolve(thread.id, !thread.resolved)">
+        {{ thread.resolved ? 'Reopen' : 'Resolve' }}
+      </button>
+      <label
+        >Reply<textarea
+          [attr.aria-label]="'Reply to comment ' + thread.id"
+          rows="2"
+          maxlength="4000"
+          placeholder="Add a reply…"
+          [ngModel]="replies()[thread.id] ?? ''"
+          (ngModelChange)="setReply(thread.id, $event)"
+        ></textarea>
+      </label>
+      <button [disabled]="!(replies()[thread.id] ?? '').trim()" (click)="reply(thread.id)">
+        Reply
+      </button>
+      @if (thread.resolved) {
+        <p class="hint">Replying reopens this comment.</p>
+      }
+    </article>
+  } @empty {
+    <p class="empty">
+      No {{ status() === 'all' ? '' : status() }} comments
+      {{ scope() === 'page' ? 'on this page' : 'in this document' }}.
+    </p>
+  }
+</section>

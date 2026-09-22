@@ -88,7 +88,7 @@ final class MCPServer {
         case "ping": return [:] as [String:Any]
         case "tools/list":
             let capabilities = try await host.dispatch("capabilities",[:]) as! [String:Any]
-            return ["tools": MCPTools.list(transactionSchema: capabilities["transactionSchema"]!)]
+            return ["tools": MCPTools.list(transactionSchema: capabilities["transactionSchema"]!, commentsQuerySchema: capabilities["commentsQuerySchema"]!)]
         case "tools/call":
             let params = rpc["params"] as? [String:Any] ?? [:]
             guard let name = params["name"] as? String, MCPTools.names.contains(name) else { throw HostError.message("Unknown tool") }
