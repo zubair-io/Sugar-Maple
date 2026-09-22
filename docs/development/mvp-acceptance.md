@@ -40,7 +40,7 @@ The MCP integration test temporarily adds a page and undoes it. Native snapshot 
 
 The initial checkpoint covers pages, semantic primitives, parent relationships, basic CSS layouts, manual geometry, color tokens, preview navigation, developer snippets, editable clipboard payloads, checkpoint persistence and the early MCP loop. Complete asset import/export, full component/Repeat Grid semantics, advanced selection, complete export fidelity and release packaging remain tracked MVP work. The document format remains version 1 with an explicit version check; migration fixtures are required before changing it.
 
-Browser recovery currently uses a local checkpoint; the native app stores a recovery checkpoint separately from the user-selected `.syrup` package. Recovery must never be described as a successful save to that package.
+The autosave increment below supersedes recovery-only persistence. Browser document saves use IndexedDB; native autosave writes a managed or chosen .syrup package and separate recovery snapshots. Recovery alone is never described as a successful package save.
 
 ## Composition and handoff increment
 
@@ -122,3 +122,12 @@ Verified the production web/macOS build and browser editor regression. A native-
 All editor selects now use the pinned Maple MuiSelect component, including Pages, Details, Comments and preview settings. Remove/dismiss × buttons use Maple MuiButton ghost/iconOnly and the drawer-close SVG. Component-scoped SCSS supplies Maple's utility styling without adding global styles to authored canvas content. The select uses Maple's chevron with platform appearance disabled so WKWebView honors the 44px geometry. Provenance records the adaptation.
 
 All ten browser acceptance jobs and the web/macOS build passed. Folder/comment browser flows passed again after the WKWebView appearance correction. Native visual and popup/cancel checks passed, and the recovered document (including posted comments) remained identical. After the safe restart, the preceding panel-collapse and File-menu changes were also checked: both panels collapse/restore, native File lists the four actions, and Save As opens the system dialog and cancels without document mutation. Actual save-to-disk and New/Open confirmation remain outside this increment's native checks.
+
+
+### Automatic saves
+
+Committed document edits, posted comments, agent transactions and undo/redo enter a serial persistence queue. New native documents get independent managed packages under Application Support/SugarMaple/Documents. Chosen paths and fingerprints persist across restart. Swift actor-isolated I/O writes per-document fallback snapshots before the destination, rejects external-file changes and never labels a failed package write as saved. Browser IndexedDB writes retain both each document and the active checkpoint. Earlier documents are retained when New replaces the active one; a document-library UI is not yet implemented.
+
+Saving/Saved/Save failed and the dirty indicator follow completion for the exact document/revision, not an older request. Save/Save As share the queue. New/Open wait for writes and still confirm if the latest data is unsaved. Normal Mac termination waits for the queue and cancels termination on failure. Force termination during a pending save and unposted in-memory comment drafts are not guaranteed durable.
+
+Validation: 22 model tests; all eleven browser acceptance jobs, including actual IndexedDB reload and retention of a previous document; Swift real-filesystem managed/named package round trips, chosen-path restart and external-conflict recovery; production web/macOS builds. Real HTTP/stdio MCP edits and undo were read back from the actual bound package. The live Mac app shows Saved locally. App-level quit-while-pending was implemented but not exercised because the user resumed editing; actor restart/path restoration is covered by the filesystem fixture.
