@@ -540,7 +540,7 @@ export class App {
       return;
     }
     if (event.metaKey || event.ctrlKey) {
-      if (event.key === 's') {
+      if (event.key.toLowerCase() === 's' && !this.e.native) {
         event.preventDefault();
         this.e.save(event.shiftKey);
       }

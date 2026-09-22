@@ -8,9 +8,11 @@
       (change)="e.perform([{ type: 'document.rename', name: value($event) }])"
     />
     <span class="unsaved" [title]="e.status()">{{ e.dirty() ? '●' : '' }}</span>
-    <button (click)="e.newDocument()" title="New file">New</button
-    ><button (click)="e.open()">Open</button><button (click)="e.save()">Save</button
-    ><button (click)="e.save(true)">Save As</button>
+    @if (!e.native) {
+      <button (click)="e.newDocument()" title="New file">New</button
+      ><button (click)="e.open()">Open</button><button (click)="e.save()">Save</button
+      ><button (click)="e.save(true)">Save As</button>
+    }
     <nav class="mode-switch" aria-label="Editor mode">
       @for (mode of modes; track mode) {
         <button [class.active]="e.mode() === mode" (click)="e.mode.set(mode)">{{ mode }}</button>

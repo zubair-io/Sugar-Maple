@@ -72,3 +72,7 @@ Recommended review loop: read open comments and the current scene; make the requ
 ```
 
 There are no automatic agent wakeups or notifications. The user can ask their connected agent to review open comments. `bun tools/mcp-comments-test.ts setup` creates a temporary page; add the requested feedback through the actual Mac Comments panel, then run `bun tools/mcp-comments-test.ts verify`. It reads human feedback through MCP, changes the heading, replies/resolves, checks filtering and captures the native window before undoing all three test batches. Set the UI filter to Resolved before verify to see the completed thread in the capture.
+
+### Native menu entry point
+
+The host's File menu invokes the editor-only `window.sugarMaple.fileCommand(command)` entry point with one of `new`, `open`, `save`, or `saveAs`. It rejects unknown commands and non-native/loading sessions, and routes to the existing interactive lifecycle methods. This is not an MCP tool: native dialogs and human confirmation belong to the menu flow; the existing MCP document/transaction tools remain unchanged.

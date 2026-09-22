@@ -38,6 +38,10 @@ When multiple documents are open, show compact document tabs such as `Sign-In.sy
 
 The save dropdown distinguishes New/Unsaved, Saving, Saved and Save Failed. Version-history entries appear only when backed by an implemented history feature.
 
+### Native File menu
+
+In the macOS app, New (⌘N), Open… (⌘O), Save (⌘S) and Save As… (⇧⌘S) belong in the native File menu and do not appear as titlebar buttons. The browser retains its visible file controls. All entry points use the editor's existing document lifecycle and native package dialogs. Native menu shortcuts must not also trigger a second web save. New/Open confirm replacement of any dirty document, including pages or comments without canvas nodes.
+
 ### Center: mode switcher
 
 A compact segmented pill selects **Design (1)**, **Prototype (2)** or **Developer (3)**. Use a subtle active surface and clear text contrast. Expose the selected state semantically and keep the control keyboard operable.

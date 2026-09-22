@@ -47,6 +47,21 @@ export class EditorService {
   constructor() {
     window.sugarMaple = {
       dispatch: (method: string, args: any) => this.dispatch(method, args),
+      fileCommand: async (command: string) => {
+        if (!this.native || !this.ready()) throw Error('Native editor not ready');
+        switch (command) {
+          case 'new':
+            return this.newDocument();
+          case 'open':
+            return this.open();
+          case 'save':
+            return this.save();
+          case 'saveAs':
+            return this.save(true);
+          default:
+            throw Error('Unknown file command');
+        }
+      },
       ready: false,
     };
     this.restore().finally(() => {
@@ -158,7 +173,6 @@ export class EditorService {
   async newDocument() {
     if (
       this.dirty() &&
-      this.doc().nodes.length &&
       !confirm('Create a new file? Save your current work first if you want to keep it.')
     )
       return;
@@ -252,12 +266,7 @@ export class EditorService {
   }
   async open() {
     try {
-      if (
-        this.doc().nodes.length &&
-        this.dirty() &&
-        !confirm('Open another file and replace unsaved work?')
-      )
-        return;
+      if (this.dirty() && !confirm('Open another file and replace unsaved work?')) return;
       if (this.native) {
         const result = await this.bridge('file.open');
         if (result.cancelled) return;
