@@ -117,11 +117,18 @@ export const NodeSchema = z
   })
   .strict();
 export type SceneNode = z.infer<typeof NodeSchema>;
-export const PageSchema = z.object({ id, name: z.string().min(1).max(200), order: finite });
+export const FolderSchema = z.object({ id, name: z.string().min(1).max(200), order: finite });
+export const PageSchema = z.object({
+  id,
+  name: z.string().min(1).max(200),
+  order: finite,
+  folderId: id.nullable().default(null),
+});
 export const DocumentSchema = z.object({
   version: z.literal(1),
   id,
   name: z.string().min(1).max(200),
+  folders: z.array(FolderSchema).max(100).default([]),
   pages: z.array(PageSchema).min(1).max(100),
   nodes: z.array(NodeSchema).max(10000),
   tokens: z.record(z.string().regex(/^[\w.-]+$/), color),
@@ -177,9 +184,26 @@ export const OperationSchema = z.discriminatedUnion('type', [
     })
     .strict(),
   z
-    .object({ type: z.literal('page.add'), id: id.optional(), name: z.string().min(1).max(200) })
+    .object({
+      type: z.literal('page.add'),
+      id: id.optional(),
+      name: z.string().min(1).max(200),
+      folderId: id.nullable().optional(),
+    })
     .strict(),
-  z.object({ type: z.literal('page.update'), id, name: z.string().min(1).max(200) }).strict(),
+  z
+    .object({
+      type: z.literal('page.update'),
+      id,
+      name: z.string().min(1).max(200).optional(),
+      folderId: id.nullable().optional(),
+    })
+    .strict(),
+  z
+    .object({ type: z.literal('folder.add'), id: id.optional(), name: z.string().min(1).max(200) })
+    .strict(),
+  z.object({ type: z.literal('folder.update'), id, name: z.string().min(1).max(200) }).strict(),
+  z.object({ type: z.literal('folder.remove'), id }).strict(),
   z.object({ type: z.literal('page.remove'), id }).strict(),
   z.object({ type: z.literal('node.add'), node: addNode }).strict(),
   z.object({ type: z.literal('node.update'), id, patch: patchNode }).strict(),
@@ -215,14 +239,20 @@ export function blankDocument(name = 'Untitled'): SceneDocument {
     version: 1,
     id: uid(),
     name,
-    pages: [{ id: uid(), name: 'Page 1', order: 0 }],
+    folders: [],
+    pages: [{ id: uid(), name: 'Page 1', order: 0, folderId: null }],
     nodes: [],
     tokens: {},
   };
 }
 export function validateDocument(value: unknown): SceneDocument {
   const doc = DocumentSchema.parse(value);
+  const folders = new Set(doc.folders.map((f) => f.id));
+  if (folders.size !== doc.folders.length) throw Error('Duplicate folder IDs');
+  for (const page of doc.pages)
+    if (page.folderId && !folders.has(page.folderId)) throw Error('Missing page folder');
   const pages = new Set(doc.pages.map((p) => p.id));
+  if (doc.pages.some((p) => folders.has(p.id))) throw Error('Page and folder IDs must be distinct');
   const nodes = new Map(doc.nodes.map((n) => [n.id, n]));
   if (pages.size !== doc.pages.length || nodes.size !== doc.nodes.length)
     throw Error('Duplicate IDs');

@@ -152,6 +152,41 @@ export class App {
   patch(key: string, value: any) {
     this.e.update({ [key]: value });
   }
+  readonly collapsedFolders = signal<string[]>([]);
+  readonly currentFolder = computed(
+    () => this.e.doc().pages.find((p) => p.id === this.e.pageId())?.folderId ?? null,
+  );
+  readonly pageRows = computed(() => {
+    const doc = this.e.doc();
+    return [
+      ...doc.pages
+        .filter((p) => !p.folderId)
+        .map((p) => ({ kind: 'page', id: p.id, name: p.name, folderId: null })),
+      ...doc.folders.flatMap((f) => [
+        { kind: 'folder', id: f.id, name: f.name, folderId: null },
+        ...(this.collapsedFolders().includes(f.id)
+          ? []
+          : doc.pages
+              .filter((p) => p.folderId === f.id)
+              .map((p) => ({ kind: 'page', id: p.id, name: p.name, folderId: p.folderId }))),
+      ]),
+    ];
+  });
+  toggleFolder(id: string) {
+    this.collapsedFolders.update((ids) =>
+      ids.includes(id) ? ids.filter((v) => v !== id) : [...ids, id],
+    );
+  }
+  createFolder(name: string) {
+    if (name.trim()) this.e.perform([{ type: 'folder.add', name: name.trim() }]);
+  }
+  renameFolder(id: string, name: string) {
+    if (name.trim()) this.e.perform([{ type: 'folder.update', id, name: name.trim() }]);
+  }
+  movePage(folderId: string) {
+    this.e.perform([{ type: 'page.update', id: this.e.pageId(), folderId: folderId || null }]);
+    this.collapsedFolders.update((ids) => ids.filter((v) => v !== folderId));
+  }
   renamePage(id: string, name: string) {
     const next = prompt('Page name', name);
     if (next?.trim()) this.e.perform([{ type: 'page.update', id, name: next.trim() }]);
@@ -170,9 +205,16 @@ export class App {
   }
   addPage() {
     const r = this.e.perform([
-      { type: 'page.add', name: 'Page ' + (this.e.doc().pages.length + 1) },
+      {
+        type: 'page.add',
+        name: 'Page ' + (this.e.doc().pages.length + 1),
+        folderId: this.currentFolder(),
+      },
     ]);
-    if (r) this.e.pageId.set(r.ids[0]);
+    if (r) {
+      this.e.pageId.set(r.ids[0]);
+      this.collapsedFolders.update((ids) => ids.filter((id) => id !== this.currentFolder()));
+    }
   }
   selectPage(id: string) {
     this.e.pageId.set(id);

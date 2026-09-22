@@ -266,3 +266,7 @@ This UI contract does not make the completed three-column shell a prerequisite f
 - Save and agent indicators represent actual persisted/committed state, including disconnected, failed and session-only cases.
 - Unimplemented history/import/trigger/easing options are explicitly unavailable; enabled actions are functional and testable.
 - Browser and WKWebView checks include all three modes, both collapsed panels, empty and multiple selection, clipboard failure, and agent-active/error states. Capture visual evidence alongside interaction assertions.
+
+### Page organization amendment
+
+Use explicit single-level folders in the Pages list. Do not infer structure from slashes or prefixed page names. Folder rows expand/collapse and allow inline renaming. The active page has a folder selector including “No folder”; newly added pages inherit that selection. Removing a folder returns its pages to the root without deleting content. Names such as “Overview” and “Evidence” sit under “Home”, while onboarding and notebook screens use their own folders. Prototype targets continue to use stable node IDs across organization changes.

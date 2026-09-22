@@ -70,6 +70,9 @@ export class DocumentStore {
       version: 1,
       id: this.root.get('id') as string,
       name: this.root.get('name') as string,
+      folders: Array.from((this.root.get('folders') as Y.Map<any>).values())
+        .map((v) => v.toJSON())
+        .sort((a, b) => a.order - b.order),
       pages: Array.from((this.root.get('pages') as Y.Map<any>).values())
         .map((v) => v.toJSON())
         .sort((a, b) => a.order - b.order),
@@ -80,7 +83,7 @@ export class DocumentStore {
   private write(doc: SceneDocument) {
     this.root.set('id', doc.id);
     this.root.set('name', doc.name);
-    for (const key of ['pages', 'nodes', 'tokens'] as const) {
+    for (const key of ['folders', 'pages', 'nodes', 'tokens'] as const) {
       let map = this.root.get(key) as Y.Map<any> | undefined;
       if (!map) {
         map = new Y.Map();
@@ -179,16 +182,35 @@ function applyOperation(doc: SceneDocument, op: Operation, ids: string[]) {
     case 'token.set':
       doc.tokens[op.name] = op.value;
       break;
+    case 'folder.add': {
+      const id = op.id ?? uid();
+      doc.folders.push({ id, name: op.name, order: doc.folders.length });
+      ids.push(id);
+      break;
+    }
+    case 'folder.update': {
+      const folder = doc.folders.find((f) => f.id === op.id);
+      if (!folder) throw Error('Folder not found');
+      folder.name = op.name;
+      break;
+    }
+    case 'folder.remove': {
+      if (!doc.folders.some((f) => f.id === op.id)) throw Error('Folder not found');
+      doc.folders = doc.folders.filter((f) => f.id !== op.id);
+      for (const page of doc.pages) if (page.folderId === op.id) page.folderId = null;
+      break;
+    }
     case 'page.add': {
       const id = op.id ?? uid();
-      doc.pages.push({ id, name: op.name, order: doc.pages.length });
+      doc.pages.push({ id, name: op.name, order: doc.pages.length, folderId: op.folderId ?? null });
       ids.push(id);
       break;
     }
     case 'page.update': {
       const page = doc.pages.find((p) => p.id === op.id);
       if (!page) throw Error('Page not found');
-      page.name = op.name;
+      if (op.name !== undefined) page.name = op.name;
+      if (op.folderId !== undefined) page.folderId = op.folderId;
       break;
     }
     case 'page.remove': {
