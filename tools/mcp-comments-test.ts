@@ -50,7 +50,7 @@ if (process.argv[2] === "setup") {
     JSON.stringify({ before, page, heading, revision: receipt.revision }),
   );
   console.log(
-    "Use the Mac Comments panel to add exactly one comment: Make this heading clearer. Then run verify.",
+    "Use the Mac Comment tool, click the canvas, and post exactly one pinned comment: Make this heading clearer. Then run verify.",
   );
 } else if (process.argv[2] === "verify") {
   const { before, page, heading, revision } = await stateFile.json();
@@ -63,6 +63,7 @@ if (process.argv[2] === "setup") {
   assert.equal(list.comments.length, 1);
   const thread = list.comments[0];
   assert.equal(thread.messages[0].author, "human");
+  assert.ok(Number.isFinite(thread.anchor?.x) && Number.isFinite(thread.anchor?.y));
   assert.equal(thread.messages[0].text, "Make this heading clearer.");
   const tools = await c.listTools();
   assert.ok(tools.tools.find((t) => t.name === "comments.list"));

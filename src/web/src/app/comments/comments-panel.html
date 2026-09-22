@@ -1,49 +1,25 @@
 <section aria-label="Page comments">
-  <h2>Comments</h2>
+  <h2>{{ page()?.name }}</h2>
+  <p class="hint">Comments on this page. Use the Comment tool to mark a spot on the canvas.</p>
   <label
-    >Page<mui-select
-      ariaLabel="Comment page"
-      [value]="e.pageId()"
-      [options]="pageOptions()"
-      (valueChange)="selectPage($event)"
+    >Status<mui-select
+      ariaLabel="Comment status"
+      [value]="status()"
+      [options]="statusOptions"
+      (valueChange)="status.set($event)"
   /></label>
-  <label
-    >New comment<textarea
-      aria-label="New page comment"
-      maxlength="4000"
-      rows="4"
-      placeholder="What should change on this page?"
-      [ngModel]="draft()"
-      (ngModelChange)="setDraft($event)"
-    ></textarea>
-  </label>
-  <button class="primary" [disabled]="!draft().trim()" (click)="add()">Add comment</button>
-  <p class="hint">
-    Saved with this document. Ask your agent to review open comments when you’re ready.
-  </p>
-  <div class="filters">
-    <label
-      >Show<mui-select
-        ariaLabel="Comment scope"
-        [value]="scope()"
-        [options]="scopeOptions"
-        (valueChange)="scope.set($event)"
-    /></label>
-    <label
-      >Status<mui-select
-        ariaLabel="Comment status"
-        [value]="status()"
-        [options]="statusOptions"
-        (valueChange)="status.set($event)"
-    /></label>
-  </div>
   <p role="status" class="notice">{{ notice() }}</p>
   @for (thread of threads(); track thread.id) {
-    <article [attr.data-comment-id]="thread.id" [class.resolved]="thread.resolved">
+    <article
+      tabindex="-1"
+      [attr.aria-label]="'Comment: ' + thread.messages[0].text"
+      [attr.data-comment-id]="thread.id"
+      [class.resolved]="thread.resolved"
+      [class.highlighted]="ui.focused()?.id === thread.id"
+    >
       <header>
-        <button class="page-link" (click)="selectPage(thread.pageId)">
-          {{ pageName(thread.pageId) }}</button
-        ><span>{{ thread.resolved ? 'Resolved' : 'Open' }}</span>
+        <span>{{ thread.anchor ? 'Pinned comment' : 'Page comment' }}</span>
+        <span>{{ thread.resolved ? 'Resolved' : 'Open' }}</span>
       </header>
       @for (message of thread.messages; track message.id) {
         <div class="message">
@@ -83,9 +59,6 @@
       }
     </article>
   } @empty {
-    <p class="empty">
-      No {{ status() === 'all' ? '' : status() }} comments
-      {{ scope() === 'page' ? 'on this page' : 'in this document' }}.
-    </p>
+    <p class="empty">No {{ status() === 'all' ? '' : status() }} comments on this page.</p>
   }
 </section>

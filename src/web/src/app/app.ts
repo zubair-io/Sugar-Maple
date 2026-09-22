@@ -1,7 +1,9 @@
 import { MuiSelectComponent } from './chrome/maple/ui/select/mui-select.component';
+import { CommentUi } from './comments/comment-ui';
+import { CommentCanvas } from './comments/comment-canvas';
 import { CommentsPanel } from './comments/comments-panel';
 import { cloneTree } from './model/composition';
-import { Component, inject, signal, computed, HostListener } from '@angular/core';
+import { Component, inject, signal, computed, effect, HostListener } from '@angular/core';
 import { KeyValuePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { EditorService } from './editor.service';
@@ -12,6 +14,7 @@ import { exportNode, ExportTarget } from './model/export';
 @Component({
   selector: 'app-root',
   imports: [
+    CommentCanvas,
     MuiSelectComponent,
     CommentsPanel,
     KeyValuePipe,
@@ -86,10 +89,8 @@ export class App {
   readonly previewHistory: string[] = [];
   readonly left = signal(true);
   readonly right = signal(true);
-  readonly commentsOpen = signal(false);
-  readonly openCommentCount = computed(
-    () => this.e.doc().comments.filter((c) => !c.resolved).length,
-  );
+  readonly commentUi = inject(CommentUi);
+
   readonly code = computed(() => {
     try {
       return this.e.selected() ? exportNode(this.e.doc(), this.e.selected()!, this.target()) : '';
@@ -160,6 +161,9 @@ export class App {
     element?: HTMLElement;
   } | null = null;
   constructor() {
+    effect(() => {
+      if (this.commentUi.openRequest()) this.right.set(true);
+    });
     window.sugarMaple.viewport = {
       fit: () => {
         this.fit();
@@ -579,6 +583,10 @@ export class App {
   @HostListener('window:keydown', ['$event']) key(event: KeyboardEvent) {
     const typing = (event.target as HTMLElement).matches('input,textarea,select,[contenteditable]');
     if (event.key === 'Escape') {
+      if (this.commentUi.placing() || this.commentUi.draft()) {
+        this.commentUi.cancel();
+        return;
+      }
       this.preview.set(null);
       this.e.select(null);
       return;

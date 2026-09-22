@@ -19,13 +19,6 @@
       }
     </nav>
     <span class="mcp" [title]="e.mcp()">◉ {{ e.native ? 'MCP' : 'Browser' }}</span>
-    <button
-      aria-label="Comments"
-      [attr.aria-pressed]="commentsOpen()"
-      (click)="commentsOpen.set(!commentsOpen()); right.set(true)"
-    >
-      Comments {{ openCommentCount() || '' }}
-    </button>
     <mui-button variant="secondary" size="sm" (pressed)="startPreview()">▶ Preview</mui-button>
   </header>
   <div class="workspace" [class.no-left]="!left()" [class.no-right]="!right()">
@@ -267,6 +260,15 @@
               }}
             </button>
           }
+          <mui-button
+            variant="ghost"
+            size="sm"
+            ariaLabel="Add comment"
+            title="Place a comment on the canvas"
+            [ariaPressed]="commentUi.placing()"
+            (pressed)="commentUi.start()"
+            >Comment</mui-button
+          >
         </div>
         <button (click)="fit()">Fit</button
         ><button
@@ -285,6 +287,7 @@
         </button>
       </div>
       <div class="viewport" (pointerdown)="background($event)" (wheel)="wheel($event)">
+        <comment-canvas [zoom]="zoom()" [pan]="pan()" />
         <div
           class="world"
           [style.transform]="'translate(' + pan().x + 'px,' + pan().y + 'px) scale(' + zoom() + ')'"
@@ -343,8 +346,19 @@
         }
       </div>
     </main>
-    <aside class="inspector" id="right-panel" aria-label="Details" [hidden]="!right()">
-      @if (commentsOpen()) {
+    <aside class="inspector" id="right-panel" aria-label="Details and comments" [hidden]="!right()">
+      <nav class="tabs" aria-label="Right panel sections">
+        @for (section of ['Details', 'Comments']; track section) {
+          <button
+            [class.active]="commentUi.panel() === section"
+            [attr.aria-pressed]="commentUi.panel() === section"
+            (click)="commentUi.panel.set(section)"
+          >
+            {{ section }}
+          </button>
+        }
+      </nav>
+      @if (commentUi.panel() === 'Comments') {
         <page-comments />
       } @else {
         <div class="inspector-heading">

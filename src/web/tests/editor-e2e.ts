@@ -72,7 +72,8 @@ await page.getByRole('button', { name: 'Expand right panel', exact: true }).focu
 await page.keyboard.press('Space');
 await expect(page.locator('#right-panel')).toBeVisible();
 await expect(page.locator('.inspector-heading')).toContainText('Details');
-await page.getByRole('button', { name: 'Comments', exact: true }).click();
+await page.getByRole('button', { name: 'Add comment', exact: true }).click();
+await page.getByRole('button', { name: 'Place comment on canvas', exact: true }).press('Enter');
 await page
   .getByLabel('New page comment', { exact: true })
   .fill('Draft kept when the panel is hidden');
@@ -81,7 +82,7 @@ await page.getByRole('button', { name: 'Expand right panel', exact: true }).clic
 await expect(page.getByLabel('New page comment', { exact: true })).toHaveValue(
   'Draft kept when the panel is hidden',
 );
-await page.getByRole('button', { name: 'Comments', exact: true }).click();
+await page.getByRole('button', { name: 'Cancel', exact: true }).click();
 const afterPanels = await page.evaluate(() => window.sugarMaple.dispatch('document.get'));
 if (
   beforePanels.revision !== afterPanels.revision ||
