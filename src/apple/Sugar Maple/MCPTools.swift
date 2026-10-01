@@ -1,7 +1,7 @@
 import Foundation
 
 enum MCPTools {
-    static let names = ["capabilities","comments.list","document.get","document.checkpoint","document.new","transaction.apply","history.undo","history.redo","selection.set","code.export","layout.inspect","viewport.fit","render.capture"]
+    static let names = ["capabilities","editor.discover","document.read","comments.list","document.get","document.checkpoint","document.new","transaction.apply","history.undo","history.redo","selection.set","code.export","layout.inspect","viewport.fit","render.capture"]
     static func list(transactionSchema: Any, commentsQuerySchema: Any, schemas: [String: Any] = [:], outputSchemas: [String: Any] = [:]) -> [[String:Any]] {
         let string: [String:Any] = ["type":"string"]
         let revision: [String:Any] = ["documentId":string,"expectedRevision":["type":"integer","minimum":0]]
@@ -15,6 +15,8 @@ enum MCPTools {
         let tools = [
             comments,
             tool("capabilities","Discover supported primitive kinds, coordinates and transaction schema."),
+            tool("editor.discover","Read current document/revision, page summaries, selection and bounded read/capture capabilities without scene payloads."),
+            tool("document.read","Read a revision-bound document/page/subtree/selection scope, up to 500 nodes and 16 MiB. Depth-first sibling-order/id pagination uses offset and nextOffset. Subsequent selection pages require captured rootIds as selectionIds. Includes ancestors, referenced token values and component identity; read component subtrees separately for definitions."),
             tool("viewport.fit","Fit all root elements on the current page into the visible editor viewport."),
             tool("layout.inspect","Read actual rendered viewport bounds in CSS pixels for nodes on the current page. Hidden nodes have rendered=false."),
             tool("document.checkpoint","Read a consistent versioned checkpoint including edit history. Does not write any file or mark the document saved."),
@@ -25,7 +27,7 @@ enum MCPTools {
             tool("history.redo","Redo the last undone operation.",revision,["documentId","expectedRevision"]),
             tool("selection.set","Select a node and switch to its page.",["id":string],["id"]),
             tool("code.export","Export a node. SwiftUI exports a complete view with state; named image assets require an asset catalog.",["id":string,"target":["type":"string","enum":["html","angular","tailwind","css","swiftui","editable","svg"]]],["id","target"]),
-            tool("render.capture","Capture the actual editor window after fonts/layout settle. Reject a superseded revision. Returns PNG image and revision metadata.",revision,["documentId","expectedRevision"])
+            tool("render.capture","Capture the actual editor WebView after fonts/layout settle. Optional rect uses WebView CSS pixels; scale is 0.5/1/2, with each output dimension at most 4096 pixels. Reject out-of-bounds rectangles and superseded revisions. Returns PNG and exact crop/pixel metadata.",revision,["documentId","expectedRevision"])
         ]
         return tools.map { tool in
             var value = tool
