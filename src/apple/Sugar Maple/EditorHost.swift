@@ -175,10 +175,28 @@ final class EditorHost: NSObject, WKScriptMessageHandlerWithReply, WKNavigationD
         return value
     }
     func snapshot(_ args: [String: Any]) async throws -> [String: Any] {
-        let revision = try await dispatch("render.ready", args)
-        let image = try await webView.takeSnapshot(configuration: nil)
-        _ = try await dispatch("render.ready", args)
-        guard let tiff = image.tiffRepresentation, let rep = NSBitmapImageRep(data: tiff), let png = rep.representation(using: .png, properties: [:]) else { throw HostError.message("Snapshot encoding failed") }
+        guard var revision = try await dispatch("render.capture", args) as? [String: Any],
+              let request = revision.removeValue(forKey: "captureRequest") as? [String: Any] else { throw HostError.message("Snapshot preparation failed") }
+        let scale = request["scale"] as? Double ?? 1
+        let crop: CGRect
+        if let rect = request["rect"] as? [String: Double] {
+            crop = CGRect(x: rect["x"]!, y: rect["y"]!, width: rect["width"]!, height: rect["height"]!)
+        } else { crop = webView.bounds }
+        guard webView.bounds.contains(crop), crop.width > 0, crop.height > 0 else {
+            throw HostError.tool(["code":"invalid_input", "message":"Capture rectangle is outside the editor WebView.", "recoveryAction":"Choose a rectangle within the editor viewport in CSS pixels."])
+        }
+        let width = Int(ceil(crop.width * scale)), height = Int(ceil(crop.height * scale))
+        guard width <= 4096, height <= 4096, width * height <= 16777216 else {
+            throw HostError.tool(["code":"invalid_input", "message":"Capture exceeds 4096 pixels per dimension or 16 megapixels.", "recoveryAction":"Reduce the rectangle or scale."])
+        }
+        let configuration = WKSnapshotConfiguration(); configuration.rect = crop; configuration.snapshotWidth = NSNumber(value: crop.width)
+        let image = try await webView.takeSnapshot(configuration: configuration)
+        _ = try await dispatch("render.ready", ["documentId":request["documentId"]!, "expectedRevision":request["expectedRevision"]!])
+        guard let cgImage = image.cgImage(forProposedRect: nil, context: nil, hints: nil),
+              let context = CGContext(data: nil, width: width, height: height, bitsPerComponent: 8, bytesPerRow: 0, space: CGColorSpaceCreateDeviceRGB(), bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue) else { throw HostError.message("Snapshot encoding failed") }
+        context.interpolationQuality = .high; context.draw(cgImage, in: CGRect(x:0, y:0, width:width, height:height))
+        guard let scaled = context.makeImage(), let png = NSBitmapImageRep(cgImage: scaled).representation(using: .png, properties: [:]) else { throw HostError.message("Snapshot encoding failed") }
+        revision["capture"] = ["coordinateUnits":"CSS pixels in the editor WebView", "rect":["x":crop.minX, "y":crop.minY, "width":crop.width, "height":crop.height], "scale":scale, "pixelWidth":width, "pixelHeight":height]
         return ["structuredContent": revision, "content": [["type": "image", "mimeType": "image/png", "data": png.base64EncodedString()], ["type": "text", "text": String(data: try JSONSerialization.data(withJSONObject: revision), encoding: .utf8)!]]]
     }
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {

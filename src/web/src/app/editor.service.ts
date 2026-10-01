@@ -1,8 +1,9 @@
 import { SceneFonts } from './canvas/scene-fonts';
+import { discoverEditor, readScope } from './model/scoped-read';
 import { toolOutputJSONSchemas } from './model/tool-output';
 import { PersistenceQueue } from './model/persistence-queue';
 import { pasteElements } from './model/clipboard';
-import { toolArguments, toolError, ToolInputSchemas } from './model/tool-contract';
+import { toolArguments, toolError, toolInputJSONSchemas } from './model/tool-contract';
 import { RecoveryStore } from './model/recovery';
 import { importTokens, exportTokens } from './model/tokens';
 import { svgImport, svgExport } from './model/svg';
@@ -584,6 +585,10 @@ export class EditorService {
   async dispatch(method: string, args: any = {}) {
     args = toolArguments(method, args);
     switch (method) {
+      case 'editor.discover':
+        return discoverEditor(this.doc(), this.revision(), this.pageId(), this.selection());
+      case 'document.read':
+        return readScope(this.doc(), this.revision(), args, this.selection());
       case 'comments.list': {
         const query = CommentsQuerySchema.parse(args);
         if (query.pageId && !this.doc().pages.some((p) => p.id === query.pageId))
@@ -649,6 +654,7 @@ export class EditorService {
       }
       case 'code.export':
         return { code: exportNode(this.doc(), args.id, args.target) };
+      case 'render.capture':
       case 'render.ready':
         this.checkTarget(args);
         await this.settleLayout();
@@ -660,6 +666,7 @@ export class EditorService {
           durable: !this.dirty(),
           persistence: this.status(),
           assetDiagnostics: this.assets.diagnostics(this.pageNodes()),
+          ...(method === 'render.capture' ? { captureRequest: args } : {}),
         };
       case 'capabilities':
         return {
@@ -667,9 +674,7 @@ export class EditorService {
           coordinateUnits: 'CSS pixels; parent relative',
           transactionSchema: TransactionSchema.toJSONSchema(),
           commentsQuerySchema: CommentsQuerySchema.toJSONSchema(),
-          toolSchemas: Object.fromEntries(
-            Object.entries(ToolInputSchemas).map(([name, schema]) => [name, schema.toJSONSchema()]),
-          ),
+          toolSchemas: toolInputJSONSchemas(),
           toolOutputSchemas: toolOutputJSONSchemas(),
           kinds: [
             'artboard',
