@@ -32,6 +32,8 @@ Source review corrected radial-gradient painting, wrapped hug-text allocation be
 
 The first independent Jules review exposed a review-tool coverage bug: its first-80-KB cutoff was consumed by the preserved design archive. The reviewer now prioritizes complete shipping source, tool, test and workflow diffs within a 350-KB budget, identifies omitted ancillary files, and fails rather than silently omitting shipping code. Regression fixtures cover archive displacement, complete hunks and quoted Swift paths; the actual PR diff was checked for complete shipping-source inclusion before requesting the corrected review.
 
+The corrected independent review flagged a force cast in native Open. The upstream package reader already validates a dictionary, but the host now uses a guarded cast as well. The actual persistence read path rejects array/null/syntax-invalid/missing-document/unsupported-version packages, preserves recovery, and still opens valid files. The review's image-import warning was assessed and the revision guard retained: a delayed import or replacement must not overwrite intervening human/agent edits. Remote selection IDs concern network coediting, which the local adapter does not enable.
+
 | Finding | Resolution | Verification |
 | --- | --- | --- |
 | QA-01 | Native bridge preserves structured tool errors and recovery context | Real SDK HTTP + stdio stale/wrong/invalid failures |

@@ -63,6 +63,21 @@ import Foundation
         let recovery = try await reopened.load()!
         let value = try JSONSerialization.jsonObject(with: recovery) as! [String: Any]
         precondition((value["document"] as? [String: Any])?["name"] as? String == "Unwritten edit")
-        print("PASS: real autosave packages, independent documents, title rename, collisions, invalid names, case-only rename, rename undo, migration, restart, external conflict and recovery preservation")
+        // Exercise the exact read path used by native Open, without adopting bad files.
+        let malformed = root.appendingPathComponent("Malformed.syrup")
+        try FileManager.default.createDirectory(at: malformed, withIntermediateDirectories: true)
+        for text in ["[]", "null", "{", "{}", "{\"document\":{\"version\":99}}"] {
+            try Data(text.utf8).write(to: malformed.appendingPathComponent("document.json"), options: .atomic)
+            do {
+                _ = try await reopened.read(malformed)
+                fatalError("Corrupt package accepted by native Open read path")
+            } catch {}
+        }
+        let validRead = try await reopened.read(renamed)
+        let validValue = try JSONSerialization.jsonObject(with: validRead) as? [String: Any]
+        precondition((validValue?["document"] as? [String: Any])?["name"] as? String == "External change")
+        let afterBadReads = try await reopened.load()!
+        precondition(afterBadReads == recovery)
+        print("PASS: real autosave packages, independent documents, title rename, collisions, invalid names, case-only rename, rename undo, migration, restart, external conflict, recovery preservation and corrupt native Open rejection")
     }
 }
