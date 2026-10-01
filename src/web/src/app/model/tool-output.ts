@@ -1,6 +1,7 @@
 import { z } from 'zod';
 import { CommentSchema, DocumentSchema } from './schema';
 import { JournalSchema } from './journal';
+import { DiscoveryOutputSchema, ScopedReadOutputSchema } from './read-contract';
 
 const receipt = z.object({
   documentId: z.string(), revision: z.number().int().nonnegative(),
@@ -16,6 +17,8 @@ const status = receipt.extend({
 }).strict();
 const schemas = z.record(z.string(), z.unknown());
 export const ToolOutputSchemas = {
+  'editor.discover': DiscoveryOutputSchema,
+  'document.read': ScopedReadOutputSchema,
   capabilities: z.object({
     protocolVersion: z.literal(1), coordinateUnits: z.string(),
     transactionSchema: z.unknown(), commentsQuerySchema: z.unknown(),
@@ -37,7 +40,10 @@ export const ToolOutputSchemas = {
     nodes: z.array(z.object({ id: z.string(), selected: z.boolean(), rendered: z.boolean(), painted: z.boolean(), bounds: bounds.nullable() }).strict()),
   }).strict(),
   'viewport.fit': z.object({ zoom: z.number().positive(), pan: z.object({ x: z.number(), y: z.number() }).strict() }).strict(),
-  'render.ready': status, 'render.capture': status,
+  'render.ready': status, 'render.capture': status.extend({ capture: z.object({
+    coordinateUnits: z.literal('CSS pixels in the editor WebView'), rect: bounds, scale: z.number().positive(),
+    pixelWidth: z.number().int().positive().max(4096), pixelHeight: z.number().int().positive().max(4096),
+  }).strict() }).strict(),
 };
 // The pinned SDK validates structuredContent even for error results. Describe both
 // successful payloads and typed errors while retaining isError as the protocol flag.
