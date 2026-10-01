@@ -1,0 +1,29 @@
+{
+  "whiteboardSourceRevision": "38c2e6793b4602418b669909865d2292d43a842d",
+  "files": [
+    {
+      "source": "../Just-Maple/packages/whiteboard/src/core/components/canvas/canvas.component.ts",
+      "sha256": "33a9a836625f0d6f040859aff26dcef28cb5de6bfcbf561ccd26637120471eba"
+    },
+    {
+      "source": "../Just-Maple/packages/whiteboard/src/core/components/canvas/canvas.component.html",
+      "sha256": "7998b324e5a387ab477fbc40fe395304e3e5de989c3be9fc4509343ce2d2c391"
+    },
+    {
+      "source": "../Just-Maple/packages/whiteboard/src/core/components/canvas/canvas.component.scss",
+      "sha256": "e60e02ccae8aba17099d2b58a74e6554648b911369cf94c8404cd9d12730c9d4"
+    },
+    {
+      "source": "../Just-Maple/packages/whiteboard/src/core/models/types.ts",
+      "sha256": "1a62a7a09f5914f0075b6f85e61b66d2d7d4a98768479b385189852f91c4a615"
+    },
+    {
+      "source": "../Just-Maple/packages/whiteboard/src/core/models/user-colors.ts",
+      "sha256": "20209aafb49798606cbe1fc5461332b502ce824f31588bbb33e3fef1957fd0d5"
+    },
+    {
+      "source": "../Just-Maple/packages/whiteboard/src/core/tools/tool.interface.ts",
+      "sha256": "0e3d78855c0be0528424446b1d4fd38f6b1aff414d6c044136ebaf38e16d017f"
+    }
+  ]
+}
