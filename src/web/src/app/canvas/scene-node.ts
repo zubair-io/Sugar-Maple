@@ -11,7 +11,10 @@ import { nodeStyles } from '../model/export';
 })
 export class SceneNodeView {
   readonly assets = inject(SceneAssets);
-  readonly asset = computed(() => { this.assets.version(); return this.node().kind === 'image' ? this.assets.get(this.node().asset) : null; });
+  readonly asset = computed(() => {
+    this.assets.version();
+    return this.node().kind === 'image' ? { ...this.assets.get(this.node().asset) } : null;
+  });
   readonly node = input.required<SceneNode>();
   readonly document = input.required<SceneDocument>();
   readonly selected = input<string[]>([]);

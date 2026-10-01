@@ -4,12 +4,23 @@ import { CommentUi } from './comments/comment-ui';
 import { CommentCanvas } from './comments/comment-canvas';
 import { CommentsPanel } from './comments/comments-panel';
 import { cloneTree } from './model/composition';
-import { Component, inject, signal, computed, effect, HostListener } from '@angular/core';
+import {
+  Component,
+  inject,
+  signal,
+  computed,
+  effect,
+  HostListener,
+  viewChild,
+} from '@angular/core';
 import { KeyValuePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { EditorService } from './editor.service';
-import { SceneNodeView } from './canvas/scene-node';
 import { PreviewScreen } from './canvas/preview-screen';
+import { CanvasSurface } from './canvas/canvas-surface';
+import { CanvasProjection } from './canvas/canvas-projection';
+import { AssetInspector } from './canvas/asset-inspector';
+import { intersects } from './canvas/scene-layout';
 import { MuiButtonComponent } from './chrome/maple/ui/button/mui-button.component';
 import { MuiSectionComponent } from './chrome/maple/ui/section/mui-section.component';
 import { MuiFieldComponent } from './chrome/maple/ui/field/mui-field.component';
@@ -24,8 +35,9 @@ import { exportNode, ExportTarget } from './model/export';
     CommentsPanel,
     KeyValuePipe,
     FormsModule,
-    SceneNodeView,
     PreviewScreen,
+    CanvasSurface,
+    AssetInspector,
     MuiButtonComponent,
     MuiSectionComponent,
     MuiFieldComponent,
@@ -36,6 +48,8 @@ import { exportNode, ExportTarget } from './model/export';
 export class App {
   readonly Math = Math;
   readonly e = inject(EditorService);
+  readonly projection = inject(CanvasProjection);
+  readonly surface = viewChild(CanvasSurface);
   readonly zoom = signal(0.8);
   readonly pan = signal({ x: 0, y: 0 });
   readonly tab = signal('Pages');
@@ -63,9 +77,12 @@ export class App {
   readonly linkSelectOptions = computed(() => [
     { value: '', label: 'No action' },
     ...this.e
-      .doc().nodes
-      .filter((n) => n.kind === 'artboard')
-      .map((n) => ({ value: n.id, label: `${this.e.doc().pages.find(p => p.id === n.pageId)?.name} / ${n.name}` })),
+      .doc()
+      .nodes.filter((n) => n.kind === 'artboard')
+      .map((n) => ({
+        value: n.id,
+        label: `${this.e.doc().pages.find((p) => p.id === n.pageId)?.name} / ${n.name}`,
+      })),
   ]);
   readonly transitionOptions = this.options(['instant', 'dissolve']);
   readonly layoutOptions = this.options(['free', 'horizontal', 'vertical', 'grid']);
@@ -104,8 +121,7 @@ export class App {
     }
     const visit = (parentId: string | null, depth: number) => {
       for (const node of all.filter((n) => n.parentId === parentId)) {
-        if (!query || visible.has(node.id))
-          rows.push({ node, depth });
+        if (!query || visible.has(node.id)) rows.push({ node, depth });
         visit(node.id, depth + 1);
       }
     };
@@ -159,10 +175,22 @@ export class App {
   });
   readonly canAlign = computed(() => {
     const nodes = this.e.selectedRoots();
-    if (!nodes.length || nodes.some((node) => node.locked || node.rotation !== 0 || node.widthMode !== 'fixed' || node.heightMode !== 'fixed')) return false;
+    if (
+      !nodes.length ||
+      nodes.some(
+        (node) =>
+          node.locked ||
+          node.rotation !== 0 ||
+          node.widthMode !== 'fixed' ||
+          node.heightMode !== 'fixed',
+      )
+    )
+      return false;
     if (nodes.some((node) => node.parentId !== nodes[0].parentId)) return false;
     const parent = this.e.doc().nodes.find((node) => node.id === nodes[0].parentId);
-    return nodes.length > 1 ? !parent || parent.layout === 'free' : !!parent && parent.layout === 'free';
+    return nodes.length > 1
+      ? !parent || parent.layout === 'free'
+      : !!parent && parent.layout === 'free';
   });
   readonly kinds = [
     'artboard',
@@ -184,26 +212,15 @@ export class App {
   ];
   readonly exportOptions = this.options(this.targets);
   readonly modes = ['Design', 'Prototype', 'Developer'] as const;
-  readonly marquee = signal<{ x: number; y: number; width: number; height: number } | null>(null);
-  private gesture: {
-    id?: string;
-    marquee?: boolean;
-    nodes?: { id: string; x: number; y: number; element: HTMLElement }[];
-    startX: number;
-    startY: number;
-    x: number;
-    y: number;
-    width?: number;
-    height?: number;
-    resize?: boolean;
-    pan?: boolean;
-    element?: HTMLElement;
-  } | null = null;
   constructor() {
     effect(() => {
       if (this.commentUi.openRequest()) this.right.set(true);
     });
     window.sugarMaple.viewport = {
+      flush: () => this.surface()?.flush(),
+      inspect: () => this.inspectCanvas(),
+      stats: () => this.projection.stats(),
+      camera: () => ({ zoom: this.zoom(), pan: this.pan() }),
       fit: () => {
         this.fit();
         return { zoom: this.zoom(), pan: this.pan() };
@@ -319,165 +336,47 @@ export class App {
     this.e.select(null);
   }
   canMove(n: SceneNode) {
-    if (n.locked) return false;
-    const parent = this.e.doc().nodes.find((p) => p.id === n.parentId);
-    if (parent && parent.layout !== 'free') return false;
-    let ancestor = parent;
-    while (ancestor) {
-      if (ancestor.rotation) return false;
-      ancestor = this.e.doc().nodes.find((p) => p.id === ancestor!.parentId);
-    }
-    return true;
+    return this.projection.canMove(n);
   }
-  pick({ event, node }: { event: PointerEvent; node: SceneNode }) {
-    event.stopPropagation();
-    if (event.button !== 0 || node.locked) return;
-    if (event.shiftKey) {
-      this.e.select(node.id, true);
-      return;
-    }
-    if (!this.e.selection().includes(node.id)) this.e.select(node.id);
-    if (this.e.mode() !== 'Design') return;
-    const parent = this.e.doc().nodes.find((n) => n.id === node.parentId);
-    if (!this.canMove(node)) return;
-    this.gesture = {
-      id: node.id,
-      nodes: this.e
-        .selectedRoots()
-        .filter((n) => this.canMove(n))
-        .map((n) => ({
+  inspectCanvas() {
+    const viewport = document.querySelector('.viewport')!.getBoundingClientRect();
+    const zoom = this.zoom(),
+      pan = this.pan(),
+      index = this.projection.byId();
+    const view = {
+      x: -pan.x / zoom,
+      y: -pan.y / zoom,
+      width: viewport.width / zoom,
+      height: viewport.height / zoom,
+    };
+    return {
+      documentId: this.e.doc().id,
+      revision: this.e.revision(),
+      pageId: this.e.pageId(),
+      renderer: 'canvas',
+      viewport: { x: viewport.x, y: viewport.y, width: viewport.width, height: viewport.height },
+      nodes: this.e.pageNodes().map((n) => {
+        const item = index.get(n.id),
+          b = item?.bounds;
+        return {
           id: n.id,
-          x: n.x,
-          y: n.y,
-          element: document.querySelector(`[data-node-id="${n.id}"]`)!,
-        })),
-      startX: event.clientX,
-      startY: event.clientY,
-      x: node.x,
-      y: node.y,
-      element: event.currentTarget as HTMLElement,
+          selected: this.e.selection().includes(n.id),
+          rendered: !!item,
+          painted: !!item && intersects(item.bounds, view),
+          bounds: b
+            ? {
+                x: viewport.x + pan.x + b.x * zoom,
+                y: viewport.y + pan.y + b.y * zoom,
+                width: b.width * zoom,
+                height: b.height * zoom,
+              }
+            : null,
+        };
+      }),
     };
-  }
-  resize(event: PointerEvent) {
-    event.stopPropagation();
-    const n = this.e.node();
-    if (!n) return;
-    this.gesture = {
-      id: n.id,
-      startX: event.clientX,
-      startY: event.clientY,
-      x: n.x,
-      y: n.y,
-      width: n.width,
-      height: n.height,
-      resize: true,
-      element: document.querySelector(`[data-node-id="${n.id}"]`)!,
-    };
-  }
-  background(event: PointerEvent) {
-    if (event.button === 1 || event.altKey) {
-      event.preventDefault();
-      this.gesture = {
-        startX: event.clientX,
-        startY: event.clientY,
-        x: this.pan().x,
-        y: this.pan().y,
-        pan: true,
-      };
-    } else if (event.button === 0) {
-      this.e.select(null);
-      this.gesture = { startX: event.clientX, startY: event.clientY, x: 0, y: 0, marquee: true };
-    }
-  }
-  @HostListener('window:pointermove', ['$event']) move(event: PointerEvent) {
-    const g = this.gesture;
-    if (!g) return;
-    const dx = event.clientX - g.startX,
-      dy = event.clientY - g.startY;
-    if (g.marquee) {
-      const viewport = document.querySelector('.viewport')!.getBoundingClientRect();
-      this.marquee.set({
-        x: Math.min(event.clientX, g.startX) - viewport.x,
-        y: Math.min(event.clientY, g.startY) - viewport.y,
-        width: Math.abs(dx),
-        height: Math.abs(dy),
-      });
-      return;
-    }
-    if (g.pan) {
-      this.pan.set({ x: g.x + dx, y: g.y + dy });
-      return;
-    }
-    if (!g.element) return;
-    if (g.resize) {
-      g.element.style.width = Math.max(1, g.width! + dx / this.zoom()) + 'px';
-      g.element.style.height = Math.max(1, g.height! + dy / this.zoom()) + 'px';
-    } else {
-      for (const n of g.nodes ?? []) {
-        n.element.style.left = n.x + dx / this.zoom() + 'px';
-        n.element.style.top = n.y + dy / this.zoom() + 'px';
-      }
-    }
-  }
-  @HostListener('window:pointerup', ['$event']) end(event: PointerEvent) {
-    const g = this.gesture;
-    this.gesture = null;
-    if (g?.marquee) {
-      this.marquee.set(null);
-      const x = Math.min(g.startX, event.clientX),
-        y = Math.min(g.startY, event.clientY),
-        right = Math.max(g.startX, event.clientX),
-        bottom = Math.max(g.startY, event.clientY);
-      this.e.selection.set(
-        this.e
-          .pageNodes()
-          .filter((n) => {
-            const r = document.querySelector(`[data-node-id="${n.id}"]`)?.getBoundingClientRect();
-            return !n.locked && r && r.x >= x && r.y >= y && r.right <= right && r.bottom <= bottom;
-          })
-          .map((n) => n.id),
-      );
-      return;
-    }
-    if (!g?.id) return;
-    const dx = (event.clientX - g.startX) / this.zoom(),
-      dy = (event.clientY - g.startY) / this.zoom();
-    if (Math.abs(dx) + Math.abs(dy) < 1) return;
-    this.e.perform(
-      g.resize
-        ? [
-            {
-              type: 'node.update',
-              id: g.id,
-              patch: {
-                width: Math.min(10000, Math.max(1, g.width! + dx)),
-                height: Math.min(10000, Math.max(1, g.height! + dy)),
-              },
-            },
-          ]
-        : (g.nodes ?? []).map((n) => ({
-            type: 'node.update',
-            id: n.id,
-            patch: {
-              x: Math.max(-100000, Math.min(100000, n.x + dx)),
-              y: Math.max(-100000, Math.min(100000, n.y + dy)),
-            },
-          })),
-    );
-    for (const n of g.nodes ?? []) {
-      const saved = this.e.doc().nodes.find((v) => v.id === n.id)!;
-      n.element.style.left = saved.x + 'px';
-      n.element.style.top = saved.y + 'px';
-    }
-  }
-  wheel(event: WheelEvent) {
-    event.preventDefault();
-    if (event.ctrlKey || event.metaKey) {
-      this.zoom.set(Math.min(3, Math.max(0.1, this.zoom() * Math.exp(-event.deltaY * 0.01))));
-    } else this.pan.update((p) => ({ x: p.x - event.deltaX, y: p.y - event.deltaY }));
   }
   fit() {
-    const nodes = this.e.roots();
+    const nodes = this.projection.roots().map((i) => i.bounds);
     if (!nodes.length) return;
     const minX = Math.min(...nodes.map((n) => n.x)),
       minY = Math.min(...nodes.map((n) => n.y));
@@ -493,18 +392,6 @@ export class App {
       x: (board.width - width * zoom) / 2 - minX * zoom,
       y: (board.height - height * zoom) / 2 - minY * zoom,
     });
-  }
-  world(n: SceneNode) {
-    let x = n.x,
-      y = n.y;
-    let p = n.parentId;
-    while (p) {
-      const parent = this.e.doc().nodes.find((v) => v.id === p)!;
-      x += parent.x;
-      y += parent.y;
-      p = parent.parentId;
-    }
-    return { x, y };
   }
   align(axis: 'x' | 'y') {
     const nodes = this.e.selectedRoots().filter((n) => !n.locked);
@@ -523,13 +410,17 @@ export class App {
     const size = horizontal ? 'width' : 'height';
     const parent = this.e.doc().nodes.find((node) => node.id === nodes[0].parentId);
     const minimum = nodes.length === 1 ? 0 : Math.min(...nodes.map((node) => node[axis]));
-    const maximum = nodes.length === 1 ? parent![size] : Math.max(...nodes.map((node) => node[axis] + node[size]));
+    const maximum =
+      nodes.length === 1
+        ? parent![size]
+        : Math.max(...nodes.map((node) => node[axis] + node[size]));
     const updates = nodes.map((node) => {
-      const target = edge === 'left' || edge === 'top'
-        ? minimum
-        : edge === 'right' || edge === 'bottom'
-          ? maximum - node[size]
-          : (minimum + maximum - node[size]) / 2;
+      const target =
+        edge === 'left' || edge === 'top'
+          ? minimum
+          : edge === 'right' || edge === 'bottom'
+            ? maximum - node[size]
+            : (minimum + maximum - node[size]) / 2;
       return { type: 'node.update' as const, id: node.id, patch: { [axis]: target } };
     });
     this.e.perform(updates);
@@ -589,7 +480,8 @@ export class App {
       this.dissolveFrom.set(n.transition === 'dissolve' ? this.previewNode() : null);
       this.previewHistory.push(this.preview()!);
       this.preview.set(n.targetId);
-      if (this.dissolveFrom()) this.dissolveTimer = setTimeout(() => this.dissolveFrom.set(null), 200);
+      if (this.dissolveFrom())
+        this.dissolveTimer = setTimeout(() => this.dissolveFrom.set(null), 200);
     }
   }
   previewBack() {
