@@ -26,14 +26,6 @@ final class PreviewWindow: NSObject, NSWindowDelegate, WKNavigationDelegate, WKS
         let config = WKWebViewConfiguration()
         config.websiteDataStore = .nonPersistent()
         config.setURLSchemeHandler(PreviewResources(root: resources), forURLScheme: "sugar-maple")
-        // Install before bundled code. Scene schema/bindings accept no executable
-        // content; this additionally denies connections, frames and external assets.
-        config.userContentController.addUserScript(WKUserScript(source: """
-            const policy=document.createElement('meta');
-            policy.httpEquiv='Content-Security-Policy';
-            policy.content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src 'self'; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'none'";
-            (document.head||document.documentElement).prepend(policy);
-            """, injectionTime: .atDocumentStart, forMainFrameOnly: false))
         webView = WKWebView(frame: NSRect(x: 0, y: 0, width: 1100, height: 800), configuration: config)
         window = NSWindow(contentRect: webView.frame, styleMask: [.titled, .closable, .miniaturizable, .resizable], backing: .buffered, defer: false)
         super.init()
@@ -154,7 +146,16 @@ private final class PreviewResources: NSObject, WKURLSchemeHandler {
         do {
             guard let url = task.request.url else { throw CocoaError(.fileReadNoPermission) }
             let file = try NativeAccessPolicy.resourceURL(url, root: root, host: .preview)
-            let data = try Data(contentsOf: file)
+            var data = try Data(contentsOf: file)
+            if file.pathExtension == "html" {
+                // A document-start user script can run before <head> exists;
+                // WebKit ignores a CSP meta element outside the head. Put the
+                // policy in the actual bundled HTML before any script is parsed.
+                guard var html = String(data: data, encoding: .utf8), let head = html.range(of: "<head>") else { throw CocoaError(.fileReadCorruptFile) }
+                let policy = "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src 'self'; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'none'"
+                html.replaceSubrange(head, with: "<head><meta http-equiv=\"Content-Security-Policy\" content=\"\(policy)\">")
+                data = Data(html.utf8)
+            }
             let types = ["html":"text/html", "js":"text/javascript", "css":"text/css", "woff2":"font/woff2", "woff":"font/woff", "svg":"image/svg+xml", "png":"image/png", "json":"application/json"]
             task.didReceive(URLResponse(url: url, mimeType: types[file.pathExtension] ?? "application/octet-stream", expectedContentLength: data.count, textEncodingName: ["html","js","css","json"].contains(file.pathExtension) ? "utf-8" : nil))
             task.didReceive(data); task.didFinish()
