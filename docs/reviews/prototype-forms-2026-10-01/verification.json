@@ -1,0 +1,31 @@
+{
+  "date": "2026-10-01",
+  "issue": 47,
+  "sourceCandidate": "933dff0",
+  "status": "verified candidate, pending code review and merge",
+  "checks": {
+    "modelTests": 47,
+    "assertions": 287,
+    "browserSuites": 17,
+    "webTypecheck": "pass",
+    "productionWebAndMacBuild": "pass",
+    "nativeFilesystemAndMCPFixtures": 4,
+    "AngularStrictConsumer": "pass",
+    "Tailwind4Consumer": "pass",
+    "SwiftUIFormsConsumer": "pass",
+    "SwiftUICollidingSanitizedIds": "pass",
+    "offlineBrowserFormsOverlays": "pass",
+    "reducedMotionBrowser": "pass",
+    "actualNativeMCPAndWKWebView": "pass",
+    "nativeKeyboardFocusMaskResetAndRetainedValues": "pass",
+    "nativeCheckpointAndUndoJournalIsolation": "pass"
+  },
+  "limits": [
+    "Preview runs in the editor WKWebView/browser with per-preview runtime state; a separate native preview window remains under issue14.",
+    "HTML/Angular/Tailwind fragments export semantic forms and action metadata; consumers supply navigation/overlay handlers. SwiftUI exports initial @State values, TextField/SecureField and Button onAction callbacks; it does not export a complete multi-artboard runtime. Non-Button SwiftUI prototype callbacks reject explicitly.",
+    "Input types are text/password/email, single line, maximum20000 characters; validation, submission, validation-error states, checkbox/select and richer state machines remain in issues12/24.",
+    "Authored initial values are saved as document data and appear in exported source; use mock data. Runtime edits remain session-local and reset on preview restart/reset. Canvas and SVG mask password display.",
+    "Web reduced-motion is automated. Native keyboard/focus and secure AX masking were inspected in the actual app; native reduced-motion behavior uses the same media query but OS preference switching was not performed. Full VoiceOver acceptance remains issue21.",
+    "Preview responds to edits/deleted targets on the author document; it retains form values by stable input ID and discards them when the preview ends or document changes."
+  ]
+}
