@@ -1,14 +1,14 @@
 import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { StreamableHTTPClientTransport } from "@modelcontextprotocol/sdk/client/streamableHttp.js";
-import { homedir } from "node:os";
+import { tokenFile, mcpEndpoint } from "./mcp-config";
 import { maplePhone } from "../src/web/tests/fixtures/maple-phone";
 import { DocumentStore } from "../src/web/src/app/model/store";
 const client = new Client({ name: "Maple reference drawing", version: "1" });
 const token = await Bun.file(
-  `${homedir()}/Library/Application Support/SugarMaple/mcp-token`,
+  tokenFile,
 ).text();
 await client.connect(
-  new StreamableHTTPClientTransport(new URL("http://127.0.0.1:48480/mcp"), {
+  new StreamableHTTPClientTransport(new URL(mcpEndpoint), {
     requestInit: { headers: { Authorization: `Bearer ${token}` } },
   }),
 );

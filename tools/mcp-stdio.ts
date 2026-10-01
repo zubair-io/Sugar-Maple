@@ -1,8 +1,6 @@
-import { homedir } from "node:os";
+import { tokenFile, mcpEndpoint } from './mcp-config';
 import { createInterface } from "node:readline";
-const path =
-  process.env["SUGAR_MAPLE_TOKEN_FILE"] ??
-  `${homedir()}/Library/Application Support/SugarMaple/mcp-token`;
+const path = tokenFile;
 for await (const line of createInterface({
   input: process.stdin,
   crlfDelay: Infinity,
@@ -12,7 +10,7 @@ for await (const line of createInterface({
   try {
     request = JSON.parse(line);
     const token = (await Bun.file(path).text()).trim();
-    const response = await fetch("http://127.0.0.1:48480/mcp", {
+    const response = await fetch(mcpEndpoint, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,
