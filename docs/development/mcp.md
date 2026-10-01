@@ -111,3 +111,13 @@ SUGAR_MAPLE_MCP_PORT=48483 bun run test:mcp
 ```
 
 The QA copy has its own bundle ID, storage and loopback port. Those bundle configuration overrides are compiled only into Debug builds; Release keeps the production storage and port. `SUGAR_MAPLE_SUPPORT_DIR`, `SUGAR_MAPLE_MCP_PORT`, and an optional `SUGAR_MAPLE_TOKEN_FILE` configure the stdio adapter and acceptance clients. They do not change a running host's configuration. The native pointer/history tests use the same environment settings and include setup/verify phases for an actual UI gesture or app restart.
+
+## Versioned response contracts and lifecycle
+
+Agent API v1 now publishes `toolOutputSchemas` alongside `toolSchemas`. Native `tools/list` exposes each implemented tool's object `outputSchema`. Successful calls retain their JSON text and also return identical `structuredContent`; captures return image content with structured revision/status metadata. Typed errors keep `isError: true` and an `error` envelope. The schemas describe both branches because the pinned SDK validates structured errors as well as successful data. Discovery and validation tests use that actual SDK, including HTTP and stdio.
+
+The MCP credential directory is private (0700) before credentials are written; token files use 0600. Normal application termination stops the listener, cancels accepted connections and removes its own credential. Restart generates a new token; stdio reads credentials for each request. Capture admission uses monotonic time and enforces at most one start per 100 ms. A throttled tool result includes `code: throttled` and retry guidance. Missing stdio credentials produce a protocol-clean, actionable JSON-RPC error.
+
+`bun tools/native-acceptance.ts` runs real temporary-file persistence and native Network.framework transport fixtures on macOS. The transport fixture exercises occupied ports, credentials, typed failure forwarding, deterministic throttle timing, disconnected hosts and stop/reconnect; its editor delegate and clock are controlled fixtures. `bun tools/mcp-integration.ts` separately exercises the real bundled WKWebView app, discovered response schemas, actual capture, autosave, undo/redo, malformed input and token/Origin/Host rejection. Set the isolated support-directory/port environment variables above; the harness waits for fresh host/editor readiness without printing credentials.
+
+Scoped reads, feature-specific coverage and MCP resource endpoints remain tracked separately in #50/#27.

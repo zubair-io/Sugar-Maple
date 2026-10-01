@@ -13,6 +13,7 @@ const cases = [
   ['native-persistence', [...sources, 'tools/native-persistence-test.swift']],
   ['native-autosave', [...sources, 'src/apple/Sugar Maple/DocumentPersistence.swift', 'tools/native-autosave-test.swift']],
   ['native-access', [...sources, 'tools/native-access-test.swift']],
+  ['native-mcp', ['src/apple/Sugar Maple/NativeHostError.swift', 'src/apple/Sugar Maple/MCPTools.swift', 'src/apple/Sugar Maple/MCPServer.swift', 'tools/native-mcp-test.swift']],
 ] as const;
 async function run(cmd: string[]) {
   const process = Bun.spawn(cmd, { cwd: root, stdout: 'inherit', stderr: 'inherit' });
@@ -23,3 +24,5 @@ for (const [name, files] of cases) {
   await run(['swiftc', ...files, '-o', executable]);
   await run([executable]);
 }
+
+await run([process.execPath, 'tools/mcp-stdio-test.ts']);

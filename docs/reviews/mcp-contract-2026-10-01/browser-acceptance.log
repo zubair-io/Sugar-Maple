@@ -1,0 +1,21 @@
+$ bun tools/browser-acceptance.ts
+$ bun run --cwd src/web start
+$ bun --bun ../../node_modules/@angular/cli/bin/ng.js serve --host 127.0.0.1
+PASS: create artboard/text/pages, edit, pointer drag, inspect code, recover on reload; no browser errors
+PASS: real canvas pixels, no authored design DOM, typed errors, asset diagnostics, cross-page inspector, dissolve animation, Back and unchanged preview revision
+PASS: actual canvas and native DOM preview geometry agree for free, stack, grid, border/padding, fixed/fill/hug/percent and text measurement
+PASS: 1,000/5,000-node documents render on one canvas, cull offscreen nodes and stay below the local 250ms flush regression ceiling
+[{"nodes":1000,"drawn":110,"total":1000,"paintMs":0.6000001430511475,"frames":4,"flushMs":0.9000000953674316,"framesSince":1},{"nodes":5000,"drawn":209,"total":5000,"paintMs":1,"frames":6,"flushMs":1,"framesSince":1}]
+PASS: native toolbar hidden, shared New/Open/Save/Save As routing, dirty page-only cancellation, cancelled picker preservation, no duplicate native save shortcut (stubbed native I/O)
+PASS: real IndexedDB autosave, New preserves previous document, posted feedback survives reload
+PASS: tab creation, isolated content/undo, double-click/F2 rename, Escape, close preserves saved file, centered modes
+PASS: Shift selection, grouped pointer move, transparent group, independent undo, marquee, delete and restore
+PASS: responsive stack at mobile width, preview navigation/back without document mutation, real IndexedDB recovery
+PASS: SVG import, actual path rendering, SVG code and PNG download, script-bearing SVG rejection
+PASS: generated Angular strict-template consumer compiles; Tailwind 4 compiles classes and renders matching semantic HTML geometry without Maple
+PASS: Maple phone design reconstructed as 37 editable nodes, gradients/path geometry exported, text edit recovered and undone
+PASS: create component variant, insert instance, switch state, override and reset, recover developer identity
+PASS: create/move/collapse/rename folders, inherit folder for new pages, reload and undo folder removal without deleting pages
+PASS: pinned placement, current-page isolation, bubble navigation/highlight, zoom projection, resolve/reply/reopen, persisted anchor, agent resolution and cancellation
+error: script "start" exited with code 143
+error: script "dev" exited with code 143
