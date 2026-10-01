@@ -1,7 +1,7 @@
 {
   "date": "2026-10-01",
   "issue": 55,
-  "status": "PR58 merged and live diagnosis/idempotent absence verified; late-review artifact candidate pending",
+  "status": "PR58/60 merged; live recovery and actual late finding inspected; explicit unsigned-size regression candidate awaiting fresh review",
   "checks": {
     "reviewerTests": 21,
     "typecheck": "pass",
@@ -12,7 +12,8 @@
     "trustedPublishedFooterAndRepositoryGuard": "pass",
     "sensitiveContentOmission": "pass",
     "newSessionVisibilityAndFailureRecoveryReference": "simulated initial 404 then failed session remains inspectable; no cleanup permitted",
-    "orderedFinalArtifact": "simulated completed/failed/live/truncated/malformed/tied/oversized final-message tests pass"
+    "orderedFinalArtifact": "simulated completed/failed/live/truncated/malformed/tied/oversized final-message tests pass",
+    "actualSparseSizeRegression": "pass: read and fingerprint reject both 32,000,001 and 3,000,000,000 bytes before loading"
   },
   "retainedSessions": [
     {
@@ -37,7 +38,7 @@
     }
   ],
   "limits": [
-    "Local tests simulate API responses; they do not prove live repository-secret permissions.",
+    "Retry/error cases are simulated; six live main-only runs and final artifact retrieval verify real authenticated API access, exact identity and absence handling.",
     "No account listing or bulk deletion. Failed/unpublished sessions remain retained.",
     "Cleanup does not rewrite the old failed workflow result or a published code verdict."
   ],
@@ -67,7 +68,7 @@
       "state": "COMPLETED",
       "activities": 11,
       "agentMessages": 1,
-      "publishedVerdict": "unknown/unpublished; no inference",
+      "publishedVerdict": "unpublished block; exact final text retrieved and inspected; no verdict/status republished",
       "retained": true
     },
     {
@@ -86,5 +87,19 @@
       "state": "already absent HTTP404",
       "cleanupOutcome": "success; no deletion or verdict rewrite"
     }
-  ]
+  ],
+  "artifactDelivery": {
+    "mergedPR": 60,
+    "main": "48a000363dcc2ca5ff842beab48485e68776bc6f",
+    "mainCI": 36921932353,
+    "exactHeadReview": 36919823903,
+    "verdict": "approve",
+    "retrievalRun": 36921946946,
+    "artifact": "jules-review-7859224825569361313",
+    "recoveredVerdict": "block",
+    "finding": "alleged 32-bit Swift NSNumber.intValue overflow",
+    "findingDisposition": "actual 64-bit Swift probe and sparse-file read/fingerprint rejection disprove overflow on supported target; final gates/tests now explicitly uint64Value/UInt64.max",
+    "republishedVerdict": false,
+    "sessionRetained": true
+  }
 }
