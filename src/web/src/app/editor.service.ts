@@ -4,7 +4,8 @@ import { toolArguments, toolError, ToolInputSchemas } from './model/tool-contrac
 import { RecoveryStore } from './model/recovery';
 import { importTokens, exportTokens } from './model/tokens';
 import { svgImport, svgExport } from './model/svg';
-import { Injectable, computed, signal } from '@angular/core';
+import { Injectable, computed, signal, inject, effect } from '@angular/core';
+import { SceneAssets } from './canvas/scene-assets';
 import { DocumentStore } from './model/store';
 import {
   blankDocument,
@@ -26,6 +27,7 @@ declare global {
 }
 @Injectable({ providedIn: 'root' })
 export class EditorService {
+  readonly assets = inject(SceneAssets);
   store = new DocumentStore();
   readonly openFiles = signal<{ id: string; name: string }[]>([]);
   readonly tabBusy = signal(false);
@@ -52,6 +54,7 @@ export class EditorService {
   private readonly persistence = new PersistenceQueue();
   private recovery = this.native ? null : new RecoveryStore();
   constructor() {
+    effect(() => { this.assets.prune(this.doc().nodes); });
     window.sugarMaple = {
       dispatch: (method: string, args: any) => this.dispatch(method, args),
       describeError: (error: unknown) => toolError(error, { documentId: this.doc().id, revision: this.revision() }),
@@ -534,7 +537,7 @@ export class EditorService {
       case 'document.checkpoint':
         return this.store.checkpoint();
       case 'document.get':
-        return { ...this.store.result(), document: this.doc(), durable: !this.dirty(), persistence: this.status() };
+        return { ...this.store.result(), document: this.doc(), durable: !this.dirty(), persistence: this.status(), assetDiagnostics: this.assets.diagnostics(this.doc().nodes) };
       case 'document.new':
         await this.requireSaved();
         this.replace(blankDocument(args.name ?? 'Untitled'));
@@ -592,7 +595,7 @@ export class EditorService {
         this.checkTarget(args);
         await this.settleLayout();
         this.checkTarget(args);
-        return { ...this.store.result(), committed: true, rendered: true, durable: !this.dirty(), persistence: this.status() };
+        return { ...this.store.result(), committed: true, rendered: true, durable: !this.dirty(), persistence: this.status(), assetDiagnostics: this.assets.diagnostics(this.pageNodes()) };
       case 'capabilities':
         return {
           protocolVersion: 1,
@@ -617,6 +620,7 @@ export class EditorService {
     }
   }
   private async settleLayout() {
+    await this.assets.settle(this.pageNodes());
     let timeout: ReturnType<typeof setTimeout> | undefined;
     try {
       await Promise.race([
