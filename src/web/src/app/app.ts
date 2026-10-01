@@ -9,6 +9,7 @@ import { KeyValuePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { EditorService } from './editor.service';
 import { SceneNodeView } from './canvas/scene-node';
+import { PreviewScreen } from './canvas/preview-screen';
 import { MuiButtonComponent } from './chrome/maple/ui/button/mui-button.component';
 import { MuiSectionComponent } from './chrome/maple/ui/section/mui-section.component';
 import { MuiFieldComponent } from './chrome/maple/ui/field/mui-field.component';
@@ -24,6 +25,7 @@ import { exportNode, ExportTarget } from './model/export';
     KeyValuePipe,
     FormsModule,
     SceneNodeView,
+    PreviewScreen,
     MuiButtonComponent,
     MuiSectionComponent,
     MuiFieldComponent,
@@ -61,10 +63,11 @@ export class App {
   readonly linkSelectOptions = computed(() => [
     { value: '', label: 'No action' },
     ...this.e
-      .roots()
+      .doc().nodes
       .filter((n) => n.kind === 'artboard')
-      .map((n) => ({ value: n.id, label: n.name })),
+      .map((n) => ({ value: n.id, label: `${this.e.doc().pages.find(p => p.id === n.pageId)?.name} / ${n.name}` })),
   ]);
+  readonly transitionOptions = this.options(['instant', 'dissolve']);
   readonly layoutOptions = this.options(['free', 'horizontal', 'vertical', 'grid']);
   readonly sizingOptions = this.options(['fixed', 'fill', 'hug', 'percent']);
   readonly fillStyleOptions = [
@@ -80,6 +83,8 @@ export class App {
   ];
   readonly target = signal<ExportTarget>('html');
   readonly preview = signal<string | null>(null);
+  readonly dissolveFrom = signal<SceneNode | null>(null);
+  private dissolveTimer?: ReturnType<typeof setTimeout>;
   readonly previewWidth = signal<number | null>(null);
   readonly search = signal('');
   readonly layers = computed(() => {
@@ -568,6 +573,8 @@ export class App {
     if (result) this.e.select(id);
   }
   startPreview() {
+    clearTimeout(this.dissolveTimer);
+    this.dissolveFrom.set(null);
     const n = this.e.node();
     const board = n?.kind === 'artboard' ? n : this.e.roots().find((n) => n.kind === 'artboard');
     if (board) {
@@ -578,9 +585,17 @@ export class App {
   }
   activate(n: SceneNode) {
     if (n.targetId) {
+      clearTimeout(this.dissolveTimer);
+      this.dissolveFrom.set(n.transition === 'dissolve' ? this.previewNode() : null);
       this.previewHistory.push(this.preview()!);
       this.preview.set(n.targetId);
+      if (this.dissolveFrom()) this.dissolveTimer = setTimeout(() => this.dissolveFrom.set(null), 200);
     }
+  }
+  previewBack() {
+    clearTimeout(this.dissolveTimer);
+    this.dissolveFrom.set(null);
+    this.preview.set(this.previewHistory.pop() ?? null);
   }
   preset(width: number) {
     if (this.e.node()?.kind === 'artboard') this.e.update({ width });
