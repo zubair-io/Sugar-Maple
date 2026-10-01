@@ -4,14 +4,14 @@ $ bun --bun ../../node_modules/@angular/cli/bin/ng.js build --base-href ./
 ❯ Building...
 ✔ Building...
 Initial chunk files | Names         |  Raw size | Estimated transfer size
-main-O4DP6NSF.js    | main          | 790.49 kB |               176.07 kB
+main-XRHNA6QP.js    | main          | 790.73 kB |               175.92 kB
 styles-LT5NEVSC.css | styles        |  11.84 kB |                 2.57 kB
 
-                    | Initial total | 802.33 kB |               178.64 kB
+                    | Initial total | 802.57 kB |               178.49 kB
 
-Application bundle generation complete. [2.248 seconds] - 2026-10-01T07:26:13.804Z
+Application bundle generation complete. [2.300 seconds] - 2026-10-01T08:46:03.056Z
 
-▲ [WARNING] bundle initial exceeded maximum budget. Budget 500.00 kB was not met by 302.33 kB with a total of 802.33 kB.
+▲ [WARNING] bundle initial exceeded maximum budget. Budget 500.00 kB was not met by 302.57 kB with a total of 802.57 kB.
 
 
 ▲ [WARNING] src/app/app.scss exceeded maximum budget. Budget 4.00 kB was not met by 3.45 kB with a total of 7.45 kB.
@@ -25,7 +25,7 @@ Command line invocation:
 Build settings from command line:
     CODE_SIGNING_ALLOWED = NO
 
-2026-10-01 03:26:14.463 xcodebuild[61214:70641556] [MT] IDERunDestination: Supported platforms for the buildables in the current scheme is empty.
+2026-10-01 04:46:03.875 xcodebuild[36566:71332927] [MT] IDERunDestination: Supported platforms for the buildables in the current scheme is empty.
 --- xcodebuild: WARNING: Using the first of multiple matching destinations:
 { platform:macOS, arch:arm64, id:00006050-0013693C2131401C, name:My Mac }
 { platform:macOS, arch:x86_64, id:00006050-0013693C2131401C, name:My Mac }
@@ -48,6 +48,16 @@ GatherProvisioningInputs
 
 CreateBuildDescription
 
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -v -E -dM -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk -x c -c /dev/null
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/usr/bin/actool --version --output-format xml1
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc --version
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld -version_details
+
+Build description signature: 475b89efc26e097020fecc4993a809a8
+Build description path: /Users/riabuz/Projects/_Sugar Maple/build/DerivedData/Build/Intermediates.noindex/XCBuildData/475b89efc26e097020fecc4993a809a8.xcbuilddata
 ClangStatCache /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang-stat-cache /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk /Users/riabuz/Projects/_Sugar\ Maple/build/DerivedData/SDKStatCaches.noindex/macosx27.0-26A425-7231f6df4def33e022ae2eb8f782df1a.sdkstatcache
     cd /Users/riabuz/Projects/_Sugar\ Maple/src/apple/Sugar\ Maple.xcodeproj
     /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang-stat-cache /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk -o /Users/riabuz/Projects/_Sugar\ Maple/build/DerivedData/SDKStatCaches.noindex/macosx27.0-26A425-7231f6df4def33e022ae2eb8f782df1a.sdkstatcache
@@ -62,13 +72,13 @@ ConstructStubExecutorLinkFileList /Users/riabuz/Projects/_Sugar\ Maple/build/Der
     construct-stub-executor-link-file-list /Users/riabuz/Projects/_Sugar\ Maple/build/DerivedData/Build/Products/Debug/Sugar\ Maple.app/Contents/MacOS/Sugar\ Maple.debug.dylib /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib/libPreviewsJITStubExecutor_no_swift_entry_point.a /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib/libPreviewsJITStubExecutor.a --output /Users/riabuz/Projects/_Sugar\ Maple/build/DerivedData/Build/Intermediates.noindex/Sugar\ Maple.build/Debug/Sugar\ Maple.build/Sugar\ Maple-ExecutorLinkFileList-normal-arm64.txt
 note: Using stub executor library with Swift entry point. (in target 'Sugar Maple' from project 'Sugar Maple')
 
-Ld /Users/riabuz/Projects/_Sugar\ Maple/build/DerivedData/Build/Products/Debug/Sugar\ Maple.app/Contents/MacOS/Sugar\ Maple normal (in target 'Sugar Maple' from project 'Sugar Maple')
-    cd /Users/riabuz/Projects/_Sugar\ Maple/src/apple
-    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -Xlinker -reproducible -target arm64-apple-macos15.0 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk -O0 -Xlinker -no_warn_duplicate_libraries -L/Users/riabuz/Projects/_Sugar\ Maple/build/DerivedData/Build/Products/Debug -F/Users/riabuz/Projects/_Sugar\ Maple/build/DerivedData/Build/Products/Debug -Xlinker -rpath -Xlinker @executable_path -Xlinker -rpath -Xlinker @executable_path/../Frameworks -rdynamic -Xlinker -no_deduplicate -e ___debug_blank_executor_main -Xlinker -sectcreate -Xlinker __TEXT -Xlinker __debug_dylib -Xlinker /Users/riabuz/Projects/_Sugar\ Maple/build/DerivedData/Build/Intermediates.noindex/Sugar\ Maple.build/Debug/Sugar\ Maple.build/Sugar\ Maple-DebugDylibPath-normal-arm64.txt -Xlinker -sectcreate -Xlinker __TEXT -Xlinker __debug_instlnm -Xlinker /Users/riabuz/Projects/_Sugar\ Maple/build/DerivedData/Build/Intermediates.noindex/Sugar\ Maple.build/Debug/Sugar\ Maple.build/Sugar\ Maple-DebugDylibInstallName-normal-arm64.txt -Xlinker -filelist -Xlinker /Users/riabuz/Projects/_Sugar\ Maple/build/DerivedData/Build/Intermediates.noindex/Sugar\ Maple.build/Debug/Sugar\ Maple.build/Sugar\ Maple-ExecutorLinkFileList-normal-arm64.txt /Users/riabuz/Projects/_Sugar\ Maple/build/DerivedData/Build/Products/Debug/Sugar\ Maple.app/Contents/MacOS/Sugar\ Maple.debug.dylib -o /Users/riabuz/Projects/_Sugar\ Maple/build/DerivedData/Build/Products/Debug/Sugar\ Maple.app/Contents/MacOS/Sugar\ Maple
-
 Ld /Users/riabuz/Projects/_Sugar\ Maple/build/DerivedData/Build/Products/Debug/Sugar\ Maple.app/Contents/MacOS/__preview.dylib normal (in target 'Sugar Maple' from project 'Sugar Maple')
     cd /Users/riabuz/Projects/_Sugar\ Maple/src/apple
     /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -Xlinker -reproducible -target arm64-apple-macos15.0 -dynamiclib -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk -O0 -Xlinker -no_warn_duplicate_libraries -L/Users/riabuz/Projects/_Sugar\ Maple/build/DerivedData/Build/Products/Debug -F/Users/riabuz/Projects/_Sugar\ Maple/build/DerivedData/Build/Products/Debug -install_name @rpath/Sugar\ Maple.debug.dylib -Xlinker -dead_strip -rdynamic -Xlinker -no_deduplicate -Xlinker -dependency_info -Xlinker /Users/riabuz/Projects/_Sugar\ Maple/build/DerivedData/Build/Intermediates.noindex/Sugar\ Maple.build/Debug/Sugar\ Maple.build/Objects-normal/arm64/Sugar\ Maple_dependency_info.dat -o /Users/riabuz/Projects/_Sugar\ Maple/build/DerivedData/Build/Products/Debug/Sugar\ Maple.app/Contents/MacOS/__preview.dylib
+
+Ld /Users/riabuz/Projects/_Sugar\ Maple/build/DerivedData/Build/Products/Debug/Sugar\ Maple.app/Contents/MacOS/Sugar\ Maple normal (in target 'Sugar Maple' from project 'Sugar Maple')
+    cd /Users/riabuz/Projects/_Sugar\ Maple/src/apple
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -Xlinker -reproducible -target arm64-apple-macos15.0 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk -O0 -Xlinker -no_warn_duplicate_libraries -L/Users/riabuz/Projects/_Sugar\ Maple/build/DerivedData/Build/Products/Debug -F/Users/riabuz/Projects/_Sugar\ Maple/build/DerivedData/Build/Products/Debug -Xlinker -rpath -Xlinker @executable_path -Xlinker -rpath -Xlinker @executable_path/../Frameworks -rdynamic -Xlinker -no_deduplicate -e ___debug_blank_executor_main -Xlinker -sectcreate -Xlinker __TEXT -Xlinker __debug_dylib -Xlinker /Users/riabuz/Projects/_Sugar\ Maple/build/DerivedData/Build/Intermediates.noindex/Sugar\ Maple.build/Debug/Sugar\ Maple.build/Sugar\ Maple-DebugDylibPath-normal-arm64.txt -Xlinker -sectcreate -Xlinker __TEXT -Xlinker __debug_instlnm -Xlinker /Users/riabuz/Projects/_Sugar\ Maple/build/DerivedData/Build/Intermediates.noindex/Sugar\ Maple.build/Debug/Sugar\ Maple.build/Sugar\ Maple-DebugDylibInstallName-normal-arm64.txt -Xlinker -filelist -Xlinker /Users/riabuz/Projects/_Sugar\ Maple/build/DerivedData/Build/Intermediates.noindex/Sugar\ Maple.build/Debug/Sugar\ Maple.build/Sugar\ Maple-ExecutorLinkFileList-normal-arm64.txt /Users/riabuz/Projects/_Sugar\ Maple/build/DerivedData/Build/Products/Debug/Sugar\ Maple.app/Contents/MacOS/Sugar\ Maple.debug.dylib -o /Users/riabuz/Projects/_Sugar\ Maple/build/DerivedData/Build/Products/Debug/Sugar\ Maple.app/Contents/MacOS/Sugar\ Maple
 
 PhaseScriptExecution Bundle\ Editor /Users/riabuz/Projects/_Sugar\ Maple/build/DerivedData/Build/Intermediates.noindex/Sugar\ Maple.build/Debug/Sugar\ Maple.build/Script-000000000000000150000000.sh (in target 'Sugar Maple' from project 'Sugar Maple')
     cd /Users/riabuz/Projects/_Sugar\ Maple/src/apple
@@ -691,19 +701,23 @@ PhaseScriptExecution Bundle\ Editor /Users/riabuz/Projects/_Sugar\ Maple/build/D
 ExtractAppIntentsMetadata (in target 'Sugar Maple' from project 'Sugar Maple')
     cd /Users/riabuz/Projects/_Sugar\ Maple/src/apple
     /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/appintentsmetadataprocessor --toolchain-dir /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain --module-name Sugar_Maple --sdk-root /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk --xcode-version 27A9269 --platform-family macOS --deployment-target 15.0 --bundle-identifier io.zubair.SugarMaple --output /Users/riabuz/Projects/_Sugar\ Maple/build/DerivedData/Build/Products/Debug/Sugar\ Maple.app/Contents/Resources --target-triple arm64-apple-macos15.0 --binary-file /Users/riabuz/Projects/_Sugar\ Maple/build/DerivedData/Build/Products/Debug/Sugar\ Maple.app/Contents/MacOS/Sugar\ Maple --dependency-file /Users/riabuz/Projects/_Sugar\ Maple/build/DerivedData/Build/Intermediates.noindex/Sugar\ Maple.build/Debug/Sugar\ Maple.build/Objects-normal/arm64/Sugar\ Maple_dependency_info.dat --stringsdata-file /Users/riabuz/Projects/_Sugar\ Maple/build/DerivedData/Build/Intermediates.noindex/Sugar\ Maple.build/Debug/Sugar\ Maple.build/Objects-normal/arm64/ExtractedAppShortcutsMetadata.stringsdata --source-file-list /Users/riabuz/Projects/_Sugar\ Maple/build/DerivedData/Build/Intermediates.noindex/Sugar\ Maple.build/Debug/Sugar\ Maple.build/Objects-normal/arm64/Sugar\ Maple.SwiftFileList --metadata-file-list /Users/riabuz/Projects/_Sugar\ Maple/build/DerivedData/Build/Intermediates.noindex/Sugar\ Maple.build/Debug/Sugar\ Maple.build/Sugar\ Maple.DependencyMetadataFileList --static-metadata-file-list /Users/riabuz/Projects/_Sugar\ Maple/build/DerivedData/Build/Intermediates.noindex/Sugar\ Maple.build/Debug/Sugar\ Maple.build/Sugar\ Maple.DependencyStaticMetadataFileList --swift-const-vals-list /Users/riabuz/Projects/_Sugar\ Maple/build/DerivedData/Build/Intermediates.noindex/Sugar\ Maple.build/Debug/Sugar\ Maple.build/Objects-normal/arm64/Sugar\ Maple.SwiftConstValuesFileList --compile-time-extraction --deployment-aware-processing --no-app-shortcuts-localization
-2026-10-01 03:26:15.244 appintentsmetadataprocessor[61237:70641820] Starting appintentsmetadataprocessor export
-2026-10-01 03:26:15.248 appintentsmetadataprocessor[61237:70641820] warning: Metadata extraction skipped, no AppIntents.framework dependency found
+2026-10-01 04:46:05.386 appintentsmetadataprocessor[36596:71333245] Starting appintentsmetadataprocessor export
+2026-10-01 04:46:05.389 appintentsmetadataprocessor[36596:71333245] warning: Metadata extraction skipped, no AppIntents.framework dependency found
+
+ProcessInfoPlistFile /Users/riabuz/Projects/_Sugar\ Maple/build/DerivedData/Build/Products/Debug/Sugar\ Maple.app/Contents/Info.plist /Users/riabuz/Projects/_Sugar\ Maple/src/apple/DocumentTypes.plist (in target 'Sugar Maple' from project 'Sugar Maple')
+    cd /Users/riabuz/Projects/_Sugar\ Maple/src/apple
+    builtin-infoPlistUtility /Users/riabuz/Projects/_Sugar\ Maple/src/apple/DocumentTypes.plist -producttype com.apple.product-type.application -genpkginfo /Users/riabuz/Projects/_Sugar\ Maple/build/DerivedData/Build/Products/Debug/Sugar\ Maple.app/Contents/PkgInfo -expandbuildsettings -platform macosx -additionalcontentfile /Users/riabuz/Projects/_Sugar\ Maple/build/DerivedData/Build/Intermediates.noindex/Sugar\ Maple.build/Debug/Sugar\ Maple.build/assetcatalog_generated_info.plist -o /Users/riabuz/Projects/_Sugar\ Maple/build/DerivedData/Build/Products/Debug/Sugar\ Maple.app/Contents/Info.plist
 
 CopySwiftLibs /Users/riabuz/Projects/_Sugar\ Maple/build/DerivedData/Build/Products/Debug/Sugar\ Maple.app (in target 'Sugar Maple' from project 'Sugar Maple')
     cd /Users/riabuz/Projects/_Sugar\ Maple/src/apple
     builtin-swiftStdLibTool --copy --verbose --scan-executable /Users/riabuz/Projects/_Sugar\ Maple/build/DerivedData/Build/Products/Debug/Sugar\ Maple.app/Contents/MacOS/Sugar\ Maple.debug.dylib --scan-folder /Users/riabuz/Projects/_Sugar\ Maple/build/DerivedData/Build/Products/Debug/Sugar\ Maple.app/Contents/Frameworks --scan-folder /Users/riabuz/Projects/_Sugar\ Maple/build/DerivedData/Build/Products/Debug/Sugar\ Maple.app/Contents/PlugIns --scan-folder /Users/riabuz/Projects/_Sugar\ Maple/build/DerivedData/Build/Products/Debug/Sugar\ Maple.app/Contents/Library/SystemExtensions --scan-folder /Users/riabuz/Projects/_Sugar\ Maple/build/DerivedData/Build/Products/Debug/Sugar\ Maple.app/Contents/Extensions --platform macosx --toolchain /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain --destination /Users/riabuz/Projects/_Sugar\ Maple/build/DerivedData/Build/Products/Debug/Sugar\ Maple.app/Contents/Frameworks --strip-bitcode --strip-bitcode-tool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/bitcode_strip --emit-dependency-info /Users/riabuz/Projects/_Sugar\ Maple/build/DerivedData/Build/Intermediates.noindex/Sugar\ Maple.build/Debug/Sugar\ Maple.build/SwiftStdLibToolInputDependencies.dep --filter-for-swift-os --back-deploy-swift-span
 Ignoring --strip-bitcode because --sign was not passed
 
+PruneExplicitPrecompiledModules /Users/riabuz/Projects/_Sugar Maple/build/DerivedData/Build/Intermediates.noindex/ExplicitPrecompiledModules
+
 PruneExplicitPrecompiledModules /Users/riabuz/Projects/_Sugar Maple/build/DerivedData/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules
 
 PruneExplicitPrecompiledModules /Users/riabuz/Projects/_Sugar Maple/build/DerivedData/SDKExplicitPrecompiledModules
-
-PruneExplicitPrecompiledModules /Users/riabuz/Projects/_Sugar Maple/build/DerivedData/Build/Intermediates.noindex/ExplicitPrecompiledModules
 
 ** BUILD SUCCEEDED **
 

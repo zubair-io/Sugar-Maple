@@ -1,23 +1,23 @@
 {
-  "date": "2026-10-01T07:19:22.624Z",
+  "date": "2026-10-01T08:46:18.271Z",
   "environment": "Chrome headless, local development build, 1440×1000 CSS pixels; CPU flush, not end-to-end input latency",
   "results": [
     {
       "nodes": 1000,
       "drawn": 110,
       "total": 1000,
-      "paintMs": 0.6999998092651367,
+      "paintMs": 0.7999999523162842,
       "frames": 4,
-      "flushMs": 0.7999999523162842,
+      "flushMs": 0.9000000953674316,
       "framesSince": 1
     },
     {
       "nodes": 5000,
       "drawn": 209,
       "total": 5000,
-      "paintMs": 1,
+      "paintMs": 1.9000000953674316,
       "frames": 6,
-      "flushMs": 1,
+      "flushMs": 2.0999999046325684,
       "framesSince": 1
     }
   ]

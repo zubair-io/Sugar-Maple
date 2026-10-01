@@ -36,6 +36,8 @@ The corrected independent review flagged a force cast in native Open. The upstre
 
 The next independent review reported no product-code defect, but flagged imperative wording in the generated review-coverage note. Coverage metadata and overflow errors now describe facts without reviewer-directed instructions.
 
+The subsequent review passed and identified repeated full-page scans in Layers. The layer tree and ancestor-aware search now use parent/ID indexes, a shared visited-ancestor set and iterative traversal. A 5,100-node regression bounds node reads linearly, and hierarchy tests preserve authored sibling order, depths, ancestor context and hidden-layer rows. This removes quadratic tree construction; it does not virtualize the panel's DOM rows.
+
 | Finding | Resolution | Verification |
 | --- | --- | --- |
 | QA-01 | Native bridge preserves structured tool errors and recovery context | Real SDK HTTP + stdio stale/wrong/invalid failures |
@@ -51,9 +53,9 @@ The next independent review reported no product-code defect, but flagged imperat
 
 ## Acceptance evidence
 
-The committed [verification record](../reviews/canvas-delivery-2026-10-01/verification.json), [delivery report](../reviews/sugar-maple-canvas-delivery-2026-10-01.html), and [native screenshot](../reviews/canvas-delivery-2026-10-01/native-canvas.jpg) contain the review result. The original product report is preserved as a historical baseline with a link to this delivery.
+The committed [verification record](../reviews/canvas-delivery-2026-10-01/verification.json), [delivery report](../reviews/sugar-maple-canvas-delivery-2026-10-01.html), and [native screenshot](../reviews/canvas-delivery-2026-10-01/native-canvas.png) contain the review result. The original product report is preserved as a historical baseline with a link to this delivery.
 
-- 37 model tests and 153 assertions pass. All 15 browser acceptance suites pass, including the original strict phone Canvas/SVG pixel comparison. Budgets and pixel tolerances were not relaxed.
+- 39 model tests and 162 assertions pass. All 15 browser acceptance suites pass, including the original strict phone Canvas/SVG pixel comparison. Budgets and pixel tolerances were not relaxed.
 - Actual canvas/DOM preview geometry agrees within one CSS pixel for the representative free/stack/grid fixture, borders/padding, fixed/fill/hug/percent, measured text and wrapped hug text followed by fill content.
 - The existing 18-page, 1,154-node Just-Maple design snapshot renders, has no clipped preview labels, and passes onboarding/evidence/notebook navigation. Its helper now captures the actual canvas and scopes actions to the current preview screen during dissolve.
 - Typecheck, production web bundling and the actual Mac app build pass. Existing bundle/style warning thresholds remain; hard limits pass.
@@ -62,7 +64,7 @@ The committed [verification record](../reviews/canvas-delivery-2026-10-01/verifi
 - Forced termination and relaunch of the isolated QA app preserved the scene, revision, retry receipt, undo and redo. Native persistence actor tests also pass through collisions, case-only rename, external modification conflicts and recovery preservation.
 - The original user's running app and storage were preserved. The final QA app uses its own bundle identifier, support folder and loopback port. Debug-only overrides are ignored in Release.
 
-The local 1,000/5,000-node Chrome stress fixture paints 110/209 nodes, respectively, with approximately 0.8/1.0 ms CPU flush time in the final sample on Apple M5 Max / 128 GB. This measures a warm render flush after projection, not command validation, GPU work, input latency, FPS or lower-end hardware. Raw samples and the conservative local regression ceiling are recorded separately. The Layers panel remains unvirtualized.
+The local 1,000/5,000-node Chrome stress fixture paints 110/209 nodes, respectively, with approximately 0.9/2.1 ms CPU flush time in the final sample on Apple M5 Max / 128 GB. This measures a warm render flush after projection, not command validation, GPU work, input latency, FPS or lower-end hardware. Raw samples and the conservative local regression ceiling are recorded separately. The Layers panel remains unvirtualized.
 
 ## Remaining product work
 
