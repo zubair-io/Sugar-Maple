@@ -103,7 +103,7 @@ export function project(
       return (
         wrapText(n.text, Math.max(1, width - 2 * pad), (t) => measure(t, n)).length *
           n.fontSize *
-          1.2 +
+          n.lineHeight +
         2 * pad
       );
     }

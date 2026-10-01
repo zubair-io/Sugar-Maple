@@ -67,6 +67,22 @@ export const NodeSchema = z
     text: z.string().max(20000).default(''),
     fontSize: z.number().min(6).max(500).default(16),
     fontWeight: z.number().min(100).max(900).default(400),
+    fontFamily: z
+      .string()
+      .trim()
+      .min(1)
+      .max(100)
+      .regex(/^[\p{L}\p{N} ._-]+$/u)
+      .overwrite(
+        (value) =>
+          ['system-ui', 'sans-serif', 'serif', 'monospace', 'Maple Sans'].find(
+            (name) => name.toLowerCase() === value.toLowerCase(),
+          ) ?? value,
+      )
+      .default('system-ui'),
+    lineHeight: z.number().finite().min(0.5).max(5).default(1.2),
+    letterSpacing: z.number().finite().min(-20).max(100).default(0),
+    textAlign: z.enum(['auto', 'left', 'center', 'right']).default('auto'),
     layout: z.enum(['free', 'horizontal', 'vertical', 'grid']).default('free'),
     gap: z.number().min(0).max(1000).default(16),
     padding: z.number().min(0).max(1000).default(16),
