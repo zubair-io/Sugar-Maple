@@ -1,0 +1,4 @@
+PASS: actual app restart/autosave restores imported image references and exact complete checkpoint/undo journal
+PASS: actual app restart/autosave restores imported image references and exact complete checkpoint/undo journal
+PASS: actual app restart/autosave restores imported image references and exact complete checkpoint/undo journal
+PASS: complete authored checkpoint/undo journal and embedded images match the durable saved QA baseline

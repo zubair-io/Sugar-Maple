@@ -1,0 +1,1 @@
+PASS: real CSV/JSON file UI, named mappings, preview/cancel, empty/oversized/corrupt data rejection without mutation, explicit truncation, one-batch import, stable resizing, template editing, native-ready agent decode rejection, offline image preview and strict Angular/Tailwind/HTML/SVG consumers
