@@ -1,0 +1,269 @@
+<header>
+  <div class="brand">
+    <span class="mark">S</span>
+    <div><strong>Sugar Maple</strong><span>WHITEBOARD CANVAS LAB</span></div>
+  </div>
+  <div class="header-note">
+    Interactive proof of concept <span class="dot"></span> Local session
+  </div>
+  <button (click)="reset()">Reset fixture</button
+  ><button (click)="exportJSON()">Export scene</button
+  ><button [disabled]="s.renderer() !== 'canvas'" (click)="exportPNG()">
+    Export PNG
+  </button>
+</header>
+<div class="workspace">
+  <aside class="left">
+    <div class="section-label">DOCUMENT <span class="tag">POC</span></div>
+    <h2>{{s.doc().name}}</h2>
+    <label class="import"
+      >Import scene JSON<input
+        type="file"
+        accept=".json"
+        (change)="importFile($event)"
+    /></label>
+    <div class="section-label">PAGES</div>
+    <div class="pages">
+      @for(p of s.doc().pages;track p.id){<button
+        [class.active]="s.page()===p.id"
+        (click)="page(p.id)"
+      >
+        <span>▧</span>{{p.name}}</button
+      >}
+    </div>
+    <div class="section-label">LAYERS <span>{{s.items().length}}</span></div>
+    <input
+      class="layer-search"
+      aria-label="Find layer"
+      placeholder="Find layer…"
+      [value]="layerSearch()"
+      (input)="layerSearch.set($any($event.target).value)"
+    />
+    <div class="layers">
+      @for(i of visibleLayers();track i.node.id){<button
+        [class.active]="s.selected().includes(i.node.id)"
+        [style.padding-left.px]="12+i.depth*12"
+        (click)="choose(i.node)"
+      >
+        <span>{{i.node.kind==='text'?'T':i.node.kind==='button'?'◧':'▢'}}</span
+        >{{i.node.name}}</button
+      >}
+    </div>
+    <div class="left-footer">
+      Showing up to 200 layers; search finds any node.<br />Actual Just-Maple
+      whiteboard canvas.<br />Sugar Maple scene + command store.
+    </div>
+  </aside>
+  <main>
+    <div class="toolbar">
+      <div class="segment">
+        <button
+          [class.active]="s.renderer()==='canvas'"
+          (click)="renderer('canvas')"
+        >
+          Canvas 2D</button
+        ><button
+          [class.active]="s.renderer()==='dom'"
+          (click)="renderer('dom')"
+        >
+          DOM reference
+        </button>
+      </div>
+      <div class="segment">
+        <button [class.active]="!s.preview()" (click)="mode(false)">
+          Design</button
+        ><button [class.active]="s.preview()" (click)="mode(true)">
+          Preview
+        </button>
+      </div>
+      <span class="toolbar-spacer"></span
+      ><button
+        [disabled]="!s.store.canUndo"
+        (click)="s.undo()"
+        aria-label="Undo"
+      >
+        ↶</button
+      ><button
+        [disabled]="!s.store.canRedo"
+        (click)="s.redo()"
+        aria-label="Redo"
+      >
+        ↷</button
+      ><button (click)="fit()">Fit</button>
+    </div>
+    <div class="viewport" #viewport>
+      <app-whiteboard-canvas
+        [whiteboard]="s.board"
+        [pageId]="s.page()"
+        [activeTool]="tool"
+        [class.inactive]="s.renderer()==='dom'"
+        (sizeChange)="resize($event)"
+        (cameraChange)="camera.set($event)"
+        (deleteSelection)="s.remove($event)"
+      ></app-whiteboard-canvas>
+      @if(s.renderer()==='dom'){
+      <div class="dom-viewport">
+        <div class="dom-world" [style.transform]="domTransform()">
+          @for(i of s.roots();track i.node.id){<scene-node
+            [node]="i.node"
+            [document]="s.displayDoc()"
+            [selected]="s.selected()"
+            [preview]="s.preview()"
+            (pick)="pick($event)"
+            (activate)="activate($event)"
+          ></scene-node
+          >}
+        </div>
+      </div>
+      } @if(inputItem();as i){<input
+        class="live-input"
+        aria-label="Preview input"
+        [ngStyle]="overlayStyle()"
+        [value]="s.values()[i.node.id]??''"
+        [placeholder]="i.node.text"
+        (input)="inputValue($any($event.target).value)"
+        (blur)="inputItem.set(null)"
+      />}
+      <div class="canvas-hint">
+        {{s.preview()?'Click an action or input · preview values are
+        temporary':'Drag to move · corner to resize · Shift selects · Space +
+        drag pans · wheel zooms'}}
+      </div>
+      @if(!ready()){
+      <div class="loading">Loading the QA scene…</div>
+      }
+    </div>
+    <div class="status">
+      <span
+        ><span class="dot"></span> {{s.renderer()==='canvas'?'Canvas
+        projection':'DOM projection'}} · {{s.doc().nodes.length}} scene nodes ·
+        revision {{s.revision()}}</span
+      ><span class="toolbar-spacer"></span
+      ><button aria-label="Zoom out" (click)="zoom(.8)">−</button
+      ><span>{{(camera().zoom*100).toFixed(0)}}%</span
+      ><button aria-label="Zoom in" (click)="zoom(1.25)">+</button>
+    </div>
+  </main>
+  <aside class="right">
+    <div class="section-label">INSPECTOR</div>
+    @if(s.selectedNode();as n){
+    <h2>{{n.name}}</h2>
+    <p class="muted">{{n.kind}} · {{n.id}}</p>
+    <label
+      >Name<input
+        aria-label="Layer name"
+        [value]="n.name"
+        (blur)="patch('name',$any($event.target).value)"
+    /></label>
+    <div class="grid">
+      @for(key of ['x','y','width','height'];track key){<label
+        >{{key}}<input
+          [attr.aria-label]="key"
+          type="number"
+          [value]="$any(n)[key]"
+          (blur)="patch(key,+$any($event.target).value)" /></label
+      >}
+    </div>
+    @if(['text','button','input'].includes(n.kind)){<label
+      >Text<textarea
+        #textEditor
+        rows="3"
+        aria-label="Text content"
+        [value]="n.text"
+        (keydown.control.enter)="patch('text',$any($event.target).value)"
+        (keydown.meta.enter)="patch('text',$any($event.target).value)"
+        (blur)="patch('text',$any($event.target).value)"
+      ></textarea
+      ><button (click)="patch('text',textEditor.value)">
+        Apply text
+      </button></label
+    ><label
+      >Font size<input
+        type="number"
+        aria-label="Font size"
+        [value]="n.fontSize"
+        (blur)="patch('fontSize',+$any($event.target).value)" /></label
+    >}
+    <div class="grid">
+      <label
+        >Fill<input
+          type="color"
+          aria-label="Fill color"
+          [value]="s.doc().tokens[n.fillToken]??n.fill"
+          (input)="patch('fill',$any($event.target).value)" /></label
+      ><label
+        >Radius<input
+          type="number"
+          aria-label="Radius"
+          [value]="n.radius"
+          (blur)="patch('radius',+$any($event.target).value)"
+      /></label>
+    </div>
+    @if(n.fillToken){
+    <p class="muted">
+      Bound token: {{n.fillToken}} · token takes precedence over a literal fill.
+    </p>
+    }<label
+      >Layout<select
+        aria-label="Layout"
+        [value]="n.layout"
+        (blur)="patch('layout',$any($event.target).value)"
+      >
+        <option>free</option>
+        <option>horizontal</option>
+        <option>vertical</option>
+        <option>grid</option>
+      </select></label
+    ><button class="danger" (click)="s.remove([n.id])">Delete layer</button
+    >}@else{
+    <div class="empty">
+      Select a layer on the canvas<br />or from the layer list.
+    </div>
+    }
+    <div class="section-label performance">VALIDATION LAB</div>
+    <div class="grid">
+      <button (click)="stress(1000)">1,000 nodes</button
+      ><button (click)="stress(5000)">5,000 nodes</button>
+    </div>
+    <button class="wide" [disabled]="running()" (click)="benchmark()">
+      {{running()?'Measuring…':'Measure 60 pans'}}
+    </button>
+    <div class="metrics">
+      <div>
+        <span>Last canvas draw CPU</span
+        ><strong>{{s.stats().paintMs.toFixed(2)}} ms</strong>
+      </div>
+      <div>
+        <span>Canvas visible / total</span
+        ><strong>{{s.stats().drawn}} / {{s.stats().total}}</strong>
+      </div>
+      <div>
+        <span>Authored DOM nodes</span
+        ><strong>{{s.renderer()==='canvas'?0:s.items().length}}</strong>
+      </div>
+    </div>
+    @if(s.benchmark()){
+    <p class="benchmark">{{s.benchmark()}}</p>
+    }
+    <p class="muted">
+      Draw CPU is not total frame time. Both modes measure pan settle over two
+      animation frames. No FPS guarantee.
+    </p>
+    <div class="note">
+      <strong>Experiment boundary</strong>
+      <p>
+        Canvas design surface; native input overlay in preview. DOM reference
+        reuses the existing scene view. Both edit the same validated document.
+      </p>
+      <p>
+        Not connected to the Mac app or its MCP session. Export to retain this
+        session.
+      </p>
+    </div>
+  </aside>
+</div>
+@if(s.error()){
+<div class="error" role="alert">
+  {{s.error()}}<button (click)="s.error.set('')">Dismiss</button>
+</div>
+}

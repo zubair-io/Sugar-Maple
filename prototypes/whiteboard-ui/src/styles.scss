@@ -1,0 +1,79 @@
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  font:
+    13px/1.5 system-ui,
+    -apple-system,
+    sans-serif;
+  color: #1c2940;
+  background: #f5f7fb;
+}
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+button {
+  cursor: pointer;
+}
+button:disabled {
+  cursor: default;
+  opacity: 0.4;
+}
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid #6366f1;
+  outline-offset: 2px;
+}
+button {
+  border: 1px solid #dce2ec;
+  border-radius: 7px;
+  padding: 7px 10px;
+  background: white;
+  color: #38445a;
+}
+input,
+select,
+textarea {
+  width: 100%;
+  border: 1px solid #dce2ec;
+  border-radius: 6px;
+  padding: 7px;
+  background: #fcfdff;
+  color: #25324a;
+}
+input[type="color"] {
+  height: 34px;
+  padding: 3px;
+}
+label {
+  display: block;
+  font-size: 11px;
+  font-weight: 600;
+  color: #69768c;
+  margin: 12px 0;
+}
+label input,
+label select,
+label textarea {
+  display: block;
+  margin-top: 5px;
+}
+.dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #22c59a;
+  margin: 0 5px;
+}
+.muted {
+  font-size: 11px;
+  color: #77849a;
+  overflow-wrap: anywhere;
+}
