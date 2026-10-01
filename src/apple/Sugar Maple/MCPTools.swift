@@ -2,7 +2,7 @@ import Foundation
 
 enum MCPTools {
     static let names = ["capabilities","comments.list","document.get","document.checkpoint","document.new","transaction.apply","history.undo","history.redo","selection.set","code.export","layout.inspect","viewport.fit","render.capture"]
-    static func list(transactionSchema: Any, commentsQuerySchema: Any, schemas: [String: Any] = [:]) -> [[String:Any]] {
+    static func list(transactionSchema: Any, commentsQuerySchema: Any, schemas: [String: Any] = [:], outputSchemas: [String: Any] = [:]) -> [[String:Any]] {
         let string: [String:Any] = ["type":"string"]
         let revision: [String:Any] = ["documentId":string,"expectedRevision":["type":"integer","minimum":0]]
         func tool(_ name:String,_ description:String,_ properties:[String:Any] = [:],_ required:[String] = []) -> [String:Any] {
@@ -29,7 +29,10 @@ enum MCPTools {
         ]
         return tools.map { tool in
             var value = tool
-            if let name = tool["name"] as? String, let schema = schemas[name] { value["inputSchema"] = schema }
+            if let name = tool["name"] as? String {
+                if let schema = schemas[name] { value["inputSchema"] = schema }
+                if let schema = outputSchemas[name] { value["outputSchema"] = schema }
+            }
             return value
         }
     }

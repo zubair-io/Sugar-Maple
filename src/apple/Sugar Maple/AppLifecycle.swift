@@ -4,6 +4,9 @@ import WebKit
 @MainActor
 final class AppLifecycle: NSObject, NSApplicationDelegate {
     weak var host: EditorHost?
+    func applicationWillTerminate(_ notification: Notification) {
+        host?.server?.stop()
+    }
     func applicationShouldTerminate(_ sender: NSApplication) -> NSApplication.TerminateReply {
         guard let host else { return .terminateNow }
         Task { @MainActor in
