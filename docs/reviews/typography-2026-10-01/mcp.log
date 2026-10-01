@@ -1,0 +1,1 @@
+PASS: actual WKWebView MCP advertises typography schema, commits durable scene, captures bundled/local Unicode Canvas text, emits embedded web font and rejects unsupported SwiftUI before output
