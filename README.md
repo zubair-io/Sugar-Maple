@@ -6,7 +6,7 @@ The working implementation includes an Angular editor bundled in a Mac WKWebView
 
 ## Run
 
-Requirements: Bun 1.4.2 and Xcode 27 with the macOS SDK. The Mac target currently supports macOS 15+; older OS behavior has not yet been tested. Angular framework 22.1.7 and CLI/build tooling 22.1.8 were the latest stable npm releases when bootstrapped.
+Requirements: Bun 1.4.2 and Xcode 16+ with a macOS 15+ SDK. Local delivery was verified with Xcode 27; CI builds on macos-15 with its installed Xcode. The Mac target currently supports macOS 15+; older OS behavior has not yet been tested. Angular framework 22.1.7 and CLI/build tooling 22.1.8 were the latest stable npm releases when bootstrapped.
 
 ```sh
 bun install --frozen-lockfile
@@ -27,7 +27,11 @@ For Xcode development, run `bun run build:web` first, then open `src/apple/Sugar
 
 ```sh
 bun test src/web/tests
+bun run --cwd src/web typecheck
 bun run build:web
+# On macOS: bundled app build and real filesystem acceptance
+bun run build:mac
+bun tools/native-acceptance.ts
 # With Google Chrome installed (starts its own dev server when needed):
 bun run test:e2e
 # With Mac app running:
@@ -38,7 +42,7 @@ bun run test:mcp
 
 ## Architecture
 
-- Angular 22 and Bun; HTML/CSS and inline SVG canvas.
+- Angular 22 and Bun; the adapted Just-Maple Whiteboard Canvas2D design viewport, with semantic HTML/CSS and inline SVG in prototype preview and portable exports.
 - A narrow, pinned `_Maple` UI subset for editor chrome. Authored document primitives remain independent of that library.
 - One editor-owned scene graph and validated, undoable command path shared by human editing and MCP.
 - Swift MCP host at `127.0.0.1:48480`, with a stdio adapter to the same app.
