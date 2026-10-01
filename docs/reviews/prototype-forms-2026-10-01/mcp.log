@@ -1,0 +1,1 @@
+PASS: actual native preview editing/navigation/overlay/reset/close left the authored checkpoint and undo journal unchanged.
