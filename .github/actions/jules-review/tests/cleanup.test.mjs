@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { isFinalReview, publishThenDelete } from '../src/cleanup.ts';
+import { deleteSession, isFinalReview, publishThenDelete } from '../lib/cleanup.js';
 
 test('progress and unfinished sessions never qualify as finished reviews', () => {
   assert.equal(isFinalReview('inProgress', 'VERDICT: approve'), false);
@@ -8,7 +8,36 @@ test('progress and unfinished sessions never qualify as finished reviews', () =>
   assert.equal(isFinalReview('failed', 'VERDICT: block'), false);
   for (const verdict of ['approve', 'comment', 'block']) {
     assert.equal(isFinalReview('completed', `Findings\nVERDICT: ${verdict}`), true);
+    assert.equal(isFinalReview('COMPLETED', `Findings\nVERDICT: ${verdict}`), true);
   }
+});
+
+test('transient cleanup retries are bounded and do not expose upstream bodies', async () => {
+  let requests = 0; const delays = [];
+  const attempts = await deleteSession('123', 'secret', async () => {
+    requests++; return new Response('upstream secret', { status: requests < 3 ? 503 : 200 });
+  }, async ms => delays.push(ms));
+  assert.equal(attempts, 3); assert.equal(requests, 3); assert.deepEqual(delays, [1000, 2000]);
+  requests = 0;
+  await assert.rejects(deleteSession('123', 'secret', async () => {
+    requests++; return new Response('upstream secret', { status: 429 });
+  }, async () => {}), /HTTP 429; 3 cleanup attempt/);
+  assert.equal(requests, 3);
+});
+
+test('auth and permission failures do not retry; network timeout does', async () => {
+  for (const status of [400, 401, 403]) {
+    let requests = 0;
+    await assert.rejects(deleteSession('123', 'secret', async () => {
+      requests++; return new Response('upstream secret', { status });
+    }, async () => assert.fail('Must not wait/retry')), new RegExp(`HTTP ${status}; 1 cleanup attempt`));
+    assert.equal(requests, 1);
+  }
+  let requests = 0;
+  assert.equal(await deleteSession('123', 'secret', async () => {
+    if (++requests === 1) throw new DOMException('secret', 'TimeoutError');
+    return new Response(null, { status: 404 });
+  }, async () => {}), 2);
 });
 
 test('publishes first, then deletes only the exact session with authentication', async () => {
