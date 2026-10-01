@@ -7,17 +7,20 @@ final class MCPServer {
     private let listener: NWListener
     private weak var host: EditorHost?
     private let token: String
+    private let port: UInt16
     private var lastRender = Date.distantPast
     init(host: EditorHost) throws {
         self.host = host
+        port = host.mcpPort
         var bytes = [UInt8](repeating: 0, count: 32)
         guard SecRandomCopyBytes(kSecRandomDefault, bytes.count, &bytes) == errSecSuccess else { throw HostError.message("Token generation failed") }
         token = Data(bytes).base64EncodedString()
         let tokenURL = host.support.appendingPathComponent("mcp-token")
         let parameters = NWParameters.tcp
-        parameters.requiredLocalEndpoint = .hostPort(host: "127.0.0.1", port: 48480)
+        parameters.requiredLocalEndpoint = .hostPort(host: "127.0.0.1", port: NWEndpoint.Port(rawValue: port)!)
         listener = try NWListener(using: parameters)
         let credential = token
+        let endpointPort = port
         listener.stateUpdateHandler = { [weak host] state in
             Task { @MainActor [weak host] in
                 switch state {
@@ -25,9 +28,9 @@ final class MCPServer {
                     do {
                         try Data(credential.utf8).write(to: tokenURL, options: .atomic)
                         try FileManager.default.setAttributes([.posixPermissions: 0o600], ofItemAtPath: tokenURL.path)
-                        host?.serverStatus = "Ready · 127.0.0.1:48480"
+                        host?.serverStatus = "Ready · 127.0.0.1:\(endpointPort)"
                     } catch { host?.serverStatus = "MCP credential error: \(error.localizedDescription)" }
-                case .failed(let error): host?.serverStatus = "MCP port 48480 unavailable: \(error.localizedDescription)"
+                case .failed(let error): host?.serverStatus = "MCP port \(endpointPort) unavailable: \(error.localizedDescription)"
                 default: break
                 }
             }
@@ -60,7 +63,7 @@ final class MCPServer {
                     guard parts.count == 2, headers[parts[0].lowercased()] == nil else { self.respond(connection,400,["error":"Malformed headers"]); return }
                     headers[parts[0].lowercased()] = parts[1].trimmingCharacters(in: .whitespaces)
                 }
-                guard start.count == 3, start[1] == "/mcp", headers["host"] == "127.0.0.1:48480", headers["origin"] == nil, headers["transfer-encoding"] == nil else { self.respond(connection,403,["error":"Only direct loopback MCP requests are allowed"]); return }
+                guard start.count == 3, start[1] == "/mcp", headers["host"] == "127.0.0.1:\(self.port)", headers["origin"] == nil, headers["transfer-encoding"] == nil else { self.respond(connection,403,["error":"Only direct loopback MCP requests are allowed"]); return }
                 guard headers["authorization"] == "Bearer \(self.token)" else { self.respond(connection,401,["error":"Invalid MCP token"]); return }
                 guard start[0] == "POST" else { self.respond(connection,405,["error":"Use POST; this server is stateless"]); return }
                 guard let length = Int(headers["content-length"] ?? ""), length > 0, length < 10_000_000 else { self.respond(connection,400,["error":"Invalid Content-Length"]); return }
@@ -84,7 +87,7 @@ final class MCPServer {
     private func handle(_ rpc: [String:Any]) async throws -> Any {
         guard let host else { throw HostError.message("Editor disconnected") }
         switch rpc["method"] as? String {
-        case "initialize": return ["protocolVersion":"2025-11-25", "capabilities":["tools":[:]], "serverInfo":["name":"Sugar Maple","version":"0.1.0"], "instructions":"Read capabilities and document before edits. All positions are parent-relative CSS pixels. Transactions require documentId, expectedRevision and a unique requestId. New documents replace the current editor document; save work first."] as [String:Any]
+        case "initialize": return ["protocolVersion":"2025-11-25", "capabilities":["tools":[:]], "serverInfo":["name":"Sugar Maple","version":"0.1.0"], "instructions":"Read capabilities and document before edits. All positions are parent-relative CSS pixels. Transactions require documentId, expectedRevision and a unique requestId. New documents activate a new tab; existing tabs retain their content and history. Save current work before switching documents."] as [String:Any]
         case "ping": return [:] as [String:Any]
         case "tools/list":
             let capabilities = try await host.dispatch("capabilities",[:]) as! [String:Any]
@@ -92,8 +95,9 @@ final class MCPServer {
         case "tools/call":
             let params = rpc["params"] as? [String:Any] ?? [:]
             guard let name = params["name"] as? String, MCPTools.names.contains(name) else { throw HostError.message("Unknown tool") }
-            let args = params["arguments"] as? [String:Any] ?? [:]
             do {
+                if let arguments = params["arguments"], !(arguments is [String: Any]) { throw HostError.tool(["code":"invalid_input", "message":"Tool arguments must be an object", "recoveryAction":"Use the advertised input schema."]) }
+                let args = params["arguments"] as? [String:Any] ?? [:]
                 if name == "render.capture" {
                     guard Date().timeIntervalSince(lastRender) >= 0.1 else { throw HostError.message("Render throttled: maximum 10 requests per second") }
                     lastRender = Date(); return try await host.snapshot(args)
