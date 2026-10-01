@@ -4,7 +4,7 @@ import WebKit
 import UniformTypeIdentifiers
 
 @MainActor @Observable
-final class EditorHost: NSObject, WKScriptMessageHandlerWithReply, WKNavigationDelegate, WKUIDelegate {
+final class EditorHost: NSObject, WKScriptMessageHandlerWithReply, WKNavigationDelegate, WKUIDelegate, MCPHosting {
     var webView: WKWebView!
     var server: MCPServer?
     var serverStatus = "Starting"
@@ -179,7 +179,7 @@ final class EditorHost: NSObject, WKScriptMessageHandlerWithReply, WKNavigationD
         let image = try await webView.takeSnapshot(configuration: nil)
         _ = try await dispatch("render.ready", args)
         guard let tiff = image.tiffRepresentation, let rep = NSBitmapImageRep(data: tiff), let png = rep.representation(using: .png, properties: [:]) else { throw HostError.message("Snapshot encoding failed") }
-        return ["content": [["type": "image", "mimeType": "image/png", "data": png.base64EncodedString()], ["type": "text", "text": String(data: try JSONSerialization.data(withJSONObject: revision), encoding: .utf8)!]]]
+        return ["structuredContent": revision, "content": [["type": "image", "mimeType": "image/png", "data": png.base64EncodedString()], ["type": "text", "text": String(data: try JSONSerialization.data(withJSONObject: revision), encoding: .utf8)!]]]
     }
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
         guard let url = navigationAction.request.url else { decisionHandler(.cancel); return }
@@ -191,16 +191,6 @@ final class EditorHost: NSObject, WKScriptMessageHandlerWithReply, WKNavigationD
             NSWorkspace.shared.open(url)
         }
         decisionHandler(.cancel)
-    }
-}
-enum HostError: LocalizedError {
-    case message(String)
-    case tool([String: Any])
-    var errorDescription: String? {
-        switch self {
-        case .message(let message): return message
-        case .tool(let details): return String(data: (try? JSONSerialization.data(withJSONObject: details, options: [.sortedKeys])) ?? Data(), encoding: .utf8)
-        }
     }
 }
 

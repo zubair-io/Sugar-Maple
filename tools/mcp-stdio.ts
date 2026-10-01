@@ -9,7 +9,9 @@ for await (const line of createInterface({
   let request: any;
   try {
     request = JSON.parse(line);
-    const token = (await Bun.file(path).text()).trim();
+    const token = (await Bun.file(path).text().catch(() => {
+      throw Error('Sugar Maple MCP credentials are unavailable; launch Sugar Maple and check its MCP status.');
+    })).trim();
     const response = await fetch(mcpEndpoint, {
       method: "POST",
       headers: {
@@ -35,7 +37,7 @@ for await (const line of createInterface({
           error: {
             code: -32603,
             message:
-              error instanceof Error ? error.message : "MCP request failed",
+              error instanceof Error ? `Sugar Maple MCP request failed: ${error.message}. Launch Sugar Maple and check its MCP status before retrying.` : "MCP request failed; launch Sugar Maple and retry.",
           },
         }),
       );
