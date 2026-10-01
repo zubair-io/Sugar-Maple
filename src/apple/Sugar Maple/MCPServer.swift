@@ -129,7 +129,7 @@ final class MCPServer {
     }
     private func handle(_ rpc: [String:Any]) async throws -> Any {
         switch rpc["method"] as? String {
-        case "initialize": return ["protocolVersion":"2025-11-25", "capabilities":["tools":[:]], "serverInfo":["name":"Sugar Maple","version":"0.1.0"], "instructions":"Read capabilities and document before edits. All positions are parent-relative CSS pixels. Transactions require documentId, expectedRevision and a unique requestId. New documents activate a new tab; existing tabs retain their content and history. Save current work before switching documents."] as [String:Any]
+        case "initialize": return ["protocolVersion":"2025-11-25", "capabilities":["tools":[:]], "serverInfo":["name":"Sugar Maple","version":"0.1.0"], "instructions":"Read editor.discover and capabilities before edits; use document.read for scoped scene reads. Node positions are parent-relative CSS pixels; capture rectangles use editor WebView CSS pixels. Transactions require documentId, expectedRevision and a unique requestId. New documents activate a new tab; existing tabs retain their content and history. Save current work before switching documents."] as [String:Any]
         case "ping": return [:] as [String:Any]
         case "tools/list":
             let host = try connectedHost()

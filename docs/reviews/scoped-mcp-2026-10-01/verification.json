@@ -1,0 +1,50 @@
+{
+  "date": "2026-10-01",
+  "issue": 50,
+  "status": "verified implementation candidate; exact-head CI/review and merge pending",
+  "checks": {
+    "modelTests": 51,
+    "assertions": 323,
+    "browserConsumerSuites": 17,
+    "typecheck": "pass",
+    "productionWebAndMacBuild": "pass",
+    "nativeAcceptance": "four actual Swift fixtures, two compiled SwiftUI consumers and unavailable-host stdio pass",
+    "actualNativeHTTPAndStdio": "15 advertised tools accepted by the pinned SDK; scoped payloads equal; invalid IDs/targets/crops/scales reject",
+    "humanKeyboardEdit": "native X changed to 12; selection scope equals authoritative node; stale read rejects; undo restores exact original node",
+    "readsAndCaptures": "checkpoint unchanged after inspection and capture; exact PNG dimensions at 1x/2x",
+    "initialSDKFailure": "union input schema lacked required top-level object type; corrected and real SDK discovery retested"
+  },
+  "metrics": [
+    {
+      "nodes": 1000,
+      "fullMs": 92.935584,
+      "fullBytes": 928707,
+      "scopedMs": 41.90108299999997,
+      "scopedBytes": 92678,
+      "warmP95Ms": 14.702916000000016
+    },
+    {
+      "nodes": 10000,
+      "fullMs": 1020.9856659999996,
+      "fullBytes": 9323818,
+      "scopedMs": 205.4116669999994,
+      "scopedBytes": 92679,
+      "warmP95Ms": 9.84637499999917
+    }
+  ],
+  "cropComparison": {
+    "channelMeanAbsoluteError": [
+      1.1854947916666667,
+      1.17203125,
+      1.1595572916666668
+    ],
+    "limits": "Each channel MAE < 2; WebKit crop/resampling can change edge antialiasing; dimensions tested exactly."
+  },
+  "limits": [
+    "Local timings on one Mac, one full/cold scoped measurement and ten warm scoped reads per size; not a release performance distribution.",
+    "Scale fixtures use hidden groups; visible Canvas and Layers DOM performance remains #2/#8.",
+    "Component reference metadata identifies definitions; clients read the component subtree separately.",
+    "Inline assets and required ancestors can exceed the 16 MiB cap; fail explicitly rather than truncate.",
+    "Release signing, notarization and full MVP acceptance remain #21."
+  ]
+}
