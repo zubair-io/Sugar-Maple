@@ -24,6 +24,7 @@ try {
     "editor-e2e",
     "canvas-e2e",
     "canvas-parity-e2e",
+    "typography-e2e",
     "canvas-performance",
     "file-menu-e2e",
     "autosave-e2e",

@@ -1,3 +1,5 @@
+import { loadBundledFont } from '../src/app/model/bundled-font-access';
+await loadBundledFont();
 import { DocumentStore } from '../src/app/model/store';
 import { exportNode } from '../src/app/model/export';
 import { uid } from '../src/app/model/schema';
@@ -33,6 +35,7 @@ store.transact({
         parentId: 'root',
         pageId: store.document.pages[0].id,
         text: 'Hello @user {literal} {{noBinding}}',
+        fontFamily: 'Maple Sans', lineHeight: 1.6, letterSpacing: 0.5, textAlign: 'right',
         widthMode: 'fill',
         height: 40,
       },
@@ -93,6 +96,10 @@ const page = await browser.newPage();
 await page.setContent('<style>' + css + '</style>' + markup);
 assert.equal(Math.round((await page.locator('button').boundingBox())!.width), 360);
 assert.equal(Math.round((await page.locator('button').boundingBox())!.height), 44);
+await page.evaluate(() => document.fonts.ready);
+assert.equal(await page.locator('p').evaluate(el => getComputedStyle(el).textAlign), 'right');
+assert.equal(await page.locator('p').evaluate(el => getComputedStyle(el).letterSpacing), '0.5px');
+assert.match(await page.locator('p').evaluate(el => getComputedStyle(el).fontFamily), /Maple Sans/);
 assert.equal(await page.locator('p').textContent(), 'Hello @user {literal} {{noBinding}}');
 await page.setContent(exportNode(store.document, 'root', 'html'));
 assert.equal(Math.round((await page.locator('button').boundingBox())!.width), 360);
