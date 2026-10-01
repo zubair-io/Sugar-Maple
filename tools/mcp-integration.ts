@@ -28,7 +28,7 @@ await http.connect(
   }),
 );
 const discovered = await http.listTools();
-assert.equal(discovered.tools.length, 13);
+assert.equal(discovered.tools.length, 15);
 assert.ok(discovered.tools.every((tool) => tool.outputSchema?.type === 'object'));
 async function tool(name: string, args: any = {}) {
   const result: any = await http.callTool({ name, arguments: args });

@@ -32,6 +32,7 @@ try {
     "selection-e2e",
     "responsive-e2e",
     "prototype-forms-e2e",
+    "preview-inspect-e2e",
     "handoff-e2e",
     "web-consumer",
     "maple-design-e2e",

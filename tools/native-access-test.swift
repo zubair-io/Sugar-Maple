@@ -15,7 +15,7 @@ import Foundation
         let outside = root.appendingPathComponent("private.json")
         try Data("private".utf8).write(to: outside)
         precondition(NativeAccessPolicy.trustedOrigin(scheme: "sugar-maple", host: "app", port: 0))
-        for host in ["evil", "", "app.example"] {
+        for host in ["evil", "", "app.example", "preview"] {
             precondition(!NativeAccessPolicy.trustedOrigin(scheme: "sugar-maple", host: host, port: 0))
         }
         precondition(!NativeAccessPolicy.trustedOrigin(scheme: "https", host: "app", port: 0))
@@ -28,6 +28,12 @@ import Foundation
         }
         try fm.createSymbolicLink(at: resources.appendingPathComponent("leak.json"), withDestinationURL: outside)
         rejected { _ = try NativeAccessPolicy.resourceURL(URL(string: "sugar-maple://app/leak.json")!, root: resources) }
+        let previewIndex = try NativeAccessPolicy.resourceURL(URL(string: "sugar-maple://preview/index.html")!, root: resources, host: .preview)
+        precondition(previewIndex == index)
+        rejected { _ = try NativeAccessPolicy.resourceURL(URL(string: "sugar-maple://preview/index.html")!, root: resources) }
+        for address in ["sugar-maple://app/index.html", "sugar-maple://preview:80/index.html", "sugar-maple://user@preview/index.html", "sugar-maple://preview/../private.json", "sugar-maple://preview/%2e%2e/private.json", "sugar-maple://preview/leak.json"] {
+            rejected { _ = try NativeAccessPolicy.resourceURL(URL(string: address)!, root: resources, host: .preview) }
+        }
 
         let checkpoint: [String: Any] = ["document": ["version": 1, "id": "native-access", "name": "Test", "pages": [], "nodes": []]]
         let package = root.appendingPathComponent("Valid.syrup", isDirectory: true)

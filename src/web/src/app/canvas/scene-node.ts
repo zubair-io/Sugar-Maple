@@ -15,7 +15,7 @@ export class SceneNodeView {
   readonly assets = inject(SceneAssets);
   readonly session = inject(PrototypeSession, { optional: true });
   readonly label = computed(() => controlLabel(this.node()));
-  readonly clickable = computed(() => this.preview() && !this.node().disabled && hasPrototypeAction(this.node()));
+  readonly clickable = computed(() => this.preview() && !this.inspect() && !this.node().disabled && hasPrototypeAction(this.node()));
   readonly asset = computed(() => {
     this.assets.version();
     return this.node().kind === 'image' ? { ...this.assets.get(this.node().asset) } : null;
@@ -24,6 +24,7 @@ export class SceneNodeView {
   readonly document = input.required<SceneDocument>();
   readonly selected = input<string[]>([]);
   readonly preview = input(false);
+  readonly inspect = input(false);
   readonly pick = output<{ event: PointerEvent; node: SceneNode }>();
   readonly activate = output<SceneNode>();
   readonly children = computed(() =>

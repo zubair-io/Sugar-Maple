@@ -39,3 +39,4 @@ svg {
   display: block;
 }
 .asset-error { padding: 12px; color: #991b1b; background: #fee2e2; font: 12px system-ui; }
+:host .node.inspect > .authored { pointer-events: none; }

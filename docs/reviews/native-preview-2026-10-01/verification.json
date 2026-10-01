@@ -1,0 +1,36 @@
+{
+  "date": "2026-10-01",
+  "issue": 14,
+  "status": "implemented and locally verified; exact-head CI/review/merge pending",
+  "baseMain": "81911c2597e5895d73dd43f414cd772f386709d6",
+  "checks": {
+    "modelTests": 53,
+    "modelAssertions": 336,
+    "browserConsumerSuites": 18,
+    "typecheck": "pass",
+    "productionWebAndMacBuild": "pass",
+    "nativeFixtures": 5,
+    "compiledSwiftUIConsumers": 2,
+    "nativeHTTPAndStdioMCP": "pass, 15 tools",
+    "nativeWindowAndKeyboard": "actual CUA, owned io.zubair.SugarMaple.PreviewQA / port 48490",
+    "networkIsolation": "actual WebKit securitypolicyviolation/connect-src event for external fetch; bundled font fetch remains available",
+    "closeCleanup": "renderer disposal, handler removal, parent close, idempotent close and weak controller release verified",
+    "authoringInvariant": "complete checkpoint/undo journal equality between intentional design edits"
+  },
+  "nativeObservations": [
+    "Email/password keyboard input is ephemeral; disabled input stays disabled",
+    "Nested component action selected in Inspect without navigation; input remains read-only and runtime value retained",
+    "Overlay open/Escape restores the launcher focus",
+    "Live MCP label edit preserves typed values; navigate/Back retains values; Reset restores authored initial values",
+    "Deleted destination returns to root with visible diagnostic; deleted root closes window with editor diagnostic",
+    "Custom 512x640 viewport preserves authored 400x800 board and editor selection",
+    "Return-to-editor restores Preview button focus; close/reopen resets ephemeral values",
+    "Final HTML-CSP build was relaunched and its input/Inspect/overlay/navigation/Back/custom viewport/reset/close verified again"
+  ],
+  "limits": [
+    "No OS network settings were changed. Browser flow runs offline; native bundled resources plus enforced CSP prove external-network denial.",
+    "Initial AX field-click automation did not focus reliably; actual keyboard focus/input was subsequently observed and verified. A first final-build typing attempt lost its leading character; a focused retry verified the complete value.",
+    "Large-scene performance, complete release accessibility/signing, production-library mapping and arbitrary code execution remain #2/#21/#49/#51.",
+    "Developer Inspect exposes current node/component/token identity; full developer handoff requirements remain #15."
+  ]
+}
