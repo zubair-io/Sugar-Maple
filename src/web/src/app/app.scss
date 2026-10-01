@@ -170,32 +170,6 @@ button:hover {
   background-size: 20px 20px;
   touch-action: none;
 }
-.world {
-  position: absolute;
-  inset: 0;
-  transform-origin: 0 0;
-}
-.artboard-label {
-  position: absolute;
-  color: #aca6a0;
-  font-size: 12px;
-  white-space: nowrap;
-}
-.artboard-label span {
-  opacity: 0.5;
-  margin-left: 16px;
-}
-.resize-handle {
-  position: absolute;
-  z-index: 999;
-  width: 10px;
-  height: 10px;
-  padding: 0;
-  border: 1px solid #3b82f6;
-  background: white;
-  border-radius: 0;
-  cursor: nwse-resize;
-}
 .empty-canvas {
   position: absolute;
   inset: 0;
@@ -481,13 +455,6 @@ footer > span:last-child {
     width: 28px;
   }
 }
-.marquee {
-  position: absolute;
-  pointer-events: none;
-  border: 1px solid #60a5fa;
-  background: #3b82f620;
-}
-
 .folder-create {
   display: flex;
   gap: 4px;

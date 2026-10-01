@@ -135,15 +135,6 @@
             </button>
           </div>
         }
-        @if (marquee(); as box) {
-          <div
-            class="marquee"
-            [style.left.px]="box.x"
-            [style.top.px]="box.y"
-            [style.width.px]="box.width"
-            [style.height.px]="box.height"
-          ></div>
-        }
         @if (!e.pageNodes().length) {
           <p class="muted empty-layers">Your page is ready.<br />Add an artboard to begin.</p>
         }
@@ -269,54 +260,10 @@
           </svg>
         </button>
       </div>
-      <div class="viewport" (pointerdown)="background($event)" (wheel)="wheel($event)">
+      <div class="viewport">
+        <canvas-surface [zoom]="zoom()" [pan]="pan()" [enabled]="!preview() && !commentUi.placing() && !commentUi.draft()"
+          (cameraChange)="zoom.set($event.zoom); pan.set($event.pan)" />
         <comment-canvas [zoom]="zoom()" [pan]="pan()" />
-        <div
-          class="world"
-          [style.transform]="'translate(' + pan().x + 'px,' + pan().y + 'px) scale(' + zoom() + ')'"
-        >
-          @for (node of e.roots(); track node.id) {
-            @if (node.kind === 'artboard') {
-              <div class="artboard-label" [style.left.px]="node.x" [style.top.px]="node.y - 28">
-                {{ node.name }} <span>{{ node.width }} × {{ node.height }}</span>
-              </div>
-            }
-            <scene-node
-              [node]="node"
-              [document]="e.doc()"
-              [selected]="e.selection()"
-              (pick)="pick($event)"
-            />
-          }
-          @if (e.node(); as n) {
-            @if (
-              e.mode() === 'Design' &&
-              !n.locked &&
-              e.selection().length === 1 &&
-              canMove(n) &&
-              n.rotation === 0 &&
-              n.widthMode === 'fixed' &&
-              n.heightMode === 'fixed'
-            ) {
-              <button
-                class="resize-handle"
-                aria-label="Resize selected element"
-                [style.left.px]="world(n).x + n.width - 5"
-                [style.top.px]="world(n).y + n.height - 5"
-                (pointerdown)="resize($event)"
-              ></button>
-            }
-          }
-        </div>
-        @if (marquee(); as box) {
-          <div
-            class="marquee"
-            [style.left.px]="box.x"
-            [style.top.px]="box.y"
-            [style.width.px]="box.width"
-            [style.height.px]="box.height"
-          ></div>
-        }
         @if (!e.pageNodes().length) {
           <div class="empty-canvas">
             <div class="empty-artboards">▱</div>
@@ -428,6 +375,7 @@
                   (change)="patch('color', value($event))" /></mui-field>
               </mui-section>
             }
+            @if (n.kind === 'image') { <asset-inspector [node]="n" /> }
             <mui-section title="Style" sectionId="style-details">
               <mui-field label="Opacity"><input type="number" min="0" max="100" aria-label="Opacity percent"
                 [ngModel]="Math.round(n.opacity * 100)"
