@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { LibraryManifestSchema, LibraryReferenceSchema, LibraryPropsSchema, LibraryKeySchema, validateLibraryBindings } from './library-schema';
 import { assetKeyPattern, assetReferencePattern, validateAssets } from './assets';
 
 const id = z
@@ -108,6 +109,8 @@ export const NodeSchema = z
       .string()
       .regex(/^-?[0-9.]+ -?[0-9.]+ [0-9.]+ [0-9.]+$/)
       .default('0 0 100 100'),
+    libraryRef: LibraryReferenceSchema.nullable().default(null),
+    librarySlot: z.string().max(80).regex(/^(?:[a-z][a-z0-9-]*)?$/).default(''),
     componentId: id.nullable().default(null),
     isComponent: z.boolean().default(false),
     variantName: z.string().min(1).max(80).default('Default'),
@@ -189,6 +192,7 @@ export const DocumentSchema = z.object({
   pages: z.array(PageSchema).min(1).max(100),
   nodes: z.array(NodeSchema).max(10000),
   tokens: z.record(z.string().regex(/^[\w.-]+$/), color),
+  libraries: z.record(LibraryKeySchema, LibraryManifestSchema).default({}),
   assets: z.record(z.string().regex(assetKeyPattern), z.string().max(6_666_700)).default({}),
 });
 export type SceneDocument = z.infer<typeof DocumentSchema>;
@@ -213,6 +217,11 @@ const patchNode = z
   .strict();
 const addNode = patchNode.extend({ id: id.optional() }).required({ kind: true, pageId: true });
 export const OperationSchema = z.discriminatedUnion('type', [
+  z.object({ type: z.literal('library.import'), manifest: LibraryManifestSchema }).strict(),
+  z.object({ type: z.literal('library.insert'), key: LibraryKeySchema, component: z.string().min(1).max(80), pageId: id, id: id.optional(), x: finite, y: finite, props: LibraryPropsSchema.default({}), variant: z.string().min(1).max(80).optional() }).strict(),
+  z.object({ type: z.literal('library.props'), id, props: LibraryPropsSchema, variant: z.string().min(1).max(80).optional() }).strict(),
+  z.object({ type: z.literal('library.remap'), id, key: LibraryKeySchema, component: z.string().min(1).max(80).optional() }).strict(),
+  z.object({ type: z.literal('library.reset'), id }).strict(),
   z.object({ type: z.literal('asset.set'), key: z.string().regex(assetKeyPattern), source: z.string().max(6_666_700) }).strict(),
   z.object({ type: z.literal('repeat.prepare'), id }).strict(),
   z.object({ type: z.literal('repeat.resize'), id, rows: z.number().int().min(1).max(100), columns: z.number().int().min(1).max(20) }).strict(),
@@ -324,11 +333,13 @@ export function blankDocument(name = 'Untitled'): SceneDocument {
     nodes: [],
     tokens: {},
     assets: {},
+    libraries: {},
   };
 }
 export function validateDocument(value: unknown): SceneDocument {
   const doc = DocumentSchema.parse(value);
   validateAssets(doc.assets);
+  validateLibraryBindings(doc);
   const folders = new Set(doc.folders.map((f) => f.id));
   if (folders.size !== doc.folders.length) throw Error('Duplicate folder IDs');
   for (const page of doc.pages)
