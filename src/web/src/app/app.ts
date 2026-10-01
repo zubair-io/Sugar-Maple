@@ -440,7 +440,10 @@ export class App {
   startPreview() {
     const n = this.e.node();
     const board = n?.kind === 'artboard' ? n : this.e.roots().find(n => n.kind === 'artboard');
-    if (board) this.preview.set(board.id);
+    if (board) {
+      if (this.e.native) void this.e.openNativePreview(board.id).catch(error => this.e.report(error));
+      else this.preview.set(board.id);
+    }
     else this.e.error.set('Create an artboard to preview.');
   }
   closePreview(error: string) { this.preview.set(null); if (error) this.e.error.set(error); }
