@@ -1,3 +1,4 @@
+import { inputDisplay } from '../../../../../model/form';
 import { applyCanvasFont, textAlignment } from '../../../../../model/typography';
 import { Injectable, inject } from '@angular/core';
 import type { Camera } from '../../../shared-types';
@@ -201,13 +202,13 @@ export class RendererService {
     c.save();
     c.clip();
     if (['text', 'button', 'input'].includes(n.kind)) {
-      c.fillStyle = n.color;
+      c.fillStyle = n.disabled ? '#71717a' : n.color;
       applyCanvasFont(c, n);
       c.textBaseline = 'alphabetic';
-      const text = n.text;
-      const lines = this.wrap(
+      const text = n.kind === 'input' ? inputDisplay(n) : n.text;
+      const lines = n.kind === 'input' ? [text] : this.wrap(
         text,
-        Math.max(1, i.width - n.strokeWidth * 2 - (n.kind === 'input' ? 16 : 0)),
+        Math.max(1, i.width - n.strokeWidth * 2),
       );
       const lineH = n.fontSize * n.lineHeight;
       let y = i.y + (n.kind === 'text' ? n.strokeWidth : (i.height - lines.length * lineH) / 2);

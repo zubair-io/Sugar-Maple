@@ -14,6 +14,10 @@ export class EditorHeader {
   readonly modes = ['Design', 'Prototype', 'Developer'] as const;
   readonly editing = signal<string | null>(null);
   readonly nameInput = viewChild<ElementRef<HTMLInputElement>>('nameInput');
+  startPreview(event: MouseEvent) {
+    (event.currentTarget as HTMLElement).focus();
+    this.preview.emit();
+  }
   constructor() {
     effect(() => {
       const input = this.nameInput()?.nativeElement;
