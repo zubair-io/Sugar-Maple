@@ -1,3 +1,4 @@
+import { embeddedAsset } from './model/assets';
 import { SceneFonts } from './canvas/scene-fonts';
 import { discoverEditor, readScope } from './model/scoped-read';
 import { toolOutputJSONSchemas } from './model/tool-output';
@@ -67,7 +68,7 @@ export class EditorService {
       if (root) void this.bridge('preview.update', { value: { version: 1, documentId: document.id, revision, rootId: root, document } }).catch(e => this.report(e));
     });
     effect(() => {
-      this.assets.prune(this.doc().nodes);
+      this.assets.prune(this.doc().nodes, this.doc().assets);
       for (const n of this.doc().nodes)
         if (['text', 'button', 'input'].includes(n.kind)) this.fonts.get(n.fontFamily);
     });
@@ -477,7 +478,8 @@ export class EditorService {
         ? (await this.bridge('clipboard.read')).text
         : await navigator.clipboard.readText();
       const paste = pasteElements(this.doc(), this.pageId(), text);
-      if (this.perform(paste.operations)) this.select(paste.rootId);
+      await this.performDecoded(paste.operations, this.doc().id, this.revision());
+      this.select(paste.rootId);
     } catch (e) {
       this.report(e);
     }
@@ -533,6 +535,24 @@ export class EditorService {
       this.report(e);
     }
   }
+  async performDecoded(operations: Operation[], expectedDocumentId: string, expectedRevision: number, stillCurrent: () => boolean = () => true) {
+    await this.validateAssetOperations(operations);
+    if (!stillCurrent()) throw Error('Import canceled before applying data');
+    if (this.doc().id !== expectedDocumentId || this.revision() !== expectedRevision) throw Error('Document changed while data loaded. Preview the import again.');
+    const result = this.store.transact({ documentId: expectedDocumentId, expectedRevision, requestId: uid(), operations });
+    this.refresh(); return result;
+  }
+  async validateAssetOperations(operations: Operation[]) {
+    const sources = operations.flatMap(op => op.type === 'asset.set' ? [op.source] :
+      op.type === 'repeat.import' ? op.rows.flatMap(row=>op.fields.filter(field=>field.property==='asset').flatMap(field=>{
+        const reference=row[field.field];return reference?.startsWith('asset:') && Object.hasOwn(this.doc().assets,reference.slice(6)) ? [this.doc().assets[reference.slice(6)]] : [];
+      })) : []);
+    for (const source of new Set(sources)) {
+      embeddedAsset(source);
+      await this.assets.settle([{ kind: 'image', asset: source } as SceneNode]);
+      if (this.assets.get(source).state !== 'ready') throw Error('Image could not be decoded. Choose a valid PNG, JPEG or WebP.');
+    }
+  }
   async image(file: File, replaceId?: string) {
     try {
       const documentId = this.doc().id,
@@ -567,20 +587,23 @@ export class EditorService {
       checkContext();
       if (this.assets.get(asset).state !== 'ready')
         throw Error('Image could not be decoded. Choose a valid PNG, JPEG or WebP.');
+      const shared = embeddedAsset(asset);
+      const assetOperation: Operation = { type: 'asset.set', key: shared.key, source: asset };
       if (replaceId) {
         if (this.doc().nodes.find((n) => n.id === replaceId)?.kind !== 'image')
           throw Error('Select an image to replace');
-        this.perform([{ type: 'node.update', id: replaceId, patch: { asset } }]);
+        this.perform([assetOperation, { type: 'node.update', id: replaceId, patch: { asset: shared.reference } }]);
         return;
       }
       const result = this.perform([
+        assetOperation,
         {
           type: 'node.add',
           node: {
             kind: 'image',
             pageId,
             name: file.name,
-            asset,
+            asset: shared.reference,
             width: 320,
             height: 240,
             x: 80,
@@ -590,7 +613,7 @@ export class EditorService {
       ]);
       if (result) this.select(result.ids[0]);
     } catch (e) {
-      this.assets.prune(this.doc().nodes);
+      this.assets.prune(this.doc().nodes, this.doc().assets);
       for (const n of this.doc().nodes)
         if (['text', 'button', 'input'].includes(n.kind)) this.fonts.get(n.fontFamily);
       this.report(e);
@@ -629,7 +652,7 @@ export class EditorService {
           document: this.doc(),
           durable: !this.dirty(),
           persistence: this.status(),
-          assetDiagnostics: this.assets.diagnostics(this.doc().nodes),
+          assetDiagnostics: this.assets.diagnostics(this.doc().nodes, this.doc().assets),
         };
       case 'document.new':
         await this.requireSaved();
@@ -640,6 +663,7 @@ export class EditorService {
         const previousStatus = this.mcp();
         this.mcp.set('Agent writing');
         try {
+          await this.validateAssetOperations(args.operations);
           const result = this.store.transact(args, 'agent');
           this.refresh();
           return result;
@@ -679,7 +703,7 @@ export class EditorService {
           rendered: true,
           durable: !this.dirty(),
           persistence: this.status(),
-          assetDiagnostics: this.assets.diagnostics(this.pageNodes()),
+          assetDiagnostics: this.assets.diagnostics(this.pageNodes(), this.doc().assets),
           ...(method === 'render.capture' ? { captureRequest: args } : {}),
         };
       case 'capabilities':
@@ -707,7 +731,7 @@ export class EditorService {
     }
   }
   private async settleLayout() {
-    await this.assets.settle(this.pageNodes());
+    await this.assets.settle(this.pageNodes(), this.doc().assets);
     let timeout: ReturnType<typeof setTimeout> | undefined;
     try {
       await Promise.race([

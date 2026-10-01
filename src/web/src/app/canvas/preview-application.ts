@@ -29,9 +29,9 @@ export class PreviewApplication implements OnDestroy {
         if (this.disposed) return false;
         const next = this.feed.accept(value);
         if (!next) return false;
-        this.assets.prune(next.document.nodes);
+        this.assets.prune(next.document.nodes, next.document.assets);
         await this.fonts.ready;
-        await Promise.all([this.fonts.settle(next.document.nodes), this.assets.settle(next.document.nodes)]);
+        await Promise.all([this.fonts.settle(next.document.nodes), this.assets.settle(next.document.nodes, next.document.assets)]);
         if (this.disposed || this.feed.current !== next) return false;
         this.snapshot.set(next);
         return true;

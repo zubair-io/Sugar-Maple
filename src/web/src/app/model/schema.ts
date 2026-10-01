@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { assetKeyPattern, assetReferencePattern, validateAssets } from './assets';
 
 const id = z
   .string()
@@ -188,6 +189,7 @@ export const DocumentSchema = z.object({
   pages: z.array(PageSchema).min(1).max(100),
   nodes: z.array(NodeSchema).max(10000),
   tokens: z.record(z.string().regex(/^[\w.-]+$/), color),
+  assets: z.record(z.string().regex(assetKeyPattern), z.string().max(6_666_700)).default({}),
 });
 export type SceneDocument = z.infer<typeof DocumentSchema>;
 const patchNode = z
@@ -211,6 +213,16 @@ const patchNode = z
   .strict();
 const addNode = patchNode.extend({ id: id.optional() }).required({ kind: true, pageId: true });
 export const OperationSchema = z.discriminatedUnion('type', [
+  z.object({ type: z.literal('asset.set'), key: z.string().regex(assetKeyPattern), source: z.string().max(6_666_700) }).strict(),
+  z.object({ type: z.literal('repeat.prepare'), id }).strict(),
+  z.object({ type: z.literal('repeat.resize'), id, rows: z.number().int().min(1).max(100), columns: z.number().int().min(1).max(20) }).strict(),
+  z.object({
+    type: z.literal('repeat.import'), id,
+    rows: z.array(z.record(z.string().min(1).max(128), z.string().max(20000))).min(1).max(1000),
+    fields: z.array(z.object({ field: z.string().min(1).max(128), targetId: id, property: z.enum(['text', 'initialValue', 'asset']) }).strict()).min(1).max(100),
+    missing: z.enum(['retain', 'clear', 'error']),
+    truncate: z.boolean(),
+  }).strict(),
   z
     .object({
       type: z.literal('comment.add'),
@@ -311,10 +323,12 @@ export function blankDocument(name = 'Untitled'): SceneDocument {
     pages: [{ id: uid(), name: 'Page 1', order: 0, folderId: null }],
     nodes: [],
     tokens: {},
+    assets: {},
   };
 }
 export function validateDocument(value: unknown): SceneDocument {
   const doc = DocumentSchema.parse(value);
+  validateAssets(doc.assets);
   const folders = new Set(doc.folders.map((f) => f.id));
   if (folders.size !== doc.folders.length) throw Error('Duplicate folder IDs');
   for (const page of doc.pages)
@@ -341,7 +355,9 @@ export function validateDocument(value: unknown): SceneDocument {
     if (n.gradient && n.gradient.stops.some((s, i, a) => i > 0 && s.offset < a[i - 1].offset))
       throw Error('Gradient stops must be ordered');
     if (!pages.has(n.pageId)) throw Error('Missing page');
-    if (n.asset && !/^data:image\/(png|jpeg|webp);base64,[A-Za-z0-9+/=]+$/.test(n.asset))
+    if (assetReferencePattern.test(n.asset) && !Object.hasOwn(doc.assets, n.asset.slice(6)))
+      throw Error('Missing embedded image content');
+    if (n.asset && !assetReferencePattern.test(n.asset) && !/^data:image\/(png|jpeg|webp);base64,[A-Za-z0-9+/=]+$/.test(n.asset))
       throw Error('Only embedded PNG/JPEG/WebP images are supported');
     const visited = new Set([n.id]);
     let parent = n.parentId;
@@ -366,6 +382,12 @@ export function validateDocument(value: unknown): SceneDocument {
     }
     if (n.repeatTemplateId && nodes.get(n.repeatTemplateId)?.parentId !== n.id)
       throw Error('Repeat template must be a child of its grid');
+    const template = nodes.get(n.repeatTemplateId ?? '');
+    if (template?.hidden && template.repeatIndex === null && template.isComponent) {
+      const cells = doc.nodes.filter(v=>v.parentId===n.id && v.id!==template.id).sort((a,b)=>(a.repeatIndex??-1)-(b.repeatIndex??-1));
+      if (!cells.length || cells.length>100 || cells.some((cell,index)=>cell.repeatIndex!==index || cell.componentId!==template.id))
+        throw Error('Repeat Grid cells must retain contiguous indices and their template links; resize the grid to remove cells');
+    }
   }
   componentOrder(doc);
   return doc;

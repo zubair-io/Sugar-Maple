@@ -1,3 +1,4 @@
+import { assetSource } from '../model/assets';
 import { Component, computed, inject, input } from '@angular/core';
 import { EditorService } from '../editor.service';
 import type { SceneNode } from '../model/schema';
@@ -47,7 +48,7 @@ export class AssetInspector {
   readonly node = input.required<SceneNode>();
   readonly asset = computed(() => {
     this.e.assets.version();
-    return { ...this.e.assets.get(this.node().asset) };
+    return { ...this.e.assets.get(assetSource(this.e.doc(), this.node().asset)) };
   });
   async replace(event: Event) {
     const input = event.target as HTMLInputElement,
