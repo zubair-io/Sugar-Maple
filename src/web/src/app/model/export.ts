@@ -11,6 +11,9 @@ export function nodeStyles(n: SceneNode, doc: SceneDocument): Record<string, str
     margin: 0,
     fontFamily: 'system-ui, sans-serif',
     lineHeight: '1.2',
+    whiteSpace: 'pre-wrap',
+    textAlign: n.kind === 'button' ? 'center' : 'left',
+    appearance: ['button', 'input'].includes(n.kind) ? 'none' : 'auto',
     position: parent && parent.layout !== 'free' ? 'relative' : 'absolute',
     left: parent && parent.layout !== 'free' ? 0 : n.x,
     top: parent && parent.layout !== 'free' ? 0 : n.y,
@@ -61,7 +64,7 @@ export function nodeStyles(n: SceneNode, doc: SceneDocument): Record<string, str
     flexDirection: n.layout === 'vertical' ? 'column' : 'row',
     gridTemplateColumns: `repeat(${n.columns}, minmax(0, 1fr))`,
     gap: n.gap,
-    padding: ['frame', 'artboard'].includes(n.kind) ? n.padding : 0,
+    padding: ['frame', 'artboard'].includes(n.kind) ? n.padding : n.kind === 'input' ? 8 : 0,
     flexShrink: 0,
     overflow: 'hidden',
   };
