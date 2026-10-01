@@ -24,7 +24,8 @@
       "resolution": {
         "status": "implemented and verified",
         "summary": "HTTP and stdio retain error codes, cause, document/revision and recovery guidance.",
-        "verification": "../canvas-delivery-2026-10-01/verification.json"
+        "verification": "../canvas-delivery-2026-10-01/verification.json",
+        "mergedPR": 45
       }
     },
     {
@@ -47,7 +48,8 @@
       "resolution": {
         "status": "implemented and verified",
         "summary": "Invalid export targets and invalid batches reject before mutation.",
-        "verification": "../canvas-delivery-2026-10-01/verification.json"
+        "verification": "../canvas-delivery-2026-10-01/verification.json",
+        "mergedPR": 45
       }
     },
     {
@@ -72,7 +74,8 @@
       "resolution": {
         "status": "implemented and verified",
         "summary": "Literal variant fills shadow inherited tokens; bindings, overrides and reset are retained.",
-        "verification": "../canvas-delivery-2026-10-01/verification.json"
+        "verification": "../canvas-delivery-2026-10-01/verification.json",
+        "mergedPR": 45
       }
     },
     {
@@ -96,7 +99,8 @@
       "resolution": {
         "status": "implemented and verified",
         "summary": "Recursive master dependencies, token collisions, variants and local overrides survive cross-document paste.",
-        "verification": "../canvas-delivery-2026-10-01/verification.json"
+        "verification": "../canvas-delivery-2026-10-01/verification.json",
+        "mergedPR": 45
       }
     },
     {
@@ -120,7 +124,8 @@
       "resolution": {
         "status": "implemented and verified",
         "summary": "The picker lists document artboards with page context and reflects existing links.",
-        "verification": "../canvas-delivery-2026-10-01/verification.json"
+        "verification": "../canvas-delivery-2026-10-01/verification.json",
+        "mergedPR": 45
       }
     },
     {
@@ -145,7 +150,8 @@
       "resolution": {
         "status": "implemented and verified",
         "summary": "HTML, Angular and Tailwind retain authored whitespace.",
-        "verification": "../canvas-delivery-2026-10-01/verification.json"
+        "verification": "../canvas-delivery-2026-10-01/verification.json",
+        "mergedPR": 45
       }
     },
     {
@@ -170,7 +176,8 @@
       "resolution": {
         "status": "implemented and verified",
         "summary": "Control font sizes/weights and stack/control padding are emitted; a real consumer typechecks.",
-        "verification": "../canvas-delivery-2026-10-01/verification.json"
+        "verification": "../canvas-delivery-2026-10-01/verification.json",
+        "mergedPR": 45
       }
     },
     {
@@ -194,7 +201,8 @@
       "resolution": {
         "status": "implemented and verified",
         "summary": "Decode failures identify nodes. Replace image validates pixels and preserves the layer; undo restores the original.",
-        "verification": "../canvas-delivery-2026-10-01/verification.json"
+        "verification": "../canvas-delivery-2026-10-01/verification.json",
+        "mergedPR": 45
       }
     },
     {
@@ -218,7 +226,8 @@
       "resolution": {
         "status": "implemented and verified",
         "summary": "Actual crossfade, transition selection, Back, reduced motion and unchanged authored revision.",
-        "verification": "../canvas-delivery-2026-10-01/verification.json"
+        "verification": "../canvas-delivery-2026-10-01/verification.json",
+        "mergedPR": 45
       }
     },
     {
@@ -244,7 +253,8 @@
       "resolution": {
         "status": "implemented and verified",
         "summary": "The full original runner passes with canvas regressions; CI runs the same 15 suites and typecheck.",
-        "verification": "../canvas-delivery-2026-10-01/verification.json"
+        "verification": "../canvas-delivery-2026-10-01/verification.json",
+        "mergedPR": 45
       }
     }
   ],
@@ -312,9 +322,12 @@
       "issues": [
         9,
         10,
-        26
+        26,
+        46
       ],
-      "size": "L"
+      "size": "L",
+      "trackingIssue": "https://github.com/zubair-io/Sugar-Maple/issues/46",
+      "deliveryStatus": "typography slice merged; remaining layout acceptance open"
     },
     {
       "id": "R6",
@@ -324,9 +337,12 @@
       "acceptance": "Sign-in \u2192 validation \u2192 success plus modal open/close and scrolling can be authored from UI and MCP. Preview does not dirty the design, password input is masked, keyboard operation works, Back has defined state behavior.",
       "issues": [
         14,
-        24
+        24,
+        47
       ],
-      "size": "L"
+      "size": "L",
+      "trackingIssue": "https://github.com/zubair-io/Sugar-Maple/issues/47",
+      "deliveryStatus": "typed forms/overlay slice merged #56; remaining window/state-machine acceptance open"
     },
     {
       "id": "R7",
@@ -336,9 +352,12 @@
       "acceptance": "Repeated project cards populate title/status/avatar independently, preserve instance overrides and export portable asset references. Corrupt/missing images identify their node. Reopen and offline export preserve pixels and provenance.",
       "issues": [
         13,
-        19
+        19,
+        48
       ],
-      "size": "M\u2013L"
+      "size": "M\u2013L",
+      "trackingIssue": "https://github.com/zubair-io/Sugar-Maple/issues/48",
+      "deliveryStatus": "planned; concrete issue tracks remaining acceptance"
     },
     {
       "id": "R8",
@@ -351,9 +370,12 @@
         12,
         15,
         17,
-        25
+        25,
+        49
       ],
-      "size": "L"
+      "size": "L",
+      "trackingIssue": "https://github.com/zubair-io/Sugar-Maple/issues/49",
+      "deliveryStatus": "planned; concrete issue tracks remaining acceptance"
     },
     {
       "id": "R9",
@@ -364,9 +386,12 @@
       "issues": [
         8,
         20,
-        27
+        27,
+        50
       ],
-      "size": "M\u2013L"
+      "size": "M\u2013L",
+      "trackingIssue": "https://github.com/zubair-io/Sugar-Maple/issues/50",
+      "deliveryStatus": "planned; concrete issue tracks remaining acceptance"
     },
     {
       "id": "R10",
@@ -376,16 +401,27 @@
       "acceptance": "Versioned components render the real implementation with offline fixtures and typed events, cannot access the privileged host bridge, and keep portable fallback/graph semantics. Diagnostics link to source. Native builds are cancellable and stale results cannot replace a newer revision.",
       "issues": [
         25,
-        26
+        26,
+        51
       ],
-      "size": "L / exploratory"
+      "size": "L / exploratory",
+      "trackingIssue": "https://github.com/zubair-io/Sugar-Maple/issues/51",
+      "deliveryStatus": "planned; concrete issue tracks remaining acceptance"
     }
   ],
   "implementationFollowUp": {
     "date": "2026-10-01",
     "scope": "QA-01 through QA-10 and integrated Whiteboard canvas",
-    "status": "implemented and locally verified",
+    "status": "QA-01\u2013QA-10 merged #45; native CI/MCP/typography/forms merged #52\u2013#56",
     "deliveryReport": "../sugar-maple-canvas-delivery-2026-10-01.html",
-    "remainingRoadmap": "R5\u2013R10 remain future product work"
+    "remainingRoadmap": "R5 typography and R6 typed form/overlay slices are merged. Remaining R5\u2013R10 acceptance is tracked in #46\u2013#51 and broad parent issues.",
+    "currentIssueStatus": "../issue-reconciliation-2026-10-01/current-status.json",
+    "mergedPRs": [
+      45,
+      52,
+      53,
+      54,
+      56
+    ]
   }
 }
