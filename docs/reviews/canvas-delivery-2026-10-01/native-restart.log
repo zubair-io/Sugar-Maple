@@ -1,0 +1,2 @@
+Prepared one temporary page. Quit and reopen the Mac app, then run this script with verify.
+PASS: native app restart retains scene, revision, retry receipts, undo and redo; original document restored

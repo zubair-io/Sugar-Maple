@@ -1,0 +1,43 @@
+bun test v1.4.3-canary.1 (81f97bb02)
+
+src/web/tests/store.test.ts:
+(pass) create a file, pages and nested items, edit, undo, and reopen checkpoint [13.25ms]
+(pass) invalid batch and parent cycles leave the document unchanged [0.65ms]
+(pass) retries are idempotent, revisions and document identities protect targeting [0.47ms]
+(pass) grouped agent undo retains prior human edits [0.65ms]
+(pass) updating geometry preserves text, size, appearance and hierarchy [0.64ms]
+(pass) component instances follow master styles while preserving text overrides [1.87ms]
+(pass) repeat grid creates linked cells and populates independent values atomically [1.50ms]
+(pass) new nodes append in order; invalid prototype and component links reject atomically [0.70ms]
+
+src/web/tests/comments.test.ts:
+(pass) human feedback, atomic agent fix/reply/resolve, replay and undo preserve authorship [2.53ms]
+(pass) invalid comments reject atomically; deleting a page removes its feedback and undo restores it [0.91ms]
+(pass) pre-comment checkpoints and journals open with an empty feedback collection [0.38ms]
+(pass) pinned anchors survive replay and undo; legacy page comments remain unpinned [2.50ms]
+
+src/web/tests/history.test.ts:
+(pass) durable journal preserves grouped undo, redo branch and idempotent retries [2.48ms]
+(pass) checkpoint is immutable; corrupt projections and unknown versions reject [0.51ms]
+(pass) 5,000-node checkpoint round-trips and retains an undoable last batch [1346.94ms]
+
+src/web/tests/handoff.test.ts:
+(pass) DTCG opaque sRGB values and aliases import; cycles and unsupported types reject [0.38ms]
+(pass) portable output escapes authored markup and preserves color token binding [1.58ms]
+
+src/web/tests/persistence-queue.test.ts:
+(pass) serialized saves retain order through delay and failure [0.19ms]
+
+src/web/tests/components.test.ts:
+(pass) instances follow added, reparented and deleted master layers and preserve overrides [4.10ms]
+(pass) named variants preserve local text overrides and reset restores inherited values [2.06ms]
+(pass) nested definitions synchronize in dependency order and recursive containment rejects [2.55ms]
+
+src/web/tests/folders.test.ts:
+(pass) folders preserve page identity, links and undo across recovery; removal keeps contents [1.03ms]
+(pass) legacy checkpoints and journals without folder fields reopen with unfiled pages [0.30ms]
+
+ 23 pass
+ 0 fail
+ 97 expect() calls
+Ran 23 tests across 7 files. [1490.00ms]
