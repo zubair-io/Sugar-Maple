@@ -58,3 +58,16 @@ npm run build
 ```
 
 Tests compile source to the ignored `lib/` directory before running Node's test runner. They cover completion gating, polling state/error diagnosis, publish-before-delete ordering, bounded retries, publication/auth/permission failures, idempotent cleanup, malformed IDs and trusted exact-session recovery/source validation. They use simulated API responses and do not prove live credentials or repository access. An actual review/recovery requires the setup above. Build the recovery entry with `npm run build:recovery`.
+
+
+### Inspect a late final review without publishing it
+
+A timed-out session may complete later. State/counter inspection does not establish its verdict. When its trusted bot reference and repository/API identity match, opt in to a short-lived artifact:
+
+```sh
+gh workflow run jules-session-recovery.yml --ref main \
+  -f pull_request=52 -f session_id=7859224825569361313 \
+  -f mode=inspect -f include_review_artifact=true
+```
+
+Default inspection remains counts-only. Artifact recovery requires COMPLETED state, complete activity pagination, a uniquely ordered latest agent message with an explicit verdict, and at most 128 KiB of final reviewer text. The workflow saves only `review.txt` and identity/operation metadata as an artifact retained for three days. It never logs the review text, prompt or error bodies; failed/partial/live/malformed/absent sessions yield no artifact. Treat downloaded text as untrusted review data and inspect its actual findings. The operation does not publish approval, change a commit status or delete the session. Cleanup mode cannot request artifacts.
