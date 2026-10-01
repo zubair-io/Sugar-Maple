@@ -2,6 +2,7 @@ import { gradientCSS } from './gradient';
 import { svgExport } from './svg';
 import { swiftExport } from './swift-export';
 import { editablePayload } from './clipboard';
+import { ExportTargetSchema } from './tool-contract';
 import type { SceneDocument, SceneNode } from './schema';
 export type ExportTarget = 'html' | 'tailwind' | 'angular' | 'css' | 'swiftui' | 'editable' | 'svg';
 const escape = (v: string) =>
@@ -79,6 +80,7 @@ function css(n: SceneNode, doc: SceneDocument) {
     .join(';');
 }
 export function exportNode(doc: SceneDocument, id: string, target: ExportTarget): string {
+  ExportTargetSchema.parse(target);
   const n = doc.nodes.find((n) => n.id === id);
   if (!n) throw Error('Select an element');
   const children = doc.nodes

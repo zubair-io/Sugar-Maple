@@ -1,5 +1,6 @@
 import { PersistenceQueue } from './model/persistence-queue';
 import { pasteElements } from './model/clipboard';
+import { toolArguments, toolError, ToolInputSchemas } from './model/tool-contract';
 import { RecoveryStore } from './model/recovery';
 import { importTokens, exportTokens } from './model/tokens';
 import { svgImport, svgExport } from './model/svg';
@@ -53,6 +54,7 @@ export class EditorService {
   constructor() {
     window.sugarMaple = {
       dispatch: (method: string, args: any) => this.dispatch(method, args),
+      describeError: (error: unknown) => toolError(error, { documentId: this.doc().id, revision: this.revision() }),
       fileCommand: async (command: string) => {
         if (!this.native || !this.ready()) throw Error('Native editor not ready');
         switch (command) {
@@ -509,6 +511,7 @@ export class EditorService {
     }
   }
   async dispatch(method: string, args: any = {}) {
+    args = toolArguments(method, args);
     switch (method) {
       case 'comments.list': {
         const query = CommentsQuerySchema.parse(args);
@@ -531,7 +534,7 @@ export class EditorService {
       case 'document.checkpoint':
         return this.store.checkpoint();
       case 'document.get':
-        return { ...this.store.result(), document: this.doc() };
+        return { ...this.store.result(), document: this.doc(), durable: !this.dirty(), persistence: this.status() };
       case 'document.new':
         await this.requireSaved();
         this.replace(blankDocument(args.name ?? 'Untitled'));
@@ -589,13 +592,14 @@ export class EditorService {
         this.checkTarget(args);
         await this.settleLayout();
         this.checkTarget(args);
-        return this.store.result();
+        return { ...this.store.result(), committed: true, rendered: true, durable: !this.dirty(), persistence: this.status() };
       case 'capabilities':
         return {
           protocolVersion: 1,
           coordinateUnits: 'CSS pixels; parent relative',
           transactionSchema: TransactionSchema.toJSONSchema(),
           commentsQuerySchema: CommentsQuerySchema.toJSONSchema(),
+          toolSchemas: Object.fromEntries(Object.entries(ToolInputSchemas).map(([name, schema]) => [name, schema.toJSONSchema()])),
           kinds: [
             'artboard',
             'frame',
