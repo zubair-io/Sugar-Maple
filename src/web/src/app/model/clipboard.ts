@@ -18,7 +18,7 @@ export function editablePayload(doc: SceneDocument, id: string) {
     }
   };
   for (const n of nodes) if (n.componentId && !selected.has(n.componentId)) include(n.componentId);
-  const references = new Set([...nodes, ...dependencies.values()].map(n => n.asset).filter(a => a.startsWith('asset:')).map(a => a.slice(6)));
+  const references = new Set([...nodes, ...dependencies.values()].map(n => n.asset).filter(a => a?.startsWith('asset:')).map(a => a.slice(6)));
   const assets = Object.fromEntries([...references].map(key => [key, assetSource(doc, 'asset:' + key)]));
   return { assets, format: 'sugar-maple-elements', version: 2, sourceDocumentId: doc.id, rootId: id, nodes, dependencies: [...dependencies.values()], tokens: doc.tokens };
 }
