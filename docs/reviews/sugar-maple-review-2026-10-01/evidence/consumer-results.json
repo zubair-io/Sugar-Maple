@@ -1,0 +1,91 @@
+[
+  {
+    "name": "Actual MCP Angular mobile export compiles in strict consuming fixture",
+    "pass": true,
+    "exitCode": 0
+  },
+  {
+    "name": "Actual html export measured in Chrome",
+    "pass": true,
+    "measurements": {
+      "headingText": "A little clarity.\nA lot of progress.",
+      "headingWhiteSpace": "normal",
+      "headingBounds": {
+        "x": 24,
+        "y": 176,
+        "width": 345,
+        "height": 78,
+        "top": 176,
+        "right": 369,
+        "bottom": 254,
+        "left": 24
+      },
+      "inputBounds": {
+        "x": 24,
+        "y": 389,
+        "width": 345,
+        "height": 52,
+        "top": 389,
+        "right": 369,
+        "bottom": 441,
+        "left": 24
+      },
+      "inputType": "text",
+      "inputAccessibleLabel": null,
+      "buttonTextAlign": "center",
+      "buttonBounds": {
+        "x": 24,
+        "y": 612,
+        "width": 345,
+        "height": 52,
+        "top": 612,
+        "right": 369,
+        "bottom": 664,
+        "left": 24
+      },
+      "inputBackground": "rgb(248, 250, 252)"
+    }
+  },
+  {
+    "name": "Actual tailwind export measured in Chrome",
+    "pass": true,
+    "measurements": {
+      "headingText": "A little clarity.\nA lot of progress.",
+      "headingWhiteSpace": "normal",
+      "headingBounds": {
+        "x": 24,
+        "y": 176,
+        "width": 345,
+        "height": 78,
+        "top": 176,
+        "right": 369,
+        "bottom": 254,
+        "left": 24
+      },
+      "inputBounds": {
+        "x": 24,
+        "y": 389,
+        "width": 345,
+        "height": 52,
+        "top": 389,
+        "right": 369,
+        "bottom": 441,
+        "left": 24
+      },
+      "inputType": "text",
+      "inputAccessibleLabel": null,
+      "buttonTextAlign": "center",
+      "buttonBounds": {
+        "x": 24,
+        "y": 612,
+        "width": 345,
+        "height": 52,
+        "top": 612,
+        "right": 369,
+        "bottom": 664,
+        "left": 24
+      },
+      "inputBackground": "rgb(248, 250, 252)"
+    }
+  }
+]

@@ -1,0 +1,115 @@
+{
+  "hardware": "MacBook Pro / Apple M5 Max / 128 GB RAM",
+  "note": "MCP tool round trips include document.get + transaction.apply and serialization; these are not frame-time or local command-commit measurements. All nodes were mounted, including those clipped outside the artboard. No 60fps claim.",
+  "existingSceneNodes": 140,
+  "totalSceneNodes": 1141,
+  "samples": [
+    {
+      "kind": "createBatch",
+      "operations": 500,
+      "elapsedMs": 87.09183300000001,
+      "revision": 27
+    },
+    {
+      "kind": "createBatch",
+      "operations": 500,
+      "elapsedMs": 103.43295799999999,
+      "revision": 28
+    },
+    {
+      "kind": "createBatch",
+      "operations": 2,
+      "elapsedMs": 176.300292,
+      "revision": 29
+    },
+    {
+      "kind": "layoutInspect",
+      "elapsedMs": 53.444375000000036,
+      "domMounted": 1001,
+      "totalPageNodes": 1001
+    },
+    {
+      "kind": "editRoundTrip",
+      "elapsedMs": 201.34025000000008
+    },
+    {
+      "kind": "editRoundTrip",
+      "elapsedMs": 165.20116700000017
+    },
+    {
+      "kind": "editRoundTrip",
+      "elapsedMs": 199.5485839999999
+    },
+    {
+      "kind": "editRoundTrip",
+      "elapsedMs": 205.6505830000001
+    },
+    {
+      "kind": "editRoundTrip",
+      "elapsedMs": 202.36470899999995
+    },
+    {
+      "kind": "editRoundTrip",
+      "elapsedMs": 199.10666700000002
+    },
+    {
+      "kind": "editRoundTrip",
+      "elapsedMs": 203.75137499999983
+    },
+    {
+      "kind": "editRoundTrip",
+      "elapsedMs": 197.4135839999999
+    },
+    {
+      "kind": "editRoundTrip",
+      "elapsedMs": 208.1891660000001
+    },
+    {
+      "kind": "editRoundTrip",
+      "elapsedMs": 214.20158300000003
+    },
+    {
+      "kind": "editRoundTrip",
+      "elapsedMs": 205.75591699999995
+    },
+    {
+      "kind": "editRoundTrip",
+      "elapsedMs": 206.20054200000004
+    },
+    {
+      "kind": "editRoundTrip",
+      "elapsedMs": 202.3563750000003
+    },
+    {
+      "kind": "editRoundTrip",
+      "elapsedMs": 206.7177499999998
+    },
+    {
+      "kind": "editRoundTrip",
+      "elapsedMs": 194.18666699999994
+    },
+    {
+      "kind": "editRoundTrip",
+      "elapsedMs": 198.13725000000022
+    },
+    {
+      "kind": "editRoundTrip",
+      "elapsedMs": 125.1832500000005
+    },
+    {
+      "kind": "editRoundTrip",
+      "elapsedMs": 173.305292
+    },
+    {
+      "kind": "editRoundTrip",
+      "elapsedMs": 191.60308299999997
+    },
+    {
+      "kind": "editRoundTrip",
+      "elapsedMs": 202.28125
+    }
+  ],
+  "p50Ms": 201.34025000000008,
+  "p95Ms": 208.1891660000001,
+  "maxMs": 214.20158300000003
+}

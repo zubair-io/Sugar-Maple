@@ -1,0 +1,1 @@
+PASS: official MCP SDK HTTP + stdio, shared document, atomic edit/undo, retry, stale revision, token and Origin rejection
