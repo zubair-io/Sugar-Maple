@@ -1,12 +1,12 @@
 {
   "date": "2026-10-01",
-  "main": "81911c2597e5895d73dd43f414cd772f386709d6",
-  "mainCI": "https://github.com/zubair-io/Sugar-Maple/actions/runs/36924705377",
+  "main": "3f74cd8eb826c9ce3ddec41f435080df4b3463a9",
+  "mainCI": "https://github.com/zubair-io/Sugar-Maple/actions/runs/36928198256",
   "scope": "All 34 GitHub issues after the initial 27-issue audit and concrete follow-up creation",
   "counts": {
     "total": 34,
-    "closed": 5,
-    "open": 29
+    "closed": 7,
+    "open": 27
   },
   "mergedPRs": [
     45,
@@ -17,11 +17,13 @@
     57,
     58,
     59,
-    60
+    60,
+    61,
+    62,
+    63
   ],
   "candidatePRs": [
-    61,
-    62
+    64
   ],
   "issues": [
     {
@@ -30,8 +32,8 @@
       "url": "https://github.com/zubair-io/Sugar-Maple/issues/1",
       "githubState": "OPEN",
       "assessment": "active tracker",
-      "delivered": "Canvas/QA-01\u2013QA-10 (#45), native CI/access (#52), early MCP (#53), typography (#54) and typed forms/overlays (#56) are merged. Issues #3/#20/#46/#47 are closed on verified main. Scoped discovery/reads/cropped capture (#59, closes #50), issue-status reconciliation (#57) and review recovery (#58/#60) are also merged.",
-      "remaining": "Complete remaining MVP acceptance; post-MVP remains deferred. Native preview/Inspect candidate #62 and final review-size regression #61 await exact-head delivery.",
+      "delivered": "Canvas/QA-01\u2013QA-10 (#45), native CI/access (#52), early MCP (#53), typography (#54) and typed forms/overlays (#56) are merged. Issues #3/#20/#46/#47 are closed on verified main. Scoped discovery/reads/cropped capture (#59, closes #50), issue-status reconciliation (#57) and review recovery (#58/#60) are also merged. Separate native preview/Inspect (#62) and final unsigned-size/recovered-review regression (#61) are merged with actual approving reviews and green main CI; #14/#55 are closed.",
+      "remaining": "Complete remaining MVP acceptance; post-MVP remains deferred. Named Repeat Grid import candidate #64 passes local acceptance and awaits exact-head CI/review/merge.",
       "resolvedQA": []
     },
     {
@@ -158,17 +160,17 @@
       "githubState": "OPEN",
       "assessment": "partial",
       "delivered": "Undoable Repeat Grid creation and text population, deterministic preview/export and checkpoint round trips exist.",
-      "remaining": "Replace eager structural cloning with template/per-cell semantics; retain stable cell IDs on resize; add image overrides, named field mapping, CSV/JSON validation and grid handles.",
+      "remaining": "Full Repeat Grid handles and virtual cell representation remain. Candidate #64 adds separate hidden templates, per-cell data, stable IDs during resize and validated named CSV/JSON/image imports; exact-head delivery is pending.",
       "resolvedQA": []
     },
     {
       "number": 14,
       "title": "[MVP] Add isolated responsive preview and click-through prototyping",
       "url": "https://github.com/zubair-io/Sugar-Maple/issues/14",
-      "githubState": "OPEN",
-      "assessment": "implemented candidate #62; delivery pending",
-      "delivered": "Cross-page navigation, responsive presets/dissolve and typed forms/overlay focus/reset/retained state/deleted-target diagnosis are merged in #56.",
-      "remaining": "The separate native window, custom viewport/scrolling, live snapshots, Inspect and cleanup are implemented and verified in candidate #62. All 53 model tests, 18 browser/consumer suites, actual native/SDK/UI acceptance pass locally. Exact-head CI/review/merge still precede closure; full developer mappings remain #15.",
+      "githubState": "CLOSED",
+      "assessment": "complete; merged #62",
+      "delivered": "Cross-page navigation, responsive presets/dissolve and typed forms/overlay focus/reset/retained state/deleted-target diagnosis are merged in #56. Separate isolated native window, custom viewport/scrolling, live immutable snapshots, nested Inspect, offline resource policy and close/disposal are merged in #62 after actual exact-head approval and green web/mac CI.",
+      "remaining": "Full mapped developer handoff remains #15; broader release/performance acceptance remains #21/#2.",
       "resolvedQA": [
         "QA-05",
         "QA-09"
@@ -180,8 +182,8 @@
       "url": "https://github.com/zubair-io/Sugar-Maple/issues/15",
       "githubState": "OPEN",
       "assessment": "partial",
-      "delivered": "Inspector exposes authored name, local master/instance/variant/override identity and working portable copy actions.",
-      "remaining": "Show production design-system source/version/platform mappings, state, token identity and authored-versus-measured rules; verify nested keyboard inspection and each advertised copy payload. Candidate #62 adds read-only nested component/token Inspect selection; it does not complete these mapped handoff requirements.",
+      "delivered": "Inspector exposes authored name, local master/instance/variant/override identity and working portable copy actions. Merged #62 adds read-only nested component/token Inspect selection.",
+      "remaining": "Show production design-system source/version/platform mappings, state, token identity and authored-versus-measured rules; verify nested keyboard inspection and each advertised copy payload. These mapped handoff requirements remain after #62.",
       "resolvedQA": []
     },
     {
@@ -191,7 +193,7 @@
       "githubState": "OPEN",
       "assessment": "partial",
       "delivered": "Semantic HTML/Angular/Tailwind consumers compile/render; typography plus typed/password/disabled form controls and action metadata are merged.",
-      "remaining": "Pinned mapped library snippets, classes-only payloads and self-contained asset/style packaging remain; consumers supply navigation/overlay handlers.",
+      "remaining": "Pinned mapped library snippets, classes-only payloads and complete style packaging remain; consumers supply navigation/overlay handlers. Candidate #64 adds self-contained shared image bytes and strict consuming fixtures; delivery pending.",
       "resolvedQA": [
         "QA-03",
         "QA-06"
@@ -204,7 +206,7 @@
       "githubState": "OPEN",
       "assessment": "partial",
       "delivered": "SwiftUI consumers compile with weights/padding, supported family/tracking/alignment and typed TextField/SecureField, initial-state bindings, disabled labels and Button callbacks from #56. Unsupported features reject explicitly.",
-      "remaining": "Supported visual equivalence, self-contained image assets and actual pinned native component mappings remain. Custom fonts and nondefault exact line height still reject.",
+      "remaining": "Supported visual equivalence and actual pinned native component mappings remain. Custom fonts and nondefault exact line height still reject. Candidate #64 adds self-contained images with a compiled/rendered macOS consumer; delivery pending and UIKit branch unverified.",
       "resolvedQA": [
         "QA-07"
       ]
@@ -216,7 +218,7 @@
       "githubState": "OPEN",
       "assessment": "partial",
       "delivered": "Versioned editable clipboard preserves nested master/variant/token dependencies, remaps identity and undoes atomically; browser envelope/native text fallback exists.",
-      "remaining": "Add native custom pasteboard type, permission-denied/manual fallback acceptance, sanitized HTML/common-Tailwind import allowlist and cross-app clipboard/assets tests. Arbitrary source remains unevaluated.",
+      "remaining": "Add native custom pasteboard type, permission-denied/manual fallback acceptance, sanitized HTML/common-Tailwind import allowlist and cross-app clipboard/assets tests. Arbitrary source remains unevaluated. Candidate #64 includes shared embedded assets and Repeat Grid dependency remapping in editable payloads; native cross-app custom-format acceptance is still separate.",
       "resolvedQA": [
         "QA-04"
       ]
@@ -228,7 +230,7 @@
       "githubState": "OPEN",
       "assessment": "partial",
       "delivered": "Local raster assets, SVG/PNG supported exports, decode diagnostics, replacement and undo are implemented.",
-      "remaining": "Local fonts/catalog/crop-fit behavior, supported SVG import coverage, mixed-content 1x/2x export fixtures, cancellation and missing-font/oversize/external-asset cases remain.",
+      "remaining": "Local fonts/catalog/crop-fit behavior, supported SVG import coverage, mixed-content 1x/2x export fixtures, cancellation and missing-font/oversize/external-asset cases remain. Candidate #64 adds shared canonical image references, precommit pixel validation and real native file pickers; full catalog/export acceptance stays open.",
       "resolvedQA": [
         "QA-08"
       ]
@@ -240,7 +242,7 @@
       "githubState": "CLOSED",
       "assessment": "complete; merged #53",
       "delivered": "Real native SDK HTTP/stdio, all advertised input/output contracts, pointer readback, revisions/atomicity/retry/undo/capture, typed errors/auth/Host/Origin, occupied-port, throttle and clean credential-rotating stop/restart are verified.",
-      "remaining": "Complete feature-specific coverage/resources/scoped reads remain #27/#50.",
+      "remaining": "Complete feature-specific coverage/resources remain #27. Scoped discovery/reads and cropped capture shipped in #59 and closed #50.",
       "resolvedQA": [
         "QA-01",
         "QA-02"
@@ -344,7 +346,7 @@
       "githubState": "CLOSED",
       "assessment": "complete; merged #56",
       "delivered": "All scoped typed-form/overlay acceptance passes on main: 47 model tests / 287 assertions, 17 browser suites, actual native MCP/WKWebView and compiled consumers. Runtime values do not alter the authored checkpoint/undo journal.",
-      "remaining": "Separate native windows (#14), validation/submission and richer controls/state machines (#12/#24) remain outside this completed slice.",
+      "remaining": "Validation/submission and richer controls/state machines (#12/#24) remain outside this completed slice. Separate native windows shipped in #62 and closed #14.",
       "resolvedQA": []
     },
     {
@@ -352,9 +354,9 @@
       "title": "[MVP] Import Repeat Grid data with named fields and local images",
       "url": "https://github.com/zubair-io/Sugar-Maple/issues/48",
       "githubState": "OPEN",
-      "assessment": "planned; concrete product follow-up",
-      "delivered": "Tracked with scoped acceptance; not implemented.",
-      "remaining": "CSV/JSON import maps named text/image fields in documented row-major order with explicit truncation/missing-value rules. Validation reports malformed data, unknown fields and bad image bytes before any partial mutation. Grid row/column edits retain stable cell identity and surviving overrides; one import is one undoable command batch. Template edits preserve per-cell data; images remain content-addressed/self-contained through paste, save/reopen and export. Real browser/native fixtures cover resizing, mapping preview, cancellation, empty/oversized data and deterministic consuming output.",
+      "assessment": "implemented candidate #64; delivery pending",
+      "delivered": "Five logical commits in #64 implement named CSV/JSON mapping, local images, validated preview/cancel, stable resize/template overrides and portable shared assets. Local acceptance passes: 59 model tests/409 assertions, 19 browser/consumer suites, six native fixtures, three compiled macOS SwiftUI consumers and actual native file-picker/MCP/restart checkpoint equality.",
+      "remaining": "Exact-head CI, actual approving review and merge to main precede closure. Full grid handles/virtual cells, asset catalog/crop UI, history compaction and production library mappings remain broader parents; UIKit generated branch is unverified.",
       "resolvedQA": []
     },
     {
@@ -391,12 +393,12 @@
       "number": 55,
       "title": "[Engineering] Recover review timeouts and completed-session cleanup failures",
       "url": "https://github.com/zubair-io/Sugar-Maple/issues/55",
-      "githubState": "OPEN",
-      "assessment": "recovery delivered; final candidate #61 pending",
-      "delivered": "Review diagnosis/retry/main-only exact-session recovery (#58) and guarded final artifacts (#60) are merged. Six live inspection/cleanup runs and final artifact retrieval succeed. #52 FAILED and unpublished late-COMPLETED sessions are retained; #54/#56 are already absent. The late actual block allegation was inspected; compiled sparse-file tests disprove the asserted 32-bit truncation on supported Swift.",
-      "remaining": "Candidate #61 makes the bounds explicitly unsigned 64-bit and records final sparse-file regression/disposition. Native tests pass; fresh exact-head CI/review/merge remain. No verdict was republished and no failed/unpublished session was deleted.",
+      "githubState": "CLOSED",
+      "assessment": "complete; merged #58/#60/#61",
+      "delivered": "Review diagnosis/retry/main-only exact-session recovery (#58) and guarded final artifacts (#60) are merged. Six live inspection/cleanup runs and final artifact retrieval succeed. #52 FAILED and unpublished late-COMPLETED sessions are retained; #54/#56 are already absent. The late actual block allegation was inspected; compiled sparse-file tests disprove the asserted 32-bit truncation on supported Swift. #61 merged explicit unsigned 64-bit gates and the recovered-review contract regression after actual exact-head approval and passing CI. Final main web/mac CI passes.",
+      "remaining": "Completed within scoped issue. Failed/unpublished sessions remain retained; no verdict republishing, override or failed-session deletion was used.",
       "resolvedQA": []
     }
   ],
-  "asOf": "2026-10-01T21:10:32.979503+00:00"
+  "asOf": "2026-10-01T22:22:49.097805+00:00"
 }
