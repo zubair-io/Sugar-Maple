@@ -52,13 +52,13 @@ await page.getByRole('button', { name: 'Layers', exact: true }).click();
 await page.getByLabel('Find layer', { exact: true }).fill('Hello');
 const beforePanels = await page.evaluate(() => window.sugarMaple.dispatch('document.get'));
 const initialCanvas = await page.locator('.canvas-shell').boundingBox();
-await page.getByRole('button', { name: 'Collapse left panel', exact: true }).click();
+await page.getByRole('button', { name: 'Toggle left panel', exact: true }).click();
 await expect(page.locator('#left-panel')).toBeHidden();
-await page.getByRole('button', { name: 'Collapse right panel', exact: true }).focus();
+await page.getByRole('button', { name: 'Toggle right panel', exact: true }).focus();
 await page.keyboard.press('Enter');
 await expect(page.locator('#right-panel')).toBeHidden();
-await expect(page.getByRole('button', { name: 'Expand right panel', exact: true })).toBeFocused();
-await expect(page.getByRole('button', { name: 'Expand right panel', exact: true })).toHaveAttribute(
+await expect(page.getByRole('button', { name: 'Toggle right panel', exact: true })).toBeFocused();
+await expect(page.getByRole('button', { name: 'Toggle right panel', exact: true })).toHaveAttribute(
   'aria-expanded',
   'false',
 );
@@ -66,9 +66,9 @@ const fullCanvas = await page.locator('.canvas-shell').boundingBox();
 if (fullCanvas!.width < initialCanvas!.width + 590)
   throw Error('Collapsed panels did not release canvas space');
 await page.screenshot({ path: 'build/evidence/panels-collapsed-browser.png' });
-await page.getByRole('button', { name: 'Expand left panel', exact: true }).click();
+await page.getByRole('button', { name: 'Toggle left panel', exact: true }).click();
 await expect(page.getByLabel('Find layer', { exact: true })).toHaveValue('Hello');
-await page.getByRole('button', { name: 'Expand right panel', exact: true }).focus();
+await page.getByRole('button', { name: 'Toggle right panel', exact: true }).focus();
 await page.keyboard.press('Space');
 await expect(page.locator('#right-panel')).toBeVisible();
 await expect(page.locator('.inspector-heading')).toContainText('Details');
@@ -77,8 +77,8 @@ await page.getByRole('button', { name: 'Place comment on canvas', exact: true })
 await page
   .getByLabel('New page comment', { exact: true })
   .fill('Draft kept when the panel is hidden');
-await page.getByRole('button', { name: 'Collapse right panel', exact: true }).click();
-await page.getByRole('button', { name: 'Expand right panel', exact: true }).click();
+await page.getByRole('button', { name: 'Toggle right panel', exact: true }).click();
+await page.getByRole('button', { name: 'Toggle right panel', exact: true }).click();
 await expect(page.getByLabel('New page comment', { exact: true })).toHaveValue(
   'Draft kept when the panel is hidden',
 );
