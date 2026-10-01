@@ -1,0 +1,14 @@
+<section class="mui-section" [class.is-collapsed]="!open()">
+  <button
+    class="section-trigger"
+    type="button"
+    [attr.aria-expanded]="open()"
+    [attr.aria-controls]="sectionId()"
+    (click)="toggle()"
+  >
+    <span class="section-title">{{ title() }}</span>
+    @if (description()) { <span class="section-description">{{ description() }}</span> }
+    <span class="section-chevron" aria-hidden="true">{{ open() ? '⌃' : '⌄' }}</span>
+  </button>
+  <div class="section-content" [id]="sectionId()" [hidden]="!open()"><ng-content /></div>
+</section>

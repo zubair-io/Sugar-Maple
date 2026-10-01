@@ -1,3 +1,4 @@
+import { EditorHeader } from './editor-header';
 import { MuiSelectComponent } from './chrome/maple/ui/select/mui-select.component';
 import { CommentUi } from './comments/comment-ui';
 import { CommentCanvas } from './comments/comment-canvas';
@@ -9,11 +10,14 @@ import { FormsModule } from '@angular/forms';
 import { EditorService } from './editor.service';
 import { SceneNodeView } from './canvas/scene-node';
 import { MuiButtonComponent } from './chrome/maple/ui/button/mui-button.component';
+import { MuiSectionComponent } from './chrome/maple/ui/section/mui-section.component';
+import { MuiFieldComponent } from './chrome/maple/ui/field/mui-field.component';
 import { SceneNode, uid, Operation } from './model/schema';
 import { exportNode, ExportTarget } from './model/export';
 @Component({
   selector: 'app-root',
   imports: [
+    EditorHeader,
     CommentCanvas,
     MuiSelectComponent,
     CommentsPanel,
@@ -21,11 +25,14 @@ import { exportNode, ExportTarget } from './model/export';
     FormsModule,
     SceneNodeView,
     MuiButtonComponent,
+    MuiSectionComponent,
+    MuiFieldComponent,
   ],
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })
 export class App {
+  readonly Math = Math;
   readonly e = inject(EditorService);
   readonly zoom = signal(0.8);
   readonly pan = signal({ x: 0, y: 0 });
@@ -75,10 +82,22 @@ export class App {
   readonly search = signal('');
   readonly layers = computed(() => {
     const all = this.e.pageNodes(),
+      query = this.search().trim().toLowerCase(),
+      visible = new Set<string>(),
       rows: { node: SceneNode; depth: number }[] = [];
+    if (query) {
+      for (const node of all) {
+        if (!node.name.toLowerCase().includes(query)) continue;
+        let current: SceneNode | undefined = node;
+        while (current) {
+          visible.add(current.id);
+          current = all.find((candidate) => candidate.id === current?.parentId);
+        }
+      }
+    }
     const visit = (parentId: string | null, depth: number) => {
       for (const node of all.filter((n) => n.parentId === parentId)) {
-        if (node.name.toLowerCase().includes(this.search().toLowerCase()))
+        if (!query || visible.has(node.id))
           rows.push({ node, depth });
         visit(node.id, depth + 1);
       }
@@ -112,20 +131,32 @@ export class App {
       .pageNodes()
       .filter((n) => ['artboard', 'frame'].includes(n.kind) && n.id !== this.e.selected()),
   );
-  readonly numericFields = [
-    'x',
-    'y',
-    'width',
-    'height',
-    'rotation',
-    'radius',
-    'fontSize',
-    'fontWeight',
-    'gap',
-    'padding',
-    'columns',
-    'strokeWidth',
+  readonly transformFields = [
+    { key: 'x', label: 'X', name: 'X position' },
+    { key: 'y', label: 'Y', name: 'Y position' },
+    { key: 'width', label: 'W', name: 'Width' },
+    { key: 'height', label: 'H', name: 'Height' },
+    { key: 'rotation', label: '°', name: 'Rotation' },
   ] as const;
+  readonly alignmentActions = [
+    { key: 'left', label: 'Align left', glyph: 'L' },
+    { key: 'center', label: 'Align horizontal center', glyph: 'C' },
+    { key: 'right', label: 'Align right', glyph: 'R' },
+    { key: 'top', label: 'Align top', glyph: 'T' },
+    { key: 'middle', label: 'Align vertical middle', glyph: 'M' },
+    { key: 'bottom', label: 'Align bottom', glyph: 'B' },
+  ] as const;
+  readonly managedByParent = computed(() => {
+    const parent = this.e.doc().nodes.find((node) => node.id === this.e.node()?.parentId);
+    return !!parent && parent.layout !== 'free';
+  });
+  readonly canAlign = computed(() => {
+    const nodes = this.e.selectedRoots();
+    if (!nodes.length || nodes.some((node) => node.locked || node.rotation !== 0 || node.widthMode !== 'fixed' || node.heightMode !== 'fixed')) return false;
+    if (nodes.some((node) => node.parentId !== nodes[0].parentId)) return false;
+    const parent = this.e.doc().nodes.find((node) => node.id === nodes[0].parentId);
+    return nodes.length > 1 ? !parent || parent.layout === 'free' : !!parent && parent.layout === 'free';
+  });
   readonly kinds = [
     'artboard',
     'frame',
@@ -472,6 +503,25 @@ export class App {
     }
     const value = Math.min(...nodes.map((n) => n[axis]));
     this.e.perform(nodes.map((n) => ({ type: 'node.update', id: n.id, patch: { [axis]: value } })));
+  }
+  alignSelection(edge: 'left' | 'center' | 'right' | 'top' | 'middle' | 'bottom') {
+    if (!this.canAlign()) return;
+    const nodes = this.e.selectedRoots();
+    const horizontal = ['left', 'center', 'right'].includes(edge);
+    const axis = horizontal ? 'x' : 'y';
+    const size = horizontal ? 'width' : 'height';
+    const parent = this.e.doc().nodes.find((node) => node.id === nodes[0].parentId);
+    const minimum = nodes.length === 1 ? 0 : Math.min(...nodes.map((node) => node[axis]));
+    const maximum = nodes.length === 1 ? parent![size] : Math.max(...nodes.map((node) => node[axis] + node[size]));
+    const updates = nodes.map((node) => {
+      const target = edge === 'left' || edge === 'top'
+        ? minimum
+        : edge === 'right' || edge === 'bottom'
+          ? maximum - node[size]
+          : (minimum + maximum - node[size]) / 2;
+      return { type: 'node.update' as const, id: node.id, patch: { [axis]: target } };
+    });
+    this.e.perform(updates);
   }
   group() {
     const nodes = this.e.selectedRoots();

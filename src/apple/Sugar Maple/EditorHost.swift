@@ -77,6 +77,14 @@ final class EditorHost: NSObject, WKScriptMessageHandlerWithReply, WKNavigationD
     func native(_ action: String, _ body: [String: Any]) async throws -> Any {
         switch action {
         case "status": return ["status": serverStatus]
+        case "window.close":
+            webView.window?.performClose(nil)
+            return ["ok": true]
+        case "window.drag":
+            if let event = NSApp.currentEvent, event.type == .leftMouseDown, let window = webView.window {
+                window.performDrag(with: event)
+            }
+            return ["ok": true]
         case "clipboard.write":
             guard let text = body["text"] as? String else { throw HostError.message("Missing clipboard text") }
             NSPasteboard.general.clearContents(); NSPasteboard.general.setString(text, forType: .string)
@@ -119,14 +127,16 @@ final class EditorHost: NSObject, WKScriptMessageHandlerWithReply, WKNavigationD
             let url = destination!
             let data = try JSONSerialization.data(withJSONObject: value)
             try await persistence.save(data, to: url)
-            return ["ok": true]
+            return ["ok": true, "name": url.deletingPathExtension().lastPathComponent]
         case "file.open":
             let panel = NSOpenPanel(); panel.canChooseDirectories = true; panel.canChooseFiles = true
             panel.allowsMultipleSelection = false; panel.title = "Open .syrup document"
             guard await panel.begin() == .OK, let url = panel.url else { return ["cancelled": true] }
             let data = try await persistence.read(url)
             pendingOpenURL = url; pendingFingerprint = try await persistence.fingerprint(url)
-            return try JSONSerialization.jsonObject(with: data)
+            var result = try JSONSerialization.jsonObject(with: data) as! [String: Any]
+            result["fileName"] = url.deletingPathExtension().lastPathComponent
+            return result
         default: throw HostError.message("Unknown native action")
         }
     }
