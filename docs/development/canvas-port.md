@@ -34,6 +34,8 @@ The first independent Jules review exposed a review-tool coverage bug: its first
 
 The corrected independent review flagged a force cast in native Open. The upstream package reader already validates a dictionary, but the host now uses a guarded cast as well. The actual persistence read path rejects array/null/syntax-invalid/missing-document/unsupported-version packages, preserves recovery, and still opens valid files. The review's image-import warning was assessed and the revision guard retained: a delayed import or replacement must not overwrite intervening human/agent edits. Remote selection IDs concern network coediting, which the local adapter does not enable.
 
+The next independent review reported no product-code defect, but flagged imperative wording in the generated review-coverage note. Coverage metadata and overflow errors now describe facts without reviewer-directed instructions.
+
 | Finding | Resolution | Verification |
 | --- | --- | --- |
 | QA-01 | Native bridge preserves structured tool errors and recovery context | Real SDK HTTP + stdio stale/wrong/invalid failures |
