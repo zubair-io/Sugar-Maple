@@ -7,10 +7,12 @@ struct SugarMapleApp: App {
     var body: some Scene {
         Window("Sugar Maple", id: "editor") {
             ContentView(host: host)
+                .ignoresSafeArea()
                 .onAppear { lifecycle.host = host }
                 .frame(minWidth: 1000, minHeight: 640)
                 .preferredColorScheme(.dark)
         }
+        .windowStyle(.hiddenTitleBar)
         .defaultSize(width: 1440, height: 900)
         .commands {
             CommandGroup(replacing: .newItem) {

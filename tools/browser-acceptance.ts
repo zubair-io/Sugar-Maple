@@ -24,6 +24,7 @@ try {
     "editor-e2e",
     "file-menu-e2e",
     "autosave-e2e",
+    "file-tabs-e2e",
     "selection-e2e",
     "responsive-e2e",
     "handoff-e2e",

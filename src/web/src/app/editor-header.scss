@@ -1,0 +1,38 @@
+:host { display: block; flex-shrink: 0; }
+button { border: 0; background: transparent; border-radius: 5px; white-space: nowrap; }
+button:hover { background: #ffffff0c; }
+.topbar {
+  height: 48px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  border-bottom: 1px solid #ffffff12;
+  background: #262321;
+}
+.header-left { height: 100%; min-width: 0; padding: 0 16px 0 12px; }
+.native-header .header-left { padding-left: 84px; }
+.header-right { display: flex; align-items: center; justify-content: end; gap: 6px; padding: 0 14px; }
+.file-tabs { display: flex; align-items: end; height: 100%; min-width: 0; gap: 4px; }
+.tab-list { display: flex; min-width: 0; overflow-x: auto; scrollbar-width: thin; align-items: end; }
+.file-tab {
+  display: flex; align-items: center; gap: 2px;
+  height: 36px; min-width: 115px; max-width: 210px; padding: 0 5px 0 10px;
+  border: 1px solid transparent; border-bottom: 0;
+  border-radius: 8px 8px 0 0; color: #a49b94;
+}
+.file-tab.active { background: var(--chrome-bg); border-color: #ffffff14; color: #f3efeb; }
+.tab-title { overflow: hidden; text-overflow: ellipsis; text-align: left; color: inherit; padding: 6px 3px; flex: 1; min-width: 60px; font-weight: 500; }
+.document-title { width: 130px; min-width: 60px; background: #181614; border: 1px solid #d77c65; border-radius: 3px; color: #f3efeb; }
+.new-tab { flex-shrink: 0; width: 29px; height: 29px; margin-bottom: 4px; font-size: 20px; color: #aaa39e; }
+.unsaved { color: #e6b972; font-size: 13px; font-weight: 600; }
+.mode-switch { display: flex; background: #181614; padding: 3px; border: 1px solid #ffffff0a; border-radius: 7px; }
+.mode-switch button { color: #aaa39e; padding: 5px 12px; }
+.mode-switch button.active { color: #fff; background: #3c3835; box-shadow: 0 1px 3px #0004; }
+.mcp { font-size: 10px; color: #aaa39e; margin-right: 10px; }
+@media (max-width: 1050px) { .mode-switch button { padding-inline: 8px; } .mcp { display: none; } .header-right { gap: 2px; padding-right: 6px; } }
+@media (max-width: 800px) {
+  .file-tab { min-width: 72px; max-width: 125px; }
+  .header-left { padding-right: 4px; }
+  .header-right > button { padding-inline: 4px; }
+  .mode-switch button { padding-inline: 5px; font-size: 11px; }
+}

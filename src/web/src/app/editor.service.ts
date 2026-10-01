@@ -25,6 +25,9 @@ declare global {
 @Injectable({ providedIn: 'root' })
 export class EditorService {
   store = new DocumentStore();
+  readonly openFiles = signal<{ id: string; name: string }[]>([]);
+  readonly tabBusy = signal(false);
+  private readonly fileSessions = new Map<string, { store: DocumentStore; pageId: string; selection: string[] }>();
   readonly doc = signal(this.store.document);
   readonly revision = signal(0);
   readonly selection = signal<string[]>([]);
@@ -117,6 +120,7 @@ export class EditorService {
         const state = await this.bridge('status');
         this.mcp.set(state.status);
       }
+      this.updateFileTab();
       await this.recover();
     } catch (e) {
       this.report(e);
@@ -128,6 +132,7 @@ export class EditorService {
   refresh() {
     this.doc.set(this.store.document);
     this.revision.set(this.store.revision);
+    this.updateFileTab();
     this.dirty.set(true);
     this.status.set('Unsaved changes');
     if (!this.doc().pages.some((p) => p.id === this.pageId()))
@@ -186,27 +191,81 @@ export class EditorService {
       return null;
     }
   }
+  private updateFileTab() {
+    const entry = { id: this.doc().id, name: this.doc().name };
+    this.openFiles.update((tabs) => tabs.some((t) => t.id === entry.id)
+      ? tabs.map((t) => t.id === entry.id ? entry : t) : [...tabs, entry]);
+  }
+  private rememberFile() {
+    this.fileSessions.set(this.doc().id, {
+      store: this.store, pageId: this.pageId(), selection: this.selection(),
+    });
+  }
+  private async requireSaved() {
+    await this.persistence.idle();
+    if (this.dirty()) throw Error('Save this file successfully before switching or closing its tab.');
+  }
+  async switchFile(id: string) {
+    if (id === this.doc().id || this.tabBusy()) return;
+    this.tabBusy.set(true);
+    try {
+      await this.requireSaved();
+      const session = this.fileSessions.get(id);
+      if (!session) throw Error('This file is no longer open');
+      this.rememberFile();
+      this.store = session.store;
+      this.doc.set(this.store.document);
+      this.revision.set(this.store.revision);
+      this.pageId.set(session.pageId);
+      this.selection.set(session.selection);
+      this.error.set('');
+      await this.recover();
+    } catch (error) { this.report(error); }
+    finally { this.tabBusy.set(false); }
+  }
+  async closeFile(id: string) {
+    if (this.tabBusy()) return;
+    if (id === this.doc().id) {
+      const next = this.openFiles().find((tab) => tab.id !== id);
+      if (next) {
+        await this.switchFile(next.id);
+        if (this.doc().id === id) return;
+      } else {
+        try {
+          await this.requireSaved();
+          if (this.native) { await this.bridge('window.close'); return; }
+          await this.newDocument();
+          if (this.doc().id === id) return;
+        } catch (error) { this.report(error); return; }
+      }
+    }
+    this.fileSessions.delete(id);
+    this.openFiles.update((tabs) => tabs.filter((tab) => tab.id !== id));
+  }
   replace(doc: SceneDocument, checkpoint?: unknown) {
+    if (this.ready()) this.rememberFile();
     this.store = checkpoint
       ? DocumentStore.fromCheckpoint(checkpoint)
       : new DocumentStore(validateDocument(doc));
     this.doc.set(this.store.document);
     this.revision.set(this.store.revision);
     this.pageId.set(doc.pages[0].id);
+    this.updateFileTab();
     this.select(null);
     this.dirty.set(true);
   }
   async newDocument() {
-    await this.persistence.idle();
-    if (
-      this.dirty() &&
-      !confirm('Create a new file? Save your current work first if you want to keep it.')
-    )
-      return;
-    if (this.native) await this.bridge('file.reset');
-    this.replace(blankDocument());
-    this.status.set('Unsaved');
-    this.recover();
+    if (this.tabBusy()) return;
+    this.tabBusy.set(true);
+    try {
+      await this.requireSaved();
+      let name = 'Untitled', number = 2;
+      while (this.openFiles().some((tab) => tab.name === name)) name = `Untitled ${number++}`;
+      this.replace(blankDocument(name));
+      this.error.set('');
+      await this.recover();
+    } catch (error) { this.report(error); }
+    finally { this.tabBusy.set(false); }
   }
   add(kind: SceneNode['kind']) {
     const current = this.node(),
@@ -282,6 +341,11 @@ export class EditorService {
           await this.recover();
           return;
         }
+        if (this.doc().id === documentId && this.doc().name === value.document.name &&
+            result.name && result.name !== this.doc().name) {
+          this.command([{ type: 'document.rename', name: result.name }]);
+          return;
+        }
         const unchanged = this.revision() === revision && this.doc().id === documentId;
         if (this.doc().id === documentId) {
           this.dirty.set(!unchanged);
@@ -310,6 +374,10 @@ export class EditorService {
         if (result.cancelled) return;
         this.replace(result.document, result);
         await this.bridge('file.acceptOpen', { documentId: this.doc().id });
+        if (result.fileName && result.fileName !== this.doc().name) {
+          this.command([{ type: 'document.rename', name: result.fileName }]);
+          return;
+        }
         this.dirty.set(false);
         this.status.set('Opened .syrup bundle');
         this.recover();
@@ -494,7 +562,7 @@ export class EditorService {
       case 'document.get':
         return { ...this.store.result(), document: this.doc() };
       case 'document.new':
-        if (this.native) await this.bridge('file.reset');
+        await this.requireSaved();
         this.replace(blankDocument(args.name ?? 'Untitled'));
         this.refresh();
         return this.store.result();

@@ -37,7 +37,6 @@ await page.evaluate(() => {
 await page.getByRole('button', { name: 'Add page', exact: true }).click();
 const before = await page.evaluate(() => window.sugarMaple.dispatch('document.get'));
 // Page-only documents must be protected even when they contain no canvas nodes.
-page.once('dialog', (dialog) => dialog.dismiss());
 await page.evaluate(() => window.sugarMaple.fileCommand('new'));
 assert.deepEqual(
   (await page.evaluate(() => window.sugarMaple.dispatch('document.get'))).document,
