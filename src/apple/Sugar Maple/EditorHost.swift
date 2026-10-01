@@ -65,7 +65,7 @@ final class EditorHost: NSObject, WKScriptMessageHandlerWithReply, WKNavigationD
     }
     func webView(_ webView: WKWebView, runJavaScriptConfirmPanelWithMessage message: String,
                  initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping (Bool) -> Void) {
-        guard frame.isMainFrame, frame.securityOrigin.protocol == "sugar-maple",
+        guard frame.isMainFrame, NativeAccessPolicy.trustedOrigin(scheme: frame.securityOrigin.protocol, host: frame.securityOrigin.host, port: frame.securityOrigin.port),
               let window = webView.window else { completionHandler(false); return }
         let alert = NSAlert()
         alert.messageText = message
@@ -76,7 +76,7 @@ final class EditorHost: NSObject, WKScriptMessageHandlerWithReply, WKNavigationD
         }
     }
     func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage, replyHandler: @escaping (Any?, String?) -> Void) {
-        guard message.frameInfo.isMainFrame, message.frameInfo.securityOrigin.protocol == "sugar-maple",
+        guard message.frameInfo.isMainFrame, NativeAccessPolicy.trustedOrigin(scheme: message.frameInfo.securityOrigin.protocol, host: message.frameInfo.securityOrigin.host, port: message.frameInfo.securityOrigin.port),
               let body = message.body as? [String: Any], let action = body["action"] as? String else {
             replyHandler(nil, "Invalid native request"); return
         }
@@ -182,7 +182,15 @@ final class EditorHost: NSObject, WKScriptMessageHandlerWithReply, WKNavigationD
         return ["content": [["type": "image", "mimeType": "image/png", "data": png.base64EncodedString()], ["type": "text", "text": String(data: try JSONSerialization.data(withJSONObject: revision), encoding: .utf8)!]]]
     }
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
-        decisionHandler(navigationAction.request.url?.scheme == "sugar-maple" ? .allow : .cancel)
+        guard let url = navigationAction.request.url else { decisionHandler(.cancel); return }
+        if NativeAccessPolicy.trustedURL(url) { decisionHandler(.allow); return }
+        // Only a human-activated web link leaves the application; subframes stay unprivileged.
+        if navigationAction.navigationType == .linkActivated,
+           navigationAction.targetFrame?.isMainFrame != false,
+           ["https", "http"].contains(url.scheme ?? "") {
+            NSWorkspace.shared.open(url)
+        }
+        decisionHandler(.cancel)
     }
 }
 enum HostError: LocalizedError {
@@ -200,9 +208,9 @@ final class EditorResources: NSObject, WKURLSchemeHandler {
     func webView(_ webView: WKWebView, start urlSchemeTask: WKURLSchemeTask) {
         guard let url = urlSchemeTask.request.url,
               let root = Bundle.main.resourceURL?.appendingPathComponent("Editor", isDirectory: true) else { return }
-        let path = url.path == "/" ? "/index.html" : url.path
-        let file = root.appendingPathComponent(path).standardizedFileURL
-        guard file.path.hasPrefix(root.path + "/"), let data = try? Data(contentsOf: file) else {
+        let path = url.path
+        guard let file = try? NativeAccessPolicy.resourceURL(url, root: root),
+              let data = try? Data(contentsOf: file) else {
             urlSchemeTask.didFailWithError(HostError.message("Bundled editor asset missing: \(path). Run bun run build:mac.")); return
         }
         let mime = ["html":"text/html", "js":"application/javascript", "css":"text/css", "svg":"image/svg+xml", "woff2":"font/woff2", "ico":"image/x-icon"][file.pathExtension] ?? "application/octet-stream"
