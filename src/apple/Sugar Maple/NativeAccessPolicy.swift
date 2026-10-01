@@ -8,8 +8,10 @@ enum NativeAccessPolicy {
     static func trustedURL(_ url: URL) -> Bool {
         url.scheme == "sugar-maple" && url.host == "app" && url.port == nil && url.user == nil && url.password == nil
     }
-    static func resourceURL(_ url: URL, root: URL) throws -> URL {
-        guard trustedURL(url) else { throw CocoaError(.fileReadNoPermission) }
+    enum ResourceHost: String { case app, preview }
+    static func resourceURL(_ url: URL, root: URL, host: ResourceHost = .app) throws -> URL {
+        guard url.scheme == "sugar-maple", url.host == host.rawValue, url.port == nil,
+              url.user == nil, url.password == nil else { throw CocoaError(.fileReadNoPermission) }
         let path = url.path == "/" ? "/index.html" : url.path
         let base = root.standardizedFileURL.resolvingSymlinksInPath()
         let file = base.appendingPathComponent(path).standardizedFileURL.resolvingSymlinksInPath()

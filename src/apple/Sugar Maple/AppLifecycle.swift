@@ -5,6 +5,7 @@ import WebKit
 final class AppLifecycle: NSObject, NSApplicationDelegate {
     weak var host: EditorHost?
     func applicationWillTerminate(_ notification: Notification) {
+        host?.previewWindow?.close()
         host?.server?.stop()
     }
     func applicationShouldTerminate(_ sender: NSApplication) -> NSApplication.TerminateReply {

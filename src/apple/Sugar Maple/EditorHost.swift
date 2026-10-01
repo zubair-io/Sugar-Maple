@@ -11,6 +11,7 @@ final class EditorHost: NSObject, WKScriptMessageHandlerWithReply, WKNavigationD
     var fileCommandInProgress = false
     var pendingOpenURL: URL?
     var pendingFingerprint: String?
+    var previewWindow: PreviewWindow?
     let support: URL = {
         #if DEBUG
         if let path = Bundle.main.object(forInfoDictionaryKey: "SugarMapleTestSupport") as? String { return URL(fileURLWithPath: path, isDirectory: true) }
@@ -87,6 +88,23 @@ final class EditorHost: NSObject, WKScriptMessageHandlerWithReply, WKNavigationD
     }
     func native(_ action: String, _ body: [String: Any]) async throws -> Any {
         switch action {
+        case "preview.open":
+            guard let value = body["value"] as? [String: Any],
+                  let resources = Bundle.main.resourceURL?.appendingPathComponent("Editor", isDirectory: true) else { throw HostError.message("Missing preview scene") }
+            previewWindow?.close(notify: false)
+            previewWindow = nil
+            previewWindow = try PreviewWindow(value: value, resources: resources, owner: webView.window) { [weak self] error in
+                guard let self else { return }
+                previewWindow = nil
+                Task { @MainActor in
+                    _ = try? await self.webView.callAsyncJavaScript("window.sugarMaple?.previewClosed(error);", arguments: ["error": error], in: nil, contentWorld: .page)
+                }
+            }
+            return ["ok": true]
+        case "preview.update":
+            guard let value = body["value"] as? [String: Any] else { throw HostError.message("Missing preview scene") }
+            try previewWindow?.update(value)
+            return ["ok": true]
         case "status": return ["status": serverStatus]
         case "window.close":
             webView.window?.performClose(nil)
