@@ -1,0 +1,409 @@
+{
+  "date": "2026-10-01",
+  "baseline": "e6107e621a1f1298c1e51c084d7ff78cb3fe0200",
+  "scope": "All 27 existing open issues, acceptance audit against shipped source and delivery evidence",
+  "evidence": [
+    "../canvas-delivery-2026-10-01/verification.json",
+    "../../development/canvas-port.md"
+  ],
+  "issues": [
+    {
+      "number": 1,
+      "title": "[MVP tracker] Sugar Maple \u2014 local-first UI design, preview and developer handoff",
+      "url": "https://github.com/zubair-io/Sugar-Maple/issues/1",
+      "githubState": "OPEN",
+      "assessment": "active tracker",
+      "delivered": "The Canvas port and QA-01\u2013QA-10 are merged in PR #45.",
+      "remaining": "MVP completion depends on the remaining acceptance criteria below; post-MVP features remain outside the release gate.",
+      "resolvedQA": [],
+      "closeEligible": false
+    },
+    {
+      "number": 2,
+      "title": "[MVP] Validate HTML + SVG whiteboard architecture and record RFC decisions",
+      "url": "https://github.com/zubair-io/Sugar-Maple/issues/2",
+      "githubState": "OPEN",
+      "assessment": "partial; architecture amended",
+      "delivered": "Actual Just-Maple Whiteboard Canvas2D is integrated. DOM preview/export and shared scene truth remain; Canvas/DOM parity fixtures pass.",
+      "remaining": "Record end-to-end p95 frame/startup/memory on the agreed mixed-node fixture in both engines and a 10,000-node diagnostic. CPU flush timings do not satisfy that gate.",
+      "resolvedQA": [],
+      "closeEligible": false
+    },
+    {
+      "number": 3,
+      "title": "[MVP] Bootstrap reproducible Angular and macOS development builds",
+      "url": "https://github.com/zubair-io/Sugar-Maple/issues/3",
+      "githubState": "OPEN",
+      "assessment": "verification pending",
+      "delivered": "Pinned workspace and lockfile, production web bundle, macOS 15 target, offline bundled editor, and local Mac builds are implemented. This cleanup adds a macOS CI build and real native filesystem fixtures.",
+      "remaining": "Close after the new clean-checkout macOS CI job passes; development signing does not imply notarized distribution.",
+      "resolvedQA": [],
+      "closeEligible": false
+    },
+    {
+      "number": 4,
+      "title": "[MVP] Integrate the existing _Maple UI library and tokens",
+      "url": "https://github.com/zubair-io/Sugar-Maple/issues/4",
+      "githubState": "OPEN",
+      "assessment": "partial",
+      "delivered": "Narrow, vendored Maple Button/Select/Field/Icon primitives and generated chrome tokens are documented; no sibling checkout or photo backend is required.",
+      "remaining": "Finish source inventory, update procedure/notices, and explicit chrome specimen/light-dark acceptance. Do not equate the existing subset with the complete Maple catalog.",
+      "resolvedQA": [],
+      "closeEligible": false
+    },
+    {
+      "number": 5,
+      "title": "[MVP] Bundle the editor in WKWebView with a typed native bridge",
+      "url": "https://github.com/zubair-io/Sugar-Maple/issues/5",
+      "githubState": "OPEN",
+      "assessment": "partial",
+      "delivered": "Bundled WKWebView, native dialogs/menu routing and typed error preservation are implemented. This cleanup validates the app hostname, resource containment, and package symbolic-link rejection.",
+      "remaining": "Exercise fresh empty-cache/offline startup, inaccessible-file and capability fallbacks, complete exactly-once keyboard/native clipboard behavior and a real hostile-frame bridge attempt. Custom pasteboard payload is also tracked by #18.",
+      "resolvedQA": [
+        "QA-01"
+      ],
+      "closeEligible": false
+    },
+    {
+      "number": 6,
+      "title": "[MVP] Define the scene graph and validate the CRDT and undo contract",
+      "url": "https://github.com/zubair-io/Sugar-Maple/issues/6",
+      "githubState": "OPEN",
+      "assessment": "partial",
+      "delivered": "Versioned semantic scene, Yjs field maps, atomic commands, origin-aware grouped undo, journal replay and a bounded Automerge/Yjs diagnostic are implemented.",
+      "remaining": "Complete comparative text/drag/reparent/delete/convergence fixtures, unknown-field migration contract, repeated startup/memory/growth measurements and a final CRDT/storage decision.",
+      "resolvedQA": [],
+      "closeEligible": false
+    },
+    {
+      "number": 7,
+      "title": "[MVP] Implement local .syrup persistence, autosave and crash recovery",
+      "url": "https://github.com/zubair-io/Sugar-Maple/issues/7",
+      "githubState": "OPEN",
+      "assessment": "partial",
+      "delivered": "Managed/named packages, serial autosave, immutable history snapshots, external-conflict protection, browser IndexedDB, native recovery and forced-restart history are verified.",
+      "remaining": "Canonical manifest/scenes/tokens/assets/log package, append/compaction crash injection, quota/disk-full/permission fixtures and coordinated final writes remain. Current checkpoints have a 32 MB limit.",
+      "resolvedQA": [],
+      "closeEligible": false
+    },
+    {
+      "number": 8,
+      "title": "[MVP] Adapt Just-Maple whiteboard navigation and selection to the hybrid renderer",
+      "url": "https://github.com/zubair-io/Sugar-Maple/issues/8",
+      "githubState": "OPEN",
+      "assessment": "partial; architecture amended",
+      "delivered": "Vendored Whiteboard camera, pan/zoom/fit, culling, mixed geometry, hit testing, drag/corner resize, cancellation and grouped undo are delivered. Layers indexing is linear.",
+      "remaining": "Finish all-direction resize/rotation editing, snapping/distribution, rotated-parent gesture coverage, complete locked/hidden keyboard parity and Layers DOM virtualization. Canvas replaced the obsolete hybrid Design renderer.",
+      "resolvedQA": [],
+      "closeEligible": false
+    },
+    {
+      "number": 9,
+      "title": "[MVP] Add artboards, drawing primitives, editable text and layers",
+      "url": "https://github.com/zubair-io/Sugar-Maple/issues/9",
+      "githubState": "OPEN",
+      "assessment": "partial",
+      "delivered": "Artboards/frames/groups/basic geometry/text/images, layers inspector, editable multiline text and saved sign-in design fixtures exist.",
+      "remaining": "Finish interactive path/freehand/connector tooling, complete reparent world-placement behavior and real Unicode/IME/caret/local-font acceptance. Rich typography is a dedicated follow-up.",
+      "resolvedQA": [],
+      "closeEligible": false
+    },
+    {
+      "number": 10,
+      "title": "[MVP] Implement CSS stacks, grid and responsive constraints",
+      "url": "https://github.com/zubair-io/Sugar-Maple/issues/10",
+      "githubState": "OPEN",
+      "assessment": "partial",
+      "delivered": "Free/row/column/basic grid, gap/padding, fixed/fill/hug/percent and representative Canvas/DOM parity within 1 CSS px are verified.",
+      "remaining": "Implement wrap, bounded fr/minmax/auto-fit, full manual pins/child constraints and stack drag reorder. Verify each supported rule in Canvas, browser/WKWebView preview and web consumers.",
+      "resolvedQA": [],
+      "closeEligible": false
+    },
+    {
+      "number": 11,
+      "title": "[MVP] Add design token import, bindings and CSS export",
+      "url": "https://github.com/zubair-io/Sugar-Maple/issues/11",
+      "githubState": "OPEN",
+      "assessment": "partial",
+      "delivered": "Document-owned opaque sRGB colors, color aliases, bindings, literal precedence and color token import/export are implemented.",
+      "remaining": "Extend typed registry to dimension/radius/typography/shadow and light/dark modes; pin the supported DTCG version and cover aliases/cycles/mode round trips.",
+      "resolvedQA": [
+        "QA-03"
+      ],
+      "closeEligible": false
+    },
+    {
+      "number": 12,
+      "title": "[MVP] Build the component registry, library picker and instance overrides",
+      "url": "https://github.com/zubair-io/Sugar-Maple/issues/12",
+      "githubState": "OPEN",
+      "assessment": "partial",
+      "delivered": "Local masters/instances, recursive structural propagation, named style variants, local overrides, detach/reset and dependency-complete paste are verified.",
+      "remaining": "Production registry metadata/props/slots/states, Checkbox, optional library mappings and compatible component swaps with loss previews remain.",
+      "resolvedQA": [
+        "QA-03",
+        "QA-04"
+      ],
+      "closeEligible": false
+    },
+    {
+      "number": 13,
+      "title": "[MVP] Implement Repeat Grid with text and image data overrides",
+      "url": "https://github.com/zubair-io/Sugar-Maple/issues/13",
+      "githubState": "OPEN",
+      "assessment": "partial",
+      "delivered": "Undoable Repeat Grid creation and text population, deterministic preview/export and checkpoint round trips exist.",
+      "remaining": "Replace eager structural cloning with template/per-cell semantics; retain stable cell IDs on resize; add image overrides, named field mapping, CSV/JSON validation and grid handles.",
+      "resolvedQA": [],
+      "closeEligible": false
+    },
+    {
+      "number": 14,
+      "title": "[MVP] Add isolated responsive preview and click-through prototyping",
+      "url": "https://github.com/zubair-io/Sugar-Maple/issues/14",
+      "githubState": "OPEN",
+      "assessment": "partial",
+      "delivered": "Cross-page click navigation, Back, reset/viewport presets, real dissolve with reduced-motion behavior and separate inspection are implemented.",
+      "remaining": "Add overlay open/close, typed/secure inputs and state preservation; verify invalid-target diagnostics and real native isolated-preview cleanup.",
+      "resolvedQA": [
+        "QA-05",
+        "QA-09"
+      ],
+      "closeEligible": false
+    },
+    {
+      "number": 15,
+      "title": "[MVP] Show component names, tokens and code targets in developer preview",
+      "url": "https://github.com/zubair-io/Sugar-Maple/issues/15",
+      "githubState": "OPEN",
+      "assessment": "partial",
+      "delivered": "Inspector exposes authored name, local master/instance/variant/override identity and working portable copy actions.",
+      "remaining": "Show production design-system source/version/platform mappings, state, token identity and authored-versus-measured rules; verify nested keyboard inspection and each advertised copy payload.",
+      "resolvedQA": [],
+      "closeEligible": false
+    },
+    {
+      "number": 16,
+      "title": "[MVP] Copy portable Angular, semantic HTML, Tailwind 4 and CSS",
+      "url": "https://github.com/zubair-io/Sugar-Maple/issues/16",
+      "githubState": "OPEN",
+      "assessment": "partial",
+      "delivered": "Standalone semantic HTML/CSS, Angular and Tailwind consumers compile/render; multiline whitespace, tokens and supported layout fixtures are verified.",
+      "remaining": "Optional mapped snippets require actual pinned library API verification. Complete classes-only payloads, asset/style packaging, accessible control attributes and action integration guidance.",
+      "resolvedQA": [
+        "QA-03",
+        "QA-06"
+      ],
+      "closeEligible": false
+    },
+    {
+      "number": 17,
+      "title": "[MVP] Copy idiomatic SwiftUI with optional design-system mappings",
+      "url": "https://github.com/zubair-io/Sugar-Maple/issues/17",
+      "githubState": "OPEN",
+      "assessment": "partial",
+      "delivered": "Standalone SwiftUI consumer compiles; all nine font weights and control/stack padding are covered. Unsupported path/gradient/responsive exports reject explicitly.",
+      "remaining": "Verify supported visual equivalence, enabled/state/secure-input semantics, self-contained image assets and optional pinned-library snippets. No CSS-to-SwiftUI parity claim.",
+      "resolvedQA": [
+        "QA-07"
+      ],
+      "closeEligible": false
+    },
+    {
+      "number": 18,
+      "title": "[MVP] Copy and paste editable UI elements across documents",
+      "url": "https://github.com/zubair-io/Sugar-Maple/issues/18",
+      "githubState": "OPEN",
+      "assessment": "partial",
+      "delivered": "Versioned editable clipboard preserves nested master/variant/token dependencies, remaps identity and undoes atomically; browser envelope/native text fallback exists.",
+      "remaining": "Add native custom pasteboard type, permission-denied/manual fallback acceptance, sanitized HTML/common-Tailwind import allowlist and cross-app clipboard/assets tests. Arbitrary source remains unevaluated.",
+      "resolvedQA": [
+        "QA-04"
+      ],
+      "closeEligible": false
+    },
+    {
+      "number": 19,
+      "title": "[MVP] Import local assets and export selection as SVG or PNG",
+      "url": "https://github.com/zubair-io/Sugar-Maple/issues/19",
+      "githubState": "OPEN",
+      "assessment": "partial",
+      "delivered": "Local raster assets, SVG/PNG supported exports, decode diagnostics, replacement and undo are implemented.",
+      "remaining": "Local fonts/catalog/crop-fit behavior, supported SVG import coverage, mixed-content 1x/2x export fixtures, cancellation and missing-font/oversize/external-asset cases remain.",
+      "resolvedQA": [
+        "QA-08"
+      ],
+      "closeEligible": false
+    },
+    {
+      "number": 20,
+      "title": "[MVP] Bring up the MCP server and live editor command loop early",
+      "url": "https://github.com/zubair-io/Sugar-Maple/issues/20",
+      "githubState": "OPEN",
+      "assessment": "partial",
+      "delivered": "Real SDK HTTP/stdio operate on one native-owned editor document; grouped transactions, retries, revision-bound capture, typed validation/errors, token/Origin rejection and pointer readback are verified.",
+      "remaining": "Complete occupied-port, foreign-Host, disconnected/loading/timeouts and reconnect/cleanup transport fixtures plus versioned output schemas. Mac-first host supersedes the initial browser-host plan.",
+      "resolvedQA": [
+        "QA-01",
+        "QA-02"
+      ],
+      "closeEligible": false
+    },
+    {
+      "number": 21,
+      "title": "[MVP] Validate the complete offline design-to-code workflow and package release",
+      "url": "https://github.com/zubair-io/Sugar-Maple/issues/21",
+      "githubState": "OPEN",
+      "assessment": "release gate open",
+      "delivered": "Model/browser/consumer/native/MCP/recovery gates passed for PR #45; source/evidence and CI links are available.",
+      "remaining": "All remaining MVP acceptance, measured end-to-end performance/100 MB stress, VoiceOver/offline fresh-launch and release artifact/install/rollback/signing status must be recorded before release.",
+      "resolvedQA": [
+        "QA-06",
+        "QA-07",
+        "QA-10"
+      ],
+      "closeEligible": false
+    },
+    {
+      "number": 22,
+      "title": "[Post-MVP] Add peer collaboration, mobile companion and Git history",
+      "url": "https://github.com/zubair-io/Sugar-Maple/issues/22",
+      "githubState": "OPEN",
+      "assessment": "deferred; not a release blocker",
+      "delivered": "No peer networking/mobile companion/Git integration was added by the Canvas port.",
+      "remaining": "Create a follow-up RFC and distinct peer/mobile/Git slices with convergence, authenticated pairing, input parity and conflict-recovery fixtures.",
+      "resolvedQA": [],
+      "closeEligible": false
+    },
+    {
+      "number": 23,
+      "title": "[Post-MVP] Add advanced vector editing",
+      "url": "https://github.com/zubair-io/Sugar-Maple/issues/23",
+      "githubState": "OPEN",
+      "assessment": "deferred; not a release blocker",
+      "delivered": "Basic paths/vector serialization exist; advanced geometry was not shipped.",
+      "remaining": "Define geometry fixtures and implement Bezier handles, booleans, masks and flattening in separate slices, with preview/export parity and profiling.",
+      "resolvedQA": [],
+      "closeEligible": false
+    },
+    {
+      "number": 24,
+      "title": "[Post-MVP] Add prototype state machines, auto-animate and voice",
+      "url": "https://github.com/zubair-io/Sugar-Maple/issues/24",
+      "githubState": "OPEN",
+      "assessment": "deferred; not a release blocker",
+      "delivered": "Click navigation/Back/dissolve are the current prototype subset.",
+      "remaining": "Variables/conditions/advanced triggers/auto-animate/springs/voice need separate deterministic supported-trigger slices and permission/offline/reduced-motion acceptance.",
+      "resolvedQA": [],
+      "closeEligible": false
+    },
+    {
+      "number": 25,
+      "title": "[Post-MVP] Extend code linkage and native export coverage",
+      "url": "https://github.com/zubair-io/Sugar-Maple/issues/25",
+      "githubState": "OPEN",
+      "assessment": "deferred; not a release blocker",
+      "delivered": "Portable export and explicit unsupported diagnostics exist; arbitrary repository source is never implicitly executed.",
+      "remaining": "Add verified repository/Storybook linkage and named native targets. Production library manifests and isolated executable previews are now dedicated follow-ups.",
+      "resolvedQA": [],
+      "closeEligible": false
+    },
+    {
+      "number": 26,
+      "title": "[Post-MVP] Add automatic responsive inference and advanced component behavior",
+      "url": "https://github.com/zubair-io/Sugar-Maple/issues/26",
+      "githubState": "OPEN",
+      "assessment": "deferred; not a release blocker",
+      "delivered": "Manual supported layouts and simple local named variants exist.",
+      "remaining": "Automatic inference/explanations, advanced Grid, slots/nested contextual variants and image/vector-mask repeated overrides remain.",
+      "resolvedQA": [],
+      "closeEligible": false
+    },
+    {
+      "number": 27,
+      "title": "[MVP] Extend the early MCP loop to complete feature coverage and native packaging",
+      "url": "https://github.com/zubair-io/Sugar-Maple/issues/27",
+      "githubState": "OPEN",
+      "assessment": "partial",
+      "delivered": "Native HTTP/stdio, component/folder/comment commands, durable autosave, revision-bound capture and shared command schemas are verified.",
+      "remaining": "Expose only implemented feature tools, add versioned output schemas/examples, real MCP resources and remaining asset/library/prototype tools; test offline fresh launch, lifecycle and 10/s capture throttle.",
+      "resolvedQA": [
+        "QA-01",
+        "QA-02",
+        "QA-05",
+        "QA-08",
+        "QA-09",
+        "QA-10"
+      ],
+      "closeEligible": false
+    }
+  ],
+  "newIssues": [
+    {
+      "roadmap": "R5",
+      "parents": [
+        9,
+        10,
+        17
+      ],
+      "number": 46,
+      "title": "[MVP] Add portable typography controls and font diagnostics",
+      "url": "https://github.com/zubair-io/Sugar-Maple/issues/46"
+    },
+    {
+      "roadmap": "R6",
+      "parents": [
+        12,
+        14,
+        17
+      ],
+      "number": 47,
+      "title": "[MVP] Add typed form inputs and overlay prototype actions",
+      "url": "https://github.com/zubair-io/Sugar-Maple/issues/47"
+    },
+    {
+      "roadmap": "R7",
+      "parents": [
+        13,
+        19
+      ],
+      "number": 48,
+      "title": "[MVP] Import Repeat Grid data with named fields and local images",
+      "url": "https://github.com/zubair-io/Sugar-Maple/issues/48"
+    },
+    {
+      "roadmap": "R8",
+      "parents": [
+        11,
+        12,
+        15,
+        17,
+        25
+      ],
+      "number": 49,
+      "title": "[MVP] Connect a pinned production UI library through a component manifest",
+      "url": "https://github.com/zubair-io/Sugar-Maple/issues/49"
+    },
+    {
+      "roadmap": "R9",
+      "parents": [
+        8,
+        20,
+        27
+      ],
+      "number": 50,
+      "title": "[MVP] Add scoped MCP reads and bounded editor discovery",
+      "url": "https://github.com/zubair-io/Sugar-Maple/issues/50"
+    },
+    {
+      "roadmap": "R10",
+      "parents": [
+        25,
+        26
+      ],
+      "number": 51,
+      "title": "[PoC] Validate isolated JavaScript and Swift UI-library previews",
+      "url": "https://github.com/zubair-io/Sugar-Maple/issues/51"
+    }
+  ]
+}
