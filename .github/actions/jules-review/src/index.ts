@@ -69,6 +69,7 @@ async function run(): Promise<void> {
   }
 
   let commentId: number | undefined;
+  let publicationComplete = false;
 
   try {
     try {
@@ -154,6 +155,7 @@ async function run(): Promise<void> {
     await publishThenDelete(session.id, apiKey, async () => {
       await octokit.rest.issues.updateComment({ owner, repo, comment_id: commentId!, body: finalBody });
       await setStatus(octokit, owner, repo, headSha, statusContext, state, description);
+      publicationComplete = true;
     }, fetch, message => {
       // Keep the published review and verdict intact if cleanup fails.
       cleanupError = message;
@@ -165,6 +167,10 @@ async function run(): Promise<void> {
 
     core.info(`Verdict: ${verdict}. Status check: ${state}.`);
   } catch (err) {
+    if (publicationComplete) {
+      core.setFailed('An operational step failed after publication. The saved review and code verdict remain intact; inspect/recover the exact session.');
+      return;
+    }
     const msg = err instanceof Error ? err.message : String(err);
     core.error(`Review failed: ${msg}`);
 
