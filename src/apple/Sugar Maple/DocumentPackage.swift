@@ -27,7 +27,7 @@ enum DocumentPackage {
     static func fingerprint(_ url: URL) throws -> String {
         let file = try checkpointURL(url)
         let attributes = try FileManager.default.attributesOfItem(atPath: file.path)
-        guard (attributes[.size] as? NSNumber)?.intValue ?? Int.max <= 32_000_000 else { throw CocoaError(.fileReadTooLarge) }
+        guard (attributes[.size] as? NSNumber)?.uint64Value ?? UInt64.max <= 32_000_000 else { throw CocoaError(.fileReadTooLarge) }
         let bytes = try Data(contentsOf: file)
         return SHA256.hash(data: bytes).map { String(format: "%02x", $0) }.joined()
     }
@@ -45,7 +45,7 @@ enum DocumentPackage {
     static func read(_ url: URL) throws -> [String: Any] {
         let file = try checkpointURL(url)
         let attributes = try FileManager.default.attributesOfItem(atPath: file.path)
-        guard (attributes[.size] as? NSNumber)?.intValue ?? Int.max <= 32_000_000 else { throw CocoaError(.fileReadTooLarge) }
+        guard (attributes[.size] as? NSNumber)?.uint64Value ?? UInt64.max <= 32_000_000 else { throw CocoaError(.fileReadTooLarge) }
         return try validate(JSONSerialization.jsonObject(with: Data(contentsOf: file)))
     }
 }
