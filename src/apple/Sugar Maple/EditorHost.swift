@@ -175,10 +175,43 @@ final class EditorHost: NSObject, WKScriptMessageHandlerWithReply, WKNavigationD
         return value
     }
     func snapshot(_ args: [String: Any]) async throws -> [String: Any] {
-        let revision = try await dispatch("render.ready", args)
-        let image = try await webView.takeSnapshot(configuration: nil)
-        _ = try await dispatch("render.ready", args)
-        guard let tiff = image.tiffRepresentation, let rep = NSBitmapImageRep(data: tiff), let png = rep.representation(using: .png, properties: [:]) else { throw HostError.message("Snapshot encoding failed") }
+        guard var revision = try await dispatch("render.capture", args) as? [String: Any],
+              let request = revision.removeValue(forKey: "captureRequest") as? [String: Any],
+              let documentId = request["documentId"] as? String,
+              !documentId.isEmpty,
+              let expectedRevision = request["expectedRevision"] as? Int,
+              expectedRevision >= 0,
+              let scale = request["scale"] as? Double,
+              [0.5, 1, 2].contains(scale) else { throw HostError.message("Snapshot preparation failed") }
+        let crop: CGRect
+        if let rawRect = request["rect"] {
+            guard let rect = rawRect as? [String: Double],
+                  let x = rect["x"], let y = rect["y"],
+                  let width = rect["width"], let height = rect["height"],
+                  [x, y, width, height].allSatisfy({ $0.isFinite }) else {
+                throw HostError.message("Snapshot preparation returned an invalid rectangle")
+            }
+            crop = CGRect(x: x, y: y, width: width, height: height)
+        } else { crop = webView.bounds }
+        guard webView.bounds.contains(crop), crop.width > 0, crop.height > 0 else {
+            throw HostError.tool(["code":"invalid_input", "message":"Capture rectangle is outside the editor WebView.", "recoveryAction":"Choose a rectangle within the editor viewport in CSS pixels."])
+        }
+        let pixelWidth = ceil(crop.width * scale), pixelHeight = ceil(crop.height * scale)
+        guard pixelWidth.isFinite, pixelHeight.isFinite,
+              pixelWidth > 0, pixelHeight > 0,
+              pixelWidth <= 4096, pixelHeight <= 4096,
+              pixelWidth * pixelHeight <= 16777216 else {
+            throw HostError.tool(["code":"invalid_input", "message":"Capture exceeds 4096 pixels per dimension or 16 megapixels.", "recoveryAction":"Reduce the rectangle or scale."])
+        }
+        let width = Int(pixelWidth), height = Int(pixelHeight)
+        let configuration = WKSnapshotConfiguration(); configuration.rect = crop; configuration.snapshotWidth = NSNumber(value: crop.width)
+        let image = try await webView.takeSnapshot(configuration: configuration)
+        _ = try await dispatch("render.ready", ["documentId":documentId, "expectedRevision":expectedRevision])
+        guard let cgImage = image.cgImage(forProposedRect: nil, context: nil, hints: nil),
+              let context = CGContext(data: nil, width: width, height: height, bitsPerComponent: 8, bytesPerRow: 0, space: CGColorSpaceCreateDeviceRGB(), bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue) else { throw HostError.message("Snapshot encoding failed") }
+        context.interpolationQuality = .high; context.draw(cgImage, in: CGRect(x:0, y:0, width:width, height:height))
+        guard let scaled = context.makeImage(), let png = NSBitmapImageRep(cgImage: scaled).representation(using: .png, properties: [:]) else { throw HostError.message("Snapshot encoding failed") }
+        revision["capture"] = ["coordinateUnits":"CSS pixels in the editor WebView", "rect":["x":crop.minX, "y":crop.minY, "width":crop.width, "height":crop.height], "scale":scale, "pixelWidth":width, "pixelHeight":height]
         return ["structuredContent": revision, "content": [["type": "image", "mimeType": "image/png", "data": png.base64EncodedString()], ["type": "text", "text": String(data: try JSONSerialization.data(withJSONObject: revision), encoding: .utf8)!]]]
     }
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {

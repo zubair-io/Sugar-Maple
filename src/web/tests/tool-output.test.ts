@@ -16,7 +16,7 @@ test('published MCP output schemas validate actual receipts/checkpoints and reje
   expect(check('document.checkpoint', { ...store.checkpoint(), checkpointVersion: 99 })).toBe(false);
   expect(check('code.export', { code: '<button>Continue</button>' })).toBe(true);
   expect(check('code.export', { code: 42 })).toBe(false);
-  expect(check('render.capture', { ...store.result(), committed: true, rendered: true, durable: false, persistence: 'Saving', assetDiagnostics: [] })).toBe(true);
+  expect(check('render.capture', { ...store.result(), committed: true, rendered: true, durable: false, persistence: 'Saving', assetDiagnostics: [], capture: { coordinateUnits:'CSS pixels in the editor WebView', rect:{x:0,y:0,width:100,height:80}, scale:1, pixelWidth:100, pixelHeight:80 } })).toBe(true);
   expect(check('render.capture', { ...store.result(), rendered: false })).toBe(false);
 });
 test('typed tool errors conform to every output contract, including the pinned SDK error validation behavior', () => {
