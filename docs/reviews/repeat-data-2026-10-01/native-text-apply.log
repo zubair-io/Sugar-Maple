@@ -1,0 +1,1 @@
+PASS: actual native UI field mapping/preview/apply adds one undoable import; images retained; MCP undo/redo and full checkpoint replay preserve the intended data

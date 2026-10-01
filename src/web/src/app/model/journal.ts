@@ -20,6 +20,7 @@ const deltaSchema = z
     nodes: z.array(NodeSchema),
     removedNodes: z.array(z.string()),
     tokens: DocumentSchema.shape.tokens.optional(),
+    assets: DocumentSchema.shape.assets.removeDefault().optional(),
   })
   .strict();
 export type DocumentDelta = z.infer<typeof deltaSchema>;
@@ -70,6 +71,7 @@ export function delta(before: SceneDocument, after: SceneDocument): DocumentDelt
     ...(JSON.stringify(before.tokens) !== JSON.stringify(after.tokens)
       ? { tokens: after.tokens }
       : {}),
+    ...(JSON.stringify(before.assets) !== JSON.stringify(after.assets) ? { assets: after.assets } : {}),
   };
 }
 export function applyDelta(document: SceneDocument, change: DocumentDelta): SceneDocument {
@@ -87,5 +89,6 @@ export function applyDelta(document: SceneDocument, change: DocumentDelta): Scen
     pages: update(document.pages, change.pages, change.removedPages),
     nodes: update(document.nodes, change.nodes, change.removedNodes),
     tokens: change.tokens ?? document.tokens,
+    assets: change.assets ?? document.assets,
   };
 }

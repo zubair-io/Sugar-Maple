@@ -189,6 +189,7 @@ export function readScope(
       ancestors: [...ancestors.values()],
       components: [...components.values()].map(({ id, pageId, name }) => ({ id, pageId, name })),
       tokens,
+      assets: Object.fromEntries([...new Set([...nodes, ...ancestors.values()].map(n=>n.asset).filter(a=>a.startsWith('asset:')).map(a=>a.slice(6)))].map(key=>[key,doc.assets[key]])),
       pages: doc.pages.filter((p) => pageIds.has(p.id)),
     },
   };

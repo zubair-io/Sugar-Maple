@@ -1,3 +1,4 @@
+import { assetSource } from './assets';
 import { controlLabel, hasPrototypeAction } from './form';
 import { bundledFontStyle } from './bundled-font-access';
 import { subtree } from './composition';
@@ -138,6 +139,6 @@ export function exportNode(
       : '';
   return (
     font +
-    `<${tag}${controls}${action}${target === 'angular' ? ' ngNonBindable' : ''} ${attrs}${tag === 'input' ? ` placeholder="${escape(n.text)}"` : tag === 'img' ? ` src="${escape(n.asset)}" alt="${escape(n.name)}"` : ''}>${['input', 'img'].includes(tag) ? '' : (target === 'angular' ? escape(n.text).replace(/[@{}]/g, (c) => '&#' + c.charCodeAt(0) + ';') : escape(n.text)) + children.map((v) => exportNode(doc, v.id, target, true)).join('') + `</${tag}>`}`
+    `<${tag}${controls}${action}${target === 'angular' ? ' ngNonBindable' : ''} ${attrs}${tag === 'input' ? ` placeholder="${escape(n.text)}"` : tag === 'img' ? ` src="${escape(assetSource(doc, n.asset))}" alt="${escape(n.name)}"` : ''}>${['input', 'img'].includes(tag) ? '' : (target === 'angular' ? escape(n.text).replace(/[@{}]/g, (c) => '&#' + c.charCodeAt(0) + ';') : escape(n.text)) + children.map((v) => exportNode(doc, v.id, target, true)).join('') + `</${tag}>`}`
   );
 }

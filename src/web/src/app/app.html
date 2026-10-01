@@ -141,7 +141,7 @@
       } @else if (tab() === 'Assets') {
         <div class="section-heading">DOCUMENT COMPONENTS</div>
         @for (component of e.doc().nodes; track component.id) {
-          @if (component.isComponent) {
+          @if (component.isComponent && !repeatTemplateIds().has(component.id)) {
             <button
               [attr.aria-label]="'Insert component ' + component.name"
               (click)="insertComponent(component.id)"
@@ -323,11 +323,11 @@
               </mui-field>
             </mui-section>
             <mui-section title="Layout" sectionId="layout-details">
-              <mui-field label="Flow">
+              @if (!n.repeatTemplateId) { <mui-field label="Flow">
                 <mui-select ariaLabel="Layout flow" [value]="n.layout"
                   [options]="layoutOptions"
                   (valueChange)="patch('layout', $event)" />
-              </mui-field>
+              </mui-field> } @else { <p>Repeat Grid layout · resize below</p> }
               <div class="inspector-grid">
                 @for (axis of ['width', 'height']; track axis) {
                   <label class="compact-field">
@@ -352,7 +352,7 @@
                     [ngModel]="n.gap" (change)="patch('gap', +value($event))" /></label>
                   <label class="compact-field"><span>Pad</span><input type="number" min="0" aria-label="Padding"
                     [ngModel]="n.padding" (change)="patch('padding', +value($event))" /></label>
-                  @if (n.layout === 'grid') {
+                  @if (n.layout === 'grid' && !n.repeatTemplateId) {
                     <label class="compact-field"><span>Cols</span><input type="number" min="1" max="24" aria-label="Grid columns"
                       [ngModel]="n.columns" (change)="patch('columns', +value($event))" /></label>
                   }
@@ -486,13 +486,12 @@
                   Detach instance
                 </button>
               }
-              @if (n.repeatTemplateId) {
-                <label
-                  >Grid data (JSON array)<textarea
-                    #gridData
-                    placeholder='["First", "Second"]'
-                  ></textarea></label
-                ><button (click)="populate(gridData.value)">Populate cells</button>
+              @if (n.repeatTemplateId) { <repeat-inspector [grid]="n" /> }
+              @if (repeatParent(); as grid) {
+                @if (n.hidden) {
+                  <p>Editing the Repeat Grid template. Data overrides stay local to each cell.</p>
+                  <button (click)="e.select(grid.id)">Return to Repeat Grid</button>
+                }
               }
               <button (click)="reorder(-1)">Move earlier</button
               ><button (click)="reorder(1)">Move later</button

@@ -1,3 +1,4 @@
+import { RepeatInspector } from './canvas/repeat-inspector';
 import { FontInspector } from './canvas/font-inspector';
 import { EditorHeader } from './editor-header';
 import { MuiSelectComponent } from './chrome/maple/ui/select/mui-select.component';
@@ -40,6 +41,7 @@ import { layerRows } from './model/layers';
     PrototypePreview,
     CanvasSurface,
     AssetInspector,
+    RepeatInspector,
     FontInspector,
     MuiButtonComponent,
     MuiSectionComponent,
@@ -49,6 +51,8 @@ import { layerRows } from './model/layers';
   styleUrl: './app.scss',
 })
 export class App {
+  readonly repeatTemplateIds = computed(() => new Set(this.e.doc().nodes.flatMap(n=>n.repeatTemplateId?[n.repeatTemplateId]:[])));
+  readonly repeatParent = computed(() => this.e.doc().nodes.find(n=>n.repeatTemplateId===this.e.selected())??null);
   readonly Math = Math;
   readonly e = inject(EditorService);
   readonly projection = inject(CanvasProjection);
@@ -471,14 +475,6 @@ export class App {
       { type: 'component.insert', id, pageId: this.e.pageId(), x: 80, y: 80 },
     ]);
     if (result) this.e.select(result.ids[0]);
-  }
-  populate(value: string) {
-    try {
-      const values = JSON.parse(value);
-      this.e.perform([{ type: 'repeat.populate', id: this.e.selected()!, values }]);
-    } catch (e) {
-      this.e.report(e);
-    }
   }
   duplicate() {
     const n = this.e.node();

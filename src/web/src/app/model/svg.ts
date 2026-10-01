@@ -1,3 +1,4 @@
+import { assetSource } from './assets';
 import { inputDisplay } from './form';
 import { fontStack, textAlignment } from './typography';
 import { bundledFontStyle } from './bundled-font-access';
@@ -30,7 +31,7 @@ export function svgExport(doc: SceneDocument, id: string) {
           : `<rect width="${n.width}" height="${n.height}" rx="${n.radius}" ${base}/>`;
     shape = gradient + shape;
     if (n.kind === 'image')
-      shape += `<image href="${n.asset}" width="${n.width}" height="${n.height}" preserveAspectRatio="xMidYMid slice"/>`;
+      shape += `<image href="${assetSource(doc, n.asset)}" width="${n.width}" height="${n.height}" preserveAspectRatio="xMidYMid slice"/>`;
     const text = n.kind === 'input' ? inputDisplay(n) : n.text;
     if (text)
       shape += `<text x="${textAlignment(n) === 'center' ? n.width / 2 : textAlignment(n) === 'right' ? n.width - n.strokeWidth : n.strokeWidth}" y="${n.fontSize}" text-anchor="${textAlignment(n) === 'center' ? 'middle' : textAlignment(n) === 'right' ? 'end' : 'start'}" fill="${n.color}" font-family="${escape(fontStack(n.fontFamily))}" letter-spacing="${n.letterSpacing}" font-size="${n.fontSize}" font-weight="${n.fontWeight}">${text
