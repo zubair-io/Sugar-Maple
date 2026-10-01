@@ -1,12 +1,12 @@
 {
   "date": "2026-10-01",
-  "main": "3f74cd8eb826c9ce3ddec41f435080df4b3463a9",
-  "mainCI": "https://github.com/zubair-io/Sugar-Maple/actions/runs/36928198256",
+  "main": "38b8cc5dcebccaa609fbf1b1e11af11296a821a5",
+  "mainCI": "https://github.com/zubair-io/Sugar-Maple/actions/runs/36937809803",
   "scope": "All 34 GitHub issues after the initial 27-issue audit and concrete follow-up creation",
   "counts": {
     "total": 34,
-    "closed": 7,
-    "open": 27
+    "closed": 8,
+    "open": 26
   },
   "mergedPRs": [
     45,
@@ -20,11 +20,11 @@
     60,
     61,
     62,
-    63
+    63,
+    64,
+    65
   ],
-  "candidatePRs": [
-    64
-  ],
+  "candidatePRs": [],
   "issues": [
     {
       "number": 1,
@@ -32,8 +32,8 @@
       "url": "https://github.com/zubair-io/Sugar-Maple/issues/1",
       "githubState": "OPEN",
       "assessment": "active tracker",
-      "delivered": "Canvas/QA-01\u2013QA-10 (#45), native CI/access (#52), early MCP (#53), typography (#54) and typed forms/overlays (#56) are merged. Issues #3/#20/#46/#47 are closed on verified main. Scoped discovery/reads/cropped capture (#59, closes #50), issue-status reconciliation (#57) and review recovery (#58/#60) are also merged. Separate native preview/Inspect (#62) and final unsigned-size/recovered-review regression (#61) are merged with actual approving reviews and green main CI; #14/#55 are closed.",
-      "remaining": "Complete remaining MVP acceptance; post-MVP remains deferred. Named Repeat Grid import candidate #64 passes local acceptance and awaits exact-head CI/review/merge.",
+      "delivered": "Canvas/QA-01\u2013QA-10 (#45), native CI/access (#52), early MCP (#53), typography (#54) and typed forms/overlays (#56) are merged. Issues #3/#20/#46/#47 are closed on verified main. Scoped discovery/reads/cropped capture (#59, closes #50), issue-status reconciliation (#57) and review recovery (#58/#60) are also merged. Separate native preview/Inspect (#62) and final unsigned-size/recovered-review regression (#61) are merged with actual approving reviews and green main CI; #14/#55 are closed. Named Repeat Grid imports and portable shared images (#64) are merged; #48 is closed after actual updated-head approval and green main CI.",
+      "remaining": "Complete remaining MVP acceptance; post-MVP remains deferred. Production UI-library manifests/mappings (#49), isolated code-preview PoC (#51) and broader parent requirements remain.",
       "resolvedQA": []
     },
     {
@@ -159,8 +159,8 @@
       "url": "https://github.com/zubair-io/Sugar-Maple/issues/13",
       "githubState": "OPEN",
       "assessment": "partial",
-      "delivered": "Undoable Repeat Grid creation and text population, deterministic preview/export and checkpoint round trips exist.",
-      "remaining": "Full Repeat Grid handles and virtual cell representation remain. Candidate #64 adds separate hidden templates, per-cell data, stable IDs during resize and validated named CSV/JSON/image imports; exact-head delivery is pending.",
+      "delivered": "Undoable Repeat Grid creation and text population, deterministic preview/export and checkpoint round trips exist. #64 adds separate hidden templates, per-cell text/input/image data, stable surviving IDs during resize and validated named CSV/JSON import.",
+      "remaining": "Full Repeat Grid handles and virtual cell representation remain. Eager visible cell instances are retained within the validated 100-cell limit; the scoped data/import requirements shipped in #64.",
       "resolvedQA": []
     },
     {
@@ -192,8 +192,8 @@
       "url": "https://github.com/zubair-io/Sugar-Maple/issues/16",
       "githubState": "OPEN",
       "assessment": "partial",
-      "delivered": "Semantic HTML/Angular/Tailwind consumers compile/render; typography plus typed/password/disabled form controls and action metadata are merged.",
-      "remaining": "Pinned mapped library snippets, classes-only payloads and complete style packaging remain; consumers supply navigation/overlay handlers. Candidate #64 adds self-contained shared image bytes and strict consuming fixtures; delivery pending.",
+      "delivered": "Semantic HTML/Angular/Tailwind consumers compile/render; typography plus typed/password/disabled form controls and action metadata are merged. #64 embeds shared image bytes and verifies strict Angular/Tailwind/HTML/SVG consumers.",
+      "remaining": "Pinned mapped library snippets, classes-only payloads and complete style packaging remain; consumers supply navigation/overlay handlers. Merged #64 adds self-contained shared image bytes and strict consuming fixtures.",
       "resolvedQA": [
         "QA-03",
         "QA-06"
@@ -205,8 +205,8 @@
       "url": "https://github.com/zubair-io/Sugar-Maple/issues/17",
       "githubState": "OPEN",
       "assessment": "partial",
-      "delivered": "SwiftUI consumers compile with weights/padding, supported family/tracking/alignment and typed TextField/SecureField, initial-state bindings, disabled labels and Button callbacks from #56. Unsupported features reject explicitly.",
-      "remaining": "Supported visual equivalence and actual pinned native component mappings remain. Custom fonts and nondefault exact line height still reject. Candidate #64 adds self-contained images with a compiled/rendered macOS consumer; delivery pending and UIKit branch unverified.",
+      "delivered": "SwiftUI consumers compile with weights/padding, supported family/tracking/alignment and typed TextField/SecureField, initial-state bindings, disabled labels and Button callbacks from #56. Unsupported features reject explicitly. #64 embeds shared image bytes in generated SwiftUI and compiles/renders a macOS consumer.",
+      "remaining": "Supported visual equivalence and actual pinned native component mappings remain. Custom fonts and nondefault exact line height still reject. Merged #64 adds self-contained images with a compiled/rendered macOS consumer; UIKit branch remains unverified.",
       "resolvedQA": [
         "QA-07"
       ]
@@ -217,8 +217,8 @@
       "url": "https://github.com/zubair-io/Sugar-Maple/issues/18",
       "githubState": "OPEN",
       "assessment": "partial",
-      "delivered": "Versioned editable clipboard preserves nested master/variant/token dependencies, remaps identity and undoes atomically; browser envelope/native text fallback exists.",
-      "remaining": "Add native custom pasteboard type, permission-denied/manual fallback acceptance, sanitized HTML/common-Tailwind import allowlist and cross-app clipboard/assets tests. Arbitrary source remains unevaluated. Candidate #64 includes shared embedded assets and Repeat Grid dependency remapping in editable payloads; native cross-app custom-format acceptance is still separate.",
+      "delivered": "Versioned editable clipboard preserves nested master/variant/token dependencies, remaps identity and undoes atomically; browser envelope/native text fallback exists. #64 carries shared image bytes and Repeat Grid template/cell dependencies through editable paste.",
+      "remaining": "Add native custom pasteboard type, permission-denied/manual fallback acceptance, sanitized HTML/common-Tailwind import allowlist and cross-app clipboard/assets tests. Arbitrary source remains unevaluated. Merged #64 includes shared embedded assets and Repeat Grid dependency remapping in editable payloads; native cross-app custom-format acceptance is still separate.",
       "resolvedQA": [
         "QA-04"
       ]
@@ -229,8 +229,8 @@
       "url": "https://github.com/zubair-io/Sugar-Maple/issues/19",
       "githubState": "OPEN",
       "assessment": "partial",
-      "delivered": "Local raster assets, SVG/PNG supported exports, decode diagnostics, replacement and undo are implemented.",
-      "remaining": "Local fonts/catalog/crop-fit behavior, supported SVG import coverage, mixed-content 1x/2x export fixtures, cancellation and missing-font/oversize/external-asset cases remain. Candidate #64 adds shared canonical image references, precommit pixel validation and real native file pickers; full catalog/export acceptance stays open.",
+      "delivered": "Local raster assets, SVG/PNG supported exports, decode diagnostics, replacement and undo are implemented. #64 adds shared SHA-256 image references, precommit pixel validation and real native import panels.",
+      "remaining": "Local fonts/catalog/crop-fit behavior, supported SVG import coverage, mixed-content 1x/2x export fixtures, cancellation and missing-font/oversize/external-asset cases remain. Merged #64 adds shared canonical image references, precommit pixel validation and real native file pickers; full catalog/export acceptance stays open.",
       "resolvedQA": [
         "QA-08"
       ]
@@ -353,10 +353,10 @@
       "number": 48,
       "title": "[MVP] Import Repeat Grid data with named fields and local images",
       "url": "https://github.com/zubair-io/Sugar-Maple/issues/48",
-      "githubState": "OPEN",
-      "assessment": "implemented candidate #64; delivery pending",
-      "delivered": "Five logical commits in #64 implement named CSV/JSON mapping, local images, validated preview/cancel, stable resize/template overrides and portable shared assets. Local acceptance passes: 59 model tests/409 assertions, 19 browser/consumer suites, six native fixtures, three compiled macOS SwiftUI consumers and actual native file-picker/MCP/restart checkpoint equality.",
-      "remaining": "Exact-head CI, actual approving review and merge to main precede closure. Full grid handles/virtual cells, asset catalog/crop UI, history compaction and production library mappings remain broader parents; UIKit generated branch is unverified.",
+      "githubState": "CLOSED",
+      "assessment": "complete; merged #64",
+      "delivered": "Six logical commits in #64 deliver named CSV/JSON fields, local image mapping, validated preview/cancel, stable resize/template overrides and portable shared assets. 60 model tests/415 assertions, 19 browser/consumer suites, six native fixtures, three compiled macOS SwiftUI consumers and actual native file-picker/MCP/restart checkpoint equality pass. Updated head 74903c8 received actual approval (session 536419113508875813), web/mac CI passed, and final main 38b8cc5 web/mac CI passed.",
+      "remaining": "Completed within scoped issue. Full grid handles/virtual cells (#13), asset catalog/crop UI (#19), history compaction/release (#7/#21), production mappings (#49) and executable previews (#51) remain; the UIKit generated image branch is unverified.",
       "resolvedQA": []
     },
     {
@@ -400,5 +400,5 @@
       "resolvedQA": []
     }
   ],
-  "asOf": "2026-10-01T22:22:49.097805+00:00"
+  "asOf": "2026-10-01T23:01:02.767317+00:00"
 }
