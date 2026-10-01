@@ -2,11 +2,13 @@
 
 Tracker: https://github.com/zubair-io/Sugar-Maple/issues/1
 
+Current delivery and acceptance audit: [October 1 issue reconciliation](../reviews/issue-reconciliation-2026-10-01/README.md). Shipped QA fixes are recorded separately from unfinished parent issue criteria.
+
 Editor UI contract: [editor-ui.md](../design/editor-ui.md). Architecture recommendation: [architecture.md](architecture.md). Project RFC: [RFC-2026-SYRUP-001](../rfcs/RFC-2026-SYRUP-001.md).
 
 ## M1 — Foundations
 
-- [2 — [MVP] Validate HTML + SVG whiteboard architecture and record RFC decisions](https://github.com/zubair-io/Sugar-Maple/issues/2)
+- [2 — [MVP] Validate Canvas design / DOM preview architecture and record decisions](https://github.com/zubair-io/Sugar-Maple/issues/2)
 - [3 — [MVP] Bootstrap reproducible Angular and macOS development builds](https://github.com/zubair-io/Sugar-Maple/issues/3)
 - [4 — [MVP] Integrate the existing _Maple UI library and tokens](https://github.com/zubair-io/Sugar-Maple/issues/4)
 - [5 — [MVP] Bundle the editor in WKWebView with a typed native bridge](https://github.com/zubair-io/Sugar-Maple/issues/5)
@@ -16,7 +18,7 @@ Editor UI contract: [editor-ui.md](../design/editor-ui.md). Architecture recomme
 
 ## M2 — Design editor
 
-- [8 — [MVP] Adapt Just-Maple whiteboard navigation and selection to the hybrid renderer](https://github.com/zubair-io/Sugar-Maple/issues/8)
+- [8 — [MVP] Complete Just-Maple Canvas navigation and selection](https://github.com/zubair-io/Sugar-Maple/issues/8)
 - [9 — [MVP] Add artboards, drawing primitives, editable text and layers](https://github.com/zubair-io/Sugar-Maple/issues/9)
 - [10 — [MVP] Implement CSS stacks, grid and responsive constraints](https://github.com/zubair-io/Sugar-Maple/issues/10)
 - [11 — [MVP] Add design token import, bindings and CSS export](https://github.com/zubair-io/Sugar-Maple/issues/11)
@@ -44,3 +46,12 @@ Editor UI contract: [editor-ui.md](../design/editor-ui.md). Architecture recomme
 - [24 — [Post-MVP] Add prototype state machines, auto-animate and voice](https://github.com/zubair-io/Sugar-Maple/issues/24)
 - [25 — [Post-MVP] Extend code linkage and native export coverage](https://github.com/zubair-io/Sugar-Maple/issues/25)
 - [26 — [Post-MVP] Add automatic responsive inference and advanced component behavior](https://github.com/zubair-io/Sugar-Maple/issues/26)
+
+## Concrete product follow-ups
+
+- [R5: #46 — [MVP] Add portable typography controls and font diagnostics](https://github.com/zubair-io/Sugar-Maple/issues/46)
+- [R6: #47 — [MVP] Add typed form inputs and overlay prototype actions](https://github.com/zubair-io/Sugar-Maple/issues/47)
+- [R7: #48 — [MVP] Import Repeat Grid data with named fields and local images](https://github.com/zubair-io/Sugar-Maple/issues/48)
+- [R8: #49 — [MVP] Connect a pinned production UI library through a component manifest](https://github.com/zubair-io/Sugar-Maple/issues/49)
+- [R9: #50 — [MVP] Add scoped MCP reads and bounded editor discovery](https://github.com/zubair-io/Sugar-Maple/issues/50)
+- [R10: #51 — [PoC] Validate isolated JavaScript and Swift UI-library previews](https://github.com/zubair-io/Sugar-Maple/issues/51)

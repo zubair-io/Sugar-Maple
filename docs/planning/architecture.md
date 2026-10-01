@@ -1,3 +1,5 @@
+> **October 1 delivery amendment:** PR #45 supersedes the Design renderer recommendation below. The actual editor uses the adapted Just-Maple Whiteboard Canvas2D viewport; semantic HTML/CSS and inline SVG remain in prototype preview and portable exports. The scene graph remains authoritative. [Canvas decision, parity and measured limitations](../development/canvas-port.md) document the implementation. End-to-end performance gates are still open in #2/#21. The earlier recommendation is retained as planning history.
+
 # Sugar Maple MVP architecture recommendation
 
 Status: planning baseline updated to reflect the user architectural clarification; validate renderer behavior and performance in the first implementation issue. No renderer benchmark or implementation has been completed in this planning task.

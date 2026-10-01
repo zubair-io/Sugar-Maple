@@ -1,0 +1,25 @@
+{
+  "date": "2026-10-01",
+  "baseline": "e6107e6",
+  "checks": {
+    "modelTests": 39,
+    "modelAssertions": 162,
+    "browserSuites": 15,
+    "webTypecheck": "pass",
+    "productionWebBuild": "pass",
+    "nativeBuild": "pass, Xcode 27.1 / macOS 27.0",
+    "nativeAcceptance": [
+      "package save/reopen and external conflicts",
+      "autosave/restart/rename/recovery/corrupt Open",
+      "origin/hostname/resource traversal/package symlink isolation"
+    ],
+    "realMCPHTTPAndStdio": "pass, isolated issue QA profile on port 48484",
+    "macosCI": "pending; macos-15 clean checkout"
+  },
+  "limits": [
+    "Native access fixtures test the shared policy and actual filesystem; hostile WKWebView-frame UI acceptance remains in #5.",
+    "Symlink checks are preflight validation; cross-process filesystem coordination remains in #7.",
+    "CI development signing is not notarized release distribution.",
+    "The 27 original issues contain unfinished acceptance; the audit is not a claim that the MVP is complete."
+  ]
+}
