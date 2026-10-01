@@ -1,13 +1,13 @@
 {
   "date": "2026-10-01",
   "issue": 48,
-  "status": "implemented and locally verified; exact-head CI/review/merge pending",
+  "status": "delivered in merged #64; exact-head approval and web/mac CI pass; final main web/mac CI pass",
   "baseMain": "3f74cd8eb826c9ce3ddec41f435080df4b3463a9",
   "sourceCommits": [
     "f079c67",
     "1caa399",
     "03bcdea",
-    "follow-up: clipboard optional guard and linear byte copy"
+    "74903c815fc7e059dace447c4f01f27cd951df7c"
   ],
   "checks": {
     "modelTests": 60,
@@ -49,5 +49,9 @@
     "Initial QA harness used unpublished render.ready; corrected to actual render.capture",
     "Initial native AX focus/coordinate attempts did not author data; actual mapped file import and cancellation subsequently verified",
     "Actual review 1433770453613650310 blocked the PR wording and alleged absent assets on plain nodes; removed wording, added defensive sparse-call guard plus cross-document regression, and replaced byte iterator with a linear buffer copy. Validated nodes already default assets to empty strings. Updated head awaits fresh review."
-  ]
+  ],
+  "finalHead": "74903c815fc7e059dace447c4f01f27cd951df7c",
+  "mergeCommit": "38b8cc5dcebccaa609fbf1b1e11af11296a821a5",
+  "mainCI": "https://github.com/zubair-io/Sugar-Maple/actions/runs/36937809803",
+  "approvingReviewSession": "536419113508875813"
 }
