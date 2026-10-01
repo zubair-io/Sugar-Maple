@@ -26,13 +26,13 @@ import Foundation
         for size: UInt64 in [32_000_001, 3_000_000_000] {
             try handle.truncate(atOffset: size)
             let attributes = try FileManager.default.attributesOfItem(atPath: file.path)
-            precondition((attributes[.size] as? NSNumber)?.intValue == Int(size))
+            precondition((attributes[.size] as? NSNumber)?.uint64Value == size)
             for operation in [{ _ = try DocumentPackage.read(root) }, { _ = try DocumentPackage.fingerprint(root) }] {
                 do { try operation(); fatalError("Oversized checkpoint accepted") }
                 catch { precondition((error as NSError).code == CocoaError.fileReadTooLarge.rawValue) }
             }
         }
         print("PASS: real .syrup save/reopen and invalid-write preservation and external-change conflict")
-        print("PASS: actual read/fingerprint reject sparse 32 MB + 1 byte and 3 GB checkpoints; Swift NSNumber.intValue preserves the 64-bit size")
+        print("PASS: actual read/fingerprint reject sparse 32 MB + 1 byte and 3 GB checkpoints with explicit unsigned 64-bit size checks")
     }
 }
