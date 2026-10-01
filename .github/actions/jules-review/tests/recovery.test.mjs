@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { activitySummary, publishedSessionReference, validateRecoveryInput, validateSessionSource } from '../lib/recovery-policy.js';
+import { activitySummary, completedReviewArtifact, publishedSessionReference, validateRecoveryInput, validateSessionSource } from '../lib/recovery-policy.js';
 const bot = { login: 'github-actions[bot]', type: 'Bot' };
 const final = { user: bot, body: '<!-- jules-pr-reviewer -->\n## Jules Review\nVERDICT: approve\n\n---\n_Session: `123`_' };
 test('cleanup requires a trusted published verdict/footer for the exact session', () => {
@@ -34,4 +34,16 @@ test('activity diagnostics expose counts without private messages or failure bod
   const result = activitySummary([{agentMessaged:{agentMessage:'private secret'}},{sessionFailed:{reason:'private secret'}},{sessionCompleted:{}},{progressUpdated:{description:'private secret'}}]);
   assert.deepEqual(result,{activities:4,agentMessages:1,failures:1,completions:1});
   assert.doesNotMatch(JSON.stringify(result),/private|secret/);
+});
+test('opt-in artifacts require a complete final review and select chronologically, never by API page order', () => {
+  const prior = {createTime:'2026-10-01T12:00:00.1Z',agentMessaged:{agentMessage:'Working'}}, last = {createTime:'2026-10-01T12:00:00.200000001Z',agentMessaged:{agentMessage:'A code issue\nVERDICT: block'}};
+  assert.equal(completedReviewArtifact('COMPLETED',[last,prior],false),'A code issue\nVERDICT: block');
+  assert.equal(completedReviewArtifact('COMPLETED',[prior,last],false),'A code issue\nVERDICT: block');
+  for (const [state,list,truncated] of [
+    ['FAILED',[last],false],['IN_PROGRESS',[last],false],['COMPLETED',[last],true],['COMPLETED',[prior],false],
+    ['COMPLETED',[last,{...last}],false],['COMPLETED',[{...last,createTime:'bad'}],false],
+    ['COMPLETED',[{...last,agentMessaged:{agentMessage:'VERDICT: approve\0'}}],false],
+    ['COMPLETED',[{...last,agentMessaged:{agentMessage:'x'.repeat(131073)+'\nVERDICT: approve'}}],false],
+    ['COMPLETED',[{...last,agentMessaged:'malformed'}],false],
+  ]) assert.equal(completedReviewArtifact(state,list,truncated),null);
 });
