@@ -87,6 +87,29 @@ try {
               height: 500,
             },
           },
+          {
+            type: 'node.add',
+            node: {
+              id: 'offscreen',
+              pageId: d.document.pages[0].id,
+              kind: 'frame',
+              x: 10000,
+              width: 200,
+              height: 200,
+            },
+          },
+          {
+            type: 'node.add',
+            node: {
+              id: 'clipped',
+              pageId: d.document.pages[0].id,
+              parentId: 'offscreen',
+              kind: 'rectangle',
+              x: -10000,
+              width: 40,
+              height: 40,
+            },
+          },
         ],
       }),
     initial,
@@ -108,6 +131,9 @@ try {
     );
   }, box);
   assert.deepEqual(rgb, [37, 99, 235, 255]);
+  const layout = await page.evaluate(() => window.sugarMaple.dispatch('layout.inspect'));
+  assert.equal(layout.nodes.find((n: any) => n.id === 'clipped').rendered, true);
+  assert.equal(layout.nodes.find((n: any) => n.id === 'clipped').painted, false);
   // Exercise the real component's pointer capture/cancel path, not only the tool.
   const beforeCancel = (await page.evaluate(() => window.sugarMaple.dispatch('document.get')))
     .revision;
