@@ -50,3 +50,9 @@ await run([process.execPath, "tools/mcp-stdio-test.ts"]);
 await run([process.execPath, "tools/typography-export-test.ts"]);
 
 await run([process.execPath, 'tools/prototype-export-test.ts']);
+
+const previewFixture = resolve(output, 'preview-fixture.json');
+await run([process.execPath, 'tools/preview-fixture.ts', previewFixture]);
+const previewExecutable = resolve(output, 'native-preview');
+await run(['swiftc', 'src/apple/Sugar Maple/NativeAccessPolicy.swift', 'src/apple/Sugar Maple/PreviewWindow.swift', 'tools/native-preview-test.swift', '-o', previewExecutable]);
+await run([previewExecutable, resolve(root, 'build/DerivedData/Build/Products/Debug/Sugar Maple.app/Contents/Resources/Editor'), previewFixture]);
