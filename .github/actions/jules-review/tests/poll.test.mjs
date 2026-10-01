@@ -1,6 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { collectReview } from '../lib/poll.js';
+import { publishedSessionReference } from '../lib/recovery-policy.js';
 function clock(timeoutMs = 100000) {
   let now = 0; const reports = [];
   return { timeoutMs, now: () => now, delay: async ms => { now += ms; }, report: message => reports.push(message), reports };
@@ -17,10 +18,28 @@ test('completed final verdict is accepted; live sessions never fabricate approva
 });
 test('failed sessions stop immediately; completed sessions without verdict retain diagnosis', async () => {
   const failed = fixture('failed'); failed.hydrate = async () => assert.fail('Do not wait for a failed session');
-  await assert.rejects(collectReview(failed, clock()), /failed without a published review/);
+  await assert.rejects(collectReview(failed, clock()), /Failed without a published review/);
   const options = clock();
   await assert.rejects(collectReview(fixture('COMPLETED', [{ type: 'agentMessaged', message: 'Still working' }]), options), /without an explicit final verdict after three reads/);
   assert.equal(options.reports.length, 3);
+});
+test('new-session visibility and terminal failures use the same deadline and remain inspectable', async () => {
+  const session = fixture('failed'), options = clock(60000);
+  let reads = 0;
+  session.info = async () => {
+    if (++reads === 1) throw Error('HTTP 404 private response for newly-created session');
+    return { state: 'failed' };
+  };
+  await assert.rejects(collectReview(session, options), error => {
+    const comment = { user: {login: 'github-actions[bot]', type: 'Bot'}, body: `<!-- jules-pr-reviewer -->\nJules PR review failed to complete.\n${error.message}` };
+    assert.equal(publishedSessionReference([comment], '123', false), true);
+    assert.equal(publishedSessionReference([comment], '123', true), false);
+    assert.doesNotMatch(error.message, /private/);
+    return true;
+  });
+  assert.equal(reads, 2);
+  assert.equal(options.now(), 20000);
+  assert.doesNotMatch(options.reports.join('\n'), /private/);
 });
 test('eventual activity visibility retries; auth fails promptly without exposing the upstream body', async () => {
   const session = fixture('completed', [{ type: 'agentMessaged', message: 'VERDICT: comment' }]);

@@ -128,8 +128,6 @@ async function run(): Promise<void> {
     });
     core.info(`Jules session: ${session.id}`);
 
-    await waitUntilSessionReady(session);
-
     const result = await collectReview(session as any, { timeoutMs: timeoutMinutes * 60 * 1000, report: core.info });
     const reviewMessage = result.review;
     core.info(`Collected review (${reviewMessage.length} chars)`);
@@ -268,30 +266,6 @@ function wrapPermissionError(err: unknown, needed: string, op: string): Error {
     );
   }
   return err instanceof Error ? err : new Error(msg);
-}
-
-async function waitUntilSessionReady(session: { id: string; info: () => Promise<unknown> }): Promise<void> {
-  const maxAttempts = 20;
-  let delay = 2000;
-  for (let i = 0; i < maxAttempts; i++) {
-    try {
-      await session.info();
-      core.info(`Session ${session.id} is ready after ${i + 1} attempt(s).`);
-      return;
-    } catch (err) {
-      const msg = err instanceof Error ? err.message : String(err);
-      if (isAuthError(msg)) {
-        throw new Error(`Jules API rejected request (${msg}). Check JULES_API_KEY is valid.`);
-      }
-      if (!msg.includes('404')) {
-        throw new Error(`Jules session.info() failed: ${msg}`);
-      }
-      core.info(`Session not yet ready (attempt ${i + 1}/${maxAttempts})…`);
-      await new Promise(r => setTimeout(r, delay));
-      delay = Math.min(delay * 1.5, 15000);
-    }
-  }
-  throw new Error('Session did not become ready within timeout.');
 }
 
 function truncate(s: string, max: number): string {

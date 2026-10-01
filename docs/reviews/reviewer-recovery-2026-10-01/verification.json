@@ -3,14 +3,15 @@
   "issue": 55,
   "status": "local verified candidate; live diagnosis/cleanup pending review and merge",
   "checks": {
-    "reviewerTests": 19,
+    "reviewerTests": 20,
     "typecheck": "pass",
     "reviewBundle": "pass",
     "recoveryBundle": "pass",
     "boundedRetryAndNonretryableAuth": "simulated response tests pass",
     "terminalStateAndTimeoutDiagnosis": "simulated session tests pass",
     "trustedPublishedFooterAndRepositoryGuard": "pass",
-    "sensitiveContentOmission": "pass"
+    "sensitiveContentOmission": "pass",
+    "newSessionVisibilityAndFailureRecoveryReference": "simulated initial 404 then failed session remains inspectable; no cleanup permitted"
   },
   "retainedSessions": [
     {
