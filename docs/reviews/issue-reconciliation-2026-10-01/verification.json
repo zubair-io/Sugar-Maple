@@ -21,5 +21,17 @@
     "Symlink checks are preflight validation; cross-process filesystem coordination remains in #7.",
     "CI development signing is not notarized release distribution.",
     "The 27 original issues contain unfinished acceptance; the audit is not a claim that the MVP is complete."
-  ]
+  ],
+  "historicalSnapshot": true,
+  "followUp": {
+    "currentMain": "e09be7261ae2fc83a62d580ec3ee99056178f51b",
+    "macosCI": "pass",
+    "run": "https://github.com/zubair-io/Sugar-Maple/actions/runs/36906527308",
+    "currentIssueStatus": "current-status.json",
+    "closedIssues": [
+      3,
+      20,
+      46
+    ]
+  }
 }
