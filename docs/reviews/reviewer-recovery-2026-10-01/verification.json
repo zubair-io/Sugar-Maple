@@ -1,9 +1,9 @@
 {
   "date": "2026-10-01",
   "issue": 55,
-  "status": "local verified candidate; live diagnosis/cleanup pending review and merge",
+  "status": "PR58 merged and live diagnosis/idempotent absence verified; late-review artifact candidate pending",
   "checks": {
-    "reviewerTests": 20,
+    "reviewerTests": 21,
     "typecheck": "pass",
     "reviewBundle": "pass",
     "recoveryBundle": "pass",
@@ -11,7 +11,8 @@
     "terminalStateAndTimeoutDiagnosis": "simulated session tests pass",
     "trustedPublishedFooterAndRepositoryGuard": "pass",
     "sensitiveContentOmission": "pass",
-    "newSessionVisibilityAndFailureRecoveryReference": "simulated initial 404 then failed session remains inspectable; no cleanup permitted"
+    "newSessionVisibilityAndFailureRecoveryReference": "simulated initial 404 then failed session remains inspectable; no cleanup permitted",
+    "orderedFinalArtifact": "simulated completed/failed/live/truncated/malformed/tied/oversized final-message tests pass"
   },
   "retainedSessions": [
     {
@@ -39,5 +40,51 @@
     "Local tests simulate API responses; they do not prove live repository-secret permissions.",
     "No account listing or bulk deletion. Failed/unpublished sessions remain retained.",
     "Cleanup does not rewrite the old failed workflow result or a published code verdict."
+  ],
+  "delivery": {
+    "mergedPR": 58,
+    "main": "b9d9e0fd3262206f48895dcde589d775a4ea378e",
+    "mainCI": 36918309887,
+    "exactHeadReview": 36915056817,
+    "verdict": "approve",
+    "reviewSessionDeleted": "423478779581142549"
+  },
+  "liveInspection": [
+    {
+      "run": 36918312137,
+      "session": "1073615130018433095",
+      "pr": 52,
+      "state": "FAILED",
+      "activities": 1,
+      "agentMessages": 0,
+      "failures": 1,
+      "retained": true
+    },
+    {
+      "run": 36918340417,
+      "session": "7859224825569361313",
+      "pr": 52,
+      "state": "COMPLETED",
+      "activities": 11,
+      "agentMessages": 1,
+      "publishedVerdict": "unknown/unpublished; no inference",
+      "retained": true
+    },
+    {
+      "run": 36918344022,
+      "cleanupRun": 36918687159,
+      "session": "15092830114699431110",
+      "pr": 54,
+      "state": "already absent HTTP404",
+      "cleanupOutcome": "success; no deletion or verdict rewrite"
+    },
+    {
+      "run": 36918347755,
+      "cleanupRun": 36918690174,
+      "session": "3351957917670538810",
+      "pr": 56,
+      "state": "already absent HTTP404",
+      "cleanupOutcome": "success; no deletion or verdict rewrite"
+    }
   ]
 }
