@@ -108,7 +108,7 @@ export class PrototypePreview implements OnDestroy {
   readonly current = computed(() => {
     this.session.version();
     const n = this.document().nodes.find(n => n.id === this.session.state.currentId);
-    return n ? { ...n, x: 0, y: 0, width: this.width() ?? n.width, height: this.height() ?? n.height, widthMode: 'fixed' as const, heightMode: 'fixed' as const } : null;
+    return n ? { ...n, x: 0, y: 0, width: this.width() ?? n.width, height: this.height() ?? n.height, widthMode: 'fixed' as const, heightMode: this.height() === null ? n.heightMode : 'fixed' as const } : null;
   });
   readonly overlays = computed(() => {
     this.session.version();
