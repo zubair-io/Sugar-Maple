@@ -1,0 +1,1 @@
+PASS: offline custom viewport validation, nested component Inspect without action/input mutation, ephemeral reset, authoring focus/checkpoint preservation, isolated bootstrap/feed/live values/stale snapshot rejection and disposal
