@@ -18,6 +18,21 @@ import Foundation
         do { try DocumentPackage.write(checkpoint, to: root, expectedFingerprint: fingerprint); fatalError("External edit overwritten") } catch {}
         let latest = try DocumentPackage.read(root)
         precondition(latest["external"] as? Bool == true)
+        // APFS sparse truncation exercises the real file-size gate without allocating
+        // gigabytes or calling Data(contentsOf:) on an oversized checkpoint.
+        let file = root.appendingPathComponent("document.json")
+        let handle = try FileHandle(forWritingTo: file)
+        defer { try? handle.close() }
+        for size: UInt64 in [32_000_001, 3_000_000_000] {
+            try handle.truncate(atOffset: size)
+            let attributes = try FileManager.default.attributesOfItem(atPath: file.path)
+            precondition((attributes[.size] as? NSNumber)?.intValue == Int(size))
+            for operation in [{ _ = try DocumentPackage.read(root) }, { _ = try DocumentPackage.fingerprint(root) }] {
+                do { try operation(); fatalError("Oversized checkpoint accepted") }
+                catch { precondition((error as NSError).code == CocoaError.fileReadTooLarge.rawValue) }
+            }
+        }
         print("PASS: real .syrup save/reopen and invalid-write preservation and external-change conflict")
+        print("PASS: actual read/fingerprint reject sparse 32 MB + 1 byte and 3 GB checkpoints; Swift NSNumber.intValue preserves the 64-bit size")
     }
 }
