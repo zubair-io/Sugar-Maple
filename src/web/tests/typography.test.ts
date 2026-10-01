@@ -5,7 +5,12 @@ import { exportNode, nodeStyles } from '../src/app/model/export';
 import { pasteElements } from '../src/app/model/clipboard';
 import { loadBundledFont } from '../src/app/model/bundled-font-access';
 import { project } from '../src/app/canvas/scene-layout';
-await loadBundledFont();
+await loadBundledFont(
+  async () =>
+    new Uint8Array(
+      await Bun.file(new URL('../public/fonts/InterVariable.woff2', import.meta.url)).arrayBuffer(),
+    ),
+);
 const commit = (s: DocumentStore, operations: any[]) =>
   s.transact({
     documentId: s.document.id,

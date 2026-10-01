@@ -22,7 +22,10 @@
     "AngularStrictConsumer": "pass",
     "Tailwind4Consumer": "pass",
     "SwiftUIConsumer": "pass",
-    "legacyJournalRetryUndoAndEditablePaste": "pass"
+    "legacyJournalRetryUndoAndEditablePaste": "pass",
+    "actualHTTPAndStdioMCP": "pass",
+    "binaryFontCustomSchemeLoad": "pass",
+    "initialWebBundleKB": 820.77
   },
   "limits": [
     "Mac target requires macOS15.4+ for native Canvas letterSpacing (Safari18.4); Xcode16+ remains supported.",
@@ -31,6 +34,7 @@
     "SwiftUI maps system, sans-serif, serif and monospace plus tracking/alignment; custom font registration and exact nondefault line-height explicitly reject. Native default line-height follows SwiftUI font metrics; no pixel-equivalence claim.",
     "Web geometry fixtures compare node bounds, not glyph raster pixel identity.",
     "Advanced wrapping, bidirectional direction controls and typography token/mode identity remain in parent issues9/10/11.",
-    "SVG/PNG retains typography fields and embeds the bundled font; its historical fixed-size serializer does not yet implement browser-equivalent wrapping."
+    "SVG/PNG retains typography fields and embeds the bundled font; its historical fixed-size serializer does not yet implement browser-equivalent wrapping.",
+    "The font is a binary app asset; web exports encode it with the license. Native custom-scheme fetch status0 is accepted after validating the WOFF2 header."
   ]
 }
