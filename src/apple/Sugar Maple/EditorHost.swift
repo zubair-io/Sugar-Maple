@@ -11,7 +11,18 @@ final class EditorHost: NSObject, WKScriptMessageHandlerWithReply, WKNavigationD
     var fileCommandInProgress = false
     var pendingOpenURL: URL?
     var pendingFingerprint: String?
-    let support = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0].appendingPathComponent("SugarMaple", isDirectory: true)
+    let support: URL = {
+        #if DEBUG
+        if let path = Bundle.main.object(forInfoDictionaryKey: "SugarMapleTestSupport") as? String { return URL(fileURLWithPath: path, isDirectory: true) }
+        #endif
+        return FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0].appendingPathComponent("SugarMaple", isDirectory: true)
+    }()
+    let mcpPort: UInt16 = {
+        #if DEBUG
+        if let number = Bundle.main.object(forInfoDictionaryKey: "SugarMapleTestPort") as? NSNumber, let port = UInt16(exactly: number.intValue), port > 0 { return port }
+        #endif
+        return 48480
+    }()
 
     @ObservationIgnored lazy var persistence = DocumentPersistence(root: support)
 
@@ -77,6 +88,14 @@ final class EditorHost: NSObject, WKScriptMessageHandlerWithReply, WKNavigationD
     func native(_ action: String, _ body: [String: Any]) async throws -> Any {
         switch action {
         case "status": return ["status": serverStatus]
+        case "window.close":
+            webView.window?.performClose(nil)
+            return ["ok": true]
+        case "window.drag":
+            if let event = NSApp.currentEvent, event.type == .leftMouseDown, let window = webView.window {
+                window.performDrag(with: event)
+            }
+            return ["ok": true]
         case "clipboard.write":
             guard let text = body["text"] as? String else { throw HostError.message("Missing clipboard text") }
             NSPasteboard.general.clearContents(); NSPasteboard.general.setString(text, forType: .string)
@@ -112,6 +131,7 @@ final class EditorHost: NSObject, WKScriptMessageHandlerWithReply, WKNavigationD
             var destination = try await persistence.destination(id)
             if destination == nil || body["saveAs"] as? Bool == true {
                 let panel = NSSavePanel(); panel.nameFieldStringValue = "\(document["name"] as? String ?? "Untitled").syrup"
+                panel.allowedContentTypes = [UTType(exportedAs: "io.zubair.SugarMaple.document", conformingTo: .package)]
                 panel.canCreateDirectories = true; panel.title = "Save Sugar Maple document"
                 guard await panel.begin() == .OK, let url = panel.url else { return ["cancelled": true] }
                 destination = url
@@ -119,22 +139,39 @@ final class EditorHost: NSObject, WKScriptMessageHandlerWithReply, WKNavigationD
             let url = destination!
             let data = try JSONSerialization.data(withJSONObject: value)
             try await persistence.save(data, to: url)
-            return ["ok": true]
+            return ["ok": true, "name": url.deletingPathExtension().lastPathComponent]
         case "file.open":
-            let panel = NSOpenPanel(); panel.canChooseDirectories = true; panel.canChooseFiles = true
+            let panel = NSOpenPanel(); panel.canChooseDirectories = false; panel.canChooseFiles = true
+            panel.treatsFilePackagesAsDirectories = false
+            panel.allowedContentTypes = [UTType(exportedAs: "io.zubair.SugarMaple.document", conformingTo: .package)]
             panel.allowsMultipleSelection = false; panel.title = "Open .syrup document"
             guard await panel.begin() == .OK, let url = panel.url else { return ["cancelled": true] }
             let data = try await persistence.read(url)
+            guard var result = try JSONSerialization.jsonObject(with: data) as? [String: Any] else {
+                throw CocoaError(.fileReadCorruptFile)
+            }
             pendingOpenURL = url; pendingFingerprint = try await persistence.fingerprint(url)
-            return try JSONSerialization.jsonObject(with: data)
+            result["fileName"] = url.deletingPathExtension().lastPathComponent
+            return result
         default: throw HostError.message("Unknown native action")
         }
     }
     func dispatch(_ method: String, _ args: [String: Any]) async throws -> Any {
-        guard let value = try await webView.callAsyncJavaScript(
-            "if (!window.sugarMaple?.ready) throw new Error('Editor loading'); return await window.sugarMaple.dispatch(method, args);",
+        guard let result = try await webView.callAsyncJavaScript(
+            """
+            try {
+              if (!window.sugarMaple?.ready) return {ok:false,error:{code:'loading',message:'Editor loading',recoveryAction:'Wait for readiness and retry.'}};
+              return {ok:true,value:await window.sugarMaple.dispatch(method,args)};
+            } catch(error) {
+              return {ok:false,error:window.sugarMaple.describeError(error)};
+            }
+            """,
             arguments: ["method": method, "args": args], in: nil, contentWorld: .page
-        ) else { throw HostError.message("Editor returned no result") }
+        ) as? [String: Any] else { throw HostError.message("Editor returned no result") }
+        if result["ok"] as? Bool != true {
+            throw HostError.tool(result["error"] as? [String: Any] ?? ["code":"internal_error", "message":"Editor returned an invalid error"])
+        }
+        guard let value = result["value"] else { throw HostError.message("Editor returned no value") }
         return value
     }
     func snapshot(_ args: [String: Any]) async throws -> [String: Any] {
@@ -150,7 +187,13 @@ final class EditorHost: NSObject, WKScriptMessageHandlerWithReply, WKNavigationD
 }
 enum HostError: LocalizedError {
     case message(String)
-    var errorDescription: String? { if case .message(let message) = self { return message }; return nil }
+    case tool([String: Any])
+    var errorDescription: String? {
+        switch self {
+        case .message(let message): return message
+        case .tool(let details): return String(data: (try? JSONSerialization.data(withJSONObject: details, options: [.sortedKeys])) ?? Data(), encoding: .utf8)
+        }
+    }
 }
 
 final class EditorResources: NSObject, WKURLSchemeHandler {

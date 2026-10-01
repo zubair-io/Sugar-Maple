@@ -1,0 +1,35 @@
+[
+  {
+    "target": "html",
+    "containsRaster": true,
+    "containsPath": true,
+    "containsGradient": true
+  },
+  {
+    "target": "svg",
+    "containsRaster": true,
+    "containsPath": true,
+    "containsGradient": true
+  },
+  {
+    "target": "editable",
+    "containsRaster": true,
+    "containsPath": true,
+    "containsGradient": true
+  },
+  {
+    "name": "Corrupt PNG bytes accepted by node.add",
+    "status": "defect-reproduced",
+    "id": "qa-invalid-image"
+  },
+  {
+    "name": "SwiftUI mixed-content unsupported diagnostic",
+    "isError": true,
+    "response": [
+      {
+        "type": "text",
+        "text": "A JavaScript exception occurred"
+      }
+    ]
+  }
+]

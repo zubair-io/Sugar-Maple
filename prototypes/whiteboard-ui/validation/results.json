@@ -1,0 +1,29 @@
+{
+  "date": "2026-10-01",
+  "scope": "Standalone Whiteboard CanvasComponent prototype; not connected to Mac editor or MCP session",
+  "browser": "Codex in-app browser",
+  "hardware": {"chip": "Apple M5 Max", "memoryGB": 128},
+  "finalViewportCssPixels": {"width": 1364, "height": 902},
+  "benchmarkViewport": "Approximately 1364 by 900 CSS pixels; no explicit viewport override",
+  "automated": {"build": "pass", "typecheck": "pass", "testsPassed": 3, "testsFailed": 0, "assertions": 10},
+  "browserChecks": [
+    {"name": "Drag through retained whiteboard camera and pointer handling", "status": "pass", "zoomPercent": 75, "screenDelta": [20, 12], "authoredDelta": [26.58346333853356, 15.95007800312013], "revisionsAdded": 1},
+    {"name": "Bottom-right resize and single-step undo", "status": "pass", "beforeSize": [345, 78], "afterSize": [371.58346333853353, 93.9500780031201], "undoRestoredSize": [345, 78]},
+    {"name": "Canvas inspector text edit visible in DOM reference; undo restores text", "status": "pass"},
+    {"name": "Multiline inspector text preserves newline", "status": "pass"},
+    {"name": "Native preview input and authored cross-page sign-in navigation", "status": "pass", "authoredRevisionAfter": 0},
+    {"name": "Representative fill-row and grid geometry matches DOM offsets", "status": "pass", "scope": "Selected cells only; no full layout parity claim"},
+    {"name": "Final browser console error capture", "status": "pass", "errors": []},
+    {"name": "PNG browser download", "status": "unverified", "reason": "In-app browser download automation timed out; saved export not observed"},
+    {"name": "JSON download and import round trip", "status": "unverified"}
+  ],
+  "benchmarkMethod": {"warmupPans": 10, "measuredPans": 60, "worldUnitsPerPan": 2, "animationFramesAwaitedPerSample": 2, "zoomPercent": 100, "panSettleIncludesFrameWait": true, "drawCpuExcludesGpuAndCompositing": true, "isFpsBenchmark": false},
+  "benchmarks": [
+    {"renderer": "canvas", "fixtureTiles": 1000, "authoredNodes": 1001, "drawnItems": 133, "authoredDomNodes": 0, "panSettleMs": {"median": 33.30, "p95": 34.30}, "drawCpuMs": {"median": 0.50, "p95": 0.60}},
+    {"renderer": "dom", "fixtureTiles": 1000, "authoredNodes": 1001, "authoredDomNodes": 1001, "panSettleMs": {"median": 33.30, "p95": 33.50}, "drawCpuMs": null},
+    {"renderer": "canvas", "fixtureTiles": 5000, "authoredNodes": 5001, "drawnItems": 133, "panSettleMs": {"median": 33.30, "p95": 33.70}, "drawCpuMs": {"median": 0.70, "p95": 1.60}}
+  ],
+  "limitations": ["Simple stress tiles, not realistic nested component performance", "No 5000-node DOM benchmark", "No Mac WKWebView validation", "Layout/text/transform parity incomplete", "No authored canvas accessibility tree", "No collaboration transport or code-library runtime"],
+  "finalState": {"renderer": "canvas", "mode": "design", "sceneNodes": 197, "revision": 0, "page": "Desktop workspace"},
+  "evidenceImage": "canvas-desktop.jpg"
+}

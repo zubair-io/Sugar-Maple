@@ -1,0 +1,12 @@
+$ ng build --base-href ./
+❯ Building...
+✔ Building...
+Initial chunk files | Names         |  Raw size | Estimated transfer size
+main-5OJQMOST.js    | main          | 595.04 kB |               130.58 kB
+styles-3USQ62OG.css | styles        | 921 bytes |               921 bytes
+
+                    | Initial total | 595.97 kB |               131.50 kB
+
+Application bundle generation complete. [1.974 seconds] - 2026-10-01T05:57:15.533Z
+
+Output location: /Users/riabuz/Projects/_Sugar Maple/prototypes/whiteboard-ui/dist

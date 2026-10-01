@@ -1,3 +1,4 @@
+import { nodeBox, expectSceneCount } from './canvas-browser';
 import { chromium, expect } from '@playwright/test';
 import { maplePhone } from './fixtures/maple-phone';
 import { strict as assert } from 'node:assert';
@@ -22,20 +23,14 @@ await page.evaluate(
   },
   { d: initial, operations },
 );
-await expect(page.locator('[data-node-id]')).toHaveCount(operations.length);
-assert.equal(await page.locator('[data-node-id="maple-phone-screen"] img').count(), 0);
-const sky = await page
-  .locator('[data-node-id="maple-phone-hero-sky"]')
-  .evaluate((e) => getComputedStyle(e).backgroundImage);
-assert.ok(sky.includes('linear-gradient'));
-const glow = await page
-  .locator('[data-node-id="maple-phone-hero-glow"]')
-  .evaluate((e) => getComputedStyle(e).backgroundImage);
-assert.ok(glow.includes('radial-gradient'));
+await expectSceneCount(page, operations.length);
+assert.equal(await page.locator('.viewport img').count(), 0);
+const sky = await page.evaluate(() => window.sugarMaple.dispatch('code.export',{id:'maple-phone-hero-sky',target:'html'}));
+assert.ok(sky.code.includes('linear-gradient'));
+const glow = await page.evaluate(() => window.sugarMaple.dispatch('code.export',{id:'maple-phone-hero-glow',target:'html'}));
+assert.ok(glow.code.includes('radial-gradient'));
 mkdirSync('build/evidence', { recursive: true });
-await page
-  .locator('[data-node-id="maple-phone-screen"]')
-  .screenshot({ path: 'build/evidence/maple-phone-recreated.png' });
+await page.screenshot({ path: 'build/evidence/maple-phone-recreated.png', clip: await nodeBox(page,'maple-phone-screen') });
 const svg = await page.evaluate(() =>
   window.sugarMaple.dispatch('code.export', { id: 'maple-phone-screen', target: 'svg' }),
 );
@@ -83,11 +78,11 @@ await page.evaluate(async () => {
     ],
   });
 });
-await expect(page.locator('[data-node-id="maple-phone-filename"]')).toHaveText('EDITED.CR3');
+assert.equal((await page.evaluate(() => window.sugarMaple.dispatch('document.get'))).document.nodes.find((n:any)=>n.id==='maple-phone-filename').text,'EDITED.CR3');
 await page.reload();
 await page.waitForFunction(() => window.sugarMaple.ready);
 await page.keyboard.press('Meta+z');
-await expect(page.locator('[data-node-id="maple-phone-filename"]')).toHaveText('IMG_1044.CR3');
+assert.equal((await page.evaluate(() => window.sugarMaple.dispatch('document.get'))).document.nodes.find((n:any)=>n.id==='maple-phone-filename').text,'IMG_1044.CR3');
 await browser.close();
 console.log(
   `PASS: Maple phone design reconstructed as ${operations.length} editable nodes, gradients/path geometry exported, text edit recovered and undone`,

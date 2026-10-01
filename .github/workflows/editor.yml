@@ -15,6 +15,7 @@ jobs:
           bun-version: '1.4.2'
       - run: bun install --frozen-lockfile
       - run: bun test src/web/tests
+      - run: bun run --cwd src/web typecheck
       - run: bun run build:web
       - run: bun --bun src/web/node_modules/@playwright/test/cli.js install --with-deps chrome
       - run: bun run test:e2e

@@ -1,13 +1,13 @@
 import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { StreamableHTTPClientTransport } from "@modelcontextprotocol/sdk/client/streamableHttp.js";
-import { homedir } from "node:os";
+import { tokenFile, mcpEndpoint } from "./mcp-config";
 import { strict as assert } from "node:assert";
 const token = await Bun.file(
-    `${homedir()}/Library/Application Support/SugarMaple/mcp-token`,
+    tokenFile,
   ).text(),
   c = new Client({ name: "Folder acceptance", version: "1" });
 await c.connect(
-  new StreamableHTTPClientTransport(new URL("http://127.0.0.1:48480/mcp"), {
+  new StreamableHTTPClientTransport(new URL(mcpEndpoint), {
     requestInit: { headers: { Authorization: `Bearer ${token}` } },
   }),
 );

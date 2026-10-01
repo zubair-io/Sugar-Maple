@@ -1,0 +1,19 @@
+$ bun run --cwd src/web build
+$ bun --bun ../../node_modules/@angular/cli/bin/ng.js build --base-href ./
+❯ Building...
+✔ Building...
+Initial chunk files | Names         |  Raw size | Estimated transfer size
+main-LLBSQ4AC.js    | main          | 753.27 kB |               166.32 kB
+styles-GVQSGZND.css | styles        |  12.31 kB |                 2.65 kB
+
+                    | Initial total | 765.58 kB |               168.97 kB
+
+Application bundle generation complete. [3.073 seconds] - 2026-10-01T04:46:57.095Z
+
+▲ [WARNING] bundle initial exceeded maximum budget. Budget 500.00 kB was not met by 265.58 kB with a total of 765.58 kB.
+
+
+▲ [WARNING] src/app/app.scss exceeded maximum budget. Budget 4.00 kB was not met by 3.89 kB with a total of 7.89 kB.
+
+
+Output location: /Users/riabuz/Projects/_Sugar Maple/src/web/dist/sugar-maple-editor

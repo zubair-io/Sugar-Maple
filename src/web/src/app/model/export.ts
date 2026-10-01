@@ -1,6 +1,8 @@
 import { gradientCSS } from './gradient';
 import { svgExport } from './svg';
 import { swiftExport } from './swift-export';
+import { editablePayload } from './clipboard';
+import { ExportTargetSchema } from './tool-contract';
 import type { SceneDocument, SceneNode } from './schema';
 export type ExportTarget = 'html' | 'tailwind' | 'angular' | 'css' | 'swiftui' | 'editable' | 'svg';
 const escape = (v: string) =>
@@ -11,6 +13,9 @@ export function nodeStyles(n: SceneNode, doc: SceneDocument): Record<string, str
     margin: 0,
     fontFamily: 'system-ui, sans-serif',
     lineHeight: '1.2',
+    whiteSpace: 'pre-wrap',
+    textAlign: n.kind === 'button' ? 'center' : 'left',
+    appearance: ['button', 'input'].includes(n.kind) ? 'none' : 'auto',
     position: parent && parent.layout !== 'free' ? 'relative' : 'absolute',
     left: parent && parent.layout !== 'free' ? 0 : n.x,
     top: parent && parent.layout !== 'free' ? 0 : n.y,
@@ -61,7 +66,7 @@ export function nodeStyles(n: SceneNode, doc: SceneDocument): Record<string, str
     flexDirection: n.layout === 'vertical' ? 'column' : 'row',
     gridTemplateColumns: `repeat(${n.columns}, minmax(0, 1fr))`,
     gap: n.gap,
-    padding: ['frame', 'artboard'].includes(n.kind) ? n.padding : 0,
+    padding: ['frame', 'artboard'].includes(n.kind) ? n.padding : n.kind === 'input' ? 8 : 0,
     flexShrink: 0,
     overflow: 'hidden',
   };
@@ -75,28 +80,14 @@ function css(n: SceneNode, doc: SceneDocument) {
     .join(';');
 }
 export function exportNode(doc: SceneDocument, id: string, target: ExportTarget): string {
+  ExportTargetSchema.parse(target);
   const n = doc.nodes.find((n) => n.id === id);
   if (!n) throw Error('Select an element');
   const children = doc.nodes
     .filter((v) => v.parentId === id && !v.hidden)
     .sort((a, b) => a.order - b.order);
   if (target === 'editable') {
-    const ids = new Set([id]);
-    let size = 0;
-    while (size !== ids.size) {
-      size = ids.size;
-      for (const v of doc.nodes) if (v.parentId && ids.has(v.parentId)) ids.add(v.id);
-    }
-    return JSON.stringify(
-      {
-        format: 'sugar-maple-elements',
-        version: 1,
-        nodes: doc.nodes.filter((v) => ids.has(v.id)),
-        tokens: doc.tokens,
-      },
-      null,
-      2,
-    );
+    return JSON.stringify(editablePayload(doc, id), null, 2);
   }
   if (target === 'svg') return svgExport(doc, id);
   if (target === 'css') return `.node-${n.id}{${css(n, doc)}}`;

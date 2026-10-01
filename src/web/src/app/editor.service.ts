@@ -1,8 +1,11 @@
 import { PersistenceQueue } from './model/persistence-queue';
+import { pasteElements } from './model/clipboard';
+import { toolArguments, toolError, ToolInputSchemas } from './model/tool-contract';
 import { RecoveryStore } from './model/recovery';
 import { importTokens, exportTokens } from './model/tokens';
 import { svgImport, svgExport } from './model/svg';
-import { Injectable, computed, signal } from '@angular/core';
+import { Injectable, computed, signal, inject, effect } from '@angular/core';
+import { SceneAssets } from './canvas/scene-assets';
 import { DocumentStore } from './model/store';
 import {
   blankDocument,
@@ -24,7 +27,14 @@ declare global {
 }
 @Injectable({ providedIn: 'root' })
 export class EditorService {
+  readonly assets = inject(SceneAssets);
   store = new DocumentStore();
+  readonly openFiles = signal<{ id: string; name: string }[]>([]);
+  readonly tabBusy = signal(false);
+  private readonly fileSessions = new Map<
+    string,
+    { store: DocumentStore; pageId: string; selection: string[] }
+  >();
   readonly doc = signal(this.store.document);
   readonly revision = signal(0);
   readonly selection = signal<string[]>([]);
@@ -47,8 +57,13 @@ export class EditorService {
   private readonly persistence = new PersistenceQueue();
   private recovery = this.native ? null : new RecoveryStore();
   constructor() {
+    effect(() => {
+      this.assets.prune(this.doc().nodes);
+    });
     window.sugarMaple = {
       dispatch: (method: string, args: any) => this.dispatch(method, args),
+      describeError: (error: unknown) =>
+        toolError(error, { documentId: this.doc().id, revision: this.revision() }),
       fileCommand: async (command: string) => {
         if (!this.native || !this.ready()) throw Error('Native editor not ready');
         switch (command) {
@@ -117,6 +132,7 @@ export class EditorService {
         const state = await this.bridge('status');
         this.mcp.set(state.status);
       }
+      this.updateFileTab();
       await this.recover();
     } catch (e) {
       this.report(e);
@@ -128,6 +144,7 @@ export class EditorService {
   refresh() {
     this.doc.set(this.store.document);
     this.revision.set(this.store.revision);
+    this.updateFileTab();
     this.dirty.set(true);
     this.status.set('Unsaved changes');
     if (!this.doc().pages.some((p) => p.id === this.pageId()))
@@ -186,27 +203,100 @@ export class EditorService {
       return null;
     }
   }
+  private updateFileTab() {
+    const entry = { id: this.doc().id, name: this.doc().name };
+    this.openFiles.update((tabs) =>
+      tabs.some((t) => t.id === entry.id)
+        ? tabs.map((t) => (t.id === entry.id ? entry : t))
+        : [...tabs, entry],
+    );
+  }
+  private rememberFile() {
+    this.fileSessions.set(this.doc().id, {
+      store: this.store,
+      pageId: this.pageId(),
+      selection: this.selection(),
+    });
+  }
+  private async requireSaved() {
+    await this.persistence.idle();
+    if (this.dirty())
+      throw Error('Save this file successfully before switching or closing its tab.');
+  }
+  async switchFile(id: string) {
+    if (id === this.doc().id || this.tabBusy()) return;
+    this.tabBusy.set(true);
+    try {
+      await this.requireSaved();
+      const session = this.fileSessions.get(id);
+      if (!session) throw Error('This file is no longer open');
+      this.rememberFile();
+      this.store = session.store;
+      this.doc.set(this.store.document);
+      this.revision.set(this.store.revision);
+      this.pageId.set(session.pageId);
+      this.selection.set(session.selection);
+      this.error.set('');
+      await this.recover();
+    } catch (error) {
+      this.report(error);
+    } finally {
+      this.tabBusy.set(false);
+    }
+  }
+  async closeFile(id: string) {
+    if (this.tabBusy()) return;
+    if (id === this.doc().id) {
+      const next = this.openFiles().find((tab) => tab.id !== id);
+      if (next) {
+        await this.switchFile(next.id);
+        if (this.doc().id === id) return;
+      } else {
+        try {
+          await this.requireSaved();
+          if (this.native) {
+            await this.bridge('window.close');
+            return;
+          }
+          await this.newDocument();
+          if (this.doc().id === id) return;
+        } catch (error) {
+          this.report(error);
+          return;
+        }
+      }
+    }
+    this.fileSessions.delete(id);
+    this.openFiles.update((tabs) => tabs.filter((tab) => tab.id !== id));
+  }
   replace(doc: SceneDocument, checkpoint?: unknown) {
+    if (this.ready()) this.rememberFile();
     this.store = checkpoint
       ? DocumentStore.fromCheckpoint(checkpoint)
       : new DocumentStore(validateDocument(doc));
     this.doc.set(this.store.document);
     this.revision.set(this.store.revision);
     this.pageId.set(doc.pages[0].id);
+    this.updateFileTab();
     this.select(null);
     this.dirty.set(true);
   }
   async newDocument() {
-    await this.persistence.idle();
-    if (
-      this.dirty() &&
-      !confirm('Create a new file? Save your current work first if you want to keep it.')
-    )
-      return;
-    if (this.native) await this.bridge('file.reset');
-    this.replace(blankDocument());
-    this.status.set('Unsaved');
-    this.recover();
+    if (this.tabBusy()) return;
+    this.tabBusy.set(true);
+    try {
+      await this.requireSaved();
+      let name = 'Untitled',
+        number = 2;
+      while (this.openFiles().some((tab) => tab.name === name)) name = `Untitled ${number++}`;
+      this.replace(blankDocument(name));
+      this.error.set('');
+      await this.recover();
+    } catch (error) {
+      this.report(error);
+    } finally {
+      this.tabBusy.set(false);
+    }
   }
   add(kind: SceneNode['kind']) {
     const current = this.node(),
@@ -282,6 +372,15 @@ export class EditorService {
           await this.recover();
           return;
         }
+        if (
+          this.doc().id === documentId &&
+          this.doc().name === value.document.name &&
+          result.name &&
+          result.name !== this.doc().name
+        ) {
+          this.command([{ type: 'document.rename', name: result.name }]);
+          return;
+        }
         const unchanged = this.revision() === revision && this.doc().id === documentId;
         if (this.doc().id === documentId) {
           this.dirty.set(!unchanged);
@@ -310,6 +409,10 @@ export class EditorService {
         if (result.cancelled) return;
         this.replace(result.document, result);
         await this.bridge('file.acceptOpen', { documentId: this.doc().id });
+        if (result.fileName && result.fileName !== this.doc().name) {
+          this.command([{ type: 'document.rename', name: result.fileName }]);
+          return;
+        }
         this.dirty.set(false);
         this.status.set('Opened .syrup bundle');
         this.recover();
@@ -350,38 +453,8 @@ export class EditorService {
       const text = this.native
         ? (await this.bridge('clipboard.read')).text
         : await navigator.clipboard.readText();
-      const value = JSON.parse(text);
-      if (value.format !== 'sugar-maple-elements' || !Array.isArray(value.nodes))
-        throw Error('Clipboard does not contain editable Sugar Maple elements');
-      const ids = new Map<string, string>(value.nodes.map((n: SceneNode) => [n.id, uid()]));
-      const tokenOps: Operation[] = [];
-      const tokenNames = new Map<string, string>();
-      for (const [name, color] of Object.entries(value.tokens ?? {})) {
-        let imported = name;
-        let suffix = 1;
-        while (this.doc().tokens[imported] && this.doc().tokens[imported] !== color)
-          imported = name + '_copy' + suffix++;
-        tokenNames.set(name, imported);
-        tokenOps.push({ type: 'token.set', name: imported, value: color as string });
-      }
-      this.perform([
-        ...tokenOps,
-        ...value.nodes.map((n: SceneNode) => ({
-          type: 'node.add',
-          node: {
-            ...n,
-            id: ids.get(n.id),
-            pageId: this.pageId(),
-            parentId: ids.get(n.parentId ?? '') ?? null,
-            targetId: ids.get(n.targetId ?? '') ?? null,
-            componentId: ids.get(n.componentId ?? '') ?? null,
-            repeatTemplateId: ids.get(n.repeatTemplateId ?? '') ?? null,
-            fillToken: tokenNames.get(n.fillToken) ?? n.fillToken,
-            x: n.parentId ? n.x : n.x + 24,
-            y: n.parentId ? n.y : n.y + 24,
-          },
-        })),
-      ]);
+      const paste = pasteElements(this.doc(), this.pageId(), text);
+      if (this.perform(paste.operations)) this.select(paste.rootId);
     } catch (e) {
       this.report(e);
     }
@@ -437,39 +510,69 @@ export class EditorService {
       this.report(e);
     }
   }
-  async image(file: File) {
+  async image(file: File, replaceId?: string) {
     try {
+      const documentId = this.doc().id,
+        pageId = this.pageId(),
+        revision = this.revision();
+      if (this.mode() !== 'Design') throw Error('Switch to Design mode to import an image');
+      const checkContext = () => {
+        if (
+          this.doc().id !== documentId ||
+          this.pageId() !== pageId ||
+          this.revision() !== revision ||
+          this.mode() !== 'Design'
+        )
+          throw Error('Document changed while the image loaded. Select the image and try again.');
+      };
       if (file.name.toLowerCase().endsWith('.svg')) {
-        this.perform(svgImport(await file.text(), this.pageId(), file.name));
+        if (replaceId) throw Error('Replace an image with a PNG, JPEG or WebP');
+        const text = await file.text();
+        checkContext();
+        this.perform(svgImport(text, pageId, file.name));
         return;
       }
       if (!['image/png', 'image/jpeg', 'image/webp'].includes(file.type) || file.size > 5000000)
         throw Error('Choose a PNG, JPEG or WebP under 5 MB');
-      const reader = new FileReader();
-      reader.onload = () => {
-        const result = this.perform([
-          {
-            type: 'node.add',
-            node: {
-              kind: 'image',
-              pageId: this.pageId(),
-              name: file.name,
-              asset: String(reader.result),
-              width: 320,
-              height: 240,
-              x: 80,
-              y: 80,
-            },
+      const asset = await new Promise<string>((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(String(reader.result));
+        reader.onerror = () => reject(Error('Image file could not be read'));
+        reader.readAsDataURL(file);
+      });
+      await this.assets.settle([{ kind: 'image', asset } as SceneNode]);
+      checkContext();
+      if (this.assets.get(asset).state !== 'ready')
+        throw Error('Image could not be decoded. Choose a valid PNG, JPEG or WebP.');
+      if (replaceId) {
+        if (this.doc().nodes.find((n) => n.id === replaceId)?.kind !== 'image')
+          throw Error('Select an image to replace');
+        this.perform([{ type: 'node.update', id: replaceId, patch: { asset } }]);
+        return;
+      }
+      const result = this.perform([
+        {
+          type: 'node.add',
+          node: {
+            kind: 'image',
+            pageId,
+            name: file.name,
+            asset,
+            width: 320,
+            height: 240,
+            x: 80,
+            y: 80,
           },
-        ]);
-        if (result) this.select(result.ids[0]);
-      };
-      reader.readAsDataURL(file);
+        },
+      ]);
+      if (result) this.select(result.ids[0]);
     } catch (e) {
+      this.assets.prune(this.doc().nodes);
       this.report(e);
     }
   }
   async dispatch(method: string, args: any = {}) {
+    args = toolArguments(method, args);
     switch (method) {
       case 'comments.list': {
         const query = CommentsQuerySchema.parse(args);
@@ -492,20 +595,27 @@ export class EditorService {
       case 'document.checkpoint':
         return this.store.checkpoint();
       case 'document.get':
-        return { ...this.store.result(), document: this.doc() };
+        return {
+          ...this.store.result(),
+          document: this.doc(),
+          durable: !this.dirty(),
+          persistence: this.status(),
+          assetDiagnostics: this.assets.diagnostics(this.doc().nodes),
+        };
       case 'document.new':
-        if (this.native) await this.bridge('file.reset');
+        await this.requireSaved();
         this.replace(blankDocument(args.name ?? 'Untitled'));
         this.refresh();
         return this.store.result();
       case 'transaction.apply': {
+        const previousStatus = this.mcp();
         this.mcp.set('Agent writing');
         try {
           const result = this.store.transact(args, 'agent');
           this.refresh();
           return result;
         } finally {
-          this.mcp.set('Ready · 127.0.0.1:48480');
+          this.mcp.set(previousStatus);
         }
       }
       case 'history.undo':
@@ -525,24 +635,7 @@ export class EditorService {
         return window.sugarMaple.viewport.fit();
       case 'layout.inspect': {
         await this.settleLayout();
-        const canvas = document.querySelector('.viewport')!.getBoundingClientRect();
-        return {
-          documentId: this.doc().id,
-          revision: this.revision(),
-          pageId: this.pageId(),
-          viewport: { x: canvas.x, y: canvas.y, width: canvas.width, height: canvas.height },
-          nodes: this.pageNodes().map((n) => {
-            const element = document.querySelector(`[data-node-id="${n.id}"]`);
-            const rect = element?.getBoundingClientRect();
-            return {
-              id: n.id,
-              rendered: !!rect,
-              bounds: rect
-                ? { x: rect.x, y: rect.y, width: rect.width, height: rect.height }
-                : null,
-            };
-          }),
-        };
+        return window.sugarMaple.viewport.inspect();
       }
       case 'code.export':
         return { code: exportNode(this.doc(), args.id, args.target) };
@@ -550,13 +643,23 @@ export class EditorService {
         this.checkTarget(args);
         await this.settleLayout();
         this.checkTarget(args);
-        return this.store.result();
+        return {
+          ...this.store.result(),
+          committed: true,
+          rendered: true,
+          durable: !this.dirty(),
+          persistence: this.status(),
+          assetDiagnostics: this.assets.diagnostics(this.pageNodes()),
+        };
       case 'capabilities':
         return {
           protocolVersion: 1,
           coordinateUnits: 'CSS pixels; parent relative',
           transactionSchema: TransactionSchema.toJSONSchema(),
           commentsQuerySchema: CommentsQuerySchema.toJSONSchema(),
+          toolSchemas: Object.fromEntries(
+            Object.entries(ToolInputSchemas).map(([name, schema]) => [name, schema.toJSONSchema()]),
+          ),
           kinds: [
             'artboard',
             'frame',
@@ -574,6 +677,7 @@ export class EditorService {
     }
   }
   private async settleLayout() {
+    await this.assets.settle(this.pageNodes());
     let timeout: ReturnType<typeof setTimeout> | undefined;
     try {
       await Promise.race([
@@ -597,6 +701,7 @@ export class EditorService {
       );
     });
     document.documentElement.getBoundingClientRect();
+    window.sugarMaple.viewport?.flush?.();
   }
   checkTarget(args: any) {
     if (args.documentId !== this.doc().id) throw Error('Wrong document');

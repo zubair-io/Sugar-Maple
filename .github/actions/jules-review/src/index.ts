@@ -3,6 +3,7 @@ import * as github from '@actions/github';
 import { jules } from '@google/jules-sdk';
 import { buildReviewPrompt } from './prompt.js';
 import { publishThenDelete, isFinalReview } from './cleanup.js';
+import { selectReviewDiff } from './diff.js';
 
 type FailOn = 'never' | 'blocking' | 'any';
 type Verdict = 'approve' | 'comment' | 'block';
@@ -99,7 +100,7 @@ async function run(): Promise<void> {
       rulesFromFile = await loadRulesFromBase(octokit, owner, repo, rulesFilePath, baseSha);
     }
 
-    const { text: diffText, truncatedNote } = truncateDiff(diff, 80_000);
+    const { text: diffText, truncatedNote } = selectReviewDiff(diff);
 
     const prompt = buildReviewPrompt({
       repoFullName: `${owner}/${repo}`,
@@ -310,15 +311,6 @@ async function waitUntilSessionReady(session: { id: string; info: () => Promise<
     }
   }
   throw new Error('Session did not become ready within timeout.');
-}
-
-function truncateDiff(diff: string, maxChars: number): { text: string; truncatedNote?: string } {
-  if (diff.length <= maxChars) return { text: diff };
-  const text = diff.slice(0, maxChars);
-  return {
-    text,
-    truncatedNote: `The diff was truncated: original ${diff.length} chars, kept first ${maxChars}. Some changes are not visible in the diff above; your review of the visible portion should state this caveat.`,
-  };
 }
 
 function truncate(s: string, max: number): string {

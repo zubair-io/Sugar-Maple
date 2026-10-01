@@ -1,0 +1,391 @@
+{
+  "reviewDate": "2026-10-01",
+  "assessment": "Product QA and recommendation, not implementation",
+  "defects": [
+    {
+      "id": "QA-01",
+      "priority": "P1",
+      "area": "MCP",
+      "title": "Detailed errors disappear at the native bridge",
+      "repro": "Call transaction.apply with a stale revision or wrong document; submit an invalid batch; export an unsupported SwiftUI layout.",
+      "actual": "Each returns \u201cA JavaScript exception occurred\u201d. The invalid edits are correctly rejected, but the client cannot distinguish why.",
+      "expected": "Stable error code, readable cause, current document/revision and recoverable action; preserve unsupported-feature details.",
+      "impact": "Agents cannot repair requests reliably; humans cannot diagnose export limitations.",
+      "evidence": [
+        "deep-qa-calls.json",
+        "assets-calls.json"
+      ],
+      "issues": [
+        5,
+        20,
+        27
+      ],
+      "confidence": "Live MCP + source",
+      "resolution": {
+        "status": "implemented and verified",
+        "summary": "HTTP and stdio retain error codes, cause, document/revision and recovery guidance.",
+        "verification": "../canvas-delivery-2026-10-01/verification.json"
+      }
+    },
+    {
+      "id": "QA-02",
+      "priority": "P1",
+      "area": "MCP",
+      "title": "An invalid export target silently returns HTML",
+      "repro": "Call code.export with target:\"png\", which is outside the advertised enum.",
+      "actual": "Successful HTML response instead of validation failure.",
+      "expected": "Reject invalid tool inputs before dispatch; export target and response MIME must agree.",
+      "impact": "A successful protocol response can produce the wrong artifact.",
+      "evidence": [
+        "recheck-calls.json"
+      ],
+      "issues": [
+        20,
+        27
+      ],
+      "confidence": "Live MCP",
+      "resolution": {
+        "status": "implemented and verified",
+        "summary": "Invalid export targets and invalid batches reject before mutation.",
+        "verification": "../canvas-delivery-2026-10-01/verification.json"
+      }
+    },
+    {
+      "id": "QA-03",
+      "priority": "P1",
+      "area": "Components",
+      "title": "A color token overrides the selected variant\u2019s fill",
+      "repro": "Create a button master with fillToken=color.brand; add a Danger variant with literal red fill; select Danger on an instance.",
+      "actual": "Scene fill becomes red but the token still wins in rendering/export; the button stays purple.",
+      "expected": "Define token/variant precedence and support variant token bindings; inspector, scene and exports agree.",
+      "impact": "Critical and primary actions can be visually indistinguishable.",
+      "evidence": [
+        "danger-variant.html",
+        "danger-variant-token-conflict.png"
+      ],
+      "issues": [
+        11,
+        12,
+        16
+      ],
+      "confidence": "Live MCP + rendered/exported evidence",
+      "resolution": {
+        "status": "implemented and verified",
+        "summary": "Literal variant fills shadow inherited tokens; bindings, overrides and reset are retained.",
+        "verification": "../canvas-delivery-2026-10-01/verification.json"
+      }
+    },
+    {
+      "id": "QA-04",
+      "priority": "P1",
+      "area": "Components",
+      "title": "Cross-document paste silently loses component identity",
+      "repro": "Native Developer \u2192 Copy element on a linked card instance; create a document and Cmd+V.",
+      "actual": "Five editable nodes arrive, but zero component links and zero masters; the referenced master is absent from the payload.",
+      "expected": "Carry component dependency closure or explicitly offer detach/resolve; preserve overrides and portable fallback.",
+      "impact": "Reusing a UI kit across files turns a maintained component into unrelated shapes.",
+      "evidence": [
+        "cross-document-paste.json",
+        "native-cross-document-paste.png"
+      ],
+      "issues": [
+        12,
+        18
+      ],
+      "confidence": "Native UI + MCP readback",
+      "resolution": {
+        "status": "implemented and verified",
+        "summary": "Recursive master dependencies, token collisions, variants and local overrides survive cross-document paste.",
+        "verification": "../canvas-delivery-2026-10-01/verification.json"
+      }
+    },
+    {
+      "id": "QA-05",
+      "priority": "P1",
+      "area": "Prototype",
+      "title": "Cross-page navigation works but its inspector says No action",
+      "repro": "MCP-link the sign-in button to the success artboard on another page; select it in native Prototype mode.",
+      "actual": "Preview navigates correctly. The picker offers only the current-page artboard and displays No action for the valid cross-page target.",
+      "expected": "List all eligible document artboards with page context and reflect the existing link accurately.",
+      "impact": "A designer cannot inspect or author a supported flow through the UI.",
+      "evidence": [
+        "native-cross-page-prototype-picker.png",
+        "prototype-inspector-calls.json"
+      ],
+      "issues": [
+        14,
+        27
+      ],
+      "confidence": "Native UI + source",
+      "resolution": {
+        "status": "implemented and verified",
+        "summary": "The picker lists document artboards with page context and reflects existing links.",
+        "verification": "../canvas-delivery-2026-10-01/verification.json"
+      }
+    },
+    {
+      "id": "QA-06",
+      "priority": "P1",
+      "area": "Handoff",
+      "title": "Web handoff collapses intentional text line breaks",
+      "repro": "Export the mobile headline \u201cA little clarity.\\nA lot of progress.\u201d; render actual HTML and compiled Tailwind in Chrome.",
+      "actual": "The newline remains in text data but CSS white-space is normal; the editor uses pre-wrap. Angular shares the same style generation.",
+      "expected": "Preserve authored white-space semantics across supported targets and validate a multiline fixture.",
+      "impact": "Generated screens compile while visibly changing the design.",
+      "evidence": [
+        "consumer-results.json",
+        "exported-mobile-html.png",
+        "mobile-export.angular"
+      ],
+      "issues": [
+        16,
+        21
+      ],
+      "confidence": "Rendered HTML/Tailwind + shared exporter source",
+      "resolution": {
+        "status": "implemented and verified",
+        "summary": "HTML, Angular and Tailwind retain authored whitespace.",
+        "verification": "../canvas-delivery-2026-10-01/verification.json"
+      }
+    },
+    {
+      "id": "QA-07",
+      "priority": "P1",
+      "area": "Handoff",
+      "title": "SwiftUI controls do not retain authored typography and padding",
+      "repro": "Compile the actual mobile SwiftUI export and render it in an NSHostingView; inspect button/input modifiers and stack generation.",
+      "actual": "Compilation passes. Buttons/inputs lack authored font modifiers; stack padding is not emitted. Text weight mapping reduces many weights to regular/semibold.",
+      "expected": "A documented supported subset preserves layout, control fonts and padding, with explicit diagnostics for unsupported constructs.",
+      "impact": "\u201cIdiomatic SwiftUI\u201d is not yet dependable visual handoff.",
+      "evidence": [
+        "exported-mobile-swiftui.png",
+        "mobile-export.swift",
+        "swift-render-fixture.swift"
+      ],
+      "issues": [
+        17,
+        21
+      ],
+      "confidence": "Compiled native fixture + source; appearance environment is a limitation",
+      "resolution": {
+        "status": "implemented and verified",
+        "summary": "Control font sizes/weights and stack/control padding are emitted; a real consumer typechecks.",
+        "verification": "../canvas-delivery-2026-10-01/verification.json"
+      }
+    },
+    {
+      "id": "QA-08",
+      "priority": "P2",
+      "area": "Assets",
+      "title": "Corrupt image bytes are accepted without an asset diagnostic",
+      "repro": "Add image source data:image/png;base64,aGVsbG8= (base64 of hello, not PNG pixels).",
+      "actual": "Batch commits, capture succeeds, editor displays a broken image without a specific asset failure.",
+      "expected": "Decode and validate assets, or surface a node-level loading/failure state with a repair action.",
+      "impact": "Saved documents can look incomplete while reporting a healthy state.",
+      "evidence": [
+        "asset-results.json",
+        "mixed-assets-native.png"
+      ],
+      "issues": [
+        19,
+        27
+      ],
+      "confidence": "Live MCP + native render",
+      "resolution": {
+        "status": "implemented and verified",
+        "summary": "Decode failures identify nodes. Replace image validates pixels and preserves the layer; undo restores the original.",
+        "verification": "../canvas-delivery-2026-10-01/verification.json"
+      }
+    },
+    {
+      "id": "QA-09",
+      "priority": "P2",
+      "area": "Prototype",
+      "title": "Stored dissolve transitions are not implemented by preview",
+      "repro": "Set a prototype link transition to dissolve and follow the link.",
+      "actual": "Preview changes screens directly. Runtime activation does not consume transition; the inspector has no transition control.",
+      "expected": "Implement the advertised transition or reject/report it as unavailable; match UI and schema.",
+      "impact": "A stored design property promises behavior the prototype does not provide.",
+      "evidence": [
+        "deep-qa-calls.json",
+        "preview-capture-calls.json"
+      ],
+      "issues": [
+        14,
+        27
+      ],
+      "confidence": "Source + native navigation; no frame timing measurement",
+      "resolution": {
+        "status": "implemented and verified",
+        "summary": "Actual crossfade, transition selection, Back, reduced motion and unchanged authored revision.",
+        "verification": "../canvas-delivery-2026-10-01/verification.json"
+      }
+    },
+    {
+      "id": "QA-10",
+      "priority": "P2",
+      "area": "Quality",
+      "title": "The checked-in browser acceptance command is red",
+      "repro": "Run bun run test:e2e and the remaining individual browser jobs.",
+      "actual": "editor-e2e and components-e2e time out on the obsolete exact label Text. Ten other jobs pass. Copies changing only that locator to Text content pass.",
+      "expected": "Update maintained locators and require the original complete command to pass in CI.",
+      "impact": "The project cannot presently claim a green end-to-end gate.",
+      "evidence": [
+        "browser-acceptance.log",
+        "regression-results.json",
+        "editor-locator-adapted.log",
+        "components-locator-adapted.log"
+      ],
+      "issues": [
+        21,
+        27
+      ],
+      "confidence": "Executed original + adapted tests",
+      "resolution": {
+        "status": "implemented and verified",
+        "summary": "The full original runner passes with canvas regressions; CI runs the same 15 suites and typecheck.",
+        "verification": "../canvas-delivery-2026-10-01/verification.json"
+      }
+    }
+  ],
+  "roadmap": [
+    {
+      "id": "R1",
+      "phase": "Now",
+      "outcome": "Make document and transport truth reliable",
+      "scope": "QA-01/02; typed native bridge errors; schema validation for every tool; reject unsupported properties/targets consistently; expose committed/rendered/durable status and document context.",
+      "acceptance": "HTTP and stdio distinguish stale_revision, wrong_document, invalid_input, unsupported_feature, loading and timeout. Atomicity/retry tests stay green. A successful image has its exact revision and render status. Failed saves never report durable success.",
+      "issues": [
+        5,
+        7,
+        20,
+        27
+      ],
+      "size": "M"
+    },
+    {
+      "id": "R2",
+      "phase": "Now",
+      "outcome": "Make component reuse and style precedence trustworthy",
+      "scope": "QA-03/04; dependency-complete editable clipboard; explicit detach choice; variant token precedence and token bindings.",
+      "acceptance": "Cross-document Button/Card paste retains master identity, nested instances, variant and local overrides; absent libraries retain a fallback. Token change, variant switch, undo/redo and each export produce the same effective style.",
+      "issues": [
+        11,
+        12,
+        18
+      ],
+      "size": "M\u2013L"
+    },
+    {
+      "id": "R3",
+      "phase": "Now",
+      "outcome": "Establish export fidelity as a release gate",
+      "scope": "QA-06/07; supported-feature matrix; HTML/Angular/Tailwind white-space; SwiftUI layout/fonts/padding; semantic controls; precise unsupported diagnostics.",
+      "acceptance": "Real isolated consumers compile with no Maple dependency. Multiline/localized text, stack padding, all supported weights, forms and mixed SVG fixtures have documented geometry/visual tolerances. Unsupported content fails clearly or exports with an explicit diagnostic.",
+      "issues": [
+        16,
+        17,
+        21
+      ],
+      "size": "L"
+    },
+    {
+      "id": "R4",
+      "phase": "Now",
+      "outcome": "Restore reproducible QA and native workflow evidence",
+      "scope": "QA-05/09/10; cross-page route inspection and accurate transition support; actual saved-file open/close/reopen/crash recovery; browser/native test matrix; release packaging; investigate color wells and generic file-open alert.",
+      "acceptance": "Original install/typecheck/build/unit/e2e/MCP commands pass. Native picker can select a .syrup package as a document. Reopen validates scene/history/assets; force-kill recovery is tested in an isolated fixture. Reference hardware and skipped checks are recorded.",
+      "issues": [
+        3,
+        7,
+        21,
+        27
+      ],
+      "size": "M"
+    },
+    {
+      "id": "R5",
+      "phase": "Next",
+      "outcome": "Design real layouts without manual coordinate workarounds",
+      "scope": "Font family, line height, tracking, text alignment/styles; axis/individual padding; alignment/distribution, wrapping, min/max, breakpoint rules and child constraints.",
+      "acceptance": "A dashboard, sign-in and multilingual settings form resize at 320/393/768/1200 px in browser/WKWebView and exported consumers. Documented clipping/overflow rules hold; font assets work offline; each user/MCP gesture is one undo step.",
+      "issues": [
+        9,
+        10,
+        26
+      ],
+      "size": "L"
+    },
+    {
+      "id": "R6",
+      "phase": "Next",
+      "outcome": "Prototype everyday tasks with useful semantics",
+      "scope": "QA-05/09; cross-page routes; secure/typed inputs, labels, disabled/focus/loading/error states; overlays, scrolling, transitions and basic state retention.",
+      "acceptance": "Sign-in \u2192 validation \u2192 success plus modal open/close and scrolling can be authored from UI and MCP. Preview does not dirty the design, password input is masked, keyboard operation works, Back has defined state behavior.",
+      "issues": [
+        14,
+        24
+      ],
+      "size": "L"
+    },
+    {
+      "id": "R7",
+      "phase": "Next",
+      "outcome": "Create a usable asset and repeated-data workflow",
+      "scope": "QA-08; validated local asset catalog, crop/fit/fill, failure states; map named text/image fields in Repeat Grid and import local CSV/JSON.",
+      "acceptance": "Repeated project cards populate title/status/avatar independently, preserve instance overrides and export portable asset references. Corrupt/missing images identify their node. Reopen and offline export preserve pixels and provenance.",
+      "issues": [
+        13,
+        19
+      ],
+      "size": "M\u2013L"
+    },
+    {
+      "id": "R8",
+      "phase": "Then",
+      "outcome": "Connect one production component library end to end",
+      "scope": "A pinned local manifest for one Angular library and one SwiftUI mapping; typed props/slots, token bindings, real examples, dependency declarations and editable fallbacks. Start with Button, Input and Card.",
+      "acceptance": "Insert \u2192 edit \u2192 variant/state \u2192 copy code \u2192 compile consuming fixture \u2192 reopen offline works for all three components. Version update shows a change review and can be reversed. Unknown library retains visible fallback and diagnoses lost linkage.",
+      "issues": [
+        11,
+        12,
+        15,
+        17,
+        25
+      ],
+      "size": "L"
+    },
+    {
+      "id": "R9",
+      "phase": "Then",
+      "outcome": "Make agents efficient on production-sized documents",
+      "scope": "Scoped tree/node reads, component/token discovery, document targeting, cropped captures, incremental invalidation and measured viewport virtualization.",
+      "acceptance": "At 1k and 5k nodes, collect command/paint/frame/MCP latency separately on defined hardware. Rendering preserves offscreen layout while avoiding unnecessary mounted nodes. Race/revision tests pass; clients do not need full-document reads for one property edit.",
+      "issues": [
+        8,
+        20,
+        27
+      ],
+      "size": "M\u2013L"
+    },
+    {
+      "id": "R10",
+      "phase": "Later",
+      "outcome": "Prove real code previews before adding an embedded code IDE",
+      "scope": "Isolated web component runtime with typed contract; trusted separate native Swift preview helper. Opt-in local source editing only after library adoption is proven.",
+      "acceptance": "Versioned components render the real implementation with offline fixtures and typed events, cannot access the privileged host bridge, and keep portable fallback/graph semantics. Diagnostics link to source. Native builds are cancellable and stale results cannot replace a newer revision.",
+      "issues": [
+        25,
+        26
+      ],
+      "size": "L / exploratory"
+    }
+  ],
+  "implementationFollowUp": {
+    "date": "2026-10-01",
+    "scope": "QA-01 through QA-10 and integrated Whiteboard canvas",
+    "status": "implemented and locally verified",
+    "deliveryReport": "../sugar-maple-canvas-delivery-2026-10-01.html",
+    "remainingRoadmap": "R5\u2013R10 remain future product work"
+  }
+}

@@ -1,0 +1,1 @@
+PASS: create artboard/text/pages, edit, pointer drag, inspect code, recover on reload; no browser errors

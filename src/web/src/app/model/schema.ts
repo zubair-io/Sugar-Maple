@@ -99,6 +99,7 @@ export const NodeSchema = z
         z
           .object({
             fill: color,
+            fillToken: z.string().max(128),
             color,
             text: z.string().max(20000),
             radius: z.number().min(0).max(500),

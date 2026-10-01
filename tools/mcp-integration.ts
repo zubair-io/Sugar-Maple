@@ -1,14 +1,14 @@
 import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { StreamableHTTPClientTransport } from "@modelcontextprotocol/sdk/client/streamableHttp.js";
 import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js";
-import { homedir } from "node:os";
+import { supportDirectory, tokenFile, mcpEndpoint } from './mcp-config';
 import { strict as assert } from "node:assert";
 const token = await Bun.file(
-  `${homedir()}/Library/Application Support/SugarMaple/mcp-token`,
+  tokenFile,
 ).text();
 const http = new Client({ name: "Sugar Maple acceptance", version: "1" });
 await http.connect(
-  new StreamableHTTPClientTransport(new URL("http://127.0.0.1:48480/mcp"), {
+  new StreamableHTTPClientTransport(new URL(mcpEndpoint), {
     requestInit: { headers: { Authorization: `Bearer ${token}` } },
   }),
 );
@@ -22,7 +22,7 @@ async function assertAutosaved(document: any) {
   while (Date.now() < deadline) {
     try {
       const bindings = await Bun.file(
-        `${homedir()}/Library/Application Support/SugarMaple/file-bindings.json`,
+        `${supportDirectory}/file-bindings.json`,
       ).json();
       const url = new URL(bindings[document.id].url);
       const saved = await Bun.file(
@@ -97,6 +97,16 @@ const stale: any = await http.callTool({
   arguments: { ...tx, requestId: crypto.randomUUID() },
 });
 assert.equal(stale.isError, true);
+assert.equal(stale.structuredContent.error.code, 'stale_revision');
+assert.equal(stale.structuredContent.error.revision, created.revision);
+const wrong: any = await http.callTool({name:'history.undo',arguments:{documentId:'wrong-document',expectedRevision:created.revision}});
+assert.equal(wrong.structuredContent.error.code,'wrong_document');
+const invalidTarget: any = await http.callTool({name:'code.export',arguments:{id:id+'-board',target:'png'}});
+assert.equal(invalidTarget.isError,true);
+assert.equal(invalidTarget.structuredContent.error.code,'invalid_input');
+const invalidBatch: any = await http.callTool({name:'transaction.apply',arguments:{documentId:current.documentId,expectedRevision:created.revision,requestId:crypto.randomUUID(),operations:[{type:'node.update',id:id+'-shape',patch:{width:0}}]}});
+assert.equal(invalidBatch.structuredContent.error.code,'invalid_input');
+assert.equal((await tool('document.get')).revision,created.revision);
 await tool("selection.set", { id: id + "-board" });
 await tool("viewport.fit");
 const layout = await tool("layout.inspect");
@@ -119,6 +129,8 @@ const captured: any = await http.callTool({
 });
 assert.ok(!captured.isError);
 assert.equal(captured.content[0].mimeType, "image/png");
+const captureStatus=JSON.parse(captured.content[1].text);
+assert.equal(captureStatus.revision,created.revision);assert.equal(captureStatus.rendered,true);assert.equal(captureStatus.committed,true);
 await Bun.write(
   "build/evidence/mcp-created-elements.png",
   Buffer.from(captured.content[0].data, "base64"),
@@ -129,13 +141,13 @@ await tool("history.undo", {
 });
 assert.deepEqual((await tool("document.get")).document, current.document);
 await assertAutosaved(current.document);
-const denied = await fetch("http://127.0.0.1:48480/mcp", {
+const denied = await fetch(mcpEndpoint, {
   method: "POST",
   headers: { "Content-Type": "application/json" },
   body: "{}",
 });
 assert.equal(denied.status, 401);
-const origin = await fetch("http://127.0.0.1:48480/mcp", {
+const origin = await fetch(mcpEndpoint, {
   method: "POST",
   headers: {
     Authorization: `Bearer ${token}`,
@@ -147,12 +159,14 @@ const origin = await fetch("http://127.0.0.1:48480/mcp", {
 assert.equal(origin.status, 403);
 const stdio = new Client({ name: "stdio acceptance", version: "1" });
 await stdio.connect(
-  new StdioClientTransport({ command: "bun", args: ["tools/mcp-stdio.ts"] }),
+  new StdioClientTransport({ command: "bun", args: ["tools/mcp-stdio.ts"], env: Object.fromEntries(Object.entries(process.env).filter((entry): entry is [string,string] => entry[1] !== undefined)) }),
 );
 const same: any = await stdio.callTool({ name: "document.get", arguments: {} });
 assert.equal(JSON.parse(same.content[0].text).documentId, current.documentId);
+const stdioInvalid: any = await stdio.callTool({name:'code.export',arguments:{id:id+'-board',target:'png'}});
+assert.equal(stdioInvalid.isError,true);assert.equal(stdioInvalid.structuredContent.error.code,'invalid_input');
 await stdio.close();
 await http.close();
 console.log(
-  "PASS: official MCP SDK HTTP + stdio, shared document, atomic edit/undo, retry, stale revision, token and Origin rejection",
+  "PASS: official MCP SDK HTTP + stdio, canvas capture, exact revision, durable autosave, atomic edit/undo, retry, typed stale/wrong/invalid errors, token and Origin rejection",
 );

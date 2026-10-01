@@ -1,0 +1,62 @@
+{
+  "date": "2026-10-01",
+  "scope": "Integrated Sugar Maple editor; QA-01 through QA-10 and Whiteboard canvas adoption",
+  "hardware": {
+    "chip": "Apple M5 Max",
+    "memoryGB": 128
+  },
+  "checks": {
+    "modelTests": 39,
+    "browserAcceptanceSuites": 15,
+    "typecheck": "pass",
+    "webBuild": "pass with existing warning budgets",
+    "nativeBuild": "pass",
+    "swiftConsumerTypecheck": "pass",
+    "realMCPHTTPAndStdio": "pass",
+    "nativePointerReadbackAndUndo": "pass",
+    "nativeSaveAsFilename": "pass",
+    "nativePackageOpen": "pass",
+    "forceKillRecoveryHistoryRetryUndoRedo": "pass",
+    "existingDesignWorkflow": {
+      "pages": 18,
+      "nodes": 1154,
+      "textClipping": "none",
+      "prototypeNavigation": "pass"
+    },
+    "standalonePOC": {
+      "tests": 3,
+      "typecheck": "pass",
+      "build": "pass"
+    },
+    "sessionCleanupOfflineTests": 11,
+    "modelAssertions": 162,
+    "indexedLayersReadBound": {
+      "nodes": 5100,
+      "broadSearch": "pass",
+      "maximumNodeReadsPerNodeAcrossBothRuns": 20
+    },
+    "corruptNativeOpenRejection": {
+      "malformedCases": 5,
+      "realMacUI": "pass",
+      "recoveryPreserved": true
+    },
+    "reviewerUnitTests": 9
+  },
+  "limitations": [
+    "Chrome CPU flush timing is not frame time, input latency or cross-hardware evidence.",
+    "The Layers panel is not virtualized.",
+    "SwiftUI requires fixed sizing and explicitly rejects path/gradient/responsive export; no full visual-equivalence guarantee.",
+    "No arbitrary JavaScript/Swift library import or runtime, advanced typography/constraints, or network coediting was shipped.",
+    "Native package opening was verified through Open; Finder double-click association is not advertised.",
+    "The native build is a development build, not a notarized distribution."
+  ],
+  "preservation": "Safety archive stays in ignored build storage. Actual native/MCP QA used its own bundle ID, document storage and port. Prior user app and its documents were not replaced.",
+  "canvasBaselineCommit": "c0e8aa2fedcb6e36151b3fc30b4685bb900c1377",
+  "followUpBaseCommit": "eeae307fd26e4a08f10c9dcb2b4c1c1f3ab2c838",
+  "sourceFingerprints": {
+    "src/web/src/app/app.ts": "5c81f5fb524d967cd7f0844ed5daa2dedce83d0dfff45c0b7442c4966263f35b",
+    "src/web/src/app/model/layers.ts": "43401f7cad12af8f4ae7009eb5f43fe1b1a20998c51d0ed88c721a9c59fecae0",
+    "src/apple/Sugar Maple/EditorHost.swift": "3a5ea93ef79e90aafce78c33c6900fac3bd6d5ef3a57acfc6d165524dcf9d318"
+  },
+  "evidenceNote": "Layer indexing source and refreshed acceptance logs/screenshots are committed together. Corrupt native Open screenshot was captured on 991eac0; that native guard is retained unchanged."
+}

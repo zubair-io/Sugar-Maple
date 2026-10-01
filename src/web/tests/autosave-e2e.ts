@@ -8,7 +8,7 @@ await expect(page.locator('footer')).toContainText('Saved in this browser');
 await page.getByRole('button', { name: 'Add page', exact: true }).click();
 await expect(page.locator('footer')).toContainText('Saved in this browser');
 const before = await page.evaluate(() => window.sugarMaple.dispatch('document.get'));
-await page.getByRole('button', { name: 'New', exact: true }).click();
+await page.getByRole('button', { name: 'New file', exact: true }).click();
 await expect(page.locator('footer')).toContainText('Saved in this browser');
 const current = await page.evaluate(() => window.sugarMaple.dispatch('document.get'));
 assert.notEqual(current.documentId, before.documentId);

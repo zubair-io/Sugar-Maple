@@ -1,0 +1,46 @@
+[
+  {
+    "screen": "welcome",
+    "clipped": []
+  },
+  {
+    "screen": "about",
+    "clipped": []
+  },
+  {
+    "screen": "import",
+    "clipped": []
+  },
+  {
+    "screen": "learned",
+    "clipped": []
+  },
+  {
+    "screen": "connect",
+    "clipped": []
+  },
+  {
+    "screen": "providers",
+    "clipped": []
+  },
+  {
+    "screen": "review",
+    "clipped": []
+  },
+  {
+    "screen": "home",
+    "clipped": []
+  },
+  {
+    "screen": "why",
+    "clipped": []
+  },
+  {
+    "screen": "correct",
+    "clipped": []
+  },
+  {
+    "screen": "quiet",
+    "clipped": []
+  }
+]

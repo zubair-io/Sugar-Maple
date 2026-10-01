@@ -1,0 +1,150 @@
+{
+  "roots": {
+    "welcome": "jm-576f0702-screen-welcome",
+    "about": "jm-576f0702-screen-about",
+    "import": "jm-576f0702-screen-import",
+    "learned": "jm-576f0702-screen-learned",
+    "connect": "jm-576f0702-screen-connect",
+    "providers": "jm-576f0702-screen-providers",
+    "review": "jm-576f0702-screen-review",
+    "home": "jm-576f0702-screen-home",
+    "why": "jm-576f0702-screen-why",
+    "correct": "jm-576f0702-screen-correct",
+    "quiet": "jm-576f0702-screen-quiet",
+    "notes": "jm-96dede22-notes",
+    "notebook": "jm-96dede22-notebook",
+    "newnote": "jm-96dede22-newnote",
+    "workbook": "jm-9c4a1d8c-1b44-48ef-953f-b0c3f39d6579",
+    "worknote": "jm-afaea762-b51c-45cb-acf2-a38db433fa17",
+    "outbook": "jm-c3233d32-d36a-4376-96ba-c7b9b31e1fba",
+    "outnote": "jm-3a446e83-7991-48dd-9332-f6ce85671e85"
+  },
+  "pages": [
+    {
+      "folderId": "jm-folder-96ab59d0-a474-4601-a219-0dd0aa2bc656",
+      "id": "jm-576f0702-page-welcome",
+      "name": "Welcome",
+      "order": 2
+    },
+    {
+      "folderId": "jm-folder-96ab59d0-a474-4601-a219-0dd0aa2bc656",
+      "id": "jm-576f0702-page-about",
+      "name": "About you",
+      "order": 3
+    },
+    {
+      "folderId": "jm-folder-96ab59d0-a474-4601-a219-0dd0aa2bc656",
+      "id": "jm-576f0702-page-import",
+      "name": "Bring your context",
+      "order": 4
+    },
+    {
+      "folderId": "jm-folder-96ab59d0-a474-4601-a219-0dd0aa2bc656",
+      "id": "jm-576f0702-page-learned",
+      "name": "Review facts",
+      "order": 5
+    },
+    {
+      "folderId": "jm-folder-96ab59d0-a474-4601-a219-0dd0aa2bc656",
+      "id": "jm-576f0702-page-connect",
+      "name": "Connections",
+      "order": 6
+    },
+    {
+      "folderId": "jm-folder-96ab59d0-a474-4601-a219-0dd0aa2bc656",
+      "id": "jm-576f0702-page-providers",
+      "name": "Intelligence",
+      "order": 7
+    },
+    {
+      "folderId": "jm-folder-96ab59d0-a474-4601-a219-0dd0aa2bc656",
+      "id": "jm-576f0702-page-review",
+      "name": "Your world",
+      "order": 8
+    },
+    {
+      "folderId": "jm-folder-14209c0a-90b4-4051-a9b9-d0fff9ffa4b5",
+      "id": "jm-576f0702-page-home",
+      "name": "Overview",
+      "order": 9
+    },
+    {
+      "folderId": "jm-folder-14209c0a-90b4-4051-a9b9-d0fff9ffa4b5",
+      "id": "jm-576f0702-page-why",
+      "name": "Evidence",
+      "order": 10
+    },
+    {
+      "folderId": "jm-folder-14209c0a-90b4-4051-a9b9-d0fff9ffa4b5",
+      "id": "jm-576f0702-page-correct",
+      "name": "Correction",
+      "order": 11
+    },
+    {
+      "folderId": "jm-folder-8a88a7e2-6afb-42e0-8a94-39484a5204dd",
+      "id": "jm-96dede22-p-notes",
+      "name": "Notebooks",
+      "order": 11
+    },
+    {
+      "folderId": "jm-folder-14209c0a-90b4-4051-a9b9-d0fff9ffa4b5",
+      "id": "jm-576f0702-page-quiet",
+      "name": "First day",
+      "order": 12
+    },
+    {
+      "folderId": "jm-folder-8a88a7e2-6afb-42e0-8a94-39484a5204dd",
+      "id": "jm-96dede22-p-notebook",
+      "name": "Everyday",
+      "order": 12
+    },
+    {
+      "folderId": "jm-folder-8a88a7e2-6afb-42e0-8a94-39484a5204dd",
+      "id": "jm-96dede22-p-newnote",
+      "name": "New everyday note",
+      "order": 13
+    },
+    {
+      "folderId": "jm-folder-8a88a7e2-6afb-42e0-8a94-39484a5204dd",
+      "id": "jm-d5a74a3e-6c3d-46c9-88cb-b6d0232f5f81",
+      "name": "Working thoughts",
+      "order": 14
+    },
+    {
+      "folderId": "jm-folder-8a88a7e2-6afb-42e0-8a94-39484a5204dd",
+      "id": "jm-17a1b542-6db5-4353-a828-d466e35baa99",
+      "name": "New working note",
+      "order": 15
+    },
+    {
+      "folderId": "jm-folder-8a88a7e2-6afb-42e0-8a94-39484a5204dd",
+      "id": "jm-c36e07bb-a742-44a8-af0a-46f9c934a534",
+      "name": "Out & about",
+      "order": 16
+    },
+    {
+      "folderId": "jm-folder-8a88a7e2-6afb-42e0-8a94-39484a5204dd",
+      "id": "jm-93818fd7-6a2c-4bfd-96d5-eda3729949f6",
+      "name": "New travel note",
+      "order": 17
+    }
+  ],
+  "nodeCount": 1154,
+  "folders": [
+    {
+      "id": "jm-folder-96ab59d0-a474-4601-a219-0dd0aa2bc656",
+      "name": "Onboarding",
+      "order": 0
+    },
+    {
+      "id": "jm-folder-14209c0a-90b4-4051-a9b9-d0fff9ffa4b5",
+      "name": "Home",
+      "order": 1
+    },
+    {
+      "id": "jm-folder-8a88a7e2-6afb-42e0-8a94-39484a5204dd",
+      "name": "Notes",
+      "order": 2
+    }
+  ]
+}
