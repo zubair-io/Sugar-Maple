@@ -139,6 +139,7 @@
           <p class="muted empty-layers">Your page is ready.<br />Add an artboard to begin.</p>
         }
       } @else if (tab() === 'Assets') {
+        <library-catalog />
         <div class="section-heading">DOCUMENT COMPONENTS</div>
         @for (component of e.doc().nodes; track component.id) {
           @if (component.isComponent && !repeatTemplateIds().has(component.id)) {
@@ -161,6 +162,7 @@
           >Import image / SVG<input
             type="file"
             accept="image/png,image/jpeg,image/webp,image/svg+xml"
+            aria-label="Import image / SVG"
             (change)="importImage($event)"
         /></label>
         <p class="muted">PNG/JPEG/WebP · 5 MB; simple SVG · 1 MB</p>
@@ -448,6 +450,7 @@
                 </div>
               }
             </mui-section>
+            <library-catalog [inspector]="true" />
             @if (n.isComponent) {
               <div class="inspector-subheading">Component variants</div>
               <label>Variant name<input #variantName placeholder="Pressed" /></label
@@ -515,6 +518,7 @@
             <p class="muted">Open Preview to follow this link.</p>
           } @else {
             <div class="inspector-subheading">Developer handoff</div>
+            <library-catalog [inspector]="true" />
             <p class="muted">Semantic {{ n.kind }} · {{ n.width }} × {{ n.height }}</p>
             @if (master(); as source) {
               <p class="muted">
