@@ -2,7 +2,8 @@ import * as core from '@actions/core';
 import * as github from '@actions/github';
 import { jules } from '@google/jules-sdk';
 import { buildReviewPrompt } from './prompt.js';
-import { publishThenDelete, isFinalReview } from './cleanup.js';
+import { publishThenDelete } from './cleanup.js';
+import { collectReview } from './poll.js';
 import { selectReviewDiff } from './diff.js';
 
 type FailOn = 'never' | 'blocking' | 'any';
@@ -68,6 +69,7 @@ async function run(): Promise<void> {
   }
 
   let commentId: number | undefined;
+  let publicationComplete = false;
 
   try {
     try {
@@ -126,17 +128,16 @@ async function run(): Promise<void> {
     });
     core.info(`Jules session: ${session.id}`);
 
-    await waitUntilSessionReady(session);
-
-    const reviewMessage = await pollForReview(session as any, timeoutMinutes * 60 * 1000);
+    const result = await collectReview(session as any, { timeoutMs: timeoutMinutes * 60 * 1000, report: core.info });
+    const reviewMessage = result.review;
     core.info(`Collected review (${reviewMessage.length} chars)`);
 
     if (!reviewMessage) {
       await markCommentFailed(
         octokit, owner, repo, commentId,
         `Jules did not return a review within ${timeoutMinutes} minutes. Session: \`${session.id}\`. ` +
-        `The session may still be running on Jules' side — check https://jules.google.com/session/${session.id}. ` +
-        `Consider raising the action's \`timeout_minutes\` input or re-running the workflow.`,
+        `Last state: ${result.state}; activities: ${result.activities}; agent messages: ${result.messages}; attempts: ${result.attempts}. ` +
+        `Retained for investigation. Inspect this session before starting another review; do not cancel or automatically restart a live session.`,
       );
       await setStatus(octokit, owner, repo, headSha, statusContext, 'error', 'Jules did not return a review in time');
       core.setFailed(`Jules returned no review message within ${timeoutMinutes} minutes.`);
@@ -148,16 +149,26 @@ async function run(): Promise<void> {
     const finalBody =
       `${COMMENT_MARKER}\n## 🤖 Jules Review\n\n${reviewMessage}\n\n---\n_Session: \`${session.id}\`_`;
     const { state, description } = statusFromVerdict(verdict, failOn);
+    let cleanupError = '';
     await publishThenDelete(session.id, apiKey, async () => {
       await octokit.rest.issues.updateComment({ owner, repo, comment_id: commentId!, body: finalBody });
       await setStatus(octokit, owner, repo, headSha, statusContext, state, description);
+      publicationComplete = true;
     }, fetch, message => {
       // Keep the published review and verdict intact if cleanup fails.
+      cleanupError = message;
       core.setFailed(message);
     });
+    await core.summary.addHeading('Review and session cleanup')
+      .addRaw(`Published code verdict: ${verdict}. Commit status: ${state}.\n\n`)
+      .addRaw(cleanupError ? cleanupError : `Completed session ${session.id} deleted.`).write();
 
     core.info(`Verdict: ${verdict}. Status check: ${state}.`);
   } catch (err) {
+    if (publicationComplete) {
+      core.setFailed('An operational step failed after publication. The saved review and code verdict remain intact; inspect/recover the exact session.');
+      return;
+    }
     const msg = err instanceof Error ? err.message : String(err);
     core.error(`Review failed: ${msg}`);
 
@@ -255,62 +266,6 @@ function wrapPermissionError(err: unknown, needed: string, op: string): Error {
     );
   }
   return err instanceof Error ? err : new Error(msg);
-}
-
-async function pollForReview(
-  session: { id: string; info: () => Promise<{ state: string }>; hydrate: () => Promise<number>; history: () => AsyncIterable<any> },
-  timeoutMs: number,
-): Promise<string> {
-  const deadline = Date.now() + timeoutMs;
-  let attempt = 0;
-  while (Date.now() < deadline) {
-    attempt++;
-    try {
-      await session.hydrate();
-      let last = '';
-      for await (const a of session.history()) {
-        if (a.type === 'agentMessaged') last = a.message;
-      }
-      const { state } = await session.info();
-      if (isFinalReview(state, last)) {
-        core.info(`Got agentMessaged on attempt ${attempt}.`);
-        return last;
-      }
-      core.info(`No agentMessaged yet (attempt ${attempt})…`);
-    } catch (err) {
-      const msg = err instanceof Error ? err.message : String(err);
-      if (isAuthError(msg)) {
-        throw new Error(`Jules API rejected request (${msg}). Check JULES_API_KEY is valid.`);
-      }
-      core.info(`hydrate/history error (attempt ${attempt}): ${msg}`);
-    }
-    await new Promise(r => setTimeout(r, 20_000));
-  }
-  return '';
-}
-
-async function waitUntilSessionReady(session: { id: string; info: () => Promise<unknown> }): Promise<void> {
-  const maxAttempts = 20;
-  let delay = 2000;
-  for (let i = 0; i < maxAttempts; i++) {
-    try {
-      await session.info();
-      core.info(`Session ${session.id} is ready after ${i + 1} attempt(s).`);
-      return;
-    } catch (err) {
-      const msg = err instanceof Error ? err.message : String(err);
-      if (isAuthError(msg)) {
-        throw new Error(`Jules API rejected request (${msg}). Check JULES_API_KEY is valid.`);
-      }
-      if (!msg.includes('404')) {
-        throw new Error(`Jules session.info() failed: ${msg}`);
-      }
-      core.info(`Session not yet ready (attempt ${i + 1}/${maxAttempts})…`);
-      await new Promise(r => setTimeout(r, delay));
-      delay = Math.min(delay * 1.5, 15000);
-    }
-  }
-  throw new Error('Session did not become ready within timeout.');
 }
 
 function truncate(s: string, max: number): string {

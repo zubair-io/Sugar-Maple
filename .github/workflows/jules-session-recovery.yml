@@ -1,0 +1,49 @@
+name: Jules exact-session recovery
+on:
+  workflow_dispatch:
+    inputs:
+      pull_request:
+        description: PR containing the trusted reviewer session reference
+        type: string
+        required: true
+      session_id:
+        description: Exact recorded session ID (no listing or bulk deletion)
+        type: string
+        required: true
+      mode:
+        type: choice
+        options: [inspect, cleanup]
+        default: inspect
+permissions:
+  contents: read
+jobs:
+  recover:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      pull-requests: read
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: main
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '24'
+      - name: Build verified recovery code
+        working-directory: .github/actions/jules-review
+        run: |
+          npm ci --ignore-scripts
+          npm run typecheck
+          npm test
+          npm run build:recovery
+      - name: Inspect or recover exact published session
+        run: node .github/actions/jules-review/dist/recovery/index.js
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          JULES_API_KEY: ${{ secrets.JULES_API_KEY }}
+          PR_NUMBER: ${{ inputs.pull_request }}
+          SESSION_ID: ${{ inputs.session_id }}
+          RECOVERY_MODE: ${{ inputs.mode }}

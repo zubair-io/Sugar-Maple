@@ -1,0 +1,43 @@
+{
+  "date": "2026-10-01",
+  "issue": 55,
+  "status": "local verified candidate; live diagnosis/cleanup pending review and merge",
+  "checks": {
+    "reviewerTests": 20,
+    "typecheck": "pass",
+    "reviewBundle": "pass",
+    "recoveryBundle": "pass",
+    "boundedRetryAndNonretryableAuth": "simulated response tests pass",
+    "terminalStateAndTimeoutDiagnosis": "simulated session tests pass",
+    "trustedPublishedFooterAndRepositoryGuard": "pass",
+    "sensitiveContentOmission": "pass",
+    "newSessionVisibilityAndFailureRecoveryReference": "simulated initial 404 then failed session remains inspectable; no cleanup permitted"
+  },
+  "retainedSessions": [
+    {
+      "pr": 52,
+      "id": "1073615130018433095",
+      "operation": "inspect only; no published verdict"
+    },
+    {
+      "pr": 52,
+      "id": "7859224825569361313",
+      "operation": "inspect only; no published verdict"
+    },
+    {
+      "pr": 54,
+      "id": "15092830114699431110",
+      "operation": "inspect then cleanup completed/published review"
+    },
+    {
+      "pr": 56,
+      "id": "3351957917670538810",
+      "operation": "inspect then cleanup completed/published review"
+    }
+  ],
+  "limits": [
+    "Local tests simulate API responses; they do not prove live repository-secret permissions.",
+    "No account listing or bulk deletion. Failed/unpublished sessions remain retained.",
+    "Cleanup does not rewrite the old failed workflow result or a published code verdict."
+  ]
+}
