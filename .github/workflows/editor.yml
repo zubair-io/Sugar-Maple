@@ -14,6 +14,7 @@ jobs:
         with:
           bun-version: '1.4.2'
       - run: bun install --frozen-lockfile
+      - run: bun tools/maple-inventory.ts
       - run: bun test src/web/tests
       - run: bun run --cwd src/web typecheck
       - run: bun run build:web
