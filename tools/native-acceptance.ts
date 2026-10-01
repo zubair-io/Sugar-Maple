@@ -48,3 +48,5 @@ for (const [name, files] of cases) {
 await run([process.execPath, "tools/mcp-stdio-test.ts"]);
 
 await run([process.execPath, "tools/typography-export-test.ts"]);
+
+await run([process.execPath, 'tools/prototype-export-test.ts']);
