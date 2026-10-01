@@ -532,6 +532,8 @@
                 [options]="linkSelectOptions()"
                 (valueChange)="patch('targetId', $event || null)"
             /></label>
+            <label>Transition<mui-select ariaLabel="Transition" [value]="n.transition"
+              [options]="transitionOptions" (valueChange)="patch('transition', $event)" /></label>
             <p class="muted">Open Preview to follow this link.</p>
           } @else {
             <div class="inspector-subheading">Developer handoff</div>
@@ -607,18 +609,13 @@
           [value]="previewWidth()?.toString() ?? ''"
           [options]="viewportOptions"
           (valueChange)="previewWidth.set($event ? +$event : null)"
-        /><button [disabled]="!previewHistory.length" (click)="preview.set(previewHistory.pop()!)">
+        /><button [disabled]="!previewHistory.length" (click)="previewBack()">
           Back</button
         ><button (click)="preview.set(null)">Close preview</button>
       </header>
       <div class="preview-scroll">
         <div class="preview-stage" [style.width.px]="n.width" [style.height.px]="n.height">
-          <scene-node
-            [node]="n"
-            [document]="e.doc()"
-            [preview]="true"
-            (activate)="activate($event)"
-          />
+          <preview-screen [node]="n" [previous]="dissolveFrom()" [document]="e.doc()" (activate)="activate($event)" />
         </div>
       </div>
     </div>
