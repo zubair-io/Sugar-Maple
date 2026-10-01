@@ -1,3 +1,5 @@
+@use './chrome/maple/generated/ui-tokens' as maple;
+
 :host {
   display: block;
   height: 100vh;
@@ -12,58 +14,11 @@ button {
   border: 0;
   background: transparent;
   padding: 6px 9px;
-  border-radius: 5px;
+  border-radius: maple.$maple-radius-sm;
   white-space: nowrap;
 }
 button:hover {
-  background: #ffffff0c;
-}
-.topbar {
-  height: 48px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  border-bottom: 1px solid #ffffff12;
-  padding: 0 14px;
-  flex-shrink: 0;
-  background: #262321;
-}
-.brand {
-  font-size: 27px;
-  color: #d77c65;
-  margin-right: 5px;
-}
-.document-title {
-  width: 145px;
-  background: transparent;
-  border: 0;
-  color: #f3efeb;
-  font-weight: 600;
-}
-.unsaved {
-  color: #e6b972;
-}
-.mode-switch {
-  display: flex;
-  margin: auto;
-  background: #181614;
-  padding: 3px;
-  border: 1px solid #ffffff0a;
-  border-radius: 7px;
-}
-.mode-switch button {
-  color: #aaa39e;
-  padding: 5px 12px;
-}
-.mode-switch button.active {
-  color: #fff;
-  background: #3c3835;
-  box-shadow: 0 1px 3px #0004;
-}
-.mcp {
-  font-size: 10px;
-  color: #aaa39e;
-  margin-right: 10px;
+  background: maple.$maple-color-bg-hover;
 }
 .workspace {
   display: grid;
@@ -82,7 +37,7 @@ button:hover {
 }
 .sidebar,
 .inspector {
-  background: #242220;
+  background: maple.$maple-color-sidebar;
   overflow: auto;
   position: relative;
 }
@@ -92,26 +47,27 @@ button:hover {
   flex-direction: column;
 }
 .inspector {
-  border-left: 1px solid #ffffff12;
-  padding-bottom: 20px;
+  border-left: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 24px;
 }
 .tabs {
   display: flex;
   min-height: 46px;
   flex-shrink: 0;
   align-items: center;
-  padding: 0 6px;
-  border-bottom: 1px solid #ffffff0b;
+  padding: 0 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   gap: 4px;
 }
 .tabs button {
-  padding: 6px;
+  padding: 7px 6px;
   flex: 1;
-  color: #9e9791;
+  color: maple.$maple-color-text-muted;
+  font-size: 11px;
 }
 .tabs .active {
-  color: #fff;
-  background: #ffffff0a;
+  color: maple.$maple-color-text-main;
+  background: maple.$maple-color-bg-active;
 }
 .section-heading {
   display: flex;
@@ -192,7 +148,7 @@ button:hover {
   justify-content: space-between;
   height: 44px;
   border-bottom: 1px solid #ffffff08;
-  background: #201e1c;
+  background: maple.$maple-color-surface;
   padding: 0 10px;
   z-index: 2;
 }
@@ -213,32 +169,6 @@ button:hover {
   background-image: radial-gradient(#ffffff15 0.8px, transparent 0.8px);
   background-size: 20px 20px;
   touch-action: none;
-}
-.world {
-  position: absolute;
-  inset: 0;
-  transform-origin: 0 0;
-}
-.artboard-label {
-  position: absolute;
-  color: #aca6a0;
-  font-size: 12px;
-  white-space: nowrap;
-}
-.artboard-label span {
-  opacity: 0.5;
-  margin-left: 16px;
-}
-.resize-handle {
-  position: absolute;
-  z-index: 999;
-  width: 10px;
-  height: 10px;
-  padding: 0;
-  border: 1px solid #3b82f6;
-  background: white;
-  border-radius: 0;
-  cursor: nwse-resize;
 }
 .empty-canvas {
   position: absolute;
@@ -282,19 +212,35 @@ kbd {
   opacity: 0.6;
 }
 .inspector-heading {
-  height: 46px;
-  border-bottom: 1px solid #ffffff0b;
+  height: 52px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 16px;
-  font-weight: 600;
+  font-size: 14px;
+  font-weight: 650;
 }
 .inspector-heading span {
   font-size: 10px;
   color: #a69e97;
   font-weight: 400;
   text-transform: capitalize;
+}
+.inspector-subheading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  padding: 18px 14px 8px;
+  color: maple.$maple-color-text-main;
+  font-size: 12px;
+  font-weight: 650;
+  text-transform: capitalize;
+}
+.inspector-subheading span {
+  color: maple.$maple-color-text-muted;
+  font-size: 10px;
+  font-weight: 400;
 }
 .inspector label,
 .sidebar > label {
@@ -311,13 +257,23 @@ kbd {
 .sidebar input {
   width: 65%;
   min-width: 0;
-  background: #171615;
-  border: 1px solid #ffffff0c;
-  border-radius: 5px;
-  color: #e5ded8;
-  padding: 7px;
+  background: maple.$maple-color-input-bg;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: maple.$maple-radius-sm;
+  color: maple.$maple-color-text-main;
+  padding: 8px 9px;
   outline-offset: 0;
 }
+.mui-field { padding: 12px 4px 4px; }
+.mui-field input,
+.mui-field textarea,
+.mui-field select { width: 100%; }
+.inspector input:hover,
+.inspector textarea:hover,
+.sidebar input:hover { border-color: maple.$maple-color-border-hi; }
+.inspector input:focus,
+.inspector textarea:focus,
+.sidebar input:focus { border-color: maple.$maple-color-primary; }
 .inspector input[type='color'] {
   height: 30px;
   padding: 3px;
@@ -326,7 +282,7 @@ kbd {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 2px;
-  padding: 0 8px;
+  padding: 0 8px 2px;
 }
 .fields label {
   padding: 5px;
@@ -339,12 +295,13 @@ kbd {
   display: flex;
   gap: 4px;
   flex-wrap: wrap;
-  padding: 12px;
+  padding: 16px 12px;
 }
 .actions button {
-  background: #ffffff0a;
+  background: maple.$maple-color-surface;
   font-size: 11px;
 }
+.actions button:hover { background: maple.$maple-color-surface-hover; }
 .danger {
   color: #e89a90;
 }
@@ -398,9 +355,6 @@ pre {
 }
 .file-button {
   cursor: pointer;
-}
-.file-button input {
-  display: none;
 }
 footer {
   height: 28px;
@@ -501,13 +455,6 @@ footer > span:last-child {
     width: 28px;
   }
 }
-.marquee {
-  position: absolute;
-  pointer-events: none;
-  border: 1px solid #60a5fa;
-  background: #3b82f620;
-}
-
 .folder-create {
   display: flex;
   gap: 4px;

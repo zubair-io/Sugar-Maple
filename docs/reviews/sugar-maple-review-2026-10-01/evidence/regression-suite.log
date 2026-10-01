@@ -1,0 +1,11 @@
+{"name":"file-menu-e2e","exitCode":0,"elapsedMs":9562,"status":"pass"}
+{"name":"autosave-e2e","exitCode":0,"elapsedMs":9984,"status":"pass"}
+{"name":"file-tabs-e2e","exitCode":0,"elapsedMs":10434,"status":"pass"}
+{"name":"handoff-e2e","exitCode":0,"elapsedMs":2299,"status":"pass"}
+{"name":"responsive-e2e","exitCode":0,"elapsedMs":2370,"status":"pass"}
+{"name":"selection-e2e","exitCode":0,"elapsedMs":2484,"status":"pass"}
+{"name":"maple-design-e2e","exitCode":0,"elapsedMs":3041,"status":"pass"}
+{"name":"web-consumer","exitCode":0,"elapsedMs":3046,"status":"pass"}
+{"name":"components-e2e","exitCode":1,"elapsedMs":32932,"status":"fail"}
+{"name":"folders-e2e","exitCode":0,"elapsedMs":3861,"status":"pass"}
+{"name":"comments-e2e","exitCode":0,"elapsedMs":5758,"status":"pass"}

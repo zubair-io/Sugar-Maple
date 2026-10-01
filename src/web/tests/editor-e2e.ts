@@ -1,3 +1,4 @@
+import { nodeBox, expectSceneCount } from './canvas-browser';
 import { chromium, expect } from '@playwright/test';
 import { mkdir } from 'node:fs/promises';
 const browser = await chromium.launch({ channel: 'chrome', headless: true });
@@ -6,10 +7,10 @@ const errors: string[] = [];
 page.on('pageerror', (e) => errors.push(e.message));
 await page.goto('http://127.0.0.1:4200');
 await page.getByRole('button', { name: 'Create an artboard' }).click();
-await page.locator('[data-node-id]').first().waitFor();
+await expectSceneCount(page, 1);
 await page.getByRole('button', { name: 'Add text', exact: true }).click();
-await page.getByLabel('Text', { exact: true }).fill('Hello Sugar Maple');
-await page.getByLabel('Text', { exact: true }).blur();
+await page.getByLabel('Text content', { exact: true }).fill('Hello Sugar Maple');
+await page.getByLabel('Text content', { exact: true }).blur();
 await page.getByRole('button', { name: 'Add page', exact: true }).click();
 await page.getByRole('button', { name: '▤ Page 1', exact: true }).click();
 let state = await page.evaluate(() => window.sugarMaple.dispatch('document.get'));
@@ -17,8 +18,7 @@ if (state.document.pages.length !== 2 || state.document.nodes.length !== 2)
   throw Error('Create file/pages/items failed');
 const text = state.document.nodes.find((n: any) => n.kind === 'text');
 if (text.text !== 'Hello Sugar Maple') throw Error('Text edit failed');
-const node = page.locator(`[data-node-id="${text.id}"]`);
-const bounds = await node.boundingBox();
+const bounds = await nodeBox(page, text.id);
 await page.mouse.move(bounds!.x + 10, bounds!.y + 10);
 await page.mouse.down();
 await page.mouse.move(bounds!.x + 50, bounds!.y + 30, { steps: 5 });
@@ -32,7 +32,8 @@ if (!(await page.locator('pre').innerText()).includes('Hello Sugar Maple'))
   throw Error('Code inspection mismatch: ' + (await page.locator('pre').innerText()));
 await page.waitForTimeout(650);
 await page.reload();
-await page.waitForFunction(() => document.querySelectorAll('[data-node-id]').length === 2);
+await page.waitForFunction(() => window.sugarMaple.ready);
+await expectSceneCount(page, 2);
 state = await page.evaluate(() => window.sugarMaple.dispatch('document.get'));
 if (state.document.nodes.length !== 2) throw Error('Recovery failed');
 await page.keyboard.press('Meta+z');

@@ -33,7 +33,7 @@ Launch the Mac app first. Use `capabilities` for the complete transaction schema
 
 Coordinates are parent-relative CSS pixels. Reuse a request ID only for an identical retry. A batch is validated fully before any mutation and is one undo step. UI and MCP share the editor-owned document; the host does not maintain another writable copy. `render.capture` requires `documentId` and `expectedRevision`, waits for fonts and layout, captures the actual WKWebView, and rejects a superseded revision. Committed edits are not automatically durable `.syrup` saves.
 
-`document.new` replaces the current editor document. Save current work first. Save/open use the Mac file picker and are not exposed as arbitrary-path MCP tools.
+`document.new` activates a new document tab after the current document is saved. Other open tabs retain their content and history. Save/open use the Mac file picker and are not exposed as arbitrary-path MCP tools.
 
 ChatGPT client connection has not been validated. Direct loopback access depends on the client's MCP support; this implementation does not create a public tunnel.
 
@@ -41,7 +41,7 @@ ChatGPT client connection has not been validated. Direct loopback access depends
 
 The transaction schema returned by `capabilities` includes `component.create`, `component.insert`, `component.detach`, `repeat.create` and `repeat.populate`. Repeat text values are a JSON string array. Read the discovered schema rather than assuming unsupported operations.
 
-After selecting a node with `selection.set`, call `viewport.fit` to frame its page, then `layout.inspect` to read actual DOM bounds in viewport CSS pixels. These are measured bounds after layout, distinct from authored parent-relative coordinates. `render.capture` remains revision-bound. `code.export` accepts `svg` and complete `swiftui` source; unsupported vector-to-SwiftUI conversion returns an explicit tool error.
+After selecting a node with `selection.set`, call `viewport.fit` to frame its page, then `layout.inspect` to read resolved canvas bounds in viewport CSS pixels. These bounds include layout and composed rotations, distinct from authored parent-relative coordinates. `rendered` means a visible node exists in the scene projection; `painted` indicates viewport intersection. Hidden nodes have no projected bounds. `render.capture` remains revision-bound and captures the actual WKWebView canvas. `code.export` accepts `svg` and complete `swiftui` source; unsupported vector-to-SwiftUI conversion returns an explicit tool error.
 
 The official SDK integration test creates and renders a temporary artboard/text/rectangle batch, checks bounds, exports SwiftUI, captures PNG evidence, then undoes the batch and verifies the original document is restored.
 
@@ -89,3 +89,25 @@ Run `bun tools/mcp-integration.ts` to verify HTTP/stdio edits and undo against t
 `comment.add` optionally accepts `anchor: {x, y}`: finite CSS-pixel coordinates in the page's world space, before editor camera pan/zoom. Omission/null preserves page-level feedback without a pin. Example: `{type:"comment.add",pageId:"page-id",text:"Align this heading",anchor:{x:240,y:160}}`. The position is fixed on the page, not attached to a moving node. It round-trips through comments.list, journals, undo/redo and autosave. Existing thread schemas normalize missing anchors to null.
 
 The Comments UI is current-page-only; MCP query scope remains explicit via the existing optional pageId filter. Agents can still review multiple pages through MCP. The Mac acceptance workflow in `tools/mcp-comments-test.ts` now verifies a human-placed anchor before the agent reply/resolution, capture and undo sequence.
+
+## Canvas acceptance and isolated native QA
+
+The design viewport uses the adapted Just-Maple Whiteboard canvas. Sugar Maple's existing store, validation, component synchronization, undo, persistence and MCP remain authoritative. Prototype preview keeps native DOM controls. See [canvas delivery](canvas-port.md) for the adoption evidence and limits.
+
+All tool arguments are validated against the discovered schemas. Tool failures retain `structuredContent.error` with stable `code`, `message`, document/revision context when available, and `recoveryAction`. Stale edits, wrong documents and invalid export targets fail explicitly. Capture metadata distinguishes committed/rendered state from durable save state and includes node-level image diagnostics.
+
+To test without writing to your working documents:
+
+```sh
+bun run build:mac
+bun tools/prepare-native-qa.ts
+```
+
+Launch `build/native-canvas-qa/Sugar Maple Canvas QA.app`, then run:
+
+```sh
+SUGAR_MAPLE_SUPPORT_DIR="$PWD/build/native-canvas-qa/profile" \
+SUGAR_MAPLE_MCP_PORT=48483 bun run test:mcp
+```
+
+The QA copy has its own bundle ID, storage and loopback port. Those bundle configuration overrides are compiled only into Debug builds; Release keeps the production storage and port. `SUGAR_MAPLE_SUPPORT_DIR`, `SUGAR_MAPLE_MCP_PORT`, and an optional `SUGAR_MAPLE_TOKEN_FILE` configure the stdio adapter and acceptance clients. They do not change a running host's configuration. The native pointer/history tests use the same environment settings and include setup/verify phases for an actual UI gesture or app restart.

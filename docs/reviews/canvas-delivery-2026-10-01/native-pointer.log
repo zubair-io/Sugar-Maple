@@ -1,0 +1,1 @@
+PASS: native pointer edit read through MCP; two independent undos restore original document

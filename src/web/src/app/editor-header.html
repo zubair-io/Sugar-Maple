@@ -1,0 +1,44 @@
+<header class="topbar" [class.native-header]="e.native" (mousedown)="dragHeader($event)">
+  <div class="header-left">
+    <div class="file-tabs" aria-label="Open files">
+      <div class="tab-list" role="tablist" aria-label="Documents">
+        @for (file of e.openFiles(); track file.id) {
+          <div class="file-tab" [class.active]="file.id === e.doc().id">
+            @if (editing() === file.id) {
+              <input #nameInput class="document-title" aria-label="Document name"
+                [value]="file.name" (blur)="finishRename($event)"
+                (keydown.enter)="finishRename($event)" (keydown.escape)="cancelRename($event)" />
+            } @else {
+              <button class="tab-title" role="tab" [attr.aria-selected]="file.id === e.doc().id"
+                [title]="file.name + ' — double-click to rename'" [disabled]="e.tabBusy()"
+                (click)="activate(file.id)" (dblclick)="rename(file.id)"
+                (keydown.f2)="rename(file.id)">{{ file.name }}</button>
+            }
+            @if (file.id === e.doc().id && e.dirty()) {
+              <span class="unsaved" aria-label="Unsaved changes" [title]="e.status()">*</span>
+            }
+            <mui-button variant="ghost" size="sm" [iconOnly]="true" iconLeading="drawer-close"
+              [ariaLabel]="'Close ' + file.name" [disabled]="e.tabBusy()"
+              (pressed)="e.closeFile(file.id)" />
+          </div>
+        }
+      </div>
+      <button class="new-tab" aria-label="New file" title="New file" [disabled]="e.tabBusy()"
+        (click)="e.newDocument()">+</button>
+    </div>
+  </div>
+  <nav class="mode-switch" aria-label="Editor mode">
+    @for (mode of modes; track mode) {
+      <button [class.active]="e.mode() === mode" [attr.aria-pressed]="e.mode() === mode"
+        (click)="e.mode.set(mode)">{{ mode }}</button>
+    }
+  </nav>
+  <div class="header-right">
+    @if (!e.native) {
+      <button (click)="e.open()">Open</button><button (click)="e.save()">Save</button>
+      <button (click)="e.save(true)">Save As</button>
+    }
+    <span class="mcp" [title]="e.mcp()">◉ {{ e.native ? 'MCP' : 'Browser' }}</span>
+    <mui-button variant="secondary" size="sm" (pressed)="preview.emit()">▶ Preview</mui-button>
+  </div>
+</header>

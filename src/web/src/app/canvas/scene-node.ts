@@ -1,4 +1,5 @@
-import { Component, input, output, computed } from '@angular/core';
+import { Component, input, output, computed, inject } from '@angular/core';
+import { SceneAssets } from './scene-assets';
 import { NgStyle } from '@angular/common';
 import { SceneNode, SceneDocument } from '../model/schema';
 import { nodeStyles } from '../model/export';
@@ -9,6 +10,11 @@ import { nodeStyles } from '../model/export';
   styleUrl: './scene-node.scss',
 })
 export class SceneNodeView {
+  readonly assets = inject(SceneAssets);
+  readonly asset = computed(() => {
+    this.assets.version();
+    return this.node().kind === 'image' ? { ...this.assets.get(this.node().asset) } : null;
+  });
   readonly node = input.required<SceneNode>();
   readonly document = input.required<SceneDocument>();
   readonly selected = input<string[]>([]);

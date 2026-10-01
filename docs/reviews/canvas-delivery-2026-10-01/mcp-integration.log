@@ -1,0 +1,2 @@
+$ bun tools/mcp-integration.ts
+PASS: official MCP SDK HTTP + stdio, canvas capture, exact revision, durable autosave, atomic edit/undo, retry, typed stale/wrong/invalid errors, token and Origin rejection

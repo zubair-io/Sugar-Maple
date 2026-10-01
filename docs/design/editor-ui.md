@@ -32,9 +32,13 @@ For narrower windows, preserve legibility rather than shrinking typography. Comp
 
 ### Left: documents
 
-After the 80px traffic-light offset, show the active document name, for example `CheckoutFlow.syrup`, an unsaved dot when appropriate and a dropdown for save status and available history actions.
+The Mac layout trial uses one 48px header with native traffic lights, the current file tab, then Design / Prototype / Developer, MCP and Preview. There is no separate native title row. Empty header space drags the window; controls remain interactive. File tabs show names without extensions, a Maple close control and a compact + control. Double-click the active tab or press F2 to rename; Enter/blur confirms and Escape cancels. The mode switch stays centered in the window independently of tab width. The tab strip scrolls when full. New retains existing tabs and autosaves immediately. Switching retains each document store, undo history, selected page and selection; closing leaves its saved file intact and activates another tab. Closing the last Mac tab closes the window. Tabs currently live for the app session; restart restores the last active document, while other files remain saved on disk.
+
+After the 80px traffic-light offset, show the active document name, for example `CheckoutFlow.syrup`, an asterisk (*) beside the name while changes are unsaved and a dropdown for save status and available history actions.
 
 When multiple documents are open, show compact document tabs such as `Sign-In.syrup` and `CheckoutFlow.syrup`. Each tab has an accessible name, active state and close action. Overflow must retain access to all documents. Closing or switching a file follows its actual dirty/persistence state; do not imply changes were saved when they were not.
+
+The editable document title is the `.syrup` filename without its extension. Changing it renames the bound package in its current folder, including on undo/redo. New managed documents use readable filenames in separate document folders; older generated filenames migrate on the next successful save. Save As and Open synchronize the title to the selected filename. Rename collisions and invalid filenames show a save error without replacing another file.
 
 Document changes autosave. New Mac documents save locally without a picker; opened or explicitly saved documents update their chosen file. The save state distinguishes Saving, Saved locally, Saved to .syrup bundle, Saved in this browser and Save Failed. Only mark the current document/revision saved after persistence completes. Version-history entries appear only when backed by an implemented history feature.
 

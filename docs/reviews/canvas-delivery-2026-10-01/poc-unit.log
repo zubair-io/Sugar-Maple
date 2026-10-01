@@ -1,0 +1,11 @@
+bun test v1.4.3-canary.1 (81f97bb02)
+
+prototypes/whiteboard-ui/src/layout.test.ts:
+(pass) horizontal fixed/fill layout honors padding, gaps and authored order [1.28ms]
+(pass) hit testing selects the topmost visible child and respects parent clipping [0.11ms]
+(pass) pointer batch uses the real store, undo restores geometry and rejects invalid sizes atomically [5.53ms]
+
+ 3 pass
+ 0 fail
+ 10 expect() calls
+Ran 3 tests across 1 file. [194.00ms]

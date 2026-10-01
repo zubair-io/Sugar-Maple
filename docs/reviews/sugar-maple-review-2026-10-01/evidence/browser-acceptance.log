@@ -1,0 +1,33 @@
+$ bun tools/browser-acceptance.ts
+$ bun run --cwd src/web start
+$ bun --bun ../../node_modules/@angular/cli/bin/ng.js serve --host 127.0.0.1
+57689 |       throw new Error("Serialized error must have either an error or a value");
+57690 |     return parseSerializedValue(error.value, void 0);
+57691 |   }
+57692 |   let e;
+57693 |   if (error.error.name === "TimeoutError")
+57694 |     e = new TimeoutError2(error.error.message);
+                    ^
+TimeoutError: fill: Timeout 30000ms exceeded.
+Call log:
+[2m  - waiting for getByLabel('Text', { exact: true })[22m
+
+  log: [ "  - waiting for getByLabel('Text', { exact: true })" ],
+
+      at /Users/riabuz/Projects/_Sugar Maple/node_modules/.bun/playwright-core@1.63.0/node_modules/playwright-core/lib/coreBundle.js:57694:13
+
+Bun v1.4.2 (macOS arm64)
+36 |   ]) {
+37 |     const test = Bun.spawn([process.execPath, `src/web/tests/${name}.ts`], {
+38 |       stdout: "inherit",
+39 |       stderr: "inherit",
+40 |     });
+41 |     if (await test.exited) throw Error(`${name} failed`);
+                                      ^
+error: editor-e2e failed
+      at /Users/riabuz/Projects/_Sugar Maple/tools/browser-acceptance.ts:41:34
+
+Bun v1.4.2 (macOS arm64)
+error: script "test:e2e" exited with code 1
+error: script "start" exited with code 143
+error: script "dev" exited with code 143

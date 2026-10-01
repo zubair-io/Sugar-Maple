@@ -1,3 +1,4 @@
+import { expectSceneCount } from './canvas-browser';
 import { chromium, expect } from '@playwright/test';
 const browser = await chromium.launch({ channel: 'chrome', headless: true });
 try {
@@ -13,7 +14,7 @@ try {
         '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M 0 0 L 100 0 L 50 100 Z" fill="#2563eb"/></svg>',
       ),
     });
-  await expect(page.locator('[data-node-id]')).toHaveCount(2);
+  await expectSceneCount(page, 2);
   const doc = await page.evaluate(() => window.sugarMaple.dispatch('document.get'));
   const vector = doc.document.nodes.find((n: any) => n.kind === 'path');
   await page.evaluate((id) => window.sugarMaple.dispatch('selection.set', { id }), vector.id);
@@ -35,7 +36,7 @@ try {
       ),
     });
   await expect(page.getByRole('alert')).toContainText('Unsupported SVG element');
-  await expect(page.locator('[data-node-id]')).toHaveCount(2);
+  await expectSceneCount(page, 2);
   console.log(
     'PASS: SVG import, actual path rendering, SVG code and PNG download, script-bearing SVG rejection',
   );
