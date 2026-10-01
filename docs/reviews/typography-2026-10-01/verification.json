@@ -1,0 +1,40 @@
+{
+  "date": "2026-10-01",
+  "issue": 46,
+  "scope": "Portable typography with explicit font availability and export policy",
+  "checks": {
+    "modelTests": 44,
+    "assertions": 235,
+    "browserSuites": 16,
+    "geometryToleranceCSSPixels": 1,
+    "geometryWidths": [
+      1440,
+      834,
+      393
+    ],
+    "maximumRecordedGeometryDeltaCSSPixels": 1.14e-13,
+    "webTypecheck": "pass",
+    "productionWebBuild": "pass",
+    "nativeBuild": "pass",
+    "nativeFixtures": 4,
+    "actualWKWebViewMCP": "pass",
+    "nativeMissingFontInspector": "pass",
+    "AngularStrictConsumer": "pass",
+    "Tailwind4Consumer": "pass",
+    "SwiftUIConsumer": "pass",
+    "legacyJournalRetryUndoAndEditablePaste": "pass",
+    "actualHTTPAndStdioMCP": "pass",
+    "binaryFontCustomSchemeLoad": "pass",
+    "initialWebBundleKB": 820.77
+  },
+  "limits": [
+    "Mac target requires macOS15.4+ for native Canvas letterSpacing (Safari18.4); Xcode16+ remains supported.",
+    "Maple Sans embeds unmodified Inter4.1 with OFL1.1 notices; other scripts use installed glyph fallback.",
+    "Local fonts remain installation dependencies on export consumers; arbitrary font-file import stays in issue19.",
+    "SwiftUI maps system, sans-serif, serif and monospace plus tracking/alignment; custom font registration and exact nondefault line-height explicitly reject. Native default line-height follows SwiftUI font metrics; no pixel-equivalence claim.",
+    "Web geometry fixtures compare node bounds, not glyph raster pixel identity.",
+    "Advanced wrapping, bidirectional direction controls and typography token/mode identity remain in parent issues9/10/11.",
+    "SVG/PNG retains typography fields and embeds the bundled font; its historical fixed-size serializer does not yet implement browser-equivalent wrapping.",
+    "The font is a binary app asset; web exports encode it with the license. Native custom-scheme fetch status0 is accepted after validating the WOFF2 header."
+  ]
+}

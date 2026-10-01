@@ -365,12 +365,26 @@
                   <textarea aria-label="Text content" [ngModel]="n.text"
                     (change)="patch('text', value($event))"></textarea>
                 </mui-field>
+                <mui-field label="Family" [stacked]="true">
+                  <input aria-label="Font family" list="font-families" [ngModel]="n.fontFamily"
+                    (change)="patch('fontFamily', value($event))" />
+                  <datalist id="font-families"><option>system-ui</option><option>Maple Sans</option><option>serif</option><option>monospace</option><option>sans-serif</option></datalist>
+                </mui-field>
+                <font-inspector [node]="n" />
                 <div class="inspector-grid">
                   <label class="compact-field"><span>Size</span><input type="number" min="6" aria-label="Font size"
                     [ngModel]="n.fontSize" (change)="patch('fontSize', +value($event))" /></label>
                   <label class="compact-field"><span>Weight</span><input type="number" min="100" max="900" step="100" aria-label="Font weight"
                     [ngModel]="n.fontWeight" (change)="patch('fontWeight', +value($event))" /></label>
                 </div>
+                <div class="inspector-grid">
+                  <label class="compact-field"><span>Line ×</span><input type="number" min="0.5" max="5" step="0.1" aria-label="Line height"
+                    [ngModel]="n.lineHeight" (change)="patch('lineHeight', +value($event))" /></label>
+                  <label class="compact-field"><span>Track</span><input type="number" min="-20" max="100" step="0.1" aria-label="Letter spacing"
+                    [ngModel]="n.letterSpacing" (change)="patch('letterSpacing', +value($event))" /></label>
+                </div>
+                <mui-field label="Align"><mui-select ariaLabel="Text alignment" [value]="n.textAlign" [options]="textAlignOptions"
+                  (valueChange)="patch('textAlign', $event)" /></mui-field>
                 <mui-field label="Text color"><input type="color" aria-label="Text color" [value]="n.color"
                   (change)="patch('color', value($event))" /></mui-field>
               </mui-section>

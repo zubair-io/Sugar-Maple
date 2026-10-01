@@ -1,3 +1,4 @@
+import { SceneFonts } from './canvas/scene-fonts';
 import { toolOutputJSONSchemas } from './model/tool-output';
 import { PersistenceQueue } from './model/persistence-queue';
 import { pasteElements } from './model/clipboard';
@@ -29,6 +30,7 @@ declare global {
 @Injectable({ providedIn: 'root' })
 export class EditorService {
   readonly assets = inject(SceneAssets);
+  readonly fonts = inject(SceneFonts);
   store = new DocumentStore();
   readonly openFiles = signal<{ id: string; name: string }[]>([]);
   readonly tabBusy = signal(false);
@@ -60,6 +62,8 @@ export class EditorService {
   constructor() {
     effect(() => {
       this.assets.prune(this.doc().nodes);
+      for (const n of this.doc().nodes)
+        if (['text', 'button', 'input'].includes(n.kind)) this.fonts.get(n.fontFamily);
     });
     window.sugarMaple = {
       dispatch: (method: string, args: any) => this.dispatch(method, args),
@@ -87,7 +91,10 @@ export class EditorService {
       },
       ready: false,
     };
-    this.restore().finally(() => {
+    this.restore().finally(async () => {
+      await this.fonts.ready.catch((error) =>
+        this.error.set(error instanceof Error ? error.message : String(error)),
+      );
       this.ready.set(true);
       window.sugarMaple.ready = true;
     });
@@ -569,6 +576,8 @@ export class EditorService {
       if (result) this.select(result.ids[0]);
     } catch (e) {
       this.assets.prune(this.doc().nodes);
+      for (const n of this.doc().nodes)
+        if (['text', 'button', 'input'].includes(n.kind)) this.fonts.get(n.fontFamily);
       this.report(e);
     }
   }
@@ -683,7 +692,7 @@ export class EditorService {
     let timeout: ReturnType<typeof setTimeout> | undefined;
     try {
       await Promise.race([
-        document.fonts.ready,
+        this.fonts.settle(this.pageNodes()).then(() => document.fonts.ready),
         new Promise((_, reject) => {
           timeout = setTimeout(() => reject(Error('Font loading timed out')), 5000);
         }),

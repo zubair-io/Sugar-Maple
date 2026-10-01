@@ -1,3 +1,5 @@
+import { fontStack, textAlignment } from './typography';
+import { bundledFontStyle } from './bundled-font-access';
 import { gradientSVG } from './gradient';
 import { subtree } from './composition';
 import { NodeSchema, uid, type SceneDocument, type SceneNode, type Operation } from './schema';
@@ -29,11 +31,11 @@ export function svgExport(doc: SceneDocument, id: string) {
     if (n.kind === 'image')
       shape += `<image href="${n.asset}" width="${n.width}" height="${n.height}" preserveAspectRatio="xMidYMid slice"/>`;
     if (n.text)
-      shape += `<text x="${n.kind === 'button' ? n.width / 2 : 0}" y="${n.fontSize}" text-anchor="${n.kind === 'button' ? 'middle' : 'start'}" fill="${n.color}" font-family="Arial, sans-serif" font-size="${n.fontSize}" font-weight="${n.fontWeight}">${n.text
+      shape += `<text x="${textAlignment(n) === 'center' ? n.width / 2 : textAlignment(n) === 'right' ? n.width - n.strokeWidth : n.strokeWidth}" y="${n.fontSize}" text-anchor="${textAlignment(n) === 'center' ? 'middle' : textAlignment(n) === 'right' ? 'end' : 'start'}" fill="${n.color}" font-family="${escape(fontStack(n.fontFamily))}" letter-spacing="${n.letterSpacing}" font-size="${n.fontSize}" font-weight="${n.fontWeight}">${n.text
         .split('\n')
         .map(
           (line, i) =>
-            `<tspan x="${n.kind === 'button' ? n.width / 2 : 0}" dy="${i ? n.fontSize * 1.2 : 0}">${escape(line)}</tspan>`,
+            `<tspan x="${textAlignment(n) === 'center' ? n.width / 2 : textAlignment(n) === 'right' ? n.width - n.strokeWidth : n.strokeWidth}" dy="${i ? n.fontSize * n.lineHeight : 0}">${escape(line)}</tspan>`,
         )
         .join('')}</text>`;
     const children = doc.nodes.filter((v) => v.parentId === n.id).sort((a, b) => a.order - b.order);
@@ -62,7 +64,7 @@ export function svgExport(doc: SceneDocument, id: string) {
     }
     return `<g transform="translate(${x} ${y}) rotate(${n.rotation} ${n.width / 2} ${n.height / 2})" opacity="${n.opacity}"><svg width="${n.width}" height="${n.height}" overflow="hidden">${shape}</svg></g>`;
   };
-  return `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="${root.width}" height="${root.height}" viewBox="0 0 ${root.width} ${root.height}">${render(root, 0, 0)}</svg>`;
+  return `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="${root.width}" height="${root.height}" viewBox="0 0 ${root.width} ${root.height}">${subtree(doc, id).some((n) => n.fontFamily === 'Maple Sans') ? `<defs><style>${bundledFontStyle()}</style></defs>` : ''}${render(root, 0, 0)}</svg>`;
 }
 export function svgImport(source: string, pageId: string, name: string): Operation[] {
   if (source.length > 1_000_000) throw Error('SVG exceeds 1 MB');
