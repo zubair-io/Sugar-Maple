@@ -20,3 +20,7 @@ The candidate still requires exact-head CI, review and merge before #48 closes. 
 
 ![Actual native named-field preview](native-mapping-preview.png)
 ![Actual native CSV and PNG import](native-file-import.png)
+
+## Review follow-up
+
+The actual first review (session `1433770453613650310`) blocked the PR's review-gate wording and alleged that clipboard asset access fails on ordinary nodes. `NodeSchema` supplies an empty-string asset default, and the real plain-node consumers already pass; the follow-up still adds optional access for legacy sparse callers and a complete copy/paste/reopen/undo regression. The PR wording was removed. The suggested image byte-copy improvement is also applied using one allocated buffer and a linear loop. Final local acceptance is now 60 model tests / 415 assertions; updated exact-head CI and a new actual review still precede merge. The first verdict remains visible and is not rewritten.

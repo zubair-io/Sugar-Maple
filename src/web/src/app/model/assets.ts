@@ -20,7 +20,8 @@ export function embeddedAsset(source: string) {
   }
   if (btoa(binary) !== match[2] || binary.length > 5_000_000)
     throw Error('Invalid image base64 or size');
-  const bytes = Uint8Array.from(binary, (c) => c.charCodeAt(0));
+  const bytes = new Uint8Array(binary.length);
+  for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
   const png =
     bytes.length >= 33 &&
     bytes.slice(0, 8).every((v, i) => v === [137, 80, 78, 71, 13, 10, 26, 10][i]) &&

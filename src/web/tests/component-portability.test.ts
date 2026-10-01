@@ -2,7 +2,7 @@ import { test, expect } from 'bun:test';
 import { DocumentStore } from '../src/app/model/store';
 import { uid } from '../src/app/model/schema';
 import { exportNode, nodeStyles } from '../src/app/model/export';
-import { pasteElements } from '../src/app/model/clipboard';
+import { editablePayload, pasteElements } from '../src/app/model/clipboard';
 const commit = (s: DocumentStore, operations: any[]) => s.transact({ documentId: s.document.id, expectedRevision: s.revision, requestId: uid(), operations });
 
 test('literal variant replaces inherited token, token variant binds, and local overrides win through undo', () => {
@@ -62,4 +62,21 @@ test('legacy incomplete clipboard fails rather than silently detaching', () => {
   const s = new DocumentStore();
   const text = JSON.stringify({ format: 'sugar-maple-elements', version: 1, nodes: [{ id: 'instance', pageId: s.document.pages[0].id, kind: 'button', name: 'Button', componentId: 'missing' }] });
   expect(() => pasteElements(s.document, s.document.pages[0].id, text)).toThrow('Missing component master');
+});
+
+test('plain-layer clipboard remains portable when a legacy caller omits the default asset field', () => {
+  const source = new DocumentStore(), pageId = source.document.pages[0].id;
+  commit(source, [{ type: 'node.add', node: { id: 'plain', pageId, kind: 'text', text: 'Portable plain text' } }]);
+  expect(source.document.nodes[0].asset).toBe('');
+  const sparse = structuredClone(source.document);
+  delete (sparse.nodes[0] as Partial<typeof sparse.nodes[number]>).asset;
+  const payload = editablePayload(sparse, 'plain');
+  expect(payload.assets).toEqual({});
+  const target = new DocumentStore(), before = target.document;
+  const paste = pasteElements(target.document, target.document.pages[0].id, JSON.stringify(payload));
+  commit(target, paste.operations);
+  expect(target.document.nodes[0].text).toBe('Portable plain text');
+  expect(target.document.nodes[0].asset).toBe('');
+  expect(DocumentStore.fromCheckpoint(target.checkpoint()).document).toEqual(target.document);
+  target.undo(); expect(target.document).toEqual(before);
 });

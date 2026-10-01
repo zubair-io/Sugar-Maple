@@ -6,11 +6,12 @@
   "sourceCommits": [
     "f079c67",
     "1caa399",
-    "03bcdea"
+    "03bcdea",
+    "follow-up: clipboard optional guard and linear byte copy"
   ],
   "checks": {
-    "modelTests": 59,
-    "modelAssertions": 409,
+    "modelTests": 60,
+    "modelAssertions": 415,
     "browserConsumerSuites": 19,
     "finalTargetedBrowserSuites": [
       "repeat-data-e2e",
@@ -46,6 +47,7 @@
     "Fixed missing trusted WKWebView file panel delegate; preview/subframe/external/directory imports denied",
     "A contended model run exceeded the preexisting five-second 5000-node test timeout; rerun passed all 59 tests in 1.84 seconds; no test timeout relaxed",
     "Initial QA harness used unpublished render.ready; corrected to actual render.capture",
-    "Initial native AX focus/coordinate attempts did not author data; actual mapped file import and cancellation subsequently verified"
+    "Initial native AX focus/coordinate attempts did not author data; actual mapped file import and cancellation subsequently verified",
+    "Actual review 1433770453613650310 blocked the PR wording and alleged absent assets on plain nodes; removed wording, added defensive sparse-call guard plus cross-document regression, and replaced byte iterator with a linear buffer copy. Validated nodes already default assets to empty strings. Updated head awaits fresh review."
   ]
 }
