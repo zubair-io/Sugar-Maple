@@ -1,32 +1,37 @@
 {
   "date": "2026-10-01",
-  "main": "40516df660483d219214bc063fbfe7e5a1a08cb8",
-  "mainCI": "https://github.com/zubair-io/Sugar-Maple/actions/runs/36910871188",
+  "main": "81911c2597e5895d73dd43f414cd772f386709d6",
+  "mainCI": "https://github.com/zubair-io/Sugar-Maple/actions/runs/36924705377",
   "scope": "All 34 GitHub issues after the initial 27-issue audit and concrete follow-up creation",
   "counts": {
     "total": 34,
-    "closed": 4,
-    "open": 30
+    "closed": 5,
+    "open": 29
   },
   "mergedPRs": [
     45,
     52,
     53,
     54,
-    56
+    56,
+    57,
+    58,
+    59,
+    60
   ],
   "candidatePRs": [
-    58
+    61,
+    62
   ],
   "issues": [
     {
       "number": 1,
-      "title": "[MVP tracker] Sugar Maple — local-first UI design, preview and developer handoff",
+      "title": "[MVP tracker] Sugar Maple \u2014 local-first UI design, preview and developer handoff",
       "url": "https://github.com/zubair-io/Sugar-Maple/issues/1",
       "githubState": "OPEN",
       "assessment": "active tracker",
-      "delivered": "Canvas/QA-01–QA-10 (#45), native CI/access (#52), early MCP (#53), typography (#54) and typed forms/overlays (#56) are merged. Issues #3/#20/#46/#47 are closed on verified main.",
-      "remaining": "Complete remaining MVP acceptance; post-MVP remains deferred. Operational review recovery candidate #58 tracks #55.",
+      "delivered": "Canvas/QA-01\u2013QA-10 (#45), native CI/access (#52), early MCP (#53), typography (#54) and typed forms/overlays (#56) are merged. Issues #3/#20/#46/#47 are closed on verified main. Scoped discovery/reads/cropped capture (#59, closes #50), issue-status reconciliation (#57) and review recovery (#58/#60) are also merged.",
+      "remaining": "Complete remaining MVP acceptance; post-MVP remains deferred. Native preview/Inspect candidate #62 and final review-size regression #61 await exact-head delivery.",
       "resolvedQA": []
     },
     {
@@ -161,9 +166,9 @@
       "title": "[MVP] Add isolated responsive preview and click-through prototyping",
       "url": "https://github.com/zubair-io/Sugar-Maple/issues/14",
       "githubState": "OPEN",
-      "assessment": "partial",
+      "assessment": "implemented candidate #62; delivery pending",
       "delivered": "Cross-page navigation, responsive presets/dissolve and typed forms/overlay focus/reset/retained state/deleted-target diagnosis are merged in #56.",
-      "remaining": "A separate native preview window and its lifecycle/cleanup acceptance remain. The form slice does not close this parent.",
+      "remaining": "The separate native window, custom viewport/scrolling, live snapshots, Inspect and cleanup are implemented and verified in candidate #62. All 53 model tests, 18 browser/consumer suites, actual native/SDK/UI acceptance pass locally. Exact-head CI/review/merge still precede closure; full developer mappings remain #15.",
       "resolvedQA": [
         "QA-05",
         "QA-09"
@@ -176,7 +181,7 @@
       "githubState": "OPEN",
       "assessment": "partial",
       "delivered": "Inspector exposes authored name, local master/instance/variant/override identity and working portable copy actions.",
-      "remaining": "Show production design-system source/version/platform mappings, state, token identity and authored-versus-measured rules; verify nested keyboard inspection and each advertised copy payload.",
+      "remaining": "Show production design-system source/version/platform mappings, state, token identity and authored-versus-measured rules; verify nested keyboard inspection and each advertised copy payload. Candidate #62 adds read-only nested component/token Inspect selection; it does not complete these mapped handoff requirements.",
       "resolvedQA": []
     },
     {
@@ -311,8 +316,8 @@
       "url": "https://github.com/zubair-io/Sugar-Maple/issues/27",
       "githubState": "OPEN",
       "assessment": "partial",
-      "delivered": "Native HTTP/stdio, shared commands, durable autosave, revision-bound capture and every advertised output schema, lifecycle/throttle/occupied-port/errors are verified and merged #53.",
-      "remaining": "Complete remaining feature-specific tools, examples/resources, scoped subtree/cropped reads (#50) and fresh offline full release workflow acceptance. No missing output-schema claim for implemented tools.",
+      "delivered": "Native HTTP/stdio, shared commands, durable autosave, revision-bound capture and every advertised output schema, lifecycle/throttle/occupied-port/errors are verified and merged #53. #59 also delivers bounded scoped reads, compact discovery and native crops; actual SDK/native large-scene evidence is recorded.",
+      "remaining": "Complete remaining feature-specific tools, examples/resources and fresh offline full release workflow acceptance. Implemented output schemas and scoped reads are verified; visible rendering/performance remain #2/#8.",
       "resolvedQA": [
         "QA-01",
         "QA-02",
@@ -366,10 +371,10 @@
       "number": 50,
       "title": "[MVP] Add scoped MCP reads and bounded editor discovery",
       "url": "https://github.com/zubair-io/Sugar-Maple/issues/50",
-      "githubState": "OPEN",
-      "assessment": "planned; concrete product follow-up",
-      "delivered": "Tracked with scoped acceptance; not implemented.",
-      "remaining": "Versioned input/output schemas describe scope, ordering, pagination/limits, coordinate units and supported capabilities. Scoped reads include exact document/revision and required component/token references; unknown IDs and stale document targets fail explicitly. Add cropped/revision-bound capture with bounded dimensions, render throttling and diagnostics; raw file access is not exposed. Actual HTTP/stdio fixtures compare scoped results with the authoritative scene after human/agent edits and undo. Measure response size/time on 1,000/10,000-node fixtures and bound work to the requested scope where possible.",
+      "githubState": "CLOSED",
+      "assessment": "complete; merged #59",
+      "delivered": "Versioned discovery/scoped reads, stable pagination/exact nodes/references, explicit stale/wrong/unknown targets, bounded native crops and actual HTTP/stdio/edit/undo/1k\u201310k evidence are merged. Capture metadata hardening passed fresh exact-head approval and CI; main CI passes.",
+      "remaining": "Visible Canvas/Layers and complete release performance remain #2/#8/#21; expanded tooling remains #27. Local scoped latency observations are not a release p95 claim.",
       "resolvedQA": []
     },
     {
@@ -387,10 +392,11 @@
       "title": "[Engineering] Recover review timeouts and completed-session cleanup failures",
       "url": "https://github.com/zubair-io/Sugar-Maple/issues/55",
       "githubState": "OPEN",
-      "assessment": "verified candidate #58; live recovery pending",
-      "delivered": "A candidate adds polling state/counter diagnosis, bounded transient cleanup retry and main-only exact-session recovery guarded by trusted reviewer references and API identity/source. All 19 reviewer tests and both bundles pass locally.",
-      "remaining": "Review/merge #58, inspect retained #52 sessions and recover completed published #54/#56 sessions using the repository secret. Retain failed/unpublished sessions and record actual outcomes.",
+      "assessment": "recovery delivered; final candidate #61 pending",
+      "delivered": "Review diagnosis/retry/main-only exact-session recovery (#58) and guarded final artifacts (#60) are merged. Six live inspection/cleanup runs and final artifact retrieval succeed. #52 FAILED and unpublished late-COMPLETED sessions are retained; #54/#56 are already absent. The late actual block allegation was inspected; compiled sparse-file tests disprove the asserted 32-bit truncation on supported Swift.",
+      "remaining": "Candidate #61 makes the bounds explicitly unsigned 64-bit and records final sparse-file regression/disposition. Native tests pass; fresh exact-head CI/review/merge remain. No verdict was republished and no failed/unpublished session was deleted.",
       "resolvedQA": []
     }
-  ]
+  ],
+  "asOf": "2026-10-01T21:10:32.979503+00:00"
 }
