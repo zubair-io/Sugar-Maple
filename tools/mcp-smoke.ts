@@ -1,11 +1,11 @@
-import { homedir } from "node:os";
+import { tokenFile, mcpEndpoint } from "./mcp-config";
 import { writeFile, mkdir } from "node:fs/promises";
 const token = await Bun.file(
-  `${homedir()}/Library/Application Support/SugarMaple/mcp-token`,
+  tokenFile,
 ).text();
 let sequence = 0;
 async function rpc(method: string, params: any = {}) {
-  const response = await fetch("http://127.0.0.1:48480/mcp", {
+  const response = await fetch(mcpEndpoint, {
     method: "POST",
     headers: {
       Authorization: `Bearer ${token}`,
