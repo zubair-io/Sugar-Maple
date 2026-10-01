@@ -1,0 +1,80 @@
+{
+  "date": "2026-10-01T07:21:17.660Z",
+  "renderer": "Integrated Just-Maple Whiteboard Canvas2D; clipping checked in native DOM preview",
+  "screens": [
+    {
+      "screen": "welcome",
+      "clipped": 0
+    },
+    {
+      "screen": "about",
+      "clipped": 0
+    },
+    {
+      "screen": "import",
+      "clipped": 0
+    },
+    {
+      "screen": "learned",
+      "clipped": 0
+    },
+    {
+      "screen": "connect",
+      "clipped": 0
+    },
+    {
+      "screen": "providers",
+      "clipped": 0
+    },
+    {
+      "screen": "review",
+      "clipped": 0
+    },
+    {
+      "screen": "home",
+      "clipped": 0
+    },
+    {
+      "screen": "why",
+      "clipped": 0
+    },
+    {
+      "screen": "correct",
+      "clipped": 0
+    },
+    {
+      "screen": "quiet",
+      "clipped": 0
+    },
+    {
+      "screen": "notes",
+      "clipped": 0
+    },
+    {
+      "screen": "notebook",
+      "clipped": 0
+    },
+    {
+      "screen": "newnote",
+      "clipped": 0
+    },
+    {
+      "screen": "workbook",
+      "clipped": 0
+    },
+    {
+      "screen": "worknote",
+      "clipped": 0
+    },
+    {
+      "screen": "outbook",
+      "clipped": 0
+    },
+    {
+      "screen": "outnote",
+      "clipped": 0
+    }
+  ],
+  "prototype": "Welcome → onboarding → Home → evidence → correction → Notes → notebook → new note → notebook shelf → Home",
+  "passed": true
+}

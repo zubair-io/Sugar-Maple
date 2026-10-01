@@ -1,0 +1,448 @@
+{
+  "documentId": "50b10212-aab5-43e6-a969-efb09fa05f11",
+  "revision": 184,
+  "checkedAt": "2026-09-22T05:47:51.228Z",
+  "source": "Live Sugar Maple MCP document + native revision-bound captures",
+  "pages": [
+    {
+      "name": "Welcome",
+      "pageId": "jm-576f0702-page-welcome",
+      "artboardId": "jm-576f0702-screen-welcome"
+    },
+    {
+      "name": "About you",
+      "pageId": "jm-576f0702-page-about",
+      "artboardId": "jm-576f0702-screen-about"
+    },
+    {
+      "name": "Bring your context",
+      "pageId": "jm-576f0702-page-import",
+      "artboardId": "jm-576f0702-screen-import"
+    },
+    {
+      "name": "Review facts",
+      "pageId": "jm-576f0702-page-learned",
+      "artboardId": "jm-576f0702-screen-learned"
+    },
+    {
+      "name": "Connections",
+      "pageId": "jm-576f0702-page-connect",
+      "artboardId": "jm-576f0702-screen-connect"
+    },
+    {
+      "name": "Intelligence",
+      "pageId": "jm-576f0702-page-providers",
+      "artboardId": "jm-576f0702-screen-providers"
+    },
+    {
+      "name": "Your world",
+      "pageId": "jm-576f0702-page-review",
+      "artboardId": "jm-576f0702-screen-review"
+    },
+    {
+      "name": "Overview",
+      "pageId": "jm-576f0702-page-home",
+      "artboardId": "jm-576f0702-screen-home"
+    },
+    {
+      "name": "Evidence",
+      "pageId": "jm-576f0702-page-why",
+      "artboardId": "jm-576f0702-screen-why"
+    },
+    {
+      "name": "Correction",
+      "pageId": "jm-576f0702-page-correct",
+      "artboardId": "jm-576f0702-screen-correct"
+    },
+    {
+      "name": "Notebooks",
+      "pageId": "jm-96dede22-p-notes",
+      "artboardId": "jm-96dede22-notes"
+    },
+    {
+      "name": "First day",
+      "pageId": "jm-576f0702-page-quiet",
+      "artboardId": "jm-576f0702-screen-quiet"
+    },
+    {
+      "name": "Everyday",
+      "pageId": "jm-96dede22-p-notebook",
+      "artboardId": "jm-96dede22-notebook"
+    },
+    {
+      "name": "Me",
+      "pageId": "aebd12d1-62ad-4463-aefe-fbb6d7ded099",
+      "artboardId": "jm-state-screen-me"
+    },
+    {
+      "name": "People",
+      "pageId": "jm-state-page-people",
+      "artboardId": "jm-state-screen-people"
+    },
+    {
+      "name": "Home",
+      "pageId": "jm-state-page-home",
+      "artboardId": "jm-state-screen-home"
+    },
+    {
+      "name": "Work",
+      "pageId": "jm-state-page-work",
+      "artboardId": "jm-state-screen-work"
+    },
+    {
+      "name": "Activities",
+      "pageId": "jm-state-page-jobs",
+      "artboardId": "jm-state-screen-jobs"
+    },
+    {
+      "name": "Schedule",
+      "pageId": "jm-state-page-schedule",
+      "artboardId": "jm-state-screen-schedule"
+    },
+    {
+      "name": "Health",
+      "pageId": "jm-state-page-health",
+      "artboardId": "jm-state-screen-health"
+    },
+    {
+      "name": "State evidence",
+      "pageId": "jm-state-page-state-evidence",
+      "artboardId": "jm-state-screen-state-evidence"
+    },
+    {
+      "name": "Correct state",
+      "pageId": "jm-state-page-correct-state",
+      "artboardId": "jm-state-screen-correct-state"
+    },
+    {
+      "name": "History",
+      "pageId": "jm-state-page-history",
+      "artboardId": "jm-state-screen-history"
+    },
+    {
+      "name": "Task · Soccer",
+      "pageId": "jm-activity-soccer-page",
+      "artboardId": "jm-activity-soccer"
+    },
+    {
+      "name": "New activity",
+      "pageId": "jm-activity-new-page",
+      "artboardId": "jm-activity-new"
+    },
+    {
+      "name": "Activity · Family",
+      "pageId": "jm-sat-activity-family-page",
+      "artboardId": "jm-sat-activity-family-root"
+    },
+    {
+      "name": "Activity · Job Search",
+      "pageId": "jm-sat-activity-job-search-page",
+      "artboardId": "jm-sat-activity-job-search-root"
+    },
+    {
+      "name": "Tasks",
+      "pageId": "jm-sat-tasks-page",
+      "artboardId": "jm-sat-tasks-root"
+    },
+    {
+      "name": "New task",
+      "pageId": "jm-sat-new-task-page",
+      "artboardId": "jm-sat-new-task-root"
+    },
+    {
+      "name": "Suggested task",
+      "pageId": "jm-sat-suggested-task-page",
+      "artboardId": "jm-sat-suggested-task-root"
+    },
+    {
+      "name": "Task · Permission slip",
+      "pageId": "jm-sat-task-permission-slip-page",
+      "artboardId": "jm-sat-task-permission-slip-root"
+    },
+    {
+      "name": "Task · Completed",
+      "pageId": "jm-sat-task-completed-page",
+      "artboardId": "jm-sat-task-completed-root"
+    },
+    {
+      "name": "Task · Context mismatch",
+      "pageId": "jm-sat-task-context-mismatch-page",
+      "artboardId": "jm-sat-task-context-mismatch-root"
+    },
+    {
+      "name": "Suggestion dismissed",
+      "pageId": "jm-sat-suggestion-dismissed-page",
+      "artboardId": "jm-sat-suggestion-dismissed-root"
+    }
+  ],
+  "brokenPrototypeTargets": [],
+  "onboardingPreserved": true,
+  "standaloneJobsLabels": [],
+  "captures": [
+    {
+      "name": "Overview",
+      "pageId": "jm-576f0702-page-home",
+      "artboardId": "jm-576f0702-screen-home",
+      "screenshot": "screens/overview.png",
+      "revision": 184,
+      "visibleNodeCount": 89,
+      "renderedNodeCount": 90,
+      "outOfArtboard": []
+    },
+    {
+      "name": "First day",
+      "pageId": "jm-576f0702-page-quiet",
+      "artboardId": "jm-576f0702-screen-quiet",
+      "screenshot": "screens/first-day.png",
+      "revision": 184,
+      "visibleNodeCount": 59,
+      "renderedNodeCount": 60,
+      "outOfArtboard": []
+    },
+    {
+      "name": "Activities",
+      "pageId": "jm-state-page-jobs",
+      "artboardId": "jm-state-screen-jobs",
+      "screenshot": "screens/activities.png",
+      "revision": 184,
+      "visibleNodeCount": 78,
+      "renderedNodeCount": 79,
+      "outOfArtboard": []
+    },
+    {
+      "name": "Activity · Family",
+      "pageId": "jm-sat-activity-family-page",
+      "artboardId": "jm-sat-activity-family-root",
+      "screenshot": "screens/activity-family.png",
+      "revision": 184,
+      "visibleNodeCount": 79,
+      "renderedNodeCount": 80,
+      "outOfArtboard": []
+    },
+    {
+      "name": "Activity · Job Search",
+      "pageId": "jm-sat-activity-job-search-page",
+      "artboardId": "jm-sat-activity-job-search-root",
+      "screenshot": "screens/activity-job-search.png",
+      "revision": 184,
+      "visibleNodeCount": 72,
+      "renderedNodeCount": 73,
+      "outOfArtboard": []
+    },
+    {
+      "name": "Tasks",
+      "pageId": "jm-sat-tasks-page",
+      "artboardId": "jm-sat-tasks-root",
+      "screenshot": "screens/tasks.png",
+      "revision": 184,
+      "visibleNodeCount": 99,
+      "renderedNodeCount": 100,
+      "outOfArtboard": []
+    },
+    {
+      "name": "Task · Soccer",
+      "pageId": "jm-activity-soccer-page",
+      "artboardId": "jm-activity-soccer",
+      "screenshot": "screens/task-soccer.png",
+      "revision": 184,
+      "visibleNodeCount": 72,
+      "renderedNodeCount": 73,
+      "outOfArtboard": []
+    },
+    {
+      "name": "Task · Completed",
+      "pageId": "jm-sat-task-completed-page",
+      "artboardId": "jm-sat-task-completed-root",
+      "screenshot": "screens/task-completed.png",
+      "revision": 184,
+      "visibleNodeCount": 71,
+      "renderedNodeCount": 72,
+      "outOfArtboard": []
+    },
+    {
+      "name": "Task · Context mismatch",
+      "pageId": "jm-sat-task-context-mismatch-page",
+      "artboardId": "jm-sat-task-context-mismatch-root",
+      "screenshot": "screens/task-context-mismatch.png",
+      "revision": 184,
+      "visibleNodeCount": 71,
+      "renderedNodeCount": 72,
+      "outOfArtboard": []
+    },
+    {
+      "name": "New activity",
+      "pageId": "jm-activity-new-page",
+      "artboardId": "jm-activity-new",
+      "screenshot": "screens/new-activity.png",
+      "revision": 184,
+      "visibleNodeCount": 58,
+      "renderedNodeCount": 59,
+      "outOfArtboard": []
+    },
+    {
+      "name": "New task",
+      "pageId": "jm-sat-new-task-page",
+      "artboardId": "jm-sat-new-task-root",
+      "screenshot": "screens/new-task.png",
+      "revision": 184,
+      "visibleNodeCount": 69,
+      "renderedNodeCount": 70,
+      "outOfArtboard": []
+    },
+    {
+      "name": "Suggested task",
+      "pageId": "jm-sat-suggested-task-page",
+      "artboardId": "jm-sat-suggested-task-root",
+      "screenshot": "screens/suggested-task.png",
+      "revision": 184,
+      "visibleNodeCount": 62,
+      "renderedNodeCount": 63,
+      "outOfArtboard": []
+    },
+    {
+      "name": "Task · Permission slip",
+      "pageId": "jm-sat-task-permission-slip-page",
+      "artboardId": "jm-sat-task-permission-slip-root",
+      "screenshot": "screens/task-permission-slip.png",
+      "revision": 184,
+      "visibleNodeCount": 62,
+      "renderedNodeCount": 63,
+      "outOfArtboard": []
+    },
+    {
+      "name": "Suggestion dismissed",
+      "pageId": "jm-sat-suggestion-dismissed-page",
+      "artboardId": "jm-sat-suggestion-dismissed-root",
+      "screenshot": "screens/suggestion-dismissed.png",
+      "revision": 184,
+      "visibleNodeCount": 52,
+      "renderedNodeCount": 53,
+      "outOfArtboard": []
+    },
+    {
+      "name": "State evidence",
+      "pageId": "jm-state-page-state-evidence",
+      "artboardId": "jm-state-screen-state-evidence",
+      "screenshot": "screens/state-evidence.png",
+      "revision": 184,
+      "visibleNodeCount": 59,
+      "renderedNodeCount": 60,
+      "outOfArtboard": []
+    },
+    {
+      "name": "Evidence",
+      "pageId": "jm-576f0702-page-why",
+      "artboardId": "jm-576f0702-screen-why",
+      "screenshot": "screens/evidence.png",
+      "revision": 184,
+      "visibleNodeCount": 71,
+      "renderedNodeCount": 72,
+      "outOfArtboard": []
+    },
+    {
+      "name": "Correction",
+      "pageId": "jm-576f0702-page-correct",
+      "artboardId": "jm-576f0702-screen-correct",
+      "screenshot": "screens/correction.png",
+      "revision": 184,
+      "visibleNodeCount": 58,
+      "renderedNodeCount": 59,
+      "outOfArtboard": []
+    }
+  ],
+  "limitations": [
+    "Navigation targets checked structurally, not every link clicked",
+    "No automated text-overflow or accessibility audit",
+    "Static design scenarios do not persist task mutations"
+  ],
+  "savedDocumentPath": "/Users/riabuz/Documents/Just Maple.syrup",
+  "savedDocumentMatchesLive": true,
+  "handoffSnapshotMatchesLive": true,
+  "notebookContentPreserved": true,
+  "markdownLinksValid": true,
+  "prototypeRouteAssertions": [
+    {
+      "from": "Overview",
+      "control": "Take kids to soccer practice",
+      "to": "Task · Soccer",
+      "valid": true
+    },
+    {
+      "from": "Task · Soccer",
+      "control": "Mark complete",
+      "to": "Task · Completed",
+      "valid": true
+    },
+    {
+      "from": "Activities",
+      "control": "Family",
+      "to": "Activity · Family",
+      "valid": true
+    },
+    {
+      "from": "Activities",
+      "control": "Job Search",
+      "to": "Activity · Job Search",
+      "valid": true
+    },
+    {
+      "from": "Activity · Job Search",
+      "control": "Why this state?",
+      "to": "Evidence",
+      "valid": true
+    },
+    {
+      "from": "Evidence",
+      "control": "This state is wrong",
+      "to": "Correction",
+      "valid": true
+    },
+    {
+      "from": "Suggested task",
+      "control": "Add task",
+      "to": "Task · Permission slip",
+      "valid": true
+    },
+    {
+      "from": "Suggested task",
+      "control": "Not a task",
+      "to": "Suggestion dismissed",
+      "valid": true
+    },
+    {
+      "from": "Suggestion dismissed",
+      "control": "Undo dismissal",
+      "to": "Suggested task",
+      "valid": true
+    },
+    {
+      "from": "Task · Soccer",
+      "control": "See context mismatch example →",
+      "to": "Task · Context mismatch",
+      "valid": true
+    }
+  ],
+  "visualReview": {
+    "reviewedScreens": [
+      "Overview",
+      "First day",
+      "Activities",
+      "Activity · Family",
+      "Activity · Job Search",
+      "Tasks",
+      "Task · Soccer",
+      "Task · Completed",
+      "Task · Context mismatch",
+      "New activity",
+      "New task",
+      "Suggested task",
+      "Task · Permission slip",
+      "Suggestion dismissed",
+      "State evidence",
+      "Evidence",
+      "Correction"
+    ],
+    "method": "Assistant visual inspection of native captures; no material clipping or overlap observed in reviewed screens",
+    "notAnAccessibilityAudit": true
+  }
+}
