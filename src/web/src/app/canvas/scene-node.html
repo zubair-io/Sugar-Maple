@@ -1,14 +1,15 @@
 @if (!node().hidden) {
   <div
     class="node"
-    [class.selected]="selected().includes(node().id) && !preview()"
+    [class.selected]="selected().includes(node().id) && (!preview() || inspect())"
+    [class.inspect]="inspect()"
     [ngStyle]="style()"
     [attr.data-node-id]="node().id"
     [attr.aria-label]="node().name"
     [attr.role]="clickable() && !['button', 'input'].includes(node().kind) ? 'button' : null"
     [attr.tabindex]="clickable() && !['button', 'input'].includes(node().kind) ? 0 : null"
     (keydown)="onKey($event)"
-    (pointerdown)="!preview() && pick.emit({ event: $event, node: node() })"
+    (pointerdown)="(!preview() || inspect()) && pick.emit({ event: $event, node: node() })"
     (click)="onActivate($event)"
   >
     @switch (node().kind) {
@@ -16,7 +17,7 @@
         <span class="text">{{ node().text }}</span>
       }
       @case ('button') {
-        <button class="authored" [disabled]="node().disabled" [attr.aria-label]="node().accessibleLabel || null" [tabIndex]="preview() ? 0 : -1">{{ node().text }}</button>
+        <button class="authored" [disabled]="node().disabled" [attr.aria-label]="node().accessibleLabel || null" [tabIndex]="preview() && !inspect() ? 0 : -1">{{ node().text }}</button>
       }
       @case ('input') {
         <input
@@ -28,9 +29,9 @@
           [disabled]="node().disabled"
           [attr.aria-label]="label()"
           [value]="preview() && session ? session.value(node()) : node().initialValue"
-          (input)="preview() && session?.input(node(), $event)"
-          [readOnly]="!preview()"
-          [tabIndex]="preview() ? 0 : -1"
+          (input)="preview() && !inspect() && session?.input(node(), $event)"
+          [readOnly]="!preview() || inspect()"
+          [tabIndex]="preview() && !inspect() ? 0 : -1"
         />
       }
       @case ('image') {
@@ -76,6 +77,7 @@
         [document]="document()"
         [selected]="selected()"
         [preview]="preview()"
+        [inspect]="inspect()"
         (pick)="pick.emit($event)"
         (activate)="activate.emit($event)"
       />

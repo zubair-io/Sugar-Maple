@@ -23,7 +23,7 @@ import { exportNode, type ExportTarget } from './model/export';
 
 declare global {
   interface Window {
-    webkit?: { messageHandlers: { native: { postMessage: (message: unknown) => Promise<any> } } };
+    webkit?: { messageHandlers: { native: { postMessage: (message: unknown) => Promise<any> }; preview?: { postMessage: (message: unknown) => Promise<any> } } };
     sugarMaple: any;
   }
 }
@@ -49,6 +49,7 @@ export class EditorService {
   readonly error = signal('');
   readonly mcp = signal(window.webkit ? 'Starting' : 'Mac app required for MCP');
   readonly mode = signal<'Design' | 'Prototype' | 'Developer'>('Design');
+  readonly nativePreviewRoot = signal<string | null>(null);
   readonly node = computed(() => this.doc().nodes.find((n) => n.id === this.selected()) ?? null);
   readonly pageNodes = computed(() =>
     this.doc()
@@ -61,11 +62,20 @@ export class EditorService {
   private recovery = this.native ? null : new RecoveryStore();
   constructor() {
     effect(() => {
+      const root = this.nativePreviewRoot(), document = this.doc(), revision = this.revision();
+      if (root) void this.bridge('preview.update', { value: { version: 1, documentId: document.id, revision, rootId: root, document } }).catch(e => this.report(e));
+    });
+    effect(() => {
       this.assets.prune(this.doc().nodes);
       for (const n of this.doc().nodes)
         if (['text', 'button', 'input'].includes(n.kind)) this.fonts.get(n.fontFamily);
     });
     window.sugarMaple = {
+      previewClosed: (error = '') => {
+        this.nativePreviewRoot.set(null);
+        if (error) this.error.set(error);
+        document.querySelector<HTMLElement>('editor-header [data-preview-launcher] button')?.focus();
+      },
       dispatch: (method: string, args: any) => this.dispatch(method, args),
       describeError: (error: unknown) =>
         toolError(error, { documentId: this.doc().id, revision: this.revision() }),
@@ -125,6 +135,10 @@ export class EditorService {
   async bridge(action: string, payload: any = {}) {
     if (!window.webkit) throw Error('This action requires the Mac app');
     return window.webkit.messageHandlers.native.postMessage({ action, ...payload });
+  }
+  async openNativePreview(rootId: string) {
+    await this.bridge('preview.open', { value: { version: 1, documentId: this.doc().id, revision: this.revision(), rootId, document: this.doc() } });
+    this.nativePreviewRoot.set(rootId);
   }
   async restore() {
     try {
