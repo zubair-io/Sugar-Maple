@@ -31,6 +31,7 @@ try {
     "file-tabs-e2e",
     "selection-e2e",
     "responsive-e2e",
+    "prototype-forms-e2e",
     "handoff-e2e",
     "web-consumer",
     "maple-design-e2e",

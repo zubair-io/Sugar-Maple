@@ -17,7 +17,7 @@ import {
 import { KeyValuePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { EditorService } from './editor.service';
-import { PreviewScreen } from './canvas/preview-screen';
+import { PrototypePreview } from './canvas/prototype-preview';
 import { CanvasSurface } from './canvas/canvas-surface';
 import { CanvasProjection } from './canvas/canvas-projection';
 import { AssetInspector } from './canvas/asset-inspector';
@@ -37,7 +37,7 @@ import { layerRows } from './model/layers';
     CommentsPanel,
     KeyValuePipe,
     FormsModule,
-    PreviewScreen,
+    PrototypePreview,
     CanvasSurface,
     AssetInspector,
     FontInspector,
@@ -87,6 +87,10 @@ export class App {
         label: `${this.e.doc().pages.find((p) => p.id === n.pageId)?.name} / ${n.name}`,
       })),
   ]);
+  readonly inputTypeOptions = this.options(['text', 'password', 'email']);
+  readonly actionOptions = [
+    {value:'navigate',label:'Navigate'}, {value:'openOverlay',label:'Open overlay'}, {value:'closeOverlay',label:'Close overlay'}, {value:'back',label:'Back'},
+  ];
   readonly transitionOptions = this.options(['instant', 'dissolve']);
   readonly layoutOptions = this.options(['free', 'horizontal', 'vertical', 'grid']);
   readonly textAlignOptions = this.options(['auto', 'left', 'center', 'right']);
@@ -96,20 +100,12 @@ export class App {
     { value: 'linear', label: 'Linear gradient' },
     { value: 'radial', label: 'Radial gradient' },
   ];
-  readonly viewportOptions = [
-    { value: '', label: 'Authored size' },
-    { value: '1440', label: 'Desktop · 1440' },
-    { value: '834', label: 'Tablet · 834' },
-    { value: '393', label: 'Mobile · 393' },
-  ];
   readonly target = signal<ExportTarget>('html');
   readonly preview = signal<string | null>(null);
-  readonly dissolveFrom = signal<SceneNode | null>(null);
-  private dissolveTimer?: ReturnType<typeof setTimeout>;
-  readonly previewWidth = signal<number | null>(null);
+
   readonly search = signal('');
   readonly layers = computed(() => layerRows(this.e.pageNodes(), this.search()));
-  readonly previewHistory: string[] = [];
+
   readonly left = signal(true);
   readonly right = signal(true);
   readonly commentUi = inject(CommentUi);
@@ -120,12 +116,6 @@ export class App {
     } catch (error) {
       return 'Unsupported export: ' + (error instanceof Error ? error.message : String(error));
     }
-  });
-  readonly previewNode = computed(() => {
-    const n = this.e.doc().nodes.find((n) => n.id === this.preview());
-    return n
-      ? { ...n, x: 0, y: 0, width: this.previewWidth() ?? n.width, widthMode: 'fixed' as const }
-      : null;
   });
   readonly master = computed(() =>
     this.e.doc().nodes.find((n) => n.id === this.e.node()?.componentId && n.isComponent),
@@ -448,31 +438,12 @@ export class App {
     if (result) this.e.select(id);
   }
   startPreview() {
-    clearTimeout(this.dissolveTimer);
-    this.dissolveFrom.set(null);
     const n = this.e.node();
-    const board = n?.kind === 'artboard' ? n : this.e.roots().find((n) => n.kind === 'artboard');
-    if (board) {
-      this.previewWidth.set(null);
-      this.previewHistory.length = 0;
-      this.preview.set(board.id);
-    } else this.e.error.set('Create an artboard to preview.');
+    const board = n?.kind === 'artboard' ? n : this.e.roots().find(n => n.kind === 'artboard');
+    if (board) this.preview.set(board.id);
+    else this.e.error.set('Create an artboard to preview.');
   }
-  activate(n: SceneNode) {
-    if (n.targetId) {
-      clearTimeout(this.dissolveTimer);
-      this.dissolveFrom.set(n.transition === 'dissolve' ? this.previewNode() : null);
-      this.previewHistory.push(this.preview()!);
-      this.preview.set(n.targetId);
-      if (this.dissolveFrom())
-        this.dissolveTimer = setTimeout(() => this.dissolveFrom.set(null), 200);
-    }
-  }
-  previewBack() {
-    clearTimeout(this.dissolveTimer);
-    this.dissolveFrom.set(null);
-    this.preview.set(this.previewHistory.pop() ?? null);
-  }
+  closePreview(error: string) { this.preview.set(null); if (error) this.e.error.set(error); }
   preset(width: number) {
     if (this.e.node()?.kind === 'artboard') this.e.update({ width });
     else this.e.error.set('Select an artboard to apply a viewport preset.');
@@ -528,6 +499,7 @@ export class App {
     if (f) await this.e.image(f);
   }
   @HostListener('window:keydown', ['$event']) key(event: KeyboardEvent) {
+    if (this.preview()) return;
     const typing = (event.target as HTMLElement).matches('input,textarea,select,[contenteditable]');
     if (event.key === 'Escape') {
       if (this.commentUi.placing() || this.commentUi.draft()) {

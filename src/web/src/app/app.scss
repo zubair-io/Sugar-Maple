@@ -394,35 +394,6 @@ footer > span:last-child {
   border-radius: 8px;
   z-index: 100;
 }
-.preview-backdrop {
-  position: fixed;
-  inset: 0;
-  background: #131212f5;
-  z-index: 1000;
-  display: flex;
-  flex-direction: column;
-}
-.preview-backdrop header {
-  height: 50px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 0 20px;
-  border-bottom: 1px solid #ffffff15;
-}
-.preview-backdrop strong {
-  margin-right: auto;
-}
-.preview-scroll {
-  overflow: auto;
-  flex: 1;
-  padding: 40px;
-}
-.preview-stage {
-  position: relative;
-  margin: auto;
-  color-scheme: light;
-}
 @media (max-width: 1150px) {
   .workspace {
     grid-template-columns: 220px minmax(0, 1fr) 260px;
@@ -516,7 +487,4 @@ footer > span:last-child {
 }
 .page-row > mui-button {
   flex-shrink: 0;
-}
-.preview-backdrop header > mui-select {
-  width: 180px;
 }

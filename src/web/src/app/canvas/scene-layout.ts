@@ -1,3 +1,4 @@
+import { inputDisplay } from '../model/form';
 import type { SceneDocument, SceneNode } from '../model/schema';
 export interface Box {
   x: number;
@@ -99,9 +100,9 @@ export function project(
       pad = padding(n) + n.strokeWidth;
     if (['text', 'button', 'input'].includes(n.kind)) {
       if (axis === 'width')
-        return Math.max(1, ...n.text.split('\n').map((t) => measure(t, n))) + 2 * pad;
+        return Math.max(1, ...(n.kind === 'input' ? [inputDisplay(n)] : n.text.split('\n')).map((t) => measure(t, n))) + 2 * pad;
       return (
-        wrapText(n.text, Math.max(1, width - 2 * pad), (t) => measure(t, n)).length *
+        (n.kind === 'input' ? 1 : wrapText(n.text, Math.max(1, width - 2 * pad), (t) => measure(t, n)).length) *
           n.fontSize *
           n.lineHeight +
         2 * pad

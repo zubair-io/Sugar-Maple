@@ -5,6 +5,9 @@
     [ngStyle]="style()"
     [attr.data-node-id]="node().id"
     [attr.aria-label]="node().name"
+    [attr.role]="clickable() && !['button', 'input'].includes(node().kind) ? 'button' : null"
+    [attr.tabindex]="clickable() && !['button', 'input'].includes(node().kind) ? 0 : null"
+    (keydown)="onKey($event)"
     (pointerdown)="!preview() && pick.emit({ event: $event, node: node() })"
     (click)="onActivate($event)"
   >
@@ -13,12 +16,19 @@
         <span class="text">{{ node().text }}</span>
       }
       @case ('button') {
-        <button class="authored" [tabIndex]="preview() ? 0 : -1">{{ node().text }}</button>
+        <button class="authored" [disabled]="node().disabled" [attr.aria-label]="node().accessibleLabel || null" [tabIndex]="preview() ? 0 : -1">{{ node().text }}</button>
       }
       @case ('input') {
         <input
           class="authored"
           [placeholder]="node().text"
+          [type]="node().inputType"
+          [maxLength]="20000"
+          autocomplete="off"
+          [disabled]="node().disabled"
+          [attr.aria-label]="label()"
+          [value]="preview() && session ? session.value(node()) : node().initialValue"
+          (input)="preview() && session?.input(node(), $event)"
           [readOnly]="!preview()"
           [tabIndex]="preview() ? 0 : -1"
         />
