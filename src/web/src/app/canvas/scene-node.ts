@@ -1,3 +1,5 @@
+import { PrototypeSession } from './prototype-session';
+import { controlLabel, hasPrototypeAction } from '../model/form';
 import { Component, input, output, computed, inject } from '@angular/core';
 import { SceneAssets } from './scene-assets';
 import { NgStyle } from '@angular/common';
@@ -11,6 +13,9 @@ import { nodeStyles } from '../model/export';
 })
 export class SceneNodeView {
   readonly assets = inject(SceneAssets);
+  readonly session = inject(PrototypeSession, { optional: true });
+  readonly label = computed(() => controlLabel(this.node()));
+  readonly clickable = computed(() => this.preview() && !this.node().disabled && hasPrototypeAction(this.node()));
   readonly asset = computed(() => {
     this.assets.version();
     return this.node().kind === 'image' ? { ...this.assets.get(this.node().asset) } : null;
@@ -27,9 +32,20 @@ export class SceneNodeView {
       .sort((a, b) => a.order - b.order),
   );
   onActivate(event: MouseEvent) {
-    if (this.preview() && this.node().targetId) {
+    if (this.clickable()) {
       event.stopPropagation();
+      // Safari/macOS may leave a clicked button unfocused. Remember the actual
+      // launcher, rather than whichever input held focus before the click.
+      const wrapper = event.currentTarget as HTMLElement;
+      const control = ['button', 'input'].includes(this.node().kind)
+        ? wrapper.querySelector<HTMLElement>('button,input') : wrapper;
+      control?.focus();
       this.activate.emit(this.node());
+    }
+  }
+  onKey(event: KeyboardEvent) {
+    if (!['button', 'input'].includes(this.node().kind) && ['Enter', ' '].includes(event.key) && this.clickable()) {
+      event.preventDefault(); event.stopPropagation(); this.activate.emit(this.node());
     }
   }
   readonly style = computed(() => {

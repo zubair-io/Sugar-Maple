@@ -39,6 +39,6 @@
       <button (click)="e.save(true)">Save As</button>
     }
     <span class="mcp" [title]="e.mcp()">◉ {{ e.native ? 'MCP' : 'Browser' }}</span>
-    <mui-button variant="secondary" size="sm" (pressed)="preview.emit()">▶ Preview</mui-button>
+    <mui-button variant="secondary" size="sm" (pressed)="startPreview($event)">▶ Preview</mui-button>
   </div>
 </header>
