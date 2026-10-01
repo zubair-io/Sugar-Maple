@@ -159,7 +159,7 @@ export function project(
       axis = horizontal ? 'width' : 'height';
     const isFill = (c: SceneNode) => c[axis === 'width' ? 'widthMode' : 'heightMode'] === 'fill';
     const fixed = cs.reduce(
-        (sum, c) => sum + (isFill(c) ? 0 : size(c, axis, horizontal ? iw : ih)),
+        (sum, c) => sum + (isFill(c) ? 0 : size(c, axis, horizontal ? iw : ih, size(c, 'width', iw))),
         0,
       ),
       count = cs.filter(isFill).length;

@@ -128,6 +128,7 @@ export class CanvasComponent implements OnDestroy {
         effect(() => {
             const page = this.pageId();
             const tool = this.activeTool();
+            if (this.toolContext && this.toolContext.pageId !== page) this.onBlur();
             if (this.toolContext) this.toolContext.pageId = page;
             if (tool && this.toolContext) {
                 tool.activate(this.toolContext);

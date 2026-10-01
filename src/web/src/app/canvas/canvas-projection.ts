@@ -29,6 +29,7 @@ export class CanvasProjection implements OnDestroy {
   });
   readonly items = computed(() => flatten(this.roots()));
   readonly byId = computed(() => new Map(this.items().map((i) => [i.node.id, i])));
+  private readonly authoredNodes = computed(() => new Map(this.e.doc().nodes.map((n) => [n.id, n])));
   readonly ydoc = new Y.Doc();
   readonly board = {
     ydoc: this.ydoc,
@@ -69,7 +70,7 @@ export class CanvasProjection implements OnDestroy {
   }
   canMove(node: SceneNode) {
     if (node.locked) return false;
-    const nodes = new Map(this.e.doc().nodes.map((n) => [n.id, n]));
+    const nodes = this.authoredNodes();
     let parent = nodes.get(node.parentId ?? '');
     if (parent && parent.layout !== 'free') return false;
     while (parent) {
