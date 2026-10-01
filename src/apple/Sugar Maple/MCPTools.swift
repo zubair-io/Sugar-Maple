@@ -19,7 +19,7 @@ enum MCPTools {
             tool("layout.inspect","Read actual rendered viewport bounds in CSS pixels for nodes on the current page. Hidden nodes have rendered=false."),
             tool("document.checkpoint","Read a consistent versioned checkpoint including edit history. Does not write any file or mark the document saved."),
             tool("document.get","Read the current file, pages, folders, nodes, tokens, comment threads and revision."),
-            tool("document.new","Create a new unsaved document, replacing the current editor document. Save current work first.",["name":string]),
+            tool("document.new","Create and activate a new document tab. Existing tabs retain their content and history. Requires the current document to be saved first.",["name":string]),
             transaction,
             tool("history.undo","Undo the last human gesture or agent batch.",revision,["documentId","expectedRevision"]),
             tool("history.redo","Redo the last undone operation.",revision,["documentId","expectedRevision"]),

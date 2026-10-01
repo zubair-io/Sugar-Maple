@@ -11,7 +11,18 @@ final class EditorHost: NSObject, WKScriptMessageHandlerWithReply, WKNavigationD
     var fileCommandInProgress = false
     var pendingOpenURL: URL?
     var pendingFingerprint: String?
-    let support = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0].appendingPathComponent("SugarMaple", isDirectory: true)
+    let support: URL = {
+        #if DEBUG
+        if let path = Bundle.main.object(forInfoDictionaryKey: "SugarMapleTestSupport") as? String { return URL(fileURLWithPath: path, isDirectory: true) }
+        #endif
+        return FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0].appendingPathComponent("SugarMaple", isDirectory: true)
+    }()
+    let mcpPort: UInt16 = {
+        #if DEBUG
+        if let number = Bundle.main.object(forInfoDictionaryKey: "SugarMapleTestPort") as? NSNumber, let port = UInt16(exactly: number.intValue), port > 0 { return port }
+        #endif
+        return 48480
+    }()
 
     @ObservationIgnored lazy var persistence = DocumentPersistence(root: support)
 
@@ -120,6 +131,7 @@ final class EditorHost: NSObject, WKScriptMessageHandlerWithReply, WKNavigationD
             var destination = try await persistence.destination(id)
             if destination == nil || body["saveAs"] as? Bool == true {
                 let panel = NSSavePanel(); panel.nameFieldStringValue = "\(document["name"] as? String ?? "Untitled").syrup"
+                panel.allowedContentTypes = [UTType(exportedAs: "io.zubair.SugarMaple.document", conformingTo: .package)]
                 panel.canCreateDirectories = true; panel.title = "Save Sugar Maple document"
                 guard await panel.begin() == .OK, let url = panel.url else { return ["cancelled": true] }
                 destination = url
@@ -129,7 +141,9 @@ final class EditorHost: NSObject, WKScriptMessageHandlerWithReply, WKNavigationD
             try await persistence.save(data, to: url)
             return ["ok": true, "name": url.deletingPathExtension().lastPathComponent]
         case "file.open":
-            let panel = NSOpenPanel(); panel.canChooseDirectories = true; panel.canChooseFiles = true
+            let panel = NSOpenPanel(); panel.canChooseDirectories = false; panel.canChooseFiles = true
+            panel.treatsFilePackagesAsDirectories = false
+            panel.allowedContentTypes = [UTType(exportedAs: "io.zubair.SugarMaple.document", conformingTo: .package)]
             panel.allowsMultipleSelection = false; panel.title = "Open .syrup document"
             guard await panel.begin() == .OK, let url = panel.url else { return ["cancelled": true] }
             let data = try await persistence.read(url)
