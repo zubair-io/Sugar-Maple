@@ -17,7 +17,7 @@ For stdio-capable clients:
 }
 ```
 
-Launch the Mac app first. Use `capabilities` for the complete transaction schema and supported primitive types, then `document.get` for the active document ID, pages and revision. Example `transaction.apply` arguments:
+Launch the Mac app first. Use `capabilities` for the complete transaction schema and supported primitive types, then `editor.discover` for the active document ID, page summaries, selection and revision. Example `transaction.apply` arguments:
 
 ```json
 {
@@ -121,3 +121,22 @@ The MCP credential directory is private (0700) before credentials are written; t
 `bun tools/native-acceptance.ts` runs real temporary-file persistence and native Network.framework transport fixtures on macOS. The transport fixture exercises occupied ports, credentials, typed failure forwarding, deterministic throttle timing, disconnected hosts and stop/reconnect; its editor delegate and clock are controlled fixtures. `bun tools/mcp-integration.ts` separately exercises the real bundled WKWebView app, discovered response schemas, actual capture, autosave, undo/redo, malformed input and token/Origin/Host rejection. Set the isolated support-directory/port environment variables above; the harness waits for fresh host/editor readiness without printing credentials.
 
 Scoped reads, feature-specific coverage and MCP resource endpoints remain tracked separately in #50/#27.
+
+
+## Scoped reads and cropped capture
+
+`editor.discover` is a compact, read-only entry point: it returns document/revision identity, page/folder summaries, current page/selection and explicit read/capture limits. It omits scene nodes, assets, token payloads and journals. `document.get` and `document.checkpoint` remain available for full snapshots.
+
+`document.read` requires `documentId`, `expectedRevision`, and `scope`: `document`, `page` with `pageId`, `subtree` with `nodeId`, or `selection`. Example:
+
+```json
+{"documentId":"current-id","expectedRevision":7,"scope":"subtree","nodeId":"board-1","offset":0,"limit":100}
+```
+
+Reads use version 1, page order then depth-first sibling order, with ID as the deterministic tie-breaker. `offset` defaults to zero; `limit` defaults to 100 and is at most 500. `total` describes the requested scope and `nextOffset` is null at its end. Selection reads initially use the current selection unless `selectionIds` is supplied. Descendants of selected ancestors are deduplicated. For subsequent pages, pass the returned `rootIds` as `selectionIds`; selection changes do not advance document revision, so omitting this snapshot with a nonzero offset rejects. Every page must still use the same document/revision. Unknown IDs, stale revisions and wrong documents fail explicitly.
+
+Returned nodes retain their exact authored fields, including inline assets. `references` includes missing ancestor records, referenced token values (including variant tokens), relevant page records and component identity/name/page metadata. Fetch a referenced component subtree separately to read its full definition. This is a scoped scene projection, not a standalone file or journal. Reads never change selection, undo or save state. A response over 16 MiB fails instead of truncating fields; reduce the page size or scope. The first read/discovery builds a linear index for the immutable current projection. Repeated subtree reads reuse it and traverse only the requested range and references; document/page root discovery still examines the requested scope.
+
+`render.capture` accepts an optional `rect: {x,y,width,height}` in CSS pixels relative to the editor WebView's top-left, and `scale` of 0.5, 1 (default) or 2. Without a rectangle it captures the whole editor WebView. Rectangles must fit within its bounds; each output dimension is at most 4096 pixels and the image at most 16 megapixels. Metadata includes the actual rectangle, scale and exact PNG pixel dimensions. WebKit cropping/downsampling may alter edge antialiasing; it does not promise byte-identical crops of a separately captured image. Revision checks before/after capture, font/asset diagnostics and the existing 100 ms admission throttle remain in force. No raw file access is exposed.
+
+See [native scoped acceptance](../reviews/scoped-mcp-2026-10-01/README.md) for real HTTP/stdio, keyboard edit/undo, crop and 1,000/10,000-node measurements. Visible Canvas/Layers performance remains separate acceptance under #2/#8.

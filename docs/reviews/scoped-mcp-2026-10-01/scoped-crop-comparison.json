@@ -1,0 +1,8 @@
+{
+  "channelMeanAbsoluteError": [
+    1.1854947916666667,
+    1.17203125,
+    1.1595572916666668
+  ],
+  "limits": "Each channel MAE < 2; WebKit crop/resampling can change edge antialiasing; dimensions tested exactly."
+}
