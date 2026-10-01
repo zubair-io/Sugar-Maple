@@ -37,6 +37,7 @@ try {
     "web-consumer",
     "maple-design-e2e",
     "components-e2e",
+    "repeat-data-e2e",
     "folders-e2e",
     "comments-e2e",
   ]) {
