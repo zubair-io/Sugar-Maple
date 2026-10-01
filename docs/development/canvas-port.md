@@ -75,3 +75,15 @@ SwiftUI still explicitly rejects paths, gradients and responsive sizing; named i
 ## Reproduction
 
 Run `bun install --frozen-lockfile`, `bun run test`, `bun run --cwd src/web typecheck`, `bun run build:web`, `bun run test:e2e` and `bun run build:mac`. For isolated native UI/MCP acceptance, follow [MCP development instructions](mcp.md#canvas-acceptance-and-isolated-native-qa). The original standalone experiment is retained in `prototypes/whiteboard-ui`; its three tests, typecheck and build pass. Existing session-cleanup utility tests use fake API responses and passed without contacting an external service.
+
+## Portable typography (issue #46)
+
+Nodes now own `fontFamily`, `lineHeight` (a font-size multiplier), `letterSpacing` (CSS pixels), and `textAlign` (`auto`, `left`, `center`, `right`). Legacy nodes default to system UI, 1.2 line height, zero tracking, and the previous button-center/text-left alignment. Checkpoint migration preserves request identity, undo/redo, component overrides and editable clipboard dependencies. Existing color token references survive typography edits; general typography tokens remain #11.
+
+Canvas measurement/painting and DOM/web export share font stacks and alignment. Native Canvas letter spacing preserves shaping and grapheme clusters; the Mac deployment target is macOS 15.4+ because WebKit added this API in Safari 18.4 ([compatibility source](https://github.com/mdn/browser-compat-data/blob/main/api/CanvasRenderingContext2D.json)). The production editor keeps the font in a separate offline chunk rather than exceeding its initial build budget.
+
+The inspector reports availability for the requested family. `Maple Sans` is a CSS alias for unmodified Inter 4.1, distributed under SIL OFL 1.1. Web snippets embed the font and license, with no CDN request. System/generic fonts and explicitly named installed local fonts work offline. Local fonts are not copied into snippets and must be installed by consumers. Missing families retain their authored name and display a fallback diagnostic. Unicode glyph fallback follows the installed platform fonts; bundled Inter does not cover every script. Font-file import/catalog work remains #19.
+
+SwiftUI exports system/sans, serif and monospaced designs, tracking and multiline alignment. It rejects custom font registration and nondefault exact CSS line height before returning code. The default line height follows SwiftUI native font metrics; this is not a raster-parity guarantee. Existing fixed-only sizing and vector/gradient restrictions remain. SVG retains the new fields and embedded font; its existing fixed-size serializer still has separate wrapping behavior.
+
+Verification: [recorded checks](../reviews/typography-2026-10-01/verification.json), [actual WKWebView capture](../reviews/typography-2026-10-01/native-typography.png). Browser bounds agree within one CSS pixel at 1440, 834 and 393 widths for multiline, wrapped, Unicode and long labels. Actual Angular/Tailwind consumers compile; a generated SwiftUI consumer typechecks against the installed SDK. Native QA uses an isolated application/profile on port 48486.
