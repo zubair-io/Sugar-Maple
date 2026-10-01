@@ -1,0 +1,1 @@
+PASS: actual native MCP named text/image import; invalid fields/overflow/decoded corruption preserve whole history; one-batch shared assets, stable resize/undo/redo, bounded reads, deterministic web/SVG/SwiftUI exports and durable autosave

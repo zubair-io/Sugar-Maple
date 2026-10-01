@@ -1,3 +1,4 @@
+import { applyRepeat } from './repeat';
 import { NodeSchema, uid, type SceneDocument, type SceneNode, type Operation } from './schema';
 export function subtree(doc: SceneDocument, id: string) {
   const ids = new Set([id]);
@@ -24,17 +25,18 @@ export function cloneTree(
       parentId: n.id === id ? options.parentId : ids.get(n.parentId!),
       x: n.id === id ? options.x : n.x,
       y: n.id === id ? options.y : n.y,
-      isComponent: false,
+      isComponent: tree.some(v => v.repeatTemplateId === n.id),
       variants: {},
-      componentId: options.linked ? n.id : null,
-      overrides: [],
+      componentId: n.componentId && ids.has(n.componentId) ? ids.get(n.componentId) : options.linked ? n.id : null,
+      overrides: n.componentId && ids.has(n.componentId) ? [...n.overrides] : [],
       targetId: n.targetId ? (ids.get(n.targetId) ?? n.targetId) : null,
-      repeatTemplateId: null,
-      repeatIndex: null,
+      repeatTemplateId: n.repeatTemplateId ? ids.get(n.repeatTemplateId) ?? null : null,
+      repeatIndex: n.parentId && ids.has(n.parentId) ? n.repeatIndex : null,
     }),
   );
 }
 export function applyComposition(doc: SceneDocument, op: Operation, ids: string[]): boolean {
+  if (applyRepeat(doc, op, ids)) return true;
   if (
     ![
       'component.variant',
@@ -42,8 +44,6 @@ export function applyComposition(doc: SceneDocument, op: Operation, ids: string[
       'component.create',
       'component.insert',
       'component.detach',
-      'repeat.create',
-      'repeat.populate',
     ].includes(op.type)
   )
     return false;
@@ -71,12 +71,14 @@ export function applyComposition(doc: SceneDocument, op: Operation, ids: string[
           x: n.id === id ? n.x : source.x,
           y: n.id === id ? n.y : source.y,
           repeatTemplateId: n.repeatTemplateId,
+          repeatIndex: n.repeatIndex,
+          hidden: n.repeatIndex !== null ? false : source.hidden,
           targetId: n.targetId,
           componentId: n.componentId,
           isComponent: false,
           variants: {},
           variantName: n.variantName,
-          overrides: [],
+          overrides: n.repeatIndex !== null ? ['hidden'] : [],
         };
         Object.assign(n, structuredClone(source), keep);
       }
@@ -88,6 +90,7 @@ export function applyComposition(doc: SceneDocument, op: Operation, ids: string[
       return true;
     case 'component.insert': {
       if (!node.isComponent) throw Error('Select a component master');
+      if (doc.nodes.some(grid=>grid.repeatTemplateId===node.id)) throw Error('Use Edit template to edit a Repeat Grid source');
       const clones = cloneTree(doc, id, {
         pageId: op.pageId,
         parentId: null,
@@ -105,62 +108,6 @@ export function applyComposition(doc: SceneDocument, op: Operation, ids: string[
         n.overrides = [];
       }
       return true;
-    case 'repeat.create': {
-      if (node.repeatTemplateId) throw Error('Select a cell rather than an existing grid');
-      const grid = NodeSchema.parse({
-        id: uid(),
-        pageId: node.pageId,
-        parentId: node.parentId,
-        kind: 'frame',
-        name: node.name + ' Grid',
-        x: node.x,
-        y: node.y,
-        width: op.columns * (node.width + 16) - 16,
-        height: Math.ceil(op.count / op.columns) * (node.height + 16) - 16,
-        layout: 'grid',
-        columns: op.columns,
-        padding: 0,
-        repeatTemplateId: id,
-        order: node.order,
-      });
-      node.x = 0;
-      node.y = 0;
-      node.parentId = grid.id;
-      node.repeatIndex = 0;
-      node.order = 0;
-      for (let i = 1; i < op.count; i++) {
-        const clones = cloneTree(doc, id, {
-          pageId: node.pageId,
-          parentId: grid.id,
-          x: 0,
-          y: 0,
-          linked: true,
-        });
-        clones[0].order = i;
-        clones[0].repeatIndex = i;
-        doc.nodes.push(...clones);
-      }
-      doc.nodes.push(grid);
-      ids.push(grid.id);
-      return true;
-    }
-    case 'repeat.populate': {
-      if (!node.repeatTemplateId) throw Error('Select a Repeat Grid');
-      const cells = doc.nodes
-        .filter((n) => n.parentId === id)
-        .sort((a, b) => (a.repeatIndex ?? 0) - (b.repeatIndex ?? 0));
-      if (op.values.length > cells.length) throw Error('More data rows than grid cells');
-      cells.forEach((cell, index) => {
-        if (index >= op.values.length) return;
-        const target = subtree(doc, cell.id).find((n) =>
-          ['text', 'button', 'input'].includes(n.kind),
-        );
-        if (!target) throw Error('Each cell needs a text-bearing element');
-        target.text = op.values[index];
-        if (target.componentId && !target.overrides.includes('text')) target.overrides.push('text');
-      });
-      return true;
-    }
     default:
       return false;
   }

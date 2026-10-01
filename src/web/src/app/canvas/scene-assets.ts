@@ -1,6 +1,16 @@
+import { assetSource, type AssetTable } from '../model/assets';
 import { Injectable, signal } from '@angular/core';
 import type { SceneNode } from '../model/schema';
 interface Asset { image: HTMLImageElement; state: 'loading' | 'ready' | 'error'; message?: string; settled: Promise<void>; }
+function visibleImages(nodes: SceneNode[]) {
+  const byId = new Map(nodes.map(n=>[n.id,n]));
+  return nodes.filter(n=>{
+    if(n.kind!=='image') return false;
+    let current: SceneNode | undefined=n;
+    while(current) {if(current.hidden) return false;current=byId.get(current.parentId??'');}
+    return true;
+  });
+}
 @Injectable({ providedIn: 'root' })
 export class SceneAssets {
   readonly version = signal(0);
@@ -22,22 +32,22 @@ export class SceneAssets {
     if (!source) done('error'); else image.src = source;
     return asset;
   }
-  diagnostics(nodes: SceneNode[]) {
+  diagnostics(nodes: SceneNode[], assets: AssetTable = {}) {
     this.version();
-    return nodes.filter(n => n.kind === 'image').flatMap(n => {
-      const a = this.get(n.asset);
+    return visibleImages(nodes).flatMap(n => {
+      const a = this.get(assetSource({ assets }, n.asset));
       return a.state === 'ready' ? [] : [{ nodeId: n.id, name: n.name, state: a.state, message: a.message ?? 'Image loading' }];
     });
   }
-  async settle(nodes: SceneNode[]) {
-    const assets = nodes.filter(n => n.kind === 'image').map(n => this.get(n.asset));
+  async settle(nodes: SceneNode[], assets: AssetTable = {}) {
+    const loading = visibleImages(nodes).map(n => this.get(assetSource({ assets }, n.asset)));
     let timer: ReturnType<typeof setTimeout>;
-    await Promise.race([Promise.all(assets.map(a => a.settled)), new Promise<void>((_, reject) => {
+    await Promise.race([Promise.all(loading.map(a => a.settled)), new Promise<void>((_, reject) => {
       timer = setTimeout(() => reject(Error('Image decode timed out')), 5000);
     })]).finally(() => clearTimeout(timer));
   }
-  prune(nodes: SceneNode[]) {
-    const sources = new Set(nodes.filter(n => n.kind === 'image').map(n => n.asset));
+  prune(nodes: SceneNode[], assets: AssetTable = {}) {
+    const sources = new Set(nodes.filter(n => n.kind === 'image').map(n => assetSource({ assets }, n.asset)));
     for (const source of this.cache.keys()) if (!sources.has(source)) this.cache.delete(source);
   }
 }

@@ -1,0 +1,1 @@
+PASS: actual native CSV and PNG pickers load chosen bytes, preview stays read-only, one-batch text/image/input mapping; shared references, capture readiness, autosave, exact replay and undo/redo preserve data

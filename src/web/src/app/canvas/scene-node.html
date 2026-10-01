@@ -38,7 +38,7 @@
         @if (asset()?.state === 'error') {
           <div class="asset-error" role="img" [attr.aria-label]="node().name + ': image decode failed'">Image unavailable<br />Reimport {{ node().name }}</div>
         } @else {
-          <img [src]="node().asset" [alt]="node().name" draggable="false" />
+          <img [src]="assetURL()" [alt]="node().name" draggable="false" />
         }
       }
       @case ('path') {

@@ -1,0 +1,53 @@
+{
+  "date": "2026-10-01",
+  "issue": 48,
+  "status": "implemented and locally verified; exact-head CI/review/merge pending",
+  "baseMain": "3f74cd8eb826c9ce3ddec41f435080df4b3463a9",
+  "sourceCommits": [
+    "f079c67",
+    "1caa399",
+    "03bcdea",
+    "follow-up: clipboard optional guard and linear byte copy"
+  ],
+  "checks": {
+    "modelTests": 60,
+    "modelAssertions": 415,
+    "browserConsumerSuites": 19,
+    "finalTargetedBrowserSuites": [
+      "repeat-data-e2e",
+      "components-e2e"
+    ],
+    "typecheck": "pass",
+    "productionWebAndMacBuild": "pass",
+    "nativeFixtures": 6,
+    "compiledMacSwiftUIConsumers": 3,
+    "nativeHTTPMCP": "actual SDK, owned port 48491",
+    "nativeWindowFiles": "actual NSOpenPanel CSV and PNG selection, preview/cancel/apply/picker-cancel, complete checkpoint and undo assertions",
+    "nativeRestart": "actual quit/reopen after real file import; exact full checkpoint/journal match"
+  },
+  "limits": {
+    "sourceBytes": 1000000,
+    "sourceRows": 1000,
+    "sourceFields": 100,
+    "stringCharacters": 20000,
+    "visibleCells": 100,
+    "imageBytesEach": 5000000,
+    "sharedImageBytes": 8000000,
+    "checkpointUTF8BytesIncludingJournal": 32000000
+  },
+  "remaining": [
+    "Full registry and grid handles/virtual cells: #12/#13",
+    "Asset/font catalog, crop/fit UI: #19",
+    "Historical asset compaction and broader persistence/release acceptance: #7/#21",
+    "Production library mappings and isolated code preview: #49/#51",
+    "UIKit generated image branch has not been compiled or run; complete SwiftUI visual parity remains #17"
+  ],
+  "observations": [
+    "Fixed journal schema default that erased unchanged asset tables during replay",
+    "Fixed missing trusted WKWebView file panel delegate; preview/subframe/external/directory imports denied",
+    "A contended model run exceeded the preexisting five-second 5000-node test timeout; rerun passed all 59 tests in 1.84 seconds; no test timeout relaxed",
+    "Initial QA harness used unpublished render.ready; corrected to actual render.capture",
+    "Initial native AX focus/coordinate attempts did not author data; actual mapped file import and cancellation subsequently verified",
+    "Actual review 1433770453613650310 blocked the PR wording and alleged absent assets on plain nodes; removed wording, added defensive sparse-call guard plus cross-document regression, and replaced byte iterator with a linear buffer copy. Validated nodes already default assets to empty strings. Updated head awaits fresh review."
+  ]
+}

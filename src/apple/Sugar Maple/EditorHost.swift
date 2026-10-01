@@ -12,6 +12,7 @@ final class EditorHost: NSObject, WKScriptMessageHandlerWithReply, WKNavigationD
     var pendingOpenURL: URL?
     var pendingFingerprint: String?
     var previewWindow: PreviewWindow?
+    @ObservationIgnored private var importPanel: NSOpenPanel?
     let support: URL = {
         #if DEBUG
         if let path = Bundle.main.object(forInfoDictionaryKey: "SugarMapleTestSupport") as? String { return URL(fileURLWithPath: path, isDirectory: true) }
@@ -74,6 +75,24 @@ final class EditorHost: NSObject, WKScriptMessageHandlerWithReply, WKNavigationD
         alert.addButton(withTitle: "Cancel").keyEquivalent = "\u{1b}"
         alert.beginSheetModal(for: window) { response in
             completionHandler(response == .alertFirstButtonReturn)
+        }
+    }
+    func webView(_ webView: WKWebView, runOpenPanelWith parameters: WKOpenPanelParameters,
+                 initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping ([URL]?) -> Void) {
+        guard webView === self.webView, importPanel == nil,
+              NativeAccessPolicy.canImportFiles(mainFrame: frame.isMainFrame, scheme: frame.securityOrigin.protocol,
+                  host: frame.securityOrigin.host, port: frame.securityOrigin.port, directories: parameters.allowsDirectories),
+              let window = webView.window else { completionHandler(nil); return }
+        let panel = NSOpenPanel()
+        panel.title = "Import files into Sugar Maple"
+        panel.prompt = "Import"
+        panel.canChooseFiles = true
+        panel.canChooseDirectories = false
+        panel.allowsMultipleSelection = parameters.allowsMultipleSelection
+        importPanel = panel
+        panel.beginSheetModal(for: window) { [weak self] response in
+            self?.importPanel = nil
+            completionHandler(response == .OK ? panel.urls : nil)
         }
     }
     func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage, replyHandler: @escaping (Any?, String?) -> Void) {

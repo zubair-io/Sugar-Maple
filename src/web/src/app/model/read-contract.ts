@@ -88,6 +88,7 @@ export const ScopedReadOutputSchema = z
         ancestors: z.array(NodeSchema),
         components: z.array(z.object({ id, pageId: id, name: z.string() }).strict()),
         tokens: z.record(z.string(), z.string()),
+        assets: z.record(z.string(), z.string()),
         pages: z.array(PageSchema),
       })
       .strict(),
