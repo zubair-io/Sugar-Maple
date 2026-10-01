@@ -362,7 +362,10 @@ export class App {
           id: n.id,
           selected: this.e.selection().includes(n.id),
           rendered: !!item,
-          painted: !!item && intersects(item.bounds, view),
+          painted:
+            !!item &&
+            intersects(item.bounds, view) &&
+            item.ancestors.every((a) => intersects(a.bounds, view)),
           bounds: b
             ? {
                 x: viewport.x + pan.x + b.x * zoom,
