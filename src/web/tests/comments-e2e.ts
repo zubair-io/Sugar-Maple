@@ -56,12 +56,11 @@ await p.keyboard.press('ArrowRight');
 await expect(p.getByRole('slider', { name: 'Zoom' })).not.toHaveValue(zoomBefore);
 await expect.poll(async () => p.locator('.viewport').evaluate((el, anchor) => {
   const viewport = el.getBoundingClientRect();
-  const world = el.querySelector('.world')!;
-  const matrix = new DOMMatrix(getComputedStyle(world).transform);
+  const camera = window.sugarMaple.viewport.camera();
   const pin = el.querySelector('comment-canvas button.comment-pin')!.getBoundingClientRect();
   return Math.max(
-    Math.abs(pin.x + pin.width / 2 - viewport.x - (anchor.x * matrix.a + matrix.e)),
-    Math.abs(pin.y + pin.height / 2 - viewport.y - (anchor.y * matrix.d + matrix.f)),
+    Math.abs(pin.x + pin.width / 2 - viewport.x - (anchor.x * camera.zoom + camera.pan.x)),
+    Math.abs(pin.y + pin.height / 2 - viewport.y - (anchor.y * camera.zoom + camera.pan.y)),
   );
 }, thread.anchor)).toBeLessThan(1);
 await p.getByRole('button', { name: 'Add page', exact: true }).click();
