@@ -14,6 +14,9 @@ await expect(p.getByRole('button', { name: '▤ Page 1', exact: true })).toBeVis
 await p.getByRole('button', { name: 'Add page', exact: true }).click();
 let d = await p.evaluate(() => window.sugarMaple.dispatch('document.get'));
 assert.equal(d.document.pages[0].folderId, d.document.pages[1].folderId);
+await p.getByLabel('Rename folder Home', { exact: true }).fill('   ');
+await p.getByLabel('Rename folder Home', { exact: true }).blur();
+await expect(p.getByLabel('Rename folder Home', { exact: true })).toHaveValue('Home');
 await p.getByLabel('Rename folder Home', { exact: true }).fill('Main screens');
 await p.getByLabel('Rename folder Home', { exact: true }).blur();
 await p.waitForFunction(

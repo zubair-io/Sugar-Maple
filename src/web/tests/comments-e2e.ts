@@ -41,7 +41,7 @@ assert.ok(Math.abs(iconBox!.y + iconBox!.height / 2 - pinBox!.y - pinBox!.height
 assert.ok(Math.abs(pinBox!.x + 16 - viewport!.x - 220) < 1);
 assert.ok(Math.abs(pinBox!.y + 16 - viewport!.y - 160) < 1);
 await p.getByRole('button', { name: 'Details', exact: true }).click();
-await p.getByRole('button', { name: 'Collapse right panel' }).click();
+await p.getByRole('button', { name: 'Toggle right panel' }).click();
 await pin.click();
 await expect(p.getByRole('button', { name: 'Comments', exact: true })).toHaveAttribute(
   'aria-pressed',
@@ -50,14 +50,20 @@ await expect(p.getByRole('button', { name: 'Comments', exact: true })).toHaveAtt
 await expect(article).toBeFocused();
 await expect(article).toHaveClass(/pulse/);
 // Changing zoom reprojects the same stored anchor.
+const zoomBefore = await p.getByRole('slider', { name: 'Zoom' }).inputValue();
 await p.getByRole('slider', { name: 'Zoom' }).focus();
 await p.keyboard.press('ArrowRight');
-const matrix = await p.locator('.world').evaluate((el) => {
-  const m = new DOMMatrix(getComputedStyle(el).transform);
-  return { scale: m.a, x: m.e, y: m.f };
-});
-const moved = await pin.boundingBox();
-assert.ok(Math.abs(moved!.x + 16 - viewport!.x - (thread.anchor.x * matrix.scale + matrix.x)) < 1);
+await expect(p.getByRole('slider', { name: 'Zoom' })).not.toHaveValue(zoomBefore);
+await expect.poll(async () => p.locator('.viewport').evaluate((el, anchor) => {
+  const viewport = el.getBoundingClientRect();
+  const world = el.querySelector('.world')!;
+  const matrix = new DOMMatrix(getComputedStyle(world).transform);
+  const pin = el.querySelector('comment-canvas button.comment-pin')!.getBoundingClientRect();
+  return Math.max(
+    Math.abs(pin.x + pin.width / 2 - viewport.x - (anchor.x * matrix.a + matrix.e)),
+    Math.abs(pin.y + pin.height / 2 - viewport.y - (anchor.y * matrix.d + matrix.f)),
+  );
+}, thread.anchor)).toBeLessThan(1);
 await p.getByRole('button', { name: 'Add page', exact: true }).click();
 await expect(article).toHaveCount(0);
 await expect(pin).toHaveCount(0);
