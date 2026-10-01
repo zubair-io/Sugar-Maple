@@ -70,10 +70,14 @@ export function synchronizeComponents(doc: SceneDocument, before: SceneDocument)
         (v) => Object.keys(v),
       ),
     );
+    // A literal variant fill replaces the inherited binding; an explicit variant
+    // binding can instead select another token. Local overrides remain strongest.
+    if (fields.has('fill')) fields.add('fillToken');
     const changes: Partial<SceneNode> = {};
     for (const key of fields)
       if (!n.overrides.includes(key)) {
-        (n as any)[key] = (patch as any)[key] ?? (master as any)[key];
+        (n as any)[key] = key === 'fillToken' && Object.hasOwn(patch, 'fill') && !Object.hasOwn(patch, 'fillToken')
+          ? '' : (patch as any)[key] ?? (master as any)[key];
         (changes as any)[key] = (n as any)[key];
       }
     propagate(doc, n, changes, false);

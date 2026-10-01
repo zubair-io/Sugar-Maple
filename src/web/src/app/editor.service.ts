@@ -1,4 +1,5 @@
 import { PersistenceQueue } from './model/persistence-queue';
+import { pasteElements } from './model/clipboard';
 import { RecoveryStore } from './model/recovery';
 import { importTokens, exportTokens } from './model/tokens';
 import { svgImport, svgExport } from './model/svg';
@@ -418,38 +419,8 @@ export class EditorService {
       const text = this.native
         ? (await this.bridge('clipboard.read')).text
         : await navigator.clipboard.readText();
-      const value = JSON.parse(text);
-      if (value.format !== 'sugar-maple-elements' || !Array.isArray(value.nodes))
-        throw Error('Clipboard does not contain editable Sugar Maple elements');
-      const ids = new Map<string, string>(value.nodes.map((n: SceneNode) => [n.id, uid()]));
-      const tokenOps: Operation[] = [];
-      const tokenNames = new Map<string, string>();
-      for (const [name, color] of Object.entries(value.tokens ?? {})) {
-        let imported = name;
-        let suffix = 1;
-        while (this.doc().tokens[imported] && this.doc().tokens[imported] !== color)
-          imported = name + '_copy' + suffix++;
-        tokenNames.set(name, imported);
-        tokenOps.push({ type: 'token.set', name: imported, value: color as string });
-      }
-      this.perform([
-        ...tokenOps,
-        ...value.nodes.map((n: SceneNode) => ({
-          type: 'node.add',
-          node: {
-            ...n,
-            id: ids.get(n.id),
-            pageId: this.pageId(),
-            parentId: ids.get(n.parentId ?? '') ?? null,
-            targetId: ids.get(n.targetId ?? '') ?? null,
-            componentId: ids.get(n.componentId ?? '') ?? null,
-            repeatTemplateId: ids.get(n.repeatTemplateId ?? '') ?? null,
-            fillToken: tokenNames.get(n.fillToken) ?? n.fillToken,
-            x: n.parentId ? n.x : n.x + 24,
-            y: n.parentId ? n.y : n.y + 24,
-          },
-        })),
-      ]);
+      const paste = pasteElements(this.doc(), this.pageId(), text);
+      if (this.perform(paste.operations)) this.select(paste.rootId);
     } catch (e) {
       this.report(e);
     }

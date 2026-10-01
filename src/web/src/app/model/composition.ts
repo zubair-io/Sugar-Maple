@@ -193,7 +193,8 @@ export function propagate(
         const placement =
           (key === 'x' || key === 'y') && (source.isComponent || source.repeatIndex !== null);
         const variant =
-          source.isComponent && Object.hasOwn(source.variants[n.variantName] ?? {}, key);
+          source.isComponent && (Object.hasOwn(source.variants[n.variantName] ?? {}, key) ||
+            (key === 'fillToken' && Object.hasOwn(source.variants[n.variantName] ?? {}, 'fill')));
         if (!structural.has(key) && !placement && !variant && !n.overrides.includes(key)) {
           (n as any)[key] = value;
           (changes as any)[key] = value;
