@@ -1,3 +1,4 @@
+import { controlLabel, hasPrototypeAction } from './form';
 import { bundledFontStyle } from './bundled-font-access';
 import { subtree } from './composition';
 import { fontStack, textAlignment } from './typography';
@@ -127,12 +128,16 @@ export function exportNode(
             .join(' '),
         )}"`
       : `style="${escape(style)}"`;
+  const controls = tag === 'input'
+    ? ` type="${n.inputType}" maxlength="20000" aria-label="${escape(controlLabel(n))}" value="${escape(n.initialValue)}"${n.disabled ? ' disabled' : ''}`
+    : tag === 'button' ? `${n.accessibleLabel ? ` aria-label="${escape(n.accessibleLabel)}"` : ''}${n.disabled ? ' disabled' : ''}` : '';
+  const action = hasPrototypeAction(n) ? ` data-maple-action="${n.prototypeAction}"${n.targetId ? ` data-maple-target="${n.targetId}"` : ''}${!['button', 'input'].includes(n.kind) ? ` role="button" aria-label="${escape(controlLabel(n))}" tabindex="${n.disabled ? -1 : 0}"${n.disabled ? ' aria-disabled="true"' : ''}` : ''}` : '';
   const font =
     !nested && subtree(doc, id).some((n) => n.fontFamily === 'Maple Sans')
       ? `<style>${bundledFontStyle()}</style>`
       : '';
   return (
     font +
-    `<${tag}${target === 'angular' ? ' ngNonBindable' : ''} ${attrs}${tag === 'input' ? ` placeholder="${escape(n.text)}"` : tag === 'img' ? ` src="${escape(n.asset)}" alt="${escape(n.name)}"` : ''}>${['input', 'img'].includes(tag) ? '' : (target === 'angular' ? escape(n.text).replace(/[@{}]/g, (c) => '&#' + c.charCodeAt(0) + ';') : escape(n.text)) + children.map((v) => exportNode(doc, v.id, target, true)).join('') + `</${tag}>`}`
+    `<${tag}${controls}${action}${target === 'angular' ? ' ngNonBindable' : ''} ${attrs}${tag === 'input' ? ` placeholder="${escape(n.text)}"` : tag === 'img' ? ` src="${escape(n.asset)}" alt="${escape(n.name)}"` : ''}>${['input', 'img'].includes(tag) ? '' : (target === 'angular' ? escape(n.text).replace(/[@{}]/g, (c) => '&#' + c.charCodeAt(0) + ';') : escape(n.text)) + children.map((v) => exportNode(doc, v.id, target, true)).join('') + `</${tag}>`}`
   );
 }

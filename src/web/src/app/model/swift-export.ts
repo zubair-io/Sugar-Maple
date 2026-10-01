@@ -1,8 +1,9 @@
+import { controlLabel, hasPrototypeAction } from './form';
 import { textAlignment } from './typography';
 import type { SceneDocument, SceneNode } from './schema';
 import { subtree } from './composition';
 const quoted = (v: string) => JSON.stringify(v).replace(/\\u([0-9a-f]{4})/gi, '\\u{$1}');
-const stateName = (n: SceneNode) => 'input_' + n.id.replace(/[^A-Za-z0-9_]/g, '_');
+const stateName = (n: SceneNode) => 'input_' + Array.from(n.id).map(c => c.codePointAt(0)!.toString(16)).join('_');
 function color(hex: string) {
   return `Color(red: ${parseInt(hex.slice(1, 3), 16) / 255}, green: ${parseInt(hex.slice(3, 5), 16) / 255}, blue: ${parseInt(hex.slice(5, 7), 16) / 255})`;
 }
@@ -23,6 +24,8 @@ export function swiftWeight(weight: number) {
 export function swiftExport(doc: SceneDocument, id: string) {
   const root = doc.nodes.find((n) => n.id === id);
   if (!root) throw Error('Node not found');
+  if (subtree(doc, id).some(n => n.kind !== 'button' && hasPrototypeAction(n)))
+    throw Error('SwiftUI prototype callbacks currently require a Button; use a button action or a web preview.');
   if (subtree(doc, id).some((n) => n.kind === 'path'))
     throw Error('SwiftUI path export is not yet supported; export this vector as SVG.');
   if (subtree(doc, id).some((n) => n.widthMode !== 'fixed' || n.heightMode !== 'fixed'))
@@ -57,7 +60,7 @@ export function swiftExport(doc: SceneDocument, id: string) {
     else if (n.kind === 'button')
       view = `Button(${quoted(n.text)}) { onAction(${quoted(n.id)}) }\n.buttonStyle(.plain)`;
     else if (n.kind === 'input')
-      view = `TextField(${quoted(n.text)}, text: $${stateName(n)})\n.textFieldStyle(.plain)`;
+      view = `${n.inputType === 'password' ? 'SecureField' : 'TextField'}(${quoted(n.text)}, text: $${stateName(n)})\n.textFieldStyle(.plain)${n.inputType === 'email' ? '\n.textContentType(.emailAddress)' : ''}`;
     else if (n.kind === 'image') view = `Image(${quoted(n.name)})\n.resizable()\n.scaledToFill()`;
     else if (n.kind === 'ellipse') view = `Ellipse().fill(${fill})`;
     else if (n.layout === 'grid')
@@ -68,8 +71,9 @@ export function swiftExport(doc: SceneDocument, id: string) {
     const padding =
       (['frame', 'artboard'].includes(n.kind) ? n.padding : n.kind === 'input' ? 8 : 0) +
       n.strokeWidth;
-    return `${view}${font}${texts.includes(n) ? `\n.tracking(${n.letterSpacing})\n.multilineTextAlignment(${textAlignment(n) === 'center' ? '.center' : textAlignment(n) === 'right' ? '.trailing' : '.leading'})` : ''}\n.padding(${padding})\n.foregroundStyle(${color(n.color)})\n.frame(width: ${n.width}, height: ${n.height}, alignment: ${n.kind === 'button' || n.kind === 'input' ? (textAlignment(n) === 'center' ? '.center' : textAlignment(n) === 'right' ? '.trailing' : '.leading') : textAlignment(n) === 'center' ? '.top' : textAlignment(n) === 'right' ? '.topTrailing' : '.topLeading'})\n.background(${fill})\n.clipShape(RoundedRectangle(cornerRadius: ${n.kind === 'ellipse' ? Math.min(n.width, n.height) / 2 : n.radius}))\n.overlay(RoundedRectangle(cornerRadius: ${n.radius}).strokeBorder(${color(n.stroke)}, lineWidth: ${n.strokeWidth}))\n.opacity(${n.opacity})\n.rotationEffect(.degrees(${n.rotation}))${nested ? `\n.offset(x: ${n.x}, y: ${n.y})` : ''}`;
+    const semantics = ['button', 'input'].includes(n.kind) ? `\n.disabled(${n.disabled})\n.accessibilityLabel(Text(${quoted(controlLabel(n))}))` : '';
+    return `${view}${font}${semantics}${['text', 'button', 'input'].includes(n.kind) ? `\n.tracking(${n.letterSpacing})\n.multilineTextAlignment(${textAlignment(n) === 'center' ? '.center' : textAlignment(n) === 'right' ? '.trailing' : '.leading'})` : ''}\n.padding(${padding})\n.foregroundStyle(${color(n.color)})\n.frame(width: ${n.width}, height: ${n.height}, alignment: ${n.kind === 'button' || n.kind === 'input' ? (textAlignment(n) === 'center' ? '.center' : textAlignment(n) === 'right' ? '.trailing' : '.leading') : textAlignment(n) === 'center' ? '.top' : textAlignment(n) === 'right' ? '.topTrailing' : '.topLeading'})\n.background(${fill})\n.clipShape(RoundedRectangle(cornerRadius: ${n.kind === 'ellipse' ? Math.min(n.width, n.height) / 2 : n.radius}))\n.overlay(RoundedRectangle(cornerRadius: ${n.radius}).strokeBorder(${color(n.stroke)}, lineWidth: ${n.strokeWidth}))\n.opacity(${n.opacity})\n.rotationEffect(.degrees(${n.rotation}))${nested ? `\n.offset(x: ${n.x}, y: ${n.y})` : ''}`;
   };
   const images = subtree(doc, id).filter((n) => n.kind === 'image');
-  return `import SwiftUI\n\n${images.length ? '// Add the exported image assets to the asset catalog: ' + images.map((n) => quoted(n.name)).join(', ') + '\n' : ''}struct SugarMapleView: View {\nvar onAction: (String) -> Void = { _ in }\n${inputs.map((n) => `@State private var ${stateName(n)} = ""`).join('\n')}\nvar body: some View {\n${body(root)}\n}\n}\n`;
+  return `import SwiftUI\n\n${images.length ? '// Add the exported image assets to the asset catalog: ' + images.map((n) => quoted(n.name)).join(', ') + '\n' : ''}${subtree(doc, id).filter(hasPrototypeAction).map(n => '// Action ' + n.id + ': ' + n.prototypeAction + (n.targetId ? ' -> ' + n.targetId : '')).join('\n')}\nstruct SugarMapleView: View {\nvar onAction: (String) -> Void = { _ in }\n${inputs.map((n) => `@State private var ${stateName(n)} = ${quoted(n.initialValue)}`).join('\n')}\nvar body: some View {\n${body(root)}\n}\n}\n`;
 }

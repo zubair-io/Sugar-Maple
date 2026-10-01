@@ -389,6 +389,21 @@
                   (change)="patch('color', value($event))" /></mui-field>
               </mui-section>
             }
+            @if (['button', 'input'].includes(n.kind)) {
+              <mui-section title="Control" sectionId="control-details">
+                <mui-field label="Accessible name" [stacked]="true"><input aria-label="Accessible name"
+                  [ngModel]="n.accessibleLabel" (change)="patch('accessibleLabel', value($event))" [placeholder]="n.name" /></mui-field>
+                <mui-field label="Disabled"><input type="checkbox" aria-label="Disabled control"
+                  [ngModel]="n.disabled" (ngModelChange)="patch('disabled', $event)" /></mui-field>
+                @if (n.kind === 'input') {
+                  <mui-field label="Type"><mui-select ariaLabel="Input type" [value]="n.inputType" [options]="inputTypeOptions"
+                    (valueChange)="patch('inputType', $event)" /></mui-field>
+                  <mui-field label="Initial value" [stacked]="true"><input aria-label="Initial value" [type]="n.inputType === 'password' ? 'password' : 'text'"
+                    [ngModel]="n.initialValue" (change)="patch('initialValue', value($event))" /></mui-field>
+                  <p class="muted">Text is the placeholder. Initial values are saved with the document; use mock data. Preview edits reset separately.</p>
+                }
+              </mui-section>
+            }
             @if (n.kind === 'image') { <asset-inspector [node]="n" /> }
             <mui-section title="Style" sectionId="style-details">
               <mui-field label="Opacity"><input type="number" min="0" max="100" aria-label="Opacity percent"
@@ -487,6 +502,8 @@
             </div>
           } @else if (e.mode() === 'Prototype') {
             <div class="inspector-subheading">On click / tap</div>
+            <mui-field label="Action"><mui-select ariaLabel="Prototype action" [value]="n.prototypeAction" [options]="actionOptions"
+              (valueChange)="patch('prototypeAction', $event)" /></mui-field>
             <label
               >Navigate to<mui-select
                 ariaLabel="Navigate to"
@@ -562,25 +579,8 @@
       />
     </div>
   }
-  @if (previewNode(); as n) {
-    <div class="preview-backdrop">
-      <header>
-        <strong>{{ n.name }} · Preview</strong
-        ><mui-select
-          ariaLabel="Preview viewport"
-          [value]="previewWidth()?.toString() ?? ''"
-          [options]="viewportOptions"
-          (valueChange)="previewWidth.set($event ? +$event : null)"
-        /><button [disabled]="!previewHistory.length" (click)="previewBack()">
-          Back</button
-        ><button (click)="preview.set(null)">Close preview</button>
-      </header>
-      <div class="preview-scroll">
-        <div class="preview-stage" [style.width.px]="n.width" [style.height.px]="n.height">
-          <preview-screen [node]="n" [previous]="dissolveFrom()" [document]="e.doc()" (activate)="activate($event)" />
-        </div>
-      </div>
-    </div>
+  @if (preview(); as id) {
+    <prototype-preview [rootId]="id" [document]="e.doc()" (closed)="closePreview($event)" />
   }
 </div>
 

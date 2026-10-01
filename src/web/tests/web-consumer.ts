@@ -60,6 +60,8 @@ store.transact({
         height: 44,
       },
     },
+    {type:'node.add', node:{id:'email',kind:'input',parentId:'root',pageId:store.document.pages[0].id,inputType:'email',accessibleLabel:'Email',initialValue:'mock@example.test',widthMode:'fill',height:44}},
+    {type:'node.add', node:{id:'secret',kind:'input',parentId:'root',pageId:store.document.pages[0].id,inputType:'password',accessibleLabel:'Password',initialValue:'PrototypeOnly',disabled:true,widthMode:'fill',height:44}},
   ],
 });
 const folder = resolve('build/evidence/web-consumer');
@@ -112,6 +114,9 @@ assert.match(
   /Maple Sans/,
 );
 assert.equal(await page.locator('p').textContent(), 'Hello @user {literal} {{noBinding}}');
+assert.equal(await page.getByRole('textbox', {name:'Email',exact:true}).inputValue(), 'mock@example.test');
+assert.equal(await page.getByLabel('Password', {exact:true}).getAttribute('type'), 'password');
+assert.equal(await page.getByLabel('Password', {exact:true}).isDisabled(), true);
 await page.setContent(exportNode(store.document, 'root', 'html'));
 assert.equal(Math.round((await page.locator('button').boundingBox())!.width), 360);
 await browser.close();
