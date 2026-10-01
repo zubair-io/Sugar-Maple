@@ -22,7 +22,7 @@ export async function collectReview(session: ReviewSession, options: PollOptions
     attempts++;
     try {
       state = safeState((await session.info()).state);
-      if (state.toLowerCase() === 'failed') throw new TerminalReviewError(`Session ${session.id} failed without a published review. Retained for investigation.`);
+      if (state.toLowerCase() === 'failed') throw new TerminalReviewError(`Session: \`${session.id}\`. Failed without a published review. Retained for investigation.`);
       await session.hydrate();
       let last = ''; activities = messages = 0;
       for await (const activity of session.history()) {
@@ -32,14 +32,14 @@ export async function collectReview(session: ReviewSession, options: PollOptions
       state = safeState((await session.info()).state);
       options.report?.(`Session ${session.id}: state=${state}; activities=${activities}; agentMessages=${messages}; attempt=${attempts}.`);
       if (isFinalReview(state, last)) return { review: last, state, attempts, activities, messages, timedOut: false };
-      if (state.toLowerCase() === 'failed') throw new TerminalReviewError(`Session ${session.id} failed without a published review. Retained for investigation.`);
+      if (state.toLowerCase() === 'failed') throw new TerminalReviewError(`Session: \`${session.id}\`. Failed without a published review. Retained for investigation.`);
       if (state.toLowerCase() === 'completed' && ++completedWithoutVerdict >= 3)
-        throw new TerminalReviewError(`Session ${session.id} completed without an explicit final verdict after three reads. Retained for investigation.`);
+        throw new TerminalReviewError(`Session: \`${session.id}\`. Completed without an explicit final verdict after three reads. Retained for investigation.`);
     } catch (error) {
       const message = error instanceof Error ? error.message : '';
       if (error instanceof TerminalReviewError) throw error;
       const status = message.match(/\b(401|403)\b/)?.[1];
-      if (status) throw Error(`Jules API returned HTTP ${status}; check JULES_API_KEY permissions. Session ${session.id} retained.`);
+      if (status) throw Error(`Session: \`${session.id}\`. Jules API returned HTTP ${status}; check JULES_API_KEY permissions. Retained for investigation.`);
       // Do not print arbitrary upstream bodies or messages with credentials.
       options.report?.(`Session ${session.id}: transient polling error; lastState=${state}; attempt=${attempts}.`);
     }
