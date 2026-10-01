@@ -1,3 +1,4 @@
+import { FontInspector } from './canvas/font-inspector';
 import { EditorHeader } from './editor-header';
 import { MuiSelectComponent } from './chrome/maple/ui/select/mui-select.component';
 import { CommentUi } from './comments/comment-ui';
@@ -39,6 +40,7 @@ import { layerRows } from './model/layers';
     PreviewScreen,
     CanvasSurface,
     AssetInspector,
+    FontInspector,
     MuiButtonComponent,
     MuiSectionComponent,
     MuiFieldComponent,
@@ -87,6 +89,7 @@ export class App {
   ]);
   readonly transitionOptions = this.options(['instant', 'dissolve']);
   readonly layoutOptions = this.options(['free', 'horizontal', 'vertical', 'grid']);
+  readonly textAlignOptions = this.options(['auto', 'left', 'center', 'right']);
   readonly sizingOptions = this.options(['fixed', 'fill', 'hug', 'percent']);
   readonly fillStyleOptions = [
     { value: 'solid', label: 'Solid' },
