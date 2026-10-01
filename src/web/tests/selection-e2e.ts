@@ -1,3 +1,4 @@
+import { clickNode, nodeBox, expectSceneCount, expectSelectionCount } from './canvas-browser';
 import { chromium, expect } from '@playwright/test';
 import { strict as assert } from 'node:assert';
 const browser = await chromium.launch({ channel: 'chrome', headless: true });
@@ -41,10 +42,10 @@ await page.evaluate(async () => {
     ],
   });
 });
-await page.locator('[data-node-id="first"]').click();
-await page.locator('[data-node-id="second"]').click({ modifiers: ['Shift'] });
-await expect(page.locator('.node.selected')).toHaveCount(2);
-const a = (await page.locator('[data-node-id="first"]').boundingBox())!;
+await clickNode(page, 'first');
+await clickNode(page, 'second', true);
+await expectSelectionCount(page, 2);
+const a = await nodeBox(page, 'first');
 await page.mouse.move(a.x + 10, a.y + 10);
 await page.mouse.down();
 await page.mouse.move(a.x + 50, a.y + 30, { steps: 5 });
@@ -69,11 +70,11 @@ await page.mouse.move(viewport.x + 10, viewport.y + 10);
 await page.mouse.down();
 await page.mouse.move(viewport.x + 260, viewport.y + 125, { steps: 5 });
 await page.mouse.up();
-await expect(page.locator('.node.selected')).toHaveCount(2);
+await expectSelectionCount(page, 2);
 await page.keyboard.press('Delete');
-await expect(page.locator('[data-node-id]')).toHaveCount(0);
+await expectSceneCount(page, 0);
 await page.keyboard.press('Meta+z');
-await expect(page.locator('[data-node-id]')).toHaveCount(2);
+await expectSceneCount(page, 2);
 await browser.close();
 console.log(
   'PASS: Shift selection, grouped pointer move, transparent group, independent undo, marquee, delete and restore',

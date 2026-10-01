@@ -22,6 +22,9 @@ try {
   }
   for (const name of [
     "editor-e2e",
+    "canvas-e2e",
+    "canvas-parity-e2e",
+    "canvas-performance",
     "file-menu-e2e",
     "autosave-e2e",
     "file-tabs-e2e",
