@@ -27,7 +27,7 @@ async function call(name: string, args: any = {}) {
   return JSON.parse(result.content[0].text);
 }
 try {
-  await call('document.new', { name: 'Typography QA' });
+  await call("document.new", { name: "Typography QA" });
   const tools = await client.listTools();
   const schema = JSON.stringify(
     tools.tools.find((t) => t.name === "transaction.apply")!.inputSchema,

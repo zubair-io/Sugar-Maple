@@ -92,7 +92,9 @@ export class EditorService {
       ready: false,
     };
     this.restore().finally(async () => {
-      await this.fonts.ready;
+      await this.fonts.ready.catch((error) =>
+        this.error.set(error instanceof Error ? error.message : String(error)),
+      );
       this.ready.set(true);
       window.sugarMaple.ready = true;
     });
