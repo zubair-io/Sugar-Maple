@@ -1,3 +1,4 @@
+import { applyCanvasFont } from '../model/typography';
 import { Injectable, computed, effect, inject, signal, untracked, OnDestroy } from '@angular/core';
 import * as Y from 'yjs';
 import { Awareness } from 'y-protocols/awareness';
@@ -20,6 +21,7 @@ export class CanvasProjection implements OnDestroy {
   }));
   readonly roots = computed(() => {
     this.fontsVersion();
+    this.e.fonts.version();
     return project(
       this.document(),
       this.e.pageId(),
@@ -59,10 +61,10 @@ export class CanvasProjection implements OnDestroy {
     this.fontsVersion.update((v) => v + 1);
   };
   private measure(text: string, node: SceneNode) {
-    const key = `${node.fontWeight}/${node.fontSize}/${text}`;
+    const key = `${node.fontFamily}/${node.fontWeight}/${node.fontSize}/${node.letterSpacing}/${text}`;
     const known = this.measures.get(key);
     if (known !== undefined) return known;
-    this.measureContext.font = `${node.fontWeight} ${node.fontSize}px system-ui, sans-serif`;
+    applyCanvasFont(this.measureContext, node);
     const width = this.measureContext.measureText(text).width;
     if (this.measures.size > 5000) this.measures.clear();
     this.measures.set(key, width);

@@ -1,3 +1,6 @@
+import { bundledFontStyle } from './bundled-font-access';
+import { subtree } from './composition';
+import { fontStack, textAlignment } from './typography';
 import { gradientCSS } from './gradient';
 import { svgExport } from './svg';
 import { swiftExport } from './swift-export';
@@ -11,10 +14,11 @@ export function nodeStyles(n: SceneNode, doc: SceneDocument): Record<string, str
   const parent = doc.nodes.find((v) => v.id === n.parentId);
   return {
     margin: 0,
-    fontFamily: 'system-ui, sans-serif',
-    lineHeight: '1.2',
+    fontFamily: fontStack(n.fontFamily),
+    lineHeight: String(n.lineHeight),
+    letterSpacing: n.letterSpacing,
     whiteSpace: 'pre-wrap',
-    textAlign: n.kind === 'button' ? 'center' : 'left',
+    textAlign: textAlignment(n),
     appearance: ['button', 'input'].includes(n.kind) ? 'none' : 'auto',
     position: parent && parent.layout !== 'free' ? 'relative' : 'absolute',
     left: parent && parent.layout !== 'free' ? 0 : n.x,
@@ -79,7 +83,12 @@ function css(n: SceneNode, doc: SceneDocument) {
     )
     .join(';');
 }
-export function exportNode(doc: SceneDocument, id: string, target: ExportTarget): string {
+export function exportNode(
+  doc: SceneDocument,
+  id: string,
+  target: ExportTarget,
+  nested = false,
+): string {
   ExportTargetSchema.parse(target);
   const n = doc.nodes.find((n) => n.id === id);
   if (!n) throw Error('Select an element');
@@ -90,7 +99,8 @@ export function exportNode(doc: SceneDocument, id: string, target: ExportTarget)
     return JSON.stringify(editablePayload(doc, id), null, 2);
   }
   if (target === 'svg') return svgExport(doc, id);
-  if (target === 'css') return `.node-${n.id}{${css(n, doc)}}`;
+  if (target === 'css')
+    return `${n.fontFamily === 'Maple Sans' ? bundledFontStyle() : ''}.node-${n.id}{${css(n, doc)}}`;
   if (target === 'swiftui') return swiftExport(doc, id);
   if (n.kind === 'path') return `<div style="${escape(css(n, doc))}">${svgExport(doc, id)}</div>`;
   const tag =
@@ -110,10 +120,19 @@ export function exportNode(doc: SceneDocument, id: string, target: ExportTarget)
       : '');
   const attrs =
     target === 'tailwind'
-      ? `class="${style
-          .split(';')
-          .map((s) => '[' + s.replace(/ /g, '_') + ']')
-          .join(' ')}"`
+      ? `class="${escape(
+          style
+            .split(';')
+            .map((s) => '[' + s.replace(/"/g, "'").replace(/_/g, '\\_').replace(/ /g, '_') + ']')
+            .join(' '),
+        )}"`
       : `style="${escape(style)}"`;
-  return `<${tag}${target === 'angular' ? ' ngNonBindable' : ''} ${attrs}${tag === 'input' ? ` placeholder="${escape(n.text)}"` : tag === 'img' ? ` src="${escape(n.asset)}" alt="${escape(n.name)}"` : ''}>${['input', 'img'].includes(tag) ? '' : (target === 'angular' ? escape(n.text).replace(/[@{}]/g, (c) => '&#' + c.charCodeAt(0) + ';') : escape(n.text)) + children.map((v) => exportNode(doc, v.id, target)).join('') + `</${tag}>`}`;
+  const font =
+    !nested && subtree(doc, id).some((n) => n.fontFamily === 'Maple Sans')
+      ? `<style>${bundledFontStyle()}</style>`
+      : '';
+  return (
+    font +
+    `<${tag}${target === 'angular' ? ' ngNonBindable' : ''} ${attrs}${tag === 'input' ? ` placeholder="${escape(n.text)}"` : tag === 'img' ? ` src="${escape(n.asset)}" alt="${escape(n.name)}"` : ''}>${['input', 'img'].includes(tag) ? '' : (target === 'angular' ? escape(n.text).replace(/[@{}]/g, (c) => '&#' + c.charCodeAt(0) + ';') : escape(n.text)) + children.map((v) => exportNode(doc, v.id, target, true)).join('') + `</${tag}>`}`
+  );
 }
