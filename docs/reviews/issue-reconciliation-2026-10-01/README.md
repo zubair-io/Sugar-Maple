@@ -1,5 +1,7 @@
 # Open-issue reconciliation — October 1, 2026
 
+**Historical baseline assessment.** [Status after reviewed merges](current-status.md) records verified main, issue closures, candidates and remaining scope.
+
 Baseline: `e6107e6` / merged PR #45. QA-01–QA-10 are fixed. A fixed QA defect does not fulfill every acceptance criterion of its parent issue.
 
 Every original issue was checked against its scope and acceptance criteria. Checked boxes will only represent fully verified criteria. Broader partially shipped items remain open; deferred features retain their release boundaries.
@@ -259,4 +261,4 @@ Resolved review findings: QA-01, QA-02, QA-05, QA-08, QA-09, QA-10.
 
 ## This cleanup validation
 
-39 model tests / 162 assertions, 15 browser suites, production typecheck/web/macOS builds, three native filesystem/access fixtures and real SDK HTTP/stdio pass locally. Native tests use real temporary files; live MCP uses its own QA app/profile/port. [Verification record](verification.json) includes limits. The new macos-15 clean-checkout CI gate is pending.
+39 model tests / 162 assertions, 15 browser suites, production typecheck/web/macOS builds, three native filesystem/access fixtures and real SDK HTTP/stdio pass locally. Native tests use real temporary files; live MCP uses its own QA app/profile/port. [Verification record](verification.json) includes limits. At this baseline snapshot the new macos-15 CI gate was pending; it subsequently passed on reviewed main. See current-status.md.
