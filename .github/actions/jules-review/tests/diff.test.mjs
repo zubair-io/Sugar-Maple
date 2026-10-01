@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { selectReviewDiff } from '../src/diff.ts';
+import { selectReviewDiff } from '../lib/diff.js';
 
 const file = (path, body) => `diff --git a/${path} b/${path}\n--- a/${path}\n+++ b/${path}\n@@ -0,0 +1 @@\n+${body}\n`;
 
