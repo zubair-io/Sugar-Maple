@@ -6,7 +6,8 @@
   "scripts": {
     "build": "ncc build src/index.ts -o dist --source-map --license licenses.txt",
     "typecheck": "tsc --noEmit",
-    "test": "tsc && node --test tests/*.test.mjs"
+    "test": "tsc && node --test tests/*.test.mjs",
+    "build:recovery": "ncc build src/recovery.ts -o dist/recovery --source-map --license licenses.txt"
   },
   "repository": {
     "type": "git",
