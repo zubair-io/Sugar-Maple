@@ -1,6 +1,7 @@
 import { gradientCSS } from './gradient';
 import { svgExport } from './svg';
 import { swiftExport } from './swift-export';
+import { editablePayload } from './clipboard';
 import type { SceneDocument, SceneNode } from './schema';
 export type ExportTarget = 'html' | 'tailwind' | 'angular' | 'css' | 'swiftui' | 'editable' | 'svg';
 const escape = (v: string) =>
@@ -84,22 +85,7 @@ export function exportNode(doc: SceneDocument, id: string, target: ExportTarget)
     .filter((v) => v.parentId === id && !v.hidden)
     .sort((a, b) => a.order - b.order);
   if (target === 'editable') {
-    const ids = new Set([id]);
-    let size = 0;
-    while (size !== ids.size) {
-      size = ids.size;
-      for (const v of doc.nodes) if (v.parentId && ids.has(v.parentId)) ids.add(v.id);
-    }
-    return JSON.stringify(
-      {
-        format: 'sugar-maple-elements',
-        version: 1,
-        nodes: doc.nodes.filter((v) => ids.has(v.id)),
-        tokens: doc.tokens,
-      },
-      null,
-      2,
-    );
+    return JSON.stringify(editablePayload(doc, id), null, 2);
   }
   if (target === 'svg') return svgExport(doc, id);
   if (target === 'css') return `.node-${n.id}{${css(n, doc)}}`;
