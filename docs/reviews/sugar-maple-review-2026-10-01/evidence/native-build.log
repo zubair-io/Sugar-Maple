@@ -365,7 +365,7 @@ SwiftEmitModule normal arm64 Emitting\ module\ for\ Sugar_Maple (in target 'Suga
 
 SwiftCompile normal arm64 (in target 'Sugar Maple' from project 'Sugar Maple')
     cd /Users/riabuz/Projects/_Sugar\ Maple/src/apple
-    
+
 
 SwiftCompile normal arm64 Compiling\ MyApp.swift /Users/riabuz/Projects/_Sugar\ Maple/src/apple/Sugar\ Maple/MyApp.swift (in target 'Sugar Maple' from project 'Sugar Maple')
 
@@ -694,7 +694,7 @@ PhaseScriptExecution Bundle\ Editor /Users/riabuz/Projects/_Sugar\ Maple/build/e
     export FIXED_FILES_DIR\=/Users/riabuz/Projects/_Sugar\ Maple/build/evidence/product-review-2026-10-01/DerivedData/Build/Intermediates.noindex/Sugar\ Maple.build/Debug/Sugar\ Maple.build/FixedFiles
     export FRAMEWORKS_FOLDER_PATH\=Sugar\ Maple.app/Contents/Frameworks
     export FRAMEWORK_FLAG_PREFIX\=-framework
-    export FRAMEWORK_SEARCH_PATHS\=/Users/riabuz/Projects/_Sugar\ Maple/build/evidence/product-review-2026-10-01/DerivedData/Build/Products/Debug\ 
+    export FRAMEWORK_SEARCH_PATHS\=/Users/riabuz/Projects/_Sugar\ Maple/build/evidence/product-review-2026-10-01/DerivedData/Build/Products/Debug\
     export FRAMEWORK_VERSION\=A
     export FULL_PRODUCT_NAME\=Sugar\ Maple.app
     export FUSE_BUILD_PHASES\=YES
@@ -706,7 +706,7 @@ PhaseScriptExecution Bundle\ Editor /Users/riabuz/Projects/_Sugar\ Maple/build/e
     export GCC_NO_COMMON_BLOCKS\=YES
     export GCC_OPTIMIZATION_LEVEL\=0
     export GCC_PFE_FILE_C_DIALECTS\=c\ objective-c\ c++\ objective-c++
-    export GCC_PREPROCESSOR_DEFINITIONS\=DEBUG\=1\ 
+    export GCC_PREPROCESSOR_DEFINITIONS\=DEBUG\=1\
     export GCC_SYMBOLS_PRIVATE_EXTERN\=NO
     export GCC_TREAT_WARNINGS_AS_ERRORS\=NO
     export GCC_VERSION\=com.apple.compilers.llvm.clang.1_0
@@ -733,7 +733,7 @@ PhaseScriptExecution Bundle\ Editor /Users/riabuz/Projects/_Sugar\ Maple/build/e
     export HEADERMAP_INCLUDES_PROJECT_HEADERS\=YES
     export HEADERMAP_USES_FRAMEWORK_PREFIX_ENTRIES\=YES
     export HEADERMAP_USES_VFS\=NO
-    export HEADER_SEARCH_PATHS\=/Users/riabuz/Projects/_Sugar\ Maple/build/evidence/product-review-2026-10-01/DerivedData/Build/Products/Debug/include\ 
+    export HEADER_SEARCH_PATHS\=/Users/riabuz/Projects/_Sugar\ Maple/build/evidence/product-review-2026-10-01/DerivedData/Build/Products/Debug/include\
     export HOME\=/Users/riabuz
     export HOST_ARCH\=arm64
     export HOST_PLATFORM\=macosx
@@ -797,7 +797,7 @@ PhaseScriptExecution Bundle\ Editor /Users/riabuz/Projects/_Sugar\ Maple/build/e
     export LIBRARY_FLAG_NOSPACE\=YES
     export LIBRARY_FLAG_PREFIX\=-l
     export LIBRARY_KEXT_INSTALL_PATH\=/Library/Extensions
-    export LIBRARY_SEARCH_PATHS\=/Users/riabuz/Projects/_Sugar\ Maple/build/evidence/product-review-2026-10-01/DerivedData/Build/Products/Debug\ 
+    export LIBRARY_SEARCH_PATHS\=/Users/riabuz/Projects/_Sugar\ Maple/build/evidence/product-review-2026-10-01/DerivedData/Build/Products/Debug\
     export LINKER_DISPLAYS_MANGLED_NAMES\=NO
     export LINK_FILE_LIST_normal_arm64\=/Users/riabuz/Projects/_Sugar\ Maple/build/evidence/product-review-2026-10-01/DerivedData/Build/Intermediates.noindex/Sugar\ Maple.build/Debug/Sugar\ Maple.build/Objects-normal/arm64/Sugar\ Maple.LinkFileList
     export LINK_OBJC_RUNTIME\=YES
@@ -912,7 +912,7 @@ PhaseScriptExecution Bundle\ Editor /Users/riabuz/Projects/_Sugar\ Maple/build/e
     export RESCHEDULE_INDEPENDENT_HEADERS_PHASES\=YES
     export REZ_COLLECTOR_DIR\=/Users/riabuz/Projects/_Sugar\ Maple/build/evidence/product-review-2026-10-01/DerivedData/Build/Intermediates.noindex/Sugar\ Maple.build/Debug/Sugar\ Maple.build/ResourceManagerResources
     export REZ_OBJECTS_DIR\=/Users/riabuz/Projects/_Sugar\ Maple/build/evidence/product-review-2026-10-01/DerivedData/Build/Intermediates.noindex/Sugar\ Maple.build/Debug/Sugar\ Maple.build/ResourceManagerResources/Objects
-    export REZ_SEARCH_PATHS\=/Users/riabuz/Projects/_Sugar\ Maple/build/evidence/product-review-2026-10-01/DerivedData/Build/Products/Debug\ 
+    export REZ_SEARCH_PATHS\=/Users/riabuz/Projects/_Sugar\ Maple/build/evidence/product-review-2026-10-01/DerivedData/Build/Products/Debug\
     export RPATH_ORIGIN\=@loader_path
     export RUNTIME_EXCEPTION_ALLOW_DYLD_ENVIRONMENT_VARIABLES\=NO
     export RUNTIME_EXCEPTION_ALLOW_JIT\=NO
@@ -977,7 +977,7 @@ PhaseScriptExecution Bundle\ Editor /Users/riabuz/Projects/_Sugar\ Maple/build/e
     export SUPPRESS_WARNINGS\=NO
     export SWIFTC_PASS_SDKROOT\=YES
     export SWIFTC_PASS_SYSROOT\=NO
-    export SWIFT_ACTIVE_COMPILATION_CONDITIONS\=DEBUG\ 
+    export SWIFT_ACTIVE_COMPILATION_CONDITIONS\=DEBUG\
     export SWIFT_APPROACHABLE_CONCURRENCY\=YES
     export SWIFT_COLOR_DIAGNOSTICS\=NO
     export SWIFT_DEFAULT_ACTOR_ISOLATION\=nonisolated
@@ -1134,4 +1134,3 @@ PruneExplicitPrecompiledModules /Users/riabuz/Projects/_Sugar Maple/build/eviden
 
 warning: Run script build phase 'Bundle Editor' will be run during every build because it does not specify any outputs. To address this issue, either add output dependencies to the script phase, or configure it to run in every build by unchecking "Based on dependency analysis" in the script phase. (in target 'Sugar Maple' from project 'Sugar Maple')
 ** BUILD SUCCEEDED **
-
