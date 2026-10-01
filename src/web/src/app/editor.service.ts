@@ -1,3 +1,4 @@
+import { toolOutputJSONSchemas } from './model/tool-output';
 import { PersistenceQueue } from './model/persistence-queue';
 import { pasteElements } from './model/clipboard';
 import { toolArguments, toolError, ToolInputSchemas } from './model/tool-contract';
@@ -660,6 +661,7 @@ export class EditorService {
           toolSchemas: Object.fromEntries(
             Object.entries(ToolInputSchemas).map(([name, schema]) => [name, schema.toJSONSchema()]),
           ),
+          toolOutputSchemas: toolOutputJSONSchemas(),
           kinds: [
             'artboard',
             'frame',

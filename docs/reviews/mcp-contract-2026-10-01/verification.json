@@ -1,0 +1,25 @@
+{
+  "date": "2026-10-01",
+  "scope": "Issue #20 response contracts, actual host/client transport and lifecycle hardening",
+  "checks": {
+    "modelTests": 41,
+    "assertions": 206,
+    "browserSuites": 15,
+    "webTypecheck": "pass",
+    "productionWebBuild": "pass",
+    "nativeBuild": "pass",
+    "nativeSocketFixture": "pass",
+    "nativeFilesystemFixtures": 3,
+    "stdioUnavailableHost": "pass",
+    "actualHTTPAndStdioOutputSchemaValidation": "pass",
+    "actualNativePointerReadbackAndIndependentUndo": "pass",
+    "actualNativeNormalQuitCredentialRemoval": "pass",
+    "actualNativeRestartAndReconnect": "pass"
+  },
+  "limits": [
+    "Native socket fixture uses a controlled editor delegate and monotonic clock; actual WKWebView integration is verified separately.",
+    "Browser runner returned success; its owned dev-server cleanup logs SIGTERM/143 after the passing suites.",
+    "Feature-specific MCP tools, resources and scoped reads remain #27/#50.",
+    "Native builds are development builds, not a notarized release."
+  ]
+}
