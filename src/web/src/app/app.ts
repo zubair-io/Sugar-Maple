@@ -26,6 +26,7 @@ import { MuiSectionComponent } from './chrome/maple/ui/section/mui-section.compo
 import { MuiFieldComponent } from './chrome/maple/ui/field/mui-field.component';
 import { SceneNode, uid, Operation } from './model/schema';
 import { exportNode, ExportTarget } from './model/export';
+import { layerRows } from './model/layers';
 @Component({
   selector: 'app-root',
   imports: [
@@ -104,30 +105,7 @@ export class App {
   private dissolveTimer?: ReturnType<typeof setTimeout>;
   readonly previewWidth = signal<number | null>(null);
   readonly search = signal('');
-  readonly layers = computed(() => {
-    const all = this.e.pageNodes(),
-      query = this.search().trim().toLowerCase(),
-      visible = new Set<string>(),
-      rows: { node: SceneNode; depth: number }[] = [];
-    if (query) {
-      for (const node of all) {
-        if (!node.name.toLowerCase().includes(query)) continue;
-        let current: SceneNode | undefined = node;
-        while (current) {
-          visible.add(current.id);
-          current = all.find((candidate) => candidate.id === current?.parentId);
-        }
-      }
-    }
-    const visit = (parentId: string | null, depth: number) => {
-      for (const node of all.filter((n) => n.parentId === parentId)) {
-        if (!query || visible.has(node.id)) rows.push({ node, depth });
-        visit(node.id, depth + 1);
-      }
-    };
-    visit(null, 0);
-    return rows;
-  });
+  readonly layers = computed(() => layerRows(this.e.pageNodes(), this.search()));
   readonly previewHistory: string[] = [];
   readonly left = signal(true);
   readonly right = signal(true);

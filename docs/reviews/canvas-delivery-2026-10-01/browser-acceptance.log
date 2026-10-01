@@ -3,7 +3,7 @@ PASS: create artboard/text/pages, edit, pointer drag, inspect code, recover on r
 PASS: real canvas pixels, no authored design DOM, typed errors, asset diagnostics, cross-page inspector, dissolve animation, Back and unchanged preview revision
 PASS: actual canvas and native DOM preview geometry agree for free, stack, grid, border/padding, fixed/fill/hug/percent and text measurement
 PASS: 1,000/5,000-node documents render on one canvas, cull offscreen nodes and stay below the local 250ms flush regression ceiling
-[{"nodes":1000,"drawn":110,"total":1000,"paintMs":0.6999998092651367,"frames":4,"flushMs":0.7999999523162842,"framesSince":1},{"nodes":5000,"drawn":209,"total":5000,"paintMs":1,"frames":6,"flushMs":1,"framesSince":1}]
+[{"nodes":1000,"drawn":110,"total":1000,"paintMs":0.7999999523162842,"frames":4,"flushMs":0.9000000953674316,"framesSince":1},{"nodes":5000,"drawn":209,"total":5000,"paintMs":1.9000000953674316,"frames":6,"flushMs":2.0999999046325684,"framesSince":1}]
 PASS: native toolbar hidden, shared New/Open/Save/Save As routing, dirty page-only cancellation, cancelled picker preservation, no duplicate native save shortcut (stubbed native I/O)
 PASS: real IndexedDB autosave, New preserves previous document, posted feedback survives reload
 PASS: tab creation, isolated content/undo, double-click/F2 rename, Escape, close preserves saved file, centered modes
