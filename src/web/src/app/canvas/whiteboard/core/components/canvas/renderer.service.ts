@@ -1,3 +1,4 @@
+import { applyCanvasFont, textAlignment } from '../../../../../model/typography';
 import { Injectable, inject } from '@angular/core';
 import type { Camera } from '../../../shared-types';
 import { CanvasProjection } from '../../../../canvas-projection';
@@ -201,14 +202,14 @@ export class RendererService {
     c.clip();
     if (['text', 'button', 'input'].includes(n.kind)) {
       c.fillStyle = n.color;
-      c.font = `${n.fontWeight} ${n.fontSize}px system-ui, sans-serif`;
+      applyCanvasFont(c, n);
       c.textBaseline = 'alphabetic';
       const text = n.text;
       const lines = this.wrap(
         text,
         Math.max(1, i.width - n.strokeWidth * 2 - (n.kind === 'input' ? 16 : 0)),
       );
-      const lineH = n.fontSize * 1.2;
+      const lineH = n.fontSize * n.lineHeight;
       let y = i.y + (n.kind === 'text' ? n.strokeWidth : (i.height - lines.length * lineH) / 2);
       const metrics = c.measureText('Mg');
       y +=
@@ -219,9 +220,11 @@ export class RendererService {
       for (const line of lines) {
         c.fillText(
           line,
-          n.kind === 'button'
+          textAlignment(n) === 'center'
             ? i.x + (i.width - c.measureText(line).width) / 2
-            : i.x + n.strokeWidth + (n.kind === 'input' ? 8 : 0),
+            : textAlignment(n) === 'right'
+              ? i.x + i.width - n.strokeWidth - (n.kind === 'input' ? 8 : 0) - c.measureText(line).width
+              : i.x + n.strokeWidth + (n.kind === 'input' ? 8 : 0),
           y,
         );
         y += lineH;

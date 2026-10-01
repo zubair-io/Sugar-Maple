@@ -6,7 +6,7 @@ The working implementation includes an Angular editor bundled in a Mac WKWebView
 
 ## Run
 
-Requirements: Bun 1.4.2 and Xcode 16+ with a macOS 15+ SDK. Local delivery was verified with Xcode 27; CI builds on macos-15 with its installed Xcode. The Mac target currently supports macOS 15+; older OS behavior has not yet been tested. Angular framework 22.1.7 and CLI/build tooling 22.1.8 were the latest stable npm releases when bootstrapped.
+Requirements: Bun 1.4.2 and Xcode 16+ with a macOS 15+ SDK. Local delivery was verified with Xcode 27; CI builds on macos-15 with its installed Xcode. The Mac target currently supports macOS 15.4+ (WKWebView Canvas letter spacing requires Safari 18.4); older OS behavior has not yet been tested. Angular framework 22.1.7 and CLI/build tooling 22.1.8 were the latest stable npm releases when bootstrapped.
 
 ```sh
 bun install --frozen-lockfile
