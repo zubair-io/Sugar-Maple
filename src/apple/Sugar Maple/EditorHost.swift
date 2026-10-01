@@ -147,8 +147,10 @@ final class EditorHost: NSObject, WKScriptMessageHandlerWithReply, WKNavigationD
             panel.allowsMultipleSelection = false; panel.title = "Open .syrup document"
             guard await panel.begin() == .OK, let url = panel.url else { return ["cancelled": true] }
             let data = try await persistence.read(url)
+            guard var result = try JSONSerialization.jsonObject(with: data) as? [String: Any] else {
+                throw CocoaError(.fileReadCorruptFile)
+            }
             pendingOpenURL = url; pendingFingerprint = try await persistence.fingerprint(url)
-            var result = try JSONSerialization.jsonObject(with: data) as! [String: Any]
             result["fileName"] = url.deletingPathExtension().lastPathComponent
             return result
         default: throw HostError.message("Unknown native action")
