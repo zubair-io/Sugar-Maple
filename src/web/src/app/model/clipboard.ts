@@ -1,3 +1,4 @@
+import { assetSource } from './assets';
 import { subtree } from './composition';
 import { uid, validateDocument, type SceneDocument, type SceneNode, type Operation } from './schema';
 
@@ -17,7 +18,9 @@ export function editablePayload(doc: SceneDocument, id: string) {
     }
   };
   for (const n of nodes) if (n.componentId && !selected.has(n.componentId)) include(n.componentId);
-  return { format: 'sugar-maple-elements', version: 2, sourceDocumentId: doc.id, rootId: id, nodes, dependencies: [...dependencies.values()], tokens: doc.tokens };
+  const references = new Set([...nodes, ...dependencies.values()].map(n => n.asset).filter(a => a.startsWith('asset:')).map(a => a.slice(6)));
+  const assets = Object.fromEntries([...references].map(key => [key, assetSource(doc, 'asset:' + key)]));
+  return { assets, format: 'sugar-maple-elements', version: 2, sourceDocumentId: doc.id, rootId: id, nodes, dependencies: [...dependencies.values()], tokens: doc.tokens };
 }
 
 export function pasteElements(doc: SceneDocument, pageId: string, text: string): { operations: Operation[]; rootId: string } {
@@ -36,10 +39,10 @@ export function pasteElements(doc: SceneDocument, pageId: string, text: string):
   validateDocument({ version: 1, id: uid(), name: 'Clipboard', comments: [], folders: [],
     pages: [...new Set(all.map(n => n.pageId))].map((id, order) => ({ id, name: 'Source', order })),
     nodes: all.map(n => ({ ...n, parentId: allIds.has(n.parentId ?? '') ? n.parentId : null,
-      targetId: allIds.has(n.targetId ?? '') ? n.targetId : null })), tokens: value.tokens ?? {} });
+      targetId: allIds.has(n.targetId ?? '') ? n.targetId : null })), tokens: value.tokens ?? {}, assets: value.assets ?? {} });
   const reuse = value.sourceDocumentId === doc.id && dependencies.every(n => doc.nodes.some(d => d.id === n.id));
   const ids = new Map(all.map(n => [n.id, reuse && !sourceIds.has(n.id) ? n.id : uid()]));
-  const operations: Operation[] = [], tokens = new Map<string, string>();
+  const operations: Operation[] = Object.entries(value.assets ?? {}).filter(([key]) => !Object.hasOwn(doc.assets, key)).map(([key, source]) => ({ type: 'asset.set', key, source: source as string })), tokens = new Map<string, string>();
   for (const [name, color] of Object.entries(value.tokens ?? {})) {
     let imported = name, suffix = 1;
     while (Object.hasOwn(doc.tokens, imported) && doc.tokens[imported] !== color) imported = `${name}_copy${suffix++}`;
@@ -68,5 +71,6 @@ export function pasteElements(doc: SceneDocument, pageId: string, text: string):
     if (n.id === root.id) node.parentId = null;
     operations.push({ type: 'node.add', node });
   }
+  if (operations.length > 500) throw Error('Clipboard exceeds the atomic paste limit of 500 operations');
   return { operations, rootId: ids.get(root.id)! };
 }

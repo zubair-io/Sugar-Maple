@@ -1,3 +1,4 @@
+import { assetSource } from '../../../../../model/assets';
 import { inputDisplay } from '../../../../../model/form';
 import { applyCanvasFont, textAlignment } from '../../../../../model/typography';
 import { Injectable, inject } from '@angular/core';
@@ -247,7 +248,7 @@ export class RendererService {
       c.restore();
     }
     if (n.kind === 'image') {
-      const asset = this.s.assets.get(n.asset),
+      const asset = this.s.assets.get(assetSource(this.s.document(), n.asset)),
         image = asset.image;
       if (asset.state === 'ready') {
         const scale = Math.max(i.width / image.naturalWidth, i.height / image.naturalHeight);

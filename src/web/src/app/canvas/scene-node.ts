@@ -1,3 +1,4 @@
+import { assetSource } from '../model/assets';
 import { PrototypeSession } from './prototype-session';
 import { controlLabel, hasPrototypeAction } from '../model/form';
 import { Component, input, output, computed, inject } from '@angular/core';
@@ -16,9 +17,10 @@ export class SceneNodeView {
   readonly session = inject(PrototypeSession, { optional: true });
   readonly label = computed(() => controlLabel(this.node()));
   readonly clickable = computed(() => this.preview() && !this.inspect() && !this.node().disabled && hasPrototypeAction(this.node()));
+  readonly assetURL = computed(() => assetSource(this.document(), this.node().asset));
   readonly asset = computed(() => {
     this.assets.version();
-    return this.node().kind === 'image' ? { ...this.assets.get(this.node().asset) } : null;
+    return this.node().kind === 'image' ? { ...this.assets.get(this.assetURL()) } : null;
   });
   readonly node = input.required<SceneNode>();
   readonly document = input.required<SceneDocument>();

@@ -82,19 +82,20 @@ export class DocumentStore {
         .sort((a, b) => a.order - b.order),
       nodes: Array.from((this.root.get('nodes') as Y.Map<any>).values()).map((v) => v.toJSON()),
       tokens: (this.root.get('tokens') as Y.Map<string>).toJSON(),
+      assets: (this.root.get('assets') as Y.Map<string>).toJSON(),
     };
   }
   private write(doc: SceneDocument) {
     this.root.set('id', doc.id);
     this.root.set('name', doc.name);
-    for (const key of ['comments', 'folders', 'pages', 'nodes', 'tokens'] as const) {
+    for (const key of ['comments', 'folders', 'pages', 'nodes', 'tokens', 'assets'] as const) {
       let map = this.root.get(key) as Y.Map<any> | undefined;
       if (!map) {
         map = new Y.Map();
         this.root.set(key, map);
       }
       const records =
-        key === 'tokens' ? doc.tokens : Object.fromEntries(doc[key].map((v) => [v.id, v]));
+        key === 'tokens' || key === 'assets' ? doc[key] : Object.fromEntries(doc[key].map((v) => [v.id, v]));
       for (const k of Array.from(map.keys())) if (!Object.hasOwn(records, k)) map.delete(k);
       for (const [k, value] of Object.entries(records)) {
         if (typeof value === 'string') {
@@ -136,18 +137,16 @@ export class DocumentStore {
     validateDocument(doc);
     synchronizeComponents(doc, before);
     validateDocument(doc);
+    const change = delta(before, doc);
+    const result = { documentId: doc.id, revision: this.revision + 1, ids, transactionId: uid() };
+    const entry: JournalEntry = { kind: 'edit', origin, delta: change, requestId: tx.requestId, signature, receipt: result };
+    if (tx.operations.some(op => op.type === 'asset.set' || op.type === 'repeat.import') &&
+      new TextEncoder().encode(JSON.stringify({ checkpointVersion: 2, document: doc, base: this.base, journal: [...this.journal, entry] }).replace(/\//g, '\\/')).length > 32_000_000)
+      throw Error('Import would exceed the 32 MB saved checkpoint limit; reduce the images or data');
     this.ydoc.transact(() => this.write(doc), origin);
     this.revision++;
-    const result = this.result(ids);
     this.receipts.set(tx.requestId, { signature, result });
-    this.journal.push({
-      kind: 'edit',
-      origin,
-      delta: delta(before, doc),
-      requestId: tx.requestId,
-      signature,
-      receipt: result,
-    });
+    this.journal.push(entry);
     return result;
   }
   undo() {
@@ -186,6 +185,10 @@ function applyOperation(
   if (applyComment(doc, op, ids, origin)) return;
   if (applyComposition(doc, op, ids)) return;
   switch (op.type) {
+    case 'asset.set':
+      if (Object.hasOwn(doc.assets, op.key) && doc.assets[op.key] !== op.source) throw Error('Image address already has different bytes');
+      doc.assets[op.key] = op.source;
+      break;
     case 'document.rename':
       doc.name = op.name;
       break;
@@ -244,6 +247,11 @@ function applyOperation(
     case 'node.update': {
       const n = doc.nodes.find((n) => n.id === op.id);
       if (!n) throw Error('Node not found');
+      if (n.repeatTemplateId && op.patch.layout !== undefined && op.patch.layout !== 'grid')
+        throw Error('Repeat Grid layout stays a grid');
+      if (doc.nodes.some(grid => grid.repeatTemplateId === n.id) && n.hidden &&
+        (op.patch.hidden !== undefined || op.patch.parentId !== undefined || op.patch.repeatIndex !== undefined || op.patch.isComponent !== undefined || op.patch.componentId !== undefined))
+        throw Error('The Repeat Grid template stays hidden and attached to its grid');
       if (
         inheritedChild(doc, n) &&
         (op.patch.parentId !== undefined || op.patch.order !== undefined)
@@ -255,6 +263,8 @@ function applyOperation(
     }
     case 'node.remove':
       if (!doc.nodes.some((n) => n.id === op.id)) throw Error('Node not found');
+      if (doc.nodes.some(grid => grid.repeatTemplateId === op.id && doc.nodes.find(n => n.id === op.id)?.hidden))
+        throw Error('Delete the Repeat Grid rather than its template');
       if (
         inheritedChild(
           doc,

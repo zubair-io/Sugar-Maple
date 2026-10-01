@@ -1,3 +1,4 @@
+import { assetSource, embeddedAsset } from './assets';
 import { controlLabel, hasPrototypeAction } from './form';
 import { textAlignment } from './typography';
 import type { SceneDocument, SceneNode } from './schema';
@@ -48,6 +49,7 @@ export function swiftExport(doc: SceneDocument, id: string) {
   const fontModifier = (n: SceneNode) =>
     `.font(.system(size: ${n.fontSize}, weight: ${swiftWeight(n.fontWeight)}${n.fontFamily === 'serif' ? ', design: .serif' : n.fontFamily === 'monospace' ? ', design: .monospaced' : ''}))`;
   const inputs = subtree(doc, id).filter((n) => n.kind === 'input');
+  const imageAssets = new Map(subtree(doc, id).filter(n => n.kind === 'image' && n.asset).map(n => { const a = embeddedAsset(assetSource(doc, n.asset)); return [a.key, a.source.split(',')[1]]; }));
   const body = (n: SceneNode, nested = false): string => {
     const children = doc.nodes
       .filter((v) => v.parentId === n.id && !v.hidden)
@@ -61,7 +63,7 @@ export function swiftExport(doc: SceneDocument, id: string) {
       view = `Button(${quoted(n.text)}) { onAction(${quoted(n.id)}) }\n.buttonStyle(.plain)`;
     else if (n.kind === 'input')
       view = `${n.inputType === 'password' ? 'SecureField' : 'TextField'}(${quoted(n.text)}, text: $${stateName(n)})\n.textFieldStyle(.plain)${n.inputType === 'email' ? '\n.textContentType(.emailAddress)' : ''}`;
-    else if (n.kind === 'image') view = `Image(${quoted(n.name)})\n.resizable()\n.scaledToFill()`;
+    else if (n.kind === 'image') view = n.asset ? `SugarMapleEmbeddedImage(data: SugarMapleAssets.${embeddedAsset(assetSource(doc, n.asset)).key.replace(/-/g, '_')}, label: ${quoted(n.name)})` : `Text(${quoted('Image unavailable: ' + n.name)})`;
     else if (n.kind === 'ellipse') view = `Ellipse().fill(${fill})`;
     else if (n.layout === 'grid')
       view = `LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: ${n.gap}), count: ${n.columns}), spacing: ${n.gap}) {\n${children.map((v) => body(v)).join('\n')}\n}`;
@@ -74,6 +76,30 @@ export function swiftExport(doc: SceneDocument, id: string) {
     const semantics = ['button', 'input'].includes(n.kind) ? `\n.disabled(${n.disabled})\n.accessibilityLabel(Text(${quoted(controlLabel(n))}))` : '';
     return `${view}${font}${semantics}${['text', 'button', 'input'].includes(n.kind) ? `\n.tracking(${n.letterSpacing})\n.multilineTextAlignment(${textAlignment(n) === 'center' ? '.center' : textAlignment(n) === 'right' ? '.trailing' : '.leading'})` : ''}\n.padding(${padding})\n.foregroundStyle(${color(n.color)})\n.frame(width: ${n.width}, height: ${n.height}, alignment: ${n.kind === 'button' || n.kind === 'input' ? (textAlignment(n) === 'center' ? '.center' : textAlignment(n) === 'right' ? '.trailing' : '.leading') : textAlignment(n) === 'center' ? '.top' : textAlignment(n) === 'right' ? '.topTrailing' : '.topLeading'})\n.background(${fill})\n.clipShape(RoundedRectangle(cornerRadius: ${n.kind === 'ellipse' ? Math.min(n.width, n.height) / 2 : n.radius}))\n.overlay(RoundedRectangle(cornerRadius: ${n.radius}).strokeBorder(${color(n.stroke)}, lineWidth: ${n.strokeWidth}))\n.opacity(${n.opacity})\n.rotationEffect(.degrees(${n.rotation}))${nested ? `\n.offset(x: ${n.x}, y: ${n.y})` : ''}`;
   };
-  const images = subtree(doc, id).filter((n) => n.kind === 'image');
-  return `import SwiftUI\n\n${images.length ? '// Add the exported image assets to the asset catalog: ' + images.map((n) => quoted(n.name)).join(', ') + '\n' : ''}${subtree(doc, id).filter(hasPrototypeAction).map(n => '// Action ' + n.id + ': ' + n.prototypeAction + (n.targetId ? ' -> ' + n.targetId : '')).join('\n')}\nstruct SugarMapleView: View {\nvar onAction: (String) -> Void = { _ in }\n${inputs.map((n) => `@State private var ${stateName(n)} = ${quoted(n.initialValue)}`).join('\n')}\nvar body: some View {\n${body(root)}\n}\n}\n`;
+  const imageCode = imageAssets.size ? `
+#if canImport(AppKit)
+import AppKit
+#elseif canImport(UIKit)
+import UIKit
+#endif
+private enum SugarMapleAssets {
+${[...imageAssets].map(([key, data]) => `static let ${key.replace(/-/g, '_')} = Data(base64Encoded: ${quoted(data)}) ?? Data()`).join('\n')}
+}
+private struct SugarMapleEmbeddedImage: View {
+let data: Data
+let label: String
+var body: some View {
+#if canImport(AppKit)
+if let image = NSImage(data: data) { Image(nsImage: image).resizable().scaledToFill().accessibilityLabel(Text(label)) }
+else { Text("Image unavailable").accessibilityLabel(Text(label)) }
+#elseif canImport(UIKit)
+if let image = UIImage(data: data) { Image(uiImage: image).resizable().scaledToFill().accessibilityLabel(Text(label)) }
+else { Text("Image unavailable").accessibilityLabel(Text(label)) }
+#else
+Text("Image unavailable").accessibilityLabel(Text(label))
+#endif
+}
+}
+` : '';
+  return `import SwiftUI\n${imageCode}\n${subtree(doc, id).filter(hasPrototypeAction).map(n => '// Action ' + n.id + ': ' + n.prototypeAction + (n.targetId ? ' -> ' + n.targetId : '')).join('\n')}\nstruct SugarMapleView: View {\nvar onAction: (String) -> Void = { _ in }\n${inputs.map((n) => `@State private var ${stateName(n)} = ${quoted(n.initialValue)}`).join('\n')}\nvar body: some View {\n${body(root)}\n}\n}\n`;
 }

@@ -112,16 +112,16 @@ test('repeat grid creates linked cells and populates independent values atomical
   ).ids[0];
   const grid = s.transact(tx(s, [{ type: 'repeat.create', id: source, count: 6, columns: 3 }]))
     .ids[0];
-  expect(s.document.nodes.filter((n) => n.parentId === grid).length).toBe(6);
+  expect(s.document.nodes.filter((n) => n.parentId === grid && n.repeatIndex !== null).length).toBe(6);
   s.transact(tx(s, [{ type: 'repeat.populate', id: grid, values: ['One', 'Two', 'Three'] }]));
   expect(
     s.document.nodes
-      .filter((n) => n.parentId === grid)
+      .filter((n) => n.parentId === grid && n.repeatIndex !== null)
       .slice(0, 3)
       .map((n) => n.text),
   ).toEqual(['One', 'Two', 'Three']);
   s.undo();
-  expect(s.document.nodes.filter((n) => n.parentId === grid).every((n) => n.text === 'Cell')).toBe(
+  expect(s.document.nodes.filter((n) => n.parentId === grid && n.repeatIndex !== null).every((n) => n.text === 'Cell')).toBe(
     true,
   );
 });
