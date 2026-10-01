@@ -30,6 +30,8 @@ A drag/resize commits once through the existing transaction store. Cancellation,
 
 Source review corrected radial-gradient painting, wrapped hug-text allocation before vertical fill, stale gesture overlays, pointer capture guards, observer disposal, image-state signal invalidation, and ancestor-aware paint eligibility. The filename/header/tab work that was present before the port was reviewed, backed up and retained. Remote main's review fixes were incorporated.
 
+The first independent Jules review exposed a review-tool coverage bug: its first-80-KB cutoff was consumed by the preserved design archive. The reviewer now prioritizes complete shipping source, tool, test and workflow diffs within a 350-KB budget, identifies omitted ancillary files, and fails rather than silently omitting shipping code. Regression fixtures cover archive displacement, complete hunks and quoted Swift paths; the actual PR diff was checked for complete shipping-source inclusion before requesting the corrected review.
+
 | Finding | Resolution | Verification |
 | --- | --- | --- |
 | QA-01 | Native bridge preserves structured tool errors and recovery context | Real SDK HTTP + stdio stale/wrong/invalid failures |
