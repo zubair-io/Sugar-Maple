@@ -141,10 +141,21 @@ final class EditorHost: NSObject, WKScriptMessageHandlerWithReply, WKNavigationD
         }
     }
     func dispatch(_ method: String, _ args: [String: Any]) async throws -> Any {
-        guard let value = try await webView.callAsyncJavaScript(
-            "if (!window.sugarMaple?.ready) throw new Error('Editor loading'); return await window.sugarMaple.dispatch(method, args);",
+        guard let result = try await webView.callAsyncJavaScript(
+            """
+            try {
+              if (!window.sugarMaple?.ready) return {ok:false,error:{code:'loading',message:'Editor loading',recoveryAction:'Wait for readiness and retry.'}};
+              return {ok:true,value:await window.sugarMaple.dispatch(method,args)};
+            } catch(error) {
+              return {ok:false,error:window.sugarMaple.describeError(error)};
+            }
+            """,
             arguments: ["method": method, "args": args], in: nil, contentWorld: .page
-        ) else { throw HostError.message("Editor returned no result") }
+        ) as? [String: Any] else { throw HostError.message("Editor returned no result") }
+        if result["ok"] as? Bool != true {
+            throw HostError.tool(result["error"] as? [String: Any] ?? ["code":"internal_error", "message":"Editor returned an invalid error"])
+        }
+        guard let value = result["value"] else { throw HostError.message("Editor returned no value") }
         return value
     }
     func snapshot(_ args: [String: Any]) async throws -> [String: Any] {
@@ -160,7 +171,13 @@ final class EditorHost: NSObject, WKScriptMessageHandlerWithReply, WKNavigationD
 }
 enum HostError: LocalizedError {
     case message(String)
-    var errorDescription: String? { if case .message(let message) = self { return message }; return nil }
+    case tool([String: Any])
+    var errorDescription: String? {
+        switch self {
+        case .message(let message): return message
+        case .tool(let details): return String(data: (try? JSONSerialization.data(withJSONObject: details, options: [.sortedKeys])) ?? Data(), encoding: .utf8)
+        }
+    }
 }
 
 final class EditorResources: NSObject, WKURLSchemeHandler {

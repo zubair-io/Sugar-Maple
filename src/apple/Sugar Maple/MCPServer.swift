@@ -88,7 +88,7 @@ final class MCPServer {
         case "ping": return [:] as [String:Any]
         case "tools/list":
             let capabilities = try await host.dispatch("capabilities",[:]) as! [String:Any]
-            return ["tools": MCPTools.list(transactionSchema: capabilities["transactionSchema"]!, commentsQuerySchema: capabilities["commentsQuerySchema"]!)]
+            return ["tools": MCPTools.list(transactionSchema: capabilities["transactionSchema"]!, commentsQuerySchema: capabilities["commentsQuerySchema"]!, schemas: capabilities["toolSchemas"] as? [String: Any] ?? [:])]
         case "tools/call":
             let params = rpc["params"] as? [String:Any] ?? [:]
             guard let name = params["name"] as? String, MCPTools.names.contains(name) else { throw HostError.message("Unknown tool") }
@@ -101,7 +101,12 @@ final class MCPServer {
                 let value = try await host.dispatch(name,args)
                 let text = String(data:try JSONSerialization.data(withJSONObject:value,options:[.sortedKeys]),encoding:.utf8)!
                 return ["content":[["type":"text","text":text]]]
-            } catch { return ["isError":true,"content":[["type":"text","text":error.localizedDescription]]] as [String:Any] }
+            } catch {
+                if case HostError.tool(let details) = error {
+                    return ["isError":true, "structuredContent":["error":details], "content":[["type":"text","text":error.localizedDescription]]] as [String:Any]
+                }
+                return ["isError":true,"content":[["type":"text","text":error.localizedDescription]]] as [String:Any]
+            }
         default: throw HostError.message("Unsupported MCP method")
         }
     }
