@@ -1,3 +1,4 @@
+import { mappedWebExport, mappedSwiftExport } from './library-export';
 import { assetSource } from './assets';
 import { controlLabel, hasPrototypeAction } from './form';
 import { bundledFontStyle } from './bundled-font-access';
@@ -9,7 +10,7 @@ import { swiftExport } from './swift-export';
 import { editablePayload } from './clipboard';
 import { ExportTargetSchema } from './tool-contract';
 import type { SceneDocument, SceneNode } from './schema';
-export type ExportTarget = 'html' | 'tailwind' | 'angular' | 'css' | 'swiftui' | 'editable' | 'svg';
+export type ExportTarget = 'html' | 'tailwind' | 'angular' | 'css' | 'swiftui' | 'editable' | 'svg' | 'web-library' | 'swift-library';
 const escape = (v: string) =>
   v.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 export function nodeStyles(n: SceneNode, doc: SceneDocument): Record<string, string | number> {
@@ -97,6 +98,8 @@ export function exportNode(
   const children = doc.nodes
     .filter((v) => v.parentId === id && !v.hidden)
     .sort((a, b) => a.order - b.order);
+  if (target === 'web-library') return mappedWebExport(doc,id);
+  if (target === 'swift-library') return mappedSwiftExport(doc,id);
   if (target === 'editable') {
     return JSON.stringify(editablePayload(doc, id), null, 2);
   }
