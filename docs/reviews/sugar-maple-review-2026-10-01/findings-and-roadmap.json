@@ -342,7 +342,7 @@
       ],
       "size": "L",
       "trackingIssue": "https://github.com/zubair-io/Sugar-Maple/issues/47",
-      "deliveryStatus": "typed forms/overlay slice verified in PR56; review/merge pending"
+      "deliveryStatus": "typed forms/overlay slice merged #56; remaining window/state-machine acceptance open"
     },
     {
       "id": "R7",
@@ -412,15 +412,16 @@
   "implementationFollowUp": {
     "date": "2026-10-01",
     "scope": "QA-01 through QA-10 and integrated Whiteboard canvas",
-    "status": "QA-01\u2013QA-10 merged #45; native CI/MCP/typography merged #52\u2013#54",
+    "status": "QA-01\u2013QA-10 merged #45; native CI/MCP/typography/forms merged #52\u2013#56",
     "deliveryReport": "../sugar-maple-canvas-delivery-2026-10-01.html",
-    "remainingRoadmap": "R5 partly delivered by typography; R6 forms candidate PR56. Remaining R5\u2013R10 acceptance has explicit issues46\u201351; broader parents stay open.",
+    "remainingRoadmap": "R5 typography and R6 typed form/overlay slices are merged. Remaining R5\u2013R10 acceptance is tracked in #46\u2013#51 and broad parent issues.",
     "currentIssueStatus": "../issue-reconciliation-2026-10-01/current-status.json",
     "mergedPRs": [
       45,
       52,
       53,
-      54
+      54,
+      56
     ]
   }
 }

@@ -24,14 +24,15 @@
   ],
   "historicalSnapshot": true,
   "followUp": {
-    "currentMain": "e09be7261ae2fc83a62d580ec3ee99056178f51b",
+    "currentMain": "40516df660483d219214bc063fbfe7e5a1a08cb8",
     "macosCI": "pass",
-    "run": "https://github.com/zubair-io/Sugar-Maple/actions/runs/36906527308",
+    "run": "https://github.com/zubair-io/Sugar-Maple/actions/runs/36910871188",
     "currentIssueStatus": "current-status.json",
     "closedIssues": [
       3,
       20,
-      46
+      46,
+      47
     ]
   }
 }

@@ -1,21 +1,22 @@
 {
   "date": "2026-10-01",
-  "main": "e09be7261ae2fc83a62d580ec3ee99056178f51b",
-  "mainCI": "https://github.com/zubair-io/Sugar-Maple/actions/runs/36906527308",
-  "scope": "All34 GitHub issues after the initial27-issue audit and concrete follow-up creation",
+  "main": "40516df660483d219214bc063fbfe7e5a1a08cb8",
+  "mainCI": "https://github.com/zubair-io/Sugar-Maple/actions/runs/36910871188",
+  "scope": "All 34 GitHub issues after the initial 27-issue audit and concrete follow-up creation",
   "counts": {
     "total": 34,
-    "closed": 3,
-    "open": 31
+    "closed": 4,
+    "open": 30
   },
   "mergedPRs": [
     45,
     52,
     53,
-    54
+    54,
+    56
   ],
   "candidatePRs": [
-    56
+    58
   ],
   "issues": [
     {
@@ -24,8 +25,8 @@
       "url": "https://github.com/zubair-io/Sugar-Maple/issues/1",
       "githubState": "OPEN",
       "assessment": "active tracker",
-      "delivered": "Canvas and QA-01–QA-10 (#45), native access/build CI (#52), early MCP contracts/lifecycle (#53), and portable typography (#54) are merged. Issues3/20/46 are closed on verified main.",
-      "remaining": "Complete remaining MVP acceptance; post-MVP remains outside the release gate. Forms/overlays are a reviewed candidate in #56 for #47, not yet delivered on main.",
+      "delivered": "Canvas/QA-01–QA-10 (#45), native CI/access (#52), early MCP (#53), typography (#54) and typed forms/overlays (#56) are merged. Issues #3/#20/#46/#47 are closed on verified main.",
+      "remaining": "Complete remaining MVP acceptance; post-MVP remains deferred. Operational review recovery candidate #58 tracks #55.",
       "resolvedQA": []
     },
     {
@@ -44,7 +45,7 @@
       "url": "https://github.com/zubair-io/Sugar-Maple/issues/3",
       "githubState": "CLOSED",
       "assessment": "complete; merged #52",
-      "delivered": "Pinned clean-checkout web/macOS CI, offline app assets/fonts and actual native filesystem checks pass on main. macOS15.4+ is supported after #54.",
+      "delivered": "Pinned clean-checkout web/macOS CI, offline app assets/fonts and actual native filesystem checks pass on main. macOS 15.4+ is supported after #54.",
       "remaining": "Release notarization/distribution is separate #21.",
       "resolvedQA": []
     },
@@ -160,9 +161,9 @@
       "title": "[MVP] Add isolated responsive preview and click-through prototyping",
       "url": "https://github.com/zubair-io/Sugar-Maple/issues/14",
       "githubState": "OPEN",
-      "assessment": "partial; #47 candidate verified",
-      "delivered": "Cross-page navigation/Back, viewport presets and dissolve exist on main. Typed forms, overlay close/Escape/focus, retained state and deleted-target diagnosis are verified in #56; not yet merged.",
-      "remaining": "Review/merge #56, plus the separate native preview window and lifecycle/cleanup acceptance. Do not close this parent for the scoped form slice.",
+      "assessment": "partial",
+      "delivered": "Cross-page navigation, responsive presets/dissolve and typed forms/overlay focus/reset/retained state/deleted-target diagnosis are merged in #56.",
+      "remaining": "A separate native preview window and its lifecycle/cleanup acceptance remain. The form slice does not close this parent.",
       "resolvedQA": [
         "QA-05",
         "QA-09"
@@ -184,8 +185,8 @@
       "url": "https://github.com/zubair-io/Sugar-Maple/issues/16",
       "githubState": "OPEN",
       "assessment": "partial",
-      "delivered": "HTML/Angular/Tailwind consuming fixtures compile/render; whitespace/tokens/layout and embedded font/tracking/alignment are merged. Form semantics/action metadata are candidate #56.",
-      "remaining": "Pinned library mappings, classes-only payloads, self-contained asset/style packaging and complete consumer action integration remain.",
+      "delivered": "Semantic HTML/Angular/Tailwind consumers compile/render; typography plus typed/password/disabled form controls and action metadata are merged.",
+      "remaining": "Pinned mapped library snippets, classes-only payloads and self-contained asset/style packaging remain; consumers supply navigation/overlay handlers.",
       "resolvedQA": [
         "QA-03",
         "QA-06"
@@ -197,8 +198,8 @@
       "url": "https://github.com/zubair-io/Sugar-Maple/issues/17",
       "githubState": "OPEN",
       "assessment": "partial",
-      "delivered": "SwiftUI consumer/weight/padding compile; supported family/tracking/alignment and explicit unsupported typography rejection are merged #54. Typed/secure fields and disabled labels are candidate #56.",
-      "remaining": "Supported visual-equivalence acceptance, self-contained images and pinned production library mappings remain. Custom fonts/nondefault exact line height still explicitly reject.",
+      "delivered": "SwiftUI consumers compile with weights/padding, supported family/tracking/alignment and typed TextField/SecureField, initial-state bindings, disabled labels and Button callbacks from #56. Unsupported features reject explicitly.",
+      "remaining": "Supported visual equivalence, self-contained image assets and actual pinned native component mappings remain. Custom fonts and nondefault exact line height still reject.",
       "resolvedQA": [
         "QA-07"
       ]
@@ -335,10 +336,10 @@
       "number": 47,
       "title": "[MVP] Add typed form inputs and overlay prototype actions",
       "url": "https://github.com/zubair-io/Sugar-Maple/issues/47",
-      "githubState": "OPEN",
-      "assessment": "verified candidate; review/merge #56 pending",
-      "delivered": "47 model tests/287 assertions,17 browser suites, real offline macOS build/native MCP/UI and Angular/Tailwind/SwiftUI consumers verify typed fields, disabled/secure semantics, overlay focus/state/reset/deleted destinations.",
-      "remaining": "Await exact-head review/CI and merge #56. Separate native windows, validation/submission and advanced states stay #14/#12/#24.",
+      "githubState": "CLOSED",
+      "assessment": "complete; merged #56",
+      "delivered": "All scoped typed-form/overlay acceptance passes on main: 47 model tests / 287 assertions, 17 browser suites, actual native MCP/WKWebView and compiled consumers. Runtime values do not alter the authored checkpoint/undo journal.",
+      "remaining": "Separate native windows (#14), validation/submission and richer controls/state machines (#12/#24) remain outside this completed slice.",
       "resolvedQA": []
     },
     {
@@ -386,9 +387,9 @@
       "title": "[Engineering] Recover review timeouts and completed-session cleanup failures",
       "url": "https://github.com/zubair-io/Sugar-Maple/issues/55",
       "githubState": "OPEN",
-      "assessment": "planned; operational recovery",
-      "delivered": "Review failures are preserved as truthful evidence: #52 two no-message60-minute attempts; #54 code approved but session deletion failed. Main code merged with the actual review basis recorded.",
-      "remaining": "Diagnose timeout sessions, add bounded cleanup retry and exact published-session recovery, and record cleanup outcome without fabricating approval or deleting unpublished reviews.",
+      "assessment": "verified candidate #58; live recovery pending",
+      "delivered": "A candidate adds polling state/counter diagnosis, bounded transient cleanup retry and main-only exact-session recovery guarded by trusted reviewer references and API identity/source. All 19 reviewer tests and both bundles pass locally.",
+      "remaining": "Review/merge #58, inspect retained #52 sessions and recover completed published #54/#56 sessions using the repository secret. Retain failed/unpublished sessions and record actual outcomes.",
       "resolvedQA": []
     }
   ]
