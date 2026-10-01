@@ -13,7 +13,7 @@ try {
         id: 'board',
         kind: 'artboard',
         width: 800,
-        height: 700,
+        height: 900,
         layout: 'vertical',
         padding: 20,
         strokeWidth: 2,
@@ -120,6 +120,9 @@ try {
         height: 44,
         text: 'Email address',
       },
+      { id: 'stack', parentId: 'board', kind: 'frame', widthMode: 'fill', height: 160, layout: 'vertical', padding: 4, gap: 8 },
+      { id: 'wrapped-hug', parentId: 'stack', kind: 'text', widthMode: 'fill', heightMode: 'hug', fontSize: 16, text: 'A sentence that wraps at the resolved container width. '.repeat(7) },
+      { id: 'remaining-height', parentId: 'stack', kind: 'rectangle', widthMode: 'fill', heightMode: 'fill' },
     ];
     await window.sugarMaple.dispatch('transaction.apply', {
       documentId: d.documentId,
