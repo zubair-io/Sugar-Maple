@@ -7,6 +7,8 @@ Local changes:
 - Require completed session state and an explicit verdict before accepting a review.
 - Delete only the current review session, after publishing its comment and commit status. Keep failed/unpublished sessions; report cleanup failures without overwriting review findings.
 - Add cleanup tests and use Node 24.
+- Bound transient deletion retries, report session state/activity counts, fail promptly for terminal failures, and distinguish published verdict from cleanup in the workflow summary.
+- Provide main-only, exact-session recovery guarded by a trusted published bot footer/verdict and matching repository source; failed/unpublished sessions can only be inspected.
 - Update the locked transitive `undici` dependency to resolve the advisories reported by `npm audit`.
 
 `action.yml`, `src/index.ts`, `src/prompt.ts`, and the build configuration originate upstream. `src/cleanup.ts` and its tests are local additions. Dependencies install from the lockfile and the workflow builds the action before executing it. `dist/`, `lib/`, and `node_modules/` are excluded from Git.

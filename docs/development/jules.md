@@ -22,6 +22,21 @@ The review action waits for a completed session containing an explicit verdict. 
 
 No account-wide session listing or bulk deletion is performed. Failed, timed-out, or unpublished reviews retain their session for investigation. Cleanup failures fail the workflow without replacing the published findings or verdict. A missing session (HTTP 404) counts as already deleted. Active workflow runs are not automatically cancelled when another commit arrives, allowing cleanup to finish. Manual cancellation or runner loss can still leave a session behind.
 
+Deletion retries at most three times, with 1s/2s delays, for HTTP 429/500/502/503/504 and network timeouts. Authentication/permission errors fail immediately. Each request has a 30s timeout. The job summary records the published code verdict separately from cleanup. Upstream response bodies and credentials are not printed.
+
+Polling records session state and activity/message counts. Failed sessions stop promptly instead of consuming the full review timeout; a completed session without a final verdict receives three reads for eventual activity visibility, then remains available for investigation. Timeouts are infrastructure outcomes and never fabricate code approval. Inspect a live/no-response session before starting another run.
+
+### Repository-secret-backed recovery
+
+The `Jules exact-session recovery` manual workflow runs only from main and checks out main's verified recovery code. It has read-only GitHub permissions and uses the existing repository Jules secret. Supply the PR, exact session ID and mode:
+
+```sh
+gh workflow run jules-session-recovery.yml --ref main \
+  -f pull_request=54 -f session_id=15092830114699431110 -f mode=inspect
+```
+
+Use `mode=cleanup` only for a completed review whose verdict was already published. The recovery code requires the exact footer/verdict in a trusted `github-actions[bot]` reviewer comment and checks the API session identity/repository source. Failed/timed-out reviewer references allow inspection only. A missing session is already-cleaned success. The workflow never changes a PR verdict or commit status, never lists account sessions, and never deletes failed/unpublished sessions. Inspection reads at most five 100-activity pages and prints only state/counters/truncation/API status, without prompts, messages or failure bodies. The original published review remains the audit record.
+
 The [official Jules CLI reference](https://jules.google/docs/cli/reference/) documents listing, creating, and pulling sessions, but does not document a delete subcommand. For manual cleanup, with `JULES_API_KEY` already available in your shell environment, replace `SESSION_ID` with the exact reviewed session ID:
 
 ```sh
@@ -42,4 +57,4 @@ npm test
 npm run build
 ```
 
-Tests cover completion gating, publish-before-delete ordering, exact-session targeting, publication failures, deletion failures, idempotent cleanup and malformed IDs. They use simulated API responses and do not prove live credentials or repository access. An actual review requires the setup above.
+Tests compile source to the ignored `lib/` directory before running Node's test runner. They cover completion gating, polling state/error diagnosis, publish-before-delete ordering, bounded retries, publication/auth/permission failures, idempotent cleanup, malformed IDs and trusted exact-session recovery/source validation. They use simulated API responses and do not prove live credentials or repository access. An actual review/recovery requires the setup above. Build the recovery entry with `npm run build:recovery`.
