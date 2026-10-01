@@ -1,0 +1,1 @@
+PASS: explicit SwiftUI Button/TextField/VStack mappings compile against the macOS 14 API baseline and render through actual NSHostingView

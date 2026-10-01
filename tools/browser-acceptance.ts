@@ -38,6 +38,8 @@ try {
     "maple-design-e2e",
     "components-e2e",
     "repeat-data-e2e",
+    "library-e2e",
+    "library-consumer",
     "folders-e2e",
     "comments-e2e",
   ]) {

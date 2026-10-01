@@ -1,0 +1,49 @@
+{
+  "date": "2026-10-01",
+  "issue": 49,
+  "status": "implemented and locally verified; exact-head CI, review and merge pending",
+  "baseMain": "0dd42000091e4f650f32616d0c42c70ac0a90fb2",
+  "sourceCommits": [
+    "e6bb4f7",
+    "3c277cc"
+  ],
+  "checks": {
+    "modelTests": 66,
+    "modelAssertions": 464,
+    "browserConsumerSuites": 21,
+    "finalTargetedBrowserSuites": [
+      "library-e2e: same-file reselection and themed text contrast"
+    ],
+    "typecheck": "pass",
+    "productionWebAndMacBuild": "pass",
+    "nativeFixtures": 6,
+    "compiledMacSwiftUIConsumers": 4,
+    "actualPinnedWebAPIConsumer": "Web Awesome 3.14.0 and all 13 direct dependency versions, real shadow controls, offline render",
+    "nativeHTTPMCP": "actual SDK, owned profile and port 48492",
+    "nativeWindowFiles": "actual NSOpenPanel JSON selection, validate/cancel/same-file-reselect/apply, complete checkpoint equality before apply, one journal batch and exact undo/redo after apply",
+    "nativeRestart": "normal quit/reopen after actual file import, exact full checkpoint and journal match; final source bundle reopens with correct props/variant/slot/local override"
+  },
+  "limits": {
+    "manifestBytes": 1000000,
+    "componentsPerManifest": 100,
+    "propsPerComponent": 100,
+    "variantsPerComponent": 50,
+    "pinnedLibraryVersions": 50,
+    "checkpointUTF8BytesIncludingJournal": 32000000
+  },
+  "remaining": [
+    "Executable JS/Swift runtime preview: #51",
+    "Broader component registry, search/publish and advanced component behaviors: #12/#26",
+    "Full web/native styling, responsive export and iOS consumer validation: #16/#17/#25",
+    "Full release workflow and packaging: #21/#27"
+  ],
+  "observations": [
+    "Fixed native same-file reselection after cancel by clearing the file input before reading bytes; retained regression",
+    "Fixed low-contrast import and inspector controls using actual editor theme variables; browser checks at least 4.5 text contrast and final native screenshots confirm readable controls",
+    "Fixed reset discarding cross-document token aliases; regression proves original source color remains in mapped output",
+    "Initial handoff selector matched both image and manifest file inputs; now targets the image input by its explicit accessible label",
+    "Initial consumer harness redundantly rewrote Bun build outputs to themselves, truncating the generated bundle; removed that harness write and reran actual consumer successfully",
+    "One native picker observation interrupted; inspected the existing panel and continued with the same file, without restarting the app or mutating unrelated files",
+    "Existing stylesheet budget and native weak-variable warnings remain visible in raw logs"
+  ]
+}
