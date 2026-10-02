@@ -271,7 +271,7 @@ export class App {
       if (this.commentUi.openRequest()) this.right.set(true);
     });
     window.sugarMaple.viewport = {
-      hasDraft: () => this.projection.drawingPending() || Object.keys(this.projection.draft()).length > 0,
+      hasDraft: () => this.projection.drawingPending() || this.projection.repeatPending() || Object.keys(this.projection.draft()).length > 0,
       flush: () => this.surface()?.flush(),
       inspect: () => this.inspectCanvas(),
       stats: () => this.projection.stats(),
