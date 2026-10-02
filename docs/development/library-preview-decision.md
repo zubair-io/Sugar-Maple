@@ -24,8 +24,12 @@ fixture, runs the actual Canvas/DOM/package/native comparison, builds the
 current production editor, measures assets and generates/tests the report.
 It launches a fresh development server from this checkout on a private
 loopback port and stops its owned process group after the run. The
-macOS Editor CI job explicitly installs Chrome and runs this comparison after
-the full native suite. Native human-event evidence is a separately recorded
+macOS Editor CI job explicitly installs Chrome and runs this comparison through
+`prototypes/library-preview/server-owner-test.ts` after the full native suite.
+That gate verifies an unrelated listener on port 4200 receives no comparison
+requests, survives the run, and the owned server leaves no live descendants.
+Its canary requires port 4200 to be free; the direct comparison command above
+does not. Native human-event evidence is a separately recorded
 real UI run; the comparison does not simulate or repeat that input test.
 
 Source-bound raw measurements, four actual rendered images, ARIA snapshots,
