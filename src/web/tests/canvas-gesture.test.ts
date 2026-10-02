@@ -63,6 +63,8 @@ function fixture() {
   const projection = {
     e,
     draft,
+    repeatPending: state(false),
+    repeatDraft: state<any>(null),
     items,
     byId: () => new Map(items().map((i) => [i.node.id, i])),
     canMove: () => true,
