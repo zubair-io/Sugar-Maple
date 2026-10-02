@@ -31,7 +31,9 @@ export class CanvasProjection implements OnDestroy {
   });
   readonly items = computed(() => flatten(this.roots()));
   readonly byId = computed(() => new Map(this.items().map((i) => [i.node.id, i])));
-  private readonly authoredNodes = computed(() => new Map(this.e.doc().nodes.map((n) => [n.id, n])));
+  private readonly authoredNodes = computed(
+    () => new Map(this.e.doc().nodes.map((n) => [n.id, n])),
+  );
   readonly ydoc = new Y.Doc();
   readonly board = {
     ydoc: this.ydoc,
@@ -71,23 +73,26 @@ export class CanvasProjection implements OnDestroy {
     return width;
   }
   canMove(node: SceneNode) {
-    if (node.locked) return false;
+    if (!this.canEdit(node)) return false;
+    const nodes = this.authoredNodes();
+    const parent = nodes.get(node.parentId ?? '');
+    return !parent || parent.layout === 'free';
+  }
+  canEdit(node: SceneNode) {
+    if (node.locked || node.hidden) return false;
     const nodes = this.authoredNodes();
     let parent = nodes.get(node.parentId ?? '');
-    if (parent && parent.layout !== 'free') return false;
     while (parent) {
-      if (parent.rotation) return false;
+      if (parent.locked || parent.hidden) return false;
       parent = nodes.get(parent.parentId ?? '');
     }
     return true;
   }
   canResize(node: SceneNode) {
-    return (
-      this.canMove(node) &&
-      node.rotation === 0 &&
-      node.widthMode === 'fixed' &&
-      node.heightMode === 'fixed'
-    );
+    return this.canMove(node) && node.widthMode === 'fixed' && node.heightMode === 'fixed';
+  }
+  canRotate(node: SceneNode) {
+    return this.canEdit(node);
   }
   ngOnDestroy() {
     document.fonts.removeEventListener('loadingdone', this.fontsChanged);

@@ -1,0 +1,18 @@
+{
+  "passed": true,
+  "port": 48494,
+  "identifier": "io.zubair.sugarmaple.transform-qa",
+  "scope": "Actual native HTTP MCP SDK, transformed layout/selection/capture, atomic authoring undo/redo and durable native checkpoint. Human pointer gestures are tested separately in Chrome.",
+  "capture": {
+    "coordinateUnits": "CSS pixels in the editor WebView",
+    "pixelWidth": 1440,
+    "rect": {
+      "width": 1440,
+      "height": 900,
+      "x": 0,
+      "y": 0
+    },
+    "pixelHeight": 900,
+    "scale": 1
+  }
+}

@@ -93,21 +93,12 @@ export class RendererService {
         if (
           this.s.e.selection().length === 1 &&
           this.s.e.mode() === 'Design' &&
-          this.s.canResize(i.node)
+          this.s.canRotate(i.node)
         ) {
-          c.fillStyle = 'white';
-          c.fillRect(
-            i.x + i.width - 4 / camera.zoom,
-            i.y + i.height - 4 / camera.zoom,
-            8 / camera.zoom,
-            8 / camera.zoom,
-          );
-          c.strokeRect(
-            i.x + i.width - 4 / camera.zoom,
-            i.y + i.height - 4 / camera.zoom,
-            8 / camera.zoom,
-            8 / camera.zoom,
-          );
+          c.beginPath();
+          c.moveTo(i.x + i.width / 2, i.y);
+          c.lineTo(i.x + i.width / 2, i.y - 28 / camera.zoom);
+          c.stroke();
         }
         c.restore();
       }

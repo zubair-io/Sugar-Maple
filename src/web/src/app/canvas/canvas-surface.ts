@@ -1,5 +1,6 @@
 import {
   Component,
+  afterRenderEffect,
   computed,
   effect,
   inject,
@@ -14,6 +15,15 @@ import { WHITEBOARD_USER_PROVIDER } from './whiteboard/collaboration/tokens';
 import type { Camera } from './whiteboard/shared-types';
 import { CanvasProjection } from './canvas-projection';
 import { CanvasSelectionTool } from './canvas-selection-tool';
+import {
+  changedPatch,
+  handleCursor,
+  handlePoint,
+  resizeDirections,
+  resizePatch,
+  rotationPatch,
+  type TransformHandle,
+} from './transform-geometry';
 @Component({
   selector: 'canvas-surface',
   imports: [CanvasComponent],
@@ -28,14 +38,19 @@ import { CanvasSelectionTool } from './canvas-selection-tool';
       (cameraChange)="cameraChanged($event)"
       (sizeChange)="p.size.set($event)"
     />
-    @if (handle(); as h) {
+    @for (h of handles(); track h.kind) {
       <button
         class="resize-handle"
-        aria-label="Resize selected element"
+        [attr.aria-label]="h.label"
+        [attr.aria-description]="h.description"
+        [attr.title]="h.description"
+        [attr.data-transform-handle]="h.kind"
+        [class.rotate-handle]="h.kind === 'rotate'"
+        [style.cursor]="h.cursor"
         [style.left.px]="h.x"
         [style.top.px]="h.y"
-        (pointerdown)="board()?.onPointerDown($event)"
-        (keydown)="resizeKey($event)"
+        (pointerdown)="handleDown($event, h.kind)"
+        (keydown)="handleKey($event, h.kind)"
       ></button>
     }`,
   styles: `
@@ -54,6 +69,9 @@ import { CanvasSelectionTool } from './canvas-selection-tool';
       border-radius: 0;
       cursor: nwse-resize;
     }
+    .rotate-handle {
+      border-radius: 50%;
+    }
   `,
 })
 export class CanvasSurface {
@@ -64,17 +82,58 @@ export class CanvasSurface {
   readonly pan = input.required<{ x: number; y: number }>();
   readonly enabled = input(true);
   readonly cameraChange = output<{ zoom: number; pan: { x: number; y: number } }>();
-  readonly handle = computed(() => {
+  readonly handles = computed(() => {
     const ids = this.p.e.selection(),
       i = ids.length === 1 ? this.p.byId().get(ids[0]) : undefined;
-    return this.enabled() && this.p.e.mode() === 'Design' && i && this.p.canResize(i.node)
-      ? {
-          x: (i.x + i.width) * this.zoom() + this.pan().x - 5,
-          y: (i.y + i.height) * this.zoom() + this.pan().y - 5,
-        }
-      : null;
+    if (!this.enabled() || this.p.e.mode() !== 'Design' || !i) return [];
+    const labels = {
+      nw: 'top left',
+      n: 'top',
+      ne: 'top right',
+      e: 'right',
+      se: '',
+      s: 'bottom',
+      sw: 'bottom left',
+      w: 'left',
+    };
+    const kinds: TransformHandle[] = [
+      ...(this.p.canResize(i.node) ? (Object.keys(resizeDirections) as TransformHandle[]) : []),
+      ...(this.p.canRotate(i.node) ? ['rotate' as const] : []),
+    ];
+    return kinds.map((kind) => {
+      const point = handlePoint(i, kind, this.zoom());
+      return {
+        kind,
+        x: point.x * this.zoom() + this.pan().x - 5,
+        y: point.y * this.zoom() + this.pan().y - 5,
+        label:
+          kind === 'rotate'
+            ? 'Rotate selected element'
+            : kind === 'se'
+              ? 'Resize selected element'
+              : `Resize selected element from ${labels[kind]}`,
+        description:
+          kind === 'rotate'
+            ? 'Drag to rotate. Hold Shift to snap to 15 degrees. Arrow keys rotate by 1 degree, or 10 with Shift.'
+            : 'Drag to resize. Hold Shift to preserve proportions. Arrow keys move this handle by 1 design unit, or 10 with Shift.',
+        cursor: handleCursor(i, kind),
+      };
+    });
   });
   constructor() {
+    // Whiteboard's required activeTool input is bound during rendering.
+    // Cancel only after bindings exist, including the initial/HMR render.
+    afterRenderEffect(() => {
+      this.p.e.mode();
+      this.p.e.doc().id;
+      this.p.e.pageId();
+      this.p.e.revision();
+      const board = this.board();
+      untracked(() => {
+        this.tool.deactivate();
+        board?.onBlur();
+      });
+    });
     effect(() => {
       const board = this.board(),
         size = this.p.size(),
@@ -109,28 +168,33 @@ export class CanvasSurface {
   flush() {
     this.board()?.flush();
   }
-  resizeKey(event: KeyboardEvent) {
-    if (!event.key.startsWith('Arrow')) return;
+  handleDown(event: PointerEvent, handle: TransformHandle) {
+    if (!this.enabled() || this.p.e.mode() !== 'Design' || event.button !== 0 || !event.isPrimary)
+      return;
+    this.tool.beginHandle(handle);
+    this.board()?.onPointerDown(event);
+    this.tool.endHandleRequest();
+  }
+  handleKey(event: KeyboardEvent, handle: TransformHandle) {
+    if (!['ArrowRight', 'ArrowLeft', 'ArrowUp', 'ArrowDown'].includes(event.key)) return;
     event.preventDefault();
     event.stopPropagation();
-    const n = this.p.e.node();
-    if (!n) return;
+    const ids = this.p.e.selection(),
+      item = ids.length === 1 ? this.p.byId().get(ids[0]) : undefined;
+    if (
+      !this.enabled() ||
+      this.p.e.mode() !== 'Design' ||
+      !item ||
+      !(handle === 'rotate' ? this.p.canRotate(item.node) : this.p.canResize(item.node))
+    )
+      return;
     const step = event.shiftKey ? 10 : 1;
-    this.p.e.update({
-      width: Math.min(
-        10000,
-        Math.max(
-          1,
-          n.width + (event.key === 'ArrowRight' ? step : event.key === 'ArrowLeft' ? -step : 0),
-        ),
-      ),
-      height: Math.min(
-        10000,
-        Math.max(
-          1,
-          n.height + (event.key === 'ArrowDown' ? step : event.key === 'ArrowUp' ? -step : 0),
-        ),
-      ),
-    });
+    const dx = event.key === 'ArrowRight' ? step : event.key === 'ArrowLeft' ? -step : 0;
+    const dy = event.key === 'ArrowDown' ? step : event.key === 'ArrowUp' ? -step : 0;
+    const patch = changedPatch(
+      item.node,
+      handle === 'rotate' ? rotationPatch(item, dx + dy) : resizePatch(item, handle, dx, dy),
+    );
+    if (Object.keys(patch).length) this.p.e.update(patch);
   }
 }
