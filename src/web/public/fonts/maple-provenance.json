@@ -1,0 +1,54 @@
+{
+  "repository": "https://github.com/zubair-io/Maple",
+  "revision": "dc6205dbd5ea8031510777e3031abad50cb7e2e7",
+  "modifications": "none",
+  "notices": [
+    "LATO-OFL.txt",
+    "MERRIWEATHER-OFL.txt",
+    "JETBRAINS-MONO-OFL.txt"
+  ],
+  "files": [
+    {
+      "file": "Lato-Regular.woff2",
+      "sha256": "918b7dc3e2e2d015c16ce08b57bcb64d2253bafc1707658f361e72865498e537",
+      "upstreamPath": "src/web/projects/maple-common/src/assets/fonts/Lato-Regular.woff2",
+      "upstreamBlob": "ff60934dd0ea9cdd93f961d2dfd1e158357f2a77"
+    },
+    {
+      "file": "Lato-Bold.woff2",
+      "sha256": "c447dd7677b419db7b21dbdfc6277c7816a913ffda76fd2e52702df538de0e49",
+      "upstreamPath": "src/web/projects/maple-common/src/assets/fonts/Lato-Bold.woff2",
+      "upstreamBlob": "11de83feaf0fb872c91fce89534fd4e2d8bbda28"
+    },
+    {
+      "file": "Merriweather-Bold.woff2",
+      "sha256": "4e1ab49396c02be0d9a2a25eed7bc73781c047d85fcb5dfc2889873eaf992b09",
+      "upstreamPath": "src/web/projects/maple-common/src/assets/fonts/Merriweather-Bold.woff2",
+      "upstreamBlob": "1c1896b0cb4d4d3e5649cb644fcb948a56cc6a7d"
+    },
+    {
+      "file": "JetBrainsMono-Regular.woff2",
+      "sha256": "14425ba9c695763c1547f48a206b7aa60350a33ae23de09f0407877f3fcd89eb",
+      "upstreamPath": "src/web/projects/maple-common/src/assets/fonts/JetBrainsMono-Regular.woff2",
+      "upstreamBlob": "585887339efd032b6b715466ae72d86e306bec79"
+    },
+    {
+      "file": "LATO-OFL.txt",
+      "sha256": "74ba064d03f1f1c4a952da936c3eb71866c34404916734de3cae73b34357e59e",
+      "upstreamPath": "src/web/projects/maple-common/src/assets/fonts/LATO-OFL.txt",
+      "upstreamBlob": "98383e3d835a5c5aea988a74b569193a30dcbcec"
+    },
+    {
+      "file": "MERRIWEATHER-OFL.txt",
+      "sha256": "715bd349bfa6116f99e351e1548321dcfa25b91df65502d22ca8d624557697d2",
+      "upstreamPath": "src/web/projects/maple-common/src/assets/fonts/MERRIWEATHER-OFL.txt",
+      "upstreamBlob": "17d2c5151b6a31ca53721fc253708caf5cf0329a"
+    },
+    {
+      "file": "JETBRAINS-MONO-OFL.txt",
+      "sha256": "a76abf002c49097d146e86740a3105a5d00450b1592e820a1109a8c5680cd697",
+      "upstreamPath": "src/web/projects/maple-common/src/assets/fonts/JETBRAINS-MONO-OFL.txt",
+      "upstreamBlob": "5ceee0025da23d2cd5fd14b28569708a8db4db2b"
+    }
+  ]
+}

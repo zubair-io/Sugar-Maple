@@ -46,6 +46,7 @@ export const ICON_VIEWBOX: Partial<Record<MapleIconName, number>> = {
 };
 
 export type MapleIconName =
+  | `design-${'artboard' | 'frame' | 'text' | 'rectangle' | 'ellipse' | 'button' | 'input'}`
   | 'chevron-right'
   | 'chevron-left'
   | 'chevron-down'
@@ -131,6 +132,14 @@ export const ICON_SHAPES: Record<MapleIconName, readonly IconShape[]> = {
   'chevron-right': [path('M6 3l5 5-5 5')],
   'chevron-left': [path('M10 3l-5 5 5 5')],
   'chevron-down': [path('M3 6l5 5 5-5')],
+  // Sugar Maple design-editor additions; original Maple paths remain intact.
+  'design-artboard': [rect(3, 3, 10, 10, 0), path('M1 3h2M3 1v2M13 1v2M13 3h2M1 13h2M3 13v2M13 13v2M13 13h2')],
+  'design-frame': [rect(2.5, 2.5, 11, 11, 1)],
+  'design-text': [path('M3 3h10M8 3v10M5.5 13h5M3 3v2M13 3v2')],
+  'design-rectangle': [rect(3, 4, 10, 8, 0)],
+  'design-ellipse': [circle(8, 8, 5)],
+  'design-button': [rect(2, 4.5, 12, 7, 2), path('M5 8h6')],
+  'design-input': [rect(2, 4.5, 12, 7, 1), path('M5 6.5v3M4 6.5h2M4 9.5h2')],
   folder: [path('M2 5a1 1 0 011-1h3l1.5 1.5H13a1 1 0 011 1V12a1 1 0 01-1 1H3a1 1 0 01-1-1V5z')],
   'folder-open': [
     path('M2 5a1 1 0 011-1h3l1.5 1.5H13a1 1 0 011 1v.5H2.5L2 12a1 1 0 001 1h10l1-5.5'),

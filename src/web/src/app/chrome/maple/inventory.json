@@ -198,11 +198,11 @@
     },
     {
       "path": "icons/maple-icon-registry.ts",
-      "sha256": "f66824ba6a70ddd019e2bdae387092f0d62baa95813bd4b34beb6f91735219d4",
+      "sha256": "1a694019fbb2baf4eefc137cdfb8f3a137295f334c062be315888d532d90a330",
       "upstreamPath": "src/web/projects/maple-common/src/lib/icons/maple-icon-registry.ts",
       "upstreamBlob": "71a50d5e3d44b382087ccc557b47044b8c9957b9",
       "upstreamSHA256": "f66824ba6a70ddd019e2bdae387092f0d62baa95813bd4b34beb6f91735219d4",
-      "classification": "exact pinned source"
+      "classification": "adapted pinned source"
     },
     {
       "path": "icons/maple-icon.component.html",
@@ -229,6 +229,62 @@
       "classification": "exact pinned source"
     },
     {
+      "path": "sugar-maple-chrome-specimen.ts",
+      "sha256": "77f88974b7a9c26112650f685511b34605f6747a504bd2f73d352a586a30e01b",
+      "upstreamPath": null,
+      "upstreamBlob": null,
+      "upstreamSHA256": null,
+      "classification": "local chrome composition/style"
+    },
+    {
+      "path": "sugar-maple-chrome-theme.ts",
+      "sha256": "f8644731bb349d9a77070130ff1d0656b6f9209bd1d5e8354998ae3ed359fbc9",
+      "upstreamPath": null,
+      "upstreamBlob": null,
+      "upstreamSHA256": null,
+      "classification": "local chrome composition/style"
+    },
+    {
+      "path": "sugar-maple-chrome.ts",
+      "sha256": "ef9a496fdb0ea039cd9a93d287bef9748c0f675d995ce4f25227357d3b7011de",
+      "upstreamPath": null,
+      "upstreamBlob": null,
+      "upstreamSHA256": null,
+      "classification": "local chrome composition/style"
+    },
+    {
+      "path": "ui/action-button/mui-action-button.component.html",
+      "sha256": "88974346f8967dbaa5923d78e363eea285d272016529d681d6c3eb23e14dda3c",
+      "upstreamPath": "src/web/projects/maple-common/src/lib/ui/action-button/mui-action-button.component.html",
+      "upstreamBlob": "e0cf5aea4607bceea4b7f95475aafb279cc8978e",
+      "upstreamSHA256": "b7d81ab96aabfa79d2a077af9bded521d67462677463e4bec0931afae7394a4e",
+      "classification": "adapted pinned source"
+    },
+    {
+      "path": "ui/action-button/mui-action-button.component.ts",
+      "sha256": "051735f05e93acb34b93b8d5803c516cd5476a30b1b9f104892a496b5378768c",
+      "upstreamPath": "src/web/projects/maple-common/src/lib/ui/action-button/mui-action-button.component.ts",
+      "upstreamBlob": "29e6243a8d5f644fb6b41a901147ac16c8bcef23",
+      "upstreamSHA256": "63404fc0758c68c035f08378e82a2b6317c18f0b69603842aba262840056cf4e",
+      "classification": "adapted pinned source"
+    },
+    {
+      "path": "ui/badge/mui-badge.component.html",
+      "sha256": "fc1a56fe0ed45d92e79e1b4ff2e27a5ccf55dddcb2cb75797e08caebf9ded527",
+      "upstreamPath": "src/web/projects/maple-common/src/lib/ui/badge/mui-badge.component.html",
+      "upstreamBlob": "d2b689199dcd18515cb0aec5283c41ee1f249965",
+      "upstreamSHA256": "fc1a56fe0ed45d92e79e1b4ff2e27a5ccf55dddcb2cb75797e08caebf9ded527",
+      "classification": "exact pinned source"
+    },
+    {
+      "path": "ui/badge/mui-badge.component.ts",
+      "sha256": "3b5840c297ea515a7d1da5445b1481c6235377f81420d1935ecebd9c5e1a0667",
+      "upstreamPath": "src/web/projects/maple-common/src/lib/ui/badge/mui-badge.component.ts",
+      "upstreamBlob": "f6472d5b460a0dc56cc9a0d45f23104e4d9176e8",
+      "upstreamSHA256": "3b5840c297ea515a7d1da5445b1481c6235377f81420d1935ecebd9c5e1a0667",
+      "classification": "exact pinned source"
+    },
+    {
       "path": "ui/button/mui-button.component.html",
       "sha256": "5fa3764b4fcba25403a74728adfbd16b133fd702b43fd1636d216d2c25728103",
       "upstreamPath": "src/web/projects/maple-common/src/lib/ui/button/mui-button.component.html",
@@ -238,7 +294,7 @@
     },
     {
       "path": "ui/button/mui-button.component.scss",
-      "sha256": "7c9700d63cd8679a4bb8ceeb98f64b57bf6ed75a164e375c65f68760d196f4b9",
+      "sha256": "1bd80be568a534852a66dfc79330e14d581a26e49ff8d7d75bd979a98f0cb636",
       "upstreamPath": "src/web/projects/maple-common/src/lib/ui/button/mui-button.component.scss",
       "upstreamBlob": "7e770eac28427ea57564080527d6043f66f99d8f",
       "upstreamSHA256": "9c594c505795e0ecb5e901c1bb23b5297c7954c55576da0a32b0f253c251b4e8",
@@ -253,8 +309,24 @@
       "classification": "exact pinned source"
     },
     {
+      "path": "ui/divider/mui-divider.component.html",
+      "sha256": "3b93897d2c8371e0a329955a3cfeb593d0966dad5de0c18d4f8cd3682d8ee69d",
+      "upstreamPath": "src/web/projects/maple-common/src/lib/ui/divider/mui-divider.component.html",
+      "upstreamBlob": "70552b3f5f5700a08d9ba952dadec799d7974bbc",
+      "upstreamSHA256": "3b93897d2c8371e0a329955a3cfeb593d0966dad5de0c18d4f8cd3682d8ee69d",
+      "classification": "exact pinned source"
+    },
+    {
+      "path": "ui/divider/mui-divider.component.ts",
+      "sha256": "337dd43ff4b955fe6b2b57c57fe1119a2c226b70a45e345f533a36321cc14a1c",
+      "upstreamPath": "src/web/projects/maple-common/src/lib/ui/divider/mui-divider.component.ts",
+      "upstreamBlob": "f9dc4cac008eadf56f183fb59c5edca81f020f6b",
+      "upstreamSHA256": "337dd43ff4b955fe6b2b57c57fe1119a2c226b70a45e345f533a36321cc14a1c",
+      "classification": "exact pinned source"
+    },
+    {
       "path": "ui/field/mui-field.component.scss",
-      "sha256": "af7490d31517084a5be5b86ee857abfaac2bf1911ea8a0c6b9633e22737a5680",
+      "sha256": "c41e48d416f89d06b6e74fa1fc0dd4b57481e52400dc5d4b7494fb23ace78ea9",
       "upstreamPath": null,
       "upstreamBlob": null,
       "upstreamSHA256": null,
@@ -285,6 +357,86 @@
       "classification": "exact pinned source"
     },
     {
+      "path": "ui/input/mui-input.component.html",
+      "sha256": "5dce2e5cb362432aee5483392dbdf7a26a549b26676a33a89d63c502ee92f813",
+      "upstreamPath": "src/web/projects/maple-common/src/lib/ui/input/mui-input.component.html",
+      "upstreamBlob": "e7eb0285a4e66bdb505f87f715e92ed175aaacf7",
+      "upstreamSHA256": "d2f854219078a6f0837f5c9886175b34e091336abedeb5d3332a98eeeec02402",
+      "classification": "adapted pinned source"
+    },
+    {
+      "path": "ui/input/mui-input.component.ts",
+      "sha256": "c693aebd93abb18a7354ff3fcb71febdf119d0d4a51b5748e5d0e997c7b457ed",
+      "upstreamPath": "src/web/projects/maple-common/src/lib/ui/input/mui-input.component.ts",
+      "upstreamBlob": "f1972103c90a734e7acd5b4a06e6d8c1acd54076",
+      "upstreamSHA256": "0175d31abf6ecc292beb5c3e707199ff756dba0606646c19cfbab9ee8ec75236",
+      "classification": "adapted pinned source"
+    },
+    {
+      "path": "ui/inspector-panel/mui-inspector-panel.component.html",
+      "sha256": "6cccfa6cbc0c14257837097ac089ae79a9e32debe54137d6c14b8d2ae27c9cb8",
+      "upstreamPath": "src/web/projects/maple-common/src/lib/ui/inspector-panel/mui-inspector-panel.component.html",
+      "upstreamBlob": "08851f59fc01e48e1531f475204b16ded29a292d",
+      "upstreamSHA256": "6cccfa6cbc0c14257837097ac089ae79a9e32debe54137d6c14b8d2ae27c9cb8",
+      "classification": "exact pinned source"
+    },
+    {
+      "path": "ui/inspector-panel/mui-inspector-panel.component.ts",
+      "sha256": "0a58e69c494fd7aa5b68a8e4e8bc562350d26dadf73f7bdb752f8e45d64dc7e3",
+      "upstreamPath": "src/web/projects/maple-common/src/lib/ui/inspector-panel/mui-inspector-panel.component.ts",
+      "upstreamBlob": "71d878e8fc10e86d52936005bfa2eef324c63213",
+      "upstreamSHA256": "0a58e69c494fd7aa5b68a8e4e8bc562350d26dadf73f7bdb752f8e45d64dc7e3",
+      "classification": "exact pinned source"
+    },
+    {
+      "path": "ui/internal/_row-interaction.scss",
+      "sha256": "fa44a09065647a7c5be77aba87da2cfc2150d4c834ba8ce539d577ede66eea6a",
+      "upstreamPath": "src/web/projects/maple-common/src/lib/ui/internal/_row-interaction.scss",
+      "upstreamBlob": "f295c27cdda2831c8739b2e3d8ec1c25b6bf2442",
+      "upstreamSHA256": "fa44a09065647a7c5be77aba87da2cfc2150d4c834ba8ce539d577ede66eea6a",
+      "classification": "exact pinned source"
+    },
+    {
+      "path": "ui/internal/activation-keydown.ts",
+      "sha256": "50121bd921f6d00469af4e5d8a79fb853195e806d88c775fffa5d9c06c5599dd",
+      "upstreamPath": "src/web/projects/maple-common/src/lib/ui/internal/activation-keydown.ts",
+      "upstreamBlob": "3302a571177714460dab99cc68fe539c7046d8d6",
+      "upstreamSHA256": "50121bd921f6d00469af4e5d8a79fb853195e806d88c775fffa5d9c06c5599dd",
+      "classification": "exact pinned source"
+    },
+    {
+      "path": "ui/page-header/mui-page-header.component.html",
+      "sha256": "fd5e964adaecbc92d8298ad8d39d486e839f9ad36e22898b411564824bee066a",
+      "upstreamPath": "src/web/projects/maple-common/src/lib/ui/page-header/mui-page-header.component.html",
+      "upstreamBlob": "c2b20d7f956767cb594cb79f799610adcf1b473b",
+      "upstreamSHA256": "fd5e964adaecbc92d8298ad8d39d486e839f9ad36e22898b411564824bee066a",
+      "classification": "exact pinned source"
+    },
+    {
+      "path": "ui/page-header/mui-page-header.component.ts",
+      "sha256": "64e4a6ea4574f6123f8ff1c08e90b8579ed8f7029ab2d436b912bd399ba51037",
+      "upstreamPath": "src/web/projects/maple-common/src/lib/ui/page-header/mui-page-header.component.ts",
+      "upstreamBlob": "22886b6f96a38fd8cb357ad311028e0514259ae3",
+      "upstreamSHA256": "64e4a6ea4574f6123f8ff1c08e90b8579ed8f7029ab2d436b912bd399ba51037",
+      "classification": "exact pinned source"
+    },
+    {
+      "path": "ui/popover/mui-popover.component.html",
+      "sha256": "7ddc7d8a5969e6f7c1588cd153ab2a5e22f626f0e145e53b57b49a9c01d4ae77",
+      "upstreamPath": "src/web/projects/maple-common/src/lib/ui/popover/mui-popover.component.html",
+      "upstreamBlob": "437f90758d2b1a53b70c2afeeb554cb5bdf9e4c4",
+      "upstreamSHA256": "7ddc7d8a5969e6f7c1588cd153ab2a5e22f626f0e145e53b57b49a9c01d4ae77",
+      "classification": "exact pinned source"
+    },
+    {
+      "path": "ui/popover/mui-popover.component.ts",
+      "sha256": "1c11119777e3f63b9cece68dd653ffda584b0156272e3ab71f803f9e6b73ba19",
+      "upstreamPath": "src/web/projects/maple-common/src/lib/ui/popover/mui-popover.component.ts",
+      "upstreamBlob": "66e95547da080a10c9596b6acf2efd6ab277360b",
+      "upstreamSHA256": "4fffad02420f5d9e9f95cef68d5b3451902c8cc6dd25e55bbfab230a2033c7ca",
+      "classification": "adapted pinned source"
+    },
+    {
       "path": "ui/section/mui-section.component.html",
       "sha256": "2d8037bbb47c3a00441d5723e306c8f4ee55f685573a6aaec618dec663d372ca",
       "upstreamPath": null,
@@ -294,7 +446,7 @@
     },
     {
       "path": "ui/section/mui-section.component.scss",
-      "sha256": "c51818afe16a4dc06674d8539e01b647029af78a6ec2173b28f7109a5b5da6d0",
+      "sha256": "1246ed30775312b4464b777f03bea264ed505eebef1d57aadf5a5556bd195742",
       "upstreamPath": null,
       "upstreamBlob": null,
       "upstreamSHA256": null,
@@ -318,7 +470,7 @@
     },
     {
       "path": "ui/select/mui-select.component.scss",
-      "sha256": "bd8243792bf8f10a68c8a7f5826486070f9bcd8f28fe59d3ce642cfdb5f986e3",
+      "sha256": "2e65db29ad6c58168a4cc21cc1d1e90705febc3194a44d9cc3458b03af3c9808",
       "upstreamPath": null,
       "upstreamBlob": null,
       "upstreamSHA256": null,
@@ -330,6 +482,118 @@
       "upstreamPath": "src/web/projects/maple-common/src/lib/ui/select/mui-select.component.ts",
       "upstreamBlob": "108505bc2525ec6940e4ca712fd09d46436557bf",
       "upstreamSHA256": "62804290d22e1bbace79f37d2d242d64141e77a5f44240978513d67cd10c9fae",
+      "classification": "adapted pinned source"
+    },
+    {
+      "path": "ui/spinner/mui-spinner.component.html",
+      "sha256": "a03ac179311facb76508ec60aaae4bda927876528cd703f82759bbc9aa3e5acf",
+      "upstreamPath": "src/web/projects/maple-common/src/lib/ui/spinner/mui-spinner.component.html",
+      "upstreamBlob": "dd92011ff3ffb3a2cf73d08caddf552db5e746b5",
+      "upstreamSHA256": "a03ac179311facb76508ec60aaae4bda927876528cd703f82759bbc9aa3e5acf",
+      "classification": "exact pinned source"
+    },
+    {
+      "path": "ui/spinner/mui-spinner.component.scss",
+      "sha256": "6494f5559bca34d15da89c05a6dfbfe02fb4e4a2167868b894f0b847759413be",
+      "upstreamPath": "src/web/projects/maple-common/src/lib/ui/spinner/mui-spinner.component.scss",
+      "upstreamBlob": "c79781b841aab261f7b63ce24c1ff6eb964a87a8",
+      "upstreamSHA256": "6494f5559bca34d15da89c05a6dfbfe02fb4e4a2167868b894f0b847759413be",
+      "classification": "exact pinned source"
+    },
+    {
+      "path": "ui/spinner/mui-spinner.component.ts",
+      "sha256": "1b2587217ff3301ee3b3ae455c569f5d7e28406bb6537539ffd70693304e915c",
+      "upstreamPath": "src/web/projects/maple-common/src/lib/ui/spinner/mui-spinner.component.ts",
+      "upstreamBlob": "d0e16b6b91fa604d811845d51823c7f863affa11",
+      "upstreamSHA256": "1b2587217ff3301ee3b3ae455c569f5d7e28406bb6537539ffd70693304e915c",
+      "classification": "exact pinned source"
+    },
+    {
+      "path": "ui/tabs/mui-tabs.component.html",
+      "sha256": "dc75c76766f90b953c33f442e8241764f6a79d1bf08c24632a682227f2e6669b",
+      "upstreamPath": "src/web/projects/maple-common/src/lib/ui/tabs/mui-tabs.component.html",
+      "upstreamBlob": "9497ae992ab0cd19604d6826f8c14c4efc5ae0d0",
+      "upstreamSHA256": "dc75c76766f90b953c33f442e8241764f6a79d1bf08c24632a682227f2e6669b",
+      "classification": "exact pinned source"
+    },
+    {
+      "path": "ui/tabs/mui-tabs.component.ts",
+      "sha256": "74ef44968c8023c87e1abdd47dba6b6b60f2b4a6724c670d202d59dff6e10c12",
+      "upstreamPath": "src/web/projects/maple-common/src/lib/ui/tabs/mui-tabs.component.ts",
+      "upstreamBlob": "83fcc831c22da0fb53bea3bf370daf61e48d3bda",
+      "upstreamSHA256": "bc16de88be14075483757c9f780abd12919ecb6eba8aaaa42a7fc2c2f2cbf4d0",
+      "classification": "adapted pinned source"
+    },
+    {
+      "path": "ui/text/mui-text.component.html",
+      "sha256": "9eec562ab51f81355bb574e79de8c25103559812b89ab2b61309994e7382f953",
+      "upstreamPath": "src/web/projects/maple-common/src/lib/ui/text/mui-text.component.html",
+      "upstreamBlob": "4ee4b63536365e50012c04f3ecda75643686cdf7",
+      "upstreamSHA256": "9eec562ab51f81355bb574e79de8c25103559812b89ab2b61309994e7382f953",
+      "classification": "exact pinned source"
+    },
+    {
+      "path": "ui/text/mui-text.component.ts",
+      "sha256": "43971a2b2f6b5402e30456daabdbff5c4bfd00f5e15c7f56b7bf7c38472e514d",
+      "upstreamPath": "src/web/projects/maple-common/src/lib/ui/text/mui-text.component.ts",
+      "upstreamBlob": "45446f018172fa5950c19e7e0d518d02847cd148",
+      "upstreamSHA256": "43971a2b2f6b5402e30456daabdbff5c4bfd00f5e15c7f56b7bf7c38472e514d",
+      "classification": "exact pinned source"
+    },
+    {
+      "path": "ui/toolbar/mui-toolbar.component.html",
+      "sha256": "f7bf222b8cb7e3bf549e25dcc7e8f36ffce68ee3cdd204c4e436e3b2acf91436",
+      "upstreamPath": "src/web/projects/maple-common/src/lib/ui/toolbar/mui-toolbar.component.html",
+      "upstreamBlob": "0bcee90d5e205665634c5e9f7f9d3c3c017223a7",
+      "upstreamSHA256": "9af6b4334b03eb9ba48952a3cc07071397b5fd52f77af83f9dee993fc1043443",
+      "classification": "adapted pinned source"
+    },
+    {
+      "path": "ui/toolbar/mui-toolbar.component.ts",
+      "sha256": "b4533192d72f4b6ba611f59e55f3606a5809651c0aae52d1b07d74bd2cbc3c83",
+      "upstreamPath": "src/web/projects/maple-common/src/lib/ui/toolbar/mui-toolbar.component.ts",
+      "upstreamBlob": "86ac05e335fbdaaa5f4a7dfa47aaf96ec9bdf087",
+      "upstreamSHA256": "1aba09ec01a2f3b0cc94199dc0b5a5e57eea4bdafa294748eefb5d5e669aaae9",
+      "classification": "adapted pinned source"
+    },
+    {
+      "path": "ui/tree-row/mui-tree-row-chevron.component.html",
+      "sha256": "300e68f037737565bd103616d1a675381f455b3145c3d7e633bb1dab2caeddbd",
+      "upstreamPath": "src/web/projects/maple-common/src/lib/ui/tree-row/mui-tree-row-chevron.component.html",
+      "upstreamBlob": "0f7108487b404c6312e2479cb4f883b643a292b2",
+      "upstreamSHA256": "300e68f037737565bd103616d1a675381f455b3145c3d7e633bb1dab2caeddbd",
+      "classification": "exact pinned source"
+    },
+    {
+      "path": "ui/tree-row/mui-tree-row-chevron.component.ts",
+      "sha256": "944b12ca08aa879baa90cdf1a6c1aa7bd48564c651c8cc05170da7b81fe735a3",
+      "upstreamPath": "src/web/projects/maple-common/src/lib/ui/tree-row/mui-tree-row-chevron.component.ts",
+      "upstreamBlob": "3fe429fe488632c759d168029700c1d219466338",
+      "upstreamSHA256": "944b12ca08aa879baa90cdf1a6c1aa7bd48564c651c8cc05170da7b81fe735a3",
+      "classification": "exact pinned source"
+    },
+    {
+      "path": "ui/tree-row/mui-tree-row.component.html",
+      "sha256": "58d268e2ea2cb9b09f3415cef5467d2171c6bbbdd09577e737dacf2471fa4de4",
+      "upstreamPath": "src/web/projects/maple-common/src/lib/ui/tree-row/mui-tree-row.component.html",
+      "upstreamBlob": "167868840353d00b2138d4c9caa4a8b1c99b4d3e",
+      "upstreamSHA256": "56882f64159a95a66aea093cee0b8a039d1789b59336680642f12563ee7ba4b1",
+      "classification": "adapted pinned source"
+    },
+    {
+      "path": "ui/tree-row/mui-tree-row.component.scss",
+      "sha256": "46776dda9d1040881b16f4aafadecdaf36e0d990c0d3ee3363eeaa8569e6dff9",
+      "upstreamPath": "src/web/projects/maple-common/src/lib/ui/tree-row/mui-tree-row.component.scss",
+      "upstreamBlob": "00638d44c2716d57dda32578bdaee5e556b9c2d3",
+      "upstreamSHA256": "46776dda9d1040881b16f4aafadecdaf36e0d990c0d3ee3363eeaa8569e6dff9",
+      "classification": "exact pinned source"
+    },
+    {
+      "path": "ui/tree-row/mui-tree-row.component.ts",
+      "sha256": "ac5e4c0c0e70c042f480d7462454a766a2d33cf1e3178e1a5a083db812adcdfa",
+      "upstreamPath": "src/web/projects/maple-common/src/lib/ui/tree-row/mui-tree-row.component.ts",
+      "upstreamBlob": "b5e88574e94fa86bea6583a834c39bd50f70143a",
+      "upstreamSHA256": "621d6086f77af5478256aafa80316dd3a1fba7538eb40085204d4dcf5fddfc09",
       "classification": "adapted pinned source"
     }
   ]
