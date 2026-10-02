@@ -4,7 +4,7 @@ import Foundation
     static func main() throws {
         let root = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString).appendingPathExtension("syrup")
         defer { try? FileManager.default.removeItem(at: root) }
-        let checkpoint: [String: Any] = ["document": ["version":1,"id":"test","name":"Round trip","pages":[["id":"page","name":"Page 1","order":0]],"nodes":[]], "crdt":[1,2,3]]
+        let checkpoint: [String: Any] = ["document": ["version":1,"id":"test","name":"Round trip","pages":[["id":"page","name":"Page 1","order":0,"futureMetadata":["preserve":true]]],"nodes":[],"futureMetadata":["nested":[true,2,"preserve"]],"folders":[["id":"folder","name":"Folder","order":0,"futureMetadata":["preserve":true]]]], "crdt":[1,2,3]]
         try DocumentPackage.write(checkpoint, to: root)
         let loaded = try DocumentPackage.read(root)
         precondition(NSDictionary(dictionary: checkpoint).isEqual(to: loaded))
@@ -32,7 +32,7 @@ import Foundation
                 catch { precondition((error as NSError).code == CocoaError.fileReadTooLarge.rawValue) }
             }
         }
-        print("PASS: real .syrup save/reopen and invalid-write preservation and external-change conflict")
+        print("PASS: real .syrup save/reopen preserves opaque document/page/folder metadata, invalid-write preservation and external-change conflict")
         print("PASS: actual read/fingerprint reject sparse 32 MB + 1 byte and 3 GB checkpoints with explicit unsigned 64-bit size checks")
     }
 }
