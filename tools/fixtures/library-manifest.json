@@ -1,0 +1,233 @@
+{
+  "manifestVersion": 1,
+  "revision": "1.0.0",
+  "id": "web-awesome",
+  "name": "Web Awesome",
+  "package": {
+    "name": "@awesome.me/webawesome",
+    "version": "3.14.0"
+  },
+  "dependencies": {
+    "@ctrl/tinycolor": "4.1.0",
+    "@floating-ui/dom": "1.8.0",
+    "@konnorr/qr-creator": "1.1.0",
+    "@lit-labs/ssr": "4.1.0",
+    "@lit-labs/ssr-client": "1.1.8",
+    "@lit/context": "1.1.6",
+    "@lit/react": "1.0.8",
+    "@shoelace-style/animations": "1.2.0",
+    "@shoelace-style/localize": "3.2.3",
+    "composed-offset-position": "0.0.6",
+    "lit": "3.3.3",
+    "marked": "11.2.0",
+    "nanoid": "5.1.16"
+  },
+  "webStyles": [
+    "@awesome.me/webawesome/dist/styles/webawesome.css"
+  ],
+  "swiftSDK": {
+    "name": "SwiftUI",
+    "version": "macOS 14 minimum - system SwiftUI"
+  },
+  "tokenMappings": {
+    "--wa-color-brand-fill-loud": "brand.primary"
+  },
+  "components": {
+    "Button": {
+      "name": "Web Awesome Button",
+      "semanticKind": "button",
+      "width": 180,
+      "height": 44,
+      "props": {
+        "label": {
+          "semantic": "text",
+          "webAttribute": null,
+          "type": "string",
+          "default": "Button",
+          "maxLength": 20000
+        },
+        "disabled": {
+          "semantic": "disabled",
+          "webAttribute": "disabled",
+          "type": "boolean",
+          "default": false
+        },
+        "variant": {
+          "semantic": null,
+          "webAttribute": "variant",
+          "type": "enum",
+          "default": "neutral",
+          "values": [
+            "neutral",
+            "brand",
+            "success",
+            "warning",
+            "danger"
+          ]
+        },
+        "appearance": {
+          "semantic": null,
+          "webAttribute": "appearance",
+          "type": "enum",
+          "default": "accent",
+          "values": [
+            "accent",
+            "filled-outlined",
+            "filled",
+            "outlined",
+            "plain"
+          ]
+        }
+      },
+      "slots": [
+        ""
+      ],
+      "variants": {
+        "Default": {},
+        "Primary": {
+          "variant": "brand"
+        },
+        "Disabled": {
+          "disabled": true
+        }
+      },
+      "defaultVariant": "Default",
+      "web": {
+        "tag": "wa-button",
+        "symbol": "WaButton",
+        "styleBindings": {},
+        "module": "@awesome.me/webawesome/dist/components/button/button.js"
+      },
+      "swift": {
+        "module": "SwiftUI",
+        "symbol": "Button",
+        "adapter": "button",
+        "platforms": [
+          "macOS"
+        ],
+        "supportedVariants": [
+          "Default",
+          "Disabled"
+        ]
+      }
+    },
+    "Input": {
+      "name": "Web Awesome Input",
+      "semanticKind": "input",
+      "width": 260,
+      "height": 56,
+      "props": {
+        "label": {
+          "semantic": "accessibleLabel",
+          "webAttribute": "label",
+          "type": "string",
+          "default": "Email",
+          "maxLength": 200
+        },
+        "placeholder": {
+          "semantic": "text",
+          "webAttribute": "placeholder",
+          "type": "string",
+          "default": "Your email",
+          "maxLength": 20000
+        },
+        "value": {
+          "semantic": "initialValue",
+          "webAttribute": "value",
+          "type": "string",
+          "default": "",
+          "maxLength": 20000
+        },
+        "type": {
+          "semantic": "inputType",
+          "webAttribute": "type",
+          "type": "enum",
+          "default": "email",
+          "values": [
+            "text",
+            "email",
+            "password"
+          ]
+        },
+        "disabled": {
+          "semantic": "disabled",
+          "webAttribute": "disabled",
+          "type": "boolean",
+          "default": false
+        }
+      },
+      "slots": [],
+      "variants": {
+        "Default": {},
+        "Disabled": {
+          "disabled": true
+        }
+      },
+      "defaultVariant": "Default",
+      "web": {
+        "tag": "wa-input",
+        "symbol": "WaInput",
+        "styleBindings": {},
+        "module": "@awesome.me/webawesome/dist/components/input/input.js"
+      },
+      "swift": {
+        "module": "SwiftUI",
+        "symbol": "TextField",
+        "adapter": "input",
+        "platforms": [
+          "macOS"
+        ],
+        "supportedVariants": [
+          "Default",
+          "Disabled"
+        ]
+      }
+    },
+    "Card": {
+      "name": "Web Awesome Card",
+      "semanticKind": "frame",
+      "width": 320,
+      "height": 240,
+      "props": {
+        "padding": {
+          "semantic": "padding",
+          "webAttribute": null,
+          "type": "number",
+          "default": 16,
+          "min": 0,
+          "max": 100
+        }
+      },
+      "slots": [
+        "",
+        "header",
+        "footer",
+        "media",
+        "actions"
+      ],
+      "variants": {
+        "Default": {}
+      },
+      "defaultVariant": "Default",
+      "web": {
+        "tag": "wa-card",
+        "symbol": "WaCard",
+        "styleBindings": {
+          "--spacing": "padding"
+        },
+        "module": "@awesome.me/webawesome/dist/components/card/card.js"
+      },
+      "swift": {
+        "module": "SwiftUI",
+        "symbol": "VStack",
+        "adapter": "card",
+        "platforms": [
+          "macOS"
+        ],
+        "supportedVariants": [
+          "Default"
+        ]
+      }
+    }
+  }
+}

@@ -1,3 +1,4 @@
+import { applyLibrary, trackLibraryOverrides } from './libraries';
 import { applyComment } from './comments';
 import { synchronizeComponents } from './component-sync';
 import { delta, applyDelta, JournalSchema, type JournalEntry } from './journal';
@@ -83,19 +84,20 @@ export class DocumentStore {
       nodes: Array.from((this.root.get('nodes') as Y.Map<any>).values()).map((v) => v.toJSON()),
       tokens: (this.root.get('tokens') as Y.Map<string>).toJSON(),
       assets: (this.root.get('assets') as Y.Map<string>).toJSON(),
+      libraries: Object.fromEntries(Array.from((this.root.get('libraries') as Y.Map<Y.Map<unknown>>).entries()).map(([key, value]) => [key, value.toJSON() as SceneDocument['libraries'][string]])),
     };
   }
   private write(doc: SceneDocument) {
     this.root.set('id', doc.id);
     this.root.set('name', doc.name);
-    for (const key of ['comments', 'folders', 'pages', 'nodes', 'tokens', 'assets'] as const) {
+    for (const key of ['comments', 'folders', 'pages', 'nodes', 'tokens', 'assets', 'libraries'] as const) {
       let map = this.root.get(key) as Y.Map<any> | undefined;
       if (!map) {
         map = new Y.Map();
         this.root.set(key, map);
       }
       const records =
-        key === 'tokens' || key === 'assets' ? doc[key] : Object.fromEntries(doc[key].map((v) => [v.id, v]));
+        key === 'tokens' || key === 'assets' || key === 'libraries' ? doc[key] : Object.fromEntries(doc[key].map((v) => [v.id, v]));
       for (const k of Array.from(map.keys())) if (!Object.hasOwn(records, k)) map.delete(k);
       for (const [k, value] of Object.entries(records)) {
         if (typeof value === 'string') {
@@ -140,9 +142,9 @@ export class DocumentStore {
     const change = delta(before, doc);
     const result = { documentId: doc.id, revision: this.revision + 1, ids, transactionId: uid() };
     const entry: JournalEntry = { kind: 'edit', origin, delta: change, requestId: tx.requestId, signature, receipt: result };
-    if (tx.operations.some(op => op.type === 'asset.set' || op.type === 'repeat.import') &&
+    if (tx.operations.some(op => op.type === 'asset.set' || op.type === 'repeat.import' || op.type === 'library.import') &&
       new TextEncoder().encode(JSON.stringify({ checkpointVersion: 2, document: doc, base: this.base, journal: [...this.journal, entry] }).replace(/\//g, '\\/')).length > 32_000_000)
-      throw Error('Import would exceed the 32 MB saved checkpoint limit; reduce the images or data');
+      throw Error('Import would exceed the 32 MB saved checkpoint limit; reduce the libraries, images or data');
     this.ydoc.transact(() => this.write(doc), origin);
     this.revision++;
     this.receipts.set(tx.requestId, { signature, result });
@@ -182,6 +184,7 @@ function applyOperation(
   ids: string[],
   origin: 'human' | 'agent',
 ) {
+  if (applyLibrary(doc, op, ids)) return;
   if (applyComment(doc, op, ids, origin)) return;
   if (applyComposition(doc, op, ids)) return;
   switch (op.type) {
@@ -258,6 +261,7 @@ function applyOperation(
       )
         throw Error('Detach the instance before changing its layer structure');
       Object.assign(n, op.patch);
+      trackLibraryOverrides(n, op.patch);
       propagate(doc, n, op.patch);
       break;
     }

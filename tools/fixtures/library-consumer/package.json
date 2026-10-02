@@ -1,0 +1,22 @@
+{
+  "name": "sugar-maple-pinned-library-consumer",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@awesome.me/webawesome": "3.14.0",
+    "@ctrl/tinycolor": "4.1.0",
+    "@floating-ui/dom": "1.8.0",
+    "@konnorr/qr-creator": "1.1.0",
+    "@lit-labs/ssr": "4.1.0",
+    "@lit-labs/ssr-client": "1.1.8",
+    "@lit/context": "1.1.6",
+    "@lit/react": "1.0.8",
+    "@shoelace-style/animations": "1.2.0",
+    "@shoelace-style/localize": "3.2.3",
+    "composed-offset-position": "0.0.6",
+    "lit": "3.3.3",
+    "marked": "11.2.0",
+    "nanoid": "5.1.16"
+  }
+}
