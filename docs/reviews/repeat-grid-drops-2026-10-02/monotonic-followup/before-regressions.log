@@ -1,0 +1,41 @@
+bun test v1.4.2 (744846f84)
+
+src/web/tests/repeat-files.test.ts:
+(pass) dropped CSV/JSON and text lists keep strict fields and authored line content [5.55ms]
+(pass) ordered images use deterministic filename order, shared bytes and explicit image fields [2.84ms]
+(pass) ambiguous, unsupported, malformed and oversized batches reject before returning staged content [1.12ms]
+(pass) directory drops exhaust fragmented entry batches and ignore only macOS folder metadata [1.10ms]
+(pass) directory cancellation stops a pending reader without staging data [1.37ms]
+(pass) directories honor depth limits and file-only drag stores retain a local fallback [0.17ms]
+46 |   async function read<T>(
+47 |     start: (resolve: (value: T) => void, reject: (reason: unknown) => void) => void,
+48 |   ): Promise<T> {
+49 |     active(signal);
+50 |     const remaining = deadline - Date.now();
+51 |     if (remaining <= 0) throw Error('Image folder read timed out');
+                                   ^
+error: Image folder read timed out
+      at read (/Users/riabuz/.codex/worktrees/mcp-contract-hardening/_SugarMaple/src/web/src/app/canvas/repeat-files.ts:51:31)
+      at visit (/Users/riabuz/.codex/worktrees/mcp-contract-hardening/_SugarMaple/src/web/src/app/canvas/repeat-files.ts:87:31)
+      at collectRepeatDrop (/Users/riabuz/.codex/worktrees/mcp-contract-hardening/_SugarMaple/src/web/src/app/canvas/repeat-files.ts:95:40)
+      at <anonymous> (/Users/riabuz/.codex/worktrees/mcp-contract-hardening/_SugarMaple/src/web/tests/repeat-files.test.ts:146:18)
+(fail) directory traversal tolerates wall-clock changes while monotonic time remains within budget [1.62ms]
+149 | 
+150 | test('directory traversal still rejects when its shared monotonic budget expires', async () => {
+151 |   const { transfer } = clockFixture();
+152 |   const clock = spyOn(performance, 'now').mockReturnValueOnce(0).mockReturnValueOnce(0).mockReturnValue(5001);
+153 |   try {
+154 |     await expect(collectRepeatDrop(transfer)).rejects.toThrow('timed out');
+                                                            ^
+error: expect(received).rejects.toThrow(expected)
+
+Expected promise that rejects
+Received promise that resolved: Promise { <resolved> }
+
+      at <anonymous> (/Users/riabuz/.codex/worktrees/mcp-contract-hardening/_SugarMaple/src/web/tests/repeat-files.test.ts:154:55)
+(fail) directory traversal still rejects when its shared monotonic budget expires [0.39ms]
+
+ 6 pass
+ 2 fail
+ 22 expect() calls
+Ran 8 tests across 1 file. [82.00ms]

@@ -1,0 +1,125 @@
+{
+  "sourceCommit": "23ecd85e6b69c38a54e75cfc76ffb181093f2474",
+  "baseCommit": "a1d6740eb8ec12fa5fbbaf7fd09323e412d263ff",
+  "recordedAt": "2026-10-02T14:45:07.123Z",
+  "runtime": "1.4.2",
+  "sourceHashes": {
+    "docs/development/mcp.md": "46ef9116af11ca72ea7ce794906ceea55906d306c4e66665653d77b9a3d3ede6",
+    "docs/development/repeat-grid-controls.md": "52700f19157f799f938771a0e1cdd88de4c3ad41c2e18ebd4a49e56493861283",
+    "docs/development/repeat-grid-drops.md": "34c5975abd4db3bf84c3450a564f01ccde7715727133520893a780fd00fe73bb",
+    "src/apple/Sugar Maple/EditorHost.swift": "471b74ef5351608eaa513c9f0f81a01e0b844fb1c10313442643b66091195af2",
+    "src/apple/Sugar Maple/NativeAccessPolicy.swift": "e78f23fb7fc8a06e9a2d57d3b6b30eec9fcf2affc1eb2ed8826162d5a95f2764",
+    "src/web/src/app/canvas/repeat-files.ts": "f2e7628d6ff3fe99a6a297b1c48b0bf1ab9d7a2e17f0eb55a7bebb17fd4ccbc6",
+    "src/web/src/app/canvas/repeat-inspector.ts": "44fac3265e4fc29ef1321cd1bc25e31f29cc6739039d4933d4be2b4d0aec057a",
+    "src/web/tests/repeat-drops-e2e.ts": "db63100c892f9046755225c961bd43a76493813f7a9b57705fd8cab2148962b8",
+    "src/web/tests/repeat-files.test.ts": "08c0f805e4efa8e7ae3bd24ec92bdb4219e3e3665207bb20d28cf39e9033d89f",
+    "tools/browser-acceptance.ts": "8892a753719b554f513af485938d126a3f3d07c2c993114c1feed3215ed88891",
+    "tools/native-acceptance.ts": "8dd9abac3cc65b1f722553d30ff5f0001e4dbcf695441346750d758ea20f4a88",
+    "tools/native-access-test.swift": "b09fe7e3fb67cd73949667d434082919ef384b6d0240f9542f7baa37864468c8",
+    "tools/native-repeat-drops.ts": "9449bb73e80e42de64c07352c3bbe240820b918f47bf2850be648bf1cab5ac1e",
+    "tools/native-repeat-folder-evidence.ts": "78aa10748349e4e41192fd76b87b7d9ce3601c8a3afb15803353c1c331167b42",
+    "tools/repeat-drops-native-page.js": "61bb62c70f2bf6cc07ba097dcd6997bfdbedeae31c32123bf26925aca20850da"
+  },
+  "artifacts": {
+    "model.log": {
+      "bytes": 15530,
+      "sha256": "736f8bd7b0e48d966511d931e806e0d8bfc7695081d921ac7b305e748efe7646"
+    },
+    "typecheck.log": {
+      "bytes": 36,
+      "sha256": "9b2b770f3351789b5fd00fa72323f6eb7ea6de3fa3d75b7678bcbee1c8f6d5f6"
+    },
+    "browser-acceptance.log": {
+      "bytes": 6451,
+      "sha256": "27421ae6513bfd3fce332651046b74c068ffe0ff32bc7c700537afef89a0bda6"
+    },
+    "native-acceptance.log": {
+      "bytes": 8916,
+      "sha256": "0f73925a94badfe5e82fead3e4e87d8a38bd720da62acee51fa109d7658cdf88"
+    },
+    "browser-report.json": {
+      "bytes": 3643,
+      "sha256": "2d7792f84df32f0c4ca917d10c7106956dc1ec58ab9ca4136b6b6f8306747e83"
+    },
+    "browser.png": {
+      "bytes": 119594,
+      "sha256": "4a72ee8a60edb00b16d56aa3a4bba232b9c220db26fb160678862fbf171dfe1e"
+    },
+    "native-report.json": {
+      "bytes": 716,
+      "sha256": "f52ab1516479dd02d482e6a01b221f8134d9d7f5ee73ccae5c938642ac7ac88f"
+    },
+    "native.png": {
+      "bytes": 426377,
+      "sha256": "04904d4c9dc67130fdd99ba99e5b21ff26de00eced4028cc739b3c6018637e51"
+    },
+    "native-human-report.json": {
+      "bytes": 844,
+      "sha256": "4e6fae7725fc862df3beb64855a199122d54d686ef62f377fa2d668e64382520"
+    },
+    "native-human-before.json": {
+      "bytes": 127867,
+      "sha256": "513a8c14d739d5227759e466c5b3b3e7b89f6fd8c70edcac441a98b9419c1079"
+    },
+    "native-human-staged.json": {
+      "bytes": 127867,
+      "sha256": "695295a9e93cbe1b8a47d2e4740c7901dc0b38172bf7cd69c2b6c93a0432d293"
+    },
+    "native-human-preview.json": {
+      "bytes": 127867,
+      "sha256": "2cac789929fb74661de24482b42a88b69dca0412723ae37d7cd2c0930d999ca0"
+    },
+    "native-human-apply.json": {
+      "bytes": 132250,
+      "sha256": "4b5f0cedb2fb6ce9deec44052666bf56b488e94c0fc80b987ecf44839595efca"
+    },
+    "native-human-undo.json": {
+      "bytes": 132041,
+      "sha256": "052e6daf87a0363988894032000dd38f624a2e497950e100e3eda5c4d190406e"
+    },
+    "native-human-preview.png": {
+      "bytes": 327683,
+      "sha256": "8328a0a78fe455b2527f6ac95be0693988a02d6b812ee4e85e131e56e5af5ba1"
+    },
+    "native-human-apply.png": {
+      "bytes": 331389,
+      "sha256": "6144966a5e9c9ea6ea6ebeb1ea293871412d78e2e938ae5e2266c69681ece480"
+    },
+    "native-human-undo.png": {
+      "bytes": 324422,
+      "sha256": "87ca9d436efec610900970355f565e03b664ab4162ad8ec860721ee9cacd2307"
+    },
+    "build-mac-summary.log": {
+      "bytes": 473,
+      "sha256": "587a5c34a81794ef92f2fccd62f26e3a83bbc587de7945f0ad955b22f3ffe166"
+    }
+  },
+  "localPassed": true,
+  "commands": [
+    "bun test src/web/tests",
+    "bun run --cwd src/web typecheck",
+    "bun tools/browser-acceptance.ts",
+    "bun run build:mac",
+    "bun tools/native-acceptance.ts",
+    "bun tools/native-canvas-transform-mcp.ts --repeat --hold (real macOS CUA input and owned MCP evidence)",
+    "bun tools/native-repeat-folder-evidence.ts prepare / verify"
+  ],
+  "completedLocal": [
+    "142 model tests / strict typecheck / native production build",
+    "All 31 browser/portable/package suites, including 11 focused drop/file-folder cases and real IndexedDB reload",
+    "Full native acceptance including access-policy origin/subframe/folder cases, 12 focused production WK drop cases and existing MCP/package/export checks",
+    "Actual OS NSOpenPanel image folder choice, explicit Photo mapping, preview and apply with one human journal batch; durable MCP reads/captures, stable grid/cell IDs/unmapped values and exact OS Cmd+Z undo",
+    "Native renderer visibly paints the distinct second selected image; cells after source rows remain unchanged",
+    "Published standalone verification replays the actual UI checkpoints; recording originally used companion local MCP reader with identical reads and added public-tool identity guard"
+  ],
+  "incomplete": [
+    "Final-head review/CI and dependent merge/current-main verification",
+    "Canonical virtual-cell representation and responsive template sizing #13",
+    "Actual OS drag-directory gesture; directory traversal uses entry fixtures plus actual directory file input/OS chooser",
+    "Full VoiceOver and physical input/presentation latency #21"
+  ],
+  "issues": [
+    13,
+    27
+  ]
+}
