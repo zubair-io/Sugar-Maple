@@ -1,0 +1,33 @@
+
+src/web/tests/typography.test.ts:
+24 |   const node = NodeSchema.parse({ id: 'native-lines', name: 'Native lines', pageId, kind: 'text', text: 'café\nline x2', widthMode: 'hug', heightMode: 'hug' });
+25 |   const layout = (text: string) => project({ ...document, nodes: [{ ...node, text }] }, pageId)[0];
+26 |   const svg = (text: string) => svgExport({ ...document, nodes: [{ ...node, text, widthMode: 'fixed', heightMode: 'fixed' }] }, node.id);
+27 |   const reference = layout(node.text);
+28 |   for (const text of ['café\rline x2', 'café\r\nline x2']) {
+29 |     expect(wrapText(text, 1000, value => value.length)).toEqual(['café', 'line x2']);
+                                                             ^
+error: expect(received).toEqual(expected)
+
+  [
+-   "café",
+-   "line x2",
++   
++ "café
++ line x2"
++ ,
+  ]
+
+- Expected  - 2
++ Received  + 4
+
+      at <anonymous> (/Users/riabuz/Projects/_Sugar Maple/src/web/tests/typography.test.ts:29:57)
+(fail) native CR and CRLF line endings retain authored text with LF-equivalent Canvas and SVG geometry [4.79ms]
+(pass) typography migrates old journals without changing retry identity or undo [6.30ms]
+(pass) component typography and token references survive override, reset and cross-file editable paste [2.92ms]
+(pass) hug height, web typography and native rejection use the same authored values [3.36ms]
+
+ 3 pass
+ 1 fail
+ 30 expect() calls
+Ran 4 tests across 1 file. [48.00ms]

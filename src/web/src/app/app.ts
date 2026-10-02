@@ -1,3 +1,4 @@
+import { NodeTextEditor } from './canvas/node-text-editor';
 import { LibraryCatalog } from './canvas/library-catalog';
 import { RepeatInspector } from './canvas/repeat-inspector';
 import { FontInspector } from './canvas/font-inspector';
@@ -46,6 +47,7 @@ import { ChromeTheme } from './chrome/maple/sugar-maple-chrome-theme';
 @Component({
   selector: 'app-root',
   imports: [
+    NodeTextEditor,
     EditorHeader,
     CommentCanvas,
     MuiSelectComponent,
@@ -406,6 +408,7 @@ export class App {
     );
   }
   addPage() {
+    if (!this.e.finishTextEditing()) return;
     const r = this.e.perform([
       {
         type: 'page.add',
@@ -419,6 +422,7 @@ export class App {
     }
   }
   selectPage(id: string) {
+    if (!this.e.finishTextEditing()) return;
     this.e.pageId.set(id);
     this.e.select(null);
   }
@@ -545,6 +549,7 @@ export class App {
     if (result) this.e.select(id);
   }
   startPreview() {
+    if (!this.e.finishTextEditing()) return;
     const n = this.e.node();
     const board = n?.kind === 'artboard' ? n : this.e.roots().find((n) => n.kind === 'artboard');
     if (board) {
@@ -677,6 +682,6 @@ export class App {
     if (shortcut === 'f') this.e.add('artboard');
     if (shortcut === 'r') this.e.add('rectangle');
     if (shortcut === 't') this.e.add('text');
-    if (['1', '2', '3'].includes(event.key)) this.e.mode.set(this.modes[+event.key - 1]);
+    if (['1', '2', '3'].includes(event.key)) this.e.setMode(this.modes[+event.key - 1]);
   }
 }

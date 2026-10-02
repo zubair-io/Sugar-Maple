@@ -30,7 +30,7 @@
   <nav class="mode-switch" aria-label="Editor mode">
     @for (mode of modes; track mode) {
       <button [class.active]="e.mode() === mode" [attr.aria-pressed]="e.mode() === mode"
-        (click)="e.mode.set(mode)">{{ mode }}</button>
+        (click)="e.setMode(mode)">{{ mode }}</button>
     }
   </nav>
   <div class="header-right">

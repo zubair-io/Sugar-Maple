@@ -1,0 +1,62 @@
+{
+  "date": "2026-10-02",
+  "runtimeCommit": "87b7ed4",
+  "qaCommit": "6527abe",
+  "baseDrawingHead": "640204c0f7948b7df904806754d69198d10210bc",
+  "status": "local candidate; no text PR or merged delivery yet",
+  "model": {
+    "passed": 124,
+    "failed": 0,
+    "assertions": 2067
+  },
+  "browser": {
+    "suites": 29,
+    "passed": true
+  },
+  "native": {
+    "fullAcceptancePassed": true,
+    "textWebKitCases": 12,
+    "productionMacBuildPassed": true
+  },
+  "negativeControl": {
+    "baseline": "549d06caaf52ce35d2dc555d5b56205d396c0806",
+    "result": "Delayed image decode allowed agent transaction after human draft began; regression assertion failed before runtime guard"
+  },
+  "limitations": [
+    "Composition events are synthetic DOM input, not hardware IME or candidate-window acceptance",
+    "No new native OS keyboard text fixture in this proof",
+    "Development hot reload interrupted first post-change rerun; stable rerun and full browser gate pass"
+  ],
+  "artifacts": [
+    {
+      "path": "text-session-race-before.log",
+      "sha256": "2124d241239b14fd9a3ccb5c6239ac94d4078b1e8ac9af20cccdc8666a7a2217",
+      "bytes": 729
+    },
+    {
+      "path": "text-session-race-after-stable.log",
+      "sha256": "ae36c8745ad2082b06db12eeea5c03b1aacac7d93b6c541d3ebacaf6bdbcdcfd",
+      "bytes": 286
+    },
+    {
+      "path": "text-session-race-browser.log",
+      "sha256": "fb849b746b920f2970542c8792b46ca12af7e08caca1c9e963e5fdf13b89bdb5",
+      "bytes": 6266
+    },
+    {
+      "path": "text-session-race-native.log",
+      "sha256": "c4110695e0847d159f1ffd037435c38417355443c31e44703f868414138843bf",
+      "bytes": 5663
+    },
+    {
+      "path": "text-session-race-model.log",
+      "sha256": "ed97047802864543eddfba89cf2089b241aefa36168355fa24ece03eee5bd48a",
+      "bytes": 13569
+    },
+    {
+      "path": "text-session-race-typecheck.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    }
+  ]
+}
