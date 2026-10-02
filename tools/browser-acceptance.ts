@@ -36,6 +36,7 @@ try {
     "canvas-performance",
     "file-menu-e2e",
     "autosave-e2e",
+    "forward-metadata-e2e",
     "file-tabs-e2e",
     "selection-e2e",
     "responsive-e2e",
