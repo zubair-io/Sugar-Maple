@@ -326,13 +326,13 @@ export class App {
     this.reparentBusy.set(false);
     this.reparentPreview.set(null);
   }
-  applyReparent() {
+  async applyReparent() {
     const pending = this.reparentPreview();
     if (!pending || this.e.mode() !== 'Design') return;
     try {
       if (JSON.stringify(pending.request.ids) !== JSON.stringify(this.e.selectedRoots().map(node => node.id)))
         throw Error('Selection changed. Preview this move again.');
-      this.e.commitReparent(pending.request, pending.plan);
+      await this.e.commitReparent(pending.request, pending.plan);
     } catch (error) { this.e.report(error); }
     finally { this.cancelReparent(); }
   }
