@@ -60,7 +60,7 @@ export function discoverEditor(
   selectionIds: string[],
 ) {
   const index = indexFor(doc);
-  return {
+  return structuredClone({
     readVersion: 1 as const,
     documentId: doc.id,
     revision,
@@ -85,7 +85,7 @@ export function discoverEditor(
       maxPixels: 16777216,
       throttleMilliseconds: 100,
     },
-  };
+  });
 }
 export function readScope(
   doc: SceneDocument,
@@ -199,5 +199,5 @@ export function readScope(
       'response_too_large',
       'Scoped read exceeds 16 MiB. Reduce limit or request a smaller subtree.',
     );
-  return value;
+  return structuredClone(value);
 }

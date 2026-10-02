@@ -675,7 +675,7 @@ export class EditorService {
         const query = CommentsQuerySchema.parse(args);
         if (query.pageId && !this.doc().pages.some((p) => p.id === query.pageId))
           throw Error('Page not found');
-        return {
+        return structuredClone({
           ...this.store.result(),
           comments: this.doc()
             .comments.filter(
@@ -687,14 +687,14 @@ export class EditorService {
               ...c,
               pageName: this.doc().pages.find((p) => p.id === c.pageId)!.name,
             })),
-        };
+        });
       }
       case 'document.checkpoint':
         return this.store.checkpoint();
       case 'document.get':
         return {
           ...this.store.result(),
-          document: this.doc(),
+          document: structuredClone(this.doc()),
           durable: !this.dirty(),
           persistence: this.status(),
           assetDiagnostics: this.assets.diagnostics(this.doc().nodes, this.doc().assets),

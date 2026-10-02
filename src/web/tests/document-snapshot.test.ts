@@ -2,6 +2,7 @@ import { expect, test } from 'bun:test';
 import { DocumentStore } from '../src/app/model/store';
 import { blankDocument, NodeSchema } from '../src/app/model/schema';
 import { libraryKey } from '../src/app/model/library-schema';
+import { discoverEditor, readScope } from '../src/app/model/scoped-read';
 import { webAwesomeManifest } from '../../../tools/library-fixture';
 
 function fixture() {
@@ -92,4 +93,37 @@ test('snapshot mutation cannot poison later edits, undo, redo or recovered histo
   expect(restored.document.nodes[0]).toEqual({ ...initial.nodes[0], x: 42 });
   store.undo();
   expect(store.document).toEqual(initial);
+});
+
+test('scoped and discovery reads detach nodes, library dependencies, page and folder references', () => {
+  const store = new DocumentStore(fixture()),
+    pageId = store.document.pages[0].id;
+  const key = libraryKey(webAwesomeManifest);
+  edit(store, [
+    { type: 'folder.add', id: 'folder', name: 'Original folder' },
+    { type: 'page.update', id: pageId, folderId: 'folder' },
+    { type: 'library.import', manifest: webAwesomeManifest },
+    { type: 'library.insert', id: 'button', key, component: 'Button', pageId, x: 0, y: 0 },
+  ]);
+  const doc = store.document,
+    before = structuredClone(doc);
+  const read = readScope(
+    doc,
+    store.revision,
+    {
+      documentId: doc.id,
+      expectedRevision: store.revision,
+      scope: 'document',
+      offset: 0,
+      limit: 100,
+    },
+    [],
+  );
+  read.nodes[0].gradient!.stops[0].color = '#ff0000';
+  read.references.pages[0].name = 'Untracked page';
+  read.references.libraries[key].components.Button.web!.module = 'untracked-package/button.js';
+  const discovery = discoverEditor(doc, store.revision, pageId, []);
+  discovery.folders[0].name = 'Untracked folder';
+  expect(doc).toEqual(before);
+  expect(store.document).toEqual(before);
 });
