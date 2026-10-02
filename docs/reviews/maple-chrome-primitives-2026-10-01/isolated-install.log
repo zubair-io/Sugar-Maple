@@ -1,0 +1,10 @@
+bun install v1.4.3-canary.1 (81f97bb02)
+⚠ Socket Security Scanner free mode. Set SOCKET_API_KEY to use your Socket org settings.
+
++ @angular/cli@22.1.8
++ @modelcontextprotocol/sdk@1.30.0
++ @socketsecurity/bun-security-scanner@1.1.2
++ bun@1.4.2
++ node@26.9.0
+
+323 packages installed [4.21s]
