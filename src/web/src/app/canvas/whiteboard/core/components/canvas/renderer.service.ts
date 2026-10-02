@@ -5,6 +5,7 @@ import { Injectable, inject } from '@angular/core';
 import type { Camera } from '../../../shared-types';
 import { CanvasProjection } from '../../../../canvas-projection';
 import { intersects, wrapText, type Box, type Item } from '../../../../scene-layout';
+import type { Guide } from '../../../../placement-geometry';
 // Sugar Maple Canvas2D renderer at the original Whiteboard CanvasComponent seam.
 @Injectable()
 export class RendererService {
@@ -110,6 +111,13 @@ export class RendererService {
       c.lineWidth = 1 / camera.zoom;
       c.fillRect(box.x, box.y, box.width, box.height);
       c.strokeRect(box.x, box.y, box.width, box.height);
+    }
+    c.strokeStyle='#ec4899';c.lineWidth=1/camera.zoom;c.setLineDash([4/camera.zoom,4/camera.zoom]);
+    for(const guide of this.s.snapping() ? ((_tool as {snapGuides?:Guide[]})?.snapGuides??[]) : []) {
+      c.beginPath();
+      if(guide.axis==='x'){c.moveTo(guide.value,guide.start-8/camera.zoom);c.lineTo(guide.value,guide.end+8/camera.zoom);}
+      else {c.moveTo(guide.start-8/camera.zoom,guide.value);c.lineTo(guide.end+8/camera.zoom,guide.value);}
+      c.stroke();
     }
     c.restore();
     this.s.stats.set({
