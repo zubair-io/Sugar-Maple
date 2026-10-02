@@ -1,0 +1,148 @@
+{
+  "sourceCommit": "fd33752e7d033933ca7b891be89577c4c75e5e98",
+  "baseCommit": "a4d40a584b1d9a191a3e64c980f0286c3a702685",
+  "recordedAt": "2026-10-02T19:26:37.150467+00:00",
+  "issue": 96,
+  "runtime": "Node 26.9.0 local; workflow remains pinned to Node 24",
+  "checks": {
+    "typecheckExitCode": 0,
+    "testsExitCode": 0,
+    "tests": 38,
+    "bundleBuildExitCode": 0,
+    "actualAuthenticatedLargePRFetch": {
+      "passed": true,
+      "base": "9a87bb641361f7008721e44111d73cfcc8c21970",
+      "head": "010366bb2c18f4c1bd3f8df556880c09391b9a6a",
+      "fullDiffLines": 46393,
+      "fullDiffBytes": 1862238,
+      "fullDiffSHA256": "8b97f99fc6e48d0a61d7eb4a4d341d6d5b744c64e35229367efcadfa536c5c79",
+      "shippingFiles": 46,
+      "shippingCharacters": 284591,
+      "selectedCharacters": 349840,
+      "allShippingHunksIncluded": true,
+      "checkoutAndShallowStateUnchanged": true,
+      "omittedEvidence": "All shipping source, tools, tests and workflows are included. 130 other file diffs were omitted to fit the 350000-character budget. Omitted paths: docs/reviews/library-diagnostics-reset-2026-10-02/mac-build.log, docs/reviews/library-diagnostics-reset-2026-10-02/native-mcp-report.json, docs/reviews/library-diagnostics-reset-2026-10-02/native-reopened-checkpoint.json, docs/reviews/library-diagnostics-reset-2026-10-02/verification.json, docs/reviews/library-scene-comparison-2026-10-02/authored-border-observations.json, docs/reviews/library-scene-comparison-2026-10-02/border-before.json, docs/reviews/library-scene-comparison-2026-10-02/border-chrome.json, docs/reviews/library-scene-comparison-2026-10-02/border-webkit.json, docs/reviews/library-scene-comparison-2026-10-02/browser.log, docs/reviews/library-scene-comparison-2026-10-02/cleanup-followup/failed-ci-first.log, docs/reviews/library-scene-comparison-2026-10-02/cleanup-followup/failed-ci-second.log, docs/reviews/library-scene-comparison-2026-10-02/cleanup-followup/legacy-stop.json, docs/reviews/library-scene-comparison-2026-10-02/cleanup-followup/legacy.log, docs/reviews/library-scene-comparison-2026-10-02/cleanup-followup/scene-comparison.json, docs/reviews/library-scene-comparison-2026-10-02/cleanup-followup/scene-stop.json, docs/reviews/library-scene-comparison-2026-10-02/cleanup-followup/scene.log, docs/reviews/library-scene-comparison-2026-10-02/cleanup-followup/verification.json, docs/reviews/library-scene-comparison-2026-10-02/comparison.json, docs/reviews/library-scene-comparison-2026-10-02/default-canvas.png, docs/reviews/library-scene-comparison-2026-10-02/default-dom.png, docs/reviews/library-scene-comparison-2026-10-02/default-native.png, docs/reviews/library-scene-comparison-2026-10-02/default-web.png, docs/reviews/library-scene-comparison-2026-10-02/dependency-integration/README.md, docs/reviews/library-scene-comparison-2026-10-02/dependency-integration/browser.log, docs/reviews/library-scene-comparison-2026-10-02/dependency-integration/comparison-acceptance.log, docs/reviews/library-scene-comparison-2026-10-02/dependency-integration/comparison.log, docs/reviews/library-scene-comparison-2026-10-02/dependency-integration/comparison/authored-border-canvas.png, docs/reviews/library-scene-comparison-2026-10-02/dependency-integration/comparison/authored-border-dom.png, docs/reviews/library-scene-comparison-2026-10-02/dependency-integration/comparison/authored-border-native.png, docs/reviews/library-scene-comparison-2026-10-02/dependency-integration/comparison/authored-border-observations.json, docs/reviews/library-scene-comparison-2026-10-02/dependency-integration/comparison/authored-border-web.png, docs/reviews/library-scene-comparison-2026-10-02/dependency-integration/comparison/comparison.json, docs/reviews/library-scene-comparison-2026-10-02/dependency-integration/comparison/default-canvas.png, docs/reviews/library-scene-comparison-2026-10-02/dependency-integration/comparison/default-dom.png, docs/reviews/library-scene-comparison-2026-10-02/dependency-integration/comparison/default-native.png, docs/reviews/library-scene-comparison-2026-10-02/dependency-integration/comparison/default-web.png, docs/reviews/library-scene-comparison-2026-10-02/dependency-integration/comparison/disabled-canvas.png, docs/reviews/library-scene-comparison-2026-10-02/dependency-integration/comparison/disabled-dom.png, docs/reviews/library-scene-comparison-2026-10-02/dependency-integration/comparison/disabled-native.png, docs/reviews/library-scene-comparison-2026-10-02/dependency-integration/comparison/disabled-web.png, \u2026."
+    }
+  },
+  "sources": {
+    ".github/actions/jules-review/.gitignore": {
+      "bytes": 28,
+      "sha256": "0cddee5f0f56d82e42cc9939e46495a37d2b228a1c6a438d3edc239860be1d40"
+    },
+    ".github/actions/jules-review/LICENSE": {
+      "bytes": 1072,
+      "sha256": "6e892cc8a06be4ce7051d682e4b30fc8e7efd64c954ee66ad27720bbb055da7b"
+    },
+    ".github/actions/jules-review/README.md": {
+      "bytes": 2600,
+      "sha256": "2631c7f5aff84cc40bb1a7c838b79696e2b8a1a57326ad8bcba6a9ee793e4095"
+    },
+    ".github/actions/jules-review/action.yml": {
+      "bytes": 1942,
+      "sha256": "e1cd7e00cc0f25d757d9f86b1a9d882f0822ac40310f674e00ed0776e77e53cc"
+    },
+    ".github/actions/jules-review/package-lock.json": {
+      "bytes": 12710,
+      "sha256": "2b1d837b80baafc25c30f6e5ae18fe17e8f1ab5e92f571a626ae42fe29e5686f"
+    },
+    ".github/actions/jules-review/package.json": {
+      "bytes": 1044,
+      "sha256": "fa37e98ac00f982af375544f324c0daf17a0af7ff59e3dfbf31e92e104dcadef"
+    },
+    ".github/actions/jules-review/src/cleanup.ts": {
+      "bytes": 2245,
+      "sha256": "46cd1d134b4d8f541aac0e53495ca4fa414980c5221c6090a733b8c001e8ce29"
+    },
+    ".github/actions/jules-review/src/diff.ts": {
+      "bytes": 1579,
+      "sha256": "d049a12126edd95b68fd2621b1c52edc60c7b398d5210747ef63f95c2c4e1e82"
+    },
+    ".github/actions/jules-review/src/index.ts": {
+      "bytes": 11166,
+      "sha256": "c0530dd1c8aab40ab114ed8945990954632ae9ababe285d82f709df5e283e65f"
+    },
+    ".github/actions/jules-review/src/poll.ts": {
+      "bytes": 3036,
+      "sha256": "2c5387579818963b0cf2d0138f54f1af43bb53721291368969e7dbf4941d51a0"
+    },
+    ".github/actions/jules-review/src/prompt.ts": {
+      "bytes": 4516,
+      "sha256": "b88a17d277716ac0e984431bc64470cb151396c2ade43d2d8e27f933731b0bda"
+    },
+    ".github/actions/jules-review/src/recovery-policy.ts": {
+      "bytes": 5681,
+      "sha256": "3cfc8ed01ed21f8e1ebe70bd3283696fbe281ad45f257f422a8c4f64c777c44d"
+    },
+    ".github/actions/jules-review/src/recovery.ts": {
+      "bytes": 8274,
+      "sha256": "feb15ab163a8f400acb256d6328fec6125c9f1a91f21f1b185a591cedcbb9dd6"
+    },
+    ".github/actions/jules-review/src/reply.ts": {
+      "bytes": 1162,
+      "sha256": "021cae72e252fc162a3f9975e6f84549bfedcaf72d3953992b6d4d1c162bdbe1"
+    },
+    ".github/actions/jules-review/src/revision-diff.ts": {
+      "bytes": 4036,
+      "sha256": "aba50ab312968f3d7bdd44186acdc119887c2c125b9f7ad48cb507f7864f926b"
+    },
+    ".github/actions/jules-review/src/verdict.ts": {
+      "bytes": 1816,
+      "sha256": "1aa235fb9bd5eeb784e5ff7623213aa7c74c45fcbcc03337184edc3446e749c4"
+    },
+    ".github/actions/jules-review/tests/cleanup.test.mjs": {
+      "bytes": 3861,
+      "sha256": "b9bc1873d2a18e0f1f1bba2455768d166c8fccac774acbe1fb1a85911a3ce597"
+    },
+    ".github/actions/jules-review/tests/diff.test.mjs": {
+      "bytes": 1910,
+      "sha256": "19212c51e0e7f65a084d39195a46655825f84ad632a48cbb1e0c614b3e80c6bd"
+    },
+    ".github/actions/jules-review/tests/poll.test.mjs": {
+      "bytes": 3988,
+      "sha256": "c5fcc4c5933e114c4eda81d4c2603b94d2b9affe05670d17e2089090e35a1ff9"
+    },
+    ".github/actions/jules-review/tests/recovery.test.mjs": {
+      "bytes": 7085,
+      "sha256": "cfc7f5f3f50b98a9cb0d9663a552b0f8a18731f2f250b69129335c5a8d4fa485"
+    },
+    ".github/actions/jules-review/tests/reply.test.mjs": {
+      "bytes": 1629,
+      "sha256": "9818a64304a43a705ef5c21d8b1c1a0914f3bb332b3cb794ecdbf56315c9ebc4"
+    },
+    ".github/actions/jules-review/tests/revision-diff.test.mjs": {
+      "bytes": 3950,
+      "sha256": "0649f89a32d8261b70bd5a48c7fcd5d9dfeb2d5d346b86a5601fc1361d06a5ad"
+    },
+    ".github/actions/jules-review/tests/verdict.test.mjs": {
+      "bytes": 4050,
+      "sha256": "3f308d3a762400f4ed779a0b0213b997e72ef1229f08cdb167866126c74430f8"
+    },
+    ".github/actions/jules-review/tsconfig.json": {
+      "bytes": 351,
+      "sha256": "dba5915b76957dd84e19975040905f780ca12a90d057513cfd281263da4cc288"
+    }
+  },
+  "artifacts": {
+    "typecheck.log": {
+      "bytes": 53,
+      "sha256": "37c2b5e0406a7068753a91a0ab1b0bca9d47dec29ce65cbc23a4cabef2a524d9"
+    },
+    "real-large-pr.log": {
+      "bytes": 4092,
+      "sha256": "40c4b759a6f4d02ef2ddd647f1543c0a057b5c311ee5d759bda26e0a3babd59b"
+    },
+    "tests.log": {
+      "bytes": 3687,
+      "sha256": "c01cfdebe81ef5e7688fdd424282a7ca85175f6b49ad6f9ce6eedd1e55da1c8a"
+    },
+    "build.log": {
+      "bytes": 403,
+      "sha256": "45e690d5b27085ea43a24c3cb9627db58494f8b094888036bc75ea2d9cfef510"
+    }
+  },
+  "limitations": [
+    "Fresh exact-head reviewer approval/CI and successful resulting-main delivery are required.",
+    "This repairs diff retrieval/reporting; it does not resolve provider sessions retained in progress without activities.",
+    "Retained live sessions are not cancelled or restarted on observation timeout."
+  ]
+}
