@@ -1,6 +1,6 @@
 {
-  "observedAt": "2026-10-02T04:25:28.217532+00:00",
-  "source": "62e33400cffd1ae22e35a8531cbfc7591626ba61",
+  "observedAt": "2026-10-02T04:33:14.557156+00:00",
+  "source": "df893aadd0d6e6a86946733c71a56a23b6655a22",
   "base": "ace1661ac852a7c3d9096e1305262dd68969d2c4",
   "state": "local acceptance passed; PR review and resulting-main checks still required",
   "environment": {
@@ -24,26 +24,26 @@
     "src/web/src/app/app.ts": "24b76af6696eb84dd6b8b9c07ddd0a2bef77ea19d7ed9eec400d3a8645c7791e",
     "src/web/src/app/canvas/canvas-projection.ts": "fb437cb8bf6819695c95a1edf3e46e565dc56ed5b7a4cf089448fb08bfbc443d",
     "src/web/src/app/canvas/canvas-selection-tool.ts": "32bae5a50b47cc5ab8ea2d2711eb7ce262230073e1b77f9cf1d57f12cdd76536",
-    "src/web/src/app/canvas/canvas-surface.ts": "be29702b3fa436e3d3e018da54748a10d3c3aca7d20cb64d7911bd1348bfbf3e",
+    "src/web/src/app/canvas/canvas-surface.ts": "a14f35f3ccea0cec14731af4d7c413af4c1bcd00230aa35ff3a350612ffe6f96",
     "src/web/src/app/canvas/scene-layout.ts": "086ae7620f2a9c40ada3ea8582e19ce1f164431647b380c1c7627b7dd0bc19ea",
     "src/web/src/app/canvas/transform-geometry.ts": "83d44a9010d047d113a07532a4c6f22508c47c9e9a2c605bf437f5e951e233ee",
     "src/web/src/app/canvas/whiteboard/core/components/canvas/renderer.service.ts": "a26c2f06692cfc1eec76313f0a554ae98fb7f4e244681f3dcc194dd9d729b605",
     "src/web/tests/canvas-gesture.test.ts": "387e6126f2f9e1d8333968412a46da5d7ec5c2aef04be2886664f8eb1528ec48",
-    "src/web/tests/canvas-transform-e2e.ts": "4df8d443b4d0086c5b0a80455b0a34e928363a162d6fca04856407d8e2ec88e6",
+    "src/web/tests/canvas-transform-e2e.ts": "4f432ec5429656bd376c732514f52eb64c28d1db2ff6c4b1989b78dbc8088423",
     "src/web/tests/canvas-transform.test.ts": "2db3964d9277e17651da5fd7075a701d0a854d7ab054d818565aa9914d474292",
     "tools/browser-acceptance.ts": "156eeb6bd38fbfc693d19bde73c8c418d867b6a254b38e19592df8668dd4f771",
-    "tools/canvas-transform-native-page.js": "3fb795f2af9b4df2c9901acc0ecef8d99c1f58d27bd4a87ac0169d533f43be4b",
+    "tools/canvas-transform-native-page.js": "cff14244019c225c224ab9ae13157abe75bbb08d4103eaf497b49774bbc3647d",
     "tools/native-acceptance.ts": "284675bdba9734c29b024c53ade44155cafb865cd08c8a330cf7473848abcd59",
-    "tools/native-canvas-benchmark.swift": "cfb334c819100015a092bce7a9afc85ed3ead73b1ab975f7aada2bf33f226d11",
+    "tools/native-canvas-benchmark.swift": "1f4e728d8daaec87764700b3a128054be6abd0332d6974b639897b20f623e391",
     "tools/native-canvas-transform-mcp.ts": "fb1610d2903047652125584bef6f512c2dfec766fe11a6c7b588fa5582e59ff5",
     "tools/native-canvas-transform.ts": "ae4f00346e685cde06c140f91304b5475e66dee8b0d94a6cb96111bc1776683f"
   },
   "productionBundle": {
-    "chunk-BDQju_Wj.js": "6d832002c2394ba2207792193b3d7db1c5336e76d232a655a9eba62b6fbc4f85",
-    "chunk-CVh1f5Qw.js": "21cdfa1214f0ce0e1598b1b428e945f14a264e1dcdc414f9561e347e80797263",
-    "chunk-CaICxmnf.js": "04dc52477a5b273f0307277b74f28c2bca107b07b3236941bb2339e48471e918",
-    "chunk-CdABQ50C.js": "7022ae060e0d93f7f47d5f4d19ad90f957de4dcb542ad0abe7b9cf8565f7b367",
-    "chunk-DEMfTmc8.js": "94c73b4fb7c421534f1f66fa93be938ecd2dbebb74780f8e5fec8f2f6d5f68a5",
+    "chunk-CL8Zhq7i.js": "05a4ff3c16384893b438c8e8c7e49806b353dd019bf9ef0ac186f4555839a1ef",
+    "chunk-Ckg_Bs6x.js": "4e381f44da0ea5072e71a3586fc388510ed6ba7ea26fcef4515897fedfbe10b5",
+    "chunk-CusXPnz6.js": "414b8de65e9b95764b902de187d499462444596af17b65f027c69deb6d9df4d8",
+    "chunk-DZ9lCyoK.js": "43edca369a109e9366f2ed9bbc0309ea1524c5ff2ce47b209f39a1d0a5ce4b53",
+    "chunk-Do00KxP7.js": "6d3df0120e0d0638726911b9332373a72c735a765f031fa2bb9f77774a221c30",
     "favicon.svg": "48db4d8fab8ae19c9dbecc46135dfe2adbd8fdc7b1964b62a7773155ab9e0271",
     "fonts/Inter-LICENSE.txt": "262481e844521b326f5ecd053e59b98c8b2da78c8ee1bdbb6e8174305e54935a",
     "fonts/InterVariable.woff2": "693b77d4f32ee9b8bfc995589b5fad5e99adf2832738661f5402f9978429a8e3",
@@ -56,8 +56,8 @@
     "fonts/Merriweather-Bold.woff2": "4e1ab49396c02be0d9a2a25eed7bc73781c047d85fcb5dfc2889873eaf992b09",
     "fonts/maple-provenance.json": "3f1962eb27e0cde4a74092df5b32b7ff4371b8c1d646343255be44caa0a0b81a",
     "fonts/provenance.json": "73351fec8a7fbf98411622714e6cecea70256c443a100fa3550ec432b0cbd095",
-    "index.html": "19b83716d7a566d1898247ea5b9ae65a68dca3578463a25dcd00f2d0cf821070",
-    "main-YGKXRIEK.js": "a77a761183546afe565eb633f0bc21eb2e39252f66523c943d0b941e719b0ede",
+    "index.html": "c0f424d65d3b629dead9d17ee79b5f1c10b5ff7f2bfcd740bc653e463776dd9f",
+    "main-FLPZL4D4.js": "1ab75d8e6fd1b68d5bb55d973d02d1f4ecf10b5a28ba0e2adfddc78a1e89a7e7",
     "media/JetBrainsMono-Regular-3OOWLGQ2.woff2": "14425ba9c695763c1547f48a206b7aa60350a33ae23de09f0407877f3fcd89eb",
     "media/Lato-Bold-2XVSBPG4.woff2": "c447dd7677b419db7b21dbdfc6277c7816a913ffda76fd2e52702df538de0e49",
     "media/Lato-Regular-W7754I4D.woff2": "918b7dc3e2e2d015c16ce08b57bcb64d2253bafc1707658f361e72865498e537",
@@ -65,15 +65,16 @@
     "styles-3L4SZE66.css": "2c2efbb44e1ad105f76bebaf26a40a4d3d867163c4616ff18e7dbf73e3faed18"
   },
   "evidenceFiles": {
+    "README.md": "cbce722227a561a5645fe15a259cc27e25fdaa8ee98145e41f530eddf4f5cbae",
     "chrome.png": "a1b284f9173e53c356771ab4aefb8abcf08cdb624bad72e25aaaf483e4a20220",
-    "logs/browser-acceptance.log": "b1bfb2d6d6756d09b6f3cd0513a3705d6f86ad4b2f785d4729d85e05c5bd5f94",
+    "logs/browser-acceptance.log": "81d33460370c1916abb355024679060a688c0aacae9e2ad5fc6f24e7a0100e97",
     "logs/maple-inventory.log": "2fe6b41a9c6f94ec84c48303af2c72755551297070e0656ddc19bbd092c38337",
-    "logs/model-tests.log": "e36dd59530baef56b3f24e20319cdf03574923552f903d933e198d9786acca12",
+    "logs/model-tests.log": "b15d483400d0b483c2b12d67f8158d8514ea3a16a975d126493b90f8ba8a84cb",
     "logs/native-acceptance.log": "802b3614251ea56c5d6a60e698f566abc13db80ba51f505bd92220b295eb39ab",
     "logs/typecheck.log": "9b2b770f3351789b5fd00fa72323f6eb7ea6de3fa3d75b7678bcbee1c8f6d5f6",
-    "native-mcp-report.json": "1989661785c79773ca58247769982fb3c82bed9e9fba9e7f4573e45904650b4c",
+    "native-mcp-report.json": "ae2528ca8805ac8c00f373ef71d62797a224c43986bc1ee43d9ac1be34f96332",
     "native-mcp.png": "8243480b9a8d1c785e5526fd60348d532d15f11107bb9f8f851f49b7ae73254c",
-    "webkit-report.json": "5306bd9099cdcd72750f2f5d2715f6036a78e6e4146899c72f3093edf1561e93",
+    "webkit-report.json": "a54de431e2c8f60e4e98f5f78934e8b47fdb1a5b34c9d92b2c6405bfcf71bc55",
     "webkit.png": "9888b3411c04328fb40f379ea112f9da318e3f9ff2e9cf44144679e2c1177ce0"
   },
   "acceptance": {
@@ -84,11 +85,14 @@
     "actualNativeMCP": true,
     "buildWebAndMac": true,
     "typecheck": true,
-    "MapleInventory": true
+    "MapleInventory": true,
+    "ChromeConsoleErrors": 0,
+    "WKConsoleErrors": 0
   },
   "limits": [
     "WK input uses synthetic DOM keyboard events; OS pointer/IME/VoiceOver acceptance is not established",
     "Resize applies to fixed-size nodes in free parent layout; managed/hug/fill behavior remains governed by layout",
     "Full performance gate and snapping/distribution remain open in issues #2/#8/#10/#21"
-  ]
+  ],
+  "followUp": "Initial required-input lifecycle error found in QA server console; cancellation now runs after render/bindings and browser/WK gates assert console errors absent."
 }

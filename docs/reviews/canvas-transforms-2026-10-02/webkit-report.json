@@ -1,7 +1,7 @@
 {
   "engine" : "WKWebView",
   "memory" : {
-    "ownerPeakRSSBytes" : 192921600,
+    "ownerPeakRSSBytes" : 196378624,
     "scope" : "This benchmark UI process only; WebKit content\/GPU\/network process memory is not included"
   },
   "nativeBridge" : "In-memory benchmark recovery\/status\/autosave only; production native disk\/MCP\/clipboard costs excluded",
