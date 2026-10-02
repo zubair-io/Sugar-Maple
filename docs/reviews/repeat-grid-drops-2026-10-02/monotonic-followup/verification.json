@@ -1,0 +1,88 @@
+{
+  "sourceCommit": "3836cb74112b14a1ba0458d54df3e6cd08ae5884",
+  "previousHead": "e0fe49838532e9de32aefc16a5a92a6b6ddfb2bf",
+  "reviewFinding": "https://github.com/zubair-io/Sugar-Maple/pull/91#issuecomment-5960106767",
+  "checks": {
+    "models": 150,
+    "assertions": 2248,
+    "modelExitCode": 0,
+    "wallClockJumpAndMonotonicExpirationRegressionsPassed": true,
+    "typecheckExitCode": 0,
+    "macPackagingSigningExitCode": 0,
+    "browserDropCases": 11,
+    "browserExitCode": 0,
+    "nativeDropCases": 12,
+    "nativeExitCode": 0,
+    "ownedBrowserServerStopped": true
+  },
+  "sources": {
+    "src/web/src/app/canvas/repeat-files.ts": {
+      "bytes": 7143,
+      "sha256": "ae1590fbe6122c9ea5aff39efd35eb224aa13d36f6fefd355417ef1f858b042f"
+    },
+    "src/web/tests/repeat-files.test.ts": {
+      "bytes": 6368,
+      "sha256": "7237c559889131fe2498217c35a5e8d4462e2ce4725dc689a7ffa55d73bd1212"
+    },
+    "src/web/tests/repeat-drops-e2e.ts": {
+      "bytes": 8664,
+      "sha256": "db63100c892f9046755225c961bd43a76493813f7a9b57705fd8cab2148962b8"
+    },
+    "tools/native-repeat-drops.ts": {
+      "bytes": 1493,
+      "sha256": "9449bb73e80e42de64c07352c3bbe240820b918f47bf2850be648bf1cab5ac1e"
+    },
+    "tools/repeat-drops-native-page.js": {
+      "bytes": 8960,
+      "sha256": "61bb62c70f2bf6cc07ba097dcd6997bfdbedeae31c32123bf26925aca20850da"
+    },
+    "tools/native-canvas-benchmark.swift": {
+      "bytes": 7477,
+      "sha256": "1f4e728d8daaec87764700b3a128054be6abd0332d6974b639897b20f623e391"
+    },
+    "src/apple/Sugar Maple/NativeAccessPolicy.swift": {
+      "bytes": 1497,
+      "sha256": "e78f23fb7fc8a06e9a2d57d3b6b30eec9fcf2affc1eb2ed8826162d5a95f2764"
+    },
+    "src/web/src/app/canvas/repeat-inspector.ts": {
+      "bytes": 16159,
+      "sha256": "ba23c4f22cc110f6ee97129a0d72aef0616e23ccab391832c1824c6e44a8b759"
+    }
+  },
+  "artifacts": {
+    "models.log": {
+      "bytes": 16435,
+      "sha256": "81388f5722fa18249a7126f790d4b753937da26826b78cd30cde3b49db8c6356"
+    },
+    "focused.log": {
+      "bytes": 928,
+      "sha256": "ce390fa99c77cbd4e3305b7dde76dd9ef09bd94d51f1317d28bfb342ebbf1d66"
+    },
+    "before-regressions.log": {
+      "bytes": 2516,
+      "sha256": "5daaca6c9eacf404bcec7278d93746218239094a7ca199bbd4a6f7becb451ece"
+    },
+    "typecheck.log": {
+      "bytes": 36,
+      "sha256": "9b2b770f3351789b5fd00fa72323f6eb7ea6de3fa3d75b7678bcbee1c8f6d5f6"
+    },
+    "mac-build.log": {
+      "bytes": 61570,
+      "sha256": "a986b521de5fc4f6095cc20f650a190eee2c7a772a1f3a267e2a92b84874fc0d"
+    },
+    "browser.log": {
+      "bytes": 132,
+      "sha256": "626e0872459b5535f863626a0a7b7f6999c818cfeccaa4c46578aa9f5df3a89b"
+    },
+    "native.log": {
+      "bytes": 305,
+      "sha256": "ddd6099bc60ecc88bbf094b0e2680ce820d55e8332b288a536a9290bbffb91dc"
+    }
+  },
+  "limitations": [
+    "Clock changes/expiration are simulated in focused unit tests; the operating-system clock was not changed.",
+    "Current browser/native drop fixtures supplement full integrated 32-browser-suite/native evidence at a28f7b5; no new complete suite execution is claimed.",
+    "Native dropped directory entries are fixtures; actual OS chooser evidence remains attributed to 23ecd85.",
+    "Fresh exact-head review/CI, dependency delivery, current-base integration and resulting-main verification are required."
+  ]
+}

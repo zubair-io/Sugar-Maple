@@ -1,0 +1,91 @@
+{
+  "sourceCommit": "478b41014e4a36b1e3951a88032251d1dc488f88",
+  "priorHead": "02ff17677d91c3844b7d00a7aa1c6e8187919cf3",
+  "recordedAt": "2026-10-02T19:42:34.048892+00:00",
+  "reviewComment": 5959569582,
+  "change": "Informational drop-zone paragraphs use pointer-events:none so moving across text retains the container hit target. Controls are outside this selector.",
+  "checks": {
+    "typecheckExitCode": 0,
+    "macBuildAndSigningExitCode": 0,
+    "browserDropExitCode": 0,
+    "browserDropCases": 11,
+    "nativeDropExitCode": 0,
+    "nativeDropCases": 12,
+    "actualBrowserLabelHitTargets": {
+      "passed": true,
+      "informationalParagraphs": [
+        {
+          "label": "Drop CSV, JSON, a text list, local images or an image folder here.",
+          "targetIsDropContainer": true
+        },
+        {
+          "label": "Choose files below for the same workflow. Review field mappings and preview before applying. Images use filename order, then cells left to right and down.",
+          "targetIsDropContainer": true
+        }
+      ],
+      "scope": "Actual production browser hit testing through both drop-zone labels; no authored mutation after setup"
+    },
+    "ownedServerListenerGone": true
+  },
+  "inheritedFullAcceptance": {
+    "sourceCommit": "a28f7b5cee45f57083052b77784a4c4c03cf975f",
+    "proof": "../scene-integration/verification.json",
+    "tests": 148,
+    "assertions": 2246,
+    "browserSuites": 32,
+    "rerunClaimed": false
+  },
+  "sources": {
+    "src/web/src/app/canvas/repeat-inspector.ts": {
+      "bytes": 16159,
+      "sha256": "ba23c4f22cc110f6ee97129a0d72aef0616e23ccab391832c1824c6e44a8b759"
+    },
+    "src/web/tests/repeat-drops-e2e.ts": {
+      "bytes": 8664,
+      "sha256": "db63100c892f9046755225c961bd43a76493813f7a9b57705fd8cab2148962b8"
+    },
+    "tools/native-repeat-drops.ts": {
+      "bytes": 1493,
+      "sha256": "9449bb73e80e42de64c07352c3bbe240820b918f47bf2850be648bf1cab5ac1e"
+    },
+    "tools/repeat-drops-native-page.js": {
+      "bytes": 8960,
+      "sha256": "61bb62c70f2bf6cc07ba097dcd6997bfdbedeae31c32123bf26925aca20850da"
+    }
+  },
+  "artifacts": {
+    "browser.log": {
+      "bytes": 80,
+      "sha256": "89c477d93d59dd66df94f14f26309334f278fe87eaf5431441926b90168fe8ca"
+    },
+    "typecheck.log": {
+      "bytes": 36,
+      "sha256": "9b2b770f3351789b5fd00fa72323f6eb7ea6de3fa3d75b7678bcbee1c8f6d5f6"
+    },
+    "native.log": {
+      "bytes": 301,
+      "sha256": "5244e0dc03a9683be619f23120c8bce7f3db5d5455b979e9e7072a02a26beca4"
+    },
+    "native-report.json": {
+      "bytes": 716,
+      "sha256": "bfd258061e757a742eba9a304d1ac0fc5f4000a923e9e57f6469a1b86d2f13d7"
+    },
+    "mac.log": {
+      "bytes": 80853,
+      "sha256": "560776e60a14e30313aa21eb8b9479012288c5d5f08809095372ffc9b94678e2"
+    },
+    "browser-report.json": {
+      "bytes": 3643,
+      "sha256": "2d7792f84df32f0c4ca917d10c7106956dc1ec58ab9ca4136b6b6f8306747e83"
+    },
+    "hit-targets.json": {
+      "bytes": 528,
+      "sha256": "b7b35bb577ddbea1f49d22d60f91f9540952e51be3d9a5022935370c77c758ab"
+    }
+  },
+  "limitations": [
+    "Fresh exact-head review/CI is required after this style follow-up.",
+    "Previous full-suite and physical chooser evidence retains original source; this follow-up reruns focused drop behavior and packaging only.",
+    "Dependency/current-main/resulting-main delivery remains required."
+  ]
+}
