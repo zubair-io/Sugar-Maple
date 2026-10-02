@@ -1,6 +1,8 @@
 import { test, expect } from 'bun:test';
-import { blankDocument, NodeSchema } from '../src/app/model/schema';
+import { blankDocument, NodeSchema, validateDocument } from '../src/app/model/schema';
 import { exportNode } from '../src/app/model/export';
+import { exportSupport } from '../src/app/model/export';
+import { DocumentStore } from '../src/app/model/store';
 
 function fixture() {
   const doc = blankDocument(),
@@ -33,7 +35,7 @@ function fixture() {
       id: 'hidden',
       pageId,
       parentId: 'card',
-      kind: 'text',
+      kind: 'frame',
       name: 'Hidden',
       hidden: true,
       text: 'HIDDEN_EXPORT_CANARY',
@@ -87,4 +89,48 @@ test('malformed token names cannot escape declaration or stylesheet boundaries',
   doc.nodes[1].fillToken = 'brand;}body{background:red';
   for (const target of ['html', 'tailwind-classes', 'css-declarations', 'css', 'html-css'] as const)
     expect(() => exportNode(doc, 'action', target)).toThrow('Unsupported fill token name');
+});
+
+test('invalid token colors reject at authoring/loading and at the public export helper boundary', () => {
+  for (const value of [
+    '</style><script>globalThis.injected=true</script>',
+    'red;}body{display:none',
+    'url(data:image/png;base64,AA==)',
+  ]) {
+    const doc = fixture(),
+      store = new DocumentStore(doc),
+      before = store.checkpoint();
+    expect(() =>
+      store.transact({
+        documentId: doc.id,
+        expectedRevision: 0,
+        requestId: crypto.randomUUID(),
+        operations: [{ type: 'token.set', name: 'brand.primary', value }],
+      }),
+    ).toThrow();
+    expect(store.checkpoint()).toEqual(before);
+    doc.tokens['brand.primary'] = value;
+    expect(() => new DocumentStore(doc)).toThrow();
+    for (const target of ['tailwind-classes', 'css-declarations', 'css', 'html-css'] as const)
+      expect(() => exportNode(doc, 'action', target)).toThrow();
+  }
+});
+
+test('fragment support inspects only its selected node even on a deeply nested valid document', () => {
+  const doc = fixture();
+  for (let i = 0; i < 5000; i++)
+    doc.nodes.push(
+      NodeSchema.parse({
+        id: `deep-${i}`,
+        pageId: doc.pages[0].id,
+        name: `Deep ${i}`,
+        kind: 'frame',
+        parentId: i ? `deep-${i - 1}` : 'card',
+        fontFamily: 'A Descendant Font',
+      }),
+    );
+  expect(validateDocument(doc).nodes).toHaveLength(5004);
+  const notes = exportSupport(doc, 'card', 'tailwind-classes').notes;
+  expect(notes.some((n) => n.includes('Descendant Font'))).toBe(false);
+  expect(notes.some((n) => n.includes('selected element only'))).toBe(true);
 });

@@ -9,6 +9,7 @@ import { svgExport } from './svg';
 import { swiftExport } from './swift-export';
 import { editablePayload } from './clipboard';
 import { ExportTargetSchema } from './tool-contract';
+import { NodeSchema } from './schema';
 import type { SceneDocument, SceneNode } from './schema';
 export type ExportTarget = ReturnType<typeof ExportTargetSchema.parse>;
 const escape = (v: string) =>
@@ -89,33 +90,53 @@ export function nodeStyles(n: SceneNode, doc: SceneDocument): Record<string, str
     overflow: 'hidden',
   };
 }
-function css(n: SceneNode, doc: SceneDocument) {
-  return Object.entries(nodeStyles(n, doc))
-    .map(
-      ([k, v]) =>
-        `${k.replace(/[A-Z]/g, (m) => '-' + m.toLowerCase())}:${v}${typeof v === 'number' && !['opacity', 'fontWeight', 'flexShrink', 'flexGrow'].includes(k) ? 'px' : ''}`,
-    )
-    .join(';');
-}
-function declarations(n: SceneNode, doc: SceneDocument) {
-  if (n.fillToken && !/^[\w.-]+$/.test(n.fillToken))
-    throw Error('Unsupported fill token name; use letters, digits, underscores, hyphens or dots.');
-  return (
-    css(n, doc) +
-    (n.fillToken && n.fillEnabled && !n.gradient
-      ? `;--${n.fillToken.replace(/\./g, '-')}:${doc.tokens[n.fillToken] ?? n.fill};background:var(--${n.fillToken.replace(/\./g, '-')})`
-      : '')
+function cssEntries(n: SceneNode, doc: SceneDocument): [string, string][] {
+  return Object.entries(nodeStyles(n, doc)).map(
+    ([k, v]) =>
+      [
+        k.replace(/[A-Z]/g, (m) => '-' + m.toLowerCase()),
+        `${v}${typeof v === 'number' && !['opacity', 'fontWeight', 'flexShrink', 'flexGrow'].includes(k) ? 'px' : ''}`,
+      ] as [string, string],
   );
 }
+function css(n: SceneNode, doc: SceneDocument) {
+  return cssEntries(n, doc)
+    .map(([key, value]) => `${key}:${value}`)
+    .join(';');
+}
+function declarationEntries(n: SceneNode, doc: SceneDocument): [string, string][] {
+  if (n.fillToken && !/^[\w.-]+$/.test(n.fillToken))
+    throw Error('Unsupported fill token name; use letters, digits, underscores, hyphens or dots.');
+  const boundFill = doc.tokens[n.fillToken] ?? n.fill;
+  if (n.fillToken && !NodeSchema.shape.fill.safeParse(boundFill).success)
+    throw Error('Unsupported fill token value; expected a six-digit hex color.');
+  const entries = cssEntries(n, doc);
+  if (n.fillToken && n.fillEnabled && !n.gradient) {
+    const variable = `--${n.fillToken.replace(/\./g, '-')}`;
+    entries.push([variable, boundFill], ['background', `var(${variable})`]);
+  }
+  return entries;
+}
+function declarations(n: SceneNode, doc: SceneDocument) {
+  return declarationEntries(n, doc)
+    .map(([key, value]) => `${key}:${value}`)
+    .join(';');
+}
 function classes(n: SceneNode, doc: SceneDocument) {
-  return declarations(n, doc)
-    .split(';')
-    .map((s) => '[' + s.replace(/"/g, "'").replace(/_/g, '\\_').replace(/ /g, '_') + ']')
+  return declarationEntries(n, doc)
+    .map(
+      ([key, value]) =>
+        '[' + `${key}:${value}`.replace(/"/g, "'").replace(/_/g, '\\_').replace(/ /g, '_') + ']',
+    )
     .join(' ');
 }
-function visibleSubtree(doc: SceneDocument, id: string): SceneNode[] {
+function selectedNode(doc: SceneDocument, id: string): SceneNode {
   const node = doc.nodes.find((n) => n.id === id);
   if (!node) throw Error('Select an element');
+  return node;
+}
+function visibleSubtree(doc: SceneDocument, id: string): SceneNode[] {
+  const node = selectedNode(doc, id);
   return [
     node,
     ...doc.nodes
@@ -134,7 +155,7 @@ function styleSheet(doc: SceneDocument, id: string) {
 export function exportSupport(doc: SceneDocument, id: string, target: ExportTarget) {
   ExportTargetSchema.parse(target);
   const nodes = ['tailwind-classes', 'css-declarations'].includes(target)
-    ? visibleSubtree(doc, id).slice(0, 1)
+    ? [selectedNode(doc, id)]
     : visibleSubtree(doc, id);
   const web = [
     'html',
@@ -196,7 +217,7 @@ export function exportNode(
   if (target === 'css-declarations') return declarations(n, doc);
   if (target === 'tailwind-classes') return classes(n, doc);
   if (target === 'html-css' && !nested)
-    return `<style>${styleSheet(doc, id)}</style>${exportNode(doc, id, target, true)}`;
+    return `<style>${styleSheet(doc, id).replace(/</g, '\\3c ')}</style>${exportNode(doc, id, target, true)}`;
   if (target === 'swiftui') return swiftExport(doc, id);
   const tag =
     n.kind === 'button'
