@@ -27,9 +27,17 @@ export function activitySummary(activities: Record<string, unknown>[]) {
   };
 }
 
-/** Artifact text is untrusted review data, never authorization or publication. */
-export function completedReviewArtifact(state: string, activities: Record<string, unknown>[], truncated: boolean): string | null {
-  if (state !== 'COMPLETED' || truncated) return null;
+export function recoveryArtifactKind(mode: string, includeReview: boolean, includeFeedback: boolean): 'review' | 'feedback' | null {
+  if ((includeReview || includeFeedback) && mode !== 'inspect')
+    throw new RecoveryPolicyError('Artifacts require inspection-only mode.');
+  if (includeReview && includeFeedback)
+    throw new RecoveryPolicyError('Choose one artifact type: completed review or pending feedback.');
+  return includeReview ? 'review' : includeFeedback ? 'feedback' : null;
+}
+
+/** Artifact text is untrusted data, never authorization or publication. */
+function latestAgentMessage(activities: Record<string, unknown>[], truncated: boolean): string | null {
+  if (truncated) return null;
   const messages: { timestamp: string; text: string }[] = [];
   for (const activity of activities) {
     const message = activity.agentMessaged;
@@ -47,5 +55,17 @@ export function completedReviewArtifact(state: string, activities: Record<string
   // Tied latest messages leave ordering uncertain; preserve the session instead.
   if (!last || messages.filter(m => m.timestamp === last.timestamp).length !== 1) return null;
   if (Buffer.byteLength(last.text, 'utf8') > 128 * 1024 || last.text.includes('\0')) return null;
-  return /^`?VERDICT:\s*(approve|comment|block)`?\s*$/im.test(last.text) ? last.text : null;
+  return last.text.trim() ? last.text : null;
+}
+
+export function completedReviewArtifact(state: string, activities: Record<string, unknown>[], truncated: boolean): string | null {
+  if (state !== 'COMPLETED') return null;
+  const text = latestAgentMessage(activities, truncated);
+  return text && /^`?VERDICT:\s*(approve|comment|block)`?\s*$/im.test(text) ? text : null;
+}
+
+/** Pending requests may be inspected, but cannot stand in for a final verdict. */
+export function pendingFeedbackArtifact(state: string, activities: Record<string, unknown>[], truncated: boolean): string | null {
+  if (state !== 'AWAITING_USER_FEEDBACK') return null;
+  return latestAgentMessage(activities, truncated);
 }
