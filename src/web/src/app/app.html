@@ -314,9 +314,27 @@
                     ariaLabel="Parent"
                     [value]="n.parentId ?? ''"
                     [options]="parentSelectOptions()"
-                    (valueChange)="patch('parentId', $event || null)"
+                    [disabled]="!canReparent()"
+                    (valueChange)="previewReparent($event || null)"
                   />
                 </mui-field>
+                <mui-field label="Move behavior">
+                  <mui-select ariaLabel="Reparent placement" [value]="reparentPlacement()"
+                    [options]="reparentOptions" [disabled]="!canReparent()"
+                    (valueChange)="reparentPlacement.set($any($event)); cancelReparent()" />
+                </mui-field>
+                @if (reparentPreview(); as move) {
+                  <section aria-label="Move layer preview" role="region">
+                    <p>Move {{ move.plan.names.join(', ') }} to {{ move.plan.destination }}.</p>
+                    @for (warning of move.plan.warnings; track warning) {
+                      <p class="inspector-note">{{ warning }}</p>
+                    }
+                    <div class="actions">
+                      <button type="button" (click)="applyReparent()">Apply layer move</button>
+                      <button type="button" (click)="cancelReparent()">Cancel layer move</button>
+                    </div>
+                  </section>
+                }
               </mui-section>
               <mui-section title="Layout" sectionId="layout-details">
                 @if (!n.repeatTemplateId) {
