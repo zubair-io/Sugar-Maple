@@ -1,12 +1,12 @@
 {
   "date": "2026-10-01",
-  "main": "f5f2ab1a48c3157a16cfec9e3aed6d0bf85f99f4",
-  "mainCI": "https://github.com/zubair-io/Sugar-Maple/actions/runs/36959523019",
-  "scope": "All 35 GitHub issues, verified against main and current state after production libraries and engine measurements",
+  "main": "016918540820eaba267e9292b0e53ecf5765f7af",
+  "mainCI": "https://github.com/zubair-io/Sugar-Maple/actions/runs/36962210133",
+  "scope": "All 35 GitHub issues verified against main, resulting-main CI and current GitHub state after library, Layers and review-parser delivery",
   "counts": {
     "total": 35,
-    "closed": 10,
-    "open": 25
+    "closed": 11,
+    "open": 24
   },
   "mergedPRs": [
     45,
@@ -31,12 +31,11 @@
     71,
     72,
     73,
-    74
-  ],
-  "candidatePRs": [
+    74,
     76,
     77
   ],
+  "candidatePRs": [],
   "issues": [
     {
       "number": 1,
@@ -44,7 +43,7 @@
       "url": "https://github.com/zubair-io/Sugar-Maple/issues/1",
       "githubState": "OPEN",
       "assessment": "active tracker",
-      "delivered": "Reviewed Canvas/native/MCP, typography/forms, isolated preview, Repeat Grid/shared assets, pinned Maple chrome, native structured clipboard, production manifests and engine measurements are merged through #67/#73/#74. Verified main f5f2ab1a48c3157a16cfec9e3aed6d0bf85f99f4 and main web/macOS CI 36959523019 pass. Ten issues are closed; 25 remain open out of 35 total. #49 is complete. Layers virtualization #76 and the review-status parser #77 remain candidates; broader release acceptance stays open.",
+      "delivered": "Reviewed Canvas, native/MCP, typography/forms, isolated preview, scoped reads, Repeat Grid, Maple chrome, production library manifests, engine measurements, windowed Layers and reviewer-verdict parsing are merged through #77. Verified main 016918540820eaba267e9292b0e53ecf5765f7af and resulting-main web/macOS CI 36962210133 pass. Eleven issues are closed; 24 remain open. Broad parent acceptance and executable-library previews remain incomplete.",
       "remaining": "MVP completion depends on the remaining acceptance criteria below; post-MVP features remain outside the release gate.",
       "resolvedQA": []
     },
@@ -117,10 +116,9 @@
       "url": "https://github.com/zubair-io/Sugar-Maple/issues/8",
       "githubState": "OPEN",
       "assessment": "partial; architecture amended",
-      "delivered": "Vendored Whiteboard camera, pan/zoom/fit, culling, mixed geometry, hit testing, drag/corner resize, cancellation and grouped undo are delivered. Layers indexing is linear.",
-      "remaining": "Finish all-direction resize/rotation editing, snapping/distribution, rotated-parent gesture coverage, complete locked/hidden keyboard parity and Layers DOM virtualization. Canvas replaced the obsolete hybrid Design renderer.",
-      "resolvedQA": [],
-      "candidate": "PR #76 windows the OnPush Layers tree with keyboard/focus/ARIA regressions. On the frozen 10,000/200-visible fixture it mounts 26 rows; Chrome callback p95 33.7\u219218.1 ms and WKWebView 24\u219218 ms. This remains candidate evidence until review, merge and resulting-main checks."
+      "delivered": "Vendored Whiteboard camera, pan/zoom/fit, culling, mixed geometry, hit testing, drag/corner resize, cancellation and grouped undo are delivered. Layers indexing is linear. Windowed Layers #76 is merged and verified by successful main CI: 26 mounted rows for the frozen 10,000-node fixture, Chrome Layers pan callback p95 33.7 to 18.1 ms and WKWebView 24 to 18 ms. Search, off-window keyboard navigation, focus retention, selection reveal and bounded DOM have browser regressions.",
+      "remaining": "Finish all-direction resize/rotation editing, snapping/distribution, rotated-parent gesture coverage and complete locked/hidden keyboard parity. Canvas replaced the obsolete hybrid Design renderer.",
+      "resolvedQA": []
     },
     {
       "number": 9,
@@ -415,110 +413,16 @@
     },
     {
       "number": 75,
-      "assessment": "candidate #77; review pending",
-      "delivered": "Observed incorrect successful status is tracked. A shared final-verdict parser has 33 passing local action/recovery tests and action/recovery builds; candidate is not main delivery.",
-      "remaining": "Actual review, merge and successful resulting-main checks. Current-head web/macOS CI passes; historical review/status records stay unchanged.",
-      "resolvedQA": [],
-      "candidate": "PR #77 requires exactly one terminal standalone verdict outside quoted/fenced examples; polling, publication and recovery share that policy.",
-      "title": "[Engineering] Parse the final reviewer verdict without accepting quoted examples",
+      "title": "[Engineering] Quoted examples affected final reviewer verdict parsing",
       "url": "https://github.com/zubair-io/Sugar-Maple/issues/75",
-      "githubState": "OPEN"
+      "githubState": "CLOSED",
+      "assessment": "complete; merged #77",
+      "delivered": "Shared terminal reviewer-verdict parsing is merged for polling, publication and recovery. Exact-head actual review approved; 33 action/recovery tests, typecheck/build, exact-head web/macOS CI and resulting-main web/macOS CI passed. The observed quoted-example bug has a fail-on-blocking regression.",
+      "remaining": "None within #75 acceptance. Historical published review/status records are preserved.",
+      "resolvedQA": []
     }
   ],
-  "asOf": "2026-10-02T03:38:40.790584+00:00",
-  "observedAt": "2026-10-02T03:38:40.790584+00:00",
-  "candidates": [
-    {
-      "number": 77,
-      "title": "Parse the final reviewer verdict consistently and reject ambiguous output",
-      "url": "https://github.com/zubair-io/Sugar-Maple/pull/77",
-      "head": "dfc4a610710346a2f66090713e65d82a0a29fe8d",
-      "delivery": "Exact-head web/macOS CI passes; actual review/merge pending",
-      "checks": [
-        {
-          "__typename": "CheckRun",
-          "completedAt": "0001-01-01T00:00:00Z",
-          "conclusion": "",
-          "detailsUrl": "https://github.com/zubair-io/Sugar-Maple/actions/runs/36960667403/job/110693419915",
-          "name": "review",
-          "startedAt": "2026-10-02T03:33:08Z",
-          "status": "IN_PROGRESS",
-          "workflowName": "Jules PR Review"
-        },
-        {
-          "__typename": "CheckRun",
-          "completedAt": "2026-10-02T03:35:14Z",
-          "conclusion": "SUCCESS",
-          "detailsUrl": "https://github.com/zubair-io/Sugar-Maple/actions/runs/36960667330/job/110693419555",
-          "name": "web",
-          "startedAt": "2026-10-02T03:33:09Z",
-          "status": "COMPLETED",
-          "workflowName": "Editor"
-        },
-        {
-          "__typename": "CheckRun",
-          "completedAt": "2026-10-02T03:35:38Z",
-          "conclusion": "SUCCESS",
-          "detailsUrl": "https://github.com/zubair-io/Sugar-Maple/actions/runs/36960667330/job/110693419939",
-          "name": "macos",
-          "startedAt": "2026-10-02T03:33:13Z",
-          "status": "COMPLETED",
-          "workflowName": "Editor"
-        },
-        {
-          "__typename": "StatusContext",
-          "context": "jules/review",
-          "startedAt": "2026-10-02T03:33:23Z",
-          "state": "PENDING",
-          "targetUrl": ""
-        }
-      ]
-    },
-    {
-      "number": 76,
-      "title": "Window the Layers tree and verify production camera improvements",
-      "url": "https://github.com/zubair-io/Sugar-Maple/pull/76",
-      "head": "26c6cee269e9bac555709713b8b33dcaa63dadf4",
-      "delivery": "Exact-head web/macOS CI passes; actual review/merge pending",
-      "checks": [
-        {
-          "__typename": "CheckRun",
-          "completedAt": "0001-01-01T00:00:00Z",
-          "conclusion": "",
-          "detailsUrl": "https://github.com/zubair-io/Sugar-Maple/actions/runs/36960580037/job/110693154703",
-          "name": "review",
-          "startedAt": "2026-10-02T03:31:59Z",
-          "status": "IN_PROGRESS",
-          "workflowName": "Jules PR Review"
-        },
-        {
-          "__typename": "CheckRun",
-          "completedAt": "2026-10-02T03:35:20Z",
-          "conclusion": "SUCCESS",
-          "detailsUrl": "https://github.com/zubair-io/Sugar-Maple/actions/runs/36960579990/job/110693154273",
-          "name": "web",
-          "startedAt": "2026-10-02T03:32:02Z",
-          "status": "COMPLETED",
-          "workflowName": "Editor"
-        },
-        {
-          "__typename": "CheckRun",
-          "completedAt": "2026-10-02T03:33:49Z",
-          "conclusion": "SUCCESS",
-          "detailsUrl": "https://github.com/zubair-io/Sugar-Maple/actions/runs/36960579990/job/110693154615",
-          "name": "macos",
-          "startedAt": "2026-10-02T03:32:05Z",
-          "status": "COMPLETED",
-          "workflowName": "Editor"
-        },
-        {
-          "__typename": "StatusContext",
-          "context": "jules/review",
-          "startedAt": "2026-10-02T03:32:13Z",
-          "state": "PENDING",
-          "targetUrl": ""
-        }
-      ]
-    }
-  ]
+  "asOf": "2026-10-02T04:05:14.088484+00:00",
+  "observedAt": "2026-10-02T04:05:14.088484+00:00",
+  "candidates": []
 }
