@@ -1,0 +1,3 @@
+# Retained review failure reference
+
+Source `8edb23b495d7560d45d78fe56a03899e622de957`. The exact published operational failure shape from PR #90 was rejected by recovery before any session query. The regression failed before the fix (42 pass / 1 fail), then all 43 reviewer tests, typecheck and recovery bundle passed. The policy now recognizes the trusted bot's explicit retained-session sentence for inspection only. Bot identity, marker, exact session matching and source validation remain; cleanup still requires a published final verdict/footer. No code status is rewritten. Actual remote inspection remains pending verified main delivery.

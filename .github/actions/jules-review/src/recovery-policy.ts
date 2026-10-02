@@ -14,7 +14,9 @@ export function publishedSessionReference(comments: ReviewComment[], sessionId: 
     if (!body.startsWith('<!-- jules-pr-reviewer -->')) return false;
     const footer = `\n---\n_Session: \`${sessionId}\`_`;
     const published = body.trim().endsWith(footer) && parseFinalVerdict(body.trim().slice(0, -footer.length)) !== null;
-    return published || (!cleanup && body.includes('Jules PR review failed to complete.') && body.includes(`Session: \`${sessionId}\``));
+    const retained = body.includes(`Session: \`${sessionId}\``)
+      || body.includes(`Session ${sessionId} retained; inspect that exact session.`);
+    return published || (!cleanup && body.includes('Jules PR review failed to complete.') && retained);
   });
 }
 export function validateSessionSource(session: { name?: string; sourceContext?: { source?: string } }, sessionId: string, repository: string) {
