@@ -1,0 +1,843 @@
+{
+  "sourceRevision": 10,
+  "sourceDocument": {
+    "version": 1,
+    "id": "98651603-f464-4bdd-b6e5-35c869cdfec1",
+    "name": "Untitled",
+    "comments": [],
+    "folders": [],
+    "pages": [
+      {
+        "id": "fbd0aee1-4eae-4b37-8f4c-775436c4a6a2",
+        "name": "Page 1",
+        "order": 0,
+        "folderId": null
+      }
+    ],
+    "nodes": [
+      {
+        "id": "root",
+        "pageId": "fbd0aee1-4eae-4b37-8f4c-775436c4a6a2",
+        "parentId": null,
+        "kind": "artboard",
+        "name": "artboard",
+        "x": 0,
+        "y": 0,
+        "width": 400,
+        "height": 500,
+        "widthMode": "fixed",
+        "heightMode": "fixed",
+        "widthPercent": 100,
+        "heightPercent": 100,
+        "rotation": 0,
+        "radius": 0,
+        "gradient": null,
+        "fillEnabled": true,
+        "fill": "#ffffff",
+        "color": "#18181b",
+        "stroke": "#d4d4d8",
+        "strokeWidth": 0,
+        "opacity": 1,
+        "text": "",
+        "fontSize": 16,
+        "fontWeight": 400,
+        "fontFamily": "system-ui",
+        "lineHeight": 1.2,
+        "letterSpacing": 0,
+        "textAlign": "auto",
+        "layout": "free",
+        "gap": 16,
+        "padding": 0,
+        "columns": 2,
+        "hidden": false,
+        "locked": false,
+        "order": 0,
+        "inputType": "text",
+        "initialValue": "",
+        "accessibleLabel": "",
+        "disabled": false,
+        "prototypeAction": "navigate",
+        "targetId": null,
+        "transition": "instant",
+        "asset": "",
+        "pathData": "",
+        "viewBox": "0 0 100 100",
+        "libraryRef": null,
+        "librarySlot": "",
+        "componentId": null,
+        "isComponent": false,
+        "variantName": "Default",
+        "variants": {},
+        "overrides": [],
+        "repeatTemplateId": null,
+        "repeatIndex": null,
+        "fillToken": ""
+      },
+      {
+        "id": "card",
+        "pageId": "fbd0aee1-4eae-4b37-8f4c-775436c4a6a2",
+        "parentId": "root",
+        "kind": "frame",
+        "name": "Web Awesome Card",
+        "x": 20.23,
+        "y": 20.17,
+        "width": 359.31,
+        "height": 459.73,
+        "widthMode": "fixed",
+        "heightMode": "fixed",
+        "widthPercent": 100,
+        "heightPercent": 100,
+        "rotation": 0,
+        "radius": 0,
+        "gradient": null,
+        "fillEnabled": true,
+        "fill": "#ffffff",
+        "color": "#18181b",
+        "stroke": "#763cba",
+        "strokeWidth": 2.5,
+        "opacity": 1,
+        "text": "",
+        "fontSize": 16,
+        "fontWeight": 400,
+        "fontFamily": "system-ui",
+        "lineHeight": 1.2,
+        "letterSpacing": 0,
+        "textAlign": "auto",
+        "layout": "vertical",
+        "gap": 16,
+        "padding": 24,
+        "columns": 2,
+        "hidden": false,
+        "locked": false,
+        "order": 1,
+        "inputType": "text",
+        "initialValue": "",
+        "accessibleLabel": "",
+        "disabled": false,
+        "prototypeAction": "navigate",
+        "targetId": null,
+        "transition": "instant",
+        "asset": "",
+        "pathData": "",
+        "viewBox": "0 0 100 100",
+        "libraryRef": {
+          "key": "web-awesome@1.0.0",
+          "component": "Card",
+          "props": {
+            "padding": 24
+          },
+          "variant": "Default",
+          "localOverrides": [],
+          "tokenBindings": {}
+        },
+        "librarySlot": "",
+        "componentId": null,
+        "isComponent": false,
+        "variantName": "Default",
+        "variants": {},
+        "overrides": [],
+        "repeatTemplateId": null,
+        "repeatIndex": null,
+        "fillToken": ""
+      },
+      {
+        "id": "header",
+        "pageId": "fbd0aee1-4eae-4b37-8f4c-775436c4a6a2",
+        "parentId": "card",
+        "kind": "text",
+        "name": "text",
+        "x": 0,
+        "y": 0,
+        "width": 300,
+        "height": 28,
+        "widthMode": "fixed",
+        "heightMode": "fixed",
+        "widthPercent": 100,
+        "heightPercent": 100,
+        "rotation": 0,
+        "radius": 0,
+        "gradient": null,
+        "fillEnabled": true,
+        "fill": "#ffffff",
+        "color": "#18181b",
+        "stroke": "#d4d4d8",
+        "strokeWidth": 0,
+        "opacity": 1,
+        "text": "Pinned library consumer",
+        "fontSize": 16,
+        "fontWeight": 400,
+        "fontFamily": "system-ui",
+        "lineHeight": 1.2,
+        "letterSpacing": 0,
+        "textAlign": "auto",
+        "layout": "free",
+        "gap": 16,
+        "padding": 16,
+        "columns": 2,
+        "hidden": false,
+        "locked": false,
+        "order": 2,
+        "inputType": "text",
+        "initialValue": "",
+        "accessibleLabel": "",
+        "disabled": false,
+        "prototypeAction": "navigate",
+        "targetId": null,
+        "transition": "instant",
+        "asset": "",
+        "pathData": "",
+        "viewBox": "0 0 100 100",
+        "libraryRef": null,
+        "librarySlot": "header",
+        "componentId": null,
+        "isComponent": false,
+        "variantName": "Default",
+        "variants": {},
+        "overrides": [],
+        "repeatTemplateId": null,
+        "repeatIndex": null,
+        "fillToken": ""
+      },
+      {
+        "id": "input",
+        "pageId": "fbd0aee1-4eae-4b37-8f4c-775436c4a6a2",
+        "parentId": "card",
+        "kind": "input",
+        "name": "Web Awesome Input",
+        "x": 0,
+        "y": 0,
+        "width": 260,
+        "height": 56,
+        "widthMode": "fill",
+        "heightMode": "percent",
+        "widthPercent": 100,
+        "heightPercent": 10,
+        "rotation": 0,
+        "radius": 0,
+        "gradient": null,
+        "fillEnabled": true,
+        "fill": "#ffffff",
+        "color": "#18181b",
+        "stroke": "#d4d4d8",
+        "strokeWidth": 0,
+        "opacity": 1,
+        "text": "Your email",
+        "fontSize": 16,
+        "fontWeight": 400,
+        "fontFamily": "system-ui",
+        "lineHeight": 1.2,
+        "letterSpacing": 0,
+        "textAlign": "auto",
+        "layout": "free",
+        "gap": 16,
+        "padding": 16,
+        "columns": 2,
+        "hidden": false,
+        "locked": false,
+        "order": 3,
+        "inputType": "email",
+        "initialValue": "consumer@example.test",
+        "accessibleLabel": "Email",
+        "disabled": false,
+        "prototypeAction": "navigate",
+        "targetId": null,
+        "transition": "instant",
+        "asset": "",
+        "pathData": "",
+        "viewBox": "0 0 100 100",
+        "libraryRef": {
+          "key": "web-awesome@1.0.0",
+          "component": "Input",
+          "props": {
+            "value": "consumer@example.test",
+            "label": "Email",
+            "disabled": false
+          },
+          "variant": "Default",
+          "localOverrides": [],
+          "tokenBindings": {}
+        },
+        "librarySlot": "",
+        "componentId": null,
+        "isComponent": false,
+        "variantName": "Default",
+        "variants": {},
+        "overrides": [],
+        "repeatTemplateId": null,
+        "repeatIndex": null,
+        "fillToken": ""
+      },
+      {
+        "id": "button",
+        "pageId": "fbd0aee1-4eae-4b37-8f4c-775436c4a6a2",
+        "parentId": "card",
+        "kind": "button",
+        "name": "Web Awesome Button",
+        "x": 0,
+        "y": 0,
+        "width": 180,
+        "height": 44,
+        "widthMode": "fixed",
+        "heightMode": "fixed",
+        "widthPercent": 100,
+        "heightPercent": 100,
+        "rotation": 0,
+        "radius": 13,
+        "gradient": null,
+        "fillEnabled": true,
+        "fill": "#ffffff",
+        "color": "#ffff00",
+        "stroke": "#d4d4d8",
+        "strokeWidth": 0,
+        "opacity": 1,
+        "text": "Button",
+        "fontSize": 16,
+        "fontWeight": 400,
+        "fontFamily": "system-ui",
+        "lineHeight": 1.2,
+        "letterSpacing": 0,
+        "textAlign": "auto",
+        "layout": "free",
+        "gap": 16,
+        "padding": 16,
+        "columns": 2,
+        "hidden": false,
+        "locked": false,
+        "order": 4,
+        "inputType": "text",
+        "initialValue": "",
+        "accessibleLabel": "",
+        "disabled": false,
+        "prototypeAction": "navigate",
+        "targetId": null,
+        "transition": "instant",
+        "asset": "",
+        "pathData": "",
+        "viewBox": "0 0 100 100",
+        "libraryRef": {
+          "key": "web-awesome@1.0.0",
+          "component": "Button",
+          "props": {
+            "disabled": false
+          },
+          "variant": "Default",
+          "localOverrides": [
+            "fill",
+            "color",
+            "radius"
+          ],
+          "tokenBindings": {}
+        },
+        "librarySlot": "footer",
+        "componentId": null,
+        "isComponent": false,
+        "variantName": "Default",
+        "variants": {},
+        "overrides": [],
+        "repeatTemplateId": null,
+        "repeatIndex": null,
+        "fillToken": "local.paint"
+      },
+      {
+        "id": "nested",
+        "pageId": "fbd0aee1-4eae-4b37-8f4c-775436c4a6a2",
+        "parentId": "card",
+        "kind": "frame",
+        "name": "Web Awesome Card",
+        "x": 0,
+        "y": 0,
+        "width": 179.61,
+        "height": 119.23,
+        "widthMode": "fixed",
+        "heightMode": "fixed",
+        "widthPercent": 100,
+        "heightPercent": 100,
+        "rotation": 0,
+        "radius": 9,
+        "gradient": null,
+        "fillEnabled": true,
+        "fill": "#145abc",
+        "color": "#18181b",
+        "stroke": "#d4d4d8",
+        "strokeWidth": 0,
+        "opacity": 1,
+        "text": "",
+        "fontSize": 16,
+        "fontWeight": 400,
+        "fontFamily": "system-ui",
+        "lineHeight": 1.2,
+        "letterSpacing": 0,
+        "textAlign": "auto",
+        "layout": "vertical",
+        "gap": 16,
+        "padding": 5,
+        "columns": 2,
+        "hidden": false,
+        "locked": false,
+        "order": 5,
+        "inputType": "text",
+        "initialValue": "",
+        "accessibleLabel": "",
+        "disabled": false,
+        "prototypeAction": "navigate",
+        "targetId": null,
+        "transition": "instant",
+        "asset": "",
+        "pathData": "",
+        "viewBox": "0 0 100 100",
+        "libraryRef": {
+          "key": "web-awesome@1.0.0",
+          "component": "Card",
+          "props": {
+            "padding": 5
+          },
+          "variant": "Default",
+          "localOverrides": [
+            "fill",
+            "radius"
+          ],
+          "tokenBindings": {}
+        },
+        "librarySlot": "",
+        "componentId": null,
+        "isComponent": false,
+        "variantName": "Default",
+        "variants": {},
+        "overrides": [],
+        "repeatTemplateId": null,
+        "repeatIndex": null,
+        "fillToken": ""
+      },
+      {
+        "id": "nested-header",
+        "pageId": "fbd0aee1-4eae-4b37-8f4c-775436c4a6a2",
+        "parentId": "nested",
+        "kind": "text",
+        "name": "text",
+        "x": 0,
+        "y": 0,
+        "width": 120,
+        "height": 20,
+        "widthMode": "fixed",
+        "heightMode": "fixed",
+        "widthPercent": 100,
+        "heightPercent": 100,
+        "rotation": 0,
+        "radius": 0,
+        "gradient": null,
+        "fillEnabled": true,
+        "fill": "#ffffff",
+        "color": "#18181b",
+        "stroke": "#d4d4d8",
+        "strokeWidth": 0,
+        "opacity": 1,
+        "text": "Nested header",
+        "fontSize": 16,
+        "fontWeight": 400,
+        "fontFamily": "system-ui",
+        "lineHeight": 1.2,
+        "letterSpacing": 0,
+        "textAlign": "auto",
+        "layout": "free",
+        "gap": 16,
+        "padding": 16,
+        "columns": 2,
+        "hidden": false,
+        "locked": false,
+        "order": 6,
+        "inputType": "text",
+        "initialValue": "",
+        "accessibleLabel": "",
+        "disabled": false,
+        "prototypeAction": "navigate",
+        "targetId": null,
+        "transition": "instant",
+        "asset": "",
+        "pathData": "",
+        "viewBox": "0 0 100 100",
+        "libraryRef": null,
+        "librarySlot": "header",
+        "componentId": null,
+        "isComponent": false,
+        "variantName": "Default",
+        "variants": {},
+        "overrides": [],
+        "repeatTemplateId": null,
+        "repeatIndex": null,
+        "fillToken": ""
+      }
+    ],
+    "tokens": {
+      "brand.primary": "#145abc",
+      "local.paint": "#763cba"
+    },
+    "assets": {},
+    "libraries": {
+      "web-awesome@1.0.0": {
+        "manifestVersion": 1,
+        "revision": "1.0.0",
+        "id": "web-awesome",
+        "name": "Web Awesome",
+        "package": {
+          "name": "@awesome.me/webawesome",
+          "version": "3.14.0"
+        },
+        "dependencies": {
+          "@ctrl/tinycolor": "4.1.0",
+          "@floating-ui/dom": "1.8.0",
+          "@konnorr/qr-creator": "1.1.0",
+          "@lit-labs/ssr": "4.1.0",
+          "@lit-labs/ssr-client": "1.1.8",
+          "@lit/context": "1.1.6",
+          "@lit/react": "1.0.8",
+          "@shoelace-style/animations": "1.2.0",
+          "@shoelace-style/localize": "3.2.3",
+          "composed-offset-position": "0.0.6",
+          "lit": "3.3.3",
+          "marked": "11.2.0",
+          "nanoid": "5.1.16"
+        },
+        "webStyles": [
+          "@awesome.me/webawesome/dist/styles/webawesome.css"
+        ],
+        "swiftSDK": {
+          "name": "SwiftUI",
+          "version": "macOS 14 minimum - system SwiftUI"
+        },
+        "tokenMappings": {
+          "--wa-color-brand-fill-loud": "brand.primary"
+        },
+        "components": {
+          "Button": {
+            "name": "Web Awesome Button",
+            "semanticKind": "button",
+            "width": 180,
+            "height": 44,
+            "props": {
+              "label": {
+                "semantic": "text",
+                "webAttribute": null,
+                "type": "string",
+                "default": "Button",
+                "maxLength": 20000
+              },
+              "disabled": {
+                "semantic": "disabled",
+                "webAttribute": "disabled",
+                "type": "boolean",
+                "default": false
+              },
+              "variant": {
+                "semantic": null,
+                "webAttribute": "variant",
+                "type": "enum",
+                "default": "neutral",
+                "values": [
+                  "neutral",
+                  "brand",
+                  "success",
+                  "warning",
+                  "danger"
+                ]
+              },
+              "appearance": {
+                "semantic": null,
+                "webAttribute": "appearance",
+                "type": "enum",
+                "default": "accent",
+                "values": [
+                  "accent",
+                  "filled-outlined",
+                  "filled",
+                  "outlined",
+                  "plain"
+                ]
+              }
+            },
+            "slots": [
+              ""
+            ],
+            "variants": {
+              "Default": {},
+              "Primary": {
+                "variant": "brand"
+              },
+              "Disabled": {
+                "disabled": true
+              }
+            },
+            "defaultVariant": "Default",
+            "web": {
+              "tag": "wa-button",
+              "symbol": "WaButton",
+              "styleBindings": {},
+              "module": "@awesome.me/webawesome/dist/components/button/button.js"
+            },
+            "swift": {
+              "module": "SwiftUI",
+              "symbol": "Button",
+              "adapter": "button",
+              "platforms": [
+                "macOS"
+              ],
+              "supportedVariants": [
+                "Default",
+                "Disabled"
+              ]
+            }
+          },
+          "Input": {
+            "name": "Web Awesome Input",
+            "semanticKind": "input",
+            "width": 260,
+            "height": 56,
+            "props": {
+              "label": {
+                "semantic": "accessibleLabel",
+                "webAttribute": "label",
+                "type": "string",
+                "default": "Email",
+                "maxLength": 200
+              },
+              "placeholder": {
+                "semantic": "text",
+                "webAttribute": "placeholder",
+                "type": "string",
+                "default": "Your email",
+                "maxLength": 20000
+              },
+              "value": {
+                "semantic": "initialValue",
+                "webAttribute": "value",
+                "type": "string",
+                "default": "",
+                "maxLength": 20000
+              },
+              "type": {
+                "semantic": "inputType",
+                "webAttribute": "type",
+                "type": "enum",
+                "default": "email",
+                "values": [
+                  "text",
+                  "email",
+                  "password"
+                ]
+              },
+              "disabled": {
+                "semantic": "disabled",
+                "webAttribute": "disabled",
+                "type": "boolean",
+                "default": false
+              }
+            },
+            "slots": [],
+            "variants": {
+              "Default": {},
+              "Disabled": {
+                "disabled": true
+              }
+            },
+            "defaultVariant": "Default",
+            "web": {
+              "tag": "wa-input",
+              "symbol": "WaInput",
+              "styleBindings": {},
+              "module": "@awesome.me/webawesome/dist/components/input/input.js"
+            },
+            "swift": {
+              "module": "SwiftUI",
+              "symbol": "TextField",
+              "adapter": "input",
+              "platforms": [
+                "macOS"
+              ],
+              "supportedVariants": [
+                "Default",
+                "Disabled"
+              ]
+            }
+          },
+          "Card": {
+            "name": "Web Awesome Card",
+            "semanticKind": "frame",
+            "width": 320,
+            "height": 240,
+            "props": {
+              "padding": {
+                "semantic": "padding",
+                "webAttribute": null,
+                "type": "number",
+                "default": 16,
+                "min": 0,
+                "max": 100
+              }
+            },
+            "slots": [
+              "",
+              "header",
+              "footer",
+              "media",
+              "actions"
+            ],
+            "variants": {
+              "Default": {}
+            },
+            "defaultVariant": "Default",
+            "web": {
+              "tag": "wa-card",
+              "symbol": "WaCard",
+              "styleBindings": {
+                "--spacing": "padding"
+              },
+              "module": "@awesome.me/webawesome/dist/components/card/card.js"
+            },
+            "swift": {
+              "module": "SwiftUI",
+              "symbol": "VStack",
+              "adapter": "card",
+              "platforms": [
+                "macOS"
+              ],
+              "supportedVariants": [
+                "Default"
+              ]
+            }
+          }
+        }
+      }
+    }
+  },
+  "expected": {
+    "root": {
+      "x": 0,
+      "y": 0,
+      "width": 400,
+      "height": 500
+    },
+    "card": {
+      "x": 20.23,
+      "y": 20.17,
+      "width": 359.31,
+      "height": 459.73
+    },
+    "header": {
+      "x": 46.730000000000004,
+      "y": 46.67,
+      "width": 300,
+      "height": 28
+    },
+    "input": {
+      "x": 46.730000000000004,
+      "y": 90.67,
+      "width": 306.31,
+      "height": 40.673000000000016
+    },
+    "button": {
+      "x": 46.730000000000004,
+      "y": 147.34300000000002,
+      "width": 180,
+      "height": 44
+    },
+    "nested": {
+      "x": 46.730000000000004,
+      "y": 207.34300000000002,
+      "width": 179.61,
+      "height": 119.23000000000002
+    },
+    "nested-header": {
+      "x": 51.730000000000004,
+      "y": 212.34300000000002,
+      "width": 120.00000000000001,
+      "height": 20
+    }
+  },
+  "dom": {
+    "root": {
+      "x": 0,
+      "y": 0,
+      "width": 400,
+      "height": 500
+    },
+    "card": {
+      "x": 20.21875,
+      "y": 20.15625,
+      "width": 359.296875,
+      "height": 459.71875
+    },
+    "header": {
+      "x": 46.21875,
+      "y": 46.15625,
+      "width": 300,
+      "height": 28
+    },
+    "input": {
+      "x": 46.21875,
+      "y": 90.15625,
+      "width": 307.296875,
+      "height": 40.765625
+    },
+    "button": {
+      "x": 46.21875,
+      "y": 146.921875,
+      "width": 180,
+      "height": 44
+    },
+    "nested": {
+      "x": 46.21875,
+      "y": 206.921875,
+      "width": 179.609375,
+      "height": 119.21875
+    },
+    "nested-header": {
+      "x": 51.21875,
+      "y": 211.921875,
+      "width": 120,
+      "height": 20
+    }
+  },
+  "web": {
+    "root": {
+      "x": 0,
+      "y": 0,
+      "width": 400,
+      "height": 500
+    },
+    "card": {
+      "x": 20.21875,
+      "y": 20.15625,
+      "width": 359.296875,
+      "height": 459.71875
+    },
+    "header": {
+      "x": 48.71875,
+      "y": 48.65625,
+      "width": 300,
+      "height": 28
+    },
+    "input": {
+      "x": 48.71875,
+      "y": 92.65625,
+      "width": 306.296875,
+      "height": 40.671875
+    },
+    "button": {
+      "x": 48.71875,
+      "y": 149.328125,
+      "width": 180,
+      "height": 44
+    },
+    "nested": {
+      "x": 48.71875,
+      "y": 209.328125,
+      "width": 179.609375,
+      "height": 119.21875
+    },
+    "nested-header": {
+      "x": 53.71875,
+      "y": 214.328125,
+      "width": 120,
+      "height": 20
+    }
+  }
+}

@@ -1,0 +1,693 @@
+{
+  "passed": true,
+  "checks": 5,
+  "records": [
+    {
+      "name": "free",
+      "sourceRevision": 1,
+      "canvas": {
+        "border-root": {
+          "x": 0,
+          "y": 0,
+          "width": 500,
+          "height": 400
+        },
+        "border-frame": {
+          "x": 27.310000000000002,
+          "y": 21.230000000000018,
+          "width": 340.73,
+          "height": 279.61
+        },
+        "border-text": {
+          "x": 45.04000000000002,
+          "y": 33.89999999999998,
+          "width": 80.70000000000002,
+          "height": 25.1
+        },
+        "border-button": {
+          "x": 29.810000000000002,
+          "y": 83.82999999999998,
+          "width": 335.73,
+          "height": 68.65250000000002
+        },
+        "border-input": {
+          "x": 59.93000000000001,
+          "y": 179.15999999999997,
+          "width": 201.438,
+          "height": 44.25
+        }
+      },
+      "semantic": {
+        "border-root": {
+          "x": 0,
+          "y": 0,
+          "width": 500,
+          "height": 400
+        },
+        "border-frame": {
+          "x": 27.296875,
+          "y": 21.21875,
+          "width": 340.71875,
+          "height": 279.609375
+        },
+        "border-text": {
+          "x": 45.015625,
+          "y": 33.875,
+          "width": 80.6875,
+          "height": 25.09375
+        },
+        "border-button": {
+          "x": 29.796875,
+          "y": 83.8125,
+          "width": 335.71875,
+          "height": 68.640625
+        },
+        "border-input": {
+          "x": 59.90625,
+          "y": 179.140625,
+          "width": 201.421875,
+          "height": 44.25
+        }
+      },
+      "portableHTML": {
+        "border-root": {
+          "x": 0,
+          "y": 0,
+          "width": 500,
+          "height": 400
+        },
+        "border-frame": {
+          "x": 27.296875,
+          "y": 21.21875,
+          "width": 340.71875,
+          "height": 279.609375
+        },
+        "border-text": {
+          "x": 45.015625,
+          "y": 33.875,
+          "width": 80.6875,
+          "height": 25.09375
+        },
+        "border-button": {
+          "x": 29.796875,
+          "y": 83.8125,
+          "width": 335.71875,
+          "height": 68.640625
+        },
+        "border-input": {
+          "x": 59.90625,
+          "y": 179.140625,
+          "width": 201.421875,
+          "height": 44.25
+        }
+      },
+      "portableCSS": {
+        "border-root": {
+          "x": 0,
+          "y": 0,
+          "width": 500,
+          "height": 400
+        },
+        "border-frame": {
+          "x": 27.296875,
+          "y": 21.21875,
+          "width": 340.71875,
+          "height": 279.609375
+        },
+        "border-text": {
+          "x": 45.015625,
+          "y": 33.875,
+          "width": 80.6875,
+          "height": 25.09375
+        },
+        "border-button": {
+          "x": 29.796875,
+          "y": 83.8125,
+          "width": 335.71875,
+          "height": 68.640625
+        },
+        "border-input": {
+          "x": 59.90625,
+          "y": 179.140625,
+          "width": 201.421875,
+          "height": 44.25
+        }
+      },
+      "maxDelta": {
+        "semantic": 0.024999999999977263,
+        "html": 0.024999999999977263,
+        "css": 0.024999999999977263
+      }
+    },
+    {
+      "name": "horizontal",
+      "sourceRevision": 2,
+      "canvas": {
+        "border-root": {
+          "x": 0,
+          "y": 0,
+          "width": 500,
+          "height": 400
+        },
+        "border-frame": {
+          "x": 27.310000000000002,
+          "y": 21.230000000000018,
+          "width": 340.73,
+          "height": 279.61
+        },
+        "border-text": {
+          "x": 44.50999999999999,
+          "y": 38.43000000000001,
+          "width": 80.70000000000002,
+          "height": 25.1
+        },
+        "border-button": {
+          "x": 136.71000000000004,
+          "y": 38.43000000000001,
+          "width": 110.73100000000002,
+          "height": 61.3025
+        },
+        "border-input": {
+          "x": 258.94100000000003,
+          "y": 38.43000000000001,
+          "width": 91.899,
+          "height": 44.25000000000001
+        }
+      },
+      "semantic": {
+        "border-root": {
+          "x": 0,
+          "y": 0,
+          "width": 500,
+          "height": 400
+        },
+        "border-frame": {
+          "x": 27.296875,
+          "y": 21.21875,
+          "width": 340.71875,
+          "height": 279.609375
+        },
+        "border-text": {
+          "x": 44.484375,
+          "y": 38.40625,
+          "width": 80.6875,
+          "height": 25.09375
+        },
+        "border-button": {
+          "x": 136.671875,
+          "y": 38.40625,
+          "width": 110.765625,
+          "height": 61.296875
+        },
+        "border-input": {
+          "x": 258.9375,
+          "y": 38.40625,
+          "width": 91.890625,
+          "height": 44.25
+        }
+      },
+      "portableHTML": {
+        "border-root": {
+          "x": 0,
+          "y": 0,
+          "width": 500,
+          "height": 400
+        },
+        "border-frame": {
+          "x": 27.296875,
+          "y": 21.21875,
+          "width": 340.71875,
+          "height": 279.609375
+        },
+        "border-text": {
+          "x": 44.484375,
+          "y": 38.40625,
+          "width": 80.6875,
+          "height": 25.09375
+        },
+        "border-button": {
+          "x": 136.671875,
+          "y": 38.40625,
+          "width": 110.765625,
+          "height": 61.296875
+        },
+        "border-input": {
+          "x": 258.9375,
+          "y": 38.40625,
+          "width": 91.890625,
+          "height": 44.25
+        }
+      },
+      "portableCSS": {
+        "border-root": {
+          "x": 0,
+          "y": 0,
+          "width": 500,
+          "height": 400
+        },
+        "border-frame": {
+          "x": 27.296875,
+          "y": 21.21875,
+          "width": 340.71875,
+          "height": 279.609375
+        },
+        "border-text": {
+          "x": 44.484375,
+          "y": 38.40625,
+          "width": 80.6875,
+          "height": 25.09375
+        },
+        "border-button": {
+          "x": 136.671875,
+          "y": 38.40625,
+          "width": 110.765625,
+          "height": 61.296875
+        },
+        "border-input": {
+          "x": 258.9375,
+          "y": 38.40625,
+          "width": 91.890625,
+          "height": 44.25
+        }
+      },
+      "maxDelta": {
+        "semantic": 0.03812500000003638,
+        "html": 0.03812500000003638,
+        "css": 0.03812500000003638
+      }
+    },
+    {
+      "name": "vertical",
+      "sourceRevision": 3,
+      "canvas": {
+        "border-root": {
+          "x": 0,
+          "y": 0,
+          "width": 500,
+          "height": 400
+        },
+        "border-frame": {
+          "x": 27.310000000000002,
+          "y": 21.230000000000018,
+          "width": 340.73,
+          "height": 279.61
+        },
+        "border-text": {
+          "x": 44.50999999999999,
+          "y": 38.43000000000001,
+          "width": 80.70000000000002,
+          "height": 25.1
+        },
+        "border-button": {
+          "x": 44.50999999999999,
+          "y": 75.02999999999997,
+          "width": 306.33000000000004,
+          "height": 61.30250000000001
+        },
+        "border-input": {
+          "x": 44.50999999999999,
+          "y": 147.83249999999998,
+          "width": 183.79800000000003,
+          "height": 44.25
+        }
+      },
+      "semantic": {
+        "border-root": {
+          "x": 0,
+          "y": 0,
+          "width": 500,
+          "height": 400
+        },
+        "border-frame": {
+          "x": 27.296875,
+          "y": 21.21875,
+          "width": 340.71875,
+          "height": 279.609375
+        },
+        "border-text": {
+          "x": 44.484375,
+          "y": 38.40625,
+          "width": 80.6875,
+          "height": 25.09375
+        },
+        "border-button": {
+          "x": 44.484375,
+          "y": 75,
+          "width": 306.34375,
+          "height": 61.296875
+        },
+        "border-input": {
+          "x": 44.484375,
+          "y": 147.796875,
+          "width": 183.796875,
+          "height": 44.25
+        }
+      },
+      "portableHTML": {
+        "border-root": {
+          "x": 0,
+          "y": 0,
+          "width": 500,
+          "height": 400
+        },
+        "border-frame": {
+          "x": 27.296875,
+          "y": 21.21875,
+          "width": 340.71875,
+          "height": 279.609375
+        },
+        "border-text": {
+          "x": 44.484375,
+          "y": 38.40625,
+          "width": 80.6875,
+          "height": 25.09375
+        },
+        "border-button": {
+          "x": 44.484375,
+          "y": 75,
+          "width": 306.34375,
+          "height": 61.296875
+        },
+        "border-input": {
+          "x": 44.484375,
+          "y": 147.796875,
+          "width": 183.796875,
+          "height": 44.25
+        }
+      },
+      "portableCSS": {
+        "border-root": {
+          "x": 0,
+          "y": 0,
+          "width": 500,
+          "height": 400
+        },
+        "border-frame": {
+          "x": 27.296875,
+          "y": 21.21875,
+          "width": 340.71875,
+          "height": 279.609375
+        },
+        "border-text": {
+          "x": 44.484375,
+          "y": 38.40625,
+          "width": 80.6875,
+          "height": 25.09375
+        },
+        "border-button": {
+          "x": 44.484375,
+          "y": 75,
+          "width": 306.34375,
+          "height": 61.296875
+        },
+        "border-input": {
+          "x": 44.484375,
+          "y": 147.796875,
+          "width": 183.796875,
+          "height": 44.25
+        }
+      },
+      "maxDelta": {
+        "semantic": 0.03562499999998181,
+        "html": 0.03562499999998181,
+        "css": 0.03562499999998181
+      }
+    },
+    {
+      "name": "grid",
+      "sourceRevision": 4,
+      "canvas": {
+        "border-root": {
+          "x": 0,
+          "y": 0,
+          "width": 500,
+          "height": 400
+        },
+        "border-frame": {
+          "x": 27.310000000000002,
+          "y": 21.230000000000018,
+          "width": 340.73,
+          "height": 279.61
+        },
+        "border-text": {
+          "x": 44.50999999999999,
+          "y": 38.43000000000001,
+          "width": 80.70000000000002,
+          "height": 25.1
+        },
+        "border-button": {
+          "x": 203.42499999999995,
+          "y": 38.43000000000001,
+          "width": 147.41500000000002,
+          "height": 44.25000000000001
+        },
+        "border-input": {
+          "x": 44.50999999999999,
+          "y": 166.78499999999997,
+          "width": 88.44900000000001,
+          "height": 44.25
+        }
+      },
+      "semantic": {
+        "border-root": {
+          "x": 0,
+          "y": 0,
+          "width": 500,
+          "height": 400
+        },
+        "border-frame": {
+          "x": 27.296875,
+          "y": 21.21875,
+          "width": 340.71875,
+          "height": 279.609375
+        },
+        "border-text": {
+          "x": 44.484375,
+          "y": 38.40625,
+          "width": 80.6875,
+          "height": 25.09375
+        },
+        "border-button": {
+          "x": 203.40625,
+          "y": 38.40625,
+          "width": 147.421875,
+          "height": 44.25
+        },
+        "border-input": {
+          "x": 44.484375,
+          "y": 166.765625,
+          "width": 88.453125,
+          "height": 44.25
+        }
+      },
+      "portableHTML": {
+        "border-root": {
+          "x": 0,
+          "y": 0,
+          "width": 500,
+          "height": 400
+        },
+        "border-frame": {
+          "x": 27.296875,
+          "y": 21.21875,
+          "width": 340.71875,
+          "height": 279.609375
+        },
+        "border-text": {
+          "x": 44.484375,
+          "y": 38.40625,
+          "width": 80.6875,
+          "height": 25.09375
+        },
+        "border-button": {
+          "x": 203.40625,
+          "y": 38.40625,
+          "width": 147.421875,
+          "height": 44.25
+        },
+        "border-input": {
+          "x": 44.484375,
+          "y": 166.765625,
+          "width": 88.453125,
+          "height": 44.25
+        }
+      },
+      "portableCSS": {
+        "border-root": {
+          "x": 0,
+          "y": 0,
+          "width": 500,
+          "height": 400
+        },
+        "border-frame": {
+          "x": 27.296875,
+          "y": 21.21875,
+          "width": 340.71875,
+          "height": 279.609375
+        },
+        "border-text": {
+          "x": 44.484375,
+          "y": 38.40625,
+          "width": 80.6875,
+          "height": 25.09375
+        },
+        "border-button": {
+          "x": 203.40625,
+          "y": 38.40625,
+          "width": 147.421875,
+          "height": 44.25
+        },
+        "border-input": {
+          "x": 44.484375,
+          "y": 166.765625,
+          "width": 88.453125,
+          "height": 44.25
+        }
+      },
+      "maxDelta": {
+        "semantic": 0.025624999999990905,
+        "html": 0.025624999999990905,
+        "css": 0.025624999999990905
+      }
+    },
+    {
+      "name": "undo-to-vertical",
+      "sourceRevision": 5,
+      "canvas": {
+        "border-root": {
+          "x": 0,
+          "y": 0,
+          "width": 500,
+          "height": 400
+        },
+        "border-frame": {
+          "x": 27.310000000000002,
+          "y": 21.230000000000018,
+          "width": 340.73,
+          "height": 279.61
+        },
+        "border-text": {
+          "x": 44.50999999999999,
+          "y": 38.43000000000001,
+          "width": 80.70000000000002,
+          "height": 25.1
+        },
+        "border-button": {
+          "x": 44.50999999999999,
+          "y": 75.02999999999997,
+          "width": 306.33000000000004,
+          "height": 61.30250000000001
+        },
+        "border-input": {
+          "x": 44.50999999999999,
+          "y": 147.83249999999998,
+          "width": 183.79800000000003,
+          "height": 44.25
+        }
+      },
+      "semantic": {
+        "border-root": {
+          "x": 0,
+          "y": 0,
+          "width": 500,
+          "height": 400
+        },
+        "border-frame": {
+          "x": 27.296875,
+          "y": 21.21875,
+          "width": 340.71875,
+          "height": 279.609375
+        },
+        "border-text": {
+          "x": 44.484375,
+          "y": 38.40625,
+          "width": 80.6875,
+          "height": 25.09375
+        },
+        "border-button": {
+          "x": 44.484375,
+          "y": 75,
+          "width": 306.34375,
+          "height": 61.296875
+        },
+        "border-input": {
+          "x": 44.484375,
+          "y": 147.796875,
+          "width": 183.796875,
+          "height": 44.25
+        }
+      },
+      "portableHTML": {
+        "border-root": {
+          "x": 0,
+          "y": 0,
+          "width": 500,
+          "height": 400
+        },
+        "border-frame": {
+          "x": 27.296875,
+          "y": 21.21875,
+          "width": 340.71875,
+          "height": 279.609375
+        },
+        "border-text": {
+          "x": 44.484375,
+          "y": 38.40625,
+          "width": 80.6875,
+          "height": 25.09375
+        },
+        "border-button": {
+          "x": 44.484375,
+          "y": 75,
+          "width": 306.34375,
+          "height": 61.296875
+        },
+        "border-input": {
+          "x": 44.484375,
+          "y": 147.796875,
+          "width": 183.796875,
+          "height": 44.25
+        }
+      },
+      "portableCSS": {
+        "border-root": {
+          "x": 0,
+          "y": 0,
+          "width": 500,
+          "height": 400
+        },
+        "border-frame": {
+          "x": 27.296875,
+          "y": 21.21875,
+          "width": 340.71875,
+          "height": 279.609375
+        },
+        "border-text": {
+          "x": 44.484375,
+          "y": 38.40625,
+          "width": 80.6875,
+          "height": 25.09375
+        },
+        "border-button": {
+          "x": 44.484375,
+          "y": 75,
+          "width": 306.34375,
+          "height": 61.296875
+        },
+        "border-input": {
+          "x": 44.484375,
+          "y": 147.796875,
+          "width": 183.796875,
+          "height": 44.25
+        }
+      },
+      "maxDelta": {
+        "semantic": 0.03562499999998181,
+        "html": 0.03562499999998181,
+        "css": 0.03562499999998181
+      }
+    }
+  ],
+  "toleranceLogicalPoints": 0.1,
+  "scope": "Actual production Canvas and isolated semantic preview plus portable HTML/CSS, free/stack/grid fractional frame borders, fill/percent sizing, source undo and unchanged consumer history; synthetic fixture commands, no physical OS input or full accessibility claim"
+}
