@@ -69,7 +69,6 @@ jobs:
           INCLUDE_REVIEW_ARTIFACT: ${{ inputs.include_review_artifact }}
           INCLUDE_FEEDBACK_ARTIFACT: ${{ inputs.include_feedback_artifact }}
           EXPECTED_FEEDBACK_SHA256: ${{ inputs.expected_feedback_sha256 }}
-          REPLY_TEXT: ${{ inputs.reply_text }}
       - name: Retain opt-in reviewer data for human inspection
         if: success() && (inputs.include_review_artifact || inputs.include_feedback_artifact) && inputs.mode == 'inspect'
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4

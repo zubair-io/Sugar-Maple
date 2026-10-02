@@ -54,10 +54,12 @@ async function run() {
       pageToken = typeof data.nextPageToken === 'string' ? data.nextPageToken : '';
     } while (pageToken && pages < 5);
     diagnosis += ` Activity counters: ${JSON.stringify(activitySummary(activities))}; truncated=${!!pageToken}. Prompts/messages/error bodies are not printed.`;
+    const truncated = !!pageToken || !!diagnosis.match(/Activity inspection returned/);
     if (input.mode === 'respond') {
-      const reply = process.env.REPLY_TEXT ?? '';
-      const replyHash = validatePendingReply(state, activities, !!pageToken || !!diagnosis.match(/Activity inspection returned/), process.env.EXPECTED_FEEDBACK_SHA256 ?? '', reply);
-      core.setSecret(reply);
+      // Runner logs display step environment variables before code can mask
+      // them. Read the dispatch event instead; never echo or globally mask it.
+      const reply = typeof github.context.payload.inputs?.reply_text === 'string' ? github.context.payload.inputs.reply_text : '';
+      const replyHash = validatePendingReply(state, activities, truncated, process.env.EXPECTED_FEEDBACK_SHA256 ?? '', reply);
       const currentResponse = await fetch(`https://jules.googleapis.com/v1alpha/sessions/${input.sessionId}`, {
         headers: { 'x-goog-api-key': apiKey }, redirect: 'error', signal: AbortSignal.timeout(30_000),
       });
@@ -69,7 +71,6 @@ async function run() {
       outcome = `one manual reply submitted; sha256=${replyHash}; original session retained`;
     }
     if (artifactKind) {
-      const truncated = !!pageToken || !!diagnosis.match(/Activity inspection returned/);
       const artifact = artifactKind === 'review'
         ? completedReviewArtifact(state, activities, truncated)
         : pendingFeedbackArtifact(state, activities, truncated);
