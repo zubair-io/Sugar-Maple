@@ -40,6 +40,7 @@ import {
       [enabled]="enabled()"
       (cameraChange)="cameraChanged($event)"
       (sizeChange)="p.size.set($event)"
+      (deleteSelection)="p.e.remove()"
     />
     @for (h of handles(); track h.kind) {
       <button
