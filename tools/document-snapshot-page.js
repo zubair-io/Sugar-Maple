@@ -1,4 +1,4 @@
-(async () => {
+window.canvasTransformAcceptance = async () => {
   const api = window.sugarMaple;
   const get = () => api.dispatch("document.get");
   const initial = await get(),
@@ -93,4 +93,4 @@
     throw Error("Exact redo failed");
   checks++;
   return { passed: true, checks, document: (await get()).document };
-})();
+};
