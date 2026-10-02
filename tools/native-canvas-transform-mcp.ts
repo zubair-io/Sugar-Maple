@@ -6,11 +6,13 @@ import { strict as assert } from "node:assert";
 import { flatten, project } from "../src/web/src/app/canvas/scene-layout";
 // Own a separate DEBUG bundle/profile/port. Never connect to the user's editor.
 const root = resolve(import.meta.dir, ".."),
-  output = resolve(root, "build/canvas-transform-mcp");
-const app = resolve(output, "Sugar Maple Transform QA.app"),
+  locks = process.argv.includes('--locks'),
+  hold = process.argv.includes('--hold'),
+  output = resolve(root, locks ? "build/canvas-lock-mcp" : "build/canvas-transform-mcp");
+const app = resolve(output, locks ? "Sugar Maple Lock QA.app" : "Sugar Maple Transform QA.app"),
   profile = resolve(output, "profile");
 const port = 48494,
-  identifier = "io.zubair.sugarmaple.transform-qa";
+  identifier = locks ? "io.zubair.sugarmaple.lock-qa" : "io.zubair.sugarmaple.transform-qa";
 mkdirSync(profile, { recursive: true });
 async function command(cmd: string[]) {
   const child = Bun.spawn(cmd, { cwd: root, stdout: "pipe", stderr: "pipe" });
@@ -139,6 +141,7 @@ try {
         height: 450,
         rotation: 35,
         strokeWidth: 2,
+        locked: locks,
       },
     },
     {
@@ -232,7 +235,7 @@ try {
         port,
         identifier,
         scope:
-          "Actual native HTTP MCP SDK, transformed layout/selection/capture, atomic authoring undo/redo and durable native checkpoint. Human pointer gestures are tested separately in Chrome.",
+          locks ? "Actual native HTTP MCP SDK explicit editing through a locked ancestor, exact atomic undo/redo, transformed capture and durable checkpoint. Direct human guards are tested separately." : "Actual native HTTP MCP SDK, transformed layout/selection/capture, atomic authoring undo/redo and durable native checkpoint. Human pointer gestures are tested separately in Chrome.",
         capture: capture.structuredContent.capture,
       },
       null,
@@ -240,8 +243,14 @@ try {
     ),
   );
   console.log(
-    "PASS: actual isolated native Sugar Maple MCP on 48494, nested transformed Canvas layout, selection/capture, exact atomic undo/redo and durable checkpoint",
+    locks ? "PASS: actual isolated native MCP explicit editing with a locked ancestor, exact undo/redo and durable capture/checkpoint" : "PASS: actual isolated native Sugar Maple MCP on 48494, nested transformed Canvas layout, selection/capture, exact atomic undo/redo and durable checkpoint",
   );
+  if (hold) {
+    await Bun.write(resolve(output, 'interactive-state.json'), JSON.stringify({ app, profile, port, identifier,
+      document: await data('document.get'), layout: await data('layout.inspect') }));
+    console.log('Owned app ready for native UI acceptance. Send a newline to finish and stop only this owner.');
+    await new Promise<void>(resolve => process.stdin.once('data', () => resolve()));
+  }
 } finally {
   if (connected) await client.close();
   owner.kill("SIGTERM");

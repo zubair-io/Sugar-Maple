@@ -145,6 +145,7 @@ try {
   }, key);
   await page.getByRole('button', { name: 'Developer', exact: true }).click();
   await page.getByRole('button', { name: 'Copy element', exact: true }).click();
+  await page.getByRole('button', { name: 'Design', exact: true }).click();
   const beforePaste = await checkpoint();
   await page.keyboard.press('Meta+v');
   await expect.poll(async () => (await checkpoint()).document.nodes.length).toBe(beforePaste.document.nodes.length + 1);
