@@ -29,6 +29,15 @@ import { MuiFieldComponent } from './chrome/maple/ui/field/mui-field.component';
 import { SceneNode, uid, Operation } from './model/schema';
 import { exportNode, ExportTarget } from './model/export';
 import { layerRows } from './model/layers';
+import {
+  MuiInputComponent,
+  MuiToolbarComponent,
+  MuiTreeRowComponent,
+  MuiInspectorPanelComponent,
+  type MuiToolbarEntry,
+  type MapleIconName,
+} from './chrome/maple/sugar-maple-chrome';
+import { ChromeTheme } from './chrome/maple/sugar-maple-chrome-theme';
 @Component({
   selector: 'app-root',
   imports: [
@@ -46,15 +55,43 @@ import { layerRows } from './model/layers';
     MuiButtonComponent,
     MuiSectionComponent,
     MuiFieldComponent,
+    MuiInputComponent,
+    MuiToolbarComponent,
+    MuiTreeRowComponent,
+    MuiInspectorPanelComponent,
   ],
+  host: { '[attr.data-chrome-theme]': 'theme.appearance()' },
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })
 export class App {
-  readonly repeatTemplateIds = computed(() => new Set(this.e.doc().nodes.flatMap(n=>n.repeatTemplateId?[n.repeatTemplateId]:[])));
-  readonly repeatParent = computed(() => this.e.doc().nodes.find(n=>n.repeatTemplateId===this.e.selected())??null);
+  readonly repeatTemplateIds = computed(
+    () =>
+      new Set(this.e.doc().nodes.flatMap((n) => (n.repeatTemplateId ? [n.repeatTemplateId] : []))),
+  );
+  readonly repeatParent = computed(
+    () => this.e.doc().nodes.find((n) => n.repeatTemplateId === this.e.selected()) ?? null,
+  );
   readonly Math = Math;
   readonly e = inject(EditorService);
+  readonly theme = inject(ChromeTheme);
+  readonly inspectorTabs = [
+    { id: 'Details', label: 'Details' },
+    { id: 'Comments', label: 'Comments' },
+  ];
+  readonly creationTools = computed<readonly MuiToolbarEntry[]>(() =>
+    this.kinds.map((kind) => ({
+      id: kind,
+      label: 'Add ' + kind,
+      icon: ('design-' + kind) as MapleIconName,
+      iconOnly: true,
+      disabled: this.e.mode() !== 'Design',
+    })),
+  );
+  createFromToolbar(id: string): void {
+    const kind = this.kinds.find((kind) => kind === id);
+    if (kind && this.e.mode() === 'Design') this.e.add(kind);
+  }
   readonly projection = inject(CanvasProjection);
   readonly surface = viewChild(CanvasSurface);
   readonly zoom = signal(0.8);
@@ -93,7 +130,10 @@ export class App {
   ]);
   readonly inputTypeOptions = this.options(['text', 'password', 'email']);
   readonly actionOptions = [
-    {value:'navigate',label:'Navigate'}, {value:'openOverlay',label:'Open overlay'}, {value:'closeOverlay',label:'Close overlay'}, {value:'back',label:'Back'},
+    { value: 'navigate', label: 'Navigate' },
+    { value: 'openOverlay', label: 'Open overlay' },
+    { value: 'closeOverlay', label: 'Close overlay' },
+    { value: 'back', label: 'Back' },
   ];
   readonly transitionOptions = this.options(['instant', 'dissolve']);
   readonly layoutOptions = this.options(['free', 'horizontal', 'vertical', 'grid']);
@@ -443,14 +483,17 @@ export class App {
   }
   startPreview() {
     const n = this.e.node();
-    const board = n?.kind === 'artboard' ? n : this.e.roots().find(n => n.kind === 'artboard');
+    const board = n?.kind === 'artboard' ? n : this.e.roots().find((n) => n.kind === 'artboard');
     if (board) {
-      if (this.e.native) void this.e.openNativePreview(board.id).catch(error => this.e.report(error));
+      if (this.e.native)
+        void this.e.openNativePreview(board.id).catch((error) => this.e.report(error));
       else this.preview.set(board.id);
-    }
-    else this.e.error.set('Create an artboard to preview.');
+    } else this.e.error.set('Create an artboard to preview.');
   }
-  closePreview(error: string) { this.preview.set(null); if (error) this.e.error.set(error); }
+  closePreview(error: string) {
+    this.preview.set(null);
+    if (error) this.e.error.set(error);
+  }
   preset(width: number) {
     if (this.e.node()?.kind === 'artboard') this.e.update({ width });
     else this.e.error.set('Select an artboard to apply a viewport preset.');
