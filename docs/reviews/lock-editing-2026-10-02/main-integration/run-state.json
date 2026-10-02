@@ -1,0 +1,73 @@
+{
+  "recordedAt": "2026-10-02T07:48:20.496021+00:00",
+  "runtimeSourceHead": "0c5d306eb0df34c76b1af366e52ef1a083d8825c",
+  "mergedMainHead": "d1c05622d17709bb022757e051f329c243c3e026",
+  "checks": {
+    "model": {
+      "passed": 116,
+      "failed": 0,
+      "assertions": 1878,
+      "files": 25
+    },
+    "browserConsumerSuites": 27,
+    "build": "Production web/macOS build, typecheck and Maple inventory pass",
+    "native": "Complete native acceptance, including 18 WK transforms, 16 WK placement, 12 WK reparent, 12 WK lock controls and separate actual SDK locks/reparent paths"
+  },
+  "limitations": [
+    "WK input is synthetic DOM and does not establish native OS pointer or IME/VoiceOver acceptance.",
+    "Prior OS input evidence remains bound to aeb9eae in ../run-state.json; it was not rerun on this integration head.",
+    "Human edits and explicit agent edits retain separate semantics; locks are not a security boundary."
+  ],
+  "artifacts": [
+    {
+      "path": "model.log",
+      "sha256": "c58fa36b63b8bc6f88c6e0bec29872d1fbefaf34575476bf9e6e6b20b561af75",
+      "bytes": 12660
+    },
+    {
+      "path": "typecheck.log",
+      "sha256": "9b2b770f3351789b5fd00fa72323f6eb7ea6de3fa3d75b7678bcbee1c8f6d5f6",
+      "bytes": 36
+    },
+    {
+      "path": "mac-build.log",
+      "sha256": "b2012de40218f5862f7eab0c595375874a15956987b54696e9a06390732f0c7b",
+      "bytes": 76901
+    },
+    {
+      "path": "browser.log",
+      "sha256": "ffacd42f052ea25bcd0cc87801d228cf6149067d3cead4f5fd59cb830f434d8e",
+      "bytes": 5804
+    },
+    {
+      "path": "native.log",
+      "sha256": "9ab902b8b23928f1ae8c9ba419d5865bb3785e0170c636b74eb90bec1282f4da",
+      "bytes": 4760
+    },
+    {
+      "path": "maple-inventory.log",
+      "sha256": "2fe6b41a9c6f94ec84c48303af2c72755551297070e0656ddc19bbd092c38337",
+      "bytes": 231
+    },
+    {
+      "path": "lock-wk-report.json",
+      "sha256": "e950f55f4fa1e43ca26d4de7f07aff3aa89c50965404adbbd16b4846dbbfbf48",
+      "bytes": 532
+    },
+    {
+      "path": "lock-sdk-report.json",
+      "sha256": "9db82cedd4a7409c6e2ccd6eba815f1c25f0e109fb59f1b93e3b5dee7255e496",
+      "bytes": 513
+    },
+    {
+      "path": "reparent-wk-report.json",
+      "sha256": "a4d9f8f76f0b7a4b4636927e6f8bd5b62edc3e1b56e3a8e33fdb093499e21589",
+      "bytes": 709
+    },
+    {
+      "path": "reparent-sdk-report.json",
+      "sha256": "8d9b91fc546cbc2a9b0b7e8faccfbb0ce62fb4fc7bf462b66cb2d564c267daaa",
+      "bytes": 539
+    }
+  ]
+}

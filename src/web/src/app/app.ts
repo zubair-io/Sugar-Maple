@@ -90,7 +90,7 @@ export class App {
       label: 'Add ' + kind,
       icon: ('design-' + kind) as MapleIconName,
       iconOnly: true,
-      disabled: this.e.mode() !== 'Design',
+      disabled: this.e.mode() !== 'Design' || !this.e.canInsert(kind),
     })),
   );
   createFromToolbar(id: string): void {
@@ -570,6 +570,8 @@ export class App {
   duplicate() {
     const n = this.e.node();
     if (!n) return;
+    const owner = this.e.lockedBy(n);
+    if (owner) { this.e.error.set(`Unlock "${owner.name}" before duplicating this layer.`); return; }
     const nodes = cloneTree(this.e.doc(), n.id, {
       pageId: n.pageId,
       parentId: n.parentId,
@@ -616,11 +618,11 @@ export class App {
       }
       if (event.key === 'v') {
         event.preventDefault();
-        this.e.paste();
+        if (this.e.mode() === 'Design') this.e.paste();
       }
       if (event.key === 'd') {
         event.preventDefault();
-        this.duplicate();
+        if (this.e.mode() === 'Design') this.duplicate();
       }
       return;
     }
