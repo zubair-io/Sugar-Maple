@@ -39,6 +39,7 @@ try {
     "file-tabs-e2e",
     "selection-e2e",
     "responsive-e2e",
+    "scene-border-e2e",
     "prototype-forms-e2e",
     "preview-inspect-e2e",
     "handoff-e2e",

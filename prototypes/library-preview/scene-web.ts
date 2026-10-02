@@ -198,7 +198,12 @@ export class WebScene {
         // The package Card's host border otherwise shifts every authored child
         // by its intrinsic one-pixel inset. Children already include source borders.
         Object.assign(el.style, {
-          border: style.strokeWidth + "px solid " + style.stroke,
+          // Scene child positions already include the source border. A CSS
+          // layout border would add it again and round fractional widths.
+          border: "0",
+          boxShadow: style.strokeWidth
+            ? `inset 0 0 0 ${style.strokeWidth}px ${style.stroke}`
+            : "none",
           borderRadius: style.radius + "px",
           background: style.fillEnabled ? style.fill : "transparent",
           color: style.color,
@@ -209,7 +214,14 @@ export class WebScene {
         background:
           style.fillEnabled && n.kind !== "text" ? style.fill : "transparent",
         color: style.color,
-        border: style.strokeWidth + "px solid " + style.stroke,
+        border:
+          n.kind === "frame"
+            ? "0"
+            : style.strokeWidth + "px solid " + style.stroke,
+        boxShadow:
+          n.kind === "frame" && style.strokeWidth
+            ? `inset 0 0 0 ${style.strokeWidth}px ${style.stroke}`
+            : "none",
         borderRadius: style.radius + "px",
       });
     }
