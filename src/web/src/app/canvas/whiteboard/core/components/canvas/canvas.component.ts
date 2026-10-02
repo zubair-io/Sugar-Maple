@@ -304,6 +304,10 @@ export class CanvasComponent implements OnDestroy {
     onPointerDown(event: PointerEvent): void {
         if (!this.enabled() || !event.isPrimary || this.touchState.isMultiTouch) return;
         event.preventDefault();
+        // Pointer default handling is suppressed, so transfer focus explicitly.
+        // Otherwise a toolbar button keeps focus and drawing keys can reach
+        // document commands instead of the active Canvas tool (notably in WK).
+        this.canvasRef.nativeElement.focus({ preventScroll: true });
         this.canvasRef.nativeElement.setPointerCapture(event.pointerId);
         this.pointerId = event.pointerId;
 
