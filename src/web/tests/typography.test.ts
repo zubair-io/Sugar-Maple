@@ -4,7 +4,8 @@ import { NodeSchema, uid } from '../src/app/model/schema';
 import { exportNode, nodeStyles } from '../src/app/model/export';
 import { pasteElements } from '../src/app/model/clipboard';
 import { loadBundledFont } from '../src/app/model/bundled-font-access';
-import { project } from '../src/app/canvas/scene-layout';
+import { project, wrapText } from '../src/app/canvas/scene-layout';
+import { svgExport } from '../src/app/model/svg';
 await loadBundledFont(
   async () =>
     new Uint8Array(
@@ -18,6 +19,20 @@ const commit = (s: DocumentStore, operations: any[]) =>
     requestId: uid(),
     operations,
   });
+test('native CR and CRLF line endings retain authored text with LF-equivalent Canvas and SVG geometry', () => {
+  const document = new DocumentStore().document, pageId = document.pages[0].id;
+  const node = NodeSchema.parse({ id: 'native-lines', name: 'Native lines', pageId, kind: 'text', text: 'café\nline x2', widthMode: 'hug', heightMode: 'hug' });
+  const layout = (text: string) => project({ ...document, nodes: [{ ...node, text }] }, pageId)[0];
+  const svg = (text: string) => svgExport({ ...document, nodes: [{ ...node, text, widthMode: 'fixed', heightMode: 'fixed' }] }, node.id);
+  const reference = layout(node.text);
+  for (const text of ['café\rline x2', 'café\r\nline x2']) {
+    expect(wrapText(text, 1000, value => value.length)).toEqual(['café', 'line x2']);
+    const result = layout(text);
+    expect([result.width, result.height]).toEqual([reference.width, reference.height]);
+    expect(result.node.text).toBe(text);
+    expect(svg(text)).toBe(svg(node.text));
+  }
+});
 test('typography migrates old journals without changing retry identity or undo', () => {
   const s = new DocumentStore(),
     pageId = s.document.pages[0].id;

@@ -1,4 +1,5 @@
 import { inputDisplay } from '../model/form';
+import { textLines } from '../model/typography';
 import type { SceneDocument, SceneNode } from '../model/schema';
 export interface Box {
   x: number;
@@ -67,7 +68,7 @@ export type Measure = (text: string, node: SceneNode) => number;
 export function wrapText(text: string, width: number, measure: (text: string) => number): string[] {
   const lines: string[] = [],
     segmenter = new Intl.Segmenter(undefined, { granularity: 'word' });
-  for (const paragraph of text.split('\n')) {
+  for (const paragraph of textLines(text)) {
     let line = '';
     for (const { segment } of segmenter.segment(paragraph)) {
       if (line && segment.trim() && measure(line + segment) > width) {
@@ -100,7 +101,7 @@ export function project(
       pad = padding(n) + n.strokeWidth;
     if (['text', 'button', 'input'].includes(n.kind)) {
       if (axis === 'width')
-        return Math.max(1, ...(n.kind === 'input' ? [inputDisplay(n)] : n.text.split('\n')).map((t) => measure(t, n))) + 2 * pad;
+        return Math.max(1, ...(n.kind === 'input' ? [inputDisplay(n)] : textLines(n.text)).map((t) => measure(t, n))) + 2 * pad;
       return (
         (n.kind === 'input' ? 1 : wrapText(n.text, Math.max(1, width - 2 * pad), (t) => measure(t, n)).length) *
           n.fontSize *

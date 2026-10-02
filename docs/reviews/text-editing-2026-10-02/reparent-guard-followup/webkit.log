@@ -1,0 +1,2 @@
+PASS: fresh visible WKWebView production Canvas transform keyboard/geometry acceptance; /Users/riabuz/Projects/_Sugar Maple/build/native-text-editing/report.json
+PASS: 12 production WK textarea/caret/ownership, synthetic composition ordering, capture/agent/history guards, cancellation and exact undo; hardware IME and OS input require separate evidence

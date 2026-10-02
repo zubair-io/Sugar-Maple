@@ -1,4 +1,7 @@
 import type { SceneNode } from './schema';
+export function textLines(text: string) {
+  return text.split(/\r\n?|\n/);
+}
 export const genericFonts = ['system-ui', 'sans-serif', 'serif', 'monospace'] as const;
 export function fontStack(family: string) {
   return genericFonts.includes(family as (typeof genericFonts)[number])
