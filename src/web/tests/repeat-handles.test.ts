@@ -9,7 +9,7 @@ import {
   repeatLimit,
 } from '../src/app/canvas/repeat-geometry';
 import { project, flatten, transform } from '../src/app/canvas/scene-layout';
-import { OperationSchema } from '../src/app/model/schema';
+import { OperationSchema, validateDocument } from '../src/app/model/schema';
 
 test('repeat handle preview derives temporary cells, matches the committed geometry and retains local data in one undo', () => {
   const { store, grid } = importedRepeatFixture(),
@@ -134,5 +134,52 @@ test('deleting a grid during preview safely discards the stale projection', () =
   store.transact(transaction(store, [{ type: 'node.remove', id: grid }]));
   const before = store.checkpoint();
   expect(repeatPreviewNodes(store.document, draft)).toEqual(store.document.nodes);
+  expect(store.checkpoint()).toEqual(before);
+});
+
+test('growing an outer grid remaps each nested grid template to its cloned child', () => {
+  const { store, grid } = importedRepeatFixture();
+  const template = store.document.nodes.find((n) => n.id === grid)!.repeatTemplateId!;
+  store.transact(
+    transaction(store, [
+      {
+        type: 'node.add',
+        node: {
+          id: 'nested-cell',
+          parentId: template,
+          pageId: store.document.pages[0].id,
+          kind: 'frame',
+          name: 'Nested cell',
+          width: 40,
+          height: 30,
+          padding: 0,
+        },
+      },
+    ]),
+  );
+  store.transact(
+    transaction(store, [{ type: 'repeat.create', id: 'nested-cell', count: 2, columns: 2 }]),
+  );
+  const before = store.checkpoint();
+  const root = store.document.nodes.find((n) => n.id === grid)!;
+  const nodes = repeatPreviewNodes(store.document, {
+    ...repeatSize(store.document, root),
+    columns: 4,
+    namespace: 'nested',
+  });
+  validateDocument({ ...store.document, nodes });
+  const nested = nodes.filter((n) => n.id.startsWith('repeat-draft-') && n.repeatTemplateId);
+  expect(nested).toHaveLength(2);
+  for (const clone of nested) {
+    expect(clone.repeatTemplateId!.startsWith('repeat-draft-')).toBe(true);
+    expect(nodes.find((n) => n.id === clone.repeatTemplateId)!.parentId).toBe(clone.id);
+    expect(repeatCells({ ...store.document, nodes }, clone.id)).toHaveLength(2);
+  }
+  // Repeat templates are owned children; external references are invalid input,
+  // unlike prototype targetId links, which may point outside the cloned subtree.
+  const invalid = nodes.map((n) =>
+    n.id === nested[0].id ? { ...n, repeatTemplateId: template } : n,
+  );
+  expect(() => validateDocument({ ...store.document, nodes: invalid })).toThrow('child');
   expect(store.checkpoint()).toEqual(before);
 });
