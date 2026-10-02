@@ -2,8 +2,9 @@ import * as core from '@actions/core';
 import * as github from '@actions/github';
 import { mkdir, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
+import { ReplySendError, submitReply } from './reply.js';
 import { deleteSession, SessionCleanupError } from './cleanup.js';
-import { activitySummary, completedReviewArtifact, pendingFeedbackArtifact, recoveryArtifactKind, publishedSessionReference, RecoveryPolicyError, validateRecoveryInput, validateSessionSource } from './recovery-policy.js';
+import { activitySummary, completedReviewArtifact, pendingFeedbackArtifact, recoveryArtifactKind, publishedSessionReference, RecoveryPolicyError, validatePendingReply, validateRecoveryInput, validateSessionSource } from './recovery-policy.js';
 class RecoveryOperationError extends Error {}
 async function run() {
   if (github.context.eventName !== 'workflow_dispatch' || process.env.GITHUB_REF !== 'refs/heads/main')
@@ -21,6 +22,7 @@ async function run() {
     headers: { 'x-goog-api-key': apiKey }, redirect: 'error', signal: AbortSignal.timeout(30_000),
   });
   if (response.status === 404) {
+    if (input.mode === 'respond') throw new RecoveryOperationError('Session is absent; no reply sent.');
     if (artifactKind) throw new RecoveryOperationError('Session is already absent; no artifact can be recovered.');
     core.info(`Session ${input.sessionId} already absent. No deletion performed.`);
     await core.summary.addRaw(`PR #${input.prNumber}, session ${input.sessionId}: already absent (HTTP404).`).write(); return;
@@ -52,6 +54,20 @@ async function run() {
       pageToken = typeof data.nextPageToken === 'string' ? data.nextPageToken : '';
     } while (pageToken && pages < 5);
     diagnosis += ` Activity counters: ${JSON.stringify(activitySummary(activities))}; truncated=${!!pageToken}. Prompts/messages/error bodies are not printed.`;
+    if (input.mode === 'respond') {
+      const reply = process.env.REPLY_TEXT ?? '';
+      const replyHash = validatePendingReply(state, activities, !!pageToken || !!diagnosis.match(/Activity inspection returned/), process.env.EXPECTED_FEEDBACK_SHA256 ?? '', reply);
+      core.setSecret(reply);
+      const currentResponse = await fetch(`https://jules.googleapis.com/v1alpha/sessions/${input.sessionId}`, {
+        headers: { 'x-goog-api-key': apiKey }, redirect: 'error', signal: AbortSignal.timeout(30_000),
+      });
+      if (!currentResponse.ok) throw new RecoveryOperationError(`Reply revalidation returned HTTP ${currentResponse.status}; no reply sent.`);
+      const current = await currentResponse.json();
+      validateSessionSource(current, input.sessionId, `${owner}/${repo}`);
+      if (current.state !== 'AWAITING_USER_FEEDBACK') throw new RecoveryOperationError('Session is no longer awaiting feedback; no reply sent.');
+      await submitReply(input.sessionId, apiKey, reply);
+      outcome = `one manual reply submitted; sha256=${replyHash}; original session retained`;
+    }
     if (artifactKind) {
       const truncated = !!pageToken || !!diagnosis.match(/Activity inspection returned/);
       const artifact = artifactKind === 'review'
@@ -77,7 +93,7 @@ async function run() {
 run().catch(error => {
   // Fetch/SDK error bodies can contain prompts or credentials. Retain them out
   // of workflow output; actionable operation/state checks above are safe.
-  const detail = error instanceof RecoveryPolicyError || error instanceof SessionCleanupError || error instanceof RecoveryOperationError
+  const detail = error instanceof RecoveryPolicyError || error instanceof SessionCleanupError || error instanceof RecoveryOperationError || error instanceof ReplySendError
     ? error.message : 'Network/API inspection failed; verify repository credentials and retry the same session.';
   core.setFailed(`Exact-session recovery failed: ${detail} No code verdict was rewritten.`);
 });

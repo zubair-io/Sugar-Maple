@@ -1,6 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { activitySummary, completedReviewArtifact, pendingFeedbackArtifact, recoveryArtifactKind, publishedSessionReference, validateRecoveryInput, validateSessionSource } from '../lib/recovery-policy.js';
+import { createHash } from 'node:crypto';
+import { activitySummary, completedReviewArtifact, pendingFeedbackArtifact, recoveryArtifactKind, publishedSessionReference, validatePendingReply, validateRecoveryInput, validateSessionSource } from '../lib/recovery-policy.js';
 const bot = { login: 'github-actions[bot]', type: 'Bot' };
 const final = { user: bot, body: '<!-- jules-pr-reviewer -->\n## Jules Review\nVERDICT: approve\n\n---\n_Session: `123`_' };
 test('cleanup requires a trusted published verdict/footer for the exact session', () => {
@@ -70,4 +71,23 @@ test('pending feedback can be inspected without completion or an inferred verdic
     ['AWAITING_USER_FEEDBACK',[{...last,agentMessaged:{agentMessage:'   '}}],false],
     ['AWAITING_USER_FEEDBACK',[{...last,agentMessaged:'invalid'}],false],
   ]) assert.equal(pendingFeedbackArtifact(state,list,truncated),null);
+});
+test('manual reply binds to a complete unchanged pending question and rejects duplicate delivery', () => {
+  const question = 'Should I finish the report?', reply = 'Please finish the review report.';
+  const hash = createHash('sha256').update(question).digest('hex');
+  const messages = [{createTime:'2026-10-01T12:00:00Z',agentMessaged:{agentMessage:question}}];
+  assert.equal(validateRecoveryInput('123','67','respond').mode,'respond');
+  assert.equal(validatePendingReply('AWAITING_USER_FEEDBACK',messages,false,hash,reply),createHash('sha256').update(reply).digest('hex'));
+  for (const args of [
+    ['COMPLETED',messages,false,hash,reply], ['IN_PROGRESS',messages,false,hash,reply],
+    ['AWAITING_USER_FEEDBACK',messages,true,hash,reply], ['AWAITING_USER_FEEDBACK',[],false,hash,reply],
+    ['AWAITING_USER_FEEDBACK',messages,false,'0'.repeat(64),reply],
+    ['AWAITING_USER_FEEDBACK',messages,false,'bad',reply],
+    ['AWAITING_USER_FEEDBACK',messages,false,hash,' '],
+    ['AWAITING_USER_FEEDBACK',messages,false,hash,'\0'],
+    ['AWAITING_USER_FEEDBACK',messages,false,hash,'é'.repeat(4097)],
+    ['AWAITING_USER_FEEDBACK',[...messages,{userMessaged:{userMessage:reply}}],false,hash,reply],
+  ]) assert.throws(() => validatePendingReply(...args));
+  assert.throws(() => recoveryArtifactKind('respond',true,false));
+  assert.throws(() => recoveryArtifactKind('respond',false,true));
 });
