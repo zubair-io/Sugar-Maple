@@ -6,11 +6,12 @@ import { strict as assert } from "node:assert";
 import { flatten, project } from "../src/web/src/app/canvas/scene-layout";
 // Own a separate DEBUG bundle/profile/port. Never connect to the user's editor.
 const root = resolve(import.meta.dir, ".."),
-  output = resolve(root, "build/canvas-transform-mcp");
-const app = resolve(output, "Sugar Maple Transform QA.app"),
+  reparent = process.argv.includes('--reparent'),
+  output = resolve(root, reparent ? "build/canvas-reparent-mcp" : "build/canvas-transform-mcp");
+const app = resolve(output, reparent ? "Sugar Maple Reparent QA.app" : "Sugar Maple Transform QA.app"),
   profile = resolve(output, "profile");
 const port = 48494,
-  identifier = "io.zubair.sugarmaple.transform-qa";
+  identifier = reparent ? "io.zubair.sugarmaple.reparent-qa" : "io.zubair.sugarmaple.transform-qa";
 mkdirSync(profile, { recursive: true });
 async function command(cmd: string[]) {
   const child = Bun.spawn(cmd, { cwd: root, stdout: "pipe", stderr: "pipe" });
@@ -203,6 +204,43 @@ try {
   });
   assert.deepEqual((await data("document.get")).document, after.document);
   await geometry();
+  if (reparent) {
+    const tools = await client.listTools();
+    const tool = tools.tools.find(tool => tool.name === 'nodes.reparent');
+    assert.ok(tool?.inputSchema); assert.ok(tool?.outputSchema);
+    await tx([{ type: 'node.add', node: { id: 'destination', name: 'Destination', pageId, kind: 'frame',
+      x: 30, y: 20, width: 600, height: 550, rotation: -15, strokeWidth: 9 } }]);
+    const original = await data('document.get'), layout = await data('layout.inspect');
+    const moveArgs = { documentId: original.documentId, expectedRevision: original.revision,
+      ids: ['child'], parentId: 'destination', placement: 'preserve-world' };
+    const receipt = await data('nodes.reparent', moveArgs);
+    assert.equal(receipt.revision, original.revision + 1);
+    const moved = await data('document.get'), movedLayout = await data('layout.inspect');
+    assert.equal(moved.document.nodes.find((node: any) => node.id === 'child').parentId, 'destination');
+    const aa = layout.nodes.find((node: any) => node.id === 'child').bounds,
+      bb = movedLayout.nodes.find((node: any) => node.id === 'child').bounds;
+    for (const key of ['x', 'y', 'width', 'height']) assert.ok(Math.abs(aa[key] - bb[key]) < 1e-5, key);
+    const stale: any = await client.callTool({ name: 'nodes.reparent', arguments: moveArgs });
+    assert.equal(stale.isError, true); assert.equal(stale.structuredContent.error.code, 'stale_revision');
+    const noOp = await data('document.checkpoint');
+    await data('nodes.reparent', { ...moveArgs, expectedRevision: moved.revision });
+    assert.deepEqual(await data('document.checkpoint'), noOp);
+    await data('history.undo', { documentId: moved.documentId, expectedRevision: moved.revision });
+    assert.deepEqual((await data('document.get')).document, original.document);
+    const current = await data('document.get'), checkpoint = await data('document.checkpoint');
+    const cycle: any = await client.callTool({ name: 'nodes.reparent', arguments: {
+      ...moveArgs, expectedRevision: current.revision, ids: ['parent'], parentId: 'parent' } });
+    assert.equal(cycle.isError, true); assert.equal(cycle.structuredContent.error.code, 'invalid_input');
+    assert.deepEqual(await data('document.checkpoint'), checkpoint);
+    await tx([{ type: 'node.update', id: 'destination', patch: { layout: 'vertical' } }]);
+    const flowing = await data('document.get');
+    const rejected: any = await client.callTool({ name: 'nodes.reparent', arguments: { ...moveArgs, expectedRevision: flowing.revision } });
+    assert.equal(rejected.isError, true);
+    await data('nodes.reparent', { ...moveArgs, expectedRevision: flowing.revision, placement: 'layout' });
+    const inFlow = await data('document.get');
+    await data('history.undo', { documentId: inFlow.documentId, expectedRevision: inFlow.revision });
+    assert.deepEqual((await data('document.get')).document, flowing.document);
+  }
   const current = await data("document.get"),
     capture = await call("render.capture", {
       documentId: current.documentId,
@@ -232,7 +270,7 @@ try {
         port,
         identifier,
         scope:
-          "Actual native HTTP MCP SDK, transformed layout/selection/capture, atomic authoring undo/redo and durable native checkpoint. Human pointer gestures are tested separately in Chrome.",
+          reparent ? "Actual native HTTP MCP SDK nodes.reparent discovery/output validation, rotated world placement, stale/no-op/cycle rejection, explicit managed-flow placement, one-step undo and durable checkpoint/capture." : "Actual native HTTP MCP SDK, transformed layout/selection/capture, atomic authoring undo/redo and durable native checkpoint. Human pointer gestures are tested separately in Chrome.",
         capture: capture.structuredContent.capture,
       },
       null,
@@ -240,7 +278,7 @@ try {
     ),
   );
   console.log(
-    "PASS: actual isolated native Sugar Maple MCP on 48494, nested transformed Canvas layout, selection/capture, exact atomic undo/redo and durable checkpoint",
+    reparent ? "PASS: actual isolated native MCP nodes.reparent, rotated geometry, strict SDK schemas, stale/no-op/cycle checks, explicit flow mode, exact undo and durable capture/checkpoint" : "PASS: actual isolated native Sugar Maple MCP on 48494, nested transformed Canvas layout, selection/capture, exact atomic undo/redo and durable checkpoint",
   );
 } finally {
   if (connected) await client.close();
