@@ -1,0 +1,338 @@
+{
+  "date": "2026-10-02",
+  "integrationCommit": "790c6f2c19e8b5ed128b4d608a20e4fbb07a1de2",
+  "runtimeCommit": "18bd8879951844052a3564d47ec9c84a9c57a14c",
+  "integrationChanges": "Only inherited-lock review-description metadata; runtime/tool/test trees are identical to verified runtime commit",
+  "deliveredBase": {
+    "main": "8b75614a4437008092d704f178f075a8cef177da",
+    "lockPR": 82,
+    "lockApproval": "3933959947796850628",
+    "lockMainCI": 36991449409,
+    "drawingPR": 83,
+    "drawingApproval": "8687520585432336987",
+    "drawingMainCI": 36991946928
+  },
+  "checks": {
+    "modelSource": "238dd9a",
+    "modelPassed": 125,
+    "modelAssertions": 2075,
+    "browserSuites": 29,
+    "fullNativeAcceptance": true,
+    "textWebKitCases": 12,
+    "typecheck": true,
+    "productionMacBuild": true
+  },
+  "actualOS": {
+    "unicodeSource": "238dd9a",
+    "unicode": "Real native Option-key marked text rejects selection changes; completed Unicode/multiline draft retains caret across native MCP reads/rejections, commits one human edit on the original node, exports two SVG lines and restores the complete document with native Cmd+Z",
+    "cancellationSource": "18bd887",
+    "cancellation": "Native accessibility activation and Option-Tab/Enter restore original text with exact checkpoint/history equality",
+    "inputTiming": "Key delivery is verified by an accessibility observation after each key; rapid unobserved key batches produced varying order/capitalization and are not treated as product IME evidence",
+    "clipboard": "No OS clipboard writes"
+  },
+  "limitations": [
+    "One owned native fixture near 100% zoom",
+    "Option-key composition is not a CJK IME/candidate-window gate",
+    "Ordinary Tab on this macOS configuration skips buttons; Option-Tab reaches Cancel without changing system preferences",
+    "Synthetic WebKit composition does not establish hardware IME acceptance",
+    "PR #84 remains unmerged; final-head remote CI/review is pending"
+  ],
+  "runtimeHashes": [
+    {
+      "path": "src/web/src/app/canvas/node-text-editor.ts",
+      "sha256": "29f68bb7876dde7e357e759cfd020cf66a872c21d230267409d5ba2dc88c2506"
+    },
+    {
+      "path": "src/web/src/app/editor.service.ts",
+      "sha256": "4d253bcf69fc807b74eb1297bc4477a5229ec3ee62a44fccff3b316f8c466fe5"
+    },
+    {
+      "path": "src/web/src/app/app.html",
+      "sha256": "142de45c01491687eae93ee00bb57f40e116a63e84e5555946a8dd62f937cd29"
+    },
+    {
+      "path": "src/web/src/app/canvas/scene-layout.ts",
+      "sha256": "56f0ef9da3c267b6fedca233dedb5e4d5fe33cb102216371191f035c07063a96"
+    },
+    {
+      "path": "src/web/src/app/model/typography.ts",
+      "sha256": "36c903a74792e1c1430a2024e3f7f5f98baf19edace176cec8ed3a54e84865ee"
+    },
+    {
+      "path": "src/web/src/app/model/svg.ts",
+      "sha256": "47c8a3e1e09d0ab4872f0318cd9661b1407cbfa440ee2016df21072c3b13ce85"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "model.log",
+      "sha256": "5fabb2ed1517df1729574f25b5100e01fd38cafedef4fc3b5d98fd3bdcf82359",
+      "bytes": 13683
+    },
+    {
+      "path": "browser.log",
+      "sha256": "6786bc0bdab8db514c0bb106199ecc5b2b5dffd8491a6dd2ffd1eab8ef86dd73",
+      "bytes": 6457
+    },
+    {
+      "path": "native.log",
+      "sha256": "c4110695e0847d159f1ffd037435c38417355443c31e44703f868414138843bf",
+      "bytes": 5663
+    },
+    {
+      "path": "typecheck.log",
+      "sha256": "9b2b770f3351789b5fd00fa72323f6eb7ea6de3fa3d75b7678bcbee1c8f6d5f6",
+      "bytes": 36
+    },
+    {
+      "path": "mac-build.log",
+      "sha256": "8275f5ec4289a1bc83f97f005bfdf4a92a97f475d4a2e6a384521723a9eb01a6",
+      "bytes": 56667
+    },
+    {
+      "path": "negative-line-break.log",
+      "sha256": "7646e49f350036f90ac9b0c40c233eebc423cf5d08d6f164da4390653b896b9d",
+      "bytes": 1436
+    },
+    {
+      "path": "negative-pointer-cancel.log",
+      "sha256": "4b048d7083347500c28e7da260b4ecfd9b37db118943b0cb5d7cbf2b02d7149b",
+      "bytes": 4690
+    },
+    {
+      "path": "negative-keyboard-cancel.log",
+      "sha256": "40056528e6f04f9bd8c4502056d776a34a735b4d5da656a77e84d1ad16a1df4a",
+      "bytes": 4738
+    },
+    {
+      "path": "native-accessibility-cancel.log",
+      "sha256": "ecdda8b5d6f4695431b3e265c78053400d7de0209bfbc3effe5ff6067275ab6c",
+      "bytes": 71
+    },
+    {
+      "path": "native-keyboard-cancel.log",
+      "sha256": "ecdda8b5d6f4695431b3e265c78053400d7de0209bfbc3effe5ff6067275ab6c",
+      "bytes": 71
+    },
+    {
+      "path": "native-composition.log",
+      "sha256": "6cc769e2e7d162841ae042e91bb4a9aa6a1583ddfb27ac2d9ff6f71dd12436a2",
+      "bytes": 98
+    },
+    {
+      "path": "native-draft-isolation.log",
+      "sha256": "4939f4ed40450b95cc4e4712f2b7b5b7bd95f08c736a939e0f241da920d4324c",
+      "bytes": 103
+    },
+    {
+      "path": "native-commit.log",
+      "sha256": "35208e4827538a3a0c53ea5391c86e1db9bb78e5fb4b6ec8b92f42d913ad27ed",
+      "bytes": 111
+    },
+    {
+      "path": "native-undo.log",
+      "sha256": "e404a323610c92749007cd3279637d86d9d0f415ea2b044210360f02a42a8a9f",
+      "bytes": 62
+    },
+    {
+      "path": "unicode-238dd9a/before.json",
+      "sha256": "796fd3a62269f7d114a31300017ee5b557df25f5e9171b7e2dfe9c7a676d3bae",
+      "bytes": 7918,
+      "originalOutputSha256": "b6b1ac12d18ee83c1f0a7a8724fdca9b092102c33bd3b0300dbe8bbbbf0ddd74",
+      "originalOutputBytes": 13389,
+      "format": "JSON compacted without changing values"
+    },
+    {
+      "path": "unicode-238dd9a/draft.json",
+      "sha256": "4de30c3c05d67c310728d33311b38620a5219f60dcfbf75c17d13ce4e25fa2c2",
+      "bytes": 7444,
+      "originalOutputSha256": "60a829a0536851cf91f20604d74a2db156acdba8ac05c29cab82a596b89b2715",
+      "originalOutputBytes": 11994,
+      "format": "JSON compacted without changing values"
+    },
+    {
+      "path": "unicode-238dd9a/committed.json",
+      "sha256": "366b048d05049c2f309e872c3e746cc398c084b829a841a1d5c8685c9b758eaf",
+      "bytes": 12552,
+      "originalOutputSha256": "9dae06ae1b7e268a2e57fcdfa6e4f2b6120c2d78a33886dfb4ed5181ab2527c8",
+      "originalOutputBytes": 21463,
+      "format": "JSON compacted without changing values"
+    },
+    {
+      "path": "unicode-238dd9a/committed.svg",
+      "sha256": "e6282b3990f4795e61021cff07b1b6f7df3f845b208c66d39a54f0e802b014f7",
+      "bytes": 556
+    },
+    {
+      "path": "unicode-238dd9a/committed-canvas.png",
+      "sha256": "cfc2bb1ccc572cf77ccfb77af994a7262a6b3297568b6f215c98240c8b544474",
+      "bytes": 185982
+    },
+    {
+      "path": "unicode-238dd9a/undo.json",
+      "sha256": "e086d88e46962778ab6370eb4541445c782cccebdd821dcb9df8180805fbec98",
+      "bytes": 12531,
+      "originalOutputSha256": "51df4dace8e3482ffe02120be55d6ee89e043f5ab28df05206b8abae989588e2",
+      "originalOutputBytes": 21462,
+      "format": "JSON compacted without changing values"
+    },
+    {
+      "path": "unicode-238dd9a/composition-selection.json",
+      "sha256": "6514a4608b6a6e276db787bb10eef8e61281e4b248d0bc1042f7ca691a5ce3b7",
+      "bytes": 6096,
+      "originalOutputSha256": "88d7ed6fc9960b7b25adf83251f75dfb2c6bab89d867012fcca5032b40ceca05",
+      "originalOutputBytes": 10101,
+      "format": "JSON compacted without changing values"
+    },
+    {
+      "path": "unicode-238dd9a/final-marked-ax.txt",
+      "sha256": "923aa8f09ca8c7f28495b76bc03a92a0abf83ed813fa2d04f938ee72ac5ac59a",
+      "bytes": 896
+    },
+    {
+      "path": "unicode-238dd9a/final-key-sequence.json",
+      "sha256": "d627a2bdedbc4839b797e4a41c36cd78a5dd10999e4d2e881bed623b52ee1bca",
+      "bytes": 39567,
+      "originalOutputSha256": "903dc7d21492cc279d61d221dbd01d62d8ef5a21504c460c7802b3d429e04188",
+      "originalOutputBytes": 39819,
+      "format": "JSON compacted without changing values"
+    },
+    {
+      "path": "unicode-238dd9a/final-settled-draft-ax.txt",
+      "sha256": "6b9edbbe375c299a1f778471135ff44d008d7d8ea513acf7bc1c856e3ede96fc",
+      "bytes": 7597
+    },
+    {
+      "path": "unicode-238dd9a/final-caret-after-mcp-ax.txt",
+      "sha256": "b44de89ddf6fb5fd5ef5d1fbcd47cadd0efd1400c84b8409cc76067c3e0437d4",
+      "bytes": 479
+    },
+    {
+      "path": "unicode-238dd9a/final-native-draft.png",
+      "sha256": "700198a732bd1a77bd8c46cc1fe15169899b2b5d620fd3b9ff0992cc44060d38",
+      "bytes": 326423
+    },
+    {
+      "path": "cancel-18bd887/before.json",
+      "sha256": "4210f2fa430a42fab7901fdb78d8c4e2bd2a7838d24b6324abd02364d65e480e",
+      "bytes": 7918,
+      "originalOutputSha256": "db6da26ae55ba4617e37457a0799298033c15d79672eadda3aef32746d9166e3",
+      "originalOutputBytes": 13389,
+      "format": "JSON compacted without changing values"
+    },
+    {
+      "path": "cancel-18bd887/cancel.json",
+      "sha256": "724ce008e96ad869c3b7d5612c940d7cabd717114e89c19518b9f9aa769189b1",
+      "bytes": 10927,
+      "originalOutputSha256": "c6099a384ad4e13fd310001bc73c81eb036ccdb9475f05e18ae81ed6429fd529",
+      "originalOutputBytes": 18665,
+      "format": "JSON compacted without changing values"
+    },
+    {
+      "path": "cancel-18bd887/cancel-boundary-before-ax.txt",
+      "sha256": "42b253e46d602dd03baa444f0754dd2d9d7b75ed38a7e2e68f515bc09c346687",
+      "bytes": 7641
+    },
+    {
+      "path": "cancel-18bd887/cancel-boundary-after-ax.txt",
+      "sha256": "53e41b5a196dc7f84b329f378a99ae6f434fd077780f4a1de5937d9ffdb88ef5",
+      "bytes": 7433
+    },
+    {
+      "path": "cancel-18bd887/cancel-boundary.png",
+      "sha256": "44d6fbe2b40d13b75b5440ab96e0bd0839c966c7ca8370122252050460bf0e9b",
+      "bytes": 309646
+    },
+    {
+      "path": "keyboard-18bd887/before.json",
+      "sha256": "3cf46f8d1248dc765e0fa995fbacab794e9357568a399a423ea5086f59ecd1da",
+      "bytes": 7918,
+      "originalOutputSha256": "0ef8045423bf1d3d81119e4533d950727860b88dde0ea4700211a689e0939024",
+      "originalOutputBytes": 13389,
+      "format": "JSON compacted without changing values"
+    },
+    {
+      "path": "keyboard-18bd887/draft.json",
+      "sha256": "8a263ac738f1c6736f6850d1efa47baf72d0119883c2d6b1e39fb4bd350a7570",
+      "bytes": 7444,
+      "originalOutputSha256": "b849e73326eb92053e9877dc545fc64a3bfabf487a8001e51bbff3bcab6c45c9",
+      "originalOutputBytes": 11994,
+      "format": "JSON compacted without changing values"
+    },
+    {
+      "path": "keyboard-18bd887/cancel.json",
+      "sha256": "2831d46064b1e76184aed784ebf745a6c2caaa601ae0c082df8371a94262f53d",
+      "bytes": 10927,
+      "originalOutputSha256": "023001ee880a0cda9c2bc9e1144b3da568e7924839e6db16f85074ad74e13a59",
+      "originalOutputBytes": 18665,
+      "format": "JSON compacted without changing values"
+    },
+    {
+      "path": "keyboard-18bd887/option-tab-cancel-focus-ax.txt",
+      "sha256": "0197b2dd77a55efae3a0933f025dbcf377ccc58e52f9b6e238a8cc4e73ebd310",
+      "bytes": 7502
+    },
+    {
+      "path": "keyboard-18bd887/keyboard-cancel-after-ax.txt",
+      "sha256": "4bd5f76bc0ce5a8d031011362dcbb12811aba1b496908ff3bd05d4f6e51008ed",
+      "bytes": 793
+    },
+    {
+      "path": "negative-cancel-238dd9a/before.json",
+      "sha256": "84dea260ba4bb85f0f3d27cb493538f3201eb5fabfc1b5f4e79377cf39ba5066",
+      "bytes": 7918,
+      "originalOutputSha256": "14c4954c1fa86d09c5c3c358db23b73a22890c044e1e5e0e8b1dc9ed0b55f339",
+      "originalOutputBytes": 13389,
+      "format": "JSON compacted without changing values"
+    },
+    {
+      "path": "negative-cancel-238dd9a/cancel.json",
+      "sha256": "59431ae96144f00478894d3684b3272ddb016cd315720ad985127a7af08dd66f",
+      "bytes": 12496,
+      "originalOutputSha256": "d599940425a3fc9cf33653ab1fee18168a97ba3ae2704ad76ae1328d0c9903c9",
+      "originalOutputBytes": 21403,
+      "format": "JSON compacted without changing values"
+    },
+    {
+      "path": "negative-cancel-238dd9a/final-cancel-before-ax.txt",
+      "sha256": "e3165a4fa931e3b21b896975a4a47a415f97d7cd190794ef3ccd62d804f7f02f",
+      "bytes": 7954
+    },
+    {
+      "path": "negative-cancel-238dd9a/final-cancel-after-ax.txt",
+      "sha256": "2285f1b516e3e4b0b34d8559b85134a23712b970f056bc681cca23262ede0efd",
+      "bytes": 7609
+    },
+    {
+      "path": "native-cr-95b2a2e/committed.json",
+      "sha256": "40a6c50d9104792668e0461ff6df8794141f0685656aa5e4c3aaef36a566f5fd",
+      "bytes": 12552,
+      "originalOutputSha256": "882d176eb9a7dc8d24ed431bca3068e45b9f3c3201aad7ccaaa7cc4a47749632",
+      "originalOutputBytes": 21463,
+      "format": "JSON compacted without changing values"
+    },
+    {
+      "path": "native-cr-95b2a2e/composition-selection.json",
+      "sha256": "e371166b8c1f4ad2f43828bb7cf6f94678ee4cae8f09a56475fedf90a0001c88",
+      "bytes": 6096,
+      "originalOutputSha256": "2fff166a77e4f1afe175876dee9e725a9bb2020e60b1e02fc72b47ae71dd9bbc",
+      "originalOutputBytes": 10101,
+      "format": "JSON compacted without changing values"
+    },
+    {
+      "path": "native-cr-95b2a2e/dead-key-ax.txt",
+      "sha256": "923aa8f09ca8c7f28495b76bc03a92a0abf83ed813fa2d04f938ee72ac5ac59a",
+      "bytes": 896
+    },
+    {
+      "path": "native-cr-95b2a2e/unicode-draft-ax.txt",
+      "sha256": "ff8060ce3897c9b1259524d894f2ed9f8c94f7ffc0a7388028f004ebee4f6952",
+      "bytes": 1063
+    },
+    {
+      "path": "native-os-input-verifier.ts",
+      "sha256": "8d14760ad9a3d78bce3c19539a5aff72a44464163f7db11f882d840c9bad4898",
+      "bytes": 5903
+    }
+  ]
+}

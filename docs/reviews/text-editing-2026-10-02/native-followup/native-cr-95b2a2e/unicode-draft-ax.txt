@@ -1,0 +1,27 @@
+The following is a diff from the previous accessibility tree for Window: "Sugar Maple" with ~ and + representing changed and added elements, respectively. Removed elements are summarized by ID range.
+Removed element IDs: 71-73, 172-174, 191, 195-206
++							195 stepper 0
++								196 unknown
++								197 unknown
+~					141 text entry area (settable) Text content, Value: caféline 2, Secondary Actions: Show Writing Tools
+~						142 text (settable) caféline 2
++						198 stepper 0
++							199 unknown
++							200 unknown
++						201 stepper 0
++							202 unknown
++							203 unknown
++						204 stepper 0
++							205 unknown
++							206 unknown
++						207 stepper 0
++							208 unknown
++							209 unknown
++						210 stepper 0
++							211 unknown
++							212 unknown
++					213 value indicator 1
++			214 container
++				215 text Finish text composition, or cancel the text edit, before changing context.
++				216 button Dismiss error
+The focused UI element is 141 text entry area (settable) Text content, Value: caféline 2, Secondary Actions: Show Writing Tools

@@ -1,0 +1,146 @@
+74 |   await select(page, 'a'); const canceled = await checkpoint(page);
+75 |   await field.fill('Cancel this edit'); await field.press('Escape'); await settle(page);
+76 |   assert.deepEqual(await checkpoint(page), canceled); await expect(field).toHaveValue('Alpha');
+77 |   await field.fill('Cancel by pointer');
+78 |   await page.getByRole('button', { name: 'Cancel text edit', exact: true }).click(); await settle(page);
+79 |   assert.deepEqual(await checkpoint(page), canceled); await expect(field).toHaveValue('Alpha');
+              ^
+AssertionError: Expected values to be strictly deep-equal:
++ actual - expected
+... Skipped lines
+
+  {
+    base: {
+      assets: {},
+      comments: [],
+      folders: [],
+...
+          targetId: null,
++         text: 'Cancel by pointer',
+-         text: 'Alpha',
+          textAlign: 'auto',
+          transition: 'instant',
+          variantName: 'Default',
+          variants: {},
+          viewBox: '0 0 100 100',
+...
+      },
++     {
++       delta: {
++         comments: [],
++         folders: [],
++         nodes: [
++           {
++             accessibleLabel: '',
++             asset: '',
++             color: '#18181b',
++             columns: 2,
++             componentId: null,
++             disabled: false,
++             fill: '#ffffff',
++             fillEnabled: true,
++             fillToken: '',
++             fontFamily: 'system-ui',
++             fontSize: 16,
++             fontWeight: 400,
++             gap: 16,
++             gradient: null,
++             height: 80,
++             heightMode: 'fixed',
++             heightPercent: 100,
++             hidden: false,
++             id: 'a',
++             initialValue: '',
++             inputType: 'text',
++             isComponent: false,
++             kind: 'text',
++             layout: 'free',
++             letterSpacing: 0,
++             libraryRef: null,
++             librarySlot: '',
++             lineHeight: 1.2,
++             locked: false,
++             name: 'Alpha label',
++             opacity: 1,
++             order: 0,
++             overrides: [],
++             padding: 16,
++             pageId: '6fb810e1-a998-40fb-9bc4-caf9460021f1',
++             parentId: null,
++             pathData: '',
++             prototypeAction: 'navigate',
++             radius: 0,
++             repeatIndex: null,
++             repeatTemplateId: null,
++             rotation: 0,
++             stroke: '#d4d4d8',
++             strokeWidth: 0,
++             targetId: null,
++             text: 'Cancel by pointer',
++             textAlign: 'auto',
++             transition: 'instant',
++             variantName: 'Default',
++             variants: {},
++             viewBox: '0 0 100 100',
++             width: 180,
++             widthMode: 'fixed',
++             widthPercent: 100,
++             x: 40,
++             y: 40
++           }
++         ],
++         pages: [],
++         removedComments: [],
++         removedFolders: [],
++         removedNodes: [],
++         removedPages: []
++       },
++       kind: 'edit',
++       origin: 'human',
++       receipt: {
++         documentId: 'd3541520-2565-49ed-b51f-5f46159b89be',
++         ids: [],
++         revision: 6,
++         transactionId: '771271bb-20c0-4830-a889-b659dbe6ba03'
++       },
++       requestId: 'c8e6baa8-6615-4ff0-8a59-5622ed754b67',
++       signature: '{"documentId":"d3541520-2565-49ed-b51f-5f46159b89be","expectedRevision":5,"requestId":"c8e6baa8-6615-4ff0-8a59-5622ed754b67","operations":[{"type":"node.update","id":"a","patch":{"text":"Cancel by pointer"}}]}'
++     }
+    ]
+  }
+
+ generatedMessage: true,
+     actual: {
+  checkpointVersion: 2,
+  document: [Object ...],
+  base: [Object ...],
+  journal: [
+    [Object ...], [Object ...], [Object ...], [Object ...], [Object ...], [Object ...]
+  ],
+},
+   expected: {
+  checkpointVersion: 2,
+  document: [Object ...],
+  base: [Object ...],
+  journal: [
+    [Object ...], [Object ...], [Object ...], [Object ...], [Object ...]
+  ],
+},
+   operator: "deepStrictEqual",
+       diff: "simple",
+       code: "ERR_ASSERTION"
+
+      at /Users/riabuz/Projects/_Sugar Maple/src/web/tests/text-editing-e2e.ts:79:10
+
+Bun v1.4.2 (macOS arm64)
+ 9 |  return new Response(Bun.file(path.join(root,'index.html')));
+10 | }});
+11 | try {
+12 |  const child = Bun.spawn([process.execPath,'src/web/tests/text-editing-e2e.ts'],{env:{...process.env,SUGAR_MAPLE_TEST_URL:server.url.toString()},stdout:'inherit',stderr:'inherit'});
+13 |  const code = await child.exited;
+14 |  if(code) throw new Error(`Text checks exited ${code}`);
+                         ^
+error: Text checks exited 1
+      at /Users/riabuz/Projects/_Sugar Maple/build/test-text-target.ts:14:21
+
+Bun v1.4.2 (macOS arm64)

@@ -1,0 +1,1 @@
+PASS: native textarea draft/caret, Unicode/multiline, selection/file context commit, one human undo, deferred synthetic composition, read-only mode guard, capture/agent/history rejection including delayed image decode, cancel and oversized draft preservation; actual OS IME is separate

@@ -31,6 +31,8 @@ declare global {
     sugarMaple: any;
   }
 }
+export interface TextEditControl { pending(): boolean; finish(): boolean; cancel(): void; }
+
 @Injectable({ providedIn: 'root' })
 export class EditorService {
   readonly assets = inject(SceneAssets);
@@ -51,6 +53,8 @@ export class EditorService {
   readonly status = signal('Unsaved');
   readonly ready = signal(false);
   readonly error = signal('');
+  readonly textDraft = signal(false);
+  private textEdit: TextEditControl | null = null;
   readonly mcp = signal(window.webkit ? 'Starting' : 'Mac app required for MCP');
   readonly mode = signal<'Design' | 'Prototype' | 'Developer'>('Design');
   readonly nativePreviewRoot = signal<string | null>(null);
@@ -114,7 +118,20 @@ export class EditorService {
       window.sugarMaple.ready = true;
     });
   }
+  registerTextEdit(control: TextEditControl) {
+    this.textEdit = control;
+    return () => { if (this.textEdit === control) { this.textEdit = null; this.textDraft.set(false); } };
+  }
+  finishTextEditing(): boolean { return this.textEdit?.finish() ?? true; }
+  cancelTextEditing() { this.textEdit?.cancel(); }
+  setMode(mode: 'Design' | 'Prototype' | 'Developer') {
+    if (this.finishTextEditing()) this.mode.set(mode);
+  }
+  private assertNoTextDraft() {
+    if (this.textEdit?.pending()) throw Error('Finish or cancel the current text edit before changing the document or capturing it.');
+  }
   select(id: string | null, extend = false) {
+    if (!this.finishTextEditing()) return false;
     this.selection.update((ids) =>
       id === null
         ? []
@@ -124,6 +141,7 @@ export class EditorService {
             ? ids.filter((v) => v !== id)
             : [...ids, id],
     );
+    return true;
   }
   selectedRoots() {
     const ids = new Set(this.selection());
@@ -210,6 +228,7 @@ export class EditorService {
     }
   }
   command(operations: Operation[], origin: 'human' | 'agent' = 'human') {
+    if (origin === 'agent') this.assertNoTextDraft();
     if (origin === 'human') assertHumanEdits(this.doc(), operations);
     const result = this.store.transact(
       {
@@ -270,6 +289,7 @@ export class EditorService {
     });
   }
   private async requireSaved() {
+    if (!this.finishTextEditing()) throw Error(this.error());
     await this.persistence.idle();
     if (this.dirty())
       throw Error('Save this file successfully before switching or closing its tab.');
@@ -321,6 +341,7 @@ export class EditorService {
     this.openFiles.update((tabs) => tabs.filter((tab) => tab.id !== id));
   }
   replace(doc: SceneDocument, checkpoint?: unknown) {
+    if (!this.finishTextEditing()) throw Error(this.error());
     if (this.ready()) this.rememberFile();
     this.store = checkpoint
       ? DocumentStore.fromCheckpoint(checkpoint)
@@ -405,6 +426,7 @@ export class EditorService {
   }
   async save(saveAs = false) {
     try {
+      if (!this.finishTextEditing()) throw Error(this.error());
       this.status.set('Saving…');
       const revision = this.revision(),
         documentId = this.doc().id;
@@ -447,6 +469,7 @@ export class EditorService {
   }
   async open() {
     try {
+      if (!this.finishTextEditing()) throw Error(this.error());
       await this.persistence.idle();
       if (this.dirty() && !confirm('Open another file and replace unsaved work?')) return;
       if (this.native) {
@@ -681,10 +704,12 @@ export class EditorService {
         this.refresh();
         return this.store.result();
       case 'transaction.apply': {
+        this.assertNoTextDraft();
         const previousStatus = this.mcp();
         this.mcp.set('Agent writing');
         try {
           await this.validateAssetOperations(args.operations);
+          this.assertNoTextDraft();
           const result = this.store.transact(args, 'agent');
           this.refresh();
           return result;
@@ -693,20 +718,24 @@ export class EditorService {
         }
       }
       case 'history.undo':
+        this.assertNoTextDraft();
         this.checkTarget(args);
         this.undo();
         return this.store.result();
       case 'history.redo':
+        this.assertNoTextDraft();
         this.checkTarget(args);
         this.redo();
         return this.store.result();
       case 'selection.set':
         if (!this.doc().nodes.some((n) => n.id === args.id)) throw Error('Node not found');
-        this.select(args.id);
+        if (!this.select(args.id)) throw Error(this.error());
         this.pageId.set(this.node()!.pageId);
         return this.store.result();
       case 'nodes.reparent': {
+        this.assertNoTextDraft();
         const plan = await this.prepareReparent(args);
+        this.assertNoTextDraft();
         return this.commitReparent(args, plan, 'agent');
       }
       case 'viewport.fit':
@@ -719,9 +748,11 @@ export class EditorService {
         return { code: exportNode(this.doc(), args.id, args.target) };
       case 'render.capture':
       case 'render.ready':
+        this.assertNoTextDraft();
         this.checkTarget(args);
         if (window.sugarMaple.viewport?.hasDraft?.()) throw Error('Finish or cancel the current gesture before capturing a committed document.');
         await this.settleLayout();
+        this.assertNoTextDraft();
         this.checkTarget(args);
         if (window.sugarMaple.viewport?.hasDraft?.()) throw Error('Finish or cancel the current gesture before capturing a committed document.');
         return {

@@ -1,0 +1,18 @@
+107 |     await field.fill('Human starts during image decode'); await field.press('ArrowLeft');
+108 |     const raceCaret = await field.evaluate((field: HTMLTextAreaElement) => field.selectionStart);
+109 |     const raceError = await page.evaluate(async () => {
+110 |       const qa = window as any; qa.releaseTextDecode(); return await qa.textDecodeResult;
+111 |     });
+112 |     assert.ok(raceError.includes('Finish or cancel'), raceError);
+                 ^
+AssertionError: 
+ generatedMessage: false,
+     actual: false,
+   expected: true,
+   operator: "==",
+       diff: "simple",
+       code: "ERR_ASSERTION"
+
+      at /Users/riabuz/Projects/_Sugar Maple/src/web/tests/text-editing-e2e.ts:112:12
+
+Bun v1.4.2 (macOS arm64)
