@@ -44,6 +44,7 @@ export class MuiTabsComponent implements AfterViewInit, OnDestroy {
   readonly indicatorLeft = signal(0);
   readonly indicatorWidth = signal(0);
   private resizeObserver: ResizeObserver | null = null;
+  private tabChanges: { unsubscribe(): void } | null = null;
 
   constructor() {
     // Parent-driven tab changes and local font/theme layout also move the indicator.
@@ -53,12 +54,24 @@ export class MuiTabsComponent implements AfterViewInit, OnDestroy {
   ngAfterViewInit(): void {
     queueMicrotask(() => this.measure());
     this.resizeObserver = new ResizeObserver(() => this.measure());
-    for (const button of this.tabButtons ?? []) this.resizeObserver.observe(button.nativeElement);
-    const row = this.tabButtons?.first?.nativeElement.parentElement;
-    if (row) this.resizeObserver.observe(row);
+    this.observeTabs();
+    this.tabChanges = this.tabButtons?.changes.subscribe(() => {
+      this.observeTabs();
+      this.measure();
+    }) ?? null;
   }
 
-  ngOnDestroy(): void { this.resizeObserver?.disconnect(); }
+  private observeTabs(): void {
+    this.resizeObserver?.disconnect();
+    for (const button of this.tabButtons ?? []) this.resizeObserver?.observe(button.nativeElement);
+    const row = this.tabButtons?.first?.nativeElement.parentElement;
+    if (row) this.resizeObserver?.observe(row);
+  }
+
+  ngOnDestroy(): void {
+    this.tabChanges?.unsubscribe();
+    this.resizeObserver?.disconnect();
+  }
 
   select(id: string): void {
     if (id === this.activeId()) return;

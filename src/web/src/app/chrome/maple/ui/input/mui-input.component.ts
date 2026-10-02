@@ -21,6 +21,8 @@ import {
   model,
   output,
   signal,
+  viewChild,
+  ElementRef,
 } from '@angular/core';
 import { MuiIconComponent } from '../icon/mui-icon.component';
 
@@ -38,6 +40,7 @@ export type MuiInputSize = 'sm' | 'md';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MuiInputComponent {
+  private readonly control = viewChild<ElementRef<HTMLInputElement>>('control');
   readonly errorId = `sugar-maple-input-error-${++nextErrorId}`;
   readonly variant = input<MuiInputVariant>('default');
   readonly size = input<MuiInputSize>('md');
@@ -145,6 +148,7 @@ export class MuiInputComponent {
   clear(): void {
     this.value.set('');
     this.committed.emit('');
+    this.control()?.nativeElement.focus();
   }
 
   stepBy(direction: 1 | -1): void {

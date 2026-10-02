@@ -115,6 +115,10 @@
             @let node = row.node;
             <div class="layer-row">
               <mui-tree-row
+                [attr.data-layer-id]="node.id"
+                [tabIndex]="layerTabStop() === node.id ? 0 : -1"
+                (focusin)="focusedLayer.set(node.id)"
+                (keydown)="layerKey($event, node.id)"
                 [label]="node.name"
                 [ariaLabel]="'Select ' + node.name"
                 [depth]="row.depth"

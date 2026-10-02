@@ -16,3 +16,9 @@ The production shell now uses Maple Toolbar, Input, TreeRow and InspectorPanel, 
 Three upstream OFL notices preserve exact original bytes, including original trailing whitespace. All other new text passes the whitespace check. Native capture credentials and profile data are excluded from committed evidence.
 
 See [source/update contract](../../development/maple-chrome.md) and the retained logs/screenshots. Broader registry, release, performance and product roadmap issues remain separately open; this evidence closes only the narrow #4 acceptance after review/merge/main CI.
+
+## Review follow-up
+
+The first exact-head review returned `VERDICT: comment` (session `4518082986331245886`), with warnings about search-clear focus and dynamic tab observers, plus a layer tree tab-stop note. The follow-up returns focus to the real input, refreshes/disconnects tab observers and subscriptions on collection changes/destruction, and gives production Layers a single roving treeitem tab stop. Up/Down/Home/End and parent/child arrow focus navigation preserve the complete document checkpoint and cannot invoke Canvas nudging. New browser regressions exercise search focus, a newly inserted tab resized without changing its row width, removal of that tab, tree focus movement and unchanged history. The initial review remains visible; the changed head requires fresh CI and review.
+
+Follow-up validation: all 20 browser/consumer suites and optimized-bundle chrome acceptance pass; typecheck/source inventory and macOS build pass. Actual isolated native WKWebView search-clear focus and Down/Home tree focus navigation passed; native MCP proves the full checkpoint/journal/export remained exactly unchanged. The QA app was normally quit afterward. Evidence is in the `review-*` logs and `native-review-followup.png`.
