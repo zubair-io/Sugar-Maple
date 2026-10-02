@@ -1,0 +1,24 @@
+1:  2772820 = 1:  86b0a6c Extend Repeat Grid resizing with gutters and anchored partial rows
+2:  cf99dd7 = 2:  2258335 Add Repeat Grid Canvas gestures and accessible controls
+3:  b2fa170 ! 3:  eef6257 Verify Repeat Grid controls across browser native and MCP
+    @@ tools/native-acceptance.ts: await run([process.execPath, "tools/native-canvas-tr
+      
+      await run([process.execPath, "tools/native-text-editing.ts"]);
+      
+    -@@ tools/native-acceptance.ts: await run([process.execPath, "tools/native-canvas-transform-mcp.ts", "--locks"])
+    - 
+    - await run([process.execPath, "tools/native-canvas-transform-mcp.ts", "--drawing"]);
+    - await run([process.execPath, "tools/native-canvas-transform-mcp.ts", "--reparent"]);
+    +@@ tools/native-acceptance.ts: await run([
+    +   "tools/native-canvas-transform-mcp.ts",
+    +   "--reparent",
+    + ]);
+     +
+    -+await run([process.execPath, 'tools/native-canvas-transform-mcp.ts', '--repeat']);
+    ++await run([process.execPath, "tools/native-canvas-transform-mcp.ts", "--repeat"]);
+     
+      ## tools/native-canvas-transform-mcp.ts ##
+     @@ tools/native-canvas-transform-mcp.ts: import { StreamableHTTPClientTransport } from "@modelcontextprotocol/sdk/client/
+4:  b26b4db = 4:  67a9d5d Record source-bound Repeat Grid browser native and OS input evidence
+5:  8c4628c = 5:  3b1c8d7 Verify nested Repeat Grid templates remain owned during previews
+6:  a1d6740 = 6:  9de069e Record nested-grid model validation and retained runtime evidence
