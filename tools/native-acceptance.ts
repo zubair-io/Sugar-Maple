@@ -98,6 +98,7 @@ await run([
 await run([process.execPath, "tools/repeat-export-test.ts"]);
 
 await run([process.execPath, "tools/library-native-consumer.ts"]);
+await run([process.execPath, "tools/native-library-preview-acceptance.ts"]);
 
 await run([process.execPath, "tools/native-canvas-transform.ts"]);
 await run([process.execPath, "tools/native-canvas-transform.ts", "--placement"]);

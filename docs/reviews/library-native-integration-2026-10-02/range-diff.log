@@ -1,0 +1,4 @@
+1:  978d2c8 = 1:  88c0cfc feat(preview): add separately sandboxed trusted SwiftUI helper
+2:  f1e7996 = 2:  6bc448d test(preview): verify native bounds cancellation and typed events
+3:  f491031 = 3:  8613906 docs(preview): record native sandbox limits and input evidence
+4:  2754035 = 4:  5d4c404 docs(preview): connect web and native experiment scopes

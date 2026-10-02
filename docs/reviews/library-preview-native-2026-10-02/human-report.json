@@ -1,0 +1,82 @@
+{
+  "passed": true,
+  "build": {
+    "generation": "a9cc8d9a-ee41-4047-859f-db27feec9daf",
+    "bundle": "/Users/riabuz/Projects/_Sugar Maple/build/library-preview-native/a9cc8d9a-ee41-4047-859f-db27feec9daf/Fixture.app",
+    "executable": "/Users/riabuz/Projects/_Sugar Maple/build/library-preview-native/a9cc8d9a-ee41-4047-859f-db27feec9daf/Fixture.app/Contents/MacOS/Fixture",
+    "limit": "/Users/riabuz/Projects/_Sugar Maple/build/library-preview-native/a9cc8d9a-ee41-4047-859f-db27feec9daf/limit",
+    "metrics": [
+      {
+        "code": 0,
+        "signal": null,
+        "maxRSSKiB": 0,
+        "bytes": 0
+      },
+      {
+        "code": 0,
+        "signal": null,
+        "maxRSSKiB": 35216,
+        "bytes": 0
+      },
+      {
+        "code": 0,
+        "signal": null,
+        "maxRSSKiB": 0,
+        "bytes": 153
+      },
+      {
+        "code": 0,
+        "signal": null,
+        "maxRSSKiB": 0,
+        "bytes": 0
+      }
+    ]
+  },
+  "events": [
+    {
+      "version": 1,
+      "session": "d80dd7a0-00f2-4ef1-a930-bdde8e34b4f4",
+      "kind": "ready",
+      "canaryDenied": null,
+      "networkDenied": null
+    },
+    {
+      "version": 1,
+      "session": "d80dd7a0-00f2-4ef1-a930-bdde8e34b4f4",
+      "revision": 0,
+      "kind": "rendered",
+      "width": 800,
+      "height": 1000,
+      "pngSHA256": "136b26f9286c5a324ddd23940209230e14da444afbc94d599acd595bffc5ca95"
+    },
+    {
+      "version": 1,
+      "session": "d80dd7a0-00f2-4ef1-a930-bdde8e34b4f4",
+      "revision": 0,
+      "kind": "action",
+      "component": "Button"
+    },
+    {
+      "version": 1,
+      "session": "d80dd7a0-00f2-4ef1-a930-bdde8e34b4f4",
+      "revision": 0,
+      "kind": "change",
+      "component": "Input",
+      "value": "q"
+    },
+    {
+      "version": 1,
+      "session": "d80dd7a0-00f2-4ef1-a930-bdde8e34b4f4",
+      "revision": 0,
+      "kind": "change",
+      "component": "Input",
+      "value": "qa"
+    }
+  ],
+  "stats": {
+    "maxRSSKiB": 94144,
+    "bytes": 48359,
+    "stderr": ""
+  },
+  "scope": "Native control clicks and keyboard input on the owned sandboxed helper return only typed Button action/Input change events"
+}

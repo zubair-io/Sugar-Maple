@@ -1,0 +1,99 @@
+{
+  "sourceCommit": "f1e7996b9ff7ecefcd628b2c7f077a78891c9fae",
+  "baseCommit": "8386e4d2f98aaca9fa110983f6cc285ecafd9c90",
+  "recordedAt": "2026-10-02T11:53:42.652Z",
+  "runtime": "1.4.2",
+  "sourceHashes": {
+    "prototypes/library-preview/native/supervise.ts": "4cbc602380bb944aa683c1356c612264c614c4464eb5376053e258c07078b942",
+    "prototypes/library-preview/native/human-test.ts": "69b0318ebe10c0720430cf2182d884639f772d915c0bc9af381840e00c2f42a2",
+    "prototypes/library-preview/native/limit.c": "9ce971d297ba842c46856e5e7d6ec0907dcf2c584505eb22e63fae28e5324c70",
+    "prototypes/library-preview/native/limits-test.ts": "30283cb863592883f860e1532cf2dc8b8e5e1cb4b8379f7345c799fc303bbca1",
+    "prototypes/library-preview/native/README.md": "059c0947be6fbb1d0ec99486b2a7080ffc66a4d2463734af45aec01897f25ec3",
+    "prototypes/library-preview/native/test.ts": "7139c3ea8abc43f2188b4c44ca896b64f849a7b38f618c578a0faaa4c5578ab5",
+    "prototypes/library-preview/native/fixture.entitlements": "baa050bc06d89900bed3bb4954acdf2f17c4f47e259b1870f889d4a301fbcaf4",
+    "prototypes/library-preview/native/fixture.swift": "3a465d5f87f685ff1b94de52fdbc26e4a84a7ee85e4654c98e67de174437c9fd",
+    "prototypes/library-preview/native/controller.ts": "748abeaef84ec116f9a2a05fedc7a6f96f26953e12ad712982ff634c79930288",
+    "prototypes/library-preview/native/build.ts": "85b2d5261c62cb343ff3f07f7f7bc80407699223a2a687dd0804ebc5dcabbf5d",
+    "tools/native-library-preview-acceptance.ts": "420a2de1b034b0adc3bd527d3ef144c3af6b7e7f8afe705988a90ce3c12c057d",
+    "tools/native-acceptance.ts": "55e230dfb69bf617cac556c04673cdc691705f38ebba8ef36632853e41a61da2"
+  },
+  "artifacts": {
+    "acceptance.log": {
+      "bytes": 285,
+      "sha256": "d3662894f6ac4fd33f71f43095cd27a277325ae2d2220550a00b51d3abdace80"
+    },
+    "fixture-report.json": {
+      "bytes": 1649,
+      "sha256": "da17d49ee2a6bde6741c6f2fb6ad083177affb47a3fab5361ddc5957bc42e097"
+    },
+    "limits-report.json": {
+      "bytes": 1241,
+      "sha256": "b4b5e57d60152681c22b7bd82407bf690585b37cb89b113fb3add585734035ba"
+    },
+    "human-report.json": {
+      "bytes": 2145,
+      "sha256": "6b042ad9b04e95d40e6ee05b50967e16fe67dfb13e5d63da7047134eccee69b7"
+    },
+    "fixture.png": {
+      "bytes": 35324,
+      "sha256": "136b26f9286c5a324ddd23940209230e14da444afbc94d599acd595bffc5ca95"
+    }
+  },
+  "commands": [
+    "bun tools/native-library-preview-acceptance.ts",
+    "bun prototypes/library-preview/native/human-test.ts --trust-native-fixture"
+  ],
+  "completedLocal": [
+    "macOS 14 baseline compiled SwiftUI / actual rendered PNG",
+    "actual signed sandbox file/network canary denial",
+    "strict typed props and privileged packet rejection",
+    "superseded render rejection / explicit unsupported native variant",
+    "real CPU, wall, sampled RSS and output termination",
+    "runtime/build cancellation and overlapping stale build rejection",
+    "CUA native Button click and Command-A / q / a keyboard events"
+  ],
+  "humanEvents": [
+    {
+      "version": 1,
+      "session": "d80dd7a0-00f2-4ef1-a930-bdde8e34b4f4",
+      "revision": 0,
+      "kind": "action",
+      "component": "Button"
+    },
+    {
+      "version": 1,
+      "session": "d80dd7a0-00f2-4ef1-a930-bdde8e34b4f4",
+      "revision": 0,
+      "kind": "change",
+      "component": "Input",
+      "value": "q"
+    },
+    {
+      "version": 1,
+      "session": "d80dd7a0-00f2-4ef1-a930-bdde8e34b4f4",
+      "revision": 0,
+      "kind": "change",
+      "component": "Input",
+      "value": "qa"
+    }
+  ],
+  "humanObservation": {
+    "textFieldDescription": "Email",
+    "finalValue": "qa",
+    "inputMethod": "cua_repl click and pressKey; OS clipboard unchanged"
+  },
+  "artifactScope": "fixture-report remaining list describes that individual test; separate limits/human reports cover those checks. Consolidated local scope is listed here.",
+  "incomplete": [
+    "final-head CI/review/merge and resulting-main CI",
+    "full interactive Canvas/DOM/web/native comparison",
+    "full accessibility including VoiceOver",
+    "latency/package-size and whole-process measurement",
+    "final issue 51 go/no-go"
+  ],
+  "limitations": [
+    "fixed explicitly trusted source only; no arbitrary Swift project import",
+    "RSS is sampled, not a hard instantaneous ceiling",
+    "per-process CPU, plus group wall/RSS supervision",
+    "sandbox canary probes do not prove a universal OS security audit"
+  ]
+}
