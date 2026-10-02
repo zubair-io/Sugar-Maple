@@ -1,0 +1,56 @@
+{
+  "passed": true,
+  "results": {
+    "cpu": {
+      "milliseconds": 1009.94975,
+      "stats": {
+        "maxRSSKiB": 14512,
+        "bytes": 0,
+        "stderr": ""
+      }
+    },
+    "wall": {
+      "milliseconds": 252.2796249999999,
+      "stats": {
+        "maxRSSKiB": 10656,
+        "bytes": 0,
+        "stderr": ""
+      }
+    },
+    "rss": {
+      "milliseconds": 139.27150000000006,
+      "stats": {
+        "maxRSSKiB": 108448,
+        "bytes": 0,
+        "stderr": ""
+      }
+    },
+    "output": {
+      "milliseconds": 9.59195899999986,
+      "stats": {
+        "maxRSSKiB": 0,
+        "bytes": 200000,
+        "stderr": ""
+      }
+    },
+    "cancelRuntime": {
+      "maxRSSKiB": 0,
+      "bytes": 0,
+      "stderr": ""
+    },
+    "cancelBuild": {
+      "stagingRemoved": true,
+      "resultNotPublished": true
+    },
+    "supersededBuild": {
+      "obsoleteRejected": true,
+      "newestGeneration": "12a978ba-647b-4112-8cee-53df1cb39c92",
+      "stagingRemoved": true
+    }
+  },
+  "limitations": [
+    "RSS is sampled every 100 ms, not a hard instantaneous address-space ceiling.",
+    "CPU is per process; wall/group RSS bound the fixed compiler workflow.",
+    "Only explicitly trusted fixed sources are supported."
+  ]
+}

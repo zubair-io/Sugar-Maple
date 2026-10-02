@@ -1,0 +1,62 @@
+{
+  "build": {
+    "generation": "38c018ea-0a3c-482b-99c8-b077733da8f2",
+    "bundle": "/Users/riabuz/Projects/_Sugar Maple/build/library-preview-native/38c018ea-0a3c-482b-99c8-b077733da8f2/Fixture.app",
+    "executable": "/Users/riabuz/Projects/_Sugar Maple/build/library-preview-native/38c018ea-0a3c-482b-99c8-b077733da8f2/Fixture.app/Contents/MacOS/Fixture",
+    "limit": "/Users/riabuz/Projects/_Sugar Maple/build/library-preview-native/38c018ea-0a3c-482b-99c8-b077733da8f2/limit",
+    "metrics": [
+      {
+        "code": 0,
+        "signal": null,
+        "maxRSSKiB": 0,
+        "bytes": 0
+      },
+      {
+        "code": 0,
+        "signal": null,
+        "maxRSSKiB": 35200,
+        "bytes": 0
+      },
+      {
+        "code": 0,
+        "signal": null,
+        "maxRSSKiB": 0,
+        "bytes": 153
+      },
+      {
+        "code": 0,
+        "signal": null,
+        "maxRSSKiB": 0,
+        "bytes": 0
+      }
+    ]
+  },
+  "ready": {
+    "version": 1,
+    "session": "7c0f487a-d40f-4cac-8936-ad58653ff788",
+    "kind": "ready",
+    "canaryDenied": true,
+    "networkDenied": true
+  },
+  "stats": {
+    "maxRSSKiB": 91520,
+    "bytes": 95989,
+    "stderr": ""
+  },
+  "passed": true,
+  "tested": [
+    "real SwiftUI compilation/rendering",
+    "actual App Sandbox host-file and network denial",
+    "typed props",
+    "superseded reply",
+    "privileged packet rejection",
+    "explicit unsupported native variant"
+  ],
+  "remaining": [
+    "native human action/change events",
+    "negative CPU/wall/RSS/output tests",
+    "build cancellation and stale generation tests",
+    "Canvas/DOM/native comparison",
+    "final-head review/CI"
+  ]
+}
