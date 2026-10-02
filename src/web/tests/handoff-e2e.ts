@@ -6,7 +6,7 @@ try {
   await page.goto('http://127.0.0.1:4200');
   await page.getByRole('button', { name: 'Assets', exact: true }).click();
   await page
-    .locator('input[type=file]')
+    .getByLabel('Import image / SVG', { exact: true })
     .setInputFiles({
       name: 'mark.svg',
       mimeType: 'image/svg+xml',
@@ -27,7 +27,7 @@ try {
   await file.saveAs('build/evidence/imported-vector.png');
   await page.getByRole('button', { name: 'Design', exact: true }).click();
   await page
-    .locator('input[type=file]')
+    .getByLabel('Import image / SVG', { exact: true })
     .setInputFiles({
       name: 'unsafe.svg',
       mimeType: 'image/svg+xml',

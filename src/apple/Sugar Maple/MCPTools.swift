@@ -26,7 +26,7 @@ enum MCPTools {
             tool("history.undo","Undo the last human gesture or agent batch.",revision,["documentId","expectedRevision"]),
             tool("history.redo","Redo the last undone operation.",revision,["documentId","expectedRevision"]),
             tool("selection.set","Select a node and switch to its page.",["id":string],["id"]),
-            tool("code.export","Export a node. SwiftUI exports a complete view with state; embedded PNG/JPEG/WebP images are self-contained.",["id":string,"target":["type":"string","enum":["html","angular","tailwind","css","swiftui","editable","svg"]]],["id","target"]),
+            tool("code.export","Export a node. SwiftUI exports a complete view with state; embedded PNG/JPEG/WebP images are self-contained.",["id":string,"target":["type":"string","enum":["html","angular","tailwind","css","swiftui","editable","svg","web-library","swift-library"]]],["id","target"]),
             tool("render.capture","Capture the actual editor WebView after fonts/layout settle. Optional rect uses WebView CSS pixels; scale is 0.5/1/2, with each output dimension at most 4096 pixels. Reject out-of-bounds rectangles and superseded revisions. Returns PNG and exact crop/pixel metadata.",revision,["documentId","expectedRevision"])
         ]
         return tools.map { tool in

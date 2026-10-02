@@ -1,3 +1,4 @@
+import { LibraryCatalog } from './canvas/library-catalog';
 import { RepeatInspector } from './canvas/repeat-inspector';
 import { FontInspector } from './canvas/font-inspector';
 import { EditorHeader } from './editor-header';
@@ -51,6 +52,7 @@ import { ChromeTheme } from './chrome/maple/sugar-maple-chrome-theme';
     CanvasSurface,
     AssetInspector,
     RepeatInspector,
+    LibraryCatalog,
     FontInspector,
     MuiButtonComponent,
     MuiSectionComponent,
@@ -252,8 +254,10 @@ export class App {
     'swiftui',
     'editable',
     'svg',
+    'web-library',
+    'swift-library',
   ];
-  readonly exportOptions = this.options(this.targets);
+  readonly exportOptions = this.targets.map(value => ({value, label: value === 'web-library' ? 'Mapped web library' : value === 'swift-library' ? 'Mapped SwiftUI (macOS)' : value}));
   readonly modes = ['Design', 'Prototype', 'Developer'] as const;
   constructor() {
     effect(() => {

@@ -140,3 +140,7 @@ Returned nodes retain their exact authored fields, including inline assets. `ref
 `render.capture` accepts an optional `rect: {x,y,width,height}` in CSS pixels relative to the editor WebView's top-left, and `scale` of 0.5, 1 (default) or 2. Without a rectangle it captures the whole editor WebView. Rectangles must fit within its bounds; each output dimension is at most 4096 pixels and the image at most 16 megapixels. Metadata includes the actual rectangle, scale and exact PNG pixel dimensions. WebKit cropping/downsampling may alter edge antialiasing; it does not promise byte-identical crops of a separately captured image. Revision checks before/after capture, font/asset diagnostics and the existing 100 ms admission throttle remain in force. No raw file access is exposed.
 
 See [native scoped acceptance](../reviews/scoped-mcp-2026-10-01/README.md) for real HTTP/stdio, keyboard edit/undo, crop and 1,000/10,000-node measurements. Visible Canvas/Layers performance remains separate acceptance under #2/#8.
+
+## Pinned library mappings
+
+`transaction.apply` includes `library.import`, `library.insert`, `library.props`, `library.reset` and `library.remap`. Source manifests and instance references persist in the document, and `document.read` returns the referenced manifests in `references.libraries`. `code.export` adds `web-library` and `swift-library` targets; unsupported properties/platforms fail explicitly. Import evaluates metadata only. See [library commands, fixture, safe updates, offline use and consuming checks](libraries.md).

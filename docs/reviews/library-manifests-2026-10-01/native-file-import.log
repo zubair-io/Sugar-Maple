@@ -1,0 +1,1 @@
+PASS: actual native manifest file import applies as one batch, preserves existing node identity/props and replays through undo/redo and durable autosave

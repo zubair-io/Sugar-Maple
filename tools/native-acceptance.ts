@@ -94,3 +94,5 @@ await run([
   resolve(output, "repeat-native-reopened.json"),
 ]);
 await run([process.execPath, "tools/repeat-export-test.ts"]);
+
+await run([process.execPath, "tools/library-native-consumer.ts"]);

@@ -1,0 +1,1 @@
+PASS: actual native checkpoint and complete undo journal retain pinned library identities/props/slots/dependencies across preview/cancel/restart

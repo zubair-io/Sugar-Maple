@@ -1,0 +1,1 @@
+PASS: actual native SDK validates atomic library rejection, source props/local overrides, scoped dependencies, mapped targets and cross-document clipboard identity before durable autosave

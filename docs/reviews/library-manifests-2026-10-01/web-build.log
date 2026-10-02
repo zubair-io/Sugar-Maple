@@ -1,0 +1,21 @@
+$ bun run --cwd src/web build
+$ bun --bun ../../node_modules/@angular/cli/bin/ng.js build --base-href ./
+❯ Building...
+✔ Building...
+Initial chunk files | Names               |  Raw size | Estimated transfer size
+main-FQ7OWGGE.js    | main                | 176.89 kB |                51.71 kB
+styles-4M6EQBEJ.css | styles              |  11.99 kB |                 2.61 kB
+
+                    | Initial total       | 188.88 kB |                54.32 kB
+
+Lazy chunk files    | Names               |  Raw size | Estimated transfer size
+chunk-DplddnIh.js   | -                   | 400.65 kB |                80.04 kB
+chunk-Bya0hfoc.js   | app                 | 309.61 kB |                75.89 kB
+chunk-aFTWxZg6.js   | preview-application |   2.51 kB |                 1.12 kB
+
+Application bundle generation complete. [2.319 seconds] - 2026-10-01T22:58:09.523Z
+
+▲ [WARNING] src/app/app.scss exceeded maximum budget. Budget 4.00 kB was not met by 2.99 kB with a total of 6.99 kB.
+
+
+Output location: /Users/riabuz/.codex/worktrees/mcp-contract-hardening/_SugarMaple/src/web/dist/sugar-maple-editor
