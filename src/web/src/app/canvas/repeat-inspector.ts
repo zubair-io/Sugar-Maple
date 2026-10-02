@@ -1,9 +1,17 @@
-import { Component, computed, effect, inject, input, signal } from '@angular/core';
+import { Component, computed, effect, inject, input, signal, type OnDestroy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { EditorService } from '../editor.service';
 import { DocumentStore } from '../model/store';
 import { repeatCells, repeatTargets } from '../model/repeat';
 import { parseRepeatData, repeatImportOperations } from '../model/repeat-data';
+import { embeddedAsset } from '../model/assets';
+import {
+  collectRepeatDrop,
+  readRepeatFiles,
+  repeatFileList,
+  orderedImageData,
+  type RepeatFile,
+} from './repeat-files';
 import { supportsRepeatHandles } from './repeat-geometry';
 import { type SceneNode, type Operation, uid } from '../model/schema';
 
@@ -44,6 +52,30 @@ import { type SceneNode, type Operation, uid } from '../model/schema';
         Resizing keeps surviving cell IDs and data. New cells use the template; shrinking removes
         the last cells. Maximum 100 cells.
       </p>
+      <div
+        class="drop-zone"
+        role="region"
+        aria-label="Drop Repeat Grid files"
+        [class.drop-active]="dropActive()"
+        [attr.aria-busy]="busy()"
+        (dragover)="dragOver($event)"
+        (dragleave)="dropActive.set(false)"
+        (drop)="dropFiles($event)"
+      >
+        <p>Drop CSV, JSON, a text list, local images or an image folder here.</p>
+        <p class="hint">
+          Choose files below for the same workflow. Review field mappings and preview before
+          applying. Images use filename order, then cells left to right and down.
+        </p>
+      </div>
+      <label
+        >Choose image folder<input
+          type="file"
+          multiple
+          webkitdirectory
+          aria-label="Grid image folder"
+          (change)="readImages($event)"
+      /></label>
       <label
         >Data format<select
           aria-label="Grid data format"
@@ -55,10 +87,10 @@ import { type SceneNode, type Operation, uid } from '../model/schema';
         </select></label
       >
       <label
-        >CSV or JSON file<input
+        >CSV, JSON or text file<input
           type="file"
           aria-label="Grid data file"
-          accept=".csv,.json,text/csv,application/json"
+          accept=".csv,.json,.txt,text/csv,application/json,text/plain"
           (change)="readData($event)"
       /></label>
       <label
@@ -205,6 +237,20 @@ import { type SceneNode, type Operation, uid } from '../model/schema';
       border-radius: 4px;
       color: inherit;
     }
+    .drop-zone {
+      padding: 10px;
+      border: 1px dashed #777;
+      border-radius: 4px;
+      display: grid;
+      gap: 6px;
+    }
+    .drop-zone > p {
+      pointer-events: none;
+    }
+    .drop-active {
+      border-color: #34d399;
+      background: #123b2e;
+    }
     .dimensions {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -249,7 +295,7 @@ import { type SceneNode, type Operation, uid } from '../model/schema';
     }
   `,
 })
-export class RepeatInspector {
+export class RepeatInspector implements OnDestroy {
   readonly e = inject(EditorService);
   readonly grid = input.required<SceneNode>();
   readonly Math = Math;
@@ -265,6 +311,8 @@ export class RepeatInspector {
   readonly data = signal<ReturnType<typeof parseRepeatData> | null>(null);
   readonly message = signal('');
   readonly busy = signal(false);
+  readonly dropActive = signal(false);
+  private reader: AbortController | null = null;
   private images: Record<string, string> = {};
   mapping: Record<string, string> = {};
   readonly prepared = signal<{
@@ -286,7 +334,14 @@ export class RepeatInspector {
       this.invalidate();
     });
   }
+  ngOnDestroy() {
+    this.invalidate();
+  }
   invalidate() {
+    this.reader?.abort();
+    this.reader = null;
+    this.busy.set(false);
+    this.dropActive.set(false);
     this.serial++;
     this.prepared.set(null);
     this.message.set('');
@@ -316,56 +371,72 @@ export class RepeatInspector {
       this.fail(error);
     }
   }
+  dragOver(event: DragEvent) {
+    if (!event.dataTransfer?.types.includes('Files')) return;
+    event.preventDefault();
+    event.stopPropagation();
+    event.dataTransfer.dropEffect = 'copy';
+    this.dropActive.set(true);
+  }
+  async dropFiles(event: DragEvent) {
+    event.preventDefault();
+    event.stopPropagation();
+    this.dropActive.set(false);
+    if (!event.dataTransfer) return;
+    const transfer = event.dataTransfer;
+    await this.stageFiles((signal) => collectRepeatDrop(transfer, signal), true);
+  }
   async readData(event: Event) {
     const input = event.target as HTMLInputElement,
       file = input.files?.[0];
-    this.invalidate();
-    const serial = this.serial;
-    try {
-      if (file) {
-        if (file.size > 1_000_000) throw Error('Data file exceeds 1 MB');
-        const text = await file.text();
-        if (serial !== this.serial) return;
-        this.format = file.name.toLowerCase().endsWith('.json') ? 'json' : 'csv';
-        this.text.set(text);
-        this.parse();
-      }
-    } catch (error) {
-      this.fail(error);
-    } finally {
-      input.value = '';
-    }
+    if (file) await this.stageFiles(async () => repeatFileList([file]), false);
+    input.value = '';
   }
   async readImages(event: Event) {
     const input = event.target as HTMLInputElement,
-      files = [...(input.files ?? [])];
+      files = repeatFileList(input.files ?? []);
+    if (files.length) await this.stageFiles(async () => files, false);
+    input.value = '';
+  }
+  private async stageFiles(
+    collect: (signal: AbortSignal) => Promise<RepeatFile[]>,
+    decode: boolean,
+  ) {
     this.invalidate();
-    this.images = {};
-    const serial = this.serial;
+    const serial = this.serial,
+      reader = new AbortController();
+    this.reader = reader;
     this.busy.set(true);
     try {
-      if (files.length > 100) throw Error('Choose at most 100 local images');
-      const images: Record<string, string> = {};
-      let total = 0;
-      for (const file of files) {
-        if (Object.hasOwn(images, file.name)) throw Error('Duplicate image filename: ' + file.name);
-        if (!['image/png', 'image/jpeg', 'image/webp'].includes(file.type) || file.size > 5_000_000)
-          throw Error('Choose PNG, JPEG or WebP images at most 5 MB each');
-        total += file.size;
-        if (total > 8_000_000) throw Error('Chosen images exceed 8 MB');
-        images[file.name] = await new Promise<string>((resolve, reject) => {
-          const reader = new FileReader();
-          reader.onload = () => resolve(String(reader.result));
-          reader.onerror = () => reject(Error('Image could not be read'));
-          reader.readAsDataURL(file);
-        });
+      const staged = await readRepeatFiles(await collect(reader.signal), reader.signal);
+      if (decode)
+        await this.e.validateAssetOperations(
+          Object.values(staged.images).map((source) => {
+            const asset = embeddedAsset(source);
+            return { type: 'asset.set', key: asset.key, source: asset.source };
+          }),
+        );
+      if (serial !== this.serial || reader.signal.aborted) return;
+      if (staged.data) {
+        this.data.set(staged.data);
+        this.text.set(staged.text!);
+        this.format = staged.format!;
+        this.mapping = {};
+      } else if (!this.data() && staged.imageNames.length) {
+        const data = orderedImageData(staged.imageNames);
+        this.data.set(data);
+        this.text.set(JSON.stringify(data.rows));
+        this.format = 'json';
+        this.mapping = {};
       }
-      if (serial === this.serial) this.images = images;
+      if (staged.imageNames.length) this.images = staged.images;
     } catch (error) {
-      if (serial === this.serial) this.fail(error);
+      if (serial === this.serial && !reader.signal.aborted) this.fail(error);
     } finally {
-      this.busy.set(false);
-      input.value = '';
+      if (serial === this.serial) {
+        this.busy.set(false);
+        this.reader = null;
+      }
     }
   }
   async preview() {
@@ -417,7 +488,7 @@ export class RepeatInspector {
     } catch (error) {
       if (serial === this.serial) this.fail(error);
     } finally {
-      this.busy.set(false);
+      if (serial === this.serial) this.busy.set(false);
     }
   }
   async apply() {
@@ -436,7 +507,7 @@ export class RepeatInspector {
     } catch (error) {
       this.fail(error);
     } finally {
-      this.busy.set(false);
+      if (serial === this.serial) this.busy.set(false);
     }
   }
   cancel() {

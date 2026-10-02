@@ -132,6 +132,7 @@ await run([process.execPath, "tools/native-lock-editing.ts"]);
 
 await run([process.execPath, "tools/native-canvas-drawing.ts"]);
 await run([process.execPath, "tools/native-repeat-handles.ts"]);
+await run([process.execPath, "tools/native-repeat-drops.ts"]);
 
 await run([process.execPath, "tools/native-text-editing.ts"]);
 

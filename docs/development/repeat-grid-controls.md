@@ -22,4 +22,4 @@ The suites include real browser pointer capture, zoom 0.5/1.5, keyboard controls
 
 ## Remaining #13 scope
 
-Canonical cells are still materialized in the document (maximum 100); temporary drag projection is not the requested virtual-cell representation. CSV/JSON and local images still use the existing file/mapping/preview/apply workflow; direct data/image-folder drops remain pending. Fixed-size template controls do not resolve responsive template sizing. These gaps keep #13 open.
+Canonical cells are still materialized in the document (maximum 100); temporary drag projection is not the requested virtual-cell representation. The follow-up [file and folder import candidate](repeat-grid-drops.md) adds direct drops to the existing mapping/preview/apply workflow and requires its own review/CI/merge validation. Fixed-size template controls do not resolve responsive template sizing. These gaps keep #13 open.
