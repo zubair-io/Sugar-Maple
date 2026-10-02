@@ -1,0 +1,27 @@
+{
+  "engine" : "WKWebView",
+  "memory" : {
+    "ownerPeakRSSBytes" : 196378624,
+    "scope" : "This benchmark UI process only; WebKit content\/GPU\/network process memory is not included"
+  },
+  "nativeBridge" : "In-memory benchmark recovery\/status\/autosave only; production native disk\/MCP\/clipboard costs excluded",
+  "os" : "Version 27.0 (Build 26A428)",
+  "result" : {
+    "camera" : {
+      "pan" : {
+        "x" : 0,
+        "y" : 0
+      },
+      "zoom" : 1.5
+    },
+    "checks" : 18,
+    "grips" : 9,
+    "passed" : true,
+    "revision" : 39,
+    "scope" : "Production WKWebView DOM keyboard and independent fixed\/free rotated geometry; synthetic DOM events, no native OS pointer\/VoiceOver or filesystem\/MCP capability",
+    "zooms" : [
+      0.5,
+      1.5
+    ]
+  }
+}

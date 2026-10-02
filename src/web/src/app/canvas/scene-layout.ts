@@ -242,7 +242,8 @@ function inside(item: Item, x: number, y: number) {
 export function hit(items: Item[], x: number, y: number): Item | undefined {
   for (let i = items.length - 1; i >= 0; i--) {
     const item = items[i];
-    if (!item.node.locked && inside(item, x, y) && item.ancestors.every((a) => inside(a, x, y)))
+    if (!item.node.locked && !item.node.hidden && inside(item, x, y) &&
+      item.ancestors.every((a) => !a.node.locked && !a.node.hidden && inside(a, x, y)))
       return item;
   }
   return undefined;

@@ -51,11 +51,15 @@ import Darwin
         app.run()
     }
     @MainActor static func measure() async throws {
-        guard CommandLine.arguments.count == 6 else { fatalError("Pass resources, fixture, page harness, report and screenshot") }
         let args = CommandLine.arguments
+        let transforms = args.count == 7 && args[6] == "--transforms"
+        guard args.count == 6 || transforms else { fatalError("Pass resources, fixture, page harness, report and screenshot; optional --transforms") }
         let fixture = try JSONSerialization.jsonObject(with: Data(contentsOf: URL(fileURLWithPath: args[2])))
         guard let value = fixture as? [String:Any], let document = value["document"] as? [String:Any], let nodes = document["nodes"] as? [[String:Any]] else { fatalError("Invalid fixture") }
         let config = WKWebViewConfiguration()
+        if transforms {
+            config.userContentController.addUserScript(WKUserScript(source: "window.canvasTransformErrors=[]; const originalConsoleError=console.error; console.error=(...args)=>{window.canvasTransformErrors.push(args.map(String).join(' ')); originalConsoleError.apply(console,args)}; window.addEventListener('error',event=>window.canvasTransformErrors.push(event.message));", injectionTime: .atDocumentStart, forMainFrameOnly: true))
+        }
         config.websiteDataStore = .nonPersistent()
         config.setURLSchemeHandler(BenchmarkResources(URL(fileURLWithPath: args[1], isDirectory: true)), forURLScheme: "sugar-maple")
         config.userContentController.addScriptMessageHandler(BenchmarkBridge(fixture), contentWorld: .page, name: "native")
@@ -81,7 +85,8 @@ import Darwin
         }
         precondition(window.isVisible && window.occlusionState.contains(.visible), "Window must be visible")
         let script = try String(contentsOfFile:args[3], encoding:.utf8)
-        guard let result = try await webView.callAsyncJavaScript(script + "\nreturn await window.canvasBenchmark(total);", arguments:["total":nodes.count], in:nil, contentWorld:.page) as? [String:Any] else { fatalError("Missing benchmark result") }
+        let entry = transforms ? "\nreturn await window.canvasTransformAcceptance();" : "\nreturn await window.canvasBenchmark(total);"
+        guard let result = try await webView.callAsyncJavaScript(script + entry, arguments:["total":nodes.count], in:nil, contentWorld:.page) as? [String:Any] else { fatalError("Missing harness result") }
         precondition(window.isVisible && window.occlusionState.contains(.visible), "Benchmark window became hidden")
         let image = try await webView.takeSnapshot(configuration:nil)
         guard let tiff = image.tiffRepresentation, let bitmap = NSBitmapImageRep(data:tiff), let png = bitmap.representation(using:.png, properties:[:]) else { fatalError("Missing screenshot") }
@@ -91,6 +96,10 @@ import Darwin
             "result":result, "nativeBridge":"In-memory benchmark recovery/status/autosave only; production native disk/MCP/clipboard costs excluded",
             "memory":["ownerPeakRSSBytes":usage.ru_maxrss, "scope":"This benchmark UI process only; WebKit content/GPU/network process memory is not included"]]
         try JSONSerialization.data(withJSONObject:report, options:[.prettyPrinted,.sortedKeys]).write(to:URL(fileURLWithPath:args[4]))
-        print("PASS: fresh visible WKWebView production bundle, \(nodes.count) total / 200 initially visible mixed nodes, normal wheel scheduling, unchanged checkpoint; \(args[4])")
+        if transforms {
+            print("PASS: fresh visible WKWebView production Canvas transform keyboard/geometry acceptance; \(args[4])")
+        } else {
+            print("PASS: fresh visible WKWebView production bundle, \(nodes.count) total / 200 initially visible mixed nodes, normal wheel scheduling, unchanged checkpoint; \(args[4])")
+        }
     }
 }

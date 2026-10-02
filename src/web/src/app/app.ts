@@ -24,6 +24,7 @@ import { CanvasSurface } from './canvas/canvas-surface';
 import { CanvasProjection } from './canvas/canvas-projection';
 import { AssetInspector } from './canvas/asset-inspector';
 import { intersects } from './canvas/scene-layout';
+import { changedPatch, movePatch } from './canvas/transform-geometry';
 import { MuiButtonComponent } from './chrome/maple/ui/button/mui-button.component';
 import { MuiSectionComponent } from './chrome/maple/ui/section/mui-section.component';
 import { MuiFieldComponent } from './chrome/maple/ui/field/mui-field.component';
@@ -585,20 +586,23 @@ export class App {
       !this.e.node()!.locked
     ) {
       event.preventDefault();
-      const n = this.e.node()!,
-        step = event.shiftKey ? 10 : 1;
+      const step = event.shiftKey ? 10 : 1;
       const nodes = this.e.selectedRoots().filter((n) => this.canMove(n));
-      if (nodes.length)
-        this.e.perform(
-          nodes.map((n) => ({
-            type: 'node.update',
-            id: n.id,
-            patch: {
-              x: n.x + (event.key === 'ArrowLeft' ? -step : event.key === 'ArrowRight' ? step : 0),
-              y: n.y + (event.key === 'ArrowUp' ? -step : event.key === 'ArrowDown' ? step : 0),
-            },
-          })),
-        );
+      const operations = nodes
+        .map((n) => ({
+          type: 'node.update' as const,
+          id: n.id,
+          patch: changedPatch(
+            n,
+            movePatch(
+              this.projection.byId().get(n.id)!,
+              event.key === 'ArrowLeft' ? -step : event.key === 'ArrowRight' ? step : 0,
+              event.key === 'ArrowUp' ? -step : event.key === 'ArrowDown' ? step : 0,
+            ),
+          ),
+        }))
+        .filter((op) => Object.keys(op.patch).length);
+      if (operations.length) this.e.perform(operations);
     }
     if (event.key === 'Backspace' || event.key === 'Delete') this.e.remove();
     if (event.key === 'f') this.e.add('artboard');
