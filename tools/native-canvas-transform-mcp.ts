@@ -250,6 +250,7 @@ try {
       document: await data('document.get'), layout: await data('layout.inspect') }));
     console.log('Owned app ready for native UI acceptance. Send a newline to finish and stop only this owner.');
     await new Promise<void>(resolve => process.stdin.once('data', () => resolve()));
+    process.stdin.pause();
   }
 } finally {
   if (connected) await client.close();
