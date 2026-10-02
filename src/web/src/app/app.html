@@ -267,10 +267,15 @@
               <input
                 aria-label="Layer name"
                 [ngModel]="n.name"
+                [disabled]="e.mode() === 'Developer' || !!e.lockedBy(n)"
                 (change)="patch('name', value($event))"
               />
             </div>
+            @if (e.lockedBy(n); as owner) {
+              <p class="inspector-note">Locked by {{ owner.name }}. Unlock it in Layers to edit.</p>
+            }
             @if (e.mode() === 'Design') {
+              <fieldset class="layer-editing" [disabled]="!!e.lockedBy(n)">
               <mui-section title="Transform" sectionId="transform-details">
                 <div class="alignment-strip" role="group" aria-label="Align selected layers">
                   @for (action of alignmentActions; track action.key) {
@@ -685,7 +690,9 @@
                 ><button (click)="repeat()">Repeat Grid</button
                 ><button class="danger" (click)="e.remove()">Delete</button>
               </div>
+              </fieldset>
             } @else if (e.mode() === 'Prototype') {
+              <fieldset class="layer-editing" [disabled]="!!e.lockedBy(n)">
               <div class="inspector-subheading">On click / tap</div>
               <mui-field label="Action"
                 ><mui-select
@@ -709,6 +716,7 @@
                   (valueChange)="patch('transition', $event)"
               /></label>
               <p class="muted">Open Preview to follow this link.</p>
+              </fieldset>
             } @else {
               <div class="inspector-subheading">Developer handoff</div>
               <library-catalog [inspector]="true" />
