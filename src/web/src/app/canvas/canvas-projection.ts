@@ -10,6 +10,7 @@ export class CanvasProjection implements OnDestroy {
   readonly e = inject(EditorService);
   readonly assets = this.e.assets;
   readonly draft = signal<Record<string, Partial<SceneNode>>>({});
+  readonly snapping = signal(true);
   readonly size = signal({ width: 1000, height: 800 });
   readonly stats = signal({ drawn: 0, total: 0, paintMs: 0, frames: 0 });
   private readonly measureContext = document.createElement('canvas').getContext('2d')!;
@@ -48,6 +49,7 @@ export class CanvasProjection implements OnDestroy {
       this.roots();
       this.e.selection();
       this.e.mode();
+      this.snapping();
       this.assets.version();
       untracked(() => this.board.metadata.set('version', ++this.version));
     });

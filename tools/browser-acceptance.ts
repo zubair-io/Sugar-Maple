@@ -26,6 +26,7 @@ try {
     "editor-e2e",
     "canvas-e2e",
     "canvas-transform-e2e",
+    "canvas-placement-e2e",
     "canvas-parity-e2e",
     "typography-e2e",
     "canvas-performance",
