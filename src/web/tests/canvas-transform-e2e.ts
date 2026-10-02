@@ -323,6 +323,23 @@ try {
       if (dpr === 2 && zoom === 1.5) {
         await page.screenshot({ path: 'build/canvas-transform-handles.png' });
       }
+      // Reaching a placement/size limit is a true no-op, including history
+      // and error state; never submit an empty transaction.
+      await apply(page, [
+        { type: 'node.update', id: 'parent', patch: { rotation: 0 } },
+        { type: 'node.update', id: 'child', patch: { x: 100000 } },
+      ]);
+      const beforeLimit = await get(page);
+      await page.locator('.viewport canvas').focus();
+      await page.keyboard.press('ArrowRight');
+      assert.equal((await get(page)).revision, beforeLimit.revision);
+      await expect(page.getByRole('alert')).toHaveCount(0);
+      await apply(page, [{ type: 'node.update', id: 'child', patch: { x: 140, width: 1, height: 1, rotation: 0 } }]);
+      await page.evaluate(() => window.sugarMaple.dispatch('layout.inspect'));
+      const beforeMinimum = await get(page);
+      await page.getByRole('button', { name: 'Resize selected element', exact: true }).press('ArrowLeft');
+      assert.equal((await get(page)).revision, beforeMinimum.revision);
+      await expect(page.getByRole('alert')).toHaveCount(0);
       assert.deepEqual(errors, []);
       await context.close();
       console.log(
