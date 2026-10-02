@@ -1,0 +1,23 @@
+bun test v1.4.2 (744846f84)
+
+src/web/tests/repeat-handles.test.ts:
+(pass) repeat handle preview derives temporary cells, matches the committed geometry and retains local data in one undo [16.69ms]
+(pass) counts/gutters honor cell and extent limits without allowing malformed resize mutation [3.98ms]
+(pass) rotated nested grids keep their world top-left anchor and include both borders in the resized extent [5.43ms]
+(pass) a gutter edit preserves a partial last row and rejects inconsistent partial counts atomically [5.67ms]
+135 |   return transform(item.transform, x, y);
+136 | }
+137 | /** Ephemeral new cells are derived from the template, never written to the store. */
+138 | export function repeatPreviewNodes(doc: SceneDocument, draft: RepeatDraft): SceneNode[] {
+139 |   const grid = doc.nodes.find((n) => n.id === draft.id)!;
+140 |   const cells = repeatCells(doc, grid.id),
+                                       ^
+TypeError: undefined is not an object (evaluating 'grid.id')
+      at repeatPreviewNodes (/Users/riabuz/.codex/worktrees/mcp-contract-hardening/_SugarMaple/src/web/src/app/canvas/repeat-geometry.ts:140:34)
+      at <anonymous> (/Users/riabuz/.codex/worktrees/mcp-contract-hardening/_SugarMaple/src/web/tests/repeat-handles.test.ts:137:10)
+(fail) deleting a grid during preview safely discards the stale projection [2.40ms]
+
+ 4 pass
+ 1 fail
+ 37 expect() calls
+Ran 5 tests across 1 file. [92.00ms]

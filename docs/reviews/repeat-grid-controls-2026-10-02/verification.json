@@ -1,0 +1,149 @@
+{
+  "sourceCommit": "b2fa1701ff42ec5ee8853f66e6606492c65c4fec",
+  "baseCommit": "b21199ffc1774cbe1803f363977ab62b3c32c94d",
+  "recordedAt": "2026-10-02T13:54:08.398Z",
+  "runtime": "1.4.2",
+  "sourceHashes": {
+    "docs/development/mcp.md": "3c00f99e3dcaa9f9c211d41de4283c63bea19b73e0f300f41176ce5aa1ff6772",
+    "docs/development/repeat-grid-controls.md": "525a6b9a1036e2751ec6d40d3bfba91c2b6bbf34a3b2eb60da0496a8d7cae233",
+    "src/web/src/app/app.ts": "05bd7c8d3a1c027edd0059455f390be0fcbc06040bc96ca1b724b1a4e95ce4d9",
+    "src/web/src/app/canvas/canvas-projection.ts": "2fccac8cf7dbf6be8370b3b2de1984426e07366f23711a73c505e512dd1b88e2",
+    "src/web/src/app/canvas/canvas-repeat-gesture.ts": "4563607825e9861ec1c5e34a97ea7ddc6c9b59e75bb7b4a6502edb0c9118511f",
+    "src/web/src/app/canvas/canvas-selection-tool.ts": "8c33a9b39a46b03fb35eefca5f072fd1d60fda24404dccc7ffd8ac624e28596c",
+    "src/web/src/app/canvas/canvas-surface.ts": "fdbfcf21454a0186564eed72439e120ed631c84efc55ab8e1a3d53bb26a04318",
+    "src/web/src/app/canvas/repeat-geometry.ts": "85de2c517aa259fd23ecdfe2aa0040a40bc000e794936ae736f0ce71bd62fd13",
+    "src/web/src/app/canvas/repeat-handles.ts": "ef1a37726010b1687a6ebab7c80a4a6b21d503f465966786e58f5a1e914039f1",
+    "src/web/src/app/canvas/repeat-inspector.ts": "7d879f369baa54be41bb6127eb2c791314bc185adc2176754aa0f3930d0d5690",
+    "src/web/src/app/model/repeat.ts": "2f00da8ab3fc4731d0757b4adcea1a608a8bc5e6b0fd413fdbe8ce23c52a7aef",
+    "src/web/src/app/model/schema.ts": "51a3a5468efd30f055dccb497bf50efdddfa708ecc4ef8bf05bdcf38f11fa058",
+    "src/web/tests/canvas-gesture.test.ts": "438b86812482cc52681818d90ed8acc7c3881f0573d7ef54c85ddeb581808f29",
+    "src/web/tests/repeat-handles-e2e.ts": "72f42162d155e3622af5c02a9e7ae74b6f38619ab2f77413255cf65313d3fff6",
+    "src/web/tests/repeat-handles.test.ts": "fc1e7b32b8b9c6e7bf82b819d120e1fc56d677f465ac94a932cbdece2f606d36",
+    "tools/browser-acceptance.ts": "3b75ef15fa36d203d70a6c3be7c8acb6613a0ce46e52949e27b0d29105eaf449",
+    "tools/native-acceptance.ts": "8506edbe71a75f62b817bfef87cd2c954df669626209f4f74d94dc5bb343bf6e",
+    "tools/native-canvas-transform-mcp.ts": "0074deaf17efe6cbc23fb331ae54155592069b7d8634b39dd133177b93aac4c3",
+    "tools/native-repeat-handles.ts": "d4387dc18e3741c1eb6350efc8ec5eb76436ddd2f1df4ad44b890dab2386be60",
+    "tools/repeat-native-page.js": "83da167b84a01754025415ea2b6b275ee8aba48c9cebcb095ea5833cf6a1073e"
+  },
+  "artifacts": {
+    "model.log": {
+      "bytes": 14811,
+      "sha256": "0b841a253bd4077a5bfa52ffd8b617cca12891975aaa2348fdad6a4ee29b21c9"
+    },
+    "typecheck.log": {
+      "bytes": 36,
+      "sha256": "9b2b770f3351789b5fd00fa72323f6eb7ea6de3fa3d75b7678bcbee1c8f6d5f6"
+    },
+    "browser-acceptance.log": {
+      "bytes": 6371,
+      "sha256": "16692ffa98e591ad14180ceeb4da7e6b97876c12eee9c843fdeff814f09934c2"
+    },
+    "native-acceptance.log": {
+      "bytes": 8611,
+      "sha256": "705c7aecef6e49d312fdd101581d2ec3d906415d70cfa90708328d356edb9797"
+    },
+    "browser-report.json": {
+      "bytes": 441,
+      "sha256": "359f10d3ff48111ab29e84cf642ea92954f2e243dd5c35c49b2976c8b38764dc"
+    },
+    "browser.png": {
+      "bytes": 91868,
+      "sha256": "d1a847fcc3c3bf8880df6f7b34bc51e8a9f9dced52a9541d4cc3d44876907ecd"
+    },
+    "native-report.json": {
+      "bytes": 695,
+      "sha256": "b9cd649728c6014de641fec8260bcba7cab59717ff73ab251a918863e0605924"
+    },
+    "native.png": {
+      "bytes": 326953,
+      "sha256": "e0185eb6c79e6e70bcce982b1639e5b7756695c28eb7fc9eb067d6433deb1e12"
+    },
+    "mcp-report.json": {
+      "bytes": 613,
+      "sha256": "6bd3bdd921cc1b48c9d38539340601f140f45c37a586322ab9171b73e7d8e0c0"
+    },
+    "native-human-report.json": {
+      "bytes": 705,
+      "sha256": "c73fc7b4d28be6c381886df08c69440699072057d1c6b7b7f21eca8acc29e663"
+    },
+    "focus-regression-before.log": {
+      "bytes": 678,
+      "sha256": "623cacf6d57c8ef198b3c9a55d174c7f6717cfc49bde8985325d556dc0fb35c4"
+    },
+    "deletion-regression-before.log": {
+      "bytes": 1421,
+      "sha256": "d0697c0bb9bde0d3704e4a710c7b77e0289913ac76d512706b2640ab49f8f4e3"
+    },
+    "native-human-before.json": {
+      "bytes": 127867,
+      "sha256": "427ccda26ab7ccdb0bbf74efb16774fccef588683f224ae1e7d85673b4d0206e"
+    },
+    "native-human-columns.json": {
+      "bytes": 172918,
+      "sha256": "172ca50fcc7f9cbaadaabb6a77e5446399a93e6b1d81676b2f58c8169c21d481"
+    },
+    "native-human-undo-columns.json": {
+      "bytes": 153200,
+      "sha256": "46c2270b36def0af4089a30df174a41bc6bc049b7b6332ddb5db2970bb0567fc"
+    },
+    "native-human-gap.json": {
+      "bytes": 155951,
+      "sha256": "9dfcd2c17915cbeb672d971fbefad91ee5823cd01a721f5234d32fa293fea091"
+    },
+    "native-human-undo-gap.json": {
+      "bytes": 155985,
+      "sha256": "1b5839565f6ba13f10059b07460c568520fde55b6f48677deb6819a8165e95c9"
+    },
+    "native-human-drag.json": {
+      "bytes": 201036,
+      "sha256": "7a26f53e4cdcbbabc6e092a79b4e8d061ff411b82a349f99a17697a009dda90f"
+    },
+    "native-human-undo-drag.json": {
+      "bytes": 181318,
+      "sha256": "3b569861b89cb2d9f4076e35492cdd7972aa34b7ed963352e45a480b77624be7"
+    },
+    "native-human-columns.png": {
+      "bytes": 300332,
+      "sha256": "669bc8bc1d83727632c0a203f331d3e06a9929f5e76cccdd5345f580d8332507"
+    },
+    "native-human-gap.png": {
+      "bytes": 264828,
+      "sha256": "e2ad9d2281f258fc2b61589d08d90c0312f9444e49640d6d45f368046f2d4a64"
+    },
+    "native-human-drag.png": {
+      "bytes": 300332,
+      "sha256": "669bc8bc1d83727632c0a203f331d3e06a9929f5e76cccdd5345f580d8332507"
+    },
+    "build-mac-summary.log": {
+      "bytes": 473,
+      "sha256": "587a5c34a81794ef92f2fccd62f26e3a83bbc587de7945f0ad955b22f3ffe166"
+    }
+  },
+  "localPassed": true,
+  "commands": [
+    "bun test src/web/tests",
+    "bun run --cwd src/web typecheck",
+    "bun tools/browser-acceptance.ts",
+    "bun run build:mac",
+    "bun tools/native-acceptance.ts",
+    "bun tools/native-canvas-transform-mcp.ts --repeat --hold (real macOS CUA input and owned MCP evidence)"
+  ],
+  "completedLocal": [
+    "135 model tests / typecheck / native production build",
+    "all 30 browser and portable/package consumer suites; focused Repeat Grid 20 cases",
+    "full native suite with 19 focused WK Repeat Grid cases and actual HTTP MCP resize/gap/count/anchor/layout/capture/durable checkpoint",
+    "three real native OS input edits: click/arrow columns, click/Shift-arrow gutter and rotated pointer drag; human-origin one-operation journal entries, imported values/stable IDs/world anchor and exact Cmd+Z undo",
+    "Screenshot inspection in Chrome, production WK and actual native UI; keyboard focus failure and concurrent delete regression reproduced before fixes"
+  ],
+  "incomplete": [
+    "Final-head review/CI, base #85 merge, retarget/integration and resulting-main verification",
+    "Canonical virtual-cell representation and direct data/image-folder drops #13",
+    "Responsive template sizing Canvas affordances",
+    "Full VoiceOver and physical presentation/input-latency measurement #21"
+  ],
+  "issues": [
+    13,
+    8,
+    27
+  ]
+}
