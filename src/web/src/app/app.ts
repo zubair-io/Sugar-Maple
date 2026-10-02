@@ -649,10 +649,11 @@ export class App {
       return;
     }
     if (typing || this.preview() || this.e.mode() !== 'Design') return;
-    const drawing = this.drawingTools.find(tool => tool.key.toLowerCase() === event.key.toLowerCase());
-    if (!event.altKey && drawing) { event.preventDefault(); this.setDrawing(drawing.kind); return; }
-    if (event.key.toLowerCase() === 'v') { event.preventDefault(); this.setDrawing(null); return; }
-    if (['f', 'r', 't'].includes(event.key)) this.setDrawing(null);
+    const shortcut = event.key.toLowerCase();
+    const drawing = this.drawingTools.find(tool => tool.key.toLowerCase() === shortcut);
+    if (!event.altKey && !event.ctrlKey && !event.metaKey && drawing) { event.preventDefault(); this.setDrawing(drawing.kind); return; }
+    if (shortcut === 'v') { event.preventDefault(); this.setDrawing(null); return; }
+    if (['f', 'r', 't'].includes(shortcut)) this.setDrawing(null);
     if (
       ['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(event.key) &&
       this.e.node() &&
@@ -678,9 +679,9 @@ export class App {
       if (operations.length) this.e.perform(operations);
     }
     if (event.key === 'Backspace' || event.key === 'Delete') this.e.remove();
-    if (event.key === 'f') this.e.add('artboard');
-    if (event.key === 'r') this.e.add('rectangle');
-    if (event.key === 't') this.e.add('text');
+    if (shortcut === 'f') this.e.add('artboard');
+    if (shortcut === 'r') this.e.add('rectangle');
+    if (shortcut === 't') this.e.add('text');
     if (['1', '2', '3'].includes(event.key)) this.e.setMode(this.modes[+event.key - 1]);
   }
 }

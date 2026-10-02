@@ -40,6 +40,16 @@ try {
       slider.dispatchEvent(new Event('input', { bubbles: true })); }, zoom); await settle(page);
     await page.getByLabel('Drawing stroke color', { exact: true }).fill('#dc2626');
     await page.getByLabel('Drawing stroke width', { exact: true }).fill('8'); await page.getByLabel('Drawing stroke width', { exact: true }).press('Tab');
+    const shortcutBefore = await get(page);
+    await page.getByRole('button', { name: 'Draw line', exact: true }).click(); await page.locator('.viewport canvas').focus();
+    await page.keyboard.press('Meta+a'); await page.keyboard.press('Control+a');
+    await expect(page.getByRole('button', { name: 'Draw line', exact: true })).toHaveAttribute('aria-pressed', 'true');
+    assert.deepEqual((await get(page)).document, shortcutBefore.document, 'Modified A does not switch to Arrow or edit the scene');
+    await page.keyboard.press('Shift+f'); await settle(page);
+    await expect(page.getByRole('button', { name: 'Select tool', exact: true })).toHaveAttribute('aria-pressed', 'true');
+    const uppercase = await get(page); assert.equal(uppercase.revision, shortcutBefore.revision + 1);
+    assert.equal(uppercase.document.nodes.find((node: any) => node.id !== 'frame').kind, 'artboard');
+    await undo(page); assert.deepEqual((await get(page)).document, shortcutBefore.document);
     for (const kind of ['line', 'arrow', 'freehand']) {
       await select(page, 'frame'); const before = await get(page);
       await page.getByRole('button', { name: 'Draw ' + kind, exact: true }).click();

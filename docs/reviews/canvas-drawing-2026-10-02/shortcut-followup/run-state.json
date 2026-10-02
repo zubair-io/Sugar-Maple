@@ -1,0 +1,60 @@
+{
+  "recordedAt": "2026-10-02T08:44:35.725359+00:00",
+  "runtimeSourceHead": "038262da990c26637a71ee5f694e69b04b06f183",
+  "checks": {
+    "model": {
+      "passed": 124,
+      "failed": 0,
+      "assertions": 2067,
+      "files": 26
+    },
+    "browserConsumerSuites": 28,
+    "shortcuts": "At both drawing zooms, real Chromium Meta+A/Control+A preserve the active Line tool and entire document; Shift+F exits drawing and adds exactly one artboard with exact undo",
+    "build": "Production web/macOS DEBUG build and typecheck pass",
+    "native": "Complete native acceptance passes including all drawing, reparent, lock and consumer checks"
+  },
+  "reviewContext": {
+    "earlierModifierFindingSession": "14667606039730276303",
+    "previousApprovedHead": "970113b46aa726782813b9c1f36c288df0cb81a4",
+    "previousApproveSession": "3931899593613486831",
+    "previousHeadCI": "36983019732",
+    "changes": "The earlier modifier return already protected Meta/Ctrl. The local tool guard now states those conditions explicitly; basic creation shortcuts also handle uppercase keys."
+  },
+  "limitations": [
+    "This follow-up adds Chrome shortcut acceptance; native OS gesture proofs retain the original fc0e881/d5d0e82 source scopes.",
+    "Current updated-head remote CI/review remain pending; prior-head approval is not current-head approval.",
+    "Native IME/VoiceOver and broader issue9 text acceptance remain open."
+  ],
+  "artifacts": [
+    {
+      "path": "model.log",
+      "sha256": "fbb1c42be66b42a439325f73f4679d57997a3df78c8b476e320c60b645e58b48",
+      "bytes": 13570
+    },
+    {
+      "path": "typecheck.log",
+      "sha256": "9b2b770f3351789b5fd00fa72323f6eb7ea6de3fa3d75b7678bcbee1c8f6d5f6",
+      "bytes": 36
+    },
+    {
+      "path": "mac-build.log",
+      "sha256": "c9722828c34ee2b2f784924f0df5d06f93e7d0f715a6a2f64bec2fe85ab1d5d4",
+      "bytes": 56670
+    },
+    {
+      "path": "browser.log",
+      "sha256": "1cab44c5a26412289d46546fe43c2e367d79e69c04307bb937b5f00c9d74f8c6",
+      "bytes": 6205
+    },
+    {
+      "path": "native.log",
+      "sha256": "b380a2654443eecb73ee29560be6c1f5c17ef804baf845331840177b0c1aadec",
+      "bytes": 5309
+    },
+    {
+      "path": "wk-report.json",
+      "sha256": "2a0eb63032ceb07d4b38db0c82b8686afa0caf7538a5bd5b38c66e3d1c821f43",
+      "bytes": 1725
+    }
+  ]
+}
