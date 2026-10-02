@@ -6,7 +6,7 @@ try {
   await page.goto(process.env.SUGAR_MAPLE_TEST_URL ?? 'http://127.0.0.1:4200');
   await page.waitForFunction(() => window.sugarMaple.ready);
   const script = await Bun.file('tools/document-snapshot-page.js').text();
-  const report = await page.evaluate(script);
+  const report = await page.evaluate(script + '\nwindow.canvasTransformAcceptance()');
   assert.equal(report.passed, true);
   assert.equal(report.checks, 7);
   await Bun.write('build/evidence/document-snapshot-chrome.json', JSON.stringify(report, null, 2));
