@@ -1,0 +1,34 @@
+ 1:  c948df2 =  1:  9838c97 fix(preview): mirror real input changes in semantic comparison
+ 2:  28e58f9 !  2:  f9e4cb5 test(preview): compare real Canvas DOM web and native consumers
+    @@ Commit message
+     
+      ## .github/workflows/editor.yml ##
+     @@ .github/workflows/editor.yml: jobs:
+    -       - run: xcodebuild -version
+            - run: bun run build:mac
+    +         timeout-minutes: 10
+            - run: bun tools/native-acceptance.ts
+     +      - run: bun --bun src/web/node_modules/@playwright/test/cli.js install chrome
+     +      - run: bun tools/library-preview-comparison.ts --trust-native-fixture
+ 3:  7a24330 =  3:  6b8bb1b docs(preview): record measured library integration go-no-go
+ 4:  b45695f =  4:  42ad1a2 docs(preview): preserve source-bound four-runtime comparison evidence
+ 5:  f43c593 =  5:  21f702e Own a fresh source checkout server for library comparison
+ 6:  220b0fa !  6:  3b40398 Gate comparison server provenance and complete process cleanup
+    @@ Commit message
+     
+      ## .github/workflows/editor.yml ##
+     @@ .github/workflows/editor.yml: jobs:
+    -       - run: bun run build:mac
+    +         timeout-minutes: 10
+            - run: bun tools/native-acceptance.ts
+            - run: bun --bun src/web/node_modules/@playwright/test/cli.js install chrome
+     -      - run: bun tools/library-preview-comparison.ts --trust-native-fixture
+ 7:  7940a83 =  7:  32b907a Record fresh-server comparison and ownership regression evidence
+ 8:  68bad7a =  8:  ed56ccd Clean up preview servers when browser launch or closure fails
+ 9:  5cadd39 =  9:  1868aa9 Observe the development server actual ephemeral binding
+10:  a1b840b = 10:  f0c6b6a Create standalone ownership gate output before starting its child
+11:  b013c2b = 11:  8ab6563 Record launch cleanup and actual port binding acceptance
+12:  4f0dd13 = 12:  fa34208 Wait for committed comparison state and isolate native cleanup failures
+13:  e7968e3 = 13:  291e997 Record committed-state and native-shutdown comparison regression proof
+14:  fa45529 = 14:  7f630ac Require zero child exit status in comparison orchestration
+15:  ef71166 = 15:  70c1aa9 Record comparison cleanup verification after exact-zero exit check
