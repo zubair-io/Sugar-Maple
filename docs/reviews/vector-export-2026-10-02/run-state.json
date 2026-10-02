@@ -19,7 +19,7 @@
     "exactHeadCI": 36994033031,
     "reviewRun": 36994033098,
     "resultingMainCI": 36995710963,
-    "verified": "All succeeded, actual final-head verdict approve before merge."
+    "reviewComment": "https://github.com/zubair-io/Sugar-Maple/pull/84#issuecomment-5950189379"
   },
   "checks": {
     "model": {
