@@ -96,6 +96,9 @@ try {
   await page.evaluate(() => (window as any).preview.render((window as any).previewProps));
   const accessibility = await frame.locator('body').ariaSnapshot();
   const semanticAccessibility = await page.frameLocator('#semantic').locator('body').ariaSnapshot();
+  assert.ok(accessibility.includes('- paragraph: Pinned library consumer'));
+  assert.ok(semanticAccessibility.includes('- paragraph: Pinned library consumer'));
+  assert.ok(!accessibility.includes('- heading'), 'The runtime must preserve the fixture text role instead of inventing a heading');
   await page.screenshot({ path: resolve(output, 'comparison.png'), fullPage: true });
   await page.getByRole('button', { name: 'Stop preview' }).click();
   await expect(page.locator('#runtime iframe')).toHaveCount(0);

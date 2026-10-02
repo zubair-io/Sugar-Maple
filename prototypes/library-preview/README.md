@@ -59,9 +59,10 @@ manifest variants update without rebuilding the bundle. Typed Input changes
 and Button actions return to the host. This supports a bounded library
 preview contract, rather than treating source code as a bitmap.
 
-The comparison already exposes semantic differences: the real Card header is
-a level-two heading; the current semantic export produces a paragraph. Both
-expose the same named input/button, but package styling and variants differ.
+Both paths preserve the fixture's paragraph header and expose the same named
+input/button, but package styling and variants differ. The prototype must not
+invent a heading role that the source text node did not declare. Web Awesome's
+header slot accepts host-supplied content; it does not confer a heading role.
 ARIA snapshots and screenshots provide evidence for this fixture, not a full
 VoiceOver or accessibility audit. The semantic comparison is DOM export; the
 interactive Canvas editor has not yet been measured against this runtime.
