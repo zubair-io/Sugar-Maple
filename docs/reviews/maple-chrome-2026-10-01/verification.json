@@ -1,0 +1,28 @@
+{
+  "date": "2026-10-01",
+  "issue": 4,
+  "status": "partial source/dependency audit; missing primitives and light/dark specimen remain",
+  "sourceCommit": "0898d25",
+  "upstreamRevision": "dc6205dbd5ea8031510777e3031abad50cb7e2e7",
+  "files": {
+    "total": 19,
+    "exactPinned": 10,
+    "adaptedPinned": 3,
+    "localCompositionsStyles": 6
+  },
+  "upstreamComponentSourceModules": 171,
+  "checks": {
+    "inventory": "pass",
+    "isolatedCheckoutFrozenInstall": "pass",
+    "isolatedCheckoutProductionWebBuild": "pass",
+    "negativeSceneHostImport": "rejected",
+    "negativeSideEffectBackendImport": "rejected",
+    "negativeDynamicImport": "rejected",
+    "negativeSourceDrift": "rejected"
+  },
+  "remaining": [
+    "Actual pinned toolbar/tree/inspector and their transitive UI closure",
+    "Isolated chrome specimen and light/dark behavior",
+    "Runtime cold-launch, no backend/auth/remote-font initialization, keyboard/accessibility/visual acceptance"
+  ]
+}
