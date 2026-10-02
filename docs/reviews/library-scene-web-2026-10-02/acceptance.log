@@ -1,0 +1,25 @@
+bun test v1.4.2 (744846f84)
+
+prototypes/library-preview/scene-contract.test.ts:
+(pass) the bounded library scene carries resolved authored geometry and named slots without mutating the source [12.95ms]
+(pass) source token bindings, local overrides and nested slots survive projection and one-step source undo [4.83ms]
+(pass) resolved responsive boxes and nested rotations are carried instead of replacing them with package intrinsic sizes [2.59ms]
+(pass) scene packets reject inconsistent graphs, unsupported source, privileged keys and aggregate payload excess [4.92ms]
+
+prototypes/library-preview/contract.test.ts:
+(pass) preview shares the real pinned manifest types, variants and bounds [0.34ms]
+(pass) preview messages reject privileged methods, paths, extra keys, wrong versions and unbounded payloads [0.42ms]
+
+ 6 pass
+ 0 fail
+ 53 expect() calls
+Ran 6 tests across 2 files. [270.00ms]
+{"passed":true,"package":{"name":"@awesome.me/webawesome","version":"3.14.0"},"hashes":{"runtime.js":{"bytes":278178,"sha256":"a70de34d91bf1ef00a37c5aa6f9d9b1ed212722bd79abfec074fc003890215eb"},"runtime.css":{"bytes":155312,"sha256":"f15ad9222cd24a7a5d24b52ad66f3e8520ee259b11a7215a2beb157208cd4cae"},"host.js":{"bytes":100746,"sha256":"145f8987a13cb882b6d7ed8dab0df443bcb0a4ebb98215860feba067c6ae48fa"},"host.css":{"bytes":2228,"sha256":"a24540b648d3e441dc8d5daff81c490da0b96b516402398f7a2169fd665fc9b4"},"semantic.html":{"bytes":3044,"sha256":"b4f5734f42e9131109a5fde7fb89b259f3b8bd8fedb740039ff6fef58d25dd05"},"fixture.json":{"bytes":23547,"sha256":"a44ed1b851f3321d8ecaedbffd41816628a4f29b4cecac49a3ed6d7e8cf4560c"}}}
+PASS: browser-test.ts stops its server when the browser launch boundary throws
+PASS: browser-test.ts stops its server when the browser close boundary throws
+PASS: compare.ts stops its server when the browser launch boundary throws
+PASS: compare.ts stops its server when the browser close boundary throws
+PASS: report-test.ts stops its server when the browser launch boundary throws
+PASS: report-test.ts stops its server when the browser close boundary throws
+PASS: isolated real Web Awesome controls, typed props/events, denied parent/storage/network/bridge, stale rejection, malformed input, opt-in/stop and offline rendering
+PASS: authored geometry and actual package slots/variants/token/overrides, accessible typed events, ephemeral update/undo/reset, disabled/rejection/stop and offline scene rendering
