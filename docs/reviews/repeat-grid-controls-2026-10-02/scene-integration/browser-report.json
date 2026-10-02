@@ -1,0 +1,10 @@
+{
+  "passed": true,
+  "checks": 20,
+  "zoom": [
+    0.5,
+    1.5
+  ],
+  "scope": "Actual production Canvas controls: pointer capture, row/column/gutter previews and one-step commit/undo, data retention, capture guard, Escape/pointercancel/stale cancellation, keyboard sliders and inherited-lock/read-only guards",
+  "accessibility": "- slider \"Repeat Grid columns\": +\n- slider \"Repeat Grid rows\": +\n- slider \"Repeat Grid gap\": ↔"
+}
