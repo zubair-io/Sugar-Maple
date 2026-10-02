@@ -1,0 +1,21 @@
+170 |   const baseline = await checkpoint();
+171 |   const columns = page.getByRole('slider', { name: 'Repeat Grid columns', exact: true });
+172 |   await columns.click();
+173 |   await page.keyboard.press('ArrowRight');
+174 |   await settle();
+175 |   assert.equal(cells((await checkpoint()).document).length, 3);
+               ^
+AssertionError: Expected values to be strictly equal:
+
+2 !== 3
+
+ generatedMessage: true,
+     actual: 2,
+   expected: 3,
+   operator: "strictEqual",
+       diff: "simple",
+       code: "ERR_ASSERTION"
+
+      at /Users/riabuz/.codex/worktrees/mcp-contract-hardening/_SugarMaple/src/web/tests/repeat-handles-e2e.ts:175:10
+
+Bun v1.4.2 (macOS arm64)

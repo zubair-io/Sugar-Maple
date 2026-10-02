@@ -1,0 +1,15 @@
+{
+  "passed": true,
+  "checks": 3,
+  "sourceCommit": "b2fa1701ff42ec5ee8853f66e6606492c65c4fec",
+  "method": "Real macOS app CUA click/keyboard and rotated pointer drag; same owned native authenticated HTTP MCP reads/captures after each action",
+  "actions": [
+    "Click columns and Right: 3 to 4, 5 to 8 cells; Cmd+Z restores exact document",
+    "Click gap and Shift+Right: 35 to 45, five cell IDs unchanged; Cmd+Z restores exact document",
+    "Actual rotated column-handle drag: 3 to 4; one human repeat.resize entry, retained data/world anchor; Cmd+Z restores exact document"
+  ],
+  "limitations": [
+    "Not a full VoiceOver audit",
+    "No physical presentation or input-latency measurement"
+  ]
+}
