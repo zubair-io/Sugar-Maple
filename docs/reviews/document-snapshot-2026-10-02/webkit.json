@@ -1,0 +1,144 @@
+{
+  "engine" : "WKWebView",
+  "memory" : {
+    "ownerPeakRSSBytes" : 191037440,
+    "scope" : "This benchmark UI process only; WebKit content\/GPU\/network process memory is not included"
+  },
+  "nativeBridge" : "In-memory benchmark recovery\/status\/autosave only; production native disk\/MCP\/clipboard costs excluded",
+  "os" : "Version 27.0 (Build 26A428)",
+  "result" : {
+    "checks" : 7,
+    "document" : {
+      "assets" : {
+
+      },
+      "comments" : [
+        {
+          "anchor" : null,
+          "createdAt" : "2026-10-02T23:11:23.771Z",
+          "id" : "snapshot-comment",
+          "messages" : [
+            {
+              "author" : "agent",
+              "createdAt" : "2026-10-02T23:11:23.771Z",
+              "id" : "c42f11b7-c3fd-4a55-823d-adef552197a0",
+              "text" : "Original comment"
+            }
+          ],
+          "pageId" : "ded0b695-54a7-4c06-848d-3766111c01d3",
+          "resolved" : false,
+          "resolvedAt" : null,
+          "resolvedBy" : null
+        }
+      ],
+      "folders" : [
+        {
+          "id" : "snapshot-folder",
+          "name" : "Original folder",
+          "order" : 0
+        }
+      ],
+      "id" : "6b8936b2-063c-4025-8d93-d290a78e560b",
+      "libraries" : {
+
+      },
+      "name" : "Untitled",
+      "nodes" : [
+        {
+          "accessibleLabel" : "",
+          "asset" : "",
+          "color" : "#18181b",
+          "columns" : 2,
+          "componentId" : null,
+          "disabled" : false,
+          "fill" : "#ffffff",
+          "fillEnabled" : true,
+          "fillToken" : "",
+          "fontFamily" : "system-ui",
+          "fontSize" : 16,
+          "fontWeight" : 400,
+          "gap" : 16,
+          "gradient" : {
+            "angle" : 180,
+            "centerX" : 50,
+            "centerY" : 50,
+            "radiusX" : 50,
+            "radiusY" : 50,
+            "stops" : [
+              {
+                "color" : "#112233",
+                "offset" : 0,
+                "opacity" : 1
+              },
+              {
+                "color" : "#ffffff",
+                "offset" : 1,
+                "opacity" : 1
+              }
+            ],
+            "type" : "linear"
+          },
+          "height" : 100,
+          "heightMode" : "fixed",
+          "heightPercent" : 100,
+          "hidden" : false,
+          "id" : "snapshot-gradient",
+          "initialValue" : "",
+          "inputType" : "text",
+          "isComponent" : false,
+          "kind" : "rectangle",
+          "layout" : "free",
+          "letterSpacing" : 0,
+          "libraryRef" : null,
+          "librarySlot" : "",
+          "lineHeight" : 1.2,
+          "locked" : false,
+          "name" : "Original gradient",
+          "opacity" : 1,
+          "order" : 0,
+          "overrides" : [
+
+          ],
+          "padding" : 16,
+          "pageId" : "ded0b695-54a7-4c06-848d-3766111c01d3",
+          "parentId" : null,
+          "pathData" : "",
+          "prototypeAction" : "navigate",
+          "radius" : 0,
+          "repeatIndex" : null,
+          "repeatTemplateId" : null,
+          "rotation" : 0,
+          "stroke" : "#d4d4d8",
+          "strokeWidth" : 0,
+          "targetId" : null,
+          "text" : "",
+          "textAlign" : "auto",
+          "transition" : "instant",
+          "variantName" : "Default",
+          "variants" : {
+
+          },
+          "viewBox" : "0 0 100 100",
+          "width" : 200,
+          "widthMode" : "fixed",
+          "widthPercent" : 100,
+          "x" : 0,
+          "y" : 0
+        }
+      ],
+      "pages" : [
+        {
+          "folderId" : "snapshot-folder",
+          "id" : "ded0b695-54a7-4c06-848d-3766111c01d3",
+          "name" : "Page 1",
+          "order" : 0
+        }
+      ],
+      "tokens" : {
+
+      },
+      "version" : 1
+    },
+    "passed" : true
+  }
+}
