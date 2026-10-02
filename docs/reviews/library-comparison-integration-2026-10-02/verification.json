@@ -1,0 +1,182 @@
+{
+  "sourceCommit": "489ab9ccb4fa38aa745e9edb995949dd62f93ca3",
+  "dependencyHead": "cd5b156f222b5bc98bfac8a1dff2213b4b6e5375",
+  "priorHead": "ef711665b3ec5661c4ba7b7f84b3d7778c1e80ac",
+  "recordedAt": "2026-10-02T18:13:27.897Z",
+  "checks": {
+    "actualComparisonAndOwnershipExitCode": 0,
+    "wholeComparisonSuccessBeforeInjectedShutdown": true,
+    "cleanupDeadlineMilliseconds": 30000,
+    "realLeakedListenerRejected": true
+  },
+  "inheritedAcceptance": {
+    "sourceCommit": "5d4c404cedaf8bdb463873bb898969461d66d2a1",
+    "path": "docs/reviews/library-native-integration-2026-10-02",
+    "unchangedAppAndNativeSourceHashes": 225
+  },
+  "sources": {
+    ".github/workflows/editor.yml": {
+      "bytes": 1304,
+      "sha256": "c10eff29dd0ec4c6e30a9c14477dbc1f228dacecd15ebc370769bb8b004e8bbc"
+    },
+    "prototypes/library-preview/README.md": {
+      "bytes": 5580,
+      "sha256": "d8a1dbd230816cd5efd97a575114704fdd0ef0330daf03a585659a73c1325c72"
+    },
+    "prototypes/library-preview/browser-test.ts": {
+      "bytes": 9442,
+      "sha256": "540bcdf6bdad0d63484dbb59b7015b5fa5c8bb0fd7169884cd95ed85f78a01d0"
+    },
+    "prototypes/library-preview/build.ts": {
+      "bytes": 4054,
+      "sha256": "eacfae61f6b06326618b30b35240e013d8bec961eea6edf53f4daaceac6dcd92"
+    },
+    "prototypes/library-preview/compare.ts": {
+      "bytes": 14261,
+      "sha256": "2a8600528ddd0da05d2a7a9fce3278a7a12195668a9876920ea7eecf92de3e17"
+    },
+    "prototypes/library-preview/comparison-report.ts": {
+      "bytes": 9986,
+      "sha256": "aab94bc7efcad09730e9a352d8c540bff3e05cfe5f7718f1a1f3ae246a9470ba"
+    },
+    "prototypes/library-preview/contract.test.ts": {
+      "bytes": 1397,
+      "sha256": "db78d56219e0a5fa51ca6c1bce6c9b790d4a5f37f794fdffffd0ee1cb19b7836"
+    },
+    "prototypes/library-preview/contract.ts": {
+      "bytes": 2639,
+      "sha256": "fdf2362614b206900950128565e3c0cb6490cb44a08a2db86a2fe00502ffa415"
+    },
+    "prototypes/library-preview/host.css": {
+      "bytes": 2228,
+      "sha256": "a24540b648d3e441dc8d5daff81c490da0b96b516402398f7a2169fd665fc9b4"
+    },
+    "prototypes/library-preview/host.ts": {
+      "bytes": 4200,
+      "sha256": "7c330ea5e50b81228fd1d7c71d5938396e61ecab67928fedceee14544dd764ec"
+    },
+    "prototypes/library-preview/index.html": {
+      "bytes": 1967,
+      "sha256": "97412ca3c566e97035fe85cd1baa062b6e0011d81a91065ee46b0430d64033f4"
+    },
+    "prototypes/library-preview/launch-failure-test.ts": {
+      "bytes": 1448,
+      "sha256": "628a67a2165734f4dbca4ae1c4efe8bb2b16425720afafc9ff3464e848c66570"
+    },
+    "prototypes/library-preview/native-stop-failure-test.ts": {
+      "bytes": 4377,
+      "sha256": "1639a06ab64e7e36e0b4581bd02df7332ef282c413e2321de99569ab448d2e09"
+    },
+    "prototypes/library-preview/native/README.md": {
+      "bytes": 4325,
+      "sha256": "059c0947be6fbb1d0ec99486b2a7080ffc66a4d2463734af45aec01897f25ec3"
+    },
+    "prototypes/library-preview/native/build.ts": {
+      "bytes": 3743,
+      "sha256": "85b2d5261c62cb343ff3f07f7f7bc80407699223a2a687dd0804ebc5dcabbf5d"
+    },
+    "prototypes/library-preview/native/controller.ts": {
+      "bytes": 5209,
+      "sha256": "748abeaef84ec116f9a2a05fedc7a6f96f26953e12ad712982ff634c79930288"
+    },
+    "prototypes/library-preview/native/fixture.entitlements": {
+      "bytes": 233,
+      "sha256": "baa050bc06d89900bed3bb4954acdf2f17c4f47e259b1870f889d4a301fbcaf4"
+    },
+    "prototypes/library-preview/native/fixture.swift": {
+      "bytes": 9246,
+      "sha256": "3a465d5f87f685ff1b94de52fdbc26e4a84a7ee85e4654c98e67de174437c9fd"
+    },
+    "prototypes/library-preview/native/human-test.ts": {
+      "bytes": 1872,
+      "sha256": "69b0318ebe10c0720430cf2182d884639f772d915c0bc9af381840e00c2f42a2"
+    },
+    "prototypes/library-preview/native/limit.c": {
+      "bytes": 535,
+      "sha256": "9ce971d297ba842c46856e5e7d6ec0907dcf2c584505eb22e63fae28e5324c70"
+    },
+    "prototypes/library-preview/native/limits-test.ts": {
+      "bytes": 3340,
+      "sha256": "30283cb863592883f860e1532cf2dc8b8e5e1cb4b8379f7345c799fc303bbca1"
+    },
+    "prototypes/library-preview/native/supervise.ts": {
+      "bytes": 3130,
+      "sha256": "4cbc602380bb944aa683c1356c612264c614c4464eb5376053e258c07078b942"
+    },
+    "prototypes/library-preview/native/test.ts": {
+      "bytes": 3397,
+      "sha256": "7139c3ea8abc43f2188b4c44ca896b64f849a7b38f618c578a0faaa4c5578ab5"
+    },
+    "prototypes/library-preview/package-cost.ts": {
+      "bytes": 1920,
+      "sha256": "ee63980d528fadd248046440d283da87ae0dc9f15e3c267893d0cdbd8812ea6a"
+    },
+    "prototypes/library-preview/report-test.ts": {
+      "bytes": 1983,
+      "sha256": "e2f235fb582fbdab5ec748a2f9aa6ceb6368574626035aaea339dcb157a67864"
+    },
+    "prototypes/library-preview/serve-report.ts": {
+      "bytes": 989,
+      "sha256": "986a605244e628ecda460ddf7956b9884d87050236104902f8fc1d9f4f83afb8"
+    },
+    "prototypes/library-preview/serve.ts": {
+      "bytes": 1823,
+      "sha256": "1a1da20e19615a7b95c337ce5375759920a118fca9cd9bfd0ea9d6b43420dedb"
+    },
+    "prototypes/library-preview/server-owner-test.ts": {
+      "bytes": 2625,
+      "sha256": "570d77fbdd210274eeedac38c99661914c7d241addfa9e9b080d0eb89505acb0"
+    },
+    "prototypes/library-preview/tsconfig.json": {
+      "bytes": 244,
+      "sha256": "274ab819b08a37e7f49017e5513266e2e17cd30cdb84f188b0618f8a016983fb"
+    },
+    "prototypes/library-preview/web-controller.ts": {
+      "bytes": 4101,
+      "sha256": "3b0c61c96a056f908a75f63fe47259ca6048afa0ed81a925bcbc3056cb74688e"
+    },
+    "prototypes/library-preview/web-runtime.ts": {
+      "bytes": 3114,
+      "sha256": "72651baf363771fb0fb40ede1bb7843cc1caf7dc2a92ccec858089fb8a733f43"
+    },
+    "src/web/src/app/model/bundled-library.ts": {
+      "bytes": 4732,
+      "sha256": "2f283ccbbea3b38ba16847e3bf98b1cd2ca33bc1f0de8c1a810fb83ec0823606"
+    },
+    "tools/library-preview-acceptance.ts": {
+      "bytes": 711,
+      "sha256": "817b1da52f3b39d308955df1fde1e6c69d41e2a2f1125c5de011da1215a04617"
+    },
+    "tools/library-preview-comparison.ts": {
+      "bytes": 2776,
+      "sha256": "8d48f39e1775e68b8e9663b30ceb26de6e2aca2363e302150a38259693377a0a"
+    }
+  },
+  "artifacts": {
+    "acceptance.log": {
+      "bytes": 5524,
+      "sha256": "3b028d354624fe7d89466d5bf724314a4c11997dc9a9b05380408788ff6baa89"
+    },
+    "owner.json": {
+      "bytes": 334,
+      "sha256": "c814740eb4f227f08fd1578e16a7c3362fafd87f34d9df90293c5fc7de2d2c35"
+    },
+    "native-stop.json": {
+      "bytes": 519,
+      "sha256": "b7ce3fd289efcabb20b4a3c83072e27d0cd4e004ce6977f69783b09230b20ec1"
+    },
+    "comparison.json": {
+      "bytes": 30069,
+      "sha256": "0704b70e0d3fbea1cc6636d6e4a2e939caf732f229fc04e62f33245ba3c78535"
+    },
+    "range-diff.log": {
+      "bytes": 2222,
+      "sha256": "3baf63505007d61ebb79cacd94a8cdd3ab78c6fb6406be7454099ade72398f1d"
+    }
+  },
+  "limits": [
+    "Fresh exact-head approval/CI and dependency/current-main/resulting-main delivery remain pending.",
+    "This retains the props-only baseline comparison; the authored-scene projection and narrower 0.1 geometry gate are in #95.",
+    "Historical physical input and previous baseline screenshots/metrics retain their recorded sources; this follow-up does not relabel them."
+  ]
+}

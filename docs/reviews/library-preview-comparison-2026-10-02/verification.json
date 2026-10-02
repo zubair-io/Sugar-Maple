@@ -1,0 +1,104 @@
+{
+  "sourceCommit": "fa45529897eca5374e6a3f9da2240645f12489ec",
+  "baseCommit": "2754035a1ca439e84452d53ec421489533971f20",
+  "editorSourceCommit": "edd130af96c292c325792c6de9bb0ed8c19974d1",
+  "recordedAt": "2026-10-02T14:30:56.769Z",
+  "runtime": "1.4.2",
+  "sourceHashes": {
+    "prototypes/library-preview/compare.ts": "e467f5b97f62512a10b3f516c8bda8998d01f8efd7fd6f82f29cf3743416772b",
+    "prototypes/library-preview/launch-failure-test.ts": "628a67a2165734f4dbca4ae1c4efe8bb2b16425720afafc9ff3464e848c66570",
+    "prototypes/library-preview/native-stop-failure-test.ts": "44d35398781cfaaed753b5dfd4d7dd6b52e2320b1d209e4b3098777f2aa24ec6",
+    "tools/library-preview-acceptance.ts": "817b1da52f3b39d308955df1fde1e6c69d41e2a2f1125c5de011da1215a04617",
+    "prototypes/library-preview/package-cost.ts": "ee63980d528fadd248046440d283da87ae0dc9f15e3c267893d0cdbd8812ea6a",
+    "prototypes/library-preview/comparison-report.ts": "aab94bc7efcad09730e9a352d8c540bff3e05cfe5f7718f1a1f3ae246a9470ba",
+    "prototypes/library-preview/report-test.ts": "e2f235fb582fbdab5ec748a2f9aa6ceb6368574626035aaea339dcb157a67864",
+    "prototypes/library-preview/serve-report.ts": "986a605244e628ecda460ddf7956b9884d87050236104902f8fc1d9f4f83afb8",
+    "prototypes/library-preview/host.ts": "7c330ea5e50b81228fd1d7c71d5938396e61ecab67928fedceee14544dd764ec",
+    "prototypes/library-preview/browser-test.ts": "540bcdf6bdad0d63484dbb59b7015b5fa5c8bb0fd7169884cd95ed85f78a01d0",
+    "prototypes/library-preview/server-owner-test.ts": "570d77fbdd210274eeedac38c99661914c7d241addfa9e9b080d0eb89505acb0",
+    "prototypes/library-preview/native/supervise.ts": "4cbc602380bb944aa683c1356c612264c614c4464eb5376053e258c07078b942",
+    "tools/library-preview-comparison.ts": "8d48f39e1775e68b8e9663b30ceb26de6e2aca2363e302150a38259693377a0a",
+    ".github/workflows/editor.yml": "8e7e35b49d2156990d9c783d3d54db5ce3ca830ea72ef591c3ed85af1d183446"
+  },
+  "artifacts": {
+    "acceptance.log": {
+      "bytes": 5296,
+      "sha256": "2acd107752f6f194a846dbf16d8a32006163ba3145d6dbcac3f4e692a54b93b0"
+    },
+    "server-owner-report.json": {
+      "bytes": 334,
+      "sha256": "f01759cddc2282373267a167466d23f3482658284a2eb7c89847991e7c1a4d89"
+    },
+    "server-owner-acceptance.log": {
+      "bytes": 114,
+      "sha256": "fd3df200e252aca2110c0e776088277fac33d255804592f5546e7f4676137784"
+    },
+    "comparison.json": {
+      "bytes": 30131,
+      "sha256": "3da50bff86fb85041aa29971c2450cc8c5197b88eafd71dec21aceb8840bce66"
+    },
+    "package-cost.json": {
+      "bytes": 7191,
+      "sha256": "6fd6540013005529f50e1d30adc2d16ff38605309212859b7308e5c438d69073"
+    },
+    "index.html": {
+      "bytes": 11898,
+      "sha256": "b55969409024b4eb325936f515be6ce04274936031b2e2ba616b64845b4a3987"
+    },
+    "canvas-editor.png": {
+      "bytes": 86779,
+      "sha256": "90f7de4d6553de64d8c4bc3a54206707b3ace5f13d25baaa2dcf072df2bfc1fb"
+    },
+    "canvas-fixture.png": {
+      "bytes": 10559,
+      "sha256": "ce82afddadae7f81dd8322f328a72d8e086b420e76d3f45cbc2830b8e789836c"
+    },
+    "dom-fixture.png": {
+      "bytes": 10204,
+      "sha256": "4c6ef59e62e9597b6f5937da3ae1331c4d15c9fbe22085ac7365017169d4df90"
+    },
+    "web-fixture.png": {
+      "bytes": 13204,
+      "sha256": "0aeb3c5c45db61e80ddb1ec60d5a749186c1aedc7e810f318bf2b54ad0bf46ae"
+    },
+    "native-fixture.png": {
+      "bytes": 35324,
+      "sha256": "136b26f9286c5a324ddd23940209230e14da444afbc94d599acd595bffc5ca95"
+    },
+    "report.png": {
+      "bytes": 450633,
+      "sha256": "a16a4193cee35962b3ae5fc5fd6c6c15747966ae1f878200bee2d30dde2128f8"
+    }
+  },
+  "commands": [
+    "bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture",
+    "bun tools/library-preview-comparison.ts --trust-native-fixture (invoked by ownership gate)"
+  ],
+  "localPassed": true,
+  "completedLocal": [
+    "actual comparison with injected native stop failure exits naturally after browser/server cleanup",
+    "committed inspector label and variant identity are observed before checkpoint metrics",
+    "six real browser-entry launch/close failures exit naturally without leaking preview servers",
+    "Angular/Vite binds port zero itself; only the owned child reported actual URL is used",
+    "fresh checkout private-port server; unrelated port 4200 not used/preserved; no live owned server descendants after completion",
+    "pinned package consumer/cache",
+    "web contract tests / strict typecheck / actual boundary browser acceptance",
+    "same-fixture actual Canvas/DOM geometry and inspector edit/undo",
+    "actual DOM ephemeral values / package typed events / native SwiftUI rendering",
+    "four defined pipeline completion samples",
+    "production package build and per-file asset compression/hashes",
+    "four-image interactive report controls and visual inspection"
+  ],
+  "nativeHumanEvidence": "Separate committed real UI run in docs/reviews/library-preview-native-2026-10-02; this gate does not perform native human input",
+  "decision": {
+    "experiment": "continue fixed trusted source opt-in POCs",
+    "production": "no-go until supported authored geometry/slots/styles and stronger execution boundary are delivered",
+    "followupIssue": 88
+  },
+  "incomplete": [
+    "final-head CI/review/merge and resulting-main verification",
+    "production integration #88",
+    "arbitrary source import",
+    "full VoiceOver/input latency/presentation/whole-product memory #21"
+  ]
+}

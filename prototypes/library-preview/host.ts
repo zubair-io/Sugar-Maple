@@ -5,7 +5,7 @@ const props = fixtureProps(), log = document.querySelector<HTMLElement>('#events
 const events: unknown[] = [];
 const preview = new WebPreview(document.querySelector('#runtime')!, event => {
   events.push(event); if (events.length > 100) events.shift(); log.textContent = JSON.stringify(events, null, 2);
-  if (event.kind === 'change') { props.Input.props.value = event.value; document.querySelector<HTMLInputElement>('#value')!.value = event.value; }
+  if (event.kind === 'change') { props.Input.props.value = event.value; document.querySelector<HTMLInputElement>('#value')!.value = event.value; updateSemantic(props); }
 });
 const alert = document.querySelector<HTMLElement>('#error')!;
 let started = false;

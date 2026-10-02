@@ -35,3 +35,5 @@ jobs:
       - run: bun run build:mac
         timeout-minutes: 10
       - run: bun tools/native-acceptance.ts
+      - run: bun --bun src/web/node_modules/@playwright/test/cli.js install chrome
+      - run: bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture
