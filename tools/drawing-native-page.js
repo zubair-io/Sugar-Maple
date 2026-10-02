@@ -2,6 +2,7 @@
 // shim permits synthetic pointer IDs; OS pointer capture is verified separately.
 window.canvasTransformAcceptance = async function () {
   let checks = 0;
+  const lineInputs = [];
   const check = (condition, message) => { if (!condition) throw Error(message); };
   const get = () => window.sugarMaple.dispatch('document.get');
   const checkpoint = () => window.sugarMaple.dispatch('document.checkpoint');
@@ -23,9 +24,24 @@ window.canvasTransformAcceptance = async function () {
     const rect = document.querySelector('.viewport').getBoundingClientRect(), camera = window.sugarMaple.viewport.camera();
     return { clientX: rect.x + camera.pan.x + wx * camera.zoom, clientY: rect.y + camera.pan.y + wy * camera.zoom };
   };
-  const pointer = (type, x, y, pressure = 0.5) => canvas.dispatchEvent(new PointerEvent(type, {
-    ...point(x, y), pointerId: 1, isPrimary: true, pointerType: 'pen', button: 0, buttons: type === 'pointerup' ? 0 : 1,
-    pressure, bubbles: true, cancelable: true }));
+  const pointer = (type, x, y, pressure = 0.5, integerCoordinates = false) => {
+    const coordinates = point(x, y);
+    if (integerCoordinates) {
+      coordinates.clientX = Math.round(coordinates.clientX);
+      coordinates.clientY = Math.round(coordinates.clientY);
+    }
+    const event = new PointerEvent(type, {
+      ...coordinates, pointerId: 1, isPrimary: true, pointerType: 'pen', button: 0, buttons: type === 'pointerup' ? 0 : 1,
+      pressure, bubbles: true, cancelable: true });
+    // Compare against delivered coordinates, including platform input rounding.
+    // This inverse is independent of the editor geometry implementation.
+    const rect = document.querySelector('.viewport').getBoundingClientRect(), camera = window.sugarMaple.viewport.camera();
+    const dx = (event.clientX - rect.x - camera.pan.x) / camera.zoom - 290,
+      dy = (event.clientY - rect.y - camera.pan.y) / camera.zoom - 240, angle = 25 * Math.PI / 180;
+    const delivered = { x: Math.cos(angle) * dx + Math.sin(angle) * dy + 290 - 42,
+      y: -Math.sin(angle) * dx + Math.cos(angle) * dy + 240 - 42 };
+    canvas.dispatchEvent(event); return delivered;
+  };
   const key = (key, shiftKey = false) => { check(document.activeElement === canvas, 'Pointer transfers toolbar focus to Canvas'); document.activeElement.dispatchEvent(new KeyboardEvent('keydown', { key, shiftKey, bubbles: true, cancelable: true })); };
   try {
     await select(); button('Fit').click(); await settle();
@@ -34,17 +50,21 @@ window.canvasTransformAcceptance = async function () {
       const slider = document.querySelector('[aria-label="Zoom"]'); slider.value = String(zoom); slider.dispatchEvent(new Event('input', { bubbles: true })); await settle();
       for (const kind of ['line', 'arrow', 'freehand']) {
         await select(); const before = await get(); button('Draw ' + kind).click(); await settle();
-        pointer('pointerdown', 120, 130, 0.2);
-        for (let i = 1; i <= 10; i++) pointer('pointermove', 120 + i * 12, 130 + i * 5, 0.2 + i * 0.06);
+        const start = pointer('pointerdown', 120, 130, 0.2, kind === 'line');
+        for (let i = 1; i <= 10; i++) pointer('pointermove', 120 + i * 12, 130 + i * 5, 0.2 + i * 0.06, kind === 'line');
         await settle(); equal((await get()).document, before.document, 'WK draft is not authored');
-        pointer('pointerup', 240, 180, 0.8); await settle();
+        const end = pointer('pointerup', 240, 180, 0.8, kind === 'line'); await settle();
         const after = await get(), node = after.document.nodes.find(node => node.id !== 'frame');
         check(after.revision === before.revision + 1 && node?.kind === 'path' && node.parentId === 'frame', 'WK one drawing command');
         check(node.fillEnabled === (kind === 'freehand') && node.pathData.length > 0, 'WK portable outline');
         if (kind === 'line') {
           const values = node.pathData.match(/-?\d+(?:\.\d+)?/g).map(Number);
-          check(Math.abs(node.x + values[0] - 120) < 0.1 && Math.abs(node.y + values[1] - 130) < 0.1 &&
-            Math.abs(node.x + values[2] - 240) < 0.1 && Math.abs(node.y + values[3] - 180) < 0.1, 'WK rotated-parent endpoint geometry');
+          check(Math.abs(node.x + values[0] - start.x) < 0.1 && Math.abs(node.y + values[1] - start.y) < 0.1 &&
+            Math.abs(node.x + values[2] - end.x) < 0.1 && Math.abs(node.y + values[3] - end.y) < 0.1,
+            'WK rotated-parent endpoint geometry ' + JSON.stringify({ start, end, node, values, zoom }));
+          lineInputs.push({ zoom, screenCoordinates: 'integer', deliveredStart: start, deliveredEnd: end,
+            projectedStart: { x: node.x + values[0], y: node.y + values[1] },
+            projectedEnd: { x: node.x + values[2], y: node.y + values[3] }, tolerance: 0.1 });
         }
         await undo(); equal((await get()).document, before.document, 'WK exact drawing undo'); checks++;
       }
@@ -76,6 +96,6 @@ window.canvasTransformAcceptance = async function () {
       key('Escape'); await settle(); checks++;
     }
     check(Array.isArray(window.canvasTransformErrors) && window.canvasTransformErrors.length === 0, 'No WK errors');
-    return { passed: true, checks, scope: 'Production WK controls/geometry at both zooms; synthetic DOM pointer events use a local capture shim; separate OS input evidence required' };
+    return { passed: true, checks, lineInputs, scope: 'Production WK controls/geometry at both zooms; synthetic DOM pointer events use a local capture shim; separate OS input evidence required' };
   } finally { for (const [name, method] of captureMethods) canvas[name] = method; }
 };
