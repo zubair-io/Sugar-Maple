@@ -20,6 +20,21 @@ test('timed-out sessions can be inspected but cannot be deleted', () => {
   assert.equal(publishedSessionReference([failed], '123', true), false);
   assert.equal(publishedSessionReference([failed], '1234', false), false);
 });
+test('a safe operational failure identifies its retained session for inspection only', () => {
+  // Exact published failure format from PR #90, run 37065900428.
+  const failed = { user: bot, body: '<!-- jules-pr-reviewer -->\n⚠️ **Jules PR review failed to complete.**\n\n```\nReview operation session observation failed (no safe upstream detail). Session 1294350322256185317 retained; inspect that exact session.\n```\n\nSee the [workflow logs](https://github.com/zubair-io/Sugar-Maple/actions/runs/37065900428) for details.' };
+  assert.equal(publishedSessionReference([failed], '1294350322256185317', false), true);
+  assert.equal(publishedSessionReference([failed], '1294350322256185317', true), false);
+  for (const session of ['129435032225618531', '12943503222561853170', '123'])
+    assert.equal(publishedSessionReference([failed], session, false), false);
+  for (const altered of [
+    { ...failed, user: { login: 'attacker', type: 'Bot' } },
+    { ...failed, user: { login: 'github-actions[bot]', type: 'User' } },
+    { ...failed, body: failed.body.replace('<!-- jules-pr-reviewer -->', '') },
+    { ...failed, body: failed.body.replace('Jules PR review failed to complete.', 'Jules is reviewing this PR.') },
+    { ...failed, body: failed.body.replace(' retained; inspect that exact session.', '') },
+  ]) assert.equal(publishedSessionReference([altered], '1294350322256185317', false), false);
+});
 test('recovery rejects path injection, wrong repository/identity, invalid mode and PR number', () => {
   assert.deepEqual(validateRecoveryInput('123', '54', 'cleanup'), {sessionId:'123',prNumber:54,mode:'cleanup'});
   for (const args of [['../123','54','cleanup'],['123','0','inspect'],['123','54','delete-all'],['123','54;run','inspect']])
