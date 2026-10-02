@@ -1,0 +1,142 @@
+The following is a diff from the previous accessibility tree for Window: "Sugar Maple" with ~ and + representing changed and added elements, respectively. Removed elements are summarized by ID range.
+Removed element IDs: 1-148
++	159 scroll area
++		160 HTML content Description: Sugar Maple, URL: sugar-maple://app/index.html
++			161 container
++				162 container Open files
++					163 tab group (selectable) Documents
++						164 tab (selectable) Owned Canvas transform MCP QA, Help: Owned Canvas transform MCP QA — double-click to rename
++						165 button Close Owned Canvas transform MCP QA
++						166 tab (selectable) Owned Canvas transform MCP QA, Help: Owned Canvas transform MCP QA — double-click to rename
++						167 button Close Owned Canvas transform MCP QA
++						168 tab (selectable) Owned native text session QA, Help: Owned native text session QA — double-click to rename
++						169 button Close Owned native text session QA
++						170 tab (selected) Owned native text session QA, Help: Owned native text session QA — double-click to rename
++						171 button Close Owned native text session QA
++					172 button New file
++				173 container Editor mode
++					174 toggle button Design, Value: on
++					175 toggle button Prototype, Value: off
++					176 toggle button Developer, Value: off
++				177 text ◉ MCP
++				178 button ▶ Preview
++			179 container Pages, layers, assets and tokens
++				180 container Sidebar sections
++					181 toggle button Pages, Value: on
++					182 toggle button Layers, Value: off
++					183 toggle button Assets, Value: off
++					184 toggle button Tokens, Value: off
++				185 text PAGES
++				186 button Add page
++				187 text field (settable) New folder name, Placeholder: New folder
++				188 button Add folder
++				189 button ▤ Page 1
++				190 button (disabled) Delete page
++				191 container
++					192 text Page folder
++					193 pop up button (collapsed) Page folder, Value: No folder, Secondary Actions: Expand
++				194 text SUGAR MAPLE Local workspace
++			195 container
++				196 button (expanded) Toggle left panel, Help: Collapse left panel, Secondary Actions: Collapse
++				197 toolbar
++					198 toggle button Add artboard, Value: off
++					199 toggle button Add frame, Value: off
++					200 toggle button Add rectangle, Value: off
++					201 toggle button Add ellipse, Value: off
++					202 toggle button Add text, Value: off
++					203 toggle button Add button, Value: off
++					204 toggle button Add input, Value: off
++				205 toggle button Add comment, Help: Place a comment on the canvas, Value: off
++				206 toggle button Snapping, Help: Snap to visible layer edges and centers. Hold Control while dragging to bypass., Value: on
++				207 button Fit
++				208 button (expanded) Toggle right panel, Help: Collapse right panel, Secondary Actions: Collapse
++				209 toolbar Drawing tools
++					210 toggle button Select tool, Help: Select and transform layers (V), Value: on
++					211 toggle button Draw line, Help: Line (L), Value: off
++					212 toggle button Draw arrow, Help: Arrow (A), Value: off
++					213 toggle button Draw path, Help: Path (P), Value: off
++					214 toggle button Draw freehand, Help: Freehand (B), Value: off
++					215 container
++						216 text Stroke
++						217 color well Drawing stroke color, Value: rgb 0.145098 0.388235 0.921569 1
++					218 container
++						219 text Width
++						220 number field (settable) Drawing stroke width, Value: 4
++							221 stepper 0
++								222 unknown
++								223 unknown
++				224 image Design canvas. Select layers in the Layers panel; arrow keys move selected layers.
++				225 button Resize selected element from top left, Help: Drag to resize. Hold Shift to preserve proportions. Arrow keys move this handle by 1 design unit, or 10 with Shift.
++				226 button Resize selected element from top, Help: Drag to resize. Hold Shift to preserve proportions. Arrow keys move this handle by 1 design unit, or 10 with Shift.
++				227 button Resize selected element from top right, Help: Drag to resize. Hold Shift to preserve proportions. Arrow keys move this handle by 1 design unit, or 10 with Shift.
++				228 button Resize selected element from right, Help: Drag to resize. Hold Shift to preserve proportions. Arrow keys move this handle by 1 design unit, or 10 with Shift.
++				229 button Resize selected element, Help: Drag to resize. Hold Shift to preserve proportions. Arrow keys move this handle by 1 design unit, or 10 with Shift.
++				230 button Resize selected element from bottom, Help: Drag to resize. Hold Shift to preserve proportions. Arrow keys move this handle by 1 design unit, or 10 with Shift.
++				231 button Resize selected element from bottom left, Help: Drag to resize. Hold Shift to preserve proportions. Arrow keys move this handle by 1 design unit, or 10 with Shift.
++				232 button Resize selected element from left, Help: Drag to resize. Hold Shift to preserve proportions. Arrow keys move this handle by 1 design unit, or 10 with Shift.
++				233 button Rotate selected element, Help: Drag to rotate. Hold Shift to snap to 15 degrees. Arrow keys rotate by 1 degree, or 10 with Shift.
++			234 container Details and comments
++				235 text Inspector
++				236 tab group (selectable) Tabs
++					237 tab (selected) Details
++					238 tab (selectable) Comments
++				239 text Alpha label Text
++				240 text field (settable) Layer name, Value: Alpha label
++				241 container
++					242 button (collapsed) Transform, Secondary Actions: Expand
++					243 button (collapsed) Layout, Secondary Actions: Expand
++					244 button (expanded) Typography, Secondary Actions: Collapse
++					245 text Text
++					246 text entry area (settable) Text content, Value: draft
++						247 text (settable) draft
++					248 text Text stays in this field until you finish editing. Escape cancels. Family
++					249 text field (settable) Font family, Value: system-ui
++					250 text System font · available offline. Glyph fallback uses installed fonts. Size
++					251 number field (settable) Font size, Value: 16
++						252 stepper 0
++							253 unknown
++							254 unknown
++					255 text Weight
++					256 number field (settable) Font weight, Value: 400
++						257 stepper 0
++							258 unknown
++							259 unknown
++					260 text Line ×
++					261 number field (settable) Line height, Value: 1.2
++						262 stepper 0
++							263 unknown
++							264 unknown
++					265 text Track
++					266 number field (settable) Letter spacing, Value: 0
++						267 stepper 0
++							268 unknown
++							269 unknown
++					270 text Align
++					271 pop up button (collapsed) Text alignment, Value: auto, Secondary Actions: Expand
++					272 text Text color
++					273 color well Text color, Value: rgb 0.0941176 0.0941176 0.105882 1
++					274 button (expanded) Style, Secondary Actions: Collapse
++					275 text Opacity
++					276 number field (settable) Opacity percent, Value: 100
++						277 stepper 0
++							278 unknown
++							279 unknown
++					280 button Make component
++					281 button Move earlier
++					282 button Move later
++					283 button Duplicate
++					284 button Repeat Grid
++					285 button Delete
++			286 container
++				287 text Appearance
++				288 pop up button (collapsed) Chrome appearance, Value: Dark, Secondary Actions: Expand
++				289 button ↶, Help: Undo Cmd+Z
++				290 button (disabled) ↷
++				291 text Saved locally Ready · 127.0.0.1:48494
++				292 button Desktop
++				293 button Tablet
++				294 button Mobile
++				295 slider (settable, float) Zoom, Value: 1
++					296 value indicator 1
++				297 text 99%
+The focused UI element is 160 HTML content Description: Sugar Maple, URL: sugar-maple://app/index.html
