@@ -47,6 +47,9 @@ export class CanvasComponent implements OnDestroy {
     readonly enabled = input(true);
     readonly strokeColor = input<string>('#000000');
     readonly strokeSize = input<number>(4);
+    // Hosts with an independently owned viewport can map input from that
+    // current viewport, before the derived render camera's effect has run.
+    readonly canvasCoordinates = input<((event: PointerEvent, rect: DOMRect) => CanvasPoint) | null>(null);
 
     // Outputs
     @Output() deleteSelection = new EventEmitter<string[]>();
@@ -533,7 +536,8 @@ export class CanvasComponent implements OnDestroy {
     private createCanvasPointerEvent(event: PointerEvent): CanvasPointerEvent {
         const canvas = this.canvasRef.nativeElement;
         const rect = canvas.getBoundingClientRect();
-        const canvasPoint = this.renderer.screenToCanvas(
+        const coordinates = this.canvasCoordinates();
+        const canvasPoint = coordinates ? coordinates(event, rect) : this.renderer.screenToCanvas(
             event.clientX,
             event.clientY,
             this.camera(),

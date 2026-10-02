@@ -46,6 +46,26 @@ window.canvasTransformAcceptance = async function () {
   try {
     await select(); button('Fit').click(); await settle();
     const width = document.querySelector('[aria-label="Drawing stroke width"]'); width.value = '8'; width.dispatchEvent(new Event('input', { bubbles: true })); width.dispatchEvent(new Event('change', { bubbles: true }));
+    // A real input can arrive before Angular publishes the derived Whiteboard
+    // camera. Preserve the host camera's mapping across that handoff.
+    for (const [fromZoom, toZoom] of [[0.5, 1.5], [1.5, 0.5]]) {
+      const slider = document.querySelector('[aria-label="Zoom"]');
+      slider.value = String(fromZoom); slider.dispatchEvent(new Event('input', { bubbles: true })); await settle();
+      await select(); button('Draw line').click(); await settle(); const before = await get();
+      slider.value = String(toZoom); slider.dispatchEvent(new Event('input', { bubbles: true }));
+      const start = pointer('pointerdown', 120, 130, .5, true); // Deliberately no settle between input and pointer.
+      await settle(); const end = pointer('pointerup', 240, 180, .5, true); await settle();
+      const after = await get(), node = after.document.nodes.find(node => node.id !== 'frame');
+      check(after.revision === before.revision + 1 && node?.kind === 'path', 'WK camera handoff commits one line');
+      const values = node.pathData.match(/-?\d+(?:\.\d+)?/g).map(Number);
+      check(Math.abs(node.x + values[0] - start.x) < .1 && Math.abs(node.y + values[1] - start.y) < .1 &&
+        Math.abs(node.x + values[2] - end.x) < .1 && Math.abs(node.y + values[3] - end.y) < .1,
+        'WK camera handoff geometry ' + JSON.stringify({fromZoom,toZoom,start,end,node,values}));
+      lineInputs.push({ fromZoom, toZoom, handoff: true, deliveredStart: start, deliveredEnd: end,
+        projectedStart: { x: node.x + values[0], y: node.y + values[1] },
+        projectedEnd: { x: node.x + values[2], y: node.y + values[3] }, tolerance: .1 });
+      await undo(); equal((await get()).document, before.document, 'WK handoff exact undo'); checks++;
+    }
     for (const zoom of [0.5, 1.5]) {
       const slider = document.querySelector('[aria-label="Zoom"]'); slider.value = String(zoom); slider.dispatchEvent(new Event('input', { bubbles: true })); await settle();
       for (const kind of ['line', 'arrow', 'freehand']) {

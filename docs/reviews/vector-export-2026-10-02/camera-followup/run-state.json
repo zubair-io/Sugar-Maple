@@ -1,0 +1,68 @@
+{
+  "runtimeSource": "c1b3c8aa902d0036246a8546d8cd81e1d8a7011e",
+  "baseline": {
+    "source": "0f46d8129ddc3f6f8b433ca82e3c62d067ebc146",
+    "ci": 36997334180,
+    "job": 110806953534,
+    "failure": "Native drawing geometry during a pending derived-camera/viewport handoff",
+    "regression": "Same-stack zoom input then pointer-down at 0.5 -> 1.5 fails against the baseline production bundle; integer delivered coordinates and the unchanged 0.1 document-unit tolerance are recorded."
+  },
+  "fix": "Canvas host supplies a stable callback reading the authoritative App viewport camera when each pointer event arrives; the Whiteboard retains its default mapping for hosts without this adapter.",
+  "checks": {
+    "models": 130,
+    "assertions": 2114,
+    "typecheck": true,
+    "macBuild": true,
+    "browserSuites": 29,
+    "fullNativeAcceptance": true,
+    "webkitDrawingCases": 20,
+    "cameraHandoffCases": 2
+  },
+  "reviewFollowup": {
+    "session": "16550056892758235961",
+    "comment": "https://github.com/zubair-io/Sugar-Maple/pull/85#issuecomment-5950696255",
+    "change": "Replaced historical delivery prose with structured session/action identifiers and a source comment URL."
+  },
+  "limitations": [
+    "Final-head CI/review and resulting-main delivery remain pending.",
+    "The two camera handoff regressions use synthetic DOM pointer events; physical pointer/IME/VoiceOver and presentation timing remain separate acceptance."
+  ],
+  "artifacts": {
+    "before.log": {
+      "bytes": 2322,
+      "sha256": "3653afcf8f6f560a547cff68760019e2dd52497dcaf28c18b1d4042fe7f5e787"
+    },
+    "after.log": {
+      "bytes": 440,
+      "sha256": "33fe55935519801b5be681ae24daabbe6c2356c579f1a9d181aea617a9c651c9"
+    },
+    "failed-ci.log": {
+      "bytes": 149936,
+      "sha256": "ecdb000bf89123c8b33552ba54b3cdc7545487dbbc58872391b5858490548671"
+    },
+    "mac-build.log": {
+      "bytes": 56528,
+      "sha256": "5c979020a55a727f9d4a1d85ac0c154a8eccd2bd2ab64bf2f1123bbeec39f3d8"
+    },
+    "model.log": {
+      "bytes": 14229,
+      "sha256": "9e6c49473de65c88694a9931beb794e9bee61183e3888cef322e937c886891ed"
+    },
+    "typecheck.log": {
+      "bytes": 36,
+      "sha256": "9b2b770f3351789b5fd00fa72323f6eb7ea6de3fa3d75b7678bcbee1c8f6d5f6"
+    },
+    "browser.log": {
+      "bytes": 6491,
+      "sha256": "8ccdd40024413c32a4986fdc72fb44457d076a417bd55814dee0df5951bdf95d"
+    },
+    "native-full.log": {
+      "bytes": 7987,
+      "sha256": "9a9aad3683dbfae23157d588227831cce34f6d5cd8e74f6e25c3acd3d776ae3d"
+    },
+    "webkit-report.json": {
+      "bytes": 2872,
+      "sha256": "9a9c49dcddf6c17b77c567fadc82c3dbd1dbffa8bc7860b4faa7a339abdc0b38"
+    }
+  }
+}

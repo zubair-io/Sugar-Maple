@@ -1,0 +1,24 @@
+implicit-relative: native ink 5676, SVG ink 5676, overlap 1.0, difference 0.0
+horizontal-vertical: native ink 2880, SVG ink 2880, overlap 1.0, difference 0.0
+cubic-smooth: native ink 2083, SVG ink 2122, overlap 0.9667913938260057, difference 0.0304022450888681
+quadratic-smooth: native ink 1986, SVG ink 2034, overlap 0.9648093841642229, difference 0.015640273704789834
+smooth-reset: native ink 2680, SVG ink 2734, overlap 0.9730320699708455, difference 0.01348396501457726
+arc-small: native ink 1395, SVG ink 1430, overlap 0.9672701949860725, difference 0.027855153203342618
+arc-large: native ink 1389, SVG ink 1430, overlap 0.9685754189944135, difference 0.023743016759776536
+arc-other-sweep: native ink 1389, SVG ink 1430, overlap 0.9685754189944135, difference 0.023743016759776536
+arc-other-large: native ink 1395, SVG ink 1430, overlap 0.9672701949860725, difference 0.027855153203342618
+arc-radii-corrected: native ink 1889, SVG ink 1902, overlap 0.9713988559542381, difference 0.01612064482579303
+arc-degenerate: native ink 1186, SVG ink 1144, overlap 0.9645868465430016, difference 0.0
+compact-flags: native ink 1395, SVG ink 1430, overlap 0.9672701949860725, difference 0.027855153203342618
+compound-nonzero: native ink 27240, SVG ink 27240, overlap 1.0, difference 0.0
+viewbox-origin: native ink 15794, SVG ink 15794, overlap 1.0, difference 0.0
+anisotropic-stroke: native ink 4742, SVG ink 4710, overlap 0.9815513626834381, difference 0.012368972746331237
+acute-miter: native ink 7130, SVG ink 7196, overlap 0.9905516187300264, difference 0.00013894678338196472
+clipping-opacity: native ink 17492, SVG ink 17518, overlap 0.998515812307341, difference 0.0
+line: native ink 1546, SVG ink 1551, overlap 0.996776273372018, difference 0.0
+arrow: native ink 2188, SVG ink 2221, overlap 0.985141828005403, difference 0.0009004952723998199
+path: native ink 2417, SVG ink 2417, overlap 1.0, difference 0.0
+freehand: native ink 1882, SVG ink 1883, overlap 0.9984076433121019, difference 0.006369426751592357
+empty-path: native ink 0, SVG ink 0, overlap 0.0, difference 0.0
+nested-placement: native ink 10480, SVG ink 10530, overlap 0.9952516619183286, difference 0.0
+PASS: 23 standalone SwiftUI vector fixtures compile against macOS 14 and render against actual WKWebView SVG references
