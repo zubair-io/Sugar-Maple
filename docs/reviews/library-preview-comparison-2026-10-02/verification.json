@@ -1,46 +1,48 @@
 {
-  "sourceCommit": "220b0faf9764f26980626ea66ce13920bfe497a4",
+  "sourceCommit": "a1b840badbe3abc21e816ce6a7a7eb16b27bd5fa",
   "baseCommit": "2754035a1ca439e84452d53ec421489533971f20",
   "editorSourceCommit": "edd130af96c292c325792c6de9bb0ed8c19974d1",
-  "recordedAt": "2026-10-02T12:47:19.720Z",
+  "recordedAt": "2026-10-02T13:35:28.443Z",
   "runtime": "1.4.2",
   "sourceHashes": {
-    "prototypes/library-preview/compare.ts": "32b3053b156e9bbb53cdb913596279948b03df08fe1019ec771f93bac1d2e44f",
+    "prototypes/library-preview/compare.ts": "0c65ff3fa1b7265c665e024a1727c65f307bdf6f33b30cb35bd469f1c2e40ab8",
+    "prototypes/library-preview/launch-failure-test.ts": "628a67a2165734f4dbca4ae1c4efe8bb2b16425720afafc9ff3464e848c66570",
+    "tools/library-preview-acceptance.ts": "817b1da52f3b39d308955df1fde1e6c69d41e2a2f1125c5de011da1215a04617",
     "prototypes/library-preview/package-cost.ts": "ee63980d528fadd248046440d283da87ae0dc9f15e3c267893d0cdbd8812ea6a",
     "prototypes/library-preview/comparison-report.ts": "aab94bc7efcad09730e9a352d8c540bff3e05cfe5f7718f1a1f3ae246a9470ba",
-    "prototypes/library-preview/report-test.ts": "13310c6032f5f8a5fa25a67976526fe76c99ac049a015176b6f015032867ea7c",
+    "prototypes/library-preview/report-test.ts": "e2f235fb582fbdab5ec748a2f9aa6ceb6368574626035aaea339dcb157a67864",
     "prototypes/library-preview/serve-report.ts": "986a605244e628ecda460ddf7956b9884d87050236104902f8fc1d9f4f83afb8",
     "prototypes/library-preview/host.ts": "7c330ea5e50b81228fd1d7c71d5938396e61ecab67928fedceee14544dd764ec",
-    "prototypes/library-preview/browser-test.ts": "bbc1d83b156ba05fc1bcb30f08fe7760510ea1baa321da46b2f3be8c5b5054f8",
-    "prototypes/library-preview/server-owner-test.ts": "ab26f23b517615dd30b1231c780119469278de2ac3329686ae71decf7478cd3e",
+    "prototypes/library-preview/browser-test.ts": "540bcdf6bdad0d63484dbb59b7015b5fa5c8bb0fd7169884cd95ed85f78a01d0",
+    "prototypes/library-preview/server-owner-test.ts": "570d77fbdd210274eeedac38c99661914c7d241addfa9e9b080d0eb89505acb0",
     "prototypes/library-preview/native/supervise.ts": "4cbc602380bb944aa683c1356c612264c614c4464eb5376053e258c07078b942",
-    "tools/library-preview-comparison.ts": "c4eb3406336d81b38b9b0dc1fd5308d6507d1539fcf07f604df456f6d7a172cc",
+    "tools/library-preview-comparison.ts": "4757b1dc8be7a2a539e50e96ea4c10cfc9528dc023251c5a3cad7d2e318e2901",
     ".github/workflows/editor.yml": "8e7e35b49d2156990d9c783d3d54db5ce3ca830ea72ef591c3ed85af1d183446"
   },
   "artifacts": {
     "acceptance.log": {
-      "bytes": 4743,
-      "sha256": "d2d9f306d7e8ab04dea27594e4f8f710900504d3e5f6b5909ee1a3c15a6fc63b"
+      "bytes": 5203,
+      "sha256": "b0e503b9aed7afd06fcb900d25a3e3028a5f9d74400ac665b93b631d829fe145"
     },
     "server-owner-report.json": {
       "bytes": 334,
-      "sha256": "add31fcf71b5f4793371e102fbadf981eeff2c613bcaee6af5f1309af8b7aef6"
+      "sha256": "3069b4862ff956453e879c72bbd0b91c1e4ea0be823eec81381e5dc6d6873df8"
     },
     "server-owner-acceptance.log": {
       "bytes": 114,
       "sha256": "fd3df200e252aca2110c0e776088277fac33d255804592f5546e7f4676137784"
     },
     "comparison.json": {
-      "bytes": 30034,
-      "sha256": "190e767e4efaace86b5e1ecb73dbf38c8e519bbfedc192c8cef8217e7ee2cae1"
+      "bytes": 30257,
+      "sha256": "b2f988c8f8579a3ae0430073a92dc86533bb052963a558b47f09fec28122dbaa"
     },
     "package-cost.json": {
       "bytes": 7191,
-      "sha256": "bfd06ee3f5b7654c94377c19c22e8e2fbb800675ec401d3925327f6026492fa6"
+      "sha256": "610656b0a484d062a8ac4d51f849c81653be28af75f68dffacc88c3a44959118"
     },
     "index.html": {
       "bytes": 11898,
-      "sha256": "683959f79522bd22a5fcc76521c7734aba4b2403d28cc64fe91c59174079c71d"
+      "sha256": "eaff4818fb3d48e11d593c484d3aafe62ce27566fc1fb6dd9976073f7860e4dc"
     },
     "canvas-editor.png": {
       "bytes": 86779,
@@ -63,8 +65,8 @@
       "sha256": "136b26f9286c5a324ddd23940209230e14da444afbc94d599acd595bffc5ca95"
     },
     "report.png": {
-      "bytes": 450410,
-      "sha256": "bd3a0614ea6e01bff6a01b778a5bdbfa83f40a2e4047477865fade7cddb1d481"
+      "bytes": 450190,
+      "sha256": "fcdf9a085af3466c32baed47666c6dc123d949a2397be65a97b981bb8ad3a59e"
     }
   },
   "commands": [
@@ -73,6 +75,8 @@
   ],
   "localPassed": true,
   "completedLocal": [
+    "six real browser-entry launch/close failures exit naturally without leaking preview servers",
+    "Angular/Vite binds port zero itself; only the owned child reported actual URL is used",
     "fresh checkout private-port server; unrelated port 4200 not used/preserved; no live owned server descendants after completion",
     "pinned package consumer/cache",
     "web contract tests / strict typecheck / actual boundary browser acceptance",
