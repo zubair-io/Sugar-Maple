@@ -1,0 +1,47 @@
+{
+  "date": "2026-10-02",
+  "runtimeCommit": "8ca3238c3128c5ed0a4438d844031dc5789aedbe",
+  "review": {
+    "session": "18427868278889529562",
+    "head": "610d7a71ddeb1b531d41e38258b4a19f85a40b04",
+    "verdict": "comment",
+    "finding": "Add explicit pending-text guard to nodes.reparent"
+  },
+  "change": "Actual reparent writes already passed the shared agent command guard. Explicit guards now reject pending-text requests before and after preparation, including no-op requests.",
+  "negativeControl": "Valid root-to-root no-op reparent request did not return the required pending-text error before the explicit guards; regression fails before and passes after.",
+  "checks": {
+    "focusedProductionChrome": true,
+    "productionWebKitTextCases": 12,
+    "productionMacBuild": true,
+    "typecheck": true
+  },
+  "broaderEvidence": "../native-followup/run-state.json remains bound to its recorded runtime; current final-head remote full CI/review is pending",
+  "macBuildOutputSha256": "3d56969e5111e361d7b1538d117357de508af0d32ad916223ebb9caf8dd877ec",
+  "artifacts": [
+    {
+      "path": "before.log",
+      "sha256": "80bc988f852cb2790057f1208c72931b799fcc958827cc2104cadfdca6227796",
+      "bytes": 1534
+    },
+    {
+      "path": "browser.log",
+      "sha256": "ae36c8745ad2082b06db12eeea5c03b1aacac7d93b6c541d3ebacaf6bdbcdcfd",
+      "bytes": 286
+    },
+    {
+      "path": "webkit.log",
+      "sha256": "78d417727aad7da1dfdc9755ac988d5e0dcace629b074caedf7b0f2bdd0c246f",
+      "bytes": 354
+    },
+    {
+      "path": "typecheck.log",
+      "sha256": "9b2b770f3351789b5fd00fa72323f6eb7ea6de3fa3d75b7678bcbee1c8f6d5f6",
+      "bytes": 36
+    },
+    {
+      "path": "webkit-report.json",
+      "sha256": "f7c1609e3638dea8d142b88680d2f3cc9ec7bea49d6341b959e3294035a6e317",
+      "bytes": 511
+    }
+  ]
+}
