@@ -24,6 +24,7 @@ import { CanvasSurface } from './canvas/canvas-surface';
 import { CanvasProjection } from './canvas/canvas-projection';
 import { AssetInspector } from './canvas/asset-inspector';
 import { intersects } from './canvas/scene-layout';
+import type { DrawingKind } from './canvas/drawing-geometry';
 import { changedPatch, movePatch } from './canvas/transform-geometry';
 import { alignment, distribution, type Axis, type Edge } from './canvas/placement-geometry';
 import { MuiButtonComponent } from './chrome/maple/ui/button/mui-button.component';
@@ -93,9 +94,22 @@ export class App {
   );
   createFromToolbar(id: string): void {
     const kind = this.kinds.find((kind) => kind === id);
-    if (kind && this.e.mode() === 'Design') this.e.add(kind);
+    if (kind && this.e.mode() === 'Design') { this.projection.drawingTool.set(null); this.e.add(kind); }
   }
   readonly projection = inject(CanvasProjection);
+  readonly drawingTools: { kind: DrawingKind; label: string; key: string }[] = [
+    { kind: 'line', label: 'Line', key: 'L' }, { kind: 'arrow', label: 'Arrow', key: 'A' },
+    { kind: 'path', label: 'Path', key: 'P' }, { kind: 'freehand', label: 'Freehand', key: 'B' },
+  ];
+  readonly canDraw = computed(() => {
+    const parentId = this.e.insertionParent('path'), parent = parentId ? this.projection.byId().get(parentId)?.node : null;
+    return this.e.mode() === 'Design' && !this.preview() && (!parentId || !!parent &&
+      this.projection.canEdit(parent) && parent.layout === 'free' && parent.widthMode !== 'hug' && parent.heightMode !== 'hug');
+  });
+  setDrawing(kind: DrawingKind | null) {
+    if (kind && !this.canDraw()) return;
+    this.surface()?.drawing.deactivate(); this.projection.drawingTool.set(kind);
+  }
   readonly surface = viewChild(CanvasSurface);
   readonly zoom = signal(0.8);
   readonly pan = signal({ x: 0, y: 0 });
@@ -226,6 +240,7 @@ export class App {
       if (this.commentUi.openRequest()) this.right.set(true);
     });
     window.sugarMaple.viewport = {
+      hasDraft: () => this.projection.drawingPending() || Object.keys(this.projection.draft()).length > 0,
       flush: () => this.surface()?.flush(),
       inspect: () => this.inspectCanvas(),
       stats: () => this.projection.stats(),
@@ -528,8 +543,10 @@ export class App {
     if (f) await this.e.image(f);
   }
   @HostListener('window:keydown', ['$event']) key(event: KeyboardEvent) {
-    if (this.preview()) return;
+    if (this.preview() || event.defaultPrevented) return;
     const typing = (event.target as HTMLElement).matches('input,textarea,select,[contenteditable]');
+    if (!typing && !(event.target as HTMLElement).closest('button,[role=option],[role=tab]') && this.projection.drawingTool() &&
+      this.surface()?.drawing.onKeyDown(event)) return;
     if (event.key === 'Escape') {
       if (this.commentUi.placing() || this.commentUi.draft()) {
         this.commentUi.cancel();
@@ -564,6 +581,10 @@ export class App {
       return;
     }
     if (typing || this.preview() || this.e.mode() !== 'Design') return;
+    const drawing = this.drawingTools.find(tool => tool.key.toLowerCase() === event.key.toLowerCase());
+    if (!event.altKey && drawing) { event.preventDefault(); this.setDrawing(drawing.kind); return; }
+    if (event.key.toLowerCase() === 'v') { event.preventDefault(); this.setDrawing(null); return; }
+    if (['f', 'r', 't'].includes(event.key)) this.setDrawing(null);
     if (
       ['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(event.key) &&
       this.e.node() &&

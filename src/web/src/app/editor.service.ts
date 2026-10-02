@@ -703,8 +703,10 @@ export class EditorService {
       case 'render.capture':
       case 'render.ready':
         this.checkTarget(args);
+        if (window.sugarMaple.viewport?.hasDraft?.()) throw Error('Finish or cancel the current gesture before capturing a committed document.');
         await this.settleLayout();
         this.checkTarget(args);
+        if (window.sugarMaple.viewport?.hasDraft?.()) throw Error('Finish or cancel the current gesture before capturing a committed document.');
         return {
           ...this.store.result(),
           committed: true,

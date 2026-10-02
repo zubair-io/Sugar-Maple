@@ -541,7 +541,8 @@ export class CanvasComponent implements OnDestroy {
         return {
             screen: { x: event.clientX, y: event.clientY },
             canvas: canvasPoint,
-            pressure: event.pressure || 0.5,
+            pressure: event.pressure,
+            pointerType: event.pointerType,
             button: event.button,
             shiftKey: event.shiftKey,
             ctrlKey: event.ctrlKey,
