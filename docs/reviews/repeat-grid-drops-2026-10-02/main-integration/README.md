@@ -1,0 +1,7 @@
+# Drop integration after delivered controls
+
+Controls #90 are delivered on verified main `e98551cbb9d86b0677496a308364956aa4e250cf`, whose resulting-main browser/macOS CI passed. Rebase-and-merge changed the controls ancestry, so an ordinary merge of the old drop candidate produced repeated controls/documentation conflicts.
+
+Source `b331b53663efa817edc7c8df7648413ff58682b9` applies the complete incremental difference from controls head `c3d1769` to drop head `82545c2` onto delivered main. It applies cleanly. All `src`, `tools`, `prototypes`, `package.json` and `bun.lock` bytes are identical to the tested drop candidate `82545c2`; all `.github` bytes are identical to verified main. This preserves the feature behavior, including the monotonic directory-decoding deadline, while retaining the delivered reviewer/recovery repairs. Original branch/head and its actual review remain preserved as historical evidence.
+
+Fresh checks at this integration source: 150 model tests / 2,248 assertions, application typecheck, 43 reviewer tests, reviewer typecheck and production bundle passed. Earlier full browser/native and focused deadline/hover evidence retains its original source revisions; these integration checks do not relabel it as new full application QA. Updated-head review/CI, merge and resulting-main verification remain pending. The complete Repeat Grid parent #13 stays open for canonical virtual cells and responsive templates.

@@ -1,0 +1,14 @@
+{
+  "passed": true,
+  "informationalParagraphs": [
+    {
+      "label": "Drop CSV, JSON, a text list, local images or an image folder here.",
+      "targetIsDropContainer": true
+    },
+    {
+      "label": "Choose files below for the same workflow. Review field mappings and preview before applying. Images use filename order, then cells left to right and down.",
+      "targetIsDropContainer": true
+    }
+  ],
+  "scope": "Actual production browser hit testing through both drop-zone labels; no authored mutation after setup"
+}

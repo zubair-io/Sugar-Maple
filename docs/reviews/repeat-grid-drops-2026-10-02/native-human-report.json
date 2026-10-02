@@ -1,0 +1,18 @@
+{
+  "passed": true,
+  "checks": 1,
+  "method": "Actual owned DEBUG app, real NSOpenPanel folder selection via macOS CUA, explicit Photo mapping/Preview/Apply/Cmd+Z; authenticated HTTP MCP read and revision-bound rendered capture at each stage, waiting for durable state",
+  "assertions": [
+    "Filename order 01.png then 02.png",
+    "Choice/mapping/preview preserve checkpoint",
+    "Apply increments revision once with one human journal batch",
+    "Two correctly embedded assets; second image visibly changes",
+    "Grid geometry, stable cell IDs and unmapped values retained",
+    "Cells after data rows unchanged",
+    "Cmd+Z restores exact document including assets"
+  ],
+  "limitations": [
+    "Directory drag entry traversal is separately tested with fixtures",
+    "No full VoiceOver audit or physical input latency measurement"
+  ]
+}

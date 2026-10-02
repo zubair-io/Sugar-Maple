@@ -1,0 +1,14 @@
+{
+  "engine" : "WKWebView",
+  "memory" : {
+    "ownerPeakRSSBytes" : 191823872,
+    "scope" : "This benchmark UI process only; WebKit content\/GPU\/network process memory is not included"
+  },
+  "nativeBridge" : "In-memory benchmark recovery\/status\/autosave only; production native disk\/MCP\/clipboard costs excluded",
+  "os" : "Version 27.0 (Build 26A428)",
+  "result" : {
+    "checks" : 12,
+    "passed" : true,
+    "scope" : "Actual production WK File\/DataTransfer CSV\/text\/images\/directory staging, complete fragmented entries, image decode, atomic human import\/undo, invalid-batch and cancellation\/stale guards. Directory entries are supplied fixtures; actual OS chooser is validated separately."
+  }
+}
