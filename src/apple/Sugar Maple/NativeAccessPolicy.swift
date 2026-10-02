@@ -3,7 +3,9 @@ import Foundation
 /// Shared checks for the bundled application origin and its resource boundary.
 enum NativeAccessPolicy {
     static func canImportFiles(mainFrame: Bool, scheme: String, host: String, port: Int, directories: Bool) -> Bool {
-        mainFrame && !directories && trustedOrigin(scheme: scheme, host: host, port: port)
+        // Files and folders are exposed only by the trusted editor's explicit user chooser.
+        // Preview/subframe content receives neither access path.
+        mainFrame && trustedOrigin(scheme: scheme, host: host, port: port)
     }
     static func trustedOrigin(scheme: String, host: String, port: Int) -> Bool {
         scheme == "sugar-maple" && host == "app" && port == 0
