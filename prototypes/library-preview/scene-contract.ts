@@ -134,7 +134,19 @@ export const SceneEventSchema = z.discriminatedUnion("kind", [
         .regex(/^[^\r\n]*$/),
     })
     .strict(),
+  z
+    .object({
+      version: z.literal(SCENE_PROTOCOL),
+      session: z.string().uuid(),
+      revision: z.number().int().min(0).max(2147483647),
+      kind: z.literal("error"),
+      code: z.enum(["invalid_scene", "stale_revision", "runtime_error"]),
+      message: z.string().max(200),
+    })
+    .strict(),
 ]);
+
+export type SceneEvent = z.infer<typeof SceneEventSchema>;
 
 /** The transport carries resolved presentation data, never commands, code or a writable document. */
 export function validateLibraryScene(value: unknown): LibraryScene {
