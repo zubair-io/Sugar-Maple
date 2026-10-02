@@ -6,7 +6,7 @@ import { publishThenDelete } from './cleanup.js';
 import { collectReview } from './poll.js';
 import { selectReviewDiff } from './diff.js';
 import { fetchRevisionDiff, safeReviewFailure, RevisionDiffError } from './revision-diff.js';
-import { pinnedCurrentPull, pinnedPreparedPull, completeMergeBase } from './review-context.js';
+import { pinnedCurrentPull, pinnedPreparedPull, completeMergeBase, pinnedBranchBase } from './review-context.js';
 
 import { parseFinalVerdict, statusFromVerdict, type FailOn } from './verdict.js';
 
@@ -60,7 +60,7 @@ async function run(): Promise<void> {
   const octokit = github.getOctokit(token);
   let pr;
   try {
-    pr = pinnedCurrentPull(headSha, (await octokit.rest.pulls.get({ owner, repo, pull_number: prNumber })).data);
+    pr = await readCurrentPull(octokit, owner, repo, prNumber, headSha);
   } catch (error) {
     core.setFailed(safeReviewFailure(error, 'current PR metadata'));
     return;
@@ -125,7 +125,7 @@ async function run(): Promise<void> {
     core.info(`Retrieved ${Buffer.byteLength(diff)} diff bytes; selected ${diffText.length} characters with every shipping-source hunk included. ${truncatedNote ? 'Non-runtime evidence omissions are listed in the review prompt.' : 'No hunks omitted.'}`);
 
     operation = 'prepared PR metadata revalidation';
-    pr = pinnedPreparedPull(headSha, baseSha, (await octokit.rest.pulls.get({ owner, repo, pull_number: prNumber })).data);
+    pr = pinnedPreparedPull(headSha, baseSha, await readCurrentPull(octokit, owner, repo, prNumber, headSha));
     if ((pr.draft && skipDrafts) || (skipForks && pr.head.repo?.full_name !== `${owner}/${repo}`) || pr.labels.some(label => label.name === bypassLabel)) {
       throw new RevisionDiffError('PR review eligibility changed during preparation; no session was created.');
     }
@@ -210,6 +210,13 @@ async function run(): Promise<void> {
       .catch(() => {});
     core.setFailed(`Jules PR review failed: ${msg}`);
   }
+}
+
+async function readCurrentPull(octokit: ReturnType<typeof github.getOctokit>, owner: string, repo: string, prNumber: number, headSha: string) {
+  const pull = pinnedCurrentPull(headSha, (await octokit.rest.pulls.get({ owner, repo, pull_number: prNumber })).data);
+  // pulls.get can retain the original base SHA after its branch advances.
+  const branch = await octokit.rest.git.getRef({ owner, repo, ref: `heads/${pull.base.ref}` });
+  return pinnedBranchBase(pull, branch.data.object.sha);
 }
 
 async function loadRulesFromBase(

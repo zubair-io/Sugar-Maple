@@ -21,3 +21,9 @@ export function completeMergeBase(base: string, head: string, value: unknown): s
   revisionArguments(value, head);
   return value;
 }
+
+
+export function pinnedBranchBase<T extends { head: { sha: string }; base: { sha: string; ref: string } }>(pull: T, branchSha: string) {
+  revisionArguments(branchSha, pull.head.sha);
+  return { ...pull, base: { ...pull.base, sha: branchSha } };
+}

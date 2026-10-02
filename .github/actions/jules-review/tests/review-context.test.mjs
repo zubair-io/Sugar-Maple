@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { pinnedCurrentPull, pinnedPreparedPull, completeMergeBase } from '../lib/review-context.js';
+import { pinnedCurrentPull, pinnedPreparedPull, completeMergeBase, pinnedBranchBase } from '../lib/review-context.js';
 const head = 'a'.repeat(40), base = 'b'.repeat(40);
 
 test('current edited description is used while the code head remains pinned', () => {
@@ -19,4 +19,16 @@ test('merge-base metadata selects complete committed trees without trusting file
   assert.equal(completeMergeBase(base, head, 'c'.repeat(40)), 'c'.repeat(40));
   assert.throws(() => completeMergeBase(base, head, undefined), /complete merge-base/);
   assert.throws(() => completeMergeBase(base, head, 'main'), /full commit SHA/);
+});
+
+
+test('current branch ref replaces cached PR base SHA and movement rejects before review', () => {
+  const cached = { head: { sha: head }, base: { sha: base, ref: 'main' }, body: 'Current description' };
+  const current = pinnedBranchBase(cached, 'd'.repeat(40));
+  assert.equal(current.base.sha, 'd'.repeat(40));
+  assert.equal(current.base.ref, 'main');
+  assert.equal(current.body, cached.body);
+  assert.equal(cached.base.sha, base);
+  assert.throws(() => pinnedPreparedPull(head, base, current), /base changed/);
+  assert.throws(() => pinnedBranchBase(cached, 'main'), /full commit SHA/);
 });
