@@ -1,0 +1,2 @@
+PASS: actual native MCP canonical line/arrow/path/freehand, exact SVG data, projected geometry, atomic undo/redo and durable capture/checkpoint
+Owned app ready for native UI acceptance. Send a newline to finish and stop only this owner.

@@ -15,6 +15,7 @@ import { WHITEBOARD_USER_PROVIDER } from './whiteboard/collaboration/tokens';
 import type { Camera } from './whiteboard/shared-types';
 import { CanvasProjection } from './canvas-projection';
 import { CanvasSelectionTool } from './canvas-selection-tool';
+import { CanvasDrawingTool } from './canvas-drawing-tool';
 import {
   changedPatch,
   handleCursor,
@@ -33,10 +34,13 @@ import {
   template: `<app-whiteboard-canvas
       [whiteboard]="p.board"
       [pageId]="p.e.pageId()"
-      [activeTool]="enabled() ? tool : null"
+      [activeTool]="enabled() ? activeTool() : null"
+      [strokeColor]="p.drawingColor()"
+      [strokeSize]="p.drawingWidth()"
       [enabled]="enabled()"
       (cameraChange)="cameraChanged($event)"
       (sizeChange)="p.size.set($event)"
+      (deleteSelection)="p.e.remove()"
     />
     @for (h of handles(); track h.kind) {
       <button
@@ -77,6 +81,8 @@ import {
 export class CanvasSurface {
   readonly p = inject(CanvasProjection);
   readonly tool = new CanvasSelectionTool(this.p);
+  readonly drawing = new CanvasDrawingTool(this.p);
+  readonly activeTool = computed(() => this.p.drawingTool() ? this.drawing : this.tool);
   readonly board = viewChild(CanvasComponent);
   readonly zoom = input.required<number>();
   readonly pan = input.required<{ x: number; y: number }>();
@@ -85,7 +91,7 @@ export class CanvasSurface {
   readonly handles = computed(() => {
     const ids = this.p.e.selection(),
       i = ids.length === 1 ? this.p.byId().get(ids[0]) : undefined;
-    if (!this.enabled() || this.p.e.mode() !== 'Design' || !i) return [];
+    if (!this.enabled() || this.p.e.mode() !== 'Design' || this.p.drawingTool() || !i) return [];
     const labels = {
       nw: 'top left',
       n: 'top',
@@ -128,11 +134,18 @@ export class CanvasSurface {
       this.p.e.doc().id;
       this.p.e.pageId();
       this.p.e.revision();
+      this.p.drawingTool();
       const board = this.board();
       untracked(() => {
         this.tool.deactivate();
-        board?.onBlur();
+        const drawingCurrent = this.drawing.cancelIfStale();
+        if (this.p.e.mode() !== 'Design') this.p.drawingTool.set(null);
+        if (!drawingCurrent) board?.onBlur();
       });
+    });
+    afterRenderEffect(() => {
+      this.p.e.selection();
+      untracked(() => this.drawing.cancelIfStale());
     });
     effect(() => {
       const board = this.board(),
@@ -149,6 +162,7 @@ export class CanvasSurface {
           });
           if (!enabled) {
             this.tool.deactivate();
+            this.drawing.deactivate();
             board.onBlur();
           }
           board.requestRender();

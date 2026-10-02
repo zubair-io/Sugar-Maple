@@ -1,0 +1,18 @@
+{
+  "passed": true,
+  "port": 48494,
+  "identifier": "io.zubair.sugarmaple.drawing-qa",
+  "scope": "Actual native HTTP MCP SDK creates line/arrow/polyline/pressure-outline canonical paths, verifies exact portable SVG data, projected geometry, one batch/undo/redo, capture and durable native checkpoint. Human input is tested separately.",
+  "capture": {
+    "scale": 1,
+    "pixelHeight": 900,
+    "coordinateUnits": "CSS pixels in the editor WebView",
+    "pixelWidth": 1440,
+    "rect": {
+      "width": 1440,
+      "height": 900,
+      "y": 0,
+      "x": 0
+    }
+  }
+}

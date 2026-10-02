@@ -4,16 +4,18 @@ import { resolve } from "node:path";
 import { mkdirSync } from "node:fs";
 import { strict as assert } from "node:assert";
 import { flatten, project } from "../src/web/src/app/canvas/scene-layout";
+import { drawingGeometry, type DrawingKind } from '../src/web/src/app/canvas/drawing-geometry';
 // Own a separate DEBUG bundle/profile/port. Never connect to the user's editor.
 const root = resolve(import.meta.dir, ".."),
   locks = process.argv.includes('--locks'),
+  drawing = process.argv.includes('--drawing'),
   reparent = process.argv.includes('--reparent'),
   hold = process.argv.includes('--hold'),
-  output = resolve(root, locks ? "build/canvas-lock-mcp" : reparent ? "build/canvas-reparent-mcp" : "build/canvas-transform-mcp");
-const app = resolve(output, locks ? "Sugar Maple Lock QA.app" : reparent ? "Sugar Maple Reparent QA.app" : "Sugar Maple Transform QA.app"),
+  output = resolve(root, drawing ? "build/canvas-drawing-mcp" : locks ? "build/canvas-lock-mcp" : reparent ? "build/canvas-reparent-mcp" : "build/canvas-transform-mcp");
+const app = resolve(output, drawing ? "Sugar Maple Drawing QA.app" : locks ? "Sugar Maple Lock QA.app" : reparent ? "Sugar Maple Reparent QA.app" : "Sugar Maple Transform QA.app"),
   profile = resolve(output, "profile");
 const port = 48494,
-  identifier = locks ? "io.zubair.sugarmaple.lock-qa" : reparent ? "io.zubair.sugarmaple.reparent-qa" : "io.zubair.sugarmaple.transform-qa";
+  identifier = drawing ? "io.zubair.sugarmaple.drawing-qa" : locks ? "io.zubair.sugarmaple.lock-qa" : reparent ? "io.zubair.sugarmaple.reparent-qa" : "io.zubair.sugarmaple.transform-qa";
 mkdirSync(profile, { recursive: true });
 async function command(cmd: string[]) {
   const child = Bun.spawn(cmd, { cwd: root, stdout: "pipe", stderr: "pipe" });
@@ -207,6 +209,23 @@ try {
   });
   assert.deepEqual((await data("document.get")).document, after.document);
   await geometry();
+  if (drawing) {
+    const beforePaths = await data('document.get');
+    const operations = (['line', 'arrow', 'path', 'freehand'] as DrawingKind[]).map((kind, index) => ({ type: 'node.add', node: {
+      id: 'sdk-' + kind, name: 'SDK ' + kind, pageId, parentId: 'parent', kind: 'path',
+      ...drawingGeometry(kind, [{ x: 60, y: 60 + index * 70 }, { x: 140, y: 90 + index * 70 }, { x: 210, y: 60 + index * 70 }],
+        8, '#dc2626', true, kind === 'path'),
+    } }));
+    await tx(operations);
+    const created = await data('document.get'); assert.equal(created.revision, beforePaths.revision + 1);
+    for (const operation of operations) assert.equal(created.document.nodes.find((node: any) => node.id === operation.node.id).pathData, operation.node.pathData);
+    await geometry();
+    const exported = await data('code.export', { id: 'sdk-freehand', target: 'svg' }); assert.ok(exported.code.includes(operations[3].node.pathData));
+    await data('history.undo', { documentId: created.documentId, expectedRevision: created.revision });
+    const undonePaths = await data('document.get'); assert.deepEqual(undonePaths.document, beforePaths.document);
+    await data('history.redo', { documentId: undonePaths.documentId, expectedRevision: undonePaths.revision });
+    assert.deepEqual((await data('document.get')).document, created.document);
+  }
   if (reparent) {
     const tools = await client.listTools();
     const tool = tools.tools.find(tool => tool.name === 'nodes.reparent');
@@ -273,7 +292,7 @@ try {
         port,
         identifier,
         scope:
-          locks ? "Actual native HTTP MCP SDK explicit editing through a locked ancestor, exact atomic undo/redo, transformed capture and durable checkpoint. Direct human guards are tested separately." : reparent ? "Actual native HTTP MCP SDK nodes.reparent discovery/output validation, rotated world placement, stale/no-op/cycle rejection, explicit managed-flow placement, one-step undo and durable checkpoint/capture." : "Actual native HTTP MCP SDK, transformed layout/selection/capture, atomic authoring undo/redo and durable native checkpoint. Human pointer gestures are tested separately in Chrome.",
+          drawing ? "Actual native HTTP MCP SDK creates line/arrow/polyline/pressure-outline canonical paths, verifies exact portable SVG data, projected geometry, one batch/undo/redo, capture and durable native checkpoint. Human input is tested separately." : locks ? "Actual native HTTP MCP SDK explicit editing through a locked ancestor, exact atomic undo/redo, transformed capture and durable checkpoint. Direct human guards are tested separately." : reparent ? "Actual native HTTP MCP SDK nodes.reparent discovery/output validation, rotated world placement, stale/no-op/cycle rejection, explicit managed-flow placement, one-step undo and durable checkpoint/capture." : "Actual native HTTP MCP SDK, transformed layout/selection/capture, atomic authoring undo/redo and durable native checkpoint. Human pointer gestures are tested separately in Chrome.",
         capture: capture.structuredContent.capture,
       },
       null,
@@ -281,7 +300,7 @@ try {
     ),
   );
   console.log(
-          locks ? "PASS: actual isolated native MCP explicit editing with a locked ancestor, exact undo/redo and durable capture/checkpoint" : reparent ? "PASS: actual isolated native MCP nodes.reparent, rotated geometry, strict SDK schemas, stale/no-op/cycle checks, explicit flow mode, exact undo and durable capture/checkpoint" : "PASS: actual isolated native Sugar Maple MCP on 48494, nested transformed Canvas layout, selection/capture, exact atomic undo/redo and durable checkpoint",
+          drawing ? "PASS: actual native MCP canonical line/arrow/path/freehand, exact SVG data, projected geometry, atomic undo/redo and durable capture/checkpoint" : locks ? "PASS: actual isolated native MCP explicit editing with a locked ancestor, exact undo/redo and durable capture/checkpoint" : reparent ? "PASS: actual isolated native MCP nodes.reparent, rotated geometry, strict SDK schemas, stale/no-op/cycle checks, explicit flow mode, exact undo and durable capture/checkpoint" : "PASS: actual isolated native Sugar Maple MCP on 48494, nested transformed Canvas layout, selection/capture, exact atomic undo/redo and durable checkpoint",
   );
   if (hold) {
     await Bun.write(resolve(output, 'interactive-state.json'), JSON.stringify({ app, profile, port, identifier,

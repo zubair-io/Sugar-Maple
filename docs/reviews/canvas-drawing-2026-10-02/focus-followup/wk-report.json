@@ -1,0 +1,58 @@
+{
+  "engine" : "WKWebView",
+  "memory" : {
+    "ownerPeakRSSBytes" : 192217088,
+    "scope" : "This benchmark UI process only; WebKit content\/GPU\/network process memory is not included"
+  },
+  "nativeBridge" : "In-memory benchmark recovery\/status\/autosave only; production native disk\/MCP\/clipboard costs excluded",
+  "os" : "Version 27.0 (Build 26A428)",
+  "result" : {
+    "checks" : 18,
+    "lineInputs" : [
+      {
+        "deliveredEnd" : {
+          "x" : 239.97025302692674,
+          "y" : 180.7801520463035
+        },
+        "deliveredStart" : {
+          "x" : 119.64381464059443,
+          "y" : 130.96501152396667
+        },
+        "projectedEnd" : {
+          "x" : 239.97021464059441,
+          "y" : 180.78011152396667
+        },
+        "projectedStart" : {
+          "x" : 119.6438146405944,
+          "y" : 130.96501152396667
+        },
+        "screenCoordinates" : "integer",
+        "tolerance" : 0.10000000000000001,
+        "zoom" : 0.5
+      },
+      {
+        "deliveredEnd" : {
+          "x" : 240.29271271045735,
+          "y" : 179.8942013471187
+        },
+        "deliveredStart" : {
+          "x" : 119.96627432412504,
+          "y" : 130.07906082478186
+        },
+        "projectedEnd" : {
+          "x" : 240.29267432412499,
+          "y" : 179.89416082478181
+        },
+        "projectedStart" : {
+          "x" : 119.96627432412498,
+          "y" : 130.07906082478181
+        },
+        "screenCoordinates" : "integer",
+        "tolerance" : 0.10000000000000001,
+        "zoom" : 1.5
+      }
+    ],
+    "passed" : true,
+    "scope" : "Production WK controls\/geometry at both zooms; synthetic DOM pointer events use a local capture shim; separate OS input evidence required"
+  }
+}
