@@ -107,6 +107,8 @@ await run([process.execPath, "tools/native-lock-editing.ts"]);
 
 await run([process.execPath, "tools/native-canvas-drawing.ts"]);
 
+await run([process.execPath, "tools/native-text-editing.ts"]);
+
 await run([process.execPath, "tools/native-canvas-transform-mcp.ts", "--locks"]);
 
 await run([process.execPath, "tools/native-canvas-transform-mcp.ts", "--drawing"]);

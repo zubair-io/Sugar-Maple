@@ -1,0 +1,157 @@
+Window: "Sugar Maple", App: Sugar Maple Transform QA.
+0 standard window Sugar Maple, ID: editor, Secondary Actions: Raise
+	1 container
+		2 scroll area
+			3 HTML content Description: Sugar Maple, URL: sugar-maple://app/index.html
+				4 container
+					5 container Open files
+						6 tab group (selectable) Documents
+							7 tab (selectable) Owned native text session QA, Help: Owned native text session QA — double-click to rename
+							8 button Close Owned native text session QA
+							9 tab (selectable) Owned Canvas transform MCP QA, Help: Owned Canvas transform MCP QA — double-click to rename
+							10 button Close Owned Canvas transform MCP QA
+							11 tab (selected) Owned native text session QA, Help: Owned native text session QA — double-click to rename
+							12 button Close Owned native text session QA
+						13 button New file
+					14 container Editor mode
+						15 toggle button Design, Value: on
+						16 toggle button Prototype, Value: off
+						17 toggle button Developer, Value: off
+					18 text ◉ MCP
+					19 button ▶ Preview
+				20 container Pages, layers, assets and tokens
+					21 container Sidebar sections
+						22 toggle button Pages, Value: on
+						23 toggle button Layers, Value: off
+						24 toggle button Assets, Value: off
+						25 toggle button Tokens, Value: off
+					26 text PAGES
+					27 button Add page
+					28 text field (settable) New folder name, Placeholder: New folder
+					29 button Add folder
+					30 button ▤ Page 1
+					31 button (disabled) Delete page
+					32 container
+						33 text Page folder
+						34 pop up button (collapsed) Page folder, Value: No folder, Secondary Actions: Expand
+					35 text SUGAR MAPLE Local workspace
+				36 container
+					37 button (expanded) Toggle left panel, Help: Collapse left panel, Secondary Actions: Collapse
+					38 toolbar
+						39 toggle button Add artboard, Value: off
+						40 toggle button Add frame, Value: off
+						41 toggle button Add rectangle, Value: off
+						42 toggle button Add ellipse, Value: off
+						43 toggle button Add text, Value: off
+						44 toggle button Add button, Value: off
+						45 toggle button Add input, Value: off
+					46 toggle button Add comment, Help: Place a comment on the canvas, Value: off
+					47 toggle button Snapping, Help: Snap to visible layer edges and centers. Hold Control while dragging to bypass., Value: on
+					48 button Fit
+					49 button (expanded) Toggle right panel, Help: Collapse right panel, Secondary Actions: Collapse
+					50 toolbar Drawing tools
+						51 toggle button Select tool, Help: Select and transform layers (V), Value: on
+						52 toggle button Draw line, Help: Line (L), Value: off
+						53 toggle button Draw arrow, Help: Arrow (A), Value: off
+						54 toggle button Draw path, Help: Path (P), Value: off
+						55 toggle button Draw freehand, Help: Freehand (B), Value: off
+						56 container
+							57 text Stroke
+							58 color well Drawing stroke color, Value: rgb 0.145098 0.388235 0.921569 1
+						59 container
+							60 text Width
+							61 number field (settable) Drawing stroke width, Value: 4
+								62 stepper 0
+									63 unknown
+									64 unknown
+					65 image Design canvas. Select layers in the Layers panel; arrow keys move selected layers.
+					66 button Resize selected element from top left, Help: Drag to resize. Hold Shift to preserve proportions. Arrow keys move this handle by 1 design unit, or 10 with Shift.
+					67 button Resize selected element from top, Help: Drag to resize. Hold Shift to preserve proportions. Arrow keys move this handle by 1 design unit, or 10 with Shift.
+					68 button Resize selected element from top right, Help: Drag to resize. Hold Shift to preserve proportions. Arrow keys move this handle by 1 design unit, or 10 with Shift.
+					69 button Resize selected element from right, Help: Drag to resize. Hold Shift to preserve proportions. Arrow keys move this handle by 1 design unit, or 10 with Shift.
+					70 button Resize selected element, Help: Drag to resize. Hold Shift to preserve proportions. Arrow keys move this handle by 1 design unit, or 10 with Shift.
+					71 button Resize selected element from bottom, Help: Drag to resize. Hold Shift to preserve proportions. Arrow keys move this handle by 1 design unit, or 10 with Shift.
+					72 button Resize selected element from bottom left, Help: Drag to resize. Hold Shift to preserve proportions. Arrow keys move this handle by 1 design unit, or 10 with Shift.
+					73 button Resize selected element from left, Help: Drag to resize. Hold Shift to preserve proportions. Arrow keys move this handle by 1 design unit, or 10 with Shift.
+					74 button Rotate selected element, Help: Drag to rotate. Hold Shift to snap to 15 degrees. Arrow keys rotate by 1 degree, or 10 with Shift.
+				75 container Details and comments
+					76 text Inspector
+					77 tab group (selectable) Tabs
+						78 tab (selected) Details
+						79 tab (selectable) Comments
+					80 text Alpha label Text
+					81 text field (settable) Layer name, Value: Alpha label
+					82 container
+						83 button (collapsed) Transform, Secondary Actions: Expand
+						84 button (collapsed) Layout, Secondary Actions: Expand
+						85 button (expanded) Typography, Secondary Actions: Collapse
+						86 text Text
+						87 text entry area (settable) Text content, Value: draft, Secondary Actions: Show Writing Tools
+							88 text (settable) draft
+						89 text Text stays in this field until you finish editing. Escape cancels.
+						90 button Cancel text edit
+						91 text Family
+						92 text field (settable) Font family, Value: system-ui
+						93 text System font · available offline. Glyph fallback uses installed fonts. Size
+						94 number field (settable) Font size, Value: 16
+							95 stepper 0
+								96 unknown
+								97 unknown
+						98 text Weight
+						99 number field (settable) Font weight, Value: 400
+							100 stepper 0
+								101 unknown
+								102 unknown
+						103 text Line ×
+						104 number field (settable) Line height, Value: 1.2
+							105 stepper 0
+								106 unknown
+								107 unknown
+						108 text Track
+						109 number field (settable) Letter spacing, Value: 0
+							110 stepper 0
+								111 unknown
+								112 unknown
+						113 text Align
+						114 pop up button (collapsed) Text alignment, Value: auto, Secondary Actions: Expand
+						115 text Text color
+						116 color well Text color, Value: rgb 0.0941176 0.0941176 0.105882 1
+						117 button (expanded) Style, Secondary Actions: Collapse
+						118 text Opacity
+						119 number field (settable) Opacity percent, Value: 100
+							120 stepper 0
+								121 unknown
+								122 unknown
+						123 button Make component
+						124 button Move earlier
+						125 button Move later
+						126 button Duplicate
+						127 button Repeat Grid
+						128 button Delete
+				129 container
+					130 text Appearance
+					131 pop up button (collapsed) Chrome appearance, Value: Dark, Secondary Actions: Expand
+					132 button ↶, Help: Undo Cmd+Z
+					133 button (disabled) ↷
+					134 text Saved locally Ready · 127.0.0.1:48494
+					135 button Desktop
+					136 button Tablet
+					137 button Mobile
+					138 slider (settable, float) Zoom, Value: 1
+						139 value indicator 1
+					140 text 99%
+		141 list
+			142 text Draft
+		143 button close
+	144 close button
+	145 full screen button Help: this button also has an action to zoom the window, Secondary Actions: zoom the window
+	146 minimize button
+147 menu bar
+	148 Sugar Maple Transform QA
+	149 File
+	150 Edit
+	151 View
+	152 Window
+	153 Help
+
+The focused UI element is 87 text entry area (settable) Text content, Value: draft, Secondary Actions: Show Writing Tools
