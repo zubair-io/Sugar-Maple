@@ -1,0 +1,1 @@
+PASS: actual isolated native MCP nodes.reparent, rotated geometry, strict SDK schemas, stale/no-op/cycle checks, explicit flow mode, exact undo and durable capture/checkpoint

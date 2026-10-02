@@ -1,0 +1,39 @@
+{
+  "observedAtUTC": "2026-10-02T06:55:21.309141+00:00",
+  "runtimeSourceCommit": "ea4a87990471731dbea407561168ee432c53528e",
+  "reviewSession": "1970651940068340142",
+  "reviewVerdict": "comment",
+  "change": "Inspector applyReparent awaits commitReparent inside its existing try/catch/finally. The present commitReparent/command methods return synchronously; awaiting also captures any future asynchronous rejection before cleanup.",
+  "validation": {
+    "modelTests": 109,
+    "modelAssertions": 1839,
+    "typecheck": "Passed",
+    "productionWebMacBuild": "Passed",
+    "inventory": "Passed",
+    "productionChrome": "Passed at zoom 0.5 and 1.5 with preview/cancel, Apply world/flow placement, stale preview/inherited guards and exact undo; no console errors",
+    "wkReparentCases": 12,
+    "nativeMCP": "Real SDK strict tool schemas, world geometry, stale/no-op/cycle failures, flow mode, exact undo and durable capture/checkpoint pass"
+  },
+  "scopeLimits": [
+    "This follow-up repeats model/build/typecheck/inventory and focused production reparent Chrome/WK/native SDK checks; the original 26-suite browser/full native run remains bound to its earlier source.",
+    "WK input is synthetic DOM. Native OS input, VoiceOver, IME and drawing acceptance remain separately tracked."
+  ],
+  "sourceSHA256": {
+    "src/web/src/app/app.ts": "36ae5d389c63b81373a754affcdaf68b9f51d34095cab6b24ad2cfa9e1d278a3"
+  },
+  "evidenceSHA256": {
+    "review-model.log": "7a353d81cbbd305ded35e3ad10ceac4d35588d8bf03ddbc4dba63dfee8ae5dc5",
+    "review-typecheck.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "review-mac-build.log": "438228b60ee64474ad867a698e84c94be437aca3d999e4f6d78ebd3ae3fd0310",
+    "review-browser.log": "508c074dcde75479057ea9d501c9d1779d809424e833b3e57c86d8f992a288c0",
+    "review-wk.log": "afdfb60fa0ab5f4f77aae2fa0bcb6e0fdce090373664ab2aacb3ebabd6e1f817",
+    "review-mcp.log": "d7b013006f8dc761ac87a7d409e06d2dbcb4cc15dc387f7d3e261be56b2489f2",
+    "review-inventory.log": "2fe6b41a9c6f94ec84c48303af2c72755551297070e0656ddc19bbd092c38337",
+    "review-wk-report.json": "35480a3b5f11bd9d17b5bb5cafba9542b9afa01cadb383a87e9ed04a188f4552",
+    "review-wk.png": "05853474744320ef1187aa345c798e3d625886bb1f1945addd3a9ea586bfcb92",
+    "review-mcp-report.json": "9cd661d3f3c0f0ef09686ba71ab2fff22bdcc09b2435af03877fbfbf841f6fb5",
+    "review-mcp.png": "b290a86fd70f843741bfef1ed0df2015c52a8decdb8e8787b899658c99e60ebc",
+    "review-chrome-preview.png": "28499e5eb127b1da7f28aa94670cf4b49e0f9727f7076f8643771b2a4f6a39b5",
+    "review-chrome-applied.png": "2221c29707c87f58cc638ccc8cc3e844b7f4fc2b3be380b20a1913f30d7efd7f"
+  }
+}

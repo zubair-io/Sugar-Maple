@@ -99,5 +99,7 @@ await run([process.execPath, "tools/library-native-consumer.ts"]);
 
 await run([process.execPath, "tools/native-canvas-transform.ts"]);
 await run([process.execPath, "tools/native-canvas-transform.ts", "--placement"]);
+await run([process.execPath, "tools/native-canvas-transform.ts", "--reparent"]);
 
 await run([process.execPath, "tools/native-canvas-transform-mcp.ts"]);
+await run([process.execPath, "tools/native-canvas-transform-mcp.ts", "--reparent"]);
