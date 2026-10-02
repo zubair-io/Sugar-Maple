@@ -1,4 +1,5 @@
 interface FileDiff { path: string; text: string; priority: number; }
+export class ReviewDiffBudgetError extends Error {}
 
 // Keep shipping source, tests and workflow changes ahead of large design archives.
 // Whole-file hunks are retained; shipping-source overflow is an error.
@@ -6,8 +7,8 @@ export function selectReviewDiff(diff: string, maxChars = 350_000): { text: stri
   const files: FileDiff[] = diff.split(/(?=^diff --git )/m).filter(Boolean).map(text => {
     const header = text.split('\n', 1)[0];
     const path = header.match(/ "?b\/(.*?)"?$/)?.[1] ?? header;
-    const priority = /^(src\/|tools\/|\.github\/)/.test(path) ? 0 :
-      /^(docs\/|designs\/|prototypes\/)|(?:^|\/)(?:bun|package)\.lock(?:b|\.json)?$/.test(path) ? 2 : 1;
+    const priority = /^(src\/|tools\/|\.github\/|prototypes\/)/.test(path) ? 0 :
+      /^(docs\/|designs\/)|(?:^|\/)(?:bun|package)\.lock(?:b|\.json)?$/.test(path) ? 2 : 1;
     return { path, text, priority };
   }).sort((a, b) => a.priority - b.priority);
   const included: string[] = [], omitted: string[] = [];
@@ -16,7 +17,7 @@ export function selectReviewDiff(diff: string, maxChars = 350_000): { text: stri
     if (used + file.text.length <= maxChars) {
       included.push(file.text); used += file.text.length;
     } else if (file.priority === 0) {
-      throw new Error(`Shipping source diff exceeds the ${maxChars}-character review budget.`);
+      throw new ReviewDiffBudgetError(`Shipping source diff exceeds the ${maxChars}-character review budget.`);
     } else omitted.push(file.path);
   }
   return {

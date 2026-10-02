@@ -5,6 +5,7 @@ import { buildReviewPrompt } from './prompt.js';
 import { publishThenDelete } from './cleanup.js';
 import { collectReview } from './poll.js';
 import { selectReviewDiff } from './diff.js';
+import { fetchRevisionDiff, safeReviewFailure } from './revision-diff.js';
 
 import { parseFinalVerdict, statusFromVerdict, type FailOn } from './verdict.js';
 
@@ -16,6 +17,8 @@ async function run(): Promise<void> {
   core.setSecret(apiKey);
 
   const token = core.getInput('github_token', { required: true });
+  core.setSecret(token);
+  core.setSecret(Buffer.from(`x-access-token:${token}`).toString('base64'));
   const failOnRaw = core.getInput('fail_on');
   if (!VALID_FAIL_ON.includes(failOnRaw as FailOn)) {
     core.setFailed(`Invalid fail_on: "${failOnRaw}". Must be one of: ${VALID_FAIL_ON.join(', ')}.`);
@@ -69,6 +72,8 @@ async function run(): Promise<void> {
 
   let commentId: number | undefined;
   let publicationComplete = false;
+  let operation = 'pending status';
+  let sessionId: string | undefined;
 
   try {
     try {
@@ -84,6 +89,7 @@ async function run(): Promise<void> {
       `${COMMENT_MARKER}\n🤖 **Jules is reviewing this PR.** Results will appear here shortly (typically 2–5 minutes).`;
 
     let createdId: number;
+    operation = 'pending comment';
     try {
       const created = await octokit.rest.issues.createComment({
         owner, repo, issue_number: prNumber, body: inProgressBody,
@@ -94,14 +100,19 @@ async function run(): Promise<void> {
     }
     commentId = createdId;
 
-    const diff = await fetchDiff(octokit, owner, repo, pr);
+    operation = 'exact revision diff';
+    core.info(`Reading complete revision diff ${baseSha}..${headSha}; GitHub full-diff API limits do not apply.`);
+    const diff = fetchRevisionDiff(`${owner}/${repo}`, baseSha, headSha, token);
 
     let rulesFromFile: string | undefined;
     if (rulesFilePath) {
+      operation = 'base rules';
       rulesFromFile = await loadRulesFromBase(octokit, owner, repo, rulesFilePath, baseSha);
     }
 
+    operation = 'complete shipping-source selection';
     const { text: diffText, truncatedNote } = selectReviewDiff(diff);
+    core.info(`Retrieved ${Buffer.byteLength(diff)} diff bytes; selected ${diffText.length} characters with every shipping-source hunk included. ${truncatedNote ? 'Non-runtime evidence omissions are listed in the review prompt.' : 'No hunks omitted.'}`);
 
     const prompt = buildReviewPrompt({
       repoFullName: `${owner}/${repo}`,
@@ -119,6 +130,7 @@ async function run(): Promise<void> {
     const customJules = jules.with({ apiKey });
 
     core.info('Creating Jules review session…');
+    operation = 'session creation';
     const session = await customJules.session({
       prompt,
       source: { github: `${owner}/${repo}`, baseBranch: pr.base.ref },
@@ -126,7 +138,9 @@ async function run(): Promise<void> {
       autoPr: false,
     });
     core.info(`Jules session: ${session.id}`);
+    sessionId = session.id;
 
+    operation = 'session observation';
     const result = await collectReview(session as any, { timeoutMs: timeoutMinutes * 60 * 1000, report: core.info });
     const reviewMessage = result.review;
     core.info(`Collected review (${reviewMessage.length} chars)`);
@@ -150,6 +164,7 @@ async function run(): Promise<void> {
       `${COMMENT_MARKER}\n## 🤖 Jules Review\n\n${reviewMessage}\n\n---\n_Session: \`${session.id}\`_`;
     const { state, description } = statusFromVerdict(verdict, failOn);
     let cleanupError = '';
+    operation = 'verdict publication and completed-session cleanup';
     await publishThenDelete(session.id, apiKey, async () => {
       await octokit.rest.issues.updateComment({ owner, repo, comment_id: commentId!, body: finalBody });
       await setStatus(octokit, owner, repo, headSha, statusContext, state, description);
@@ -169,7 +184,7 @@ async function run(): Promise<void> {
       core.setFailed('An operational step failed after publication. The saved review and code verdict remain intact; inspect/recover the exact session.');
       return;
     }
-    const msg = err instanceof Error ? err.message : String(err);
+    const msg = safeReviewFailure(err, operation, sessionId);
     core.error(`Review failed: ${msg}`);
 
     if (commentId !== undefined) {
@@ -179,34 +194,6 @@ async function run(): Promise<void> {
       .catch(() => {});
     core.setFailed(`Jules PR review failed: ${msg}`);
   }
-}
-
-async function fetchDiff(
-  octokit: ReturnType<typeof github.getOctokit>,
-  owner: string, repo: string, pr: any,
-): Promise<string> {
-  try {
-    const res = await octokit.rest.pulls.get({
-      owner, repo, pull_number: pr.number, mediaType: { format: 'diff' },
-    });
-    const data = res.data as unknown;
-    if (typeof data === 'string') return data;
-  } catch (err) {
-    core.warning(`pulls.get diff failed, falling back to compare: ${String(err)}`);
-  }
-  const compare = await octokit.rest.repos.compareCommitsWithBasehead({
-    owner, repo,
-    basehead: `${pr.base.sha}...${pr.head.sha}`,
-    mediaType: { format: 'diff' },
-  });
-  const data = compare.data as unknown;
-  if (typeof data !== 'string') {
-    throw new Error(
-      'GitHub returned no diff text (PR may be too large or comparison refused). ' +
-      'Action cannot review this PR.',
-    );
-  }
-  return data;
 }
 
 async function loadRulesFromBase(
