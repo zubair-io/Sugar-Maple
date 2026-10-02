@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { LibraryManifestSchema, LibraryKeySchema } from './library-schema';
 import { NodeSchema, PageSchema, FolderSchema } from './schema';
 
 const id = z
@@ -87,6 +88,7 @@ export const ScopedReadOutputSchema = z
       .object({
         ancestors: z.array(NodeSchema),
         components: z.array(z.object({ id, pageId: id, name: z.string() }).strict()),
+        libraries: z.record(LibraryKeySchema, LibraryManifestSchema),
         tokens: z.record(z.string(), z.string()),
         assets: z.record(z.string(), z.string()),
         pages: z.array(PageSchema),
