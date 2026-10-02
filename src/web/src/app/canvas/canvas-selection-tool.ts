@@ -12,6 +12,7 @@ import {
   type SnapIndex,
 } from './placement-geometry';
 import type { CanvasProjection } from './canvas-projection';
+import { CanvasRepeatGesture } from './canvas-repeat-gesture';
 import {
   angleAt,
   angleDelta,
@@ -45,7 +46,8 @@ export class CanvasSelectionTool implements Tool {
     bounds: Box | null;
   } | null = null;
   marquee: Box | null = null;
-  constructor(private projection: CanvasProjection) {}
+  readonly repeat: CanvasRepeatGesture;
+  constructor(private projection: CanvasProjection) { this.repeat = new CanvasRepeatGesture(projection); }
   activate(context: ToolContext) {
     this.context = context;
   }
@@ -56,6 +58,7 @@ export class CanvasSelectionTool implements Tool {
     this.pendingHandle = null;
   }
   deactivate() {
+    this.repeat.cancel();
     this.gesture = null;
     this.pendingHandle = null;
     this.marquee = null;
@@ -71,6 +74,7 @@ export class CanvasSelectionTool implements Tool {
     ];
   }
   onPointerDown(event: CanvasPointerEvent) {
+    if (this.repeat.start(event)) return { render: true, cursor: 'crosshair' };
     const pending = this.pendingHandle;
     this.pendingHandle = null;
     if (event.button !== 0) return {};
@@ -161,6 +165,7 @@ export class CanvasSelectionTool implements Tool {
     );
   }
   onPointerMove(event: CanvasPointerEvent) {
+    if (this.repeat.active) { this.repeat.move(event); return { render: true }; }
     const g = this.gesture,
       p = this.projection;
     if (!g)
@@ -244,6 +249,7 @@ export class CanvasSelectionTool implements Tool {
     };
   }
   onPointerUp(event: CanvasPointerEvent) {
+    if (this.repeat.active) { this.repeat.commit(event); return { render: true, cursor: 'default' }; }
     const g = this.gesture,
       p = this.projection;
     if (!g) return {};
@@ -284,7 +290,8 @@ export class CanvasSelectionTool implements Tool {
     return { render: true, cursor: 'default' };
   }
   onKeyDown(event: KeyboardEvent) {
-    if (event.key === 'Escape') {
+    if (event.key === 'Escape' && (this.gesture || this.repeat.active || this.pendingHandle)) {
+      event.preventDefault();
       this.onPointerCancel();
       return true;
     }
