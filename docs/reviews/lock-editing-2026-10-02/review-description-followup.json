@@ -1,0 +1,12 @@
+{
+  "recordedAt": "2026-10-02T08:44:37.495756+00:00",
+  "reviewedHead": "896cb172d7478d376ebe0a843312983135a5f735",
+  "descriptionFindingSession": "4823005181708762854",
+  "finding": "Completed review reported a description-only instruction concern and no runtime code findings. PR status text was replaced with a neutral statement of review/CI state.",
+  "runtimeSourceHead": "0c5d306eb0df34c76b1af366e52ef1a083d8825c",
+  "runtimeChange": false,
+  "priorExactHeadCI": "36980519032",
+  "acceptanceRecord": "main-integration/run-state.json",
+  "acceptanceRecordSHA256": "685eacb514825b5b58b5c1b036757aaefc008a9886055cfc01e34271a25768f0",
+  "scope": "Documentation/status update only; current runtime source and prior combined local acceptance are unchanged. New head CI and actual review are pending."
+}
