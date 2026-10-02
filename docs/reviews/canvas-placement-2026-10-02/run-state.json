@@ -1,0 +1,60 @@
+{
+  "observedAtUTC": "2026-10-02T05:12:38.549198+00:00",
+  "runtimeSourceCommit": "3315c37098a4f0f0f00839e1bad8d8f1fb906f3d",
+  "baseTransformCommit": "0f512284cb5276bdbb7c13ce39f5d92a5754291b",
+  "validation": {
+    "modelTests": 97,
+    "modelAssertions": 1644,
+    "browserSuites": 25,
+    "wkPlacementCases": 16,
+    "finalFocusedChromePlacement": "Passed at zoom 0.5 and 1.5, DPR 2; actual pointer snapping and rotated resize, guides, alignment, distribution, undo, toggle and bypass",
+    "finalBuildMac": "Passed",
+    "typecheck": "Passed",
+    "inventory": "Passed"
+  },
+  "scopeLimits": [
+    "WK placement inputs are synthetic DOM controls, not native OS pointer or VoiceOver acceptance.",
+    "Performance release gates, whole-application memory and native IME are not established by these functional checks.",
+    "Full browser/native suite logs precede the final Snap active visual state; final production build and focused Chrome/WK placement checks include it.",
+    "Browser suite termination messages with code 143 refer to cleanup of its owned dev server; runner exited zero."
+  ],
+  "sourceSHA256": {
+    "src/web/src/app/app.html": "a518aba42fe27d1d56058a130ba439c147d77428ee151c1344991f2ddd8a2752",
+    "src/web/src/app/app.ts": "e70d2f2a1ff25f47661d55012dc8a72b6b37ac57182612f58b4e4886858a36a5",
+    "src/web/src/app/canvas/canvas-projection.ts": "329449295298ef478c7ed2526d9c045ddf3b36c9af864a7266a9b8038a07b125",
+    "src/web/src/app/canvas/canvas-selection-tool.ts": "ace459719fa3eaf0290692e9d39e483b0ee4a2c8b5ce8439e25279e669cea33a",
+    "src/web/src/app/canvas/placement-geometry.ts": "fa2dca6eaaa01b1fbafdf2e516993be7e2a766868a4a96424676ade559fe40b3",
+    "src/web/src/app/canvas/whiteboard/core/components/canvas/renderer.service.ts": "65c54755fdb229933b5f3df9865994a5f8a09d230d7ee5fa0dd72e747c703297",
+    "src/web/tests/canvas-gesture.test.ts": "0fa1fceeea3b6f8fd24c76959a799b34e9c4ed1ce1e357849b300ef0f5bacc36",
+    "src/web/tests/canvas-placement-e2e.ts": "c21e2be22d1ee1394ec10a1604adc514e997fa790118e09f7ebed6ba081c4997",
+    "src/web/tests/canvas-placement.test.ts": "9e12a0c79b1d6181477cc7280393e8e23dec721672890be896706b1ccb8499ec",
+    "tools/browser-acceptance.ts": "e4004ea15ba5e24bcb87cd87652cfc3417473038716d444286a3305fa67f97e9",
+    "tools/canvas-placement-native-page.js": "d167cac3b8743aceafecc18bd42867516f78e80a67232a05a1219e2b69006df5",
+    "tools/native-acceptance.ts": "80b794b2d96b0139d98a23a3e3a46950bd0123f922da3633bf7b98de12fefb99",
+    "tools/native-canvas-transform.ts": "4be36dee0aad0ac7f1105ee39d6e60a12ee21a1b0c4592fc5662e5e56ceaa766"
+  },
+  "productionBundleSHA256": {
+    "src/web/dist/sugar-maple-editor/browser/chunk-BOkIKmYE.js": "00874fe6d2156fb813b751ac398140489757b47271ad23873c8d8ce05e8248aa",
+    "src/web/dist/sugar-maple-editor/browser/chunk-CVJr9qN9.js": "2dea42001b4e88564d5133c0c029192509ec4187eb835cfc278003dacf2632b4",
+    "src/web/dist/sugar-maple-editor/browser/chunk-CWz09IF0.js": "cb6502267d4e8dd31ed439928e443c5bf39aa4a0d6101f6915cd512e963f6c20",
+    "src/web/dist/sugar-maple-editor/browser/chunk-Cf3fXtUj.js": "2014f20ecfb5f4bce595dcbc46bedb7fd14918de28b688fdd4cdcf96f396e608",
+    "src/web/dist/sugar-maple-editor/browser/chunk-mFA5J6Qn.js": "a6b7ca2d05cb61686f4f128a16720c05d1ab712d5fb2ebe6b79b0c6425a305e0",
+    "src/web/dist/sugar-maple-editor/browser/index.html": "5aa3f24870cdfd45e27d250a2eceb2abd321bf7ca14795d9ceb5aa955d52fb1a",
+    "src/web/dist/sugar-maple-editor/browser/main-IFEW4SP5.js": "dc37170f199758f0b71c2446376be3da060b81cff596d914f5d5073d87d8e1b7",
+    "src/web/dist/sugar-maple-editor/browser/styles-3L4SZE66.css": "2c2efbb44e1ad105f76bebaf26a40a4d3d867163c4616ff18e7dbf73e3faed18"
+  },
+  "evidenceSHA256": {
+    "browser-suites.log": "969cf3949617a1cbcfc6da0b8d35e3068eaa8c4f5f18426a60a7a5dfe99cd552",
+    "build-mac.log": "1187fd03c64937b2e0dec7dc732020dcb44723d87ef564fe1c8f646bf612220f",
+    "chrome-guides-0.5.png": "8aed04459637a9c768f9685ccf377b8bb8ce2e1e375b8cfd9e03dc72133ea020",
+    "chrome-guides-1.5.png": "312b3892f65f4d225085232070f42fb549fb8c665e10405b4e48ae54aa916b99",
+    "final-chrome-placement.log": "f5e15d6a8b1c074ea142b4bd2e125154af2ffe423ae80c069b5d09f4741de081",
+    "final-wk-placement.log": "d91b51d18cd4e08ce50d0e9c1e004a4441e7f6ac8bd02d00f6fd1f38e68098e6",
+    "inventory.log": "2fe6b41a9c6f94ec84c48303af2c72755551297070e0656ddc19bbd092c38337",
+    "model-tests.log": "035ae5fab22c3c68800ae3f259bbc68b3c1c4092b51f7c594e69ee1e7c6224d0",
+    "native-acceptance.log": "a8e0b50293905eb26963ba6f10bdc7302a1f0186e43d145865800111a45473fc",
+    "typecheck.log": "9b2b770f3351789b5fd00fa72323f6eb7ea6de3fa3d75b7678bcbee1c8f6d5f6",
+    "wk-placement-report.json": "6035cf3c502db08d8c40b637d4de26cef6eb796440ac586bf3ac2a15f6dfce2c",
+    "wk-placement.png": "46c7d8daa869e88ea66a5b7d07407fd37ffe1a3990856cd3d38c9c090667f295"
+  }
+}
