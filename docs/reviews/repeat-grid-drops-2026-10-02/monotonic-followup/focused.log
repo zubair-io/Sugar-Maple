@@ -1,0 +1,16 @@
+bun test v1.4.2 (744846f84)
+
+src/web/tests/repeat-files.test.ts:
+(pass) dropped CSV/JSON and text lists keep strict fields and authored line content [1.82ms]
+(pass) ordered images use deterministic filename order, shared bytes and explicit image fields [0.60ms]
+(pass) ambiguous, unsupported, malformed and oversized batches reject before returning staged content [0.68ms]
+(pass) directory drops exhaust fragmented entry batches and ignore only macOS folder metadata [0.43ms]
+(pass) directory cancellation stops a pending reader without staging data [0.15ms]
+(pass) directories honor depth limits and file-only drag stores retain a local fallback [0.11ms]
+(pass) directory traversal tolerates wall-clock changes while monotonic time remains within budget [0.08ms]
+(pass) directory traversal still rejects when its shared monotonic budget expires [0.05ms]
+
+ 8 pass
+ 0 fail
+ 23 expect() calls
+Ran 8 tests across 1 file. [27.00ms]

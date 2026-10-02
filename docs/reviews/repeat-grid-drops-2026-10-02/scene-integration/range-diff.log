@@ -1,0 +1,5 @@
+1:  5ff856a = 1:  33ae9d0 Stage Repeat Grid data and ordered image folder drops atomically
+2:  b80828b = 2:  80b5fd5 Allow explicit folder selection from the trusted native editor
+3:  e8929b5 = 3:  1029846 Verify Repeat Grid drop mappings, cancellation and durable undo
+4:  23ecd85 = 4:  dba782d Make native folder chooser evidence reproducible through owned MCP reads
+5:  5749304 = 5:  a28f7b5 Record full drop acceptance and actual native folder import evidence
