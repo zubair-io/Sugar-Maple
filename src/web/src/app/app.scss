@@ -98,12 +98,6 @@ button:hover {
   background: var(--color-bg-hover);
 }
 
-.layer-row button:not(:first-child) {
-  padding: 3px;
-  color: var(--color-text-muted);
-  font-size: 10px;
-}
-
 .muted {
   color: var(--color-text-muted);
   line-height: 1.6;
@@ -461,20 +455,6 @@ footer > span:last-child {
   flex-shrink: 0;
 }
 
-.layer-row {
-  display: flex;
-  align-items: center;
-  padding: 0 8px;
-  height: auto;
-  min-height: 36px;
-}
-.layer-row > mui-tree-row {
-  flex: 1;
-  min-width: 0;
-}
-.layer-row > button {
-  flex: 0 0 28px;
-}
 .layer-search {
   padding: 8px 14px;
 }

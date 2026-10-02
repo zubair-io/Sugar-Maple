@@ -12,6 +12,8 @@
   [attr.aria-selected]="active()"
   [attr.aria-disabled]="disabled() ? 'true' : null"
   [attr.aria-level]="depth() + 1"
+  [attr.aria-posinset]="positionInSet()"
+  [attr.aria-setsize]="setSize()"
   [attr.aria-haspopup]="ariaHasPopup()"
   [attr.aria-label]="ariaLabel()"
   (click)="onRowClick($event)"
