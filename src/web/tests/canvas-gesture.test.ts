@@ -3,6 +3,8 @@ import { DocumentStore } from '../src/app/model/store';
 import { CanvasSelectionTool } from '../src/app/canvas/canvas-selection-tool';
 import { project, flatten } from '../src/app/canvas/scene-layout';
 import { uid } from '../src/app/model/schema';
+import { angleAt, handlePoint } from '../src/app/canvas/transform-geometry';
+import { transform } from '../src/app/canvas/scene-layout';
 const state = <T>(initial: T) => {
   let value = initial;
   return Object.assign(() => value, {
@@ -65,6 +67,7 @@ function fixture() {
     byId: () => new Map(items().map((i) => [i.node.id, i])),
     canMove: () => true,
     canResize: () => true,
+    canRotate: () => true,
   };
   const tool = new CanvasSelectionTool(projection as any);
   tool.activate({
@@ -74,7 +77,7 @@ function fixture() {
   } as any);
   const pointer = (x: number, y: number) =>
     ({ button: 0, shiftKey: false, canvas: { x, y }, screen: { x, y } }) as any;
-  return { store, commit, tool, draft, pointer, page, toolState };
+  return { store, commit, tool, draft, pointer, page, toolState, selected, items };
 }
 test('one canvas drag is one atomic undo step and pointer cancellation does not commit', () => {
   const f = fixture(),
@@ -93,6 +96,54 @@ test('one canvas drag is one atomic undo step and pointer cancellation does not 
   f.tool.onPointerCancel();
   expect(f.store.revision).toBe(current);
   expect(f.draft()).toEqual({});
+});
+test('Shift resize retains selection and commits one undo step; a no-op handle click commits none', () => {
+  const f = fixture();
+  f.selected.set(['rect']);
+  const item = f.items()[0],
+    point = handlePoint(item, 'nw', 1),
+    revision = f.store.revision;
+  f.tool.beginHandle('nw');
+  f.tool.onPointerDown({ ...f.pointer(point.x, point.y), shiftKey: true });
+  f.tool.onPointerMove({ ...f.pointer(point.x - 40, point.y - 20), shiftKey: true });
+  f.tool.onPointerUp({ ...f.pointer(point.x - 40, point.y - 20), shiftKey: true });
+  expect(f.selected()).toEqual(['rect']);
+  expect(f.store.revision).toBe(revision + 1);
+  expect(f.store.document.nodes[0].width / f.store.document.nodes[0].height).toBeCloseTo(1.25, 8);
+  f.store.undo();
+  expect(f.store.document.nodes[0].x).toBe(20);
+  expect(f.store.document.nodes[0].width).toBe(100);
+  const current = f.store.revision;
+  f.tool.beginHandle('nw');
+  f.tool.onPointerDown(f.pointer(point.x, point.y));
+  f.tool.onPointerUp(f.pointer(point.x, point.y));
+  expect(f.store.revision).toBe(current);
+});
+test('rotation accumulates across the angle seam and pointer cancellation discards it', () => {
+  const f = fixture();
+  f.selected.set(['rect']);
+  const item = f.items()[0],
+    center = transform(item.transform, item.x + item.width / 2, item.y + item.height / 2);
+  const at = (degrees: number) =>
+    f.pointer(
+      center.x + 100 * Math.cos((degrees * Math.PI) / 180),
+      center.y + 100 * Math.sin((degrees * Math.PI) / 180),
+    );
+  const revision = f.store.revision;
+  f.tool.beginHandle('rotate');
+  f.tool.onPointerDown(at(170));
+  f.tool.onPointerMove(at(179));
+  f.tool.onPointerMove(at(-179));
+  f.tool.onPointerUp(at(-170));
+  expect(f.store.document.nodes[0].rotation).toBeCloseTo(20, 8);
+  expect(f.store.revision).toBe(revision + 1);
+  expect(angleAt(item, at(-170).canvas.x, at(-170).canvas.y)).toBeCloseTo(-170, 8);
+  f.tool.beginHandle('rotate');
+  f.tool.onPointerDown(at(-170));
+  f.tool.onPointerMove(at(-120));
+  f.tool.onPointerCancel();
+  expect(f.draft()).toEqual({});
+  expect(f.store.revision).toBe(revision + 1);
 });
 test('page switching cancels the gesture and clears its marquee overlay', () => {
   const f = fixture(),
