@@ -2,6 +2,15 @@ import AppKit
 
 @main struct NativeClipboardTest {
     @MainActor static func main() throws {
+        if CommandLine.arguments.count > 1 {
+            let data = try Data(contentsOf: URL(fileURLWithPath: CommandLine.arguments[1]))
+            let plist = try PropertyListSerialization.propertyList(from: data, format: nil) as! [String: Any]
+            let declarations = plist["UTExportedTypeDeclarations"] as! [[String: Any]]
+            let declaration = declarations.first { $0["UTTypeIdentifier"] as? String == NativeClipboard.editableType.rawValue }
+            precondition(declaration?["UTTypeConformsTo"] as? [String] == ["public.json"])
+            let documents = plist["CFBundleDocumentTypes"] as! [[String: Any]]
+            precondition(!documents.contains { ($0["LSItemContentTypes"] as? [String])?.contains(NativeClipboard.editableType.rawValue) == true })
+        }
         // A private named pasteboard never replaces the user's general clipboard.
         let board = NSPasteboard(name: .init("io.zubair.sugarmaple.qa.\(UUID().uuidString)"))
         defer { board.releaseGlobally() }

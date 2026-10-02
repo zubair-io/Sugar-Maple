@@ -1,0 +1,22 @@
+PASS: actual named NSPasteboard structured/text formats, UTF-8 roundtrip, structured precedence, version-one fallback, rejected malformed/future/Boolean/oversize writes preserve content and invalid structured reads reject
+PASS: real .syrup save/reopen and invalid-write preservation and external-change conflict
+PASS: actual read/fingerprint reject sparse 32 MB + 1 byte and 3 GB checkpoints with explicit unsigned 64-bit size checks
+PASS: real autosave packages, independent documents, title rename, collisions, invalid names, case-only rename, rename undo, migration, restart, external conflict, recovery preservation and corrupt native Open rejection
+PASS: trusted origin/hostname, resource traversal and symlink isolation, package symlink read/write/fingerprint rejection and original-file preservation
+PASS: real native MCP socket, occupied port, private credentials, structured output, typed loading/timeout/disconnected, deterministic 10/s throttle, stop and credential-rotating reconnect
+PASS: unavailable-host stdio returns actionable JSON-RPC error and keeps stdout protocol-clean
+PASS: generated SwiftUI serif, monospaced, tracking and multiline alignment consumer compiles against the actual SDK
+PASS: actual SwiftUI TextField/SecureField, email hint, initial values, disabled state and accessibility names consumer compiles
+tools/native-preview-test.swift:73:18: warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+71 |         precondition(child.closed && closeCount == 2)
+72 |         var detached: PreviewWindow? = try PreviewWindow(value:value,resources:resources,owner:nil) { _ in }
+73 |         weak var released = detached
+   |                  `- warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+74 |         detached?.close(); detached = nil
+75 |         try await Task.sleep(for:.milliseconds(200))
+
+[#VariableNeverMutated]: <https://docs.swift.org/compiler/documentation/diagnostics/variable-never-mutated>
+[#WeakMutability]: <https://docs.swift.org/compiler/documentation/diagnostics/weak-mutability>
+PASS: actual isolated WKWebView, offline bundled fonts, no authoring bridge/store, rejected file command/navigation, live scene with retained ephemeral input, overlays/navigation/reset, idempotent close and disposed renderer
+PASS: actual .syrup save/reopen retains one shared image and complete journal; native NSImage decodes embedded bytes; isolated bundled WKWebView renders two imported images/text/input values
+PASS: generated self-contained SwiftUI Repeat Grid consumer compiles and renders, shared embedded bytes decode once; actual native checkpoint reopens with one-batch undo/redo
