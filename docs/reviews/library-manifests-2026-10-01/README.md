@@ -14,3 +14,14 @@ This candidate requires exact-head CI, an actual approving review and merge befo
 ![Final native identity, props, variant, local override and slot](native-reopened.png)
 ![Actual pinned Web Awesome consumer](web-consumer.png)
 ![Actual compiled SwiftUI semantic mapping](swift-consumer.png)
+
+
+## Recovered review and current-main integration
+
+The original reviewer session `1449360678406360133` timed out while awaiting a question. Reviewed workflow changes #70/#71 recovered the actual question and submitted one hash-bound continuation to that same retained session. Inspection then proved COMPLETED and the final review was recovered by workflow [36954836780](https://github.com/zubair-io/Sugar-Maple/actions/runs/36954836780). Its actual `VERDICT: comment` and verified identity context are retained here; no timeout status was rewritten or approval invented.
+
+The final review found a concrete detached-slot clipboard bug and a default-slot validation omission. Both are fixed: an external slot is cleared only when its parent is removed from the pasted tree; retained children keep their named slots. All children of a known library parent, including the empty default slot, require that manifest declaration. Ordinary frames and missing-manifest editable fallbacks retain their existing contract. Store regressions prove subtree retention, save/replay, independent ID remapping, atomic invalid-slot rejection and one undo; the actual browser editor Copy element → keyboard paste → one undo flow also proves a slotted child can be copied alone. Its clipboard is private in-page test storage and never accesses the user's general pasteboard.
+
+Verified main `579122d` (Maple chrome/native structured clipboard/reviewer continuation) was merged with one resolved inspector-template conflict. The updated source builds in the actual Mac app and passes the complete native acceptance runner, including actual compiled SwiftUI consumers; 22 full browser/consumer suites pass after integration, followed by the new targeted UI regression. The project-pinned Bun 1.4.2 passes all 68 model tests / 481 assertions. Global Bun 1.4.3-canary runs hit the existing five-second 5,000-node test limit, including an isolated run; these observations are retained. The declared runtime was used for the final pass, and the timeout/budget was not raised. Production typecheck/build and the native tests pass on the merged source.
+
+A fresh exact-head review and CI run are still required for these fixes before merging #67 and closing #49. The prior final comment is source evidence for the findings, not approval of this changed head.

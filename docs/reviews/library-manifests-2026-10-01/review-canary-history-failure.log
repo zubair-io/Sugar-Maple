@@ -1,0 +1,12 @@
+bun test v1.4.3-canary.1 (81f97bb02)
+
+src/web/tests/history.test.ts:
+(pass) durable journal preserves grouped undo, redo branch and idempotent retries [31.08ms]
+(pass) checkpoint is immutable; corrupt projections and unknown versions reject [1.60ms]
+(fail) 5,000-node checkpoint round-trips and retains an undoable last batch [5465.36ms]
+  ^ this test timed out after 5000ms.
+
+ 2 pass
+ 1 fail
+ 17 expect() calls
+Ran 3 tests across 1 file. [5.55s]
