@@ -15,11 +15,14 @@ try {
   await page.getByRole('button', { name: 'Add page', exact: true }).click();
   const first = await doc();
   await page.getByRole('button', { name: 'New file', exact: true }).click();
-  await expect(page.getByRole('tab')).toHaveCount(2);
+  await expect(page.getByRole('tablist', { name: 'Documents' }).getByRole('tab')).toHaveCount(2);
   const second = await doc();
   assert.notEqual(second.documentId, first.documentId);
   await page.getByRole('tab', { name: 'First file', exact: true }).click();
-  await expect(page.getByRole('tab', { name: 'First file', exact: true })).toHaveAttribute('aria-selected', 'true');
+  await expect(page.getByRole('tab', { name: 'First file', exact: true })).toHaveAttribute(
+    'aria-selected',
+    'true',
+  );
   assert.deepEqual((await doc()).document, first.document);
   await page.getByRole('button', { name: '↶', exact: true }).click();
   assert.equal((await doc()).document.pages.length, 1);
@@ -28,17 +31,27 @@ try {
   await page.getByLabel('Document name', { exact: true }).press('Escape');
   assert.equal((await doc()).document.name, 'First file');
   await page.getByRole('button', { name: 'Close First file', exact: true }).click();
-  await expect(page.getByRole('tab')).toHaveCount(1);
+  await expect(page.getByRole('tablist', { name: 'Documents' }).getByRole('tab')).toHaveCount(1);
   assert.equal((await doc()).documentId, second.documentId);
-  const saved = await page.evaluate((id) => new Promise<any>((resolve, reject) => {
-    const req = indexedDB.open('sugar-maple', 1);
-    req.onsuccess = () => {
-      const db = req.result;
-      const read = db.transaction('checkpoints').objectStore('checkpoints').get('document:' + id);
-      read.onsuccess = () => { resolve(read.result); db.close(); };
-      read.onerror = () => reject(read.error);
-    };
-  }), first.documentId);
+  const saved = await page.evaluate(
+    (id) =>
+      new Promise<any>((resolve, reject) => {
+        const req = indexedDB.open('sugar-maple', 1);
+        req.onsuccess = () => {
+          const db = req.result;
+          const read = db
+            .transaction('checkpoints')
+            .objectStore('checkpoints')
+            .get('document:' + id);
+          read.onsuccess = () => {
+            resolve(read.result);
+            db.close();
+          };
+          read.onerror = () => reject(read.error);
+        };
+      }),
+    first.documentId,
+  );
   assert.equal(saved.document.name, 'First file');
   assert.equal(saved.document.pages.length, 1);
   for (const width of [1440, 1000]) {
@@ -47,5 +60,9 @@ try {
     assert.ok(box && Math.abs(box.x + box.width / 2 - width / 2) < 1);
   }
   await page.screenshot({ path: 'build/evidence/file-tabs-browser.png' });
-  console.log('PASS: tab creation, isolated content/undo, double-click/F2 rename, Escape, close preserves saved file, centered modes');
-} finally { await browser.close(); }
+  console.log(
+    'PASS: tab creation, isolated content/undo, double-click/F2 rename, Escape, close preserves saved file, centered modes',
+  );
+} finally {
+  await browser.close();
+}

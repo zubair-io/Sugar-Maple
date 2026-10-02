@@ -465,7 +465,7 @@ export class EditorService {
       const n = this.node();
       if (!n) return;
       const text = target === 'name' ? n.name : exportNode(this.doc(), n.id, target);
-      if (this.native) await this.bridge('clipboard.write', { text });
+      if (this.native) await this.bridge('clipboard.write', { text, format: target === 'editable' ? 'editable' : 'text' });
       else await navigator.clipboard.writeText(text);
       this.status.set('Copied ' + target);
     } catch (e) {

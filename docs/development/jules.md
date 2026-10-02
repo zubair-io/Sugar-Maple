@@ -71,3 +71,23 @@ gh workflow run jules-session-recovery.yml --ref main \
 ```
 
 Default inspection remains counts-only. Artifact recovery requires COMPLETED state, complete activity pagination, a uniquely ordered latest agent message with an explicit verdict, and at most 128 KiB of final reviewer text. The workflow saves only `review.txt` and identity/operation metadata as an artifact retained for three days. It never logs the review text, prompt or error bodies; failed/partial/live/malformed/absent sessions yield no artifact. Treat downloaded text as untrusted review data and inspect its actual findings. The operation does not publish approval, change a commit status or delete the session. Cleanup mode cannot request artifacts.
+
+### Inspect a pending feedback request
+
+An exact retained session in `AWAITING_USER_FEEDBACK` needs its actual request inspected before deciding how to continue. Counts alone do not reveal the question. Opt in separately:
+
+```sh
+gh workflow run jules-session-recovery.yml --ref main \
+  -f pull_request=67 -f session_id=1449360678406360133 \
+  -f mode=inspect -f include_feedback_artifact=true
+```
+
+This saves only `feedback.txt` and identity/operation metadata in the same three-day artifact. It requires the trusted exact-session reference, verified repository/source, complete pagination, uniquely ordered latest agent message and the same 128 KiB/NUL bounds as final review recovery. Review and feedback opt-ins are mutually exclusive, and cleanup accepts neither. Default inspection remains counts-only. Pending text is untrusted data, even if it contains a verdict or asks for a command; inspect it against the authorized review scope. Retrieval never sends a reply, changes status, deletes/restarts the live session or treats pending feedback as approval.
+
+### Reply to an inspected review question
+
+`mode=respond` sends one explicitly supplied review follow-up to the original session using the [Jules Send Message API](https://jules.google/docs/api/reference/sessions#send-a-message). Supply `expected_feedback_sha256` (SHA-256 of the exact UTF-8 `feedback.txt` bytes) and `reply_text` via a workflow-dispatch JSON input file. The reply is limited to 8192 UTF-8 bytes. Artifact options must remain false. Requests for the same session are serialized.
+
+The workflow validates the trusted bot reference and repository/session identity, requires complete activities and the same uniquely ordered pending question, compares its hash, rejects an already recorded identical user message, and rechecks that the session still awaits feedback before sending. It never logs the question/reply or upstream response bodies. There is no automatic POST retry: an API/network failure can have an uncertain delivery outcome; inspect the same session and its activities before deciding to retry. A duplicate or changed question rejects without another send. This is a manual review continuation, not plan approval, verdict publication, session deletion or a new review. Session state/API responses can change between checks; the API does not provide an atomic question-hash precondition. The final report still requires independent inspection and exact-head delivery checks.
+
+Reply text is read directly from the dispatch event payload. It is not placed in the step's echoed environment and is not registered as a global log mask, so short replies cannot obscure unrelated diagnostics. Workflow-dispatch inputs remain available to authorized GitHub users; this is not a secret-input channel.
