@@ -11,6 +11,7 @@ const sources = [
   "src/apple/Sugar Maple/NativeAccessPolicy.swift",
 ];
 const cases = [
+  ["native-clipboard", ["src/apple/Sugar Maple/NativeClipboard.swift", "tools/native-clipboard-test.swift"]],
   ["native-persistence", [...sources, "tools/native-persistence-test.swift"]],
   [
     "native-autosave",
