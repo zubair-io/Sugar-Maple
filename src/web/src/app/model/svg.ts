@@ -27,7 +27,7 @@ export function svgExport(doc: SceneDocument, id: string) {
       n.kind === 'ellipse'
         ? `<ellipse cx="${n.width / 2}" cy="${n.height / 2}" rx="${n.width / 2}" ry="${n.height / 2}" ${base}/>`
         : n.kind === 'path'
-          ? `<svg width="${n.width}" height="${n.height}" viewBox="${n.viewBox}" preserveAspectRatio="none"><path d="${escape(n.pathData)}" ${base}/></svg>`
+          ? `<svg width="${n.width}" height="${n.height}" viewBox="${n.viewBox}" preserveAspectRatio="none"><path d="${escape(n.pathData)}" stroke-miterlimit="10" ${base}/></svg>`
           : `<rect width="${n.width}" height="${n.height}" rx="${n.radius}" ${base}/>`;
     shape = gradient + shape;
     if (n.kind === 'image')
