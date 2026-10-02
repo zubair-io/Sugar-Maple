@@ -1,0 +1,13 @@
+$ bun tools/library-preview-acceptance.ts
+bun test v1.4.2 (744846f84)
+
+prototypes/library-preview/contract.test.ts:
+(pass) preview shares the real pinned manifest types, variants and bounds [0.69ms]
+(pass) preview messages reject privileged methods, paths, extra keys, wrong versions and unbounded payloads [1.02ms]
+
+ 2 pass
+ 0 fail
+ 12 expect() calls
+Ran 2 tests across 1 file. [125.00ms]
+{"passed":true,"package":{"name":"@awesome.me/webawesome","version":"3.14.0"},"hashes":{"runtime.js":{"bytes":261717,"sha256":"836c67fa76885bd0c29e57001e1eeeadcfdcfafb20515de5d284b7e26f97d93a"},"runtime.css":{"bytes":155312,"sha256":"f15ad9222cd24a7a5d24b52ad66f3e8520ee259b11a7215a2beb157208cd4cae"},"host.js":{"bytes":89425,"sha256":"f09bc33d6f1039659e426fd1e7a179cf5237ae765794a83a4d697339ba70b7d2"},"host.css":{"bytes":2228,"sha256":"a24540b648d3e441dc8d5daff81c490da0b96b516402398f7a2169fd665fc9b4"},"semantic.html":{"bytes":3044,"sha256":"b4f5734f42e9131109a5fde7fb89b259f3b8bd8fedb740039ff6fef58d25dd05"},"fixture.json":{"bytes":23547,"sha256":"3eb6cc413dc434da0f49ca5ea92bb4ce9aeffbf75f9a0341d6ae2bdff39bb4a9"}}}
+PASS: isolated real Web Awesome controls, typed props/events, denied parent/storage/network/bridge, stale rejection, malformed input, opt-in/stop and offline rendering

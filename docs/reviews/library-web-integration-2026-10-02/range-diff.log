@@ -1,0 +1,5 @@
+1:  95cab18 = 1:  d2ded97 feat(preview): add opt-in isolated Web Awesome fixture
+2:  10ff625 = 2:  39f97cc test(preview): gate typed events and real library isolation
+3:  30fd87e = 3:  51973ca docs(preview): record source-bound web experiment evidence
+4:  a4324c1 = 4:  ded5db5 fix(preview): preserve source fixture accessibility roles
+5:  8386e4d = 5:  8ae4de1 docs(preview): refresh corrected semantic comparison proof
