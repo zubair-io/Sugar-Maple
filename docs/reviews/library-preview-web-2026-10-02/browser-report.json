@@ -1,0 +1,71 @@
+{
+  "passed": true,
+  "scope": "Actual pinned Web Awesome package, opaque script-only iframe, restrictive CSP, MessageChannel schema, typed props/events, atomic rejection, revision supersession, opt-in start/stop, no remote requests",
+  "boundary": {
+    "parentDenied": true,
+    "storageDenied": true,
+    "fetchDenied": true,
+    "authoringBridge": "undefined",
+    "nativeHandlers": "undefined",
+    "origin": "null",
+    "registeredComponent": true
+  },
+  "requests": [
+    "http://127.0.0.1:54201/",
+    "http://127.0.0.1:54201/host.css",
+    "http://127.0.0.1:54201/host.js",
+    "http://127.0.0.1:54201/semantic.html",
+    "http://127.0.0.1:54201/runtime.js",
+    "http://127.0.0.1:54201/runtime.css",
+    "http://127.0.0.1:54201/runtime.js",
+    "http://127.0.0.1:54201/runtime.css",
+    "http://127.0.0.1:54201/runtime.js",
+    "http://127.0.0.1:54201/runtime.css"
+  ],
+  "coldStartMilliseconds": 134.929084,
+  "updateMilliseconds": {
+    "samples": [
+      19.700000047683716,
+      32.799999952316284,
+      35.09999990463257,
+      31.90000009536743,
+      34.700000047683716,
+      33.40000009536743,
+      32.89999985694885,
+      33.60000014305115,
+      33.299999952316284,
+      33.40000009536743,
+      33.200000047683716,
+      33.39999985694885,
+      31.5,
+      35.09999990463257,
+      33.299999952316284,
+      32.40000009536743,
+      32.299999952316284,
+      33.90000009536743,
+      32.700000047683716,
+      33.299999952316284,
+      33.299999952316284,
+      33.30000019073486,
+      33.69999980926514,
+      33,
+      33.40000009536743,
+      33.299999952316284,
+      33.299999952316284,
+      33.40000009536743,
+      33.200000047683716,
+      33.299999952316284
+    ],
+    "p50": 33.299999952316284,
+    "p95": 35.09999990463257
+  },
+  "accessibility": {
+    "webAwesome": "- paragraph: Pinned library consumer\n- text: Email\n- textbox \"Email\":\n  - /placeholder: Your email\n  - text: changed@example.test\n- button \"Save <script>literal</script>\"",
+    "semantic": "- paragraph: Pinned library consumer\n- textbox \"Email\":\n  - /placeholder: Your email\n  - text: changed@example.test\n- button \"Save <script>literal</script>\""
+  },
+  "limitations": [
+    "This iframe is not a CPU/process isolation guarantee.",
+    "Native WK production bridge absence is not proven by this Chrome fixture.",
+    "Native Swift helper, Canvas comparison and complete go/no-go remain open #51."
+  ]
+}

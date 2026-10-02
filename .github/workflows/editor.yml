@@ -20,6 +20,7 @@ jobs:
       - run: bun run build:web
       - run: bun --bun src/web/node_modules/@playwright/test/cli.js install --with-deps chrome
       - run: bun run test:e2e
+      - run: bun run test:library-preview
 
   macos:
     runs-on: macos-15
