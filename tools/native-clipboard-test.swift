@@ -61,6 +61,13 @@ import AppKit
             board.clearContents(); precondition(board.writeObjects([corrupt]))
             rejected { _ = try NativeClipboard.read(from: board) }
         }
+        board.declareTypes([NativeClipboard.editableType], owner: nil)
+        precondition(board.types?.contains(NativeClipboard.editableType) == true)
+        precondition(board.data(forType: NativeClipboard.editableType) == nil)
+        do {
+            _ = try NativeClipboard.read(from: board)
+            fatalError("Accepted missing structured data")
+        } catch NativeClipboard.ClipboardError.invalidEditable { }
         board.clearContents()
         try expect("")
         print("PASS: actual named NSPasteboard structured/text formats, UTF-8 roundtrip, structured precedence, version-one fallback, rejected malformed/future/Boolean/oversize writes preserve content and invalid structured reads reject")
