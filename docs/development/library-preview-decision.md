@@ -22,7 +22,8 @@ bun tools/library-preview-comparison.ts --trust-native-fixture
 The command checks the pinned consumer/cache, builds and gates the web
 fixture, runs the actual Canvas/DOM/package/native comparison, builds the
 current production editor, measures assets and generates/tests the report.
-It owns a development server only when one is not already available. The
+It launches a fresh development server from this checkout on a private
+loopback port and stops its owned process group after the run. The
 macOS Editor CI job explicitly installs Chrome and runs this comparison after
 the full native suite. Native human-event evidence is a separately recorded
 real UI run; the comparison does not simulate or repeat that input test.

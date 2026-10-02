@@ -9,6 +9,9 @@ import { buildNativeFixture } from './native/build';
 import { NativePreview } from './native/controller';
 
 if (!process.argv.includes('--trust-native-fixture')) throw Error('Explicit native fixture opt-in required');
+const editorURL = new URL(process.env.MAPLE_COMPARISON_EDITOR_URL ?? 'http://127.0.0.1:4200');
+if(editorURL.hostname!=='127.0.0.1'||editorURL.protocol!=='http:'||editorURL.username||editorURL.password||editorURL.pathname!=='/'||editorURL.search||editorURL.hash)
+  throw Error('Comparison editor URL must be a plain loopback HTTP origin');
 const folder = resolve('build/library-preview-comparison'); mkdirSync(folder,{recursive:true});
 const fixture = libraryFixture(), output: Record<string,any> = {}, errors: string[] = [];
 const server = servePreview(), browser = await chromium.launch({channel:'chrome',headless:true});
@@ -20,7 +23,7 @@ function metrics(samples: number[]) {
 try {
   const context = await browser.newContext({viewport:{width:1440,height:1100},deviceScaleFactor:1});
   const editor = await context.newPage(); editor.on('pageerror', e=>errors.push(e.message));
-  await editor.goto('http://127.0.0.1:4200'); await editor.waitForFunction(()=>window.sugarMaple.ready);
+  await editor.goto(editorURL.href); await editor.waitForFunction(()=>window.sugarMaple.ready);
   await editor.evaluate(async ({nodes,manifest})=>{
     const d=await window.sugarMaple.dispatch('document.get');
     await window.sugarMaple.dispatch('transaction.apply',{documentId:d.documentId,expectedRevision:d.revision,requestId:crypto.randomUUID(),
@@ -65,7 +68,7 @@ try {
     semanticStyleChanged:visualFields.some(key=>beforeVariant[key]!==afterVariant[key]),fields:Object.fromEntries(visualFields.map(key=>[key,afterVariant[key]]))};
   assert.equal(afterVariant.libraryRef.variant,'Primary');
   const dom = await context.newPage(); dom.on('pageerror',e=>errors.push(e.message));
-  await dom.goto('http://127.0.0.1:4200/#preview'); await dom.waitForFunction(()=>window.sugarMaplePreview?.ready);
+  await dom.goto(new URL('#preview',editorURL).href); await dom.waitForFunction(()=>window.sugarMaplePreview?.ready);
   const snapshot = {version:1,documentId:fixture.document.id,document:fixture.document,revision:0,rootId:'root'};
   await dom.evaluate(value=>window.sugarMaplePreview!.receive(value),snapshot);
   await expect(dom.getByRole('textbox',{name:'Email',exact:true})).toHaveValue('consumer@example.test');
@@ -132,7 +135,7 @@ try {
     humanEvidenceScope:'Previously recorded actual native UI run, not performed by this comparison command',source:'fixed trusted SwiftUI adapter, not the JavaScript package'};
   assert.deepEqual(errors,[]);
   await Bun.write(resolve(folder,'comparison.json'),JSON.stringify({recordedAt:new Date().toISOString(),fixture:{document:fixture.document},
-    results:output,scope:'same authored Button/Input/Card fixture and typed props; actual Canvas, DOM preview, pinned package and sandboxed SwiftUI helper',
+    editorOrigin:editorURL.origin,results:output,scope:'same authored Button/Input/Card fixture and typed props; actual Canvas, DOM preview, pinned package and sandboxed SwiftUI helper',
     timingDefinitions:{canvas:'CRDT transaction + Angular/Canvas scheduling + two RAF opportunities, excluding document.get',dom:'immutable scene feed + two RAF opportunities',web:'MessageChannel + actual Lit updates + two RAF opportunities',native:'IPC + SwiftUI update + fixed 50ms snapshot scheduling + PNG encode/reply'},
     limitations:['Timings have different boundaries and cannot rank input latency/FPS.','Native snapshot includes an intentional 50ms scheduling wait.','Web/native POC consumes props, not complete authored layout/styles/slots.','Human native AX/event evidence is separate; no full VoiceOver audit.','No whole-product memory or production distribution comparison is claimed.']},null,2));
   console.log('PASS: real Canvas/DOM fixture geometry and inspector undo; actual DOM input, package typed events and native rendered consumers; four pipeline timings and asset costs recorded');
