@@ -3,7 +3,7 @@ import type { SceneNode } from './schema';
 // Input order is the editor's authored layer order. Indexed traversal visits each edge once.
 export function layerRows<T extends Pick<SceneNode, 'id' | 'parentId' | 'name'>>(
   nodes: readonly T[], search: string,
-): { node: T; depth: number }[] {
+): { node: T; depth: number; position: number; size: number }[] {
   const byId = new Map<string, T>(), children = new Map<string | null, T[]>();
   for (const node of nodes) {
     byId.set(node.id, node);
@@ -20,15 +20,17 @@ export function layerRows<T extends Pick<SceneNode, 'id' | 'parentId' | 'name'>>
       current = byId.get(current.parentId ?? '');
     }
   }
-  const rows: { node: T; depth: number }[] = [];
-  const stack = (children.get(null) ?? []).map(node => ({ node, depth: 0 })).reverse();
+  const rows: { node: T; depth: number; position: number; size: number }[] = [];
+  const siblingsOf = (id: string | null) => (children.get(id) ?? []).filter(node => !query || visible.has(node.id));
+  const roots = siblingsOf(null);
+  const stack = roots.map((node, i) => ({ node, depth: 0, position: i + 1, size: roots.length })).reverse();
   while (stack.length) {
     const row = stack.pop()!;
     if (query && !visible.has(row.node.id)) continue;
     rows.push(row);
-    const siblings = children.get(row.node.id) ?? [];
+    const siblings = siblingsOf(row.node.id);
     for (let i = siblings.length - 1; i >= 0; i--)
-      stack.push({ node: siblings[i], depth: row.depth + 1 });
+      stack.push({ node: siblings[i], depth: row.depth + 1, position: i + 1, size: siblings.length });
   }
   return rows;
 }
