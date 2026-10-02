@@ -70,10 +70,10 @@ try {
     await page.getByRole('button', { name: 'Draw path', exact: true }).click();
     for (const [x, y] of [[120, 130], [240, 130], [200, 200]]) { const p = await point(page, x, y); await page.mouse.click(p.x, p.y); }
     assert.deepEqual((await get(page)).document, pathBefore.document);
-    await page.locator('.viewport canvas').focus(); await page.keyboard.press('Backspace'); await settle(page);
+    await expect(page.locator('.viewport canvas')).toBeFocused(); await page.keyboard.press('Backspace'); await settle(page);
     assert.deepEqual((await get(page)).document, pathBefore.document, 'Backspace only removes an uncommitted point');
     const last = await point(page, 200, 200); await page.mouse.click(last.x, last.y);
-    await page.getByRole('button', { name: 'Close path', exact: true }).click(); await settle(page);
+    await expect(page.locator('.viewport canvas')).toBeFocused(); await page.keyboard.press('Shift+Enter'); await settle(page);
     const pathAfter = await get(page); assert.equal(pathAfter.revision, pathBefore.revision + 1,
       JSON.stringify({ alerts: await page.getByRole('alert').allTextContents(), authoredNodes: pathAfter.document.nodes.length }));
     assert.ok(pathAfter.document.nodes.find((node: any) => node.id !== 'frame').pathData.endsWith(' Z'));
@@ -85,7 +85,7 @@ try {
     await page.locator('.viewport canvas').dispatchEvent('pointercancel', { pointerId: 1, isPrimary: true }); await page.mouse.up(); await settle(page);
     assert.deepEqual(await checkpoint(page), canceled);
     await page.getByRole('button', { name: 'Draw path', exact: true }).click(); await page.mouse.click(start.x, start.y); await page.mouse.click(end.x, end.y);
-    await page.locator('.viewport canvas').focus(); await page.keyboard.press('Escape'); await settle(page);
+    await expect(page.locator('.viewport canvas')).toBeFocused(); await page.keyboard.press('Escape'); await settle(page);
     assert.deepEqual(await checkpoint(page), canceled);
     await expect(page.getByRole('button', { name: 'Select tool', exact: true })).toHaveAttribute('aria-pressed', 'true');
     await select(page, 'frame'); await tx(page, [{ type: 'node.update', id: 'frame', patch: { locked: true } }]);

@@ -26,7 +26,7 @@ window.canvasTransformAcceptance = async function () {
   const pointer = (type, x, y, pressure = 0.5) => canvas.dispatchEvent(new PointerEvent(type, {
     ...point(x, y), pointerId: 1, isPrimary: true, pointerType: 'pen', button: 0, buttons: type === 'pointerup' ? 0 : 1,
     pressure, bubbles: true, cancelable: true }));
-  const key = (key, shiftKey = false) => { canvas.focus(); canvas.dispatchEvent(new KeyboardEvent('keydown', { key, shiftKey, bubbles: true, cancelable: true })); };
+  const key = (key, shiftKey = false) => { check(document.activeElement === canvas, 'Pointer transfers toolbar focus to Canvas'); document.activeElement.dispatchEvent(new KeyboardEvent('keydown', { key, shiftKey, bubbles: true, cancelable: true })); };
   try {
     await select(); button('Fit').click(); await settle();
     const width = document.querySelector('[aria-label="Drawing stroke width"]'); width.value = '8'; width.dispatchEvent(new Event('input', { bubbles: true })); width.dispatchEvent(new Event('change', { bubbles: true }));
@@ -48,7 +48,7 @@ window.canvasTransformAcceptance = async function () {
         }
         await undo(); equal((await get()).document, before.document, 'WK exact drawing undo'); checks++;
       }
-      await select(); const polyline = await get(); button('Draw path').click(); await settle();
+      await select(); const polyline = await get(); button('Draw path').focus(); button('Draw path').click(); await settle();
       for (const [x, y] of [[120, 130], [240, 130], [200, 200]]) { pointer('pointerdown', x, y); pointer('pointerup', x, y); }
       key('Backspace'); await settle(); equal((await get()).document, polyline.document, 'WK point removal stays ephemeral');
       pointer('pointerdown', 200, 200); pointer('pointerup', 200, 200); key('Enter', true); await settle();
