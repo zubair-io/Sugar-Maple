@@ -3,6 +3,7 @@ import { controlLabel, hasPrototypeAction } from './form';
 import { textAlignment } from './typography';
 import type { SceneDocument, SceneNode } from './schema';
 import { subtree } from './composition';
+import { swiftPathCode } from './vector-path';
 const quoted = (v: string) => JSON.stringify(v).replace(/\\u([0-9a-f]{4})/gi, '\\u{$1}');
 const stateName = (n: SceneNode) => 'input_' + Array.from(n.id).map(c => c.codePointAt(0)!.toString(16)).join('_');
 function color(hex: string) {
@@ -27,8 +28,6 @@ export function swiftExport(doc: SceneDocument, id: string) {
   if (!root) throw Error('Node not found');
   if (subtree(doc, id).some(n => n.kind !== 'button' && hasPrototypeAction(n)))
     throw Error('SwiftUI prototype callbacks currently require a Button; use a button action or a web preview.');
-  if (subtree(doc, id).some((n) => n.kind === 'path'))
-    throw Error('SwiftUI path export is not yet supported; export this vector as SVG.');
   if (subtree(doc, id).some((n) => n.widthMode !== 'fixed' || n.heightMode !== 'fixed'))
     throw Error(
       'SwiftUI responsive sizing is not yet supported; choose fixed dimensions before exporting.',
@@ -48,6 +47,14 @@ export function swiftExport(doc: SceneDocument, id: string) {
     );
   const fontModifier = (n: SceneNode) =>
     `.font(.system(size: ${n.fontSize}, weight: ${swiftWeight(n.fontWeight)}${n.fontFamily === 'serif' ? ', design: .serif' : n.fontFamily === 'monospace' ? ', design: .monospaced' : ''}))`;
+  // Preflight every vector before returning any generated source.
+  const vectors = new Map(subtree(doc, id).filter(n => n.kind === 'path').map(n => {
+    const [x, y, width, height] = n.viewBox.split(' ').map(Number);
+    if (![x, y, width, height].every(Number.isFinite) || width <= 0 || height <= 0 ||
+      ![n.width / width, n.height / height, -x * (n.width / width), -y * (n.height / height)].every(Number.isFinite))
+      throw Error('SwiftUI path requires a finite viewBox with positive width and height.');
+    return [n.id, { x, y, width, height, code: swiftPathCode(n.pathData) }] as const;
+  }));
   const inputs = subtree(doc, id).filter((n) => n.kind === 'input');
   const imageAssets = new Map(subtree(doc, id).filter(n => n.kind === 'image' && n.asset).map(n => { const a = embeddedAsset(assetSource(doc, n.asset)); return [a.key, a.source.split(',')[1]]; }));
   const body = (n: SceneNode, nested = false): string => {
@@ -57,6 +64,13 @@ export function swiftExport(doc: SceneDocument, id: string) {
     const fill = !n.fillEnabled
       ? 'Color.clear'
       : color(n.fillToken ? (doc.tokens[n.fillToken] ?? n.fill) : n.fill);
+    if (n.kind === 'path') {
+      const vector = vectors.get(n.id)!;
+      // Paint in viewBox units, then scale the complete fill/stroke together.
+      // Scaling only the centerline would change anisotropic SVG stroke geometry.
+      const sx = n.width / vector.width, sy = n.height / vector.height;
+      return `ZStack(alignment: .topLeading) {\nlet vectorPath = ${vector.code}\nlet vectorTransform = CGAffineTransform(a: ${sx}, b: 0, c: 0, d: ${sy}, tx: ${-vector.x * sx}, ty: ${-vector.y * sy})\nvectorPath.applying(vectorTransform).fill(${fill}, style: FillStyle(eoFill: false))${n.strokeWidth ? `\nvectorPath.strokedPath(StrokeStyle(lineWidth: ${n.strokeWidth}, lineCap: .butt, lineJoin: .miter, miterLimit: 10)).applying(vectorTransform).fill(${color(n.stroke)})` : ''}\n}\n.frame(width: ${n.width}, height: ${n.height}, alignment: .topLeading)\n.clipped()\n.compositingGroup()\n.opacity(${n.opacity})\n.rotationEffect(.degrees(${n.rotation}))${nested ? `\n.offset(x: ${n.x}, y: ${n.y})` : ''}`;
+    }
     let view: string;
     if (n.kind === 'text') view = `Text(${quoted(n.text)})\n${fontModifier(n)}`;
     else if (n.kind === 'button')
