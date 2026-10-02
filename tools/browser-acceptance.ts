@@ -21,6 +21,7 @@ try {
     }
   }
   for (const name of [
+    "chrome-e2e",
     "editor-e2e",
     "canvas-e2e",
     "canvas-parity-e2e",

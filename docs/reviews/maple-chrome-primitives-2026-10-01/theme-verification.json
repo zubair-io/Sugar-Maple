@@ -1,0 +1,44 @@
+{
+  "canvas_pixels_identical": true,
+  "size": [
+    840,
+    716
+  ],
+  "rgba_sha256": "4529d8880043b2cdd4193b455171fd8c362c1d371bef4f889a33b452f1c7d4b8",
+  "native_light": {
+    "mode": "light-final",
+    "revision": 2,
+    "nodes": 2,
+    "checkpointAndExport": "exactly unchanged",
+    "capture": {
+      "coordinateUnits": "CSS pixels in the editor WebView",
+      "rect": {
+        "x": 0,
+        "width": 1440,
+        "y": 0,
+        "height": 852
+      },
+      "scale": 1,
+      "pixelWidth": 1440,
+      "pixelHeight": 852
+    }
+  },
+  "native_dark": {
+    "mode": "dark-final",
+    "revision": 2,
+    "nodes": 2,
+    "checkpointAndExport": "exactly unchanged",
+    "capture": {
+      "coordinateUnits": "CSS pixels in the editor WebView",
+      "rect": {
+        "height": 852,
+        "y": 0,
+        "x": 0,
+        "width": 1440
+      },
+      "pixelHeight": 852,
+      "scale": 1,
+      "pixelWidth": 1440
+    }
+  }
+}
