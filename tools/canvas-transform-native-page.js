@@ -180,6 +180,11 @@ window.canvasTransformAcceptance = async function () {
   );
   const d = await get(),
     camera = window.sugarMaple.viewport.camera();
+  check(
+    window.canvasTransformErrors?.length === 0,
+    "WK startup/interaction console errors: " +
+      JSON.stringify(window.canvasTransformErrors),
+  );
   return {
     checks,
     grips: 9,
