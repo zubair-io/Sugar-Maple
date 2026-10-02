@@ -1,0 +1,7 @@
+# Web copy payloads and subtree style packaging
+
+Final source `33968d89c5f27d2440ee406b967b18cf901f0e3a` on verified main `e88cbdf`. Pure classes and declaration fragments retain token identity, complete HTML/CSS includes visible descendant rules/fonts/assets, and the inspector separates required setup and identifies unwired actions. MCP new targets publish setup/notes while existing targets keep their code-only response shape.
+
+Fresh final-source 139 model tests / 2,198 assertions, typecheck, Mac packaging/signing, all 32 browser/consumer suites, seven actual production WK copy/inspector/keyboard checks and real native MCP SDK validation passed. Real Tailwind 4 classes, declarations and complete CSS agree at 1440/834/393 within .1 points; changing the bound variable changes live paint. Browser clipboard success/denial verifies exact name/classes/declaration payloads and keyboard manual fallback. Cmd/Ctrl+A selects only the payload; copy/undo no longer trigger document shortcuts. Source/history remain unchanged.
+
+Before tests reproduced two missing-format/stylesheet regressions, an incompatible strict older MCP response and manual-select-all failure. The initial complete native regression suite is separately bound to `b33237a`; final compatibility and keyboard fixes have fresh focused WK/native-MCP checks, not a relabeled full-native run. Native clipboard/hardware/VoiceOver is not claimed. All applicable final-head CI/review and resulting-main gates remain pending. Scoped #104; broader #16/#15/#10/#11 acceptance stays open.

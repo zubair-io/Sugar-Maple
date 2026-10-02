@@ -1,0 +1,51 @@
+bun test v1.4.2 (744846f84)
+
+src/web/tests/web-copy.test.ts:
+ 8 |         throw new core.$ZodAsyncError();
+ 9 |     }
+10 |     if (result.issues.length) {
+11 |         const e = new (_params?.Err ?? _Err)(result.issues.map((iss) => util.finalizeIssue(iss, ctx, core.config())));
+12 |         util.captureStackTrace(e, _params?.callee);
+13 |         throw e;
+                   ^
+ZodError: [
+  {
+    "code": "invalid_value",
+    "values": [
+      "html",
+      "angular",
+      "tailwind",
+      "css",
+      "swiftui",
+      "editable",
+      "svg",
+      "web-library",
+      "swift-library"
+    ],
+    "path": [],
+    "message": "Invalid option: expected one of \"html\"|\"angular\"|\"tailwind\"|\"css\"|\"swiftui\"|\"editable\"|\"svg\"|\"web-library\"|\"swift-library\""
+  }
+]
+      at <anonymous> (/Users/riabuz/Projects/_Sugar Maple/node_modules/.bun/zod@4.4.3/node_modules/zod/v4/core/parse.js:13:15)
+      at exportNode (/Users/riabuz/Projects/_Sugar Maple/src/web/src/app/model/export.ts:115:22)
+      at <anonymous> (/Users/riabuz/Projects/_Sugar Maple/src/web/tests/web-copy.test.ts:17:19)
+(fail) classes and declaration payloads are pasteable fragments with token identity and no markup [1.78ms]
+27 | });
+28 | test('complete CSS rules cover visible descendants and packaged markup references those exact rules', () => {
+29 |   const doc = fixture(), before = JSON.stringify(doc);
+30 |   const css = exportNode(doc, 'card', 'css');
+31 |   expect(css).toContain('.node-card{');
+32 |   expect(css).toContain('.node-action{');
+                   ^
+error: expect(received).toContain(expected)
+
+Expected to contain: ".node-action{"
+Received: ".node-card{margin:0px;font-family:system-ui, sans-serif;line-height:1.2;letter-spacing:0px;white-space:pre-wrap;text-align:left;appearance:auto;position:absolute;left:0px;top:0px;width:360px;height:180px;min-width:0px;min-height:0px;flex-grow:0;background:#ffffff;color:#18181b;border-radius:0px;border:none;box-shadow:inset 0 0 0 2.5px #d4d4d8;opacity:1;font-size:16px;font-weight:400;transform:rotate(0deg);box-sizing:border-box;display:flex;flex-direction:column;grid-template-columns:repeat(2, minmax(0, 1fr));gap:16px;padding:14.5px;flex-shrink:0;overflow:hidden}"
+
+      at <anonymous> (/Users/riabuz/Projects/_Sugar Maple/src/web/tests/web-copy.test.ts:32:15)
+(fail) complete CSS rules cover visible descendants and packaged markup references those exact rules [0.32ms]
+
+ 0 pass
+ 2 fail
+ 2 expect() calls
+Ran 2 tests across 1 file. [30.00ms]
