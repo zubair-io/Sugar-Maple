@@ -131,6 +131,7 @@ await run([process.execPath, "tools/native-canvas-transform-mcp.ts"]);
 await run([process.execPath, "tools/native-lock-editing.ts"]);
 
 await run([process.execPath, "tools/native-canvas-drawing.ts"]);
+await run([process.execPath, "tools/native-repeat-handles.ts"]);
 
 await run([process.execPath, "tools/native-text-editing.ts"]);
 
@@ -150,3 +151,5 @@ await run([
   "tools/native-canvas-transform-mcp.ts",
   "--reparent",
 ]);
+
+await run([process.execPath, "tools/native-canvas-transform-mcp.ts", "--repeat"]);
