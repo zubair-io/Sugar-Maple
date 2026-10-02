@@ -1,0 +1,16 @@
+{
+  "date": "2026-10-02T02:22:04.114Z",
+  "source": "00633945feca55f285c0ba4e86b6f144c5c580f7",
+  "build": "Angular production editor, current working tree",
+  "platform": "darwin",
+  "bun": "1.4.3",
+  "swift": "Apple Swift version 6.4 (swiftlang-6.4.0.34.1 clang-2100.3.34.1)\nTarget: arm64-apple-macosx27.0.0",
+  "xcode": "Xcode 27.1\nBuild version 27A9269",
+  "hardware": "Apple M5 Max\n137438953472",
+  "os": "ProductName:\t\tmacOS\nProductVersion:\t\t27.0\nBuildVersion:\t\t26A428",
+  "viewport": {
+    "width": 1440,
+    "height": 1000
+  },
+  "nominalP95BudgetMs": 16.7
+}
