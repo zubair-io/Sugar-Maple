@@ -443,9 +443,13 @@
                   <mui-field label="Text" [stacked]="true">
                     <textarea
                       aria-label="Text content"
-                      [ngModel]="n.text"
-                      (change)="patch('text', value($event))"
+                      [nodeTextEditor]="n"
+                      aria-describedby="text-edit-help"
                     ></textarea>
+                    <small id="text-edit-help">Text stays in this field until you finish editing. Escape cancels.</small>
+                    @if (e.textDraft()) {
+                      <button type="button" (click)="e.cancelTextEditing()">Cancel text edit</button>
+                    }
                   </mui-field>
                   <mui-field label="Family" [stacked]="true">
                     <input
