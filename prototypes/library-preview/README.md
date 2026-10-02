@@ -77,12 +77,13 @@ it is not input latency, physical presentation time or FPS. The gate also
 writes a visually inspectable `comparison.png` and both ARIA snapshots.
 
 **Decision: continue the bounded experiment; no production rollout yet.**
-Issue #51 remains open. Still required: an explicitly trusted SwiftUI helper
-with build/runtime resource bounds, cancellation and stale-result rejection;
-the complete Canvas/DOM/native comparison of editability, fidelity,
-accessibility, latency and package cost; and a final go/no-go. Do not infer
-Swift/native fidelity, safe arbitrary-source execution, or the full issue's
-completion from these web-only results.
+Issue #51 remains open. The accompanying [native experiment](native/README.md)
+provides a separately trusted fixed SwiftUI helper with build/runtime bounds,
+cancellation and stale-result checks; its evidence is separate from this web
+gate. Still required: the complete Canvas/DOM/web/native comparison of
+editability, fidelity, accessibility, latency and package cost, and a final
+go/no-go. These web results do not establish Swift/native fidelity, safe
+arbitrary-source execution, or the full issue's completion.
 
 ## Verification scope
 
