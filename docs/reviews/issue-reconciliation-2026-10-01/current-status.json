@@ -1,12 +1,12 @@
 {
   "date": "2026-10-01",
-  "main": "579122d1e5212cc5d9856384923fd16b69db0759",
-  "mainCI": "https://github.com/zubair-io/Sugar-Maple/actions/runs/36953868568",
-  "scope": "All 34 GitHub issues, verified against main and current GitHub state after Maple chrome and native clipboard delivery",
+  "main": "016918540820eaba267e9292b0e53ecf5765f7af",
+  "mainCI": "https://github.com/zubair-io/Sugar-Maple/actions/runs/36962210133",
+  "scope": "All 35 GitHub issues verified against main, resulting-main CI and current GitHub state after library, Layers and review-parser delivery",
   "counts": {
-    "total": 34,
-    "closed": 9,
-    "open": 25
+    "total": 35,
+    "closed": 11,
+    "open": 24
   },
   "mergedPRs": [
     45,
@@ -24,24 +24,26 @@
     64,
     65,
     66,
+    67,
     68,
     69,
     70,
     71,
-    72
+    72,
+    73,
+    74,
+    76,
+    77
   ],
-  "candidatePRs": [
-    67,
-    73
-  ],
+  "candidatePRs": [],
   "issues": [
     {
       "number": 1,
-      "title": "[MVP tracker] Sugar Maple — local-first UI design, preview and developer handoff",
+      "title": "[MVP tracker] Sugar Maple \u2014 local-first UI design, preview and developer handoff",
       "url": "https://github.com/zubair-io/Sugar-Maple/issues/1",
       "githubState": "OPEN",
       "assessment": "active tracker",
-      "delivered": "Reviewed Canvas, native/MCP, typography/forms, isolated preview, scoped MCP reads, Repeat Grid imports/shared assets, pinned Maple chrome and native structured clipboard are merged through #72. Verified main 579122d1e5212cc5d9856384923fd16b69db0759 and main web/macOS CI 36953868568 pass. Nine issues are closed; 25 remain open. #4 is complete. Reviewer continuation #71 is merged and the original #67 review session has received its question-bound reply; production manifests #67 remain pending actual final review and merge. Broad #18 remains partial after the verified clipboard transport slice.",
+      "delivered": "Reviewed Canvas, native/MCP, typography/forms, isolated preview, scoped reads, Repeat Grid, Maple chrome, production library manifests, engine measurements, windowed Layers and reviewer-verdict parsing are merged through #77. Verified main 016918540820eaba267e9292b0e53ecf5765f7af and resulting-main web/macOS CI 36962210133 pass. Eleven issues are closed; 24 remain open. Broad parent acceptance and executable-library previews remain incomplete.",
       "remaining": "MVP completion depends on the remaining acceptance criteria below; post-MVP features remain outside the release gate.",
       "resolvedQA": []
     },
@@ -51,10 +53,10 @@
       "url": "https://github.com/zubair-io/Sugar-Maple/issues/2",
       "githubState": "OPEN",
       "assessment": "partial; architecture amended",
-      "delivered": "Actual Just-Maple Whiteboard Canvas2D is integrated. DOM preview/export and shared scene truth remain; Canvas/DOM parity fixtures pass.",
-      "remaining": "Record end-to-end p95 frame/startup/memory on the agreed mixed-node fixture in both engines and a 10,000-node diagnostic. CPU flush timings do not satisfy that gate.",
+      "delivered": "Actual Just-Maple Whiteboard Canvas2D is integrated. DOM preview/export and shared scene truth remain; Canvas/DOM parity fixtures pass. Production Chrome/WKWebView 1,000/200-visible plus 10,000-node diagnostic and architecture ADR are reviewed and merged in #73 with exact pixels, camera/history preservation, raw rAF/CPU samples, screenshots and scoped memory.",
+      "remaining": "Complete the release performance gate on agreed reference hardware/display: repeated workloads with real native recovery, whole-process memory and physical presentation/input traces. The recorded callback/CPU measurements do not satisfy the 16.7 ms physical-frame gate.",
       "resolvedQA": [],
-      "candidate": "PR #73 at 48978d5 records the architecture amendment and production Chrome/WKWebView 1,000/200-visible plus 10,000-node diagnostic, including full Layers. Exact-head web/macOS CI passes; review/merge pending. Callback/paint evidence does not complete the 16.7 ms presentation release gate."
+      "candidate": "PR #76 has a measured windowed-Layers improvement, 70 model tests / 493 assertions and 23 browser/consumer suites; exact-head web/macOS CI passes; actual review/merge remain pending."
     },
     {
       "number": 3,
@@ -114,10 +116,9 @@
       "url": "https://github.com/zubair-io/Sugar-Maple/issues/8",
       "githubState": "OPEN",
       "assessment": "partial; architecture amended",
-      "delivered": "Vendored Whiteboard camera, pan/zoom/fit, culling, mixed geometry, hit testing, drag/corner resize, cancellation and grouped undo are delivered. Layers indexing is linear.",
-      "remaining": "Finish all-direction resize/rotation editing, snapping/distribution, rotated-parent gesture coverage, complete locked/hidden keyboard parity and Layers DOM virtualization. Canvas replaced the obsolete hybrid Design renderer.",
-      "resolvedQA": [],
-      "candidate": "PR #73 at 48978d5 records the architecture amendment and production Chrome/WKWebView 1,000/200-visible plus 10,000-node diagnostic, including full Layers. Exact-head web/macOS CI passes; review/merge pending. Callback/paint evidence does not complete the 16.7 ms presentation release gate."
+      "delivered": "Vendored Whiteboard camera, pan/zoom/fit, culling, mixed geometry, hit testing, drag/corner resize, cancellation and grouped undo are delivered. Layers indexing is linear. Windowed Layers #76 is merged and verified by successful main CI: 26 mounted rows for the frozen 10,000-node fixture, Chrome Layers pan callback p95 33.7 to 18.1 ms and WKWebView 24 to 18 ms. Search, off-window keyboard navigation, focus retention, selection reveal and bounded DOM have browser regressions.",
+      "remaining": "Finish all-direction resize/rotation editing, snapping/distribution, rotated-parent gesture coverage and complete locked/hidden keyboard parity. Canvas replaced the obsolete hybrid Design renderer.",
+      "resolvedQA": []
     },
     {
       "number": 9,
@@ -145,7 +146,7 @@
       "url": "https://github.com/zubair-io/Sugar-Maple/issues/11",
       "githubState": "OPEN",
       "assessment": "partial",
-      "delivered": "Document-owned opaque sRGB colors, color aliases, bindings, literal precedence and color token import/export are implemented.",
+      "delivered": "Document-owned opaque sRGB colors, color aliases, bindings, literal precedence and color token import/export are implemented. Pinned production metadata/props/variants/slots/local overrides and explicit Web Awesome/macOS SwiftUI mappings shipped in #67; scoped #49 is closed after resulting-main checks.",
       "remaining": "Extend typed registry to dimension/radius/typography/shadow and light/dark modes; pin the supported DTCG version and cover aliases/cycles/mode round trips.",
       "resolvedQA": [
         "QA-03"
@@ -157,8 +158,8 @@
       "url": "https://github.com/zubair-io/Sugar-Maple/issues/12",
       "githubState": "OPEN",
       "assessment": "partial",
-      "delivered": "Local masters/instances, recursive structural propagation, named style variants, local overrides, detach/reset and dependency-complete paste are verified.",
-      "remaining": "Production registry metadata/props/slots/states, Checkbox, optional library mappings and compatible component swaps with loss previews remain.",
+      "delivered": "Local masters/instances, recursive structural propagation, named style variants, local overrides, detach/reset and dependency-complete paste are verified. Pinned production metadata/props/variants/slots/local overrides and explicit Web Awesome/macOS SwiftUI mappings shipped in #67; scoped #49 is closed after resulting-main checks.",
+      "remaining": "Extend beyond the supported manifest/component subset: Checkbox, compatible component swaps with loss previews, and broader registry/publish behavior. Complete modes and native/export parity remain in their parents.",
       "resolvedQA": [
         "QA-03",
         "QA-04"
@@ -193,8 +194,8 @@
       "url": "https://github.com/zubair-io/Sugar-Maple/issues/15",
       "githubState": "OPEN",
       "assessment": "partial",
-      "delivered": "Inspector exposes authored name, local master/instance/variant/override identity and working portable copy actions.",
-      "remaining": "Show production design-system source/version/platform mappings, state, token identity and authored-versus-measured rules; verify nested keyboard inspection and each advertised copy payload.",
+      "delivered": "Inspector exposes authored name, local master/instance/variant/override identity and working portable copy actions. Pinned production metadata/props/variants/slots/local overrides and explicit Web Awesome/macOS SwiftUI mappings shipped in #67; scoped #49 is closed after resulting-main checks.",
+      "remaining": "Finish typed token identity and authored-versus-measured rules; verify nested keyboard inspection and every advertised copy payload beyond the supported source/variant/prop mapping subset.",
       "resolvedQA": []
     },
     {
@@ -203,8 +204,8 @@
       "url": "https://github.com/zubair-io/Sugar-Maple/issues/16",
       "githubState": "OPEN",
       "assessment": "partial",
-      "delivered": "Portable semantic HTML/Angular/Tailwind consumers compile/render, including typography, typed/password/disabled controls, action metadata and self-contained shared image bytes from #64.",
-      "remaining": "Pinned mapped library snippets (#67 candidate, not merged), classes-only payloads and complete style packaging remain; consumers supply navigation/overlay handlers.",
+      "delivered": "Portable semantic HTML/Angular/Tailwind consumers compile/render, including typography, typed/password/disabled controls, action metadata and self-contained shared image bytes from #64. Pinned production metadata/props/variants/slots/local overrides and explicit Web Awesome/macOS SwiftUI mappings shipped in #67; scoped #49 is closed after resulting-main checks.",
+      "remaining": "Classes-only payloads and complete style packaging remain; consumers supply navigation/overlay handlers. Pinned mapped library snippets are delivered within the explicit supported subset.",
       "resolvedQA": [
         "QA-03",
         "QA-06"
@@ -216,8 +217,8 @@
       "url": "https://github.com/zubair-io/Sugar-Maple/issues/17",
       "githubState": "OPEN",
       "assessment": "partial",
-      "delivered": "Portable SwiftUI consumers compile with supported typography, TextField/SecureField bindings, disabled labels, Button callbacks and self-contained shared images; #64 compiled/rendered a macOS consumer.",
-      "remaining": "Supported visual equivalence and pinned native component mappings (#67 candidate, not merged) remain. Custom fonts/nondefault exact line height reject explicitly; the UIKit image branch remains unverified.",
+      "delivered": "Portable SwiftUI consumers compile with supported typography, TextField/SecureField bindings, disabled labels, Button callbacks and self-contained shared images; #64 compiled/rendered a macOS consumer. Pinned production metadata/props/variants/slots/local overrides and explicit Web Awesome/macOS SwiftUI mappings shipped in #67; scoped #49 is closed after resulting-main checks.",
+      "remaining": "Supported visual equivalence, broader native platforms/styles and custom fonts/nondefault exact line height remain. Unsupported mappings reject explicitly; the UIKit image branch remains unverified. macOS Button/TextField/VStack mapping is delivered.",
       "resolvedQA": [
         "QA-07"
       ]
@@ -309,8 +310,8 @@
       "url": "https://github.com/zubair-io/Sugar-Maple/issues/25",
       "githubState": "OPEN",
       "assessment": "deferred; not a release blocker",
-      "delivered": "Portable export and explicit unsupported diagnostics exist; arbitrary repository source is never implicitly executed.",
-      "remaining": "Add verified repository/Storybook linkage and named native targets. Production library manifests and isolated executable previews are now dedicated follow-ups.",
+      "delivered": "Portable export and explicit unsupported diagnostics exist; arbitrary repository source is never implicitly executed. Pinned production metadata/props/variants/slots/local overrides and explicit Web Awesome/macOS SwiftUI mappings shipped in #67; scoped #49 is closed after resulting-main checks.",
+      "remaining": "Verified repository/Storybook linkage, named native targets and isolated executable previews #51 remain. Scoped manifest import/mapped export #49 is complete.",
       "resolvedQA": []
     },
     {
@@ -374,12 +375,11 @@
       "number": 49,
       "title": "[MVP] Connect a pinned production UI library through a component manifest",
       "url": "https://github.com/zubair-io/Sugar-Maple/issues/49",
-      "githubState": "OPEN",
-      "assessment": "candidate #67; fresh review pending",
-      "delivered": "Production-library manifest capability is not merged on main yet.",
-      "remaining": "Fresh actual review, merge and successful resulting-main checks before closing #49. Broader registry/export/native-parity parents and executable-preview #51 remain separate.",
-      "resolvedQA": [],
-      "candidate": "PR #67 at d2c3055 implements the five scoped requirements and both actual recovered-review slot fixes. Pinned-runtime model tests, full browser/native/build acceptance and exact-head web/macOS CI pass; fresh review and merge are pending."
+      "githubState": "CLOSED",
+      "assessment": "complete; merged #67",
+      "delivered": "All five scoped manifest/picker/instance/fallback/mapped-consumer requirements are delivered. Final head 7226846 received actual approval; current main f5f2ab1a48c3157a16cfec9e3aed6d0bf85f99f4 and CI 36959523019 pass. Strict metadata/slot validation, detached subtree paste, native picker/reopen and actual web/macOS SwiftUI consumers are verified.",
+      "remaining": "None within #49. Broader registry/token/export/native-platform requirements and executable-preview #51 remain in their parents.",
+      "resolvedQA": []
     },
     {
       "number": 50,
@@ -387,7 +387,7 @@
       "url": "https://github.com/zubair-io/Sugar-Maple/issues/50",
       "githubState": "CLOSED",
       "assessment": "complete; merged #59",
-      "delivered": "Versioned discovery/scoped reads, stable pagination/exact nodes/references, explicit stale/wrong/unknown targets, bounded native crops and actual HTTP/stdio/edit/undo/1k–10k evidence are merged. Capture metadata hardening passed fresh exact-head approval and CI; main CI passes.",
+      "delivered": "Versioned discovery/scoped reads, stable pagination/exact nodes/references, explicit stale/wrong/unknown targets, bounded native crops and actual HTTP/stdio/edit/undo/1k\u201310k evidence are merged. Capture metadata hardening passed fresh exact-head approval and CI; main CI passes.",
       "remaining": "Visible Canvas/Layers and complete release performance remain #2/#8/#21; expanded tooling remains #27. Local scoped latency observations are not a release p95 claim.",
       "resolvedQA": []
     },
@@ -410,24 +410,19 @@
       "delivered": "Review diagnosis/retry/main-only exact-session recovery (#58) and guarded final artifacts (#60) are merged. Six live inspection/cleanup runs and final artifact retrieval succeed. #52 FAILED and unpublished late-COMPLETED sessions are retained; #54/#56 are already absent. The late actual block allegation was inspected; compiled sparse-file tests disprove the asserted 32-bit truncation on supported Swift. #61 merged explicit unsigned 64-bit gates and the recovered-review contract regression after actual exact-head approval and passing CI. Final main web/mac CI passes.",
       "remaining": "Completed within scoped issue. Failed/unpublished sessions remain retained; no verdict republishing, override or failed-session deletion was used.",
       "resolvedQA": []
-    }
-  ],
-  "asOf": "2026-10-01T23:01:02.767317+00:00",
-  "observedAt": "2026-10-02T02:44:10.248040+00:00",
-  "candidates": [
-    {
-      "number": 67,
-      "title": "Support pinned production library manifests and mapped component exports",
-      "url": "https://github.com/zubair-io/Sugar-Maple/pull/67",
-      "head": "d2c3055d990ae2bd48194f8fb2bf60b7339cbdc1",
-      "delivery": "Exact-head web/macOS CI passed; actual fresh review and merge pending"
     },
     {
-      "number": 73,
-      "title": "Measure production Canvas camera and Layers costs across browser engines",
-      "url": "https://github.com/zubair-io/Sugar-Maple/pull/73",
-      "head": "48978d5646f8155c4067cb1f9c12117c1a510806",
-      "delivery": "Exact-head web/macOS CI passed; actual fresh review and merge pending"
+      "number": 75,
+      "title": "[Engineering] Quoted examples affected final reviewer verdict parsing",
+      "url": "https://github.com/zubair-io/Sugar-Maple/issues/75",
+      "githubState": "CLOSED",
+      "assessment": "complete; merged #77",
+      "delivered": "Shared terminal reviewer-verdict parsing is merged for polling, publication and recovery. Exact-head actual review approved; 33 action/recovery tests, typecheck/build, exact-head web/macOS CI and resulting-main web/macOS CI passed. The observed quoted-example bug has a fail-on-blocking regression.",
+      "remaining": "None within #75 acceptance. Historical published review/status records are preserved.",
+      "resolvedQA": []
     }
-  ]
+  ],
+  "asOf": "2026-10-02T04:05:14.088484+00:00",
+  "observedAt": "2026-10-02T04:05:14.088484+00:00",
+  "candidates": []
 }
