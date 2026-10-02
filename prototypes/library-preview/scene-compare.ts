@@ -205,9 +205,11 @@ try {
     viewport: { width: 1440, height: 1200 },
     deviceScaleFactor: 1,
   });
+  console.log("Comparison native phase: building trusted fixture");
   const buildStart = performance.now(),
     build = await buildNativeFixture(true),
     buildMilliseconds = performance.now() - buildStart;
+  console.log("Comparison native phase: trusted build completed");
   await context.route("**/*", (route) => {
     const url = new URL(route.request().url());
     return url.origin === editorURL.origin || url.origin === server.url.origin
@@ -253,6 +255,7 @@ try {
   const runtimeStart = performance.now();
   native = new NativePreview(build, () => {});
   await native.ready;
+  console.log("Comparison native phase: sandboxed helper ready");
   const coldSpawnMilliseconds = performance.now() - runtimeStart;
   let lastSource: Awaited<ReturnType<typeof captureSource>>;
   const feedWeb = (scene: LibraryScene, reset: boolean) =>
