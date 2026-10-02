@@ -574,7 +574,7 @@
     },
     {
       "path": "ui/tree-row/mui-tree-row.component.html",
-      "sha256": "b9f7a90e1ab5ba1b016046dcacec107d5229f2e62e5a4bf649cfbf4033448acc",
+      "sha256": "ab88ad7b958c9cfdb0897a457ecf246c34178e62d921debad9114e7558947f08",
       "upstreamPath": "src/web/projects/maple-common/src/lib/ui/tree-row/mui-tree-row.component.html",
       "upstreamBlob": "167868840353d00b2138d4c9caa4a8b1c99b4d3e",
       "upstreamSHA256": "56882f64159a95a66aea093cee0b8a039d1789b59336680642f12563ee7ba4b1",
@@ -590,7 +590,7 @@
     },
     {
       "path": "ui/tree-row/mui-tree-row.component.ts",
-      "sha256": "9e5e90b2d8d8d9f1c1775cdfdaf3cc0ecc99842c1220f41771f03f528bd3c4c6",
+      "sha256": "f010273f87704f51f13c09d0c2db9bb02f4ce5ded80d9a60632c15556638a98b",
       "upstreamPath": "src/web/projects/maple-common/src/lib/ui/tree-row/mui-tree-row.component.ts",
       "upstreamBlob": "b5e88574e94fa86bea6583a834c39bd50f70143a",
       "upstreamSHA256": "621d6086f77af5478256aafa80316dd3a1fba7538eb40085204d4dcf5fddfc09",

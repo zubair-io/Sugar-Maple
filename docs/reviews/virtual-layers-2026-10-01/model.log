@@ -1,0 +1,118 @@
+bun test v1.4.2 (744846f84)
+
+src/web/tests/store.test.ts:
+(pass) create a file, pages and nested items, edit, undo, and reopen checkpoint [21.06ms]
+(pass) invalid batch and parent cycles leave the document unchanged [2.62ms]
+(pass) retries are idempotent, revisions and document identities protect targeting [1.95ms]
+(pass) grouped agent undo retains prior human edits [1.34ms]
+(pass) updating geometry preserves text, size, appearance and hierarchy [1.28ms]
+(pass) component instances follow master styles while preserving text overrides [6.97ms]
+(pass) repeat grid creates linked cells and populates independent values atomically [10.01ms]
+(pass) new nodes append in order; invalid prototype and component links reject atomically [1.65ms]
+
+src/web/tests/canvas-layout.test.ts:
+(pass) canvas fixed/fill stacks preserve padding, gaps and order [1.28ms]
+(pass) nested rotations share transformed geometry and hit testing with ancestor clipping [0.34ms]
+(pass) grid percentage width resolves against its track and rows retain fixed child height [0.17ms]
+(pass) text wrapping preserves explicit blank lines and repeated spaces [0.98ms]
+
+src/web/tests/comments.test.ts:
+(pass) human feedback, atomic agent fix/reply/resolve, replay and undo preserve authorship [7.54ms]
+(pass) invalid comments reject atomically; deleting a page removes its feedback and undo restores it [1.64ms]
+(pass) pre-comment checkpoints and journals open with an empty feedback collection [0.67ms]
+(pass) pinned anchors survive replay and undo; legacy page comments remain unpinned [1.81ms]
+
+src/web/tests/repeat-data.test.ts:
+(pass) CSV quoting and named JSON rows have explicit missing, duplicate, type and size rules [1.07ms]
+(pass) separate template preserves cell data and stable IDs through edits, row-major resize and undo [39.76ms]
+(pass) named imports apply once and invalid mappings, missing images and overflow preserve complete history [17.63ms]
+(pass) empty and absent fields retain or clear values; untouched trailing cells keep data [5.55ms]
+(pass) image content addresses deduplicate, reject forged bytes and survive recovery, paste and all exports [16.56ms]
+(pass) legacy first-cell template upgrades inside the import without changing surviving IDs or prior history [9.17ms]
+
+src/web/tests/layers.test.ts:
+(pass) layer search retains ancestor context, authored sibling order and original nodes [0.26ms]
+(pass) large layer trees and broad matching searches use bounded linear node reads [18.53ms]
+
+src/web/tests/component-portability.test.ts:
+(pass) literal variant replaces inherited token, token variant binds, and local overrides win through undo [22.62ms]
+(pass) cross-document clipboard includes nested masters and preserves variant, overrides and token collisions atomically [3.30ms]
+(pass) legacy incomplete clipboard fails rather than silently detaching [0.29ms]
+(pass) plain-layer clipboard remains portable when a legacy caller omits the default asset field [1.19ms]
+
+src/web/tests/history.test.ts:
+(pass) durable journal preserves grouped undo, redo branch and idempotent retries [6.78ms]
+(pass) checkpoint is immutable; corrupt projections and unknown versions reject [0.76ms]
+(pass) 5,000-node checkpoint round-trips and retains an undoable last batch [2442.71ms]
+
+src/web/tests/scoped-read.test.ts:
+(pass) scoped pagination preserves authoritative nodes, ancestor context, token values and component references [81.04ms]
+(pass) selection snapshots deduplicate descendants and stay stable across human selection changes [3.46ms]
+(pass) stale/wrong targets, unknown scope IDs, oversized limits and invalid crops fail explicitly [3.00ms]
+(pass) a 10,000-deep tree is read without recursion and bounded payload failures preserve the scene [79.41ms]
+
+src/web/tests/layers-window.test.ts:
+(pass) 10,000 layers keep the viewport, keyboard destination and focused control mounted without mounting the whole tree [0.13ms]
+(pass) virtual tree accessibility reports full sibling counts and search-context positions [0.09ms]
+
+src/web/tests/canvas-gesture.test.ts:
+(pass) one canvas drag is one atomic undo step and pointer cancellation does not commit [2.11ms]
+(pass) page switching cancels the gesture and clears its marquee overlay [0.61ms]
+(pass) an agent revision during drag cancels the stale gesture and preserves the agent edit [0.55ms]
+
+src/web/tests/preview-snapshot.test.ts:
+(pass) read-only feed keeps stable identity, monotonic revisions and exact authored values [0.74ms]
+(pass) read-only feed rejects executable/external content, malformed envelopes and deleted roots [1.47ms]
+
+src/web/tests/handoff.test.ts:
+(pass) DTCG opaque sRGB values and aliases import; cycles and unsupported types reject [0.31ms]
+(pass) portable output escapes authored markup and preserves color token binding [0.74ms]
+
+src/web/tests/library-manifest.test.ts:
+(pass) pinned manifest import validates complete typed mappings before any authoring mutation [5.47ms]
+(pass) library props variants and local semantic overrides survive undo and journal replay [12.68ms]
+(pass) new versions coexist; explicit compatible remap preserves props and rejects incompatible changes atomically [7.31ms]
+(pass) paste carries pinned library dependencies and token aliases; missing metadata retains editable fallback [8.61ms]
+(pass) slot validation and scoped reads expose exact library dependencies [3.61ms]
+(pass) copying a slotted subtree alone detaches only its external slot, while copying its parent retains named slots [5.68ms]
+(pass) default library content requires a declared empty slot; rejected default children do not mutate history [4.21ms]
+(pass) mapped output uses pinned imports and supported native symbols; unsafe attributes and unsupported styles never approximate [3.33ms]
+
+src/web/tests/tool-output.test.ts:
+(pass) published MCP output schemas validate actual receipts/checkpoints and reject malformed success data [113.49ms]
+(pass) typed tool errors conform to every output contract, including the pinned SDK error validation behavior [192.28ms]
+
+src/web/tests/persistence-queue.test.ts:
+(pass) serialized saves retain order through delay and failure [0.24ms]
+
+src/web/tests/components.test.ts:
+(pass) instances follow added, reparented and deleted master layers and preserve overrides [4.96ms]
+(pass) named variants preserve local text overrides and reset restores inherited values [1.84ms]
+(pass) nested definitions synchronize in dependency order and recursive containment rejects [1.86ms]
+
+src/web/tests/prototype-runtime.test.ts:
+(pass) prototype values, navigation, overlays and reset never mutate the authored document or revision [1.69ms]
+(pass) deleted destinations, document replacement and overlay bounds fail with defined state [2.03ms]
+(pass) form semantics persist through recovery/undo and web/native export [5.44ms]
+
+src/web/tests/folders.test.ts:
+(pass) folders preserve page identity, links and undo across recovery; removal keeps contents [2.03ms]
+(pass) legacy checkpoints and journals without folder fields reopen with unfiled pages [0.45ms]
+
+src/web/tests/typography.test.ts:
+(pass) typography migrates old journals without changing retry identity or undo [2.73ms]
+(pass) component typography and token references survive override, reset and cross-file editable paste [1.83ms]
+(pass) hug height, web typography and native rejection use the same authored values [1.91ms]
+
+src/web/tests/tool-contract.test.ts:
+(pass) all tool inputs validate strictly, including invalid export targets and render revisions [0.43ms]
+(pass) bridge error envelope retains stable code, context, cause and recovery action [0.14ms]
+
+src/web/tests/export-fidelity.test.ts:
+(pass) web handoff retains authored multiline text and control whitespace [0.16ms]
+(pass) SwiftUI handoff preserves stack padding and control typography [0.15ms]
+
+ 70 pass
+ 0 fail
+ 493 expect() calls
+Ran 70 tests across 21 files. [3.40s]

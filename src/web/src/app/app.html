@@ -110,49 +110,7 @@
             (valueChange)="search.set($event)"
           />
         </mui-field>
-        <div role="tree" aria-label="Layers" aria-multiselectable="true">
-          @for (row of layers(); track row.node.id) {
-            @let node = row.node;
-            <div class="layer-row">
-              <mui-tree-row
-                [attr.data-layer-id]="node.id"
-                [tabIndex]="layerTabStop() === node.id ? 0 : -1"
-                (focusin)="focusedLayer.set(node.id)"
-                (keydown)="layerKey($event, node.id)"
-                [label]="node.name"
-                [ariaLabel]="'Select ' + node.name"
-                [depth]="row.depth"
-                [icon]="
-                  node.kind === 'artboard'
-                    ? 'design-artboard'
-                    : node.kind === 'text'
-                      ? 'design-text'
-                      : 'design-frame'
-                "
-                iconColor="active-only"
-                [active]="e.selection().includes(node.id)"
-                (activated)="e.select(node.id, $event.shiftKey)"
-              />
-              <button
-                [attr.aria-label]="(node.hidden ? 'Show ' : 'Hide ') + node.name"
-                [title]="(node.hidden ? 'Show ' : 'Hide ') + node.name"
-                (click)="
-                  e.perform([{ type: 'node.update', id: node.id, patch: { hidden: !node.hidden } }])
-                "
-              >
-                {{ node.hidden ? '○' : '◉' }}</button
-              ><button
-                [attr.aria-label]="(node.locked ? 'Unlock ' : 'Lock ') + node.name"
-                [title]="(node.locked ? 'Unlock ' : 'Lock ') + node.name"
-                (click)="
-                  e.perform([{ type: 'node.update', id: node.id, patch: { locked: !node.locked } }])
-                "
-              >
-                {{ node.locked ? '▣' : '▫' }}
-              </button>
-            </div>
-          }
-        </div>
+        <layers-panel [search]="search()" />
         @if (!e.pageNodes().length) {
           <p class="muted empty-layers">Your page is ready.<br />Add an artboard to begin.</p>
         }
