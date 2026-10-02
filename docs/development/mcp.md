@@ -74,6 +74,10 @@ The Design Canvas exposes row/column/gutter sliders for fixed-size grids and tem
 
 `bun tools/native-canvas-transform-mcp.ts --repeat` uses an owned DEBUG app/profile and actual authenticated HTTP MCP transport. It verifies the command, transformed Canvas layout, retained imported data, invalid-batch rejection, undo/redo, revision-bound capture and native durable checkpoint. Browser and native pointer checks run in the acceptance suites; WK script pointer events use a local capture shim and do not prove OS pointer capture or VoiceOver.
 
+## Repeat Grid file and folder imports
+
+The editor stages user-dropped CSV/JSON/text lists, local images and image folders through the same explicit mapping/Preview/Apply workflow as file selection. Applying uses the existing `repeat.import` operation plus shared `asset.set` operations in one validated human transaction. A drop does not add a writable MCP document or a filesystem tool. The trusted macOS editor's explicit user folder chooser is supported; previews and subframes cannot open it. See [file and folder import limits and ordering](repeat-grid-drops.md). Canonical virtual cells and responsive templates remain tracked by #13.
+
 ## Page folders
 
 Folders are document objects, not slash-delimited names. `folder.add` accepts an optional stable `id` and `name`; `folder.update` renames by ID; `folder.remove` removes the folder while returning its pages to the document root. `page.add` and `page.update` accept nullable `folderId`. For example, a single batch can contain `{"type":"folder.add","id":"home","name":"Home"}` and `{"type":"page.update","id":"page-id","name":"Overview","folderId":"home"}`. Missing references reject the entire batch. Node IDs, prototype targets and page IDs are unchanged. `bun tools/mcp-folders-test.ts` validates these commands against the running Mac app and restores the original document with three undos.

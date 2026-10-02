@@ -84,10 +84,10 @@ final class EditorHost: NSObject, WKScriptMessageHandlerWithReply, WKNavigationD
                   host: frame.securityOrigin.host, port: frame.securityOrigin.port, directories: parameters.allowsDirectories),
               let window = webView.window else { completionHandler(nil); return }
         let panel = NSOpenPanel()
-        panel.title = "Import files into Sugar Maple"
+        panel.title = parameters.allowsDirectories ? "Import folder into Sugar Maple" : "Import files into Sugar Maple"
         panel.prompt = "Import"
-        panel.canChooseFiles = true
-        panel.canChooseDirectories = false
+        panel.canChooseFiles = !parameters.allowsDirectories
+        panel.canChooseDirectories = parameters.allowsDirectories
         panel.allowsMultipleSelection = parameters.allowsMultipleSelection
         importPanel = panel
         panel.beginSheetModal(for: window) { [weak self] response in
