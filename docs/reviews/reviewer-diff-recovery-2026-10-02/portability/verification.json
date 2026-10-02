@@ -1,0 +1,38 @@
+{
+  "sourceCommit": "1a807cb85325e72b4800205ce7f9dae9c9a25bb8",
+  "reviewFinding": "https://github.com/zubair-io/Sugar-Maple/pull/97#issuecomment-5959900189",
+  "checks": {
+    "typecheckExitCode": 0,
+    "tests": 38,
+    "testsExitCode": 0,
+    "productionBundleExitCode": 0
+  },
+  "sources": {
+    ".github/actions/jules-review/src/revision-diff.ts": {
+      "bytes": 4055,
+      "sha256": "7ca0cc013d087129b779c2e63e7d8f611b43d4a40740b1699bc2b89e0f92d507"
+    },
+    ".github/actions/jules-review/tests/revision-diff.test.mjs": {
+      "bytes": 3941,
+      "sha256": "5fde029da7fabee90f6a54231c0491ce36f00f0c3aa7ab87e7f690cc9dc6f415"
+    }
+  },
+  "artifacts": {
+    "typecheck.log": {
+      "bytes": 53,
+      "sha256": "37c2b5e0406a7068753a91a0ab1b0bca9d47dec29ce65cbc23a4cabef2a524d9"
+    },
+    "tests.log": {
+      "bytes": 3686,
+      "sha256": "71c08873fa99db2c0d0ea6424cfa4f8bff8806a869090dacd94f63585877b40c"
+    },
+    "build.log": {
+      "bytes": 403,
+      "sha256": "fdb4ab666c91573c2d596ab62937ef3c62d691b29cb819a24995200e7e1fcfa5"
+    }
+  },
+  "limitations": [
+    "Local verification is macOS; no Windows runner execution is claimed. Repository review workflow runs on ubuntu-latest.",
+    "Fresh exact-head review/CI and resulting-main delivery are required."
+  ]
+}
