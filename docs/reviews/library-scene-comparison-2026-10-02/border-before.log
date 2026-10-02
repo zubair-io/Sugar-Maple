@@ -1,0 +1,88 @@
+❯ Building...
+✔ Building...
+Initial chunk files | Names                       |  Raw size
+styles.css          | styles                      |  30.85 kB | 
+chunk-VUJOFXKG.js   | -                           | 987 bytes | 
+main.js             | main                        | 917 bytes | 
+
+                    | Initial total               |  32.75 kB
+
+Lazy chunk files    | Names                       |  Raw size
+chunk-3LUHE67I.js   | app                         | 561.22 kB | 
+chunk-RY42GGBF.js   | -                           | 204.09 kB | 
+chunk-7CH5HWRT.js   | -                           | 163.30 kB | 
+chunk-NXCTEXN5.js   | sugar-maple-chrome-specimen |  24.82 kB | 
+chunk-XHUTDAFF.js   | preview-application         |   6.21 kB | 
+
+Application bundle generation complete. [2.422 seconds] - 2026-10-02T17:05:31.103Z
+
+Watch mode enabled. Watching for file changes...
+NOTE: Raw file sizes do not reflect development server per-request transformations.
+  ➜  Local:   http://127.0.0.1:53488/
+Owned source checkout editor: http://127.0.0.1:53488; process group 63458
+PASS: exact Web Awesome 3.14.0 declarations compile; generated Button/Input/Card imports bundle and render offline with real shadow controls, values, slots and declared card spacing
+bun test v1.4.2 (744846f84)
+
+prototypes/library-preview/scene-contract.test.ts:
+(pass) the bounded library scene carries resolved authored geometry and named slots without mutating the source [66.78ms]
+(pass) source token bindings, local overrides and nested slots survive projection and one-step source undo [11.94ms]
+(pass) resolved responsive boxes and nested rotations are carried instead of replacing them with package intrinsic sizes [5.89ms]
+(pass) native style gaps return actionable diagnostics before replacing a supported scene [6.26ms]
+(pass) scene packets reject inconsistent graphs, unsupported source, privileged keys and aggregate payload excess [84.04ms]
+
+prototypes/library-preview/contract.test.ts:
+(pass) preview shares the real pinned manifest types, variants and bounds [0.85ms]
+(pass) preview messages reject privileged methods, paths, extra keys, wrong versions and unbounded payloads [0.99ms]
+
+ 7 pass
+ 0 fail
+ 55 expect() calls
+Ran 7 tests across 2 files. [865.00ms]
+{"passed":true,"package":{"name":"@awesome.me/webawesome","version":"3.14.0"},"hashes":{"runtime.js":{"bytes":278666,"sha256":"368b116c136362860bef6a52c7376fb3dd76c133b13dbc8d11cd38c9d538b175"},"runtime.css":{"bytes":155312,"sha256":"f15ad9222cd24a7a5d24b52ad66f3e8520ee259b11a7215a2beb157208cd4cae"},"host.js":{"bytes":101234,"sha256":"6752c5af365ac8f0784ba62d2b982c81be39c5652c6296c33c99f9c8436ce25f"},"host.css":{"bytes":2228,"sha256":"a24540b648d3e441dc8d5daff81c490da0b96b516402398f7a2169fd665fc9b4"},"semantic.html":{"bytes":3044,"sha256":"b4f5734f42e9131109a5fde7fb89b259f3b8bd8fedb740039ff6fef58d25dd05"},"fixture.json":{"bytes":23547,"sha256":"05b39627ac12418e4671cb81a56d9d9cc9691341554068a2e69e377c6e23a02b"}}}
+PASS: browser-test.ts stops its server when the browser launch boundary throws
+PASS: browser-test.ts stops its server when the browser close boundary throws
+PASS: compare.ts stops its server when the browser launch boundary throws
+PASS: compare.ts stops its server when the browser close boundary throws
+PASS: report-test.ts stops its server when the browser launch boundary throws
+PASS: report-test.ts stops its server when the browser close boundary throws
+PASS: isolated real Web Awesome controls, typed props/events, denied parent/storage/network/bridge, stale rejection, malformed input, opt-in/stop and offline rendering
+PASS: authored geometry and actual package slots/variants/token/overrides, accessible typed events, ephemeral update/undo/reset, disabled/rejection/stop and offline scene rendering
+PASS: actual comparison stops browser/server and exits naturally when native shutdown throws
+PASS: default: actual Canvas, DOM, package, SwiftUI geometry, source identity and unchanged checkpoint
+PASS: source-update: actual Canvas, DOM, package, SwiftUI geometry, source identity and unchanged checkpoint
+PASS: source-undo: actual Canvas, DOM, package, SwiftUI geometry, source identity and unchanged checkpoint
+PASS: primary: actual Canvas, DOM, package; actionable native limitation geometry, source identity and unchanged checkpoint
+PASS: disabled: actual Canvas, DOM, package, SwiftUI geometry, source identity and unchanged checkpoint
+PASS: nested-overrides: actual Canvas, DOM, package, SwiftUI geometry, source identity and unchanged checkpoint
+PASS: nested-rotations: actual Canvas, DOM, package, SwiftUI geometry, source identity and unchanged checkpoint
+56 |   let max = 0;
+57 |   for (const [id, box] of Object.entries(expected))
+58 |     for (const key of ["x", "y", "width", "height"] as const) {
+59 |       const difference = Math.abs(actual[id][key] - box[key]);
+60 |       max = Math.max(max, difference);
+61 |       assert.ok(
+                  ^
+AssertionError: authored-border semantic DOM header.x: 46.21875 vs 46.730000000000004, tolerance=0.1
+ generatedMessage: false,
+     actual: false,
+   expected: true,
+   operator: "==",
+       diff: "simple",
+       code: "ERR_ASSERTION"
+
+      at delta (/Users/riabuz/Projects/_Sugar Maple/prototypes/library-preview/scene-compare.ts:61:14)
+      at compare (/Users/riabuz/Projects/_Sugar Maple/prototypes/library-preview/scene-compare.ts:335:14)
+      at processTicksAndRejections (native:7:39)
+
+Bun v1.4.2 (macOS arm64)
+23 |   const child = Bun.spawn([process.execPath, ...args], {
+24 |     stdout: "inherit",
+25 |     stderr: "inherit",
+26 |     env: { ...process.env, MAPLE_COMPARISON_EDITOR_URL: editorURL },
+27 |   });
+28 |   if ((await child.exited) !== 0) throw Error(`Comparison failed: ${args[0]}`);
+                                             ^
+error: Comparison failed: prototypes/library-preview/scene-compare.ts
+      at run (/Users/riabuz/Projects/_Sugar Maple/tools/library-preview-comparison.ts:28:41)
+
+Bun v1.4.2 (macOS arm64)

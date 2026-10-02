@@ -1,0 +1,191 @@
+bun test v1.4.2 (744846f84)
+
+src/web/tests/store.test.ts:
+(pass) create a file, pages and nested items, edit, undo, and reopen checkpoint [10.13ms]
+(pass) invalid batch and parent cycles leave the document unchanged [0.44ms]
+(pass) retries are idempotent, revisions and document identities protect targeting [0.32ms]
+(pass) grouped agent undo retains prior human edits [0.42ms]
+(pass) updating geometry preserves text, size, appearance and hierarchy [0.45ms]
+(pass) component instances follow master styles while preserving text overrides [1.40ms]
+(pass) repeat grid creates linked cells and populates independent values atomically [4.21ms]
+(pass) new nodes append in order; invalid prototype and component links reject atomically [0.68ms]
+
+src/web/tests/canvas-layout.test.ts:
+(pass) canvas fixed/fill stacks preserve padding, gaps and order [0.57ms]
+(pass) nested rotations share transformed geometry and hit testing with ancestor clipping [0.15ms]
+(pass) grid percentage width resolves against its track and rows retain fixed child height [0.11ms]
+(pass) text wrapping preserves explicit blank lines and repeated spaces [0.84ms]
+
+src/web/tests/canvas-transform.test.ts:
+(pass) nw resize pins the opposite world anchor through nested rotations, clamps and aspect lock [2.31ms]
+(pass) n resize pins the opposite world anchor through nested rotations, clamps and aspect lock [1.44ms]
+(pass) ne resize pins the opposite world anchor through nested rotations, clamps and aspect lock [0.93ms]
+(pass) e resize pins the opposite world anchor through nested rotations, clamps and aspect lock [0.80ms]
+(pass) se resize pins the opposite world anchor through nested rotations, clamps and aspect lock [0.84ms]
+(pass) s resize pins the opposite world anchor through nested rotations, clamps and aspect lock [0.75ms]
+(pass) sw resize pins the opposite world anchor through nested rotations, clamps and aspect lock [0.76ms]
+(pass) w resize pins the opposite world anchor through nested rotations, clamps and aspect lock [0.93ms]
+(pass) movement converts world deltas into rotated parent coordinates [0.22ms]
+(pass) rotation holds the world center, crosses the angle seam and snaps to 15 degrees [0.08ms]
+(pass) rotation grip stays 28 CSS pixels from the transformed top edge at every zoom [0.07ms]
+(pass) locked ancestors block hit testing and editing without removing rendered geometry [0.16ms]
+(pass) clamped and unchanged transforms produce no history patch; invalid placement preserves anchor [0.14ms]
+
+src/web/tests/comments.test.ts:
+(pass) human feedback, atomic agent fix/reply/resolve, replay and undo preserve authorship [6.31ms]
+(pass) invalid comments reject atomically; deleting a page removes its feedback and undo restores it [3.18ms]
+(pass) pre-comment checkpoints and journals open with an empty feedback collection [0.59ms]
+(pass) pinned anchors survive replay and undo; legacy page comments remain unpinned [1.65ms]
+
+src/web/tests/repeat-data.test.ts:
+(pass) CSV quoting and named JSON rows have explicit missing, duplicate, type and size rules [0.70ms]
+(pass) separate template preserves cell data and stable IDs through edits, row-major resize and undo [21.68ms]
+(pass) named imports apply once and invalid mappings, missing images and overflow preserve complete history [3.93ms]
+(pass) empty and absent fields retain or clear values; untouched trailing cells keep data [3.99ms]
+(pass) image content addresses deduplicate, reject forged bytes and survive recovery, paste and all exports [7.75ms]
+(pass) legacy first-cell template upgrades inside the import without changing surviving IDs or prior history [5.14ms]
+
+src/web/tests/layers.test.ts:
+(pass) layer search retains ancestor context, authored sibling order and original nodes [0.14ms]
+(pass) large layer trees and broad matching searches use bounded linear node reads [3.86ms]
+
+src/web/tests/component-portability.test.ts:
+(pass) literal variant replaces inherited token, token variant binds, and local overrides win through undo [2.21ms]
+(pass) cross-document clipboard includes nested masters and preserves variant, overrides and token collisions atomically [3.00ms]
+(pass) legacy incomplete clipboard fails rather than silently detaching [0.13ms]
+(pass) plain-layer clipboard remains portable when a legacy caller omits the default asset field [0.66ms]
+
+src/web/tests/history.test.ts:
+(pass) durable journal preserves grouped undo, redo branch and idempotent retries [1.68ms]
+(pass) checkpoint is immutable; corrupt projections and unknown versions reject [0.31ms]
+(pass) 5,000-node checkpoint round-trips and retains an undoable last batch [1071.15ms]
+
+src/web/tests/scoped-read.test.ts:
+(pass) scoped pagination preserves authoritative nodes, ancestor context, token values and component references [40.27ms]
+(pass) selection snapshots deduplicate descendants and stay stable across human selection changes [0.37ms]
+(pass) stale/wrong targets, unknown scope IDs, oversized limits and invalid crops fail explicitly [0.67ms]
+(pass) a 10,000-deep tree is read without recursion and bounded payload failures preserve the scene [31.17ms]
+
+src/web/tests/layers-window.test.ts:
+(pass) 10,000 layers keep the viewport, keyboard destination and focused control mounted without mounting the whole tree [0.11ms]
+(pass) virtual tree accessibility reports full sibling counts and search-context positions [0.08ms]
+
+src/web/tests/edit-locks.test.ts:
+(pass) lock owner is inherited, nearest and absent for independent or missing nodes [0.73ms]
+(pass) direct Inspector edits, parent insertion and structural/registry actions respect inherited locks [0.81ms]
+(pass) one protected member rejects an entire mixed delete/edit batch without history or partial work [0.53ms]
+(pass) deleting an unlocked container or page cannot erase contained locked content [0.47ms]
+(pass) explicit lock/visibility controls stay available and unlocking permits the next edit with independent undo [1.06ms]
+(pass) hidden unlocked layers, feedback, tokens and copy insertion keep their independent semantics [1.36ms]
+(pass) explicit agent transactions can edit locked content and remain one undoable batch [0.56ms]
+
+src/web/tests/canvas-gesture.test.ts:
+(pass) one canvas drag is one atomic undo step and pointer cancellation does not commit [0.98ms]
+(pass) Shift resize retains selection and commits one undo step; a no-op handle click commits none [0.38ms]
+(pass) rotation accumulates across the angle seam and pointer cancellation discards it [0.31ms]
+(pass) page switching cancels the gesture and clears its marquee overlay [0.17ms]
+(pass) an agent revision during drag cancels the stale gesture and preserves the agent edit [0.20ms]
+
+src/web/tests/library-appearance.test.ts:
+(pass) read-only appearance guidance distinguishes semantic paint, source variants and actual copy support [3.77ms]
+(pass) library-only properties and local semantic overrides report target-specific limits instead of implying parity [3.06ms]
+(pass) imported metadata and missing bindings cannot advertise an executable trusted preview [0.88ms]
+
+src/web/tests/preview-snapshot.test.ts:
+(pass) read-only feed keeps stable identity, monotonic revisions and exact authored values [0.38ms]
+(pass) read-only feed rejects executable/external content, malformed envelopes and deleted roots [0.42ms]
+
+src/web/tests/handoff.test.ts:
+(pass) DTCG opaque sRGB values and aliases import; cycles and unsupported types reject [0.17ms]
+(pass) portable output escapes authored markup and preserves color token binding [0.37ms]
+
+src/web/tests/library-manifest.test.ts:
+(pass) pinned manifest import validates complete typed mappings before any authoring mutation [1.89ms]
+(pass) library props variants and local semantic overrides survive undo and journal replay [2.30ms]
+(pass) new versions coexist; explicit compatible remap preserves props and rejects incompatible changes atomically [1.94ms]
+(pass) reset restores tracked semantic style defaults and pinned variant props in one exact undoable command [2.15ms]
+(pass) gradient-only fill overrides reset without losing pinned token bindings [1.13ms]
+(pass) reset repairs saved stale paint with cleared flags, and reapplies custom pinned variant defaults [2.57ms]
+(pass) paste carries pinned library dependencies and token aliases; missing metadata retains editable fallback [3.03ms]
+(pass) slot validation and scoped reads expose exact library dependencies [1.05ms]
+(pass) copying a slotted subtree alone detaches only its external slot, while copying its parent retains named slots [1.94ms]
+(pass) default library content requires a declared empty slot; rejected default children do not mutate history [1.82ms]
+(pass) mapped output uses pinned imports and supported native symbols; unsafe attributes and unsupported styles never approximate [0.93ms]
+
+src/web/tests/canvas-placement.test.ts:
+(pass) align left uses rendered bounds across different rotated parents [0.30ms]
+(pass) align center uses rendered bounds across different rotated parents [0.07ms]
+(pass) align right uses rendered bounds across different rotated parents [0.04ms]
+(pass) align top uses rendered bounds across different rotated parents [0.06ms]
+(pass) align middle uses rendered bounds across different rotated parents [0.05ms]
+(pass) align bottom uses rendered bounds across different rotated parents [0.05ms]
+(pass) single-parent alignment treats a missing projected border as zero without invalid coordinates [0.04ms]
+(pass) one rotated child aligns inside its rotated parent coordinate frame, preserving border offset [0.17ms]
+(pass) equal x gaps pin endpoints through rotations and preserve heterogeneous sizes [0.12ms]
+(pass) equal y gaps pin endpoints through rotations and preserve heterogeneous sizes [0.05ms]
+(pass) unrepresentable alignment is atomic instead of clamping individual members [0.07ms]
+(pass) nearest snapping uses a fixed CSS-pixel threshold, deterministic targets and a uniform selection delta [0.19ms]
+(pass) rotated side/proportional resize snapping keeps the opposite anchor and reaches its guide [0.22ms]
+
+src/web/tests/drawing.test.ts:
+(pass) portable line bounds include the stroke and preserve endpoints in all drag directions [0.26ms]
+(pass) arrow head meets the endpoint, fits its persisted box and scales down for short arrows [0.07ms]
+(pass) freehand reuses pressure geometry as a closed, finite portable outline including single-point dots [0.40ms]
+(pass) Shift angle constraint and closed/open paths preserve deterministic authored geometry [0.04ms]
+(pass) invalid/oversized geometry rejects explicitly without non-finite or over-limit node data [0.09ms]
+(pass) nested rotated-parent drawing previews without authoring and commits one human transaction with exact undo [0.70ms]
+(pass) cancel, concurrent edits, changed selection, locked/hidden parents and managed/hug layouts never author a draft [1.40ms]
+(pass) polyline points, Backspace and closed Enter finish stay ephemeral until one command [0.30ms]
+
+src/web/tests/tool-output.test.ts:
+(pass) published MCP output schemas validate actual receipts/checkpoints and reject malformed success data [63.41ms]
+(pass) typed tool errors conform to every output contract, including the pinned SDK error validation behavior [101.07ms]
+
+src/web/tests/persistence-queue.test.ts:
+(pass) serialized saves retain order through delay and failure [0.18ms]
+
+src/web/tests/components.test.ts:
+(pass) instances follow added, reparented and deleted master layers and preserve overrides [2.65ms]
+(pass) named variants preserve local text overrides and reset restores inherited values [0.83ms]
+(pass) nested definitions synchronize in dependency order and recursive containment rejects [0.92ms]
+
+src/web/tests/prototype-runtime.test.ts:
+(pass) prototype values, navigation, overlays and reset never mutate the authored document or revision [1.08ms]
+(pass) deleted destinations, document replacement and overlay bounds fail with defined state [0.95ms]
+(pass) form semantics persist through recovery/undo and web/native export [2.06ms]
+
+src/web/tests/reparent.test.ts:
+(pass) reparent preserves four world corners and responsive descendants across nested rotations and borders [5.00ms]
+(pass) reparent can lift a rotated subtree to page root and return it without world drift [3.53ms]
+(pass) a selected ancestor owns its subtree and descendant selection does not duplicate its move [1.66ms]
+(pass) destination flow rejects preserve-world and accepts explicit local layout rules [1.64ms]
+(pass) moving a child out of managed layout preserves its actual rendered size and world placement [1.55ms]
+(pass) same-parent move is an exact no-op before flow checks or responsive freezing [0.49ms]
+(pass) cycles, duplicate selections, missing targets, cross-page moves and hidden/locked ancestors fail without mutation [0.22ms]
+(pass) authored coordinate overflow rejects an entire multi-root move [0.64ms]
+(pass) sibling order at the coordinate limit is normalized without changing visual ordering [1.67ms]
+(pass) current font measurement determines hug size rather than an approximate character metric [0.82ms]
+(pass) selection plus required order normalization respects the existing atomic transaction bound [3.99ms]
+
+src/web/tests/folders.test.ts:
+(pass) folders preserve page identity, links and undo across recovery; removal keeps contents [0.91ms]
+(pass) legacy checkpoints and journals without folder fields reopen with unfiled pages [0.23ms]
+
+src/web/tests/typography.test.ts:
+(pass) native CR and CRLF line endings retain authored text with LF-equivalent Canvas and SVG geometry [0.35ms]
+(pass) typography migrates old journals without changing retry identity or undo [1.01ms]
+(pass) component typography and token references survive override, reset and cross-file editable paste [0.77ms]
+(pass) hug height, web typography and native rejection use the same authored values [0.84ms]
+
+src/web/tests/tool-contract.test.ts:
+(pass) all tool inputs validate strictly, including invalid export targets and render revisions [1.77ms]
+(pass) bridge error envelope retains stable code, context, cause and recovery action [0.11ms]
+
+src/web/tests/export-fidelity.test.ts:
+(pass) web handoff retains authored multiline text and control whitespace [0.13ms]
+(pass) SwiftUI handoff preserves stack padding and control typography [0.11ms]
+
+ 131 pass
+ 0 fail
+ 2138 expect() calls
+Ran 131 tests across 27 files. [1.61s]

@@ -1,0 +1,4308 @@
+{
+  "passed": true,
+  "recordedAt": "2026-10-02T18:32:10.134Z",
+  "editorOrigin": "http://127.0.0.1:57700",
+  "records": [
+    {
+      "name": "default",
+      "documentId": "3e954087-2e65-4315-984f-e7c409ff2744",
+      "sourceRevision": 1,
+      "scene": {
+        "documentId": "3e954087-2e65-4315-984f-e7c409ff2744",
+        "sourceRevision": 1,
+        "rootId": "root",
+        "width": 400,
+        "height": 500,
+        "elements": [
+          {
+            "id": "root",
+            "parentId": null,
+            "kind": "frame",
+            "slot": "",
+            "x": 0,
+            "y": 0,
+            "width": 400,
+            "height": 500,
+            "rotation": 0,
+            "text": "",
+            "value": "",
+            "label": "",
+            "disabled": false,
+            "inputType": "text",
+            "style": {
+              "fill": "#ffffff",
+              "fillEnabled": true,
+              "color": "#18181b",
+              "stroke": "#d4d4d8",
+              "strokeWidth": 0,
+              "radius": 0,
+              "opacity": 1,
+              "padding": 0,
+              "gap": 16,
+              "fontSize": 16,
+              "fontWeight": 400,
+              "fontFamily": "system-ui",
+              "lineHeight": 1.2,
+              "letterSpacing": 0,
+              "textAlign": "auto"
+            },
+            "library": null
+          },
+          {
+            "id": "card",
+            "parentId": "root",
+            "kind": "frame",
+            "slot": "",
+            "x": 20,
+            "y": 20,
+            "width": 360,
+            "height": 460,
+            "rotation": 0,
+            "text": "",
+            "value": "",
+            "label": "",
+            "disabled": false,
+            "inputType": "text",
+            "style": {
+              "fill": "#ffffff",
+              "fillEnabled": true,
+              "color": "#18181b",
+              "stroke": "#d4d4d8",
+              "strokeWidth": 0,
+              "radius": 0,
+              "opacity": 1,
+              "padding": 24,
+              "gap": 16,
+              "fontSize": 16,
+              "fontWeight": 400,
+              "fontFamily": "system-ui",
+              "lineHeight": 1.2,
+              "letterSpacing": 0,
+              "textAlign": "auto"
+            },
+            "library": {
+              "component": "Card",
+              "variant": "Default",
+              "props": {
+                "padding": 24
+              },
+              "localOverrides": [],
+              "tokens": {}
+            }
+          },
+          {
+            "id": "header",
+            "parentId": "card",
+            "kind": "text",
+            "slot": "header",
+            "x": 24,
+            "y": 24,
+            "width": 300,
+            "height": 28,
+            "rotation": 0,
+            "text": "Pinned library consumer",
+            "value": "",
+            "label": "",
+            "disabled": false,
+            "inputType": "text",
+            "style": {
+              "fill": "#ffffff",
+              "fillEnabled": true,
+              "color": "#18181b",
+              "stroke": "#d4d4d8",
+              "strokeWidth": 0,
+              "radius": 0,
+              "opacity": 1,
+              "padding": 16,
+              "gap": 16,
+              "fontSize": 16,
+              "fontWeight": 400,
+              "fontFamily": "system-ui",
+              "lineHeight": 1.2,
+              "letterSpacing": 0,
+              "textAlign": "auto"
+            },
+            "library": null
+          },
+          {
+            "id": "input",
+            "parentId": "card",
+            "kind": "input",
+            "slot": "",
+            "x": 24,
+            "y": 68,
+            "width": 260,
+            "height": 56,
+            "rotation": 0,
+            "text": "Your email",
+            "value": "consumer@example.test",
+            "label": "Email",
+            "disabled": false,
+            "inputType": "email",
+            "style": {
+              "fill": "#ffffff",
+              "fillEnabled": true,
+              "color": "#18181b",
+              "stroke": "#d4d4d8",
+              "strokeWidth": 0,
+              "radius": 0,
+              "opacity": 1,
+              "padding": 16,
+              "gap": 16,
+              "fontSize": 16,
+              "fontWeight": 400,
+              "fontFamily": "system-ui",
+              "lineHeight": 1.2,
+              "letterSpacing": 0,
+              "textAlign": "auto"
+            },
+            "library": {
+              "component": "Input",
+              "variant": "Default",
+              "props": {
+                "label": "Email",
+                "placeholder": "Your email",
+                "value": "consumer@example.test",
+                "type": "email",
+                "disabled": false
+              },
+              "localOverrides": [],
+              "tokens": {}
+            }
+          },
+          {
+            "id": "button",
+            "parentId": "card",
+            "kind": "button",
+            "slot": "footer",
+            "x": 24,
+            "y": 140,
+            "width": 180,
+            "height": 44,
+            "rotation": 0,
+            "text": "Save & Continue",
+            "value": "",
+            "label": "",
+            "disabled": false,
+            "inputType": "text",
+            "style": {
+              "fill": "#ffffff",
+              "fillEnabled": true,
+              "color": "#18181b",
+              "stroke": "#d4d4d8",
+              "strokeWidth": 0,
+              "radius": 0,
+              "opacity": 1,
+              "padding": 16,
+              "gap": 16,
+              "fontSize": 16,
+              "fontWeight": 400,
+              "fontFamily": "system-ui",
+              "lineHeight": 1.2,
+              "letterSpacing": 0,
+              "textAlign": "auto"
+            },
+            "library": {
+              "component": "Button",
+              "variant": "Default",
+              "props": {
+                "label": "Save & Continue",
+                "disabled": false,
+                "variant": "neutral",
+                "appearance": "accent"
+              },
+              "localOverrides": [],
+              "tokens": {}
+            }
+          }
+        ]
+      },
+      "expected": {
+        "root": {
+          "x": 0,
+          "y": 0,
+          "width": 400,
+          "height": 500
+        },
+        "card": {
+          "x": 20,
+          "y": 20,
+          "width": 360,
+          "height": 460
+        },
+        "header": {
+          "x": 44,
+          "y": 44,
+          "width": 300,
+          "height": 28
+        },
+        "input": {
+          "x": 44,
+          "y": 88,
+          "width": 260,
+          "height": 56
+        },
+        "button": {
+          "x": 44,
+          "y": 160,
+          "width": 180,
+          "height": 44
+        }
+      },
+      "canvas": {
+        "root": {
+          "x": 0,
+          "y": 0,
+          "width": 400,
+          "height": 500
+        },
+        "card": {
+          "x": 20,
+          "y": 20,
+          "width": 360,
+          "height": 460
+        },
+        "header": {
+          "x": 44,
+          "y": 44,
+          "width": 300,
+          "height": 28
+        },
+        "input": {
+          "x": 44,
+          "y": 88,
+          "width": 260,
+          "height": 56
+        },
+        "button": {
+          "x": 44,
+          "y": 160,
+          "width": 180,
+          "height": 44
+        }
+      },
+      "dom": {
+        "root": {
+          "x": 0,
+          "y": 0,
+          "width": 400,
+          "height": 500
+        },
+        "card": {
+          "x": 20,
+          "y": 20,
+          "width": 360,
+          "height": 460
+        },
+        "header": {
+          "x": 44,
+          "y": 44,
+          "width": 300,
+          "height": 28
+        },
+        "input": {
+          "x": 44,
+          "y": 88,
+          "width": 260,
+          "height": 56
+        },
+        "button": {
+          "x": 44,
+          "y": 160,
+          "width": 180,
+          "height": 44
+        }
+      },
+      "web": {
+        "root": {
+          "x": 0,
+          "y": 0,
+          "width": 400,
+          "height": 500
+        },
+        "card": {
+          "x": 20,
+          "y": 20,
+          "width": 360,
+          "height": 460
+        },
+        "header": {
+          "x": 44,
+          "y": 44,
+          "width": 300,
+          "height": 28
+        },
+        "input": {
+          "x": 44,
+          "y": 88,
+          "width": 260,
+          "height": 56
+        },
+        "button": {
+          "x": 44,
+          "y": 160,
+          "width": 180,
+          "height": 44
+        }
+      },
+      "maxDelta": {
+        "canvas": 0,
+        "dom": 0,
+        "web": 0,
+        "native": 0
+      },
+      "nativeDiagnostics": [],
+      "native": {
+        "supported": true,
+        "renderMilliseconds": 65.82004099999995,
+        "boxes": {
+          "button": {
+            "x": 44,
+            "y": 160,
+            "width": 180,
+            "height": 44
+          },
+          "card": {
+            "x": 20,
+            "y": 20,
+            "width": 360,
+            "height": 460
+          },
+          "header": {
+            "x": 44,
+            "y": 44,
+            "width": 300,
+            "height": 28
+          },
+          "input": {
+            "x": 44,
+            "y": 88,
+            "width": 260,
+            "height": 56
+          },
+          "root": {
+            "x": 0,
+            "y": 0,
+            "width": 400,
+            "height": 500
+          }
+        },
+        "revision": 0,
+        "pixelWidth": 800,
+        "pixelHeight": 1000
+      },
+      "accessibility": {
+        "canvas": "- img \"Design canvas. Select layers in the Layers panel; arrow keys move selected layers.\"\n- button \"Rotate selected element\"",
+        "dom": "- text: Pinned library consumer\n- textbox \"Email\":\n  - /placeholder: Your email\n  - text: consumer@example.test\n- button \"Save & Continue\"",
+        "web": "- text: Pinned library consumer\n- textbox \"Email\":\n  - /placeholder: Your email\n  - text: consumer@example.test\n- button \"Save & Continue\""
+      }
+    },
+    {
+      "name": "source-update",
+      "documentId": "3e954087-2e65-4315-984f-e7c409ff2744",
+      "sourceRevision": 2,
+      "scene": {
+        "documentId": "3e954087-2e65-4315-984f-e7c409ff2744",
+        "sourceRevision": 2,
+        "rootId": "root",
+        "width": 400,
+        "height": 500,
+        "elements": [
+          {
+            "id": "root",
+            "parentId": null,
+            "kind": "frame",
+            "slot": "",
+            "x": 0,
+            "y": 0,
+            "width": 400,
+            "height": 500,
+            "rotation": 0,
+            "text": "",
+            "value": "",
+            "label": "",
+            "disabled": false,
+            "inputType": "text",
+            "style": {
+              "fill": "#ffffff",
+              "fillEnabled": true,
+              "color": "#18181b",
+              "stroke": "#d4d4d8",
+              "strokeWidth": 0,
+              "radius": 0,
+              "opacity": 1,
+              "padding": 0,
+              "gap": 16,
+              "fontSize": 16,
+              "fontWeight": 400,
+              "fontFamily": "system-ui",
+              "lineHeight": 1.2,
+              "letterSpacing": 0,
+              "textAlign": "auto"
+            },
+            "library": null
+          },
+          {
+            "id": "card",
+            "parentId": "root",
+            "kind": "frame",
+            "slot": "",
+            "x": 20,
+            "y": 20,
+            "width": 360,
+            "height": 460,
+            "rotation": 0,
+            "text": "",
+            "value": "",
+            "label": "",
+            "disabled": false,
+            "inputType": "text",
+            "style": {
+              "fill": "#ffffff",
+              "fillEnabled": true,
+              "color": "#18181b",
+              "stroke": "#d4d4d8",
+              "strokeWidth": 0,
+              "radius": 0,
+              "opacity": 1,
+              "padding": 24,
+              "gap": 16,
+              "fontSize": 16,
+              "fontWeight": 400,
+              "fontFamily": "system-ui",
+              "lineHeight": 1.2,
+              "letterSpacing": 0,
+              "textAlign": "auto"
+            },
+            "library": {
+              "component": "Card",
+              "variant": "Default",
+              "props": {
+                "padding": 24
+              },
+              "localOverrides": [],
+              "tokens": {}
+            }
+          },
+          {
+            "id": "header",
+            "parentId": "card",
+            "kind": "text",
+            "slot": "header",
+            "x": 24,
+            "y": 24,
+            "width": 300,
+            "height": 28,
+            "rotation": 0,
+            "text": "Pinned library consumer",
+            "value": "",
+            "label": "",
+            "disabled": false,
+            "inputType": "text",
+            "style": {
+              "fill": "#ffffff",
+              "fillEnabled": true,
+              "color": "#18181b",
+              "stroke": "#d4d4d8",
+              "strokeWidth": 0,
+              "radius": 0,
+              "opacity": 1,
+              "padding": 16,
+              "gap": 16,
+              "fontSize": 16,
+              "fontWeight": 400,
+              "fontFamily": "system-ui",
+              "lineHeight": 1.2,
+              "letterSpacing": 0,
+              "textAlign": "auto"
+            },
+            "library": null
+          },
+          {
+            "id": "input",
+            "parentId": "card",
+            "kind": "input",
+            "slot": "",
+            "x": 24,
+            "y": 68,
+            "width": 260,
+            "height": 56,
+            "rotation": 0,
+            "text": "Your email",
+            "value": "consumer@example.test",
+            "label": "Email",
+            "disabled": false,
+            "inputType": "email",
+            "style": {
+              "fill": "#ffffff",
+              "fillEnabled": true,
+              "color": "#18181b",
+              "stroke": "#d4d4d8",
+              "strokeWidth": 0,
+              "radius": 0,
+              "opacity": 1,
+              "padding": 16,
+              "gap": 16,
+              "fontSize": 16,
+              "fontWeight": 400,
+              "fontFamily": "system-ui",
+              "lineHeight": 1.2,
+              "letterSpacing": 0,
+              "textAlign": "auto"
+            },
+            "library": {
+              "component": "Input",
+              "variant": "Default",
+              "props": {
+                "label": "Email",
+                "placeholder": "Your email",
+                "value": "consumer@example.test",
+                "type": "email",
+                "disabled": false
+              },
+              "localOverrides": [],
+              "tokens": {}
+            }
+          },
+          {
+            "id": "button",
+            "parentId": "card",
+            "kind": "button",
+            "slot": "footer",
+            "x": 24,
+            "y": 140,
+            "width": 180,
+            "height": 44,
+            "rotation": 0,
+            "text": "Edited in actual inspector",
+            "value": "",
+            "label": "",
+            "disabled": false,
+            "inputType": "text",
+            "style": {
+              "fill": "#ffffff",
+              "fillEnabled": true,
+              "color": "#18181b",
+              "stroke": "#d4d4d8",
+              "strokeWidth": 0,
+              "radius": 0,
+              "opacity": 1,
+              "padding": 16,
+              "gap": 16,
+              "fontSize": 16,
+              "fontWeight": 400,
+              "fontFamily": "system-ui",
+              "lineHeight": 1.2,
+              "letterSpacing": 0,
+              "textAlign": "auto"
+            },
+            "library": {
+              "component": "Button",
+              "variant": "Default",
+              "props": {
+                "label": "Edited in actual inspector",
+                "disabled": false,
+                "variant": "neutral",
+                "appearance": "accent"
+              },
+              "localOverrides": [],
+              "tokens": {}
+            }
+          }
+        ]
+      },
+      "expected": {
+        "root": {
+          "x": 0,
+          "y": 0,
+          "width": 400,
+          "height": 500
+        },
+        "card": {
+          "x": 20,
+          "y": 20,
+          "width": 360,
+          "height": 460
+        },
+        "header": {
+          "x": 44,
+          "y": 44,
+          "width": 300,
+          "height": 28
+        },
+        "input": {
+          "x": 44,
+          "y": 88,
+          "width": 260,
+          "height": 56
+        },
+        "button": {
+          "x": 44,
+          "y": 160,
+          "width": 180,
+          "height": 44
+        }
+      },
+      "canvas": {
+        "root": {
+          "x": 0,
+          "y": 0,
+          "width": 400,
+          "height": 500
+        },
+        "card": {
+          "x": 20,
+          "y": 20,
+          "width": 360,
+          "height": 460
+        },
+        "header": {
+          "x": 44,
+          "y": 44,
+          "width": 300,
+          "height": 28
+        },
+        "input": {
+          "x": 44,
+          "y": 88,
+          "width": 260,
+          "height": 56
+        },
+        "button": {
+          "x": 44,
+          "y": 160,
+          "width": 180,
+          "height": 44
+        }
+      },
+      "dom": {
+        "root": {
+          "x": 0,
+          "y": 0,
+          "width": 400,
+          "height": 500
+        },
+        "card": {
+          "x": 20,
+          "y": 20,
+          "width": 360,
+          "height": 460
+        },
+        "header": {
+          "x": 44,
+          "y": 44,
+          "width": 300,
+          "height": 28
+        },
+        "input": {
+          "x": 44,
+          "y": 88,
+          "width": 260,
+          "height": 56
+        },
+        "button": {
+          "x": 44,
+          "y": 160,
+          "width": 180,
+          "height": 44
+        }
+      },
+      "web": {
+        "root": {
+          "x": 0,
+          "y": 0,
+          "width": 400,
+          "height": 500
+        },
+        "card": {
+          "x": 20,
+          "y": 20,
+          "width": 360,
+          "height": 460
+        },
+        "header": {
+          "x": 44,
+          "y": 44,
+          "width": 300,
+          "height": 28
+        },
+        "input": {
+          "x": 44,
+          "y": 88,
+          "width": 260,
+          "height": 56
+        },
+        "button": {
+          "x": 44,
+          "y": 160,
+          "width": 180,
+          "height": 44
+        }
+      },
+      "maxDelta": {
+        "canvas": 0,
+        "dom": 0,
+        "web": 0,
+        "native": 0
+      },
+      "nativeDiagnostics": [],
+      "native": {
+        "supported": true,
+        "renderMilliseconds": 59.59279200000037,
+        "boxes": {
+          "button": {
+            "x": 44,
+            "y": 160,
+            "width": 180,
+            "height": 44
+          },
+          "card": {
+            "x": 20,
+            "y": 20,
+            "width": 360,
+            "height": 460
+          },
+          "header": {
+            "x": 44,
+            "y": 44,
+            "width": 300,
+            "height": 28
+          },
+          "input": {
+            "x": 44,
+            "y": 88,
+            "width": 260,
+            "height": 56
+          },
+          "root": {
+            "x": 0,
+            "y": 0,
+            "width": 400,
+            "height": 500
+          }
+        },
+        "revision": 1,
+        "pixelWidth": 800,
+        "pixelHeight": 1000
+      },
+      "accessibility": {
+        "canvas": "- img \"Design canvas. Select layers in the Layers panel; arrow keys move selected layers.\"\n- button \"Rotate selected element\"",
+        "dom": "- text: Pinned library consumer\n- textbox \"Email\":\n  - /placeholder: Your email\n  - text: dom@example.test\n- button \"Edited in actual inspector\"",
+        "web": "- text: Pinned library consumer\n- textbox \"Email\":\n  - /placeholder: Your email\n  - text: web@example.test\n- button \"Edited in actual inspector\""
+      }
+    },
+    {
+      "name": "source-undo",
+      "documentId": "3e954087-2e65-4315-984f-e7c409ff2744",
+      "sourceRevision": 3,
+      "scene": {
+        "documentId": "3e954087-2e65-4315-984f-e7c409ff2744",
+        "sourceRevision": 3,
+        "rootId": "root",
+        "width": 400,
+        "height": 500,
+        "elements": [
+          {
+            "id": "root",
+            "parentId": null,
+            "kind": "frame",
+            "slot": "",
+            "x": 0,
+            "y": 0,
+            "width": 400,
+            "height": 500,
+            "rotation": 0,
+            "text": "",
+            "value": "",
+            "label": "",
+            "disabled": false,
+            "inputType": "text",
+            "style": {
+              "fill": "#ffffff",
+              "fillEnabled": true,
+              "color": "#18181b",
+              "stroke": "#d4d4d8",
+              "strokeWidth": 0,
+              "radius": 0,
+              "opacity": 1,
+              "padding": 0,
+              "gap": 16,
+              "fontSize": 16,
+              "fontWeight": 400,
+              "fontFamily": "system-ui",
+              "lineHeight": 1.2,
+              "letterSpacing": 0,
+              "textAlign": "auto"
+            },
+            "library": null
+          },
+          {
+            "id": "card",
+            "parentId": "root",
+            "kind": "frame",
+            "slot": "",
+            "x": 20,
+            "y": 20,
+            "width": 360,
+            "height": 460,
+            "rotation": 0,
+            "text": "",
+            "value": "",
+            "label": "",
+            "disabled": false,
+            "inputType": "text",
+            "style": {
+              "fill": "#ffffff",
+              "fillEnabled": true,
+              "color": "#18181b",
+              "stroke": "#d4d4d8",
+              "strokeWidth": 0,
+              "radius": 0,
+              "opacity": 1,
+              "padding": 24,
+              "gap": 16,
+              "fontSize": 16,
+              "fontWeight": 400,
+              "fontFamily": "system-ui",
+              "lineHeight": 1.2,
+              "letterSpacing": 0,
+              "textAlign": "auto"
+            },
+            "library": {
+              "component": "Card",
+              "variant": "Default",
+              "props": {
+                "padding": 24
+              },
+              "localOverrides": [],
+              "tokens": {}
+            }
+          },
+          {
+            "id": "header",
+            "parentId": "card",
+            "kind": "text",
+            "slot": "header",
+            "x": 24,
+            "y": 24,
+            "width": 300,
+            "height": 28,
+            "rotation": 0,
+            "text": "Pinned library consumer",
+            "value": "",
+            "label": "",
+            "disabled": false,
+            "inputType": "text",
+            "style": {
+              "fill": "#ffffff",
+              "fillEnabled": true,
+              "color": "#18181b",
+              "stroke": "#d4d4d8",
+              "strokeWidth": 0,
+              "radius": 0,
+              "opacity": 1,
+              "padding": 16,
+              "gap": 16,
+              "fontSize": 16,
+              "fontWeight": 400,
+              "fontFamily": "system-ui",
+              "lineHeight": 1.2,
+              "letterSpacing": 0,
+              "textAlign": "auto"
+            },
+            "library": null
+          },
+          {
+            "id": "input",
+            "parentId": "card",
+            "kind": "input",
+            "slot": "",
+            "x": 24,
+            "y": 68,
+            "width": 260,
+            "height": 56,
+            "rotation": 0,
+            "text": "Your email",
+            "value": "consumer@example.test",
+            "label": "Email",
+            "disabled": false,
+            "inputType": "email",
+            "style": {
+              "fill": "#ffffff",
+              "fillEnabled": true,
+              "color": "#18181b",
+              "stroke": "#d4d4d8",
+              "strokeWidth": 0,
+              "radius": 0,
+              "opacity": 1,
+              "padding": 16,
+              "gap": 16,
+              "fontSize": 16,
+              "fontWeight": 400,
+              "fontFamily": "system-ui",
+              "lineHeight": 1.2,
+              "letterSpacing": 0,
+              "textAlign": "auto"
+            },
+            "library": {
+              "component": "Input",
+              "variant": "Default",
+              "props": {
+                "label": "Email",
+                "placeholder": "Your email",
+                "value": "consumer@example.test",
+                "type": "email",
+                "disabled": false
+              },
+              "localOverrides": [],
+              "tokens": {}
+            }
+          },
+          {
+            "id": "button",
+            "parentId": "card",
+            "kind": "button",
+            "slot": "footer",
+            "x": 24,
+            "y": 140,
+            "width": 180,
+            "height": 44,
+            "rotation": 0,
+            "text": "Save & Continue",
+            "value": "",
+            "label": "",
+            "disabled": false,
+            "inputType": "text",
+            "style": {
+              "fill": "#ffffff",
+              "fillEnabled": true,
+              "color": "#18181b",
+              "stroke": "#d4d4d8",
+              "strokeWidth": 0,
+              "radius": 0,
+              "opacity": 1,
+              "padding": 16,
+              "gap": 16,
+              "fontSize": 16,
+              "fontWeight": 400,
+              "fontFamily": "system-ui",
+              "lineHeight": 1.2,
+              "letterSpacing": 0,
+              "textAlign": "auto"
+            },
+            "library": {
+              "component": "Button",
+              "variant": "Default",
+              "props": {
+                "label": "Save & Continue",
+                "disabled": false,
+                "variant": "neutral",
+                "appearance": "accent"
+              },
+              "localOverrides": [],
+              "tokens": {}
+            }
+          }
+        ]
+      },
+      "expected": {
+        "root": {
+          "x": 0,
+          "y": 0,
+          "width": 400,
+          "height": 500
+        },
+        "card": {
+          "x": 20,
+          "y": 20,
+          "width": 360,
+          "height": 460
+        },
+        "header": {
+          "x": 44,
+          "y": 44,
+          "width": 300,
+          "height": 28
+        },
+        "input": {
+          "x": 44,
+          "y": 88,
+          "width": 260,
+          "height": 56
+        },
+        "button": {
+          "x": 44,
+          "y": 160,
+          "width": 180,
+          "height": 44
+        }
+      },
+      "canvas": {
+        "root": {
+          "x": 0,
+          "y": 0,
+          "width": 400,
+          "height": 500
+        },
+        "card": {
+          "x": 20,
+          "y": 20,
+          "width": 360,
+          "height": 460
+        },
+        "header": {
+          "x": 44,
+          "y": 44,
+          "width": 300,
+          "height": 28
+        },
+        "input": {
+          "x": 44,
+          "y": 88,
+          "width": 260,
+          "height": 56
+        },
+        "button": {
+          "x": 44,
+          "y": 160,
+          "width": 180,
+          "height": 44
+        }
+      },
+      "dom": {
+        "root": {
+          "x": 0,
+          "y": 0,
+          "width": 400,
+          "height": 500
+        },
+        "card": {
+          "x": 20,
+          "y": 20,
+          "width": 360,
+          "height": 460
+        },
+        "header": {
+          "x": 44,
+          "y": 44,
+          "width": 300,
+          "height": 28
+        },
+        "input": {
+          "x": 44,
+          "y": 88,
+          "width": 260,
+          "height": 56
+        },
+        "button": {
+          "x": 44,
+          "y": 160,
+          "width": 180,
+          "height": 44
+        }
+      },
+      "web": {
+        "root": {
+          "x": 0,
+          "y": 0,
+          "width": 400,
+          "height": 500
+        },
+        "card": {
+          "x": 20,
+          "y": 20,
+          "width": 360,
+          "height": 460
+        },
+        "header": {
+          "x": 44,
+          "y": 44,
+          "width": 300,
+          "height": 28
+        },
+        "input": {
+          "x": 44,
+          "y": 88,
+          "width": 260,
+          "height": 56
+        },
+        "button": {
+          "x": 44,
+          "y": 160,
+          "width": 180,
+          "height": 44
+        }
+      },
+      "maxDelta": {
+        "canvas": 0,
+        "dom": 0,
+        "web": 0,
+        "native": 0
+      },
+      "nativeDiagnostics": [],
+      "native": {
+        "supported": true,
+        "renderMilliseconds": 59.015542000000096,
+        "boxes": {
+          "button": {
+            "x": 44,
+            "y": 160,
+            "width": 180,
+            "height": 44
+          },
+          "card": {
+            "x": 20,
+            "y": 20,
+            "width": 360,
+            "height": 460
+          },
+          "header": {
+            "x": 44,
+            "y": 44,
+            "width": 300,
+            "height": 28
+          },
+          "input": {
+            "x": 44,
+            "y": 88,
+            "width": 260,
+            "height": 56
+          },
+          "root": {
+            "x": 0,
+            "y": 0,
+            "width": 400,
+            "height": 500
+          }
+        },
+        "revision": 2,
+        "pixelWidth": 800,
+        "pixelHeight": 1000
+      },
+      "accessibility": {
+        "canvas": "- img \"Design canvas. Select layers in the Layers panel; arrow keys move selected layers.\"\n- button \"Rotate selected element\"",
+        "dom": "- text: Pinned library consumer\n- textbox \"Email\":\n  - /placeholder: Your email\n  - text: dom@example.test\n- button \"Save & Continue\"",
+        "web": "- text: Pinned library consumer\n- textbox \"Email\":\n  - /placeholder: Your email\n  - text: web@example.test\n- button \"Save & Continue\""
+      }
+    },
+    {
+      "name": "primary",
+      "documentId": "3e954087-2e65-4315-984f-e7c409ff2744",
+      "sourceRevision": 5,
+      "scene": {
+        "documentId": "3e954087-2e65-4315-984f-e7c409ff2744",
+        "sourceRevision": 5,
+        "rootId": "root",
+        "width": 400,
+        "height": 500,
+        "elements": [
+          {
+            "id": "root",
+            "parentId": null,
+            "kind": "frame",
+            "slot": "",
+            "x": 0,
+            "y": 0,
+            "width": 400,
+            "height": 500,
+            "rotation": 0,
+            "text": "",
+            "value": "",
+            "label": "",
+            "disabled": false,
+            "inputType": "text",
+            "style": {
+              "fill": "#ffffff",
+              "fillEnabled": true,
+              "color": "#18181b",
+              "stroke": "#d4d4d8",
+              "strokeWidth": 0,
+              "radius": 0,
+              "opacity": 1,
+              "padding": 0,
+              "gap": 16,
+              "fontSize": 16,
+              "fontWeight": 400,
+              "fontFamily": "system-ui",
+              "lineHeight": 1.2,
+              "letterSpacing": 0,
+              "textAlign": "auto"
+            },
+            "library": null
+          },
+          {
+            "id": "card",
+            "parentId": "root",
+            "kind": "frame",
+            "slot": "",
+            "x": 20,
+            "y": 20,
+            "width": 360,
+            "height": 460,
+            "rotation": 0,
+            "text": "",
+            "value": "",
+            "label": "",
+            "disabled": false,
+            "inputType": "text",
+            "style": {
+              "fill": "#ffffff",
+              "fillEnabled": true,
+              "color": "#18181b",
+              "stroke": "#d4d4d8",
+              "strokeWidth": 0,
+              "radius": 0,
+              "opacity": 1,
+              "padding": 24,
+              "gap": 16,
+              "fontSize": 16,
+              "fontWeight": 400,
+              "fontFamily": "system-ui",
+              "lineHeight": 1.2,
+              "letterSpacing": 0,
+              "textAlign": "auto"
+            },
+            "library": {
+              "component": "Card",
+              "variant": "Default",
+              "props": {
+                "padding": 24
+              },
+              "localOverrides": [],
+              "tokens": {
+                "--wa-color-brand-fill-loud": {
+                  "name": "brand.primary",
+                  "value": "#145abc"
+                }
+              }
+            }
+          },
+          {
+            "id": "header",
+            "parentId": "card",
+            "kind": "text",
+            "slot": "header",
+            "x": 24,
+            "y": 24,
+            "width": 300,
+            "height": 28,
+            "rotation": 0,
+            "text": "Pinned library consumer",
+            "value": "",
+            "label": "",
+            "disabled": false,
+            "inputType": "text",
+            "style": {
+              "fill": "#ffffff",
+              "fillEnabled": true,
+              "color": "#18181b",
+              "stroke": "#d4d4d8",
+              "strokeWidth": 0,
+              "radius": 0,
+              "opacity": 1,
+              "padding": 16,
+              "gap": 16,
+              "fontSize": 16,
+              "fontWeight": 400,
+              "fontFamily": "system-ui",
+              "lineHeight": 1.2,
+              "letterSpacing": 0,
+              "textAlign": "auto"
+            },
+            "library": null
+          },
+          {
+            "id": "input",
+            "parentId": "card",
+            "kind": "input",
+            "slot": "",
+            "x": 24,
+            "y": 68,
+            "width": 260,
+            "height": 56,
+            "rotation": 0,
+            "text": "Your email",
+            "value": "consumer@example.test",
+            "label": "Email",
+            "disabled": false,
+            "inputType": "email",
+            "style": {
+              "fill": "#ffffff",
+              "fillEnabled": true,
+              "color": "#18181b",
+              "stroke": "#d4d4d8",
+              "strokeWidth": 0,
+              "radius": 0,
+              "opacity": 1,
+              "padding": 16,
+              "gap": 16,
+              "fontSize": 16,
+              "fontWeight": 400,
+              "fontFamily": "system-ui",
+              "lineHeight": 1.2,
+              "letterSpacing": 0,
+              "textAlign": "auto"
+            },
+            "library": {
+              "component": "Input",
+              "variant": "Default",
+              "props": {
+                "label": "Email",
+                "placeholder": "Your email",
+                "value": "consumer@example.test",
+                "type": "email",
+                "disabled": false
+              },
+              "localOverrides": [],
+              "tokens": {
+                "--wa-color-brand-fill-loud": {
+                  "name": "brand.primary",
+                  "value": "#145abc"
+                }
+              }
+            }
+          },
+          {
+            "id": "button",
+            "parentId": "card",
+            "kind": "button",
+            "slot": "footer",
+            "x": 24,
+            "y": 140,
+            "width": 180,
+            "height": 44,
+            "rotation": 0,
+            "text": "Save & Continue",
+            "value": "",
+            "label": "",
+            "disabled": false,
+            "inputType": "text",
+            "style": {
+              "fill": "#ffffff",
+              "fillEnabled": true,
+              "color": "#18181b",
+              "stroke": "#d4d4d8",
+              "strokeWidth": 0,
+              "radius": 0,
+              "opacity": 1,
+              "padding": 16,
+              "gap": 16,
+              "fontSize": 16,
+              "fontWeight": 400,
+              "fontFamily": "system-ui",
+              "lineHeight": 1.2,
+              "letterSpacing": 0,
+              "textAlign": "auto"
+            },
+            "library": {
+              "component": "Button",
+              "variant": "Primary",
+              "props": {
+                "label": "Save & Continue",
+                "disabled": false,
+                "variant": "brand",
+                "appearance": "accent"
+              },
+              "localOverrides": [],
+              "tokens": {
+                "--wa-color-brand-fill-loud": {
+                  "name": "brand.primary",
+                  "value": "#145abc"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "expected": {
+        "root": {
+          "x": 0,
+          "y": 0,
+          "width": 400,
+          "height": 500
+        },
+        "card": {
+          "x": 20,
+          "y": 20,
+          "width": 360,
+          "height": 460
+        },
+        "header": {
+          "x": 44,
+          "y": 44,
+          "width": 300,
+          "height": 28
+        },
+        "input": {
+          "x": 44,
+          "y": 88,
+          "width": 260,
+          "height": 56
+        },
+        "button": {
+          "x": 44,
+          "y": 160,
+          "width": 180,
+          "height": 44
+        }
+      },
+      "canvas": {
+        "root": {
+          "x": 0,
+          "y": 0,
+          "width": 400,
+          "height": 500
+        },
+        "card": {
+          "x": 20,
+          "y": 20,
+          "width": 360,
+          "height": 460
+        },
+        "header": {
+          "x": 44,
+          "y": 44,
+          "width": 300,
+          "height": 28
+        },
+        "input": {
+          "x": 44,
+          "y": 88,
+          "width": 260,
+          "height": 56
+        },
+        "button": {
+          "x": 44,
+          "y": 160,
+          "width": 180,
+          "height": 44
+        }
+      },
+      "dom": {
+        "root": {
+          "x": 0,
+          "y": 0,
+          "width": 400,
+          "height": 500
+        },
+        "card": {
+          "x": 20,
+          "y": 20,
+          "width": 360,
+          "height": 460
+        },
+        "header": {
+          "x": 44,
+          "y": 44,
+          "width": 300,
+          "height": 28
+        },
+        "input": {
+          "x": 44,
+          "y": 88,
+          "width": 260,
+          "height": 56
+        },
+        "button": {
+          "x": 44,
+          "y": 160,
+          "width": 180,
+          "height": 44
+        }
+      },
+      "web": {
+        "root": {
+          "x": 0,
+          "y": 0,
+          "width": 400,
+          "height": 500
+        },
+        "card": {
+          "x": 20,
+          "y": 20,
+          "width": 360,
+          "height": 460
+        },
+        "header": {
+          "x": 44,
+          "y": 44,
+          "width": 300,
+          "height": 28
+        },
+        "input": {
+          "x": 44,
+          "y": 88,
+          "width": 260,
+          "height": 56
+        },
+        "button": {
+          "x": 44,
+          "y": 160,
+          "width": 180,
+          "height": 44
+        }
+      },
+      "maxDelta": {
+        "canvas": 0,
+        "dom": 0,
+        "web": 0
+      },
+      "nativeDiagnostics": [
+        "button: native Button variant Primary is unsupported; use the semantic preview or a supported variant"
+      ],
+      "native": {
+        "supported": false,
+        "message": "button: native Button variant Primary is unsupported; use the semantic preview or a supported variant",
+        "currentSupportedScenePreserved": true
+      },
+      "accessibility": {
+        "canvas": "- img \"Design canvas. Select layers in the Layers panel; arrow keys move selected layers.\"\n- button \"Rotate selected element\"",
+        "dom": "- text: Pinned library consumer\n- textbox \"Email\":\n  - /placeholder: Your email\n  - text: consumer@example.test\n- button \"Save & Continue\"",
+        "web": "- text: Pinned library consumer\n- textbox \"Email\":\n  - /placeholder: Your email\n  - text: consumer@example.test\n- button \"Save & Continue\""
+      },
+      "packagePaint": {
+        "fill": "rgb(20, 90, 188)",
+        "variant": "brand"
+      }
+    },
+    {
+      "name": "disabled",
+      "documentId": "3e954087-2e65-4315-984f-e7c409ff2744",
+      "sourceRevision": 6,
+      "scene": {
+        "documentId": "3e954087-2e65-4315-984f-e7c409ff2744",
+        "sourceRevision": 6,
+        "rootId": "root",
+        "width": 400,
+        "height": 500,
+        "elements": [
+          {
+            "id": "root",
+            "parentId": null,
+            "kind": "frame",
+            "slot": "",
+            "x": 0,
+            "y": 0,
+            "width": 400,
+            "height": 500,
+            "rotation": 0,
+            "text": "",
+            "value": "",
+            "label": "",
+            "disabled": false,
+            "inputType": "text",
+            "style": {
+              "fill": "#ffffff",
+              "fillEnabled": true,
+              "color": "#18181b",
+              "stroke": "#d4d4d8",
+              "strokeWidth": 0,
+              "radius": 0,
+              "opacity": 1,
+              "padding": 0,
+              "gap": 16,
+              "fontSize": 16,
+              "fontWeight": 400,
+              "fontFamily": "system-ui",
+              "lineHeight": 1.2,
+              "letterSpacing": 0,
+              "textAlign": "auto"
+            },
+            "library": null
+          },
+          {
+            "id": "card",
+            "parentId": "root",
+            "kind": "frame",
+            "slot": "",
+            "x": 20,
+            "y": 20,
+            "width": 360,
+            "height": 460,
+            "rotation": 0,
+            "text": "",
+            "value": "",
+            "label": "",
+            "disabled": false,
+            "inputType": "text",
+            "style": {
+              "fill": "#ffffff",
+              "fillEnabled": true,
+              "color": "#18181b",
+              "stroke": "#d4d4d8",
+              "strokeWidth": 0,
+              "radius": 0,
+              "opacity": 1,
+              "padding": 24,
+              "gap": 16,
+              "fontSize": 16,
+              "fontWeight": 400,
+              "fontFamily": "system-ui",
+              "lineHeight": 1.2,
+              "letterSpacing": 0,
+              "textAlign": "auto"
+            },
+            "library": {
+              "component": "Card",
+              "variant": "Default",
+              "props": {
+                "padding": 24
+              },
+              "localOverrides": [],
+              "tokens": {
+                "--wa-color-brand-fill-loud": {
+                  "name": "brand.primary",
+                  "value": "#145abc"
+                }
+              }
+            }
+          },
+          {
+            "id": "header",
+            "parentId": "card",
+            "kind": "text",
+            "slot": "header",
+            "x": 24,
+            "y": 24,
+            "width": 300,
+            "height": 28,
+            "rotation": 0,
+            "text": "Pinned library consumer",
+            "value": "",
+            "label": "",
+            "disabled": false,
+            "inputType": "text",
+            "style": {
+              "fill": "#ffffff",
+              "fillEnabled": true,
+              "color": "#18181b",
+              "stroke": "#d4d4d8",
+              "strokeWidth": 0,
+              "radius": 0,
+              "opacity": 1,
+              "padding": 16,
+              "gap": 16,
+              "fontSize": 16,
+              "fontWeight": 400,
+              "fontFamily": "system-ui",
+              "lineHeight": 1.2,
+              "letterSpacing": 0,
+              "textAlign": "auto"
+            },
+            "library": null
+          },
+          {
+            "id": "input",
+            "parentId": "card",
+            "kind": "input",
+            "slot": "",
+            "x": 24,
+            "y": 68,
+            "width": 260,
+            "height": 56,
+            "rotation": 0,
+            "text": "Your email",
+            "value": "consumer@example.test",
+            "label": "Email",
+            "disabled": true,
+            "inputType": "email",
+            "style": {
+              "fill": "#ffffff",
+              "fillEnabled": true,
+              "color": "#18181b",
+              "stroke": "#d4d4d8",
+              "strokeWidth": 0,
+              "radius": 0,
+              "opacity": 1,
+              "padding": 16,
+              "gap": 16,
+              "fontSize": 16,
+              "fontWeight": 400,
+              "fontFamily": "system-ui",
+              "lineHeight": 1.2,
+              "letterSpacing": 0,
+              "textAlign": "auto"
+            },
+            "library": {
+              "component": "Input",
+              "variant": "Disabled",
+              "props": {
+                "label": "Email",
+                "placeholder": "Your email",
+                "value": "consumer@example.test",
+                "type": "email",
+                "disabled": true
+              },
+              "localOverrides": [],
+              "tokens": {
+                "--wa-color-brand-fill-loud": {
+                  "name": "brand.primary",
+                  "value": "#145abc"
+                }
+              }
+            }
+          },
+          {
+            "id": "button",
+            "parentId": "card",
+            "kind": "button",
+            "slot": "footer",
+            "x": 24,
+            "y": 140,
+            "width": 180,
+            "height": 44,
+            "rotation": 0,
+            "text": "Button",
+            "value": "",
+            "label": "",
+            "disabled": true,
+            "inputType": "text",
+            "style": {
+              "fill": "#ffffff",
+              "fillEnabled": true,
+              "color": "#18181b",
+              "stroke": "#d4d4d8",
+              "strokeWidth": 0,
+              "radius": 0,
+              "opacity": 1,
+              "padding": 16,
+              "gap": 16,
+              "fontSize": 16,
+              "fontWeight": 400,
+              "fontFamily": "system-ui",
+              "lineHeight": 1.2,
+              "letterSpacing": 0,
+              "textAlign": "auto"
+            },
+            "library": {
+              "component": "Button",
+              "variant": "Disabled",
+              "props": {
+                "label": "Button",
+                "disabled": true,
+                "variant": "neutral",
+                "appearance": "accent"
+              },
+              "localOverrides": [],
+              "tokens": {
+                "--wa-color-brand-fill-loud": {
+                  "name": "brand.primary",
+                  "value": "#145abc"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "expected": {
+        "root": {
+          "x": 0,
+          "y": 0,
+          "width": 400,
+          "height": 500
+        },
+        "card": {
+          "x": 20,
+          "y": 20,
+          "width": 360,
+          "height": 460
+        },
+        "header": {
+          "x": 44,
+          "y": 44,
+          "width": 300,
+          "height": 28
+        },
+        "input": {
+          "x": 44,
+          "y": 88,
+          "width": 260,
+          "height": 56
+        },
+        "button": {
+          "x": 44,
+          "y": 160,
+          "width": 180,
+          "height": 44
+        }
+      },
+      "canvas": {
+        "root": {
+          "x": 0,
+          "y": 0,
+          "width": 400,
+          "height": 500
+        },
+        "card": {
+          "x": 20,
+          "y": 20,
+          "width": 360,
+          "height": 460
+        },
+        "header": {
+          "x": 44,
+          "y": 44,
+          "width": 300,
+          "height": 28
+        },
+        "input": {
+          "x": 44,
+          "y": 88,
+          "width": 260,
+          "height": 56
+        },
+        "button": {
+          "x": 44,
+          "y": 160,
+          "width": 180,
+          "height": 44
+        }
+      },
+      "dom": {
+        "root": {
+          "x": 0,
+          "y": 0,
+          "width": 400,
+          "height": 500
+        },
+        "card": {
+          "x": 20,
+          "y": 20,
+          "width": 360,
+          "height": 460
+        },
+        "header": {
+          "x": 44,
+          "y": 44,
+          "width": 300,
+          "height": 28
+        },
+        "input": {
+          "x": 44,
+          "y": 88,
+          "width": 260,
+          "height": 56
+        },
+        "button": {
+          "x": 44,
+          "y": 160,
+          "width": 180,
+          "height": 44
+        }
+      },
+      "web": {
+        "root": {
+          "x": 0,
+          "y": 0,
+          "width": 400,
+          "height": 500
+        },
+        "card": {
+          "x": 20,
+          "y": 20,
+          "width": 360,
+          "height": 460
+        },
+        "header": {
+          "x": 44,
+          "y": 44,
+          "width": 300,
+          "height": 28
+        },
+        "input": {
+          "x": 44,
+          "y": 88,
+          "width": 260,
+          "height": 56
+        },
+        "button": {
+          "x": 44,
+          "y": 160,
+          "width": 180,
+          "height": 44
+        }
+      },
+      "maxDelta": {
+        "canvas": 0,
+        "dom": 0,
+        "web": 0,
+        "native": 0
+      },
+      "nativeDiagnostics": [],
+      "native": {
+        "supported": true,
+        "renderMilliseconds": 65.49962500000038,
+        "boxes": {
+          "button": {
+            "x": 44,
+            "y": 160,
+            "width": 180,
+            "height": 44
+          },
+          "card": {
+            "x": 20,
+            "y": 20,
+            "width": 360,
+            "height": 460
+          },
+          "header": {
+            "x": 44,
+            "y": 44,
+            "width": 300,
+            "height": 28
+          },
+          "input": {
+            "x": 44,
+            "y": 88,
+            "width": 260,
+            "height": 56
+          },
+          "root": {
+            "x": 0,
+            "y": 0,
+            "width": 400,
+            "height": 500
+          }
+        },
+        "revision": 4,
+        "pixelWidth": 800,
+        "pixelHeight": 1000
+      },
+      "accessibility": {
+        "canvas": "- img \"Design canvas. Select layers in the Layers panel; arrow keys move selected layers.\"\n- button \"Rotate selected element\"",
+        "dom": "- text: Pinned library consumer\n- textbox \"Email\" [disabled]:\n  - /placeholder: Your email\n  - text: consumer@example.test\n- button \"Button\" [disabled]",
+        "web": "- text: Pinned library consumer\n- textbox \"Email\" [disabled]:\n  - /placeholder: Your email\n  - text: consumer@example.test\n- button \"Button\" [disabled]"
+      }
+    },
+    {
+      "name": "nested-overrides",
+      "documentId": "3e954087-2e65-4315-984f-e7c409ff2744",
+      "sourceRevision": 7,
+      "scene": {
+        "documentId": "3e954087-2e65-4315-984f-e7c409ff2744",
+        "sourceRevision": 7,
+        "rootId": "root",
+        "width": 400,
+        "height": 500,
+        "elements": [
+          {
+            "id": "root",
+            "parentId": null,
+            "kind": "frame",
+            "slot": "",
+            "x": 0,
+            "y": 0,
+            "width": 400,
+            "height": 500,
+            "rotation": 0,
+            "text": "",
+            "value": "",
+            "label": "",
+            "disabled": false,
+            "inputType": "text",
+            "style": {
+              "fill": "#ffffff",
+              "fillEnabled": true,
+              "color": "#18181b",
+              "stroke": "#d4d4d8",
+              "strokeWidth": 0,
+              "radius": 0,
+              "opacity": 1,
+              "padding": 0,
+              "gap": 16,
+              "fontSize": 16,
+              "fontWeight": 400,
+              "fontFamily": "system-ui",
+              "lineHeight": 1.2,
+              "letterSpacing": 0,
+              "textAlign": "auto"
+            },
+            "library": null
+          },
+          {
+            "id": "card",
+            "parentId": "root",
+            "kind": "frame",
+            "slot": "",
+            "x": 20.23,
+            "y": 20.17,
+            "width": 359.31,
+            "height": 459.73,
+            "rotation": 0,
+            "text": "",
+            "value": "",
+            "label": "",
+            "disabled": false,
+            "inputType": "text",
+            "style": {
+              "fill": "#ffffff",
+              "fillEnabled": true,
+              "color": "#18181b",
+              "stroke": "#d4d4d8",
+              "strokeWidth": 0,
+              "radius": 0,
+              "opacity": 1,
+              "padding": 24,
+              "gap": 16,
+              "fontSize": 16,
+              "fontWeight": 400,
+              "fontFamily": "system-ui",
+              "lineHeight": 1.2,
+              "letterSpacing": 0,
+              "textAlign": "auto"
+            },
+            "library": {
+              "component": "Card",
+              "variant": "Default",
+              "props": {
+                "padding": 24
+              },
+              "localOverrides": [],
+              "tokens": {
+                "--wa-color-brand-fill-loud": {
+                  "name": "brand.primary",
+                  "value": "#145abc"
+                }
+              }
+            }
+          },
+          {
+            "id": "header",
+            "parentId": "card",
+            "kind": "text",
+            "slot": "header",
+            "x": 24.000000000000004,
+            "y": 24,
+            "width": 300,
+            "height": 28,
+            "rotation": 0,
+            "text": "Pinned library consumer",
+            "value": "",
+            "label": "",
+            "disabled": false,
+            "inputType": "text",
+            "style": {
+              "fill": "#ffffff",
+              "fillEnabled": true,
+              "color": "#18181b",
+              "stroke": "#d4d4d8",
+              "strokeWidth": 0,
+              "radius": 0,
+              "opacity": 1,
+              "padding": 16,
+              "gap": 16,
+              "fontSize": 16,
+              "fontWeight": 400,
+              "fontFamily": "system-ui",
+              "lineHeight": 1.2,
+              "letterSpacing": 0,
+              "textAlign": "auto"
+            },
+            "library": null
+          },
+          {
+            "id": "input",
+            "parentId": "card",
+            "kind": "input",
+            "slot": "",
+            "x": 24.000000000000004,
+            "y": 68,
+            "width": 311.31,
+            "height": 41.173,
+            "rotation": 0,
+            "text": "Your email",
+            "value": "consumer@example.test",
+            "label": "Email",
+            "disabled": false,
+            "inputType": "email",
+            "style": {
+              "fill": "#ffffff",
+              "fillEnabled": true,
+              "color": "#18181b",
+              "stroke": "#d4d4d8",
+              "strokeWidth": 0,
+              "radius": 0,
+              "opacity": 1,
+              "padding": 16,
+              "gap": 16,
+              "fontSize": 16,
+              "fontWeight": 400,
+              "fontFamily": "system-ui",
+              "lineHeight": 1.2,
+              "letterSpacing": 0,
+              "textAlign": "auto"
+            },
+            "library": {
+              "component": "Input",
+              "variant": "Default",
+              "props": {
+                "label": "Email",
+                "placeholder": "Your email",
+                "value": "consumer@example.test",
+                "type": "email",
+                "disabled": false
+              },
+              "localOverrides": [],
+              "tokens": {
+                "--wa-color-brand-fill-loud": {
+                  "name": "brand.primary",
+                  "value": "#145abc"
+                }
+              }
+            }
+          },
+          {
+            "id": "button",
+            "parentId": "card",
+            "kind": "button",
+            "slot": "footer",
+            "x": 24.000000000000004,
+            "y": 125.17300000000002,
+            "width": 180,
+            "height": 44,
+            "rotation": 0,
+            "text": "Button",
+            "value": "",
+            "label": "",
+            "disabled": false,
+            "inputType": "text",
+            "style": {
+              "fill": "#763cba",
+              "fillEnabled": true,
+              "color": "#ffff00",
+              "stroke": "#d4d4d8",
+              "strokeWidth": 0,
+              "radius": 13,
+              "opacity": 1,
+              "padding": 16,
+              "gap": 16,
+              "fontSize": 16,
+              "fontWeight": 400,
+              "fontFamily": "system-ui",
+              "lineHeight": 1.2,
+              "letterSpacing": 0,
+              "textAlign": "auto"
+            },
+            "library": {
+              "component": "Button",
+              "variant": "Default",
+              "props": {
+                "label": "Button",
+                "disabled": false,
+                "variant": "neutral",
+                "appearance": "accent"
+              },
+              "localOverrides": [
+                "fill",
+                "color",
+                "radius"
+              ],
+              "tokens": {
+                "--wa-color-brand-fill-loud": {
+                  "name": "brand.primary",
+                  "value": "#145abc"
+                }
+              }
+            }
+          },
+          {
+            "id": "nested",
+            "parentId": "card",
+            "kind": "frame",
+            "slot": "",
+            "x": 24.000000000000004,
+            "y": 185.173,
+            "width": 179.61,
+            "height": 119.23,
+            "rotation": 0,
+            "text": "",
+            "value": "",
+            "label": "",
+            "disabled": false,
+            "inputType": "text",
+            "style": {
+              "fill": "#145abc",
+              "fillEnabled": true,
+              "color": "#18181b",
+              "stroke": "#d4d4d8",
+              "strokeWidth": 0,
+              "radius": 9,
+              "opacity": 1,
+              "padding": 5,
+              "gap": 16,
+              "fontSize": 16,
+              "fontWeight": 400,
+              "fontFamily": "system-ui",
+              "lineHeight": 1.2,
+              "letterSpacing": 0,
+              "textAlign": "auto"
+            },
+            "library": {
+              "component": "Card",
+              "variant": "Default",
+              "props": {
+                "padding": 5
+              },
+              "localOverrides": [
+                "fill",
+                "radius"
+              ],
+              "tokens": {
+                "--wa-color-brand-fill-loud": {
+                  "name": "brand.primary",
+                  "value": "#145abc"
+                }
+              }
+            }
+          },
+          {
+            "id": "nested-header",
+            "parentId": "nested",
+            "kind": "text",
+            "slot": "header",
+            "x": 5,
+            "y": 5,
+            "width": 120,
+            "height": 20,
+            "rotation": 0,
+            "text": "Nested header",
+            "value": "",
+            "label": "",
+            "disabled": false,
+            "inputType": "text",
+            "style": {
+              "fill": "#ffffff",
+              "fillEnabled": true,
+              "color": "#18181b",
+              "stroke": "#d4d4d8",
+              "strokeWidth": 0,
+              "radius": 0,
+              "opacity": 1,
+              "padding": 16,
+              "gap": 16,
+              "fontSize": 16,
+              "fontWeight": 400,
+              "fontFamily": "system-ui",
+              "lineHeight": 1.2,
+              "letterSpacing": 0,
+              "textAlign": "auto"
+            },
+            "library": null
+          }
+        ]
+      },
+      "expected": {
+        "root": {
+          "x": 0,
+          "y": 0,
+          "width": 400,
+          "height": 500
+        },
+        "card": {
+          "x": 20.23,
+          "y": 20.17,
+          "width": 359.31,
+          "height": 459.73
+        },
+        "header": {
+          "x": 44.230000000000004,
+          "y": 44.17,
+          "width": 300,
+          "height": 28
+        },
+        "input": {
+          "x": 44.230000000000004,
+          "y": 88.17,
+          "width": 311.31,
+          "height": 41.173000000000016
+        },
+        "button": {
+          "x": 44.230000000000004,
+          "y": 145.34300000000002,
+          "width": 180,
+          "height": 44
+        },
+        "nested": {
+          "x": 44.230000000000004,
+          "y": 205.34300000000002,
+          "width": 179.61,
+          "height": 119.23000000000002
+        },
+        "nested-header": {
+          "x": 49.230000000000004,
+          "y": 210.34300000000002,
+          "width": 120.00000000000001,
+          "height": 20
+        }
+      },
+      "canvas": {
+        "root": {
+          "x": 0,
+          "y": 0,
+          "width": 400,
+          "height": 500
+        },
+        "card": {
+          "x": 20.230000000000018,
+          "y": 20.170000000000016,
+          "width": 359.31,
+          "height": 459.73
+        },
+        "header": {
+          "x": 44.23000000000002,
+          "y": 44.170000000000016,
+          "width": 300,
+          "height": 28
+        },
+        "input": {
+          "x": 44.23000000000002,
+          "y": 88.17000000000002,
+          "width": 311.31,
+          "height": 41.173000000000016
+        },
+        "button": {
+          "x": 44.23000000000002,
+          "y": 145.34300000000007,
+          "width": 180,
+          "height": 44
+        },
+        "nested": {
+          "x": 44.23000000000002,
+          "y": 205.34300000000007,
+          "width": 179.61,
+          "height": 119.23000000000002
+        },
+        "nested-header": {
+          "x": 49.23000000000002,
+          "y": 210.34300000000007,
+          "width": 120.00000000000001,
+          "height": 20
+        }
+      },
+      "dom": {
+        "root": {
+          "x": 0,
+          "y": 0,
+          "width": 400,
+          "height": 500
+        },
+        "card": {
+          "x": 20.21875,
+          "y": 20.15625,
+          "width": 359.296875,
+          "height": 459.71875
+        },
+        "header": {
+          "x": 44.21875,
+          "y": 44.15625,
+          "width": 300,
+          "height": 28
+        },
+        "input": {
+          "x": 44.21875,
+          "y": 88.15625,
+          "width": 311.296875,
+          "height": 41.171875
+        },
+        "button": {
+          "x": 44.21875,
+          "y": 145.328125,
+          "width": 180,
+          "height": 44
+        },
+        "nested": {
+          "x": 44.21875,
+          "y": 205.328125,
+          "width": 179.609375,
+          "height": 119.21875
+        },
+        "nested-header": {
+          "x": 49.21875,
+          "y": 210.328125,
+          "width": 120,
+          "height": 20
+        }
+      },
+      "web": {
+        "root": {
+          "x": 0,
+          "y": 0,
+          "width": 400,
+          "height": 500
+        },
+        "card": {
+          "x": 20.21875,
+          "y": 20.15625,
+          "width": 359.296875,
+          "height": 459.71875
+        },
+        "header": {
+          "x": 44.21875,
+          "y": 44.15625,
+          "width": 300,
+          "height": 28
+        },
+        "input": {
+          "x": 44.21875,
+          "y": 88.15625,
+          "width": 311.296875,
+          "height": 41.171875
+        },
+        "button": {
+          "x": 44.21875,
+          "y": 145.328125,
+          "width": 180,
+          "height": 44
+        },
+        "nested": {
+          "x": 44.21875,
+          "y": 205.328125,
+          "width": 179.609375,
+          "height": 119.21875
+        },
+        "nested-header": {
+          "x": 49.21875,
+          "y": 210.328125,
+          "width": 120,
+          "height": 20
+        }
+      },
+      "maxDelta": {
+        "canvas": 5.684341886080802e-14,
+        "dom": 0.014875000000017735,
+        "web": 0.014875000000017735,
+        "native": 5.684341886080802e-14
+      },
+      "nativeDiagnostics": [],
+      "native": {
+        "supported": true,
+        "renderMilliseconds": 58.65291700000034,
+        "boxes": {
+          "button": {
+            "x": 44.230000000000004,
+            "y": 145.34300000000002,
+            "width": 179.99999999999994,
+            "height": 44
+          },
+          "card": {
+            "x": 20.23,
+            "y": 20.17,
+            "width": 359.31,
+            "height": 459.73
+          },
+          "header": {
+            "x": 44.230000000000004,
+            "y": 44.17,
+            "width": 299.99999999999994,
+            "height": 28
+          },
+          "input": {
+            "x": 44.230000000000004,
+            "y": 88.17,
+            "width": 311.31,
+            "height": 41.173000000000016
+          },
+          "nested": {
+            "x": 44.230000000000004,
+            "y": 205.34300000000002,
+            "width": 179.61,
+            "height": 119.23000000000002
+          },
+          "nested-header": {
+            "x": 49.230000000000004,
+            "y": 210.34300000000002,
+            "width": 119.99999999999999,
+            "height": 20
+          },
+          "root": {
+            "x": 0,
+            "y": 0,
+            "width": 400,
+            "height": 500
+          }
+        },
+        "revision": 5,
+        "pixelWidth": 800,
+        "pixelHeight": 1000,
+        "paint": {
+          "purple": 29249,
+          "yellow": 554,
+          "scope": "Actual native PNG pixels within the Button presentation bounds, sRGB decoded in Chrome; solid-fill RGB tolerance 3/255"
+        }
+      },
+      "canvasPaint": {
+        "purple": 7059,
+        "yellow": 180,
+        "scope": "Actual production Canvas pixels within the screen-projected Button bounds; solid-fill RGB tolerance 3/255"
+      },
+      "accessibility": {
+        "canvas": "- img \"Design canvas. Select layers in the Layers panel; arrow keys move selected layers.\"\n- button \"Rotate selected element\"",
+        "dom": "- text: Pinned library consumer\n- textbox \"Email\":\n  - /placeholder: Your email\n  - text: consumer@example.test\n- button \"Button\"\n- text: Nested header",
+        "web": "- text: Pinned library consumer\n- textbox \"Email\":\n  - /placeholder: Your email\n  - text: consumer@example.test\n- text: Nested header\n- button \"Button\""
+      },
+      "packagePaint": {
+        "fill": "rgb(118, 60, 186)",
+        "color": "rgb(255, 255, 0)",
+        "radius": "13px"
+      }
+    },
+    {
+      "name": "nested-rotations",
+      "documentId": "3e954087-2e65-4315-984f-e7c409ff2744",
+      "sourceRevision": 8,
+      "scene": {
+        "documentId": "3e954087-2e65-4315-984f-e7c409ff2744",
+        "sourceRevision": 8,
+        "rootId": "root",
+        "width": 400,
+        "height": 500,
+        "elements": [
+          {
+            "id": "root",
+            "parentId": null,
+            "kind": "frame",
+            "slot": "",
+            "x": 0,
+            "y": 0,
+            "width": 400,
+            "height": 500,
+            "rotation": 0,
+            "text": "",
+            "value": "",
+            "label": "",
+            "disabled": false,
+            "inputType": "text",
+            "style": {
+              "fill": "#ffffff",
+              "fillEnabled": true,
+              "color": "#18181b",
+              "stroke": "#d4d4d8",
+              "strokeWidth": 0,
+              "radius": 0,
+              "opacity": 1,
+              "padding": 0,
+              "gap": 16,
+              "fontSize": 16,
+              "fontWeight": 400,
+              "fontFamily": "system-ui",
+              "lineHeight": 1.2,
+              "letterSpacing": 0,
+              "textAlign": "auto"
+            },
+            "library": null
+          },
+          {
+            "id": "card",
+            "parentId": "root",
+            "kind": "frame",
+            "slot": "",
+            "x": 20.23,
+            "y": 20.17,
+            "width": 359.31,
+            "height": 459.73,
+            "rotation": 0,
+            "text": "",
+            "value": "",
+            "label": "",
+            "disabled": false,
+            "inputType": "text",
+            "style": {
+              "fill": "#ffffff",
+              "fillEnabled": true,
+              "color": "#18181b",
+              "stroke": "#d4d4d8",
+              "strokeWidth": 0,
+              "radius": 0,
+              "opacity": 1,
+              "padding": 24,
+              "gap": 16,
+              "fontSize": 16,
+              "fontWeight": 400,
+              "fontFamily": "system-ui",
+              "lineHeight": 1.2,
+              "letterSpacing": 0,
+              "textAlign": "auto"
+            },
+            "library": {
+              "component": "Card",
+              "variant": "Default",
+              "props": {
+                "padding": 24
+              },
+              "localOverrides": [],
+              "tokens": {
+                "--wa-color-brand-fill-loud": {
+                  "name": "brand.primary",
+                  "value": "#145abc"
+                }
+              }
+            }
+          },
+          {
+            "id": "header",
+            "parentId": "card",
+            "kind": "text",
+            "slot": "header",
+            "x": 24.000000000000004,
+            "y": 24,
+            "width": 300,
+            "height": 28,
+            "rotation": 0,
+            "text": "Pinned library consumer",
+            "value": "",
+            "label": "",
+            "disabled": false,
+            "inputType": "text",
+            "style": {
+              "fill": "#ffffff",
+              "fillEnabled": true,
+              "color": "#18181b",
+              "stroke": "#d4d4d8",
+              "strokeWidth": 0,
+              "radius": 0,
+              "opacity": 1,
+              "padding": 16,
+              "gap": 16,
+              "fontSize": 16,
+              "fontWeight": 400,
+              "fontFamily": "system-ui",
+              "lineHeight": 1.2,
+              "letterSpacing": 0,
+              "textAlign": "auto"
+            },
+            "library": null
+          },
+          {
+            "id": "input",
+            "parentId": "card",
+            "kind": "input",
+            "slot": "",
+            "x": 24.000000000000004,
+            "y": 68,
+            "width": 311.31,
+            "height": 41.173,
+            "rotation": 0,
+            "text": "Your email",
+            "value": "consumer@example.test",
+            "label": "Email",
+            "disabled": false,
+            "inputType": "email",
+            "style": {
+              "fill": "#ffffff",
+              "fillEnabled": true,
+              "color": "#18181b",
+              "stroke": "#d4d4d8",
+              "strokeWidth": 0,
+              "radius": 0,
+              "opacity": 1,
+              "padding": 16,
+              "gap": 16,
+              "fontSize": 16,
+              "fontWeight": 400,
+              "fontFamily": "system-ui",
+              "lineHeight": 1.2,
+              "letterSpacing": 0,
+              "textAlign": "auto"
+            },
+            "library": {
+              "component": "Input",
+              "variant": "Default",
+              "props": {
+                "label": "Email",
+                "placeholder": "Your email",
+                "value": "consumer@example.test",
+                "type": "email",
+                "disabled": false
+              },
+              "localOverrides": [],
+              "tokens": {
+                "--wa-color-brand-fill-loud": {
+                  "name": "brand.primary",
+                  "value": "#145abc"
+                }
+              }
+            }
+          },
+          {
+            "id": "button",
+            "parentId": "card",
+            "kind": "button",
+            "slot": "footer",
+            "x": 24.000000000000004,
+            "y": 125.17300000000002,
+            "width": 180,
+            "height": 44,
+            "rotation": 27,
+            "text": "Button",
+            "value": "",
+            "label": "",
+            "disabled": false,
+            "inputType": "text",
+            "style": {
+              "fill": "#763cba",
+              "fillEnabled": true,
+              "color": "#ffff00",
+              "stroke": "#d4d4d8",
+              "strokeWidth": 0,
+              "radius": 13,
+              "opacity": 1,
+              "padding": 16,
+              "gap": 16,
+              "fontSize": 16,
+              "fontWeight": 400,
+              "fontFamily": "system-ui",
+              "lineHeight": 1.2,
+              "letterSpacing": 0,
+              "textAlign": "auto"
+            },
+            "library": {
+              "component": "Button",
+              "variant": "Default",
+              "props": {
+                "label": "Button",
+                "disabled": false,
+                "variant": "neutral",
+                "appearance": "accent"
+              },
+              "localOverrides": [
+                "fill",
+                "color",
+                "radius"
+              ],
+              "tokens": {
+                "--wa-color-brand-fill-loud": {
+                  "name": "brand.primary",
+                  "value": "#145abc"
+                }
+              }
+            }
+          },
+          {
+            "id": "nested",
+            "parentId": "card",
+            "kind": "frame",
+            "slot": "",
+            "x": 24.000000000000004,
+            "y": 185.173,
+            "width": 179.61,
+            "height": 119.23,
+            "rotation": 13,
+            "text": "",
+            "value": "",
+            "label": "",
+            "disabled": false,
+            "inputType": "text",
+            "style": {
+              "fill": "#145abc",
+              "fillEnabled": true,
+              "color": "#18181b",
+              "stroke": "#d4d4d8",
+              "strokeWidth": 0,
+              "radius": 9,
+              "opacity": 1,
+              "padding": 5,
+              "gap": 16,
+              "fontSize": 16,
+              "fontWeight": 400,
+              "fontFamily": "system-ui",
+              "lineHeight": 1.2,
+              "letterSpacing": 0,
+              "textAlign": "auto"
+            },
+            "library": {
+              "component": "Card",
+              "variant": "Default",
+              "props": {
+                "padding": 5
+              },
+              "localOverrides": [
+                "fill",
+                "radius"
+              ],
+              "tokens": {
+                "--wa-color-brand-fill-loud": {
+                  "name": "brand.primary",
+                  "value": "#145abc"
+                }
+              }
+            }
+          },
+          {
+            "id": "nested-header",
+            "parentId": "nested",
+            "kind": "text",
+            "slot": "header",
+            "x": 5,
+            "y": 5,
+            "width": 120,
+            "height": 20,
+            "rotation": 0,
+            "text": "Nested header",
+            "value": "",
+            "label": "",
+            "disabled": false,
+            "inputType": "text",
+            "style": {
+              "fill": "#ffffff",
+              "fillEnabled": true,
+              "color": "#18181b",
+              "stroke": "#d4d4d8",
+              "strokeWidth": 0,
+              "radius": 0,
+              "opacity": 1,
+              "padding": 16,
+              "gap": 16,
+              "fontSize": 16,
+              "fontWeight": 400,
+              "fontFamily": "system-ui",
+              "lineHeight": 1.2,
+              "letterSpacing": 0,
+              "textAlign": "auto"
+            },
+            "library": null
+          }
+        ]
+      },
+      "expected": {
+        "root": {
+          "x": 0,
+          "y": 0,
+          "width": 400,
+          "height": 500
+        },
+        "card": {
+          "x": 20.23,
+          "y": 20.17,
+          "width": 359.31,
+          "height": 459.73
+        },
+        "header": {
+          "x": 44.230000000000004,
+          "y": 44.17,
+          "width": 300,
+          "height": 28
+        },
+        "input": {
+          "x": 44.230000000000004,
+          "y": 88.17,
+          "width": 311.31,
+          "height": 41.173000000000016
+        },
+        "button": {
+          "x": 44.05162182877686,
+          "y": 106.88171149129671,
+          "width": 180.3567563424463,
+          "height": 120.92257701740662
+        },
+        "nested": {
+          "x": 33.12123922725243,
+          "y": 186.66919915247738,
+          "width": 201.82752154549516,
+          "height": 156.57760169504522
+        },
+        "nested-header": {
+          "x": 59.19022740200101,
+          "y": 192.6658047481229,
+          "width": 121.42342886110555,
+          "height": 46.48152781696851
+        }
+      },
+      "canvas": {
+        "root": {
+          "x": 0,
+          "y": 0,
+          "width": 400,
+          "height": 500
+        },
+        "card": {
+          "x": 20.230000000000018,
+          "y": 20.170000000000016,
+          "width": 359.31,
+          "height": 459.73
+        },
+        "header": {
+          "x": 44.23000000000002,
+          "y": 44.170000000000016,
+          "width": 300,
+          "height": 28
+        },
+        "input": {
+          "x": 44.23000000000002,
+          "y": 88.17000000000002,
+          "width": 311.31,
+          "height": 41.173000000000016
+        },
+        "button": {
+          "x": 44.05162182877689,
+          "y": 106.8817114912967,
+          "width": 180.3567563424463,
+          "height": 120.92257701740662
+        },
+        "nested": {
+          "x": 33.12123922725243,
+          "y": 186.6691991524774,
+          "width": 201.82752154549516,
+          "height": 156.57760169504522
+        },
+        "nested-header": {
+          "x": 59.19022740200103,
+          "y": 192.66580474812292,
+          "width": 121.42342886110555,
+          "height": 46.48152781696851
+        }
+      },
+      "dom": {
+        "root": {
+          "x": 0,
+          "y": 0,
+          "width": 400,
+          "height": 500
+        },
+        "card": {
+          "x": 20.21875,
+          "y": 20.15625,
+          "width": 359.296875,
+          "height": 459.71875
+        },
+        "header": {
+          "x": 44.21875,
+          "y": 44.15625,
+          "width": 300,
+          "height": 28
+        },
+        "input": {
+          "x": 44.21875,
+          "y": 88.15625,
+          "width": 311.296875,
+          "height": 41.171875
+        },
+        "button": {
+          "x": 44.04034423828125,
+          "y": 106.86683654785156,
+          "width": 180.35675048828125,
+          "height": 120.92259216308594
+        },
+        "nested": {
+          "x": 33.11126708984375,
+          "y": 186.65423583984375,
+          "width": 201.8243408203125,
+          "height": 156.5665283203125
+        },
+        "nested-header": {
+          "x": 59.177734375,
+          "y": 192.65084838867188,
+          "width": 121.42340087890625,
+          "height": 46.481536865234375
+        }
+      },
+      "web": {
+        "root": {
+          "x": 0,
+          "y": 0,
+          "width": 400,
+          "height": 500
+        },
+        "card": {
+          "x": 20.21875,
+          "y": 20.15625,
+          "width": 359.296875,
+          "height": 459.71875
+        },
+        "header": {
+          "x": 44.21875,
+          "y": 44.15625,
+          "width": 300,
+          "height": 28
+        },
+        "input": {
+          "x": 44.21875,
+          "y": 88.15625,
+          "width": 311.296875,
+          "height": 41.171875
+        },
+        "button": {
+          "x": 44.04037094116211,
+          "y": 106.86683654785156,
+          "width": 180.35675048828125,
+          "height": 120.92257690429688
+        },
+        "nested": {
+          "x": 33.111244201660156,
+          "y": 186.6542510986328,
+          "width": 201.82437133789062,
+          "height": 156.56651306152344
+        },
+        "nested-header": {
+          "x": 59.177703857421875,
+          "y": 192.65084838867188,
+          "width": 121.42343139648438,
+          "height": 46.481536865234375
+        }
+      },
+      "maxDelta": {
+        "canvas": 2.842170943040401e-14,
+        "dom": 0.014963312633625492,
+        "web": 0.014956359451019807,
+        "native": 5.684341886080802e-14
+      },
+      "nativeDiagnostics": [],
+      "native": {
+        "supported": true,
+        "renderMilliseconds": 60.838708000000224,
+        "boxes": {
+          "button": {
+            "x": 44.05162182877687,
+            "y": 106.88171149129673,
+            "width": 180.35675634244626,
+            "height": 120.92257701740661
+          },
+          "card": {
+            "x": 20.23,
+            "y": 20.17,
+            "width": 359.31,
+            "height": 459.73
+          },
+          "header": {
+            "x": 44.230000000000004,
+            "y": 44.17,
+            "width": 299.99999999999994,
+            "height": 28
+          },
+          "input": {
+            "x": 44.230000000000004,
+            "y": 88.17,
+            "width": 311.31,
+            "height": 41.173000000000016
+          },
+          "nested": {
+            "x": 33.12123922725244,
+            "y": 186.6691991524774,
+            "width": 201.8275215454951,
+            "height": 156.5776016950452
+          },
+          "nested-header": {
+            "x": 59.190227402001014,
+            "y": 192.66580474812292,
+            "width": 121.42342886110553,
+            "height": 46.48152781696848
+          },
+          "root": {
+            "x": 0,
+            "y": 0,
+            "width": 400,
+            "height": 500
+          }
+        },
+        "revision": 6,
+        "pixelWidth": 800,
+        "pixelHeight": 1000
+      },
+      "accessibility": {
+        "canvas": "- img \"Design canvas. Select layers in the Layers panel; arrow keys move selected layers.\"\n- button \"Rotate selected element\"",
+        "dom": "- text: Pinned library consumer\n- textbox \"Email\":\n  - /placeholder: Your email\n  - text: consumer@example.test\n- button \"Button\"\n- text: Nested header",
+        "web": "- text: Pinned library consumer\n- textbox \"Email\":\n  - /placeholder: Your email\n  - text: consumer@example.test\n- text: Nested header\n- button \"Button\""
+      }
+    },
+    {
+      "name": "authored-border",
+      "documentId": "3e954087-2e65-4315-984f-e7c409ff2744",
+      "sourceRevision": 10,
+      "scene": {
+        "documentId": "3e954087-2e65-4315-984f-e7c409ff2744",
+        "sourceRevision": 10,
+        "rootId": "root",
+        "width": 400,
+        "height": 500,
+        "elements": [
+          {
+            "id": "root",
+            "parentId": null,
+            "kind": "frame",
+            "slot": "",
+            "x": 0,
+            "y": 0,
+            "width": 400,
+            "height": 500,
+            "rotation": 0,
+            "text": "",
+            "value": "",
+            "label": "",
+            "disabled": false,
+            "inputType": "text",
+            "style": {
+              "fill": "#ffffff",
+              "fillEnabled": true,
+              "color": "#18181b",
+              "stroke": "#d4d4d8",
+              "strokeWidth": 0,
+              "radius": 0,
+              "opacity": 1,
+              "padding": 0,
+              "gap": 16,
+              "fontSize": 16,
+              "fontWeight": 400,
+              "fontFamily": "system-ui",
+              "lineHeight": 1.2,
+              "letterSpacing": 0,
+              "textAlign": "auto"
+            },
+            "library": null
+          },
+          {
+            "id": "card",
+            "parentId": "root",
+            "kind": "frame",
+            "slot": "",
+            "x": 20.23,
+            "y": 20.17,
+            "width": 359.31,
+            "height": 459.73,
+            "rotation": 0,
+            "text": "",
+            "value": "",
+            "label": "",
+            "disabled": false,
+            "inputType": "text",
+            "style": {
+              "fill": "#ffffff",
+              "fillEnabled": true,
+              "color": "#18181b",
+              "stroke": "#763cba",
+              "strokeWidth": 2.5,
+              "radius": 0,
+              "opacity": 1,
+              "padding": 24,
+              "gap": 16,
+              "fontSize": 16,
+              "fontWeight": 400,
+              "fontFamily": "system-ui",
+              "lineHeight": 1.2,
+              "letterSpacing": 0,
+              "textAlign": "auto"
+            },
+            "library": {
+              "component": "Card",
+              "variant": "Default",
+              "props": {
+                "padding": 24
+              },
+              "localOverrides": [],
+              "tokens": {
+                "--wa-color-brand-fill-loud": {
+                  "name": "brand.primary",
+                  "value": "#145abc"
+                }
+              }
+            }
+          },
+          {
+            "id": "header",
+            "parentId": "card",
+            "kind": "text",
+            "slot": "header",
+            "x": 26.500000000000004,
+            "y": 26.5,
+            "width": 300,
+            "height": 28,
+            "rotation": 0,
+            "text": "Pinned library consumer",
+            "value": "",
+            "label": "",
+            "disabled": false,
+            "inputType": "text",
+            "style": {
+              "fill": "#ffffff",
+              "fillEnabled": true,
+              "color": "#18181b",
+              "stroke": "#d4d4d8",
+              "strokeWidth": 0,
+              "radius": 0,
+              "opacity": 1,
+              "padding": 16,
+              "gap": 16,
+              "fontSize": 16,
+              "fontWeight": 400,
+              "fontFamily": "system-ui",
+              "lineHeight": 1.2,
+              "letterSpacing": 0,
+              "textAlign": "auto"
+            },
+            "library": null
+          },
+          {
+            "id": "input",
+            "parentId": "card",
+            "kind": "input",
+            "slot": "",
+            "x": 26.500000000000004,
+            "y": 70.5,
+            "width": 306.31,
+            "height": 40.673,
+            "rotation": 0,
+            "text": "Your email",
+            "value": "consumer@example.test",
+            "label": "Email",
+            "disabled": false,
+            "inputType": "email",
+            "style": {
+              "fill": "#ffffff",
+              "fillEnabled": true,
+              "color": "#18181b",
+              "stroke": "#d4d4d8",
+              "strokeWidth": 0,
+              "radius": 0,
+              "opacity": 1,
+              "padding": 16,
+              "gap": 16,
+              "fontSize": 16,
+              "fontWeight": 400,
+              "fontFamily": "system-ui",
+              "lineHeight": 1.2,
+              "letterSpacing": 0,
+              "textAlign": "auto"
+            },
+            "library": {
+              "component": "Input",
+              "variant": "Default",
+              "props": {
+                "label": "Email",
+                "placeholder": "Your email",
+                "value": "consumer@example.test",
+                "type": "email",
+                "disabled": false
+              },
+              "localOverrides": [],
+              "tokens": {
+                "--wa-color-brand-fill-loud": {
+                  "name": "brand.primary",
+                  "value": "#145abc"
+                }
+              }
+            }
+          },
+          {
+            "id": "button",
+            "parentId": "card",
+            "kind": "button",
+            "slot": "footer",
+            "x": 26.500000000000004,
+            "y": 127.17300000000002,
+            "width": 180,
+            "height": 44,
+            "rotation": 0,
+            "text": "Button",
+            "value": "",
+            "label": "",
+            "disabled": false,
+            "inputType": "text",
+            "style": {
+              "fill": "#763cba",
+              "fillEnabled": true,
+              "color": "#ffff00",
+              "stroke": "#d4d4d8",
+              "strokeWidth": 0,
+              "radius": 13,
+              "opacity": 1,
+              "padding": 16,
+              "gap": 16,
+              "fontSize": 16,
+              "fontWeight": 400,
+              "fontFamily": "system-ui",
+              "lineHeight": 1.2,
+              "letterSpacing": 0,
+              "textAlign": "auto"
+            },
+            "library": {
+              "component": "Button",
+              "variant": "Default",
+              "props": {
+                "label": "Button",
+                "disabled": false,
+                "variant": "neutral",
+                "appearance": "accent"
+              },
+              "localOverrides": [
+                "fill",
+                "color",
+                "radius"
+              ],
+              "tokens": {
+                "--wa-color-brand-fill-loud": {
+                  "name": "brand.primary",
+                  "value": "#145abc"
+                }
+              }
+            }
+          },
+          {
+            "id": "nested",
+            "parentId": "card",
+            "kind": "frame",
+            "slot": "",
+            "x": 26.500000000000004,
+            "y": 187.173,
+            "width": 179.61,
+            "height": 119.23,
+            "rotation": 0,
+            "text": "",
+            "value": "",
+            "label": "",
+            "disabled": false,
+            "inputType": "text",
+            "style": {
+              "fill": "#145abc",
+              "fillEnabled": true,
+              "color": "#18181b",
+              "stroke": "#d4d4d8",
+              "strokeWidth": 0,
+              "radius": 9,
+              "opacity": 1,
+              "padding": 5,
+              "gap": 16,
+              "fontSize": 16,
+              "fontWeight": 400,
+              "fontFamily": "system-ui",
+              "lineHeight": 1.2,
+              "letterSpacing": 0,
+              "textAlign": "auto"
+            },
+            "library": {
+              "component": "Card",
+              "variant": "Default",
+              "props": {
+                "padding": 5
+              },
+              "localOverrides": [
+                "fill",
+                "radius"
+              ],
+              "tokens": {
+                "--wa-color-brand-fill-loud": {
+                  "name": "brand.primary",
+                  "value": "#145abc"
+                }
+              }
+            }
+          },
+          {
+            "id": "nested-header",
+            "parentId": "nested",
+            "kind": "text",
+            "slot": "header",
+            "x": 5,
+            "y": 5,
+            "width": 120,
+            "height": 20,
+            "rotation": 0,
+            "text": "Nested header",
+            "value": "",
+            "label": "",
+            "disabled": false,
+            "inputType": "text",
+            "style": {
+              "fill": "#ffffff",
+              "fillEnabled": true,
+              "color": "#18181b",
+              "stroke": "#d4d4d8",
+              "strokeWidth": 0,
+              "radius": 0,
+              "opacity": 1,
+              "padding": 16,
+              "gap": 16,
+              "fontSize": 16,
+              "fontWeight": 400,
+              "fontFamily": "system-ui",
+              "lineHeight": 1.2,
+              "letterSpacing": 0,
+              "textAlign": "auto"
+            },
+            "library": null
+          }
+        ]
+      },
+      "expected": {
+        "root": {
+          "x": 0,
+          "y": 0,
+          "width": 400,
+          "height": 500
+        },
+        "card": {
+          "x": 20.23,
+          "y": 20.17,
+          "width": 359.31,
+          "height": 459.73
+        },
+        "header": {
+          "x": 46.730000000000004,
+          "y": 46.67,
+          "width": 300,
+          "height": 28
+        },
+        "input": {
+          "x": 46.730000000000004,
+          "y": 90.67,
+          "width": 306.31,
+          "height": 40.673000000000016
+        },
+        "button": {
+          "x": 46.730000000000004,
+          "y": 147.34300000000002,
+          "width": 180,
+          "height": 44
+        },
+        "nested": {
+          "x": 46.730000000000004,
+          "y": 207.34300000000002,
+          "width": 179.61,
+          "height": 119.23000000000002
+        },
+        "nested-header": {
+          "x": 51.730000000000004,
+          "y": 212.34300000000002,
+          "width": 120.00000000000001,
+          "height": 20
+        }
+      },
+      "canvas": {
+        "root": {
+          "x": 0,
+          "y": 0,
+          "width": 400,
+          "height": 500
+        },
+        "card": {
+          "x": 20.230000000000018,
+          "y": 20.170000000000016,
+          "width": 359.31,
+          "height": 459.73
+        },
+        "header": {
+          "x": 46.73000000000002,
+          "y": 46.670000000000016,
+          "width": 300,
+          "height": 28
+        },
+        "input": {
+          "x": 46.73000000000002,
+          "y": 90.67000000000002,
+          "width": 306.31,
+          "height": 40.673000000000016
+        },
+        "button": {
+          "x": 46.73000000000002,
+          "y": 147.34300000000007,
+          "width": 180,
+          "height": 44
+        },
+        "nested": {
+          "x": 46.73000000000002,
+          "y": 207.34300000000007,
+          "width": 179.61,
+          "height": 119.23000000000002
+        },
+        "nested-header": {
+          "x": 51.73000000000002,
+          "y": 212.34300000000007,
+          "width": 120.00000000000001,
+          "height": 20
+        }
+      },
+      "dom": {
+        "root": {
+          "x": 0,
+          "y": 0,
+          "width": 400,
+          "height": 500
+        },
+        "card": {
+          "x": 20.21875,
+          "y": 20.15625,
+          "width": 359.296875,
+          "height": 459.71875
+        },
+        "header": {
+          "x": 46.71875,
+          "y": 46.65625,
+          "width": 300,
+          "height": 28
+        },
+        "input": {
+          "x": 46.71875,
+          "y": 90.65625,
+          "width": 306.296875,
+          "height": 40.671875
+        },
+        "button": {
+          "x": 46.71875,
+          "y": 147.328125,
+          "width": 180,
+          "height": 44
+        },
+        "nested": {
+          "x": 46.71875,
+          "y": 207.328125,
+          "width": 179.609375,
+          "height": 119.21875
+        },
+        "nested-header": {
+          "x": 51.71875,
+          "y": 212.328125,
+          "width": 120,
+          "height": 20
+        }
+      },
+      "web": {
+        "root": {
+          "x": 0,
+          "y": 0,
+          "width": 400,
+          "height": 500
+        },
+        "card": {
+          "x": 20.21875,
+          "y": 20.15625,
+          "width": 359.296875,
+          "height": 459.71875
+        },
+        "header": {
+          "x": 46.71875,
+          "y": 46.65625,
+          "width": 300,
+          "height": 28
+        },
+        "input": {
+          "x": 46.71875,
+          "y": 90.65625,
+          "width": 306.296875,
+          "height": 40.671875
+        },
+        "button": {
+          "x": 46.71875,
+          "y": 147.328125,
+          "width": 180,
+          "height": 44
+        },
+        "nested": {
+          "x": 46.71875,
+          "y": 207.328125,
+          "width": 179.609375,
+          "height": 119.21875
+        },
+        "nested-header": {
+          "x": 51.71875,
+          "y": 212.328125,
+          "width": 120,
+          "height": 20
+        }
+      },
+      "maxDelta": {
+        "canvas": 5.684341886080802e-14,
+        "dom": 0.014875000000017735,
+        "web": 0.014875000000017735,
+        "native": 5.684341886080802e-14
+      },
+      "nativeDiagnostics": [],
+      "native": {
+        "supported": true,
+        "renderMilliseconds": 59.34812499999953,
+        "boxes": {
+          "button": {
+            "x": 46.730000000000004,
+            "y": 147.34300000000002,
+            "width": 179.99999999999994,
+            "height": 44
+          },
+          "card": {
+            "x": 20.23,
+            "y": 20.17,
+            "width": 359.31,
+            "height": 459.73
+          },
+          "header": {
+            "x": 46.730000000000004,
+            "y": 46.67,
+            "width": 299.99999999999994,
+            "height": 28
+          },
+          "input": {
+            "x": 46.730000000000004,
+            "y": 90.67,
+            "width": 306.30999999999995,
+            "height": 40.673000000000016
+          },
+          "nested": {
+            "x": 46.730000000000004,
+            "y": 207.34300000000002,
+            "width": 179.60999999999996,
+            "height": 119.23000000000002
+          },
+          "nested-header": {
+            "x": 51.730000000000004,
+            "y": 212.34300000000002,
+            "width": 120.00000000000001,
+            "height": 20
+          },
+          "root": {
+            "x": 0,
+            "y": 0,
+            "width": 400,
+            "height": 500
+          }
+        },
+        "revision": 7,
+        "pixelWidth": 800,
+        "pixelHeight": 1000
+      },
+      "accessibility": {
+        "canvas": "- img \"Design canvas. Select layers in the Layers panel; arrow keys move selected layers.\"\n- button \"Rotate selected element\"",
+        "dom": "- text: Pinned library consumer\n- textbox \"Email\":\n  - /placeholder: Your email\n  - text: consumer@example.test\n- button \"Button\"\n- text: Nested header",
+        "web": "- text: Pinned library consumer\n- textbox \"Email\":\n  - /placeholder: Your email\n  - text: consumer@example.test\n- text: Nested header\n- button \"Button\""
+      }
+    },
+    {
+      "name": "restored",
+      "documentId": "3e954087-2e65-4315-984f-e7c409ff2744",
+      "sourceRevision": 14,
+      "scene": {
+        "documentId": "3e954087-2e65-4315-984f-e7c409ff2744",
+        "sourceRevision": 14,
+        "rootId": "root",
+        "width": 400,
+        "height": 500,
+        "elements": [
+          {
+            "id": "root",
+            "parentId": null,
+            "kind": "frame",
+            "slot": "",
+            "x": 0,
+            "y": 0,
+            "width": 400,
+            "height": 500,
+            "rotation": 0,
+            "text": "",
+            "value": "",
+            "label": "",
+            "disabled": false,
+            "inputType": "text",
+            "style": {
+              "fill": "#ffffff",
+              "fillEnabled": true,
+              "color": "#18181b",
+              "stroke": "#d4d4d8",
+              "strokeWidth": 0,
+              "radius": 0,
+              "opacity": 1,
+              "padding": 0,
+              "gap": 16,
+              "fontSize": 16,
+              "fontWeight": 400,
+              "fontFamily": "system-ui",
+              "lineHeight": 1.2,
+              "letterSpacing": 0,
+              "textAlign": "auto"
+            },
+            "library": null
+          },
+          {
+            "id": "card",
+            "parentId": "root",
+            "kind": "frame",
+            "slot": "",
+            "x": 20,
+            "y": 20,
+            "width": 360,
+            "height": 460,
+            "rotation": 0,
+            "text": "",
+            "value": "",
+            "label": "",
+            "disabled": false,
+            "inputType": "text",
+            "style": {
+              "fill": "#ffffff",
+              "fillEnabled": true,
+              "color": "#18181b",
+              "stroke": "#d4d4d8",
+              "strokeWidth": 0,
+              "radius": 0,
+              "opacity": 1,
+              "padding": 24,
+              "gap": 16,
+              "fontSize": 16,
+              "fontWeight": 400,
+              "fontFamily": "system-ui",
+              "lineHeight": 1.2,
+              "letterSpacing": 0,
+              "textAlign": "auto"
+            },
+            "library": {
+              "component": "Card",
+              "variant": "Default",
+              "props": {
+                "padding": 24
+              },
+              "localOverrides": [],
+              "tokens": {
+                "--wa-color-brand-fill-loud": {
+                  "name": "brand.primary",
+                  "value": "#145abc"
+                }
+              }
+            }
+          },
+          {
+            "id": "header",
+            "parentId": "card",
+            "kind": "text",
+            "slot": "header",
+            "x": 24,
+            "y": 24,
+            "width": 300,
+            "height": 28,
+            "rotation": 0,
+            "text": "Pinned library consumer",
+            "value": "",
+            "label": "",
+            "disabled": false,
+            "inputType": "text",
+            "style": {
+              "fill": "#ffffff",
+              "fillEnabled": true,
+              "color": "#18181b",
+              "stroke": "#d4d4d8",
+              "strokeWidth": 0,
+              "radius": 0,
+              "opacity": 1,
+              "padding": 16,
+              "gap": 16,
+              "fontSize": 16,
+              "fontWeight": 400,
+              "fontFamily": "system-ui",
+              "lineHeight": 1.2,
+              "letterSpacing": 0,
+              "textAlign": "auto"
+            },
+            "library": null
+          },
+          {
+            "id": "input",
+            "parentId": "card",
+            "kind": "input",
+            "slot": "",
+            "x": 24,
+            "y": 68,
+            "width": 260,
+            "height": 56,
+            "rotation": 0,
+            "text": "Your email",
+            "value": "consumer@example.test",
+            "label": "Email",
+            "disabled": false,
+            "inputType": "email",
+            "style": {
+              "fill": "#ffffff",
+              "fillEnabled": true,
+              "color": "#18181b",
+              "stroke": "#d4d4d8",
+              "strokeWidth": 0,
+              "radius": 0,
+              "opacity": 1,
+              "padding": 16,
+              "gap": 16,
+              "fontSize": 16,
+              "fontWeight": 400,
+              "fontFamily": "system-ui",
+              "lineHeight": 1.2,
+              "letterSpacing": 0,
+              "textAlign": "auto"
+            },
+            "library": {
+              "component": "Input",
+              "variant": "Default",
+              "props": {
+                "label": "Email",
+                "placeholder": "Your email",
+                "value": "consumer@example.test",
+                "type": "email",
+                "disabled": false
+              },
+              "localOverrides": [],
+              "tokens": {
+                "--wa-color-brand-fill-loud": {
+                  "name": "brand.primary",
+                  "value": "#145abc"
+                }
+              }
+            }
+          },
+          {
+            "id": "button",
+            "parentId": "card",
+            "kind": "button",
+            "slot": "footer",
+            "x": 24,
+            "y": 140,
+            "width": 180,
+            "height": 44,
+            "rotation": 0,
+            "text": "Save & Continue",
+            "value": "",
+            "label": "",
+            "disabled": false,
+            "inputType": "text",
+            "style": {
+              "fill": "#ffffff",
+              "fillEnabled": true,
+              "color": "#18181b",
+              "stroke": "#d4d4d8",
+              "strokeWidth": 0,
+              "radius": 0,
+              "opacity": 1,
+              "padding": 16,
+              "gap": 16,
+              "fontSize": 16,
+              "fontWeight": 400,
+              "fontFamily": "system-ui",
+              "lineHeight": 1.2,
+              "letterSpacing": 0,
+              "textAlign": "auto"
+            },
+            "library": {
+              "component": "Button",
+              "variant": "Default",
+              "props": {
+                "label": "Save & Continue",
+                "disabled": false,
+                "variant": "neutral",
+                "appearance": "accent"
+              },
+              "localOverrides": [],
+              "tokens": {
+                "--wa-color-brand-fill-loud": {
+                  "name": "brand.primary",
+                  "value": "#145abc"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "expected": {
+        "root": {
+          "x": 0,
+          "y": 0,
+          "width": 400,
+          "height": 500
+        },
+        "card": {
+          "x": 20,
+          "y": 20,
+          "width": 360,
+          "height": 460
+        },
+        "header": {
+          "x": 44,
+          "y": 44,
+          "width": 300,
+          "height": 28
+        },
+        "input": {
+          "x": 44,
+          "y": 88,
+          "width": 260,
+          "height": 56
+        },
+        "button": {
+          "x": 44,
+          "y": 160,
+          "width": 180,
+          "height": 44
+        }
+      },
+      "canvas": {
+        "root": {
+          "x": 0,
+          "y": 0,
+          "width": 400,
+          "height": 500
+        },
+        "card": {
+          "x": 20,
+          "y": 20,
+          "width": 360,
+          "height": 460
+        },
+        "header": {
+          "x": 44,
+          "y": 44,
+          "width": 300,
+          "height": 28
+        },
+        "input": {
+          "x": 44,
+          "y": 88,
+          "width": 260,
+          "height": 56
+        },
+        "button": {
+          "x": 44,
+          "y": 160,
+          "width": 180,
+          "height": 44
+        }
+      },
+      "dom": {
+        "root": {
+          "x": 0,
+          "y": 0,
+          "width": 400,
+          "height": 500
+        },
+        "card": {
+          "x": 20,
+          "y": 20,
+          "width": 360,
+          "height": 460
+        },
+        "header": {
+          "x": 44,
+          "y": 44,
+          "width": 300,
+          "height": 28
+        },
+        "input": {
+          "x": 44,
+          "y": 88,
+          "width": 260,
+          "height": 56
+        },
+        "button": {
+          "x": 44,
+          "y": 160,
+          "width": 180,
+          "height": 44
+        }
+      },
+      "web": {
+        "root": {
+          "x": 0,
+          "y": 0,
+          "width": 400,
+          "height": 500
+        },
+        "card": {
+          "x": 20,
+          "y": 20,
+          "width": 360,
+          "height": 460
+        },
+        "header": {
+          "x": 44,
+          "y": 44,
+          "width": 300,
+          "height": 28
+        },
+        "input": {
+          "x": 44,
+          "y": 88,
+          "width": 260,
+          "height": 56
+        },
+        "button": {
+          "x": 44,
+          "y": 160,
+          "width": 180,
+          "height": 44
+        }
+      },
+      "maxDelta": {
+        "canvas": 0,
+        "dom": 0,
+        "web": 0,
+        "native": 0
+      },
+      "nativeDiagnostics": [],
+      "native": {
+        "supported": true,
+        "renderMilliseconds": 58.68287499999951,
+        "boxes": {
+          "button": {
+            "x": 44,
+            "y": 160,
+            "width": 180,
+            "height": 44
+          },
+          "card": {
+            "x": 20,
+            "y": 20,
+            "width": 360,
+            "height": 460
+          },
+          "header": {
+            "x": 44,
+            "y": 44,
+            "width": 300,
+            "height": 28
+          },
+          "input": {
+            "x": 44,
+            "y": 88,
+            "width": 260,
+            "height": 56
+          },
+          "root": {
+            "x": 0,
+            "y": 0,
+            "width": 400,
+            "height": 500
+          }
+        },
+        "revision": 8,
+        "pixelWidth": 800,
+        "pixelHeight": 1000
+      },
+      "accessibility": {
+        "canvas": "- img \"Design canvas. Select layers in the Layers panel; arrow keys move selected layers.\"\n- button \"Rotate selected element\"",
+        "dom": "- text: Pinned library consumer\n- textbox \"Email\":\n  - /placeholder: Your email\n  - text: consumer@example.test\n- button \"Save & Continue\"",
+        "web": "- text: Pinned library consumer\n- textbox \"Email\":\n  - /placeholder: Your email\n  - text: consumer@example.test\n- button \"Save & Continue\""
+      }
+    }
+  ],
+  "toleranceLogicalPoints": 0.1,
+  "pipelineTimings": {
+    "canvas": {
+      "samples": [
+        38.161167000000205,
+        33.85766700000022,
+        35.92670799999996,
+        34.92004100000031,
+        34.78291699999954,
+        34.330417000000125,
+        34.34691700000076,
+        38.51249999999982,
+        34.90220900000077,
+        34.15112499999941,
+        34.69612500000039,
+        34.41850000000068,
+        36.180709000000206,
+        36.86079199999949,
+        35.69154100000014,
+        34.62866699999904,
+        34.466207999999824,
+        33.6567500000001,
+        37.49591599999985,
+        34.016750000000684,
+        36.11308399999871,
+        35.886375000000044,
+        37.34600000000137,
+        42.381750000000466,
+        34.601040999999896,
+        34.61449999999968,
+        40.31733300000087,
+        34.58720900000117,
+        34.63487499999974,
+        36.01208299999962
+      ],
+      "p50": 34.90220900000077,
+      "p95": 40.31733300000087
+    },
+    "dom": {
+      "samples": [
+        4.226166000000376,
+        3.843124999999418,
+        3.699290999999903,
+        3.724708999999166,
+        3.720584000000599,
+        5.55529099999967,
+        3.684291999999914,
+        3.943457999999737,
+        3.7330000000001746,
+        3.7165420000001177,
+        3.810833000000457,
+        3.3982919999998558,
+        3.540500000000975,
+        3.8402919999989535,
+        3.607625000000553,
+        3.535667000000103,
+        3.644333000000188,
+        3.6761249999999563,
+        4.3029589999987365,
+        3.540917000000263,
+        3.421875,
+        3.3876669999990554,
+        3.695958000000246,
+        4.025292000000263,
+        3.6160410000011325,
+        3.6204999999990832,
+        3.5732090000001335,
+        3.530040999999983,
+        3.404000000000451,
+        3.242791999999099
+      ],
+      "p50": 3.684291999999914,
+      "p95": 4.3029589999987365
+    },
+    "web": {
+      "samples": [
+        18.798499999999876,
+        2.5285000000003492,
+        20.202291000000514,
+        36.446874999999636,
+        19.821541000000252,
+        18.464500000000044,
+        2.384374999999636,
+        17.814374999999927,
+        19.587084000000687,
+        19.96612499999992,
+        19.833167000000685,
+        2.708332999999584,
+        2.4493750000001455,
+        19.038958999999522,
+        19.053667000000132,
+        19.34074999999939,
+        20.214250000000902,
+        3.1103749999983847,
+        18.872041000000536,
+        2.7196249999997235,
+        2.1993339999989985,
+        2.693208999999115,
+        18.782917000000452,
+        11.738374999998996,
+        18.972042000001238,
+        19.96125000000029,
+        14.469207999998616,
+        20.19287499999882,
+        2.264291999999841,
+        2.932749999999942
+      ],
+      "p50": 18.798499999999876,
+      "p95": 20.214250000000902
+    },
+    "native": {
+      "samples": [
+        59.334499999999935,
+        58.03954199999953,
+        58.333417000000736,
+        58.29866700000002,
+        58.20404099999996,
+        58.313208999999915,
+        56.99120800000037,
+        59.134000000000015,
+        58.64587500000016,
+        58.56079099999988,
+        58.27837500000078,
+        57.76141699999971,
+        57.42841700000099,
+        59.12945799999943,
+        58.22033300000112,
+        59.25575000000026,
+        58.3119999999999,
+        57.09504100000049,
+        58.621916999998575,
+        58.02791700000125,
+        58.27445799999987,
+        57.93425000000025,
+        58.578583000000435,
+        58.45483299999978,
+        59.421791999999186,
+        58.40141600000061,
+        58.36566600000151,
+        58.25329199999942,
+        58.06804199999897,
+        57.92437500000051
+      ],
+      "p50": 58.3119999999999,
+      "p95": 59.334499999999935
+    }
+  },
+  "timingDefinitions": {
+    "canvas": "Real editor transaction, layout settlement, read-only Canvas projection and geometry assertions, including browser IPC",
+    "dom": "Same source feed plus observed label update; IPC/Angular scheduling included",
+    "web": "Same scene MessageChannel + Lit update + two RAF opportunities",
+    "native": "Same scene IPC + intentional 50ms snapshot scheduling + PNG encode/reply"
+  },
+  "costs": {
+    "web": {
+      "package": {
+        "name": "@awesome.me/webawesome",
+        "version": "3.14.0"
+      },
+      "lockSHA256": "1388ee3dfc3f0becdf4a93108f03826c847fea9e4e9b088c446a70f01310a24c",
+      "offline": true,
+      "importedSourceExecutedDuringBuild": false,
+      "hashes": {
+        "runtime.js": {
+          "bytes": 278826,
+          "sha256": "20aa6124e0667ff106800a82d3ecb6468b6eb07d8b07d11d59e6fe584a2f85ad"
+        },
+        "runtime.css": {
+          "bytes": 155312,
+          "sha256": "f15ad9222cd24a7a5d24b52ad66f3e8520ee259b11a7215a2beb157208cd4cae"
+        },
+        "host.js": {
+          "bytes": 101234,
+          "sha256": "6752c5af365ac8f0784ba62d2b982c81be39c5652c6296c33c99f9c8436ce25f"
+        },
+        "host.css": {
+          "bytes": 2228,
+          "sha256": "a24540b648d3e441dc8d5daff81c490da0b96b516402398f7a2169fd665fc9b4"
+        },
+        "semantic.html": {
+          "bytes": 3050,
+          "sha256": "9aab368f9a08fdfe8ed1a6448e49b4b82858a736798b1ce9fe5fb81e44b22129"
+        },
+        "fixture.json": {
+          "bytes": 23547,
+          "sha256": "1ee3d3266a5fdbf7a18639c0e8ad49e55ba128bfb3562b81446d603f8fd1020b"
+        }
+      }
+    },
+    "native": {
+      "buildMilliseconds": 1363.2100830000002,
+      "coldSpawnMilliseconds": 310.9449999999997,
+      "fileCosts": [
+        {
+          "name": "Contents/Info.plist",
+          "bytes": 412
+        },
+        {
+          "name": "Contents/MacOS/Fixture",
+          "bytes": 686144
+        },
+        {
+          "name": "Contents/_CodeSignature/CodeResources",
+          "bytes": 2200
+        }
+      ],
+      "bundleBytes": 688756,
+      "launcherBytes": 33512,
+      "stats": {
+        "maxRSSKiB": 108000,
+        "bytes": 2092280,
+        "stderr": ""
+      }
+    }
+  },
+  "checks": [
+    "Actual editor settled Canvas model is the source for every feed",
+    "Canonical inspector source edit and exact undo",
+    "Every visible outer box across actual Canvas/DOM/package/SwiftUI at unchanged 0.1 tolerance",
+    "Default/Primary/Disabled with actionable unsupported native Primary",
+    "Named nested slots, resolved fill/percent/fractional geometry and nested rotations",
+    "Bound token and local fill/color/radius reach actual package paint",
+    "Semantic/package appearance boundary visible in production inspector",
+    "Source checkpoint unaffected by consumers",
+    "Semantic/web ephemeral input through source update/undo/reset; focused web input retained",
+    "Typed node action/change, absent preview authoring bridge, offline requests and stop"
+  ],
+  "limitations": [
+    "Outer presentation geometry does not prove pixel-identical intrinsic chrome/glyphs",
+    "Native physical keyboard/accessibility evidence is separate, source-bound to bbed36b",
+    "These different timing boundaries cannot rank physical input latency/FPS",
+    "Native helper includes a fixed 50ms scheduling wait",
+    "No whole-product VoiceOver, hostile arbitrary source or distribution/memory parity claim"
+  ],
+  "productionDecision": "NO-GO for arbitrary-source or production integration until final review/CI, current-base integration and resulting-main validation; continue explicitly trusted supported experiments"
+}

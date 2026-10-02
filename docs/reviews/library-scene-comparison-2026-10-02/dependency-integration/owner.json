@@ -1,0 +1,10 @@
+{
+  "passed": true,
+  "command": "bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture --scene",
+  "editorOrigin": "http://127.0.0.1:57700",
+  "ownedGroup": 59359,
+  "conventionalPortRequestsDuringComparison": 0,
+  "existingPort4200Preserved": true,
+  "liveOwnedDescendantsAfterRun": [],
+  "fullAcceptancePassed": true
+}

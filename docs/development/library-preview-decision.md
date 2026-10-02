@@ -6,11 +6,13 @@ NO-GO for production integration or replacing Canvas authoring**.
 
 Discovery #51 remains open until its candidates and comparison are reviewed,
 merged and verified on main. Web #86 and native #87 are separate candidates.
-The production projection work is now precisely tracked in #88, with parents
-#25/#26 and related native fidelity #17 and token work #11. A successful
-discovery does not close these implementation gaps.
+The supported projection work in #88 now has a locally verified candidate,
+[PR #95](https://github.com/zubair-io/Sugar-Maple/pull/95), with parents #25/#26
+and related native fidelity #17 and token work #11. Final-head review/CI,
+current-base integration and resulting-main verification remain pending.
+Discovery does not close broader production import or platform coverage.
 
-## Evidence and reproduction
+## Props-only baseline evidence and reproduction
 
 Use Bun 1.4.2 and macOS with the macOS 14 SwiftUI API baseline. With Chrome
 installed, run:
@@ -39,7 +41,7 @@ asset hashes, report and logs live in
 interactive report locally. Web and native trust/unsupported policies are in
 `prototypes/library-preview/README.md` and `native/README.md`.
 
-## Comparison
+## Props-only baseline comparison
 
 | Dimension | Canvas / semantic DOM | Real Web Awesome | Trusted SwiftUI helper |
 | --- | --- | --- | --- |
@@ -55,7 +57,7 @@ Button 156.05 × 43. Native screenshots likewise show different padding and
 control layout. The experiments demonstrate executable control behavior;
 they do not preserve the full authored scene's layout/style contract.
 
-The current production editor ships 1,620,229 raw asset bytes, including
+The production editor at the baseline recorded source ships 1,620,229 raw asset bytes, including
 fonts/chrome; per-file Brotli totals 830,240 bytes. The experiment host adds
 91,659 raw bytes (22,423 Brotli bytes). These are all shipped assets, not
 initial-load bytes or whole-process memory. OS SwiftUI disk cost is excluded.
@@ -68,6 +70,39 @@ Canvas also includes the CRDT transaction; DOM receives an immutable feed;
 web includes MessageChannel/Lit work. These different boundaries cannot rank
 input latency, physical presentation or FPS. Raw samples and definitions
 are retained; this small fixture does not establish performance at scale.
+
+## Authored-scene follow-up
+
+The original intrinsic-layout mismatch above is retained as source-bound
+baseline evidence. The follow-up uses the actual editor's settled Canvas
+model to project resolved geometry, parent identities, named slots, bound
+solid styles and local overrides through semantic DOM, actual pinned Web
+Awesome and sandboxed SwiftUI. Nine source states pass the unchanged
+0.1-point outer-box tolerance, including inspector edit/undo, variants,
+fractional borders, nested slots/rotations and restoration. Native Primary
+is explicitly unsupported, without a substituted screenshot. Actual Canvas
+and native raster paint and package shadow-base paint verify supported
+overrides. The production inspector identifies semantic/package differences
+and unsupported copy/preview properties.
+
+Reproduce the current supported scene comparison with:
+
+```sh
+bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture --scene
+```
+
+[Current report and source-bound evidence](../reviews/library-scene-comparison-2026-10-02/README.md)
+retain each actual capture, contract, geometry, accessibility observation,
+instrumented completion sample and fixture asset cost. Historical physical
+native input remains at its original recorded source in the separate native
+proof. New timing observations have different completion boundaries from the
+props-only baseline and cannot be combined or used to rank physical input
+latency/FPS. Control chrome, glyphs and focus paint remain platform-specific.
+
+Decision: continue the explicitly trusted supported scene experiment.
+Production integration and arbitrary imported-source execution remain NO-GO.
+The supported follow-up is implemented locally; exact-head review/CI,
+validated dependency integration and verified main delivery remain required.
 
 ## What to build and what to retain
 

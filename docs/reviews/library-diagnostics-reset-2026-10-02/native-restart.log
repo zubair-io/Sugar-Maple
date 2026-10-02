@@ -1,0 +1,1 @@
+PASS: real native restart preserves the exact reset checkpoint and undo journal

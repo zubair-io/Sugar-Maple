@@ -37,3 +37,4 @@ jobs:
       - run: bun tools/native-acceptance.ts
       - run: bun --bun src/web/node_modules/@playwright/test/cli.js install chrome
       - run: bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture
+      - run: bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture --scene

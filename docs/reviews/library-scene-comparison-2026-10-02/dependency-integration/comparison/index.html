@@ -1,0 +1,4087 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Authored-scene library comparison · Sugar Maple</title><style>
+*{box-sizing:border-box}body{margin:0;background:#f3f6fb;color:#17233d;font-family:system-ui}main{max-width:1500px;margin:auto;padding:32px}h1{max-width:950px;font-size:34px}h2{text-transform:capitalize}p{line-height:1.6;max-width:1100px}.decision{padding:20px;background:#fff4df;border:1px solid #ebc981;border-radius:12px}.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;margin:24px 0}article{background:white;border:1px solid #dbe3ef;border-radius:10px;padding:16px;min-width:0}img{display:block;width:100%;height:auto;border:1px solid #edf0f5}h3{font-size:17px}.unsupported{padding:18px;background:#fff4df;min-height:250px;font-size:14px}.phase[hidden]{display:none}select{font:inherit;background:white;padding:10px;border:1px solid #b9c6dc;border-radius:6px}.scroll{overflow:auto;background:white;margin:20px 0}table{border-collapse:collapse;width:100%;min-width:700px}th,td{padding:14px;text-align:left;border-bottom:1px solid #e2e7ef;font-size:13px}details{background:white;padding:14px;border:1px solid #dbe3ef;border-radius:8px}pre{overflow:auto;max-height:350px;font-size:11px}a{color:#1d4ed8}.note{font-size:13px;color:#55627a}@media(max-width:1000px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:620px){main{padding:20px}.grid{grid-template-columns:1fr}h1{font-size:28px}}
+</style></head><body><main><p class="note">SUGAR MAPLE · REAL EDITOR AND REAL CONSUMERS · 2026-10-02T18:32:10.134Z</p><h1>The bounded scene feed preserves supported authored geometry across real renderers.</h1><p>The actual editor’s settled Canvas model is the source for every scene. The semantic DOM, pinned Web Awesome controls and separately sandboxed SwiftUI helper consume the same immutable source revision. Each capture below is a real rendered fixture, with unsupported native appearance shown explicitly.</p>
+<div class="decision"><strong>GO for the supported, explicitly trusted scene experiment. Production integration and arbitrary code import remain NO-GO.</strong><p>Outer presentation boxes pass the unchanged 0.1-point tolerance. Intrinsic control chrome, typography and focus paint remain platform-specific. The native mapping rejects Primary, while the package displays its brand appearance. Final-head review/CI, current-base integration and verified resulting main are still required.</p></div>
+<p><label>Compare source state <select id="phase"><option value="all">All tested states</option><option value="default">default</option><option value="source-update">source update</option><option value="source-undo">source undo</option><option value="primary">primary</option><option value="disabled">disabled</option><option value="nested-overrides">nested overrides</option><option value="nested-rotations">nested rotations</option><option value="authored-border">authored border</option><option value="restored">restored</option></select></label></p><section class="phase" data-phase="default"><h2>default</h2><p>Source revision 1 · same authored document and settled Canvas model · maximum outer-box differences canvas 0.0000, dom 0.0000, web 0.0000, native 0.0000 logical points.</p><div class="grid"><article><h3>Canvas editor</h3><img src="default-canvas.png" alt="Actual Canvas editor rendering at default" /></article><article><h3>Semantic DOM</h3><img src="default-dom.png" alt="Actual Semantic DOM rendering at default" /></article><article><h3>Web Awesome 3.14</h3><img src="default-web.png" alt="Actual Web Awesome 3.14 rendering at default" /></article><article><h3>System SwiftUI</h3><img src="default-native.png" alt="Actual System SwiftUI rendering at default" /></article></div><details><summary>Source contract, geometry and accessibility observations</summary><pre>{
+  &quot;name&quot;: &quot;default&quot;,
+  &quot;documentId&quot;: &quot;3e954087-2e65-4315-984f-e7c409ff2744&quot;,
+  &quot;sourceRevision&quot;: 1,
+  &quot;scene&quot;: {
+    &quot;documentId&quot;: &quot;3e954087-2e65-4315-984f-e7c409ff2744&quot;,
+    &quot;sourceRevision&quot;: 1,
+    &quot;rootId&quot;: &quot;root&quot;,
+    &quot;width&quot;: 400,
+    &quot;height&quot;: 500,
+    &quot;elements&quot;: [
+      {
+        &quot;id&quot;: &quot;root&quot;,
+        &quot;parentId&quot;: null,
+        &quot;kind&quot;: &quot;frame&quot;,
+        &quot;slot&quot;: &quot;&quot;,
+        &quot;x&quot;: 0,
+        &quot;y&quot;: 0,
+        &quot;width&quot;: 400,
+        &quot;height&quot;: 500,
+        &quot;rotation&quot;: 0,
+        &quot;text&quot;: &quot;&quot;,
+        &quot;value&quot;: &quot;&quot;,
+        &quot;label&quot;: &quot;&quot;,
+        &quot;disabled&quot;: false,
+        &quot;inputType&quot;: &quot;text&quot;,
+        &quot;style&quot;: {
+          &quot;fill&quot;: &quot;#ffffff&quot;,
+          &quot;fillEnabled&quot;: true,
+          &quot;color&quot;: &quot;#18181b&quot;,
+          &quot;stroke&quot;: &quot;#d4d4d8&quot;,
+          &quot;strokeWidth&quot;: 0,
+          &quot;radius&quot;: 0,
+          &quot;opacity&quot;: 1,
+          &quot;padding&quot;: 0,
+          &quot;gap&quot;: 16,
+          &quot;fontSize&quot;: 16,
+          &quot;fontWeight&quot;: 400,
+          &quot;fontFamily&quot;: &quot;system-ui&quot;,
+          &quot;lineHeight&quot;: 1.2,
+          &quot;letterSpacing&quot;: 0,
+          &quot;textAlign&quot;: &quot;auto&quot;
+        },
+        &quot;library&quot;: null
+      },
+      {
+        &quot;id&quot;: &quot;card&quot;,
+        &quot;parentId&quot;: &quot;root&quot;,
+        &quot;kind&quot;: &quot;frame&quot;,
+        &quot;slot&quot;: &quot;&quot;,
+        &quot;x&quot;: 20,
+        &quot;y&quot;: 20,
+        &quot;width&quot;: 360,
+        &quot;height&quot;: 460,
+        &quot;rotation&quot;: 0,
+        &quot;text&quot;: &quot;&quot;,
+        &quot;value&quot;: &quot;&quot;,
+        &quot;label&quot;: &quot;&quot;,
+        &quot;disabled&quot;: false,
+        &quot;inputType&quot;: &quot;text&quot;,
+        &quot;style&quot;: {
+          &quot;fill&quot;: &quot;#ffffff&quot;,
+          &quot;fillEnabled&quot;: true,
+          &quot;color&quot;: &quot;#18181b&quot;,
+          &quot;stroke&quot;: &quot;#d4d4d8&quot;,
+          &quot;strokeWidth&quot;: 0,
+          &quot;radius&quot;: 0,
+          &quot;opacity&quot;: 1,
+          &quot;padding&quot;: 24,
+          &quot;gap&quot;: 16,
+          &quot;fontSize&quot;: 16,
+          &quot;fontWeight&quot;: 400,
+          &quot;fontFamily&quot;: &quot;system-ui&quot;,
+          &quot;lineHeight&quot;: 1.2,
+          &quot;letterSpacing&quot;: 0,
+          &quot;textAlign&quot;: &quot;auto&quot;
+        },
+        &quot;library&quot;: {
+          &quot;component&quot;: &quot;Card&quot;,
+          &quot;variant&quot;: &quot;Default&quot;,
+          &quot;props&quot;: {
+            &quot;padding&quot;: 24
+          },
+          &quot;localOverrides&quot;: [],
+          &quot;tokens&quot;: {}
+        }
+      },
+      {
+        &quot;id&quot;: &quot;header&quot;,
+        &quot;parentId&quot;: &quot;card&quot;,
+        &quot;kind&quot;: &quot;text&quot;,
+        &quot;slot&quot;: &quot;header&quot;,
+        &quot;x&quot;: 24,
+        &quot;y&quot;: 24,
+        &quot;width&quot;: 300,
+        &quot;height&quot;: 28,
+        &quot;rotation&quot;: 0,
+        &quot;text&quot;: &quot;Pinned library consumer&quot;,
+        &quot;value&quot;: &quot;&quot;,
+        &quot;label&quot;: &quot;&quot;,
+        &quot;disabled&quot;: false,
+        &quot;inputType&quot;: &quot;text&quot;,
+        &quot;style&quot;: {
+          &quot;fill&quot;: &quot;#ffffff&quot;,
+          &quot;fillEnabled&quot;: true,
+          &quot;color&quot;: &quot;#18181b&quot;,
+          &quot;stroke&quot;: &quot;#d4d4d8&quot;,
+          &quot;strokeWidth&quot;: 0,
+          &quot;radius&quot;: 0,
+          &quot;opacity&quot;: 1,
+          &quot;padding&quot;: 16,
+          &quot;gap&quot;: 16,
+          &quot;fontSize&quot;: 16,
+          &quot;fontWeight&quot;: 400,
+          &quot;fontFamily&quot;: &quot;system-ui&quot;,
+          &quot;lineHeight&quot;: 1.2,
+          &quot;letterSpacing&quot;: 0,
+          &quot;textAlign&quot;: &quot;auto&quot;
+        },
+        &quot;library&quot;: null
+      },
+      {
+        &quot;id&quot;: &quot;input&quot;,
+        &quot;parentId&quot;: &quot;card&quot;,
+        &quot;kind&quot;: &quot;input&quot;,
+        &quot;slot&quot;: &quot;&quot;,
+        &quot;x&quot;: 24,
+        &quot;y&quot;: 68,
+        &quot;width&quot;: 260,
+        &quot;height&quot;: 56,
+        &quot;rotation&quot;: 0,
+        &quot;text&quot;: &quot;Your email&quot;,
+        &quot;value&quot;: &quot;consumer@example.test&quot;,
+        &quot;label&quot;: &quot;Email&quot;,
+        &quot;disabled&quot;: false,
+        &quot;inputType&quot;: &quot;email&quot;,
+        &quot;style&quot;: {
+          &quot;fill&quot;: &quot;#ffffff&quot;,
+          &quot;fillEnabled&quot;: true,
+          &quot;color&quot;: &quot;#18181b&quot;,
+          &quot;stroke&quot;: &quot;#d4d4d8&quot;,
+          &quot;strokeWidth&quot;: 0,
+          &quot;radius&quot;: 0,
+          &quot;opacity&quot;: 1,
+          &quot;padding&quot;: 16,
+          &quot;gap&quot;: 16,
+          &quot;fontSize&quot;: 16,
+          &quot;fontWeight&quot;: 400,
+          &quot;fontFamily&quot;: &quot;system-ui&quot;,
+          &quot;lineHeight&quot;: 1.2,
+          &quot;letterSpacing&quot;: 0,
+          &quot;textAlign&quot;: &quot;auto&quot;
+        },
+        &quot;library&quot;: {
+          &quot;component&quot;: &quot;Input&quot;,
+          &quot;variant&quot;: &quot;Default&quot;,
+          &quot;props&quot;: {
+            &quot;label&quot;: &quot;Email&quot;,
+            &quot;placeholder&quot;: &quot;Your email&quot;,
+            &quot;value&quot;: &quot;consumer@example.test&quot;,
+            &quot;type&quot;: &quot;email&quot;,
+            &quot;disabled&quot;: false
+          },
+          &quot;localOverrides&quot;: [],
+          &quot;tokens&quot;: {}
+        }
+      },
+      {
+        &quot;id&quot;: &quot;button&quot;,
+        &quot;parentId&quot;: &quot;card&quot;,
+        &quot;kind&quot;: &quot;button&quot;,
+        &quot;slot&quot;: &quot;footer&quot;,
+        &quot;x&quot;: 24,
+        &quot;y&quot;: 140,
+        &quot;width&quot;: 180,
+        &quot;height&quot;: 44,
+        &quot;rotation&quot;: 0,
+        &quot;text&quot;: &quot;Save &amp; Continue&quot;,
+        &quot;value&quot;: &quot;&quot;,
+        &quot;label&quot;: &quot;&quot;,
+        &quot;disabled&quot;: false,
+        &quot;inputType&quot;: &quot;text&quot;,
+        &quot;style&quot;: {
+          &quot;fill&quot;: &quot;#ffffff&quot;,
+          &quot;fillEnabled&quot;: true,
+          &quot;color&quot;: &quot;#18181b&quot;,
+          &quot;stroke&quot;: &quot;#d4d4d8&quot;,
+          &quot;strokeWidth&quot;: 0,
+          &quot;radius&quot;: 0,
+          &quot;opacity&quot;: 1,
+          &quot;padding&quot;: 16,
+          &quot;gap&quot;: 16,
+          &quot;fontSize&quot;: 16,
+          &quot;fontWeight&quot;: 400,
+          &quot;fontFamily&quot;: &quot;system-ui&quot;,
+          &quot;lineHeight&quot;: 1.2,
+          &quot;letterSpacing&quot;: 0,
+          &quot;textAlign&quot;: &quot;auto&quot;
+        },
+        &quot;library&quot;: {
+          &quot;component&quot;: &quot;Button&quot;,
+          &quot;variant&quot;: &quot;Default&quot;,
+          &quot;props&quot;: {
+            &quot;label&quot;: &quot;Save &amp; Continue&quot;,
+            &quot;disabled&quot;: false,
+            &quot;variant&quot;: &quot;neutral&quot;,
+            &quot;appearance&quot;: &quot;accent&quot;
+          },
+          &quot;localOverrides&quot;: [],
+          &quot;tokens&quot;: {}
+        }
+      }
+    ]
+  },
+  &quot;expected&quot;: {
+    &quot;root&quot;: {
+      &quot;x&quot;: 0,
+      &quot;y&quot;: 0,
+      &quot;width&quot;: 400,
+      &quot;height&quot;: 500
+    },
+    &quot;card&quot;: {
+      &quot;x&quot;: 20,
+      &quot;y&quot;: 20,
+      &quot;width&quot;: 360,
+      &quot;height&quot;: 460
+    },
+    &quot;header&quot;: {
+      &quot;x&quot;: 44,
+      &quot;y&quot;: 44,
+      &quot;width&quot;: 300,
+      &quot;height&quot;: 28
+    },
+    &quot;input&quot;: {
+      &quot;x&quot;: 44,
+      &quot;y&quot;: 88,
+      &quot;width&quot;: 260,
+      &quot;height&quot;: 56
+    },
+    &quot;button&quot;: {
+      &quot;x&quot;: 44,
+      &quot;y&quot;: 160,
+      &quot;width&quot;: 180,
+      &quot;height&quot;: 44
+    }
+  },
+  &quot;canvas&quot;: {
+    &quot;root&quot;: {
+      &quot;x&quot;: 0,
+      &quot;y&quot;: 0,
+      &quot;width&quot;: 400,
+      &quot;height&quot;: 500
+    },
+    &quot;card&quot;: {
+      &quot;x&quot;: 20,
+      &quot;y&quot;: 20,
+      &quot;width&quot;: 360,
+      &quot;height&quot;: 460
+    },
+    &quot;header&quot;: {
+      &quot;x&quot;: 44,
+      &quot;y&quot;: 44,
+      &quot;width&quot;: 300,
+      &quot;height&quot;: 28
+    },
+    &quot;input&quot;: {
+      &quot;x&quot;: 44,
+      &quot;y&quot;: 88,
+      &quot;width&quot;: 260,
+      &quot;height&quot;: 56
+    },
+    &quot;button&quot;: {
+      &quot;x&quot;: 44,
+      &quot;y&quot;: 160,
+      &quot;width&quot;: 180,
+      &quot;height&quot;: 44
+    }
+  },
+  &quot;dom&quot;: {
+    &quot;root&quot;: {
+      &quot;x&quot;: 0,
+      &quot;y&quot;: 0,
+      &quot;width&quot;: 400,
+      &quot;height&quot;: 500
+    },
+    &quot;card&quot;: {
+      &quot;x&quot;: 20,
+      &quot;y&quot;: 20,
+      &quot;width&quot;: 360,
+      &quot;height&quot;: 460
+    },
+    &quot;header&quot;: {
+      &quot;x&quot;: 44,
+      &quot;y&quot;: 44,
+      &quot;width&quot;: 300,
+      &quot;height&quot;: 28
+    },
+    &quot;input&quot;: {
+      &quot;x&quot;: 44,
+      &quot;y&quot;: 88,
+      &quot;width&quot;: 260,
+      &quot;height&quot;: 56
+    },
+    &quot;button&quot;: {
+      &quot;x&quot;: 44,
+      &quot;y&quot;: 160,
+      &quot;width&quot;: 180,
+      &quot;height&quot;: 44
+    }
+  },
+  &quot;web&quot;: {
+    &quot;root&quot;: {
+      &quot;x&quot;: 0,
+      &quot;y&quot;: 0,
+      &quot;width&quot;: 400,
+      &quot;height&quot;: 500
+    },
+    &quot;card&quot;: {
+      &quot;x&quot;: 20,
+      &quot;y&quot;: 20,
+      &quot;width&quot;: 360,
+      &quot;height&quot;: 460
+    },
+    &quot;header&quot;: {
+      &quot;x&quot;: 44,
+      &quot;y&quot;: 44,
+      &quot;width&quot;: 300,
+      &quot;height&quot;: 28
+    },
+    &quot;input&quot;: {
+      &quot;x&quot;: 44,
+      &quot;y&quot;: 88,
+      &quot;width&quot;: 260,
+      &quot;height&quot;: 56
+    },
+    &quot;button&quot;: {
+      &quot;x&quot;: 44,
+      &quot;y&quot;: 160,
+      &quot;width&quot;: 180,
+      &quot;height&quot;: 44
+    }
+  },
+  &quot;maxDelta&quot;: {
+    &quot;canvas&quot;: 0,
+    &quot;dom&quot;: 0,
+    &quot;web&quot;: 0,
+    &quot;native&quot;: 0
+  },
+  &quot;nativeDiagnostics&quot;: [],
+  &quot;native&quot;: {
+    &quot;supported&quot;: true,
+    &quot;renderMilliseconds&quot;: 65.82004099999995,
+    &quot;boxes&quot;: {
+      &quot;button&quot;: {
+        &quot;x&quot;: 44,
+        &quot;y&quot;: 160,
+        &quot;width&quot;: 180,
+        &quot;height&quot;: 44
+      },
+      &quot;card&quot;: {
+        &quot;x&quot;: 20,
+        &quot;y&quot;: 20,
+        &quot;width&quot;: 360,
+        &quot;height&quot;: 460
+      },
+      &quot;header&quot;: {
+        &quot;x&quot;: 44,
+        &quot;y&quot;: 44,
+        &quot;width&quot;: 300,
+        &quot;height&quot;: 28
+      },
+      &quot;input&quot;: {
+        &quot;x&quot;: 44,
+        &quot;y&quot;: 88,
+        &quot;width&quot;: 260,
+        &quot;height&quot;: 56
+      },
+      &quot;root&quot;: {
+        &quot;x&quot;: 0,
+        &quot;y&quot;: 0,
+        &quot;width&quot;: 400,
+        &quot;height&quot;: 500
+      }
+    },
+    &quot;revision&quot;: 0,
+    &quot;pixelWidth&quot;: 800,
+    &quot;pixelHeight&quot;: 1000
+  },
+  &quot;accessibility&quot;: {
+    &quot;canvas&quot;: &quot;- img \&quot;Design canvas. Select layers in the Layers panel; arrow keys move selected layers.\&quot;\n- button \&quot;Rotate selected element\&quot;&quot;,
+    &quot;dom&quot;: &quot;- text: Pinned library consumer\n- textbox \&quot;Email\&quot;:\n  - /placeholder: Your email\n  - text: consumer@example.test\n- button \&quot;Save &amp; Continue\&quot;&quot;,
+    &quot;web&quot;: &quot;- text: Pinned library consumer\n- textbox \&quot;Email\&quot;:\n  - /placeholder: Your email\n  - text: consumer@example.test\n- button \&quot;Save &amp; Continue\&quot;&quot;
+  }
+}</pre></details></section><section class="phase" data-phase="source-update"><h2>source update</h2><p>Source revision 2 · same authored document and settled Canvas model · maximum outer-box differences canvas 0.0000, dom 0.0000, web 0.0000, native 0.0000 logical points.</p><div class="grid"><article><h3>Canvas editor</h3><img src="source-update-canvas.png" alt="Actual Canvas editor rendering at source-update" /></article><article><h3>Semantic DOM</h3><img src="source-update-dom.png" alt="Actual Semantic DOM rendering at source-update" /></article><article><h3>Web Awesome 3.14</h3><img src="source-update-web.png" alt="Actual Web Awesome 3.14 rendering at source-update" /></article><article><h3>System SwiftUI</h3><img src="source-update-native.png" alt="Actual System SwiftUI rendering at source-update" /></article></div><details><summary>Source contract, geometry and accessibility observations</summary><pre>{
+  &quot;name&quot;: &quot;source-update&quot;,
+  &quot;documentId&quot;: &quot;3e954087-2e65-4315-984f-e7c409ff2744&quot;,
+  &quot;sourceRevision&quot;: 2,
+  &quot;scene&quot;: {
+    &quot;documentId&quot;: &quot;3e954087-2e65-4315-984f-e7c409ff2744&quot;,
+    &quot;sourceRevision&quot;: 2,
+    &quot;rootId&quot;: &quot;root&quot;,
+    &quot;width&quot;: 400,
+    &quot;height&quot;: 500,
+    &quot;elements&quot;: [
+      {
+        &quot;id&quot;: &quot;root&quot;,
+        &quot;parentId&quot;: null,
+        &quot;kind&quot;: &quot;frame&quot;,
+        &quot;slot&quot;: &quot;&quot;,
+        &quot;x&quot;: 0,
+        &quot;y&quot;: 0,
+        &quot;width&quot;: 400,
+        &quot;height&quot;: 500,
+        &quot;rotation&quot;: 0,
+        &quot;text&quot;: &quot;&quot;,
+        &quot;value&quot;: &quot;&quot;,
+        &quot;label&quot;: &quot;&quot;,
+        &quot;disabled&quot;: false,
+        &quot;inputType&quot;: &quot;text&quot;,
+        &quot;style&quot;: {
+          &quot;fill&quot;: &quot;#ffffff&quot;,
+          &quot;fillEnabled&quot;: true,
+          &quot;color&quot;: &quot;#18181b&quot;,
+          &quot;stroke&quot;: &quot;#d4d4d8&quot;,
+          &quot;strokeWidth&quot;: 0,
+          &quot;radius&quot;: 0,
+          &quot;opacity&quot;: 1,
+          &quot;padding&quot;: 0,
+          &quot;gap&quot;: 16,
+          &quot;fontSize&quot;: 16,
+          &quot;fontWeight&quot;: 400,
+          &quot;fontFamily&quot;: &quot;system-ui&quot;,
+          &quot;lineHeight&quot;: 1.2,
+          &quot;letterSpacing&quot;: 0,
+          &quot;textAlign&quot;: &quot;auto&quot;
+        },
+        &quot;library&quot;: null
+      },
+      {
+        &quot;id&quot;: &quot;card&quot;,
+        &quot;parentId&quot;: &quot;root&quot;,
+        &quot;kind&quot;: &quot;frame&quot;,
+        &quot;slot&quot;: &quot;&quot;,
+        &quot;x&quot;: 20,
+        &quot;y&quot;: 20,
+        &quot;width&quot;: 360,
+        &quot;height&quot;: 460,
+        &quot;rotation&quot;: 0,
+        &quot;text&quot;: &quot;&quot;,
+        &quot;value&quot;: &quot;&quot;,
+        &quot;label&quot;: &quot;&quot;,
+        &quot;disabled&quot;: false,
+        &quot;inputType&quot;: &quot;text&quot;,
+        &quot;style&quot;: {
+          &quot;fill&quot;: &quot;#ffffff&quot;,
+          &quot;fillEnabled&quot;: true,
+          &quot;color&quot;: &quot;#18181b&quot;,
+          &quot;stroke&quot;: &quot;#d4d4d8&quot;,
+          &quot;strokeWidth&quot;: 0,
+          &quot;radius&quot;: 0,
+          &quot;opacity&quot;: 1,
+          &quot;padding&quot;: 24,
+          &quot;gap&quot;: 16,
+          &quot;fontSize&quot;: 16,
+          &quot;fontWeight&quot;: 400,
+          &quot;fontFamily&quot;: &quot;system-ui&quot;,
+          &quot;lineHeight&quot;: 1.2,
+          &quot;letterSpacing&quot;: 0,
+          &quot;textAlign&quot;: &quot;auto&quot;
+        },
+        &quot;library&quot;: {
+          &quot;component&quot;: &quot;Card&quot;,
+          &quot;variant&quot;: &quot;Default&quot;,
+          &quot;props&quot;: {
+            &quot;padding&quot;: 24
+          },
+          &quot;localOverrides&quot;: [],
+          &quot;tokens&quot;: {}
+        }
+      },
+      {
+        &quot;id&quot;: &quot;header&quot;,
+        &quot;parentId&quot;: &quot;card&quot;,
+        &quot;kind&quot;: &quot;text&quot;,
+        &quot;slot&quot;: &quot;header&quot;,
+        &quot;x&quot;: 24,
+        &quot;y&quot;: 24,
+        &quot;width&quot;: 300,
+        &quot;height&quot;: 28,
+        &quot;rotation&quot;: 0,
+        &quot;text&quot;: &quot;Pinned library consumer&quot;,
+        &quot;value&quot;: &quot;&quot;,
+        &quot;label&quot;: &quot;&quot;,
+        &quot;disabled&quot;: false,
+        &quot;inputType&quot;: &quot;text&quot;,
+        &quot;style&quot;: {
+          &quot;fill&quot;: &quot;#ffffff&quot;,
+          &quot;fillEnabled&quot;: true,
+          &quot;color&quot;: &quot;#18181b&quot;,
+          &quot;stroke&quot;: &quot;#d4d4d8&quot;,
+          &quot;strokeWidth&quot;: 0,
+          &quot;radius&quot;: 0,
+          &quot;opacity&quot;: 1,
+          &quot;padding&quot;: 16,
+          &quot;gap&quot;: 16,
+          &quot;fontSize&quot;: 16,
+          &quot;fontWeight&quot;: 400,
+          &quot;fontFamily&quot;: &quot;system-ui&quot;,
+          &quot;lineHeight&quot;: 1.2,
+          &quot;letterSpacing&quot;: 0,
+          &quot;textAlign&quot;: &quot;auto&quot;
+        },
+        &quot;library&quot;: null
+      },
+      {
+        &quot;id&quot;: &quot;input&quot;,
+        &quot;parentId&quot;: &quot;card&quot;,
+        &quot;kind&quot;: &quot;input&quot;,
+        &quot;slot&quot;: &quot;&quot;,
+        &quot;x&quot;: 24,
+        &quot;y&quot;: 68,
+        &quot;width&quot;: 260,
+        &quot;height&quot;: 56,
+        &quot;rotation&quot;: 0,
+        &quot;text&quot;: &quot;Your email&quot;,
+        &quot;value&quot;: &quot;consumer@example.test&quot;,
+        &quot;label&quot;: &quot;Email&quot;,
+        &quot;disabled&quot;: false,
+        &quot;inputType&quot;: &quot;email&quot;,
+        &quot;style&quot;: {
+          &quot;fill&quot;: &quot;#ffffff&quot;,
+          &quot;fillEnabled&quot;: true,
+          &quot;color&quot;: &quot;#18181b&quot;,
+          &quot;stroke&quot;: &quot;#d4d4d8&quot;,
+          &quot;strokeWidth&quot;: 0,
+          &quot;radius&quot;: 0,
+          &quot;opacity&quot;: 1,
+          &quot;padding&quot;: 16,
+          &quot;gap&quot;: 16,
+          &quot;fontSize&quot;: 16,
+          &quot;fontWeight&quot;: 400,
+          &quot;fontFamily&quot;: &quot;system-ui&quot;,
+          &quot;lineHeight&quot;: 1.2,
+          &quot;letterSpacing&quot;: 0,
+          &quot;textAlign&quot;: &quot;auto&quot;
+        },
+        &quot;library&quot;: {
+          &quot;component&quot;: &quot;Input&quot;,
+          &quot;variant&quot;: &quot;Default&quot;,
+          &quot;props&quot;: {
+            &quot;label&quot;: &quot;Email&quot;,
+            &quot;placeholder&quot;: &quot;Your email&quot;,
+            &quot;value&quot;: &quot;consumer@example.test&quot;,
+            &quot;type&quot;: &quot;email&quot;,
+            &quot;disabled&quot;: false
+          },
+          &quot;localOverrides&quot;: [],
+          &quot;tokens&quot;: {}
+        }
+      },
+      {
+        &quot;id&quot;: &quot;button&quot;,
+        &quot;parentId&quot;: &quot;card&quot;,
+        &quot;kind&quot;: &quot;button&quot;,
+        &quot;slot&quot;: &quot;footer&quot;,
+        &quot;x&quot;: 24,
+        &quot;y&quot;: 140,
+        &quot;width&quot;: 180,
+        &quot;height&quot;: 44,
+        &quot;rotation&quot;: 0,
+        &quot;text&quot;: &quot;Edited in actual inspector&quot;,
+        &quot;value&quot;: &quot;&quot;,
+        &quot;label&quot;: &quot;&quot;,
+        &quot;disabled&quot;: false,
+        &quot;inputType&quot;: &quot;text&quot;,
+        &quot;style&quot;: {
+          &quot;fill&quot;: &quot;#ffffff&quot;,
+          &quot;fillEnabled&quot;: true,
+          &quot;color&quot;: &quot;#18181b&quot;,
+          &quot;stroke&quot;: &quot;#d4d4d8&quot;,
+          &quot;strokeWidth&quot;: 0,
+          &quot;radius&quot;: 0,
+          &quot;opacity&quot;: 1,
+          &quot;padding&quot;: 16,
+          &quot;gap&quot;: 16,
+          &quot;fontSize&quot;: 16,
+          &quot;fontWeight&quot;: 400,
+          &quot;fontFamily&quot;: &quot;system-ui&quot;,
+          &quot;lineHeight&quot;: 1.2,
+          &quot;letterSpacing&quot;: 0,
+          &quot;textAlign&quot;: &quot;auto&quot;
+        },
+        &quot;library&quot;: {
+          &quot;component&quot;: &quot;Button&quot;,
+          &quot;variant&quot;: &quot;Default&quot;,
+          &quot;props&quot;: {
+            &quot;label&quot;: &quot;Edited in actual inspector&quot;,
+            &quot;disabled&quot;: false,
+            &quot;variant&quot;: &quot;neutral&quot;,
+            &quot;appearance&quot;: &quot;accent&quot;
+          },
+          &quot;localOverrides&quot;: [],
+          &quot;tokens&quot;: {}
+        }
+      }
+    ]
+  },
+  &quot;expected&quot;: {
+    &quot;root&quot;: {
+      &quot;x&quot;: 0,
+      &quot;y&quot;: 0,
+      &quot;width&quot;: 400,
+      &quot;height&quot;: 500
+    },
+    &quot;card&quot;: {
+      &quot;x&quot;: 20,
+      &quot;y&quot;: 20,
+      &quot;width&quot;: 360,
+      &quot;height&quot;: 460
+    },
+    &quot;header&quot;: {
+      &quot;x&quot;: 44,
+      &quot;y&quot;: 44,
+      &quot;width&quot;: 300,
+      &quot;height&quot;: 28
+    },
+    &quot;input&quot;: {
+      &quot;x&quot;: 44,
+      &quot;y&quot;: 88,
+      &quot;width&quot;: 260,
+      &quot;height&quot;: 56
+    },
+    &quot;button&quot;: {
+      &quot;x&quot;: 44,
+      &quot;y&quot;: 160,
+      &quot;width&quot;: 180,
+      &quot;height&quot;: 44
+    }
+  },
+  &quot;canvas&quot;: {
+    &quot;root&quot;: {
+      &quot;x&quot;: 0,
+      &quot;y&quot;: 0,
+      &quot;width&quot;: 400,
+      &quot;height&quot;: 500
+    },
+    &quot;card&quot;: {
+      &quot;x&quot;: 20,
+      &quot;y&quot;: 20,
+      &quot;width&quot;: 360,
+      &quot;height&quot;: 460
+    },
+    &quot;header&quot;: {
+      &quot;x&quot;: 44,
+      &quot;y&quot;: 44,
+      &quot;width&quot;: 300,
+      &quot;height&quot;: 28
+    },
+    &quot;input&quot;: {
+      &quot;x&quot;: 44,
+      &quot;y&quot;: 88,
+      &quot;width&quot;: 260,
+      &quot;height&quot;: 56
+    },
+    &quot;button&quot;: {
+      &quot;x&quot;: 44,
+      &quot;y&quot;: 160,
+      &quot;width&quot;: 180,
+      &quot;height&quot;: 44
+    }
+  },
+  &quot;dom&quot;: {
+    &quot;root&quot;: {
+      &quot;x&quot;: 0,
+      &quot;y&quot;: 0,
+      &quot;width&quot;: 400,
+      &quot;height&quot;: 500
+    },
+    &quot;card&quot;: {
+      &quot;x&quot;: 20,
+      &quot;y&quot;: 20,
+      &quot;width&quot;: 360,
+      &quot;height&quot;: 460
+    },
+    &quot;header&quot;: {
+      &quot;x&quot;: 44,
+      &quot;y&quot;: 44,
+      &quot;width&quot;: 300,
+      &quot;height&quot;: 28
+    },
+    &quot;input&quot;: {
+      &quot;x&quot;: 44,
+      &quot;y&quot;: 88,
+      &quot;width&quot;: 260,
+      &quot;height&quot;: 56
+    },
+    &quot;button&quot;: {
+      &quot;x&quot;: 44,
+      &quot;y&quot;: 160,
+      &quot;width&quot;: 180,
+      &quot;height&quot;: 44
+    }
+  },
+  &quot;web&quot;: {
+    &quot;root&quot;: {
+      &quot;x&quot;: 0,
+      &quot;y&quot;: 0,
+      &quot;width&quot;: 400,
+      &quot;height&quot;: 500
+    },
+    &quot;card&quot;: {
+      &quot;x&quot;: 20,
+      &quot;y&quot;: 20,
+      &quot;width&quot;: 360,
+      &quot;height&quot;: 460
+    },
+    &quot;header&quot;: {
+      &quot;x&quot;: 44,
+      &quot;y&quot;: 44,
+      &quot;width&quot;: 300,
+      &quot;height&quot;: 28
+    },
+    &quot;input&quot;: {
+      &quot;x&quot;: 44,
+      &quot;y&quot;: 88,
+      &quot;width&quot;: 260,
+      &quot;height&quot;: 56
+    },
+    &quot;button&quot;: {
+      &quot;x&quot;: 44,
+      &quot;y&quot;: 160,
+      &quot;width&quot;: 180,
+      &quot;height&quot;: 44
+    }
+  },
+  &quot;maxDelta&quot;: {
+    &quot;canvas&quot;: 0,
+    &quot;dom&quot;: 0,
+    &quot;web&quot;: 0,
+    &quot;native&quot;: 0
+  },
+  &quot;nativeDiagnostics&quot;: [],
+  &quot;native&quot;: {
+    &quot;supported&quot;: true,
+    &quot;renderMilliseconds&quot;: 59.59279200000037,
+    &quot;boxes&quot;: {
+      &quot;button&quot;: {
+        &quot;x&quot;: 44,
+        &quot;y&quot;: 160,
+        &quot;width&quot;: 180,
+        &quot;height&quot;: 44
+      },
+      &quot;card&quot;: {
+        &quot;x&quot;: 20,
+        &quot;y&quot;: 20,
+        &quot;width&quot;: 360,
+        &quot;height&quot;: 460
+      },
+      &quot;header&quot;: {
+        &quot;x&quot;: 44,
+        &quot;y&quot;: 44,
+        &quot;width&quot;: 300,
+        &quot;height&quot;: 28
+      },
+      &quot;input&quot;: {
+        &quot;x&quot;: 44,
+        &quot;y&quot;: 88,
+        &quot;width&quot;: 260,
+        &quot;height&quot;: 56
+      },
+      &quot;root&quot;: {
+        &quot;x&quot;: 0,
+        &quot;y&quot;: 0,
+        &quot;width&quot;: 400,
+        &quot;height&quot;: 500
+      }
+    },
+    &quot;revision&quot;: 1,
+    &quot;pixelWidth&quot;: 800,
+    &quot;pixelHeight&quot;: 1000
+  },
+  &quot;accessibility&quot;: {
+    &quot;canvas&quot;: &quot;- img \&quot;Design canvas. Select layers in the Layers panel; arrow keys move selected layers.\&quot;\n- button \&quot;Rotate selected element\&quot;&quot;,
+    &quot;dom&quot;: &quot;- text: Pinned library consumer\n- textbox \&quot;Email\&quot;:\n  - /placeholder: Your email\n  - text: dom@example.test\n- button \&quot;Edited in actual inspector\&quot;&quot;,
+    &quot;web&quot;: &quot;- text: Pinned library consumer\n- textbox \&quot;Email\&quot;:\n  - /placeholder: Your email\n  - text: web@example.test\n- button \&quot;Edited in actual inspector\&quot;&quot;
+  }
+}</pre></details></section><section class="phase" data-phase="source-undo"><h2>source undo</h2><p>Source revision 3 · same authored document and settled Canvas model · maximum outer-box differences canvas 0.0000, dom 0.0000, web 0.0000, native 0.0000 logical points.</p><div class="grid"><article><h3>Canvas editor</h3><img src="source-undo-canvas.png" alt="Actual Canvas editor rendering at source-undo" /></article><article><h3>Semantic DOM</h3><img src="source-undo-dom.png" alt="Actual Semantic DOM rendering at source-undo" /></article><article><h3>Web Awesome 3.14</h3><img src="source-undo-web.png" alt="Actual Web Awesome 3.14 rendering at source-undo" /></article><article><h3>System SwiftUI</h3><img src="source-undo-native.png" alt="Actual System SwiftUI rendering at source-undo" /></article></div><details><summary>Source contract, geometry and accessibility observations</summary><pre>{
+  &quot;name&quot;: &quot;source-undo&quot;,
+  &quot;documentId&quot;: &quot;3e954087-2e65-4315-984f-e7c409ff2744&quot;,
+  &quot;sourceRevision&quot;: 3,
+  &quot;scene&quot;: {
+    &quot;documentId&quot;: &quot;3e954087-2e65-4315-984f-e7c409ff2744&quot;,
+    &quot;sourceRevision&quot;: 3,
+    &quot;rootId&quot;: &quot;root&quot;,
+    &quot;width&quot;: 400,
+    &quot;height&quot;: 500,
+    &quot;elements&quot;: [
+      {
+        &quot;id&quot;: &quot;root&quot;,
+        &quot;parentId&quot;: null,
+        &quot;kind&quot;: &quot;frame&quot;,
+        &quot;slot&quot;: &quot;&quot;,
+        &quot;x&quot;: 0,
+        &quot;y&quot;: 0,
+        &quot;width&quot;: 400,
+        &quot;height&quot;: 500,
+        &quot;rotation&quot;: 0,
+        &quot;text&quot;: &quot;&quot;,
+        &quot;value&quot;: &quot;&quot;,
+        &quot;label&quot;: &quot;&quot;,
+        &quot;disabled&quot;: false,
+        &quot;inputType&quot;: &quot;text&quot;,
+        &quot;style&quot;: {
+          &quot;fill&quot;: &quot;#ffffff&quot;,
+          &quot;fillEnabled&quot;: true,
+          &quot;color&quot;: &quot;#18181b&quot;,
+          &quot;stroke&quot;: &quot;#d4d4d8&quot;,
+          &quot;strokeWidth&quot;: 0,
+          &quot;radius&quot;: 0,
+          &quot;opacity&quot;: 1,
+          &quot;padding&quot;: 0,
+          &quot;gap&quot;: 16,
+          &quot;fontSize&quot;: 16,
+          &quot;fontWeight&quot;: 400,
+          &quot;fontFamily&quot;: &quot;system-ui&quot;,
+          &quot;lineHeight&quot;: 1.2,
+          &quot;letterSpacing&quot;: 0,
+          &quot;textAlign&quot;: &quot;auto&quot;
+        },
+        &quot;library&quot;: null
+      },
+      {
+        &quot;id&quot;: &quot;card&quot;,
+        &quot;parentId&quot;: &quot;root&quot;,
+        &quot;kind&quot;: &quot;frame&quot;,
+        &quot;slot&quot;: &quot;&quot;,
+        &quot;x&quot;: 20,
+        &quot;y&quot;: 20,
+        &quot;width&quot;: 360,
+        &quot;height&quot;: 460,
+        &quot;rotation&quot;: 0,
+        &quot;text&quot;: &quot;&quot;,
+        &quot;value&quot;: &quot;&quot;,
+        &quot;label&quot;: &quot;&quot;,
+        &quot;disabled&quot;: false,
+        &quot;inputType&quot;: &quot;text&quot;,
+        &quot;style&quot;: {
+          &quot;fill&quot;: &quot;#ffffff&quot;,
+          &quot;fillEnabled&quot;: true,
+          &quot;color&quot;: &quot;#18181b&quot;,
+          &quot;stroke&quot;: &quot;#d4d4d8&quot;,
+          &quot;strokeWidth&quot;: 0,
+          &quot;radius&quot;: 0,
+          &quot;opacity&quot;: 1,
+          &quot;padding&quot;: 24,
+          &quot;gap&quot;: 16,
+          &quot;fontSize&quot;: 16,
+          &quot;fontWeight&quot;: 400,
+          &quot;fontFamily&quot;: &quot;system-ui&quot;,
+          &quot;lineHeight&quot;: 1.2,
+          &quot;letterSpacing&quot;: 0,
+          &quot;textAlign&quot;: &quot;auto&quot;
+        },
+        &quot;library&quot;: {
+          &quot;component&quot;: &quot;Card&quot;,
+          &quot;variant&quot;: &quot;Default&quot;,
+          &quot;props&quot;: {
+            &quot;padding&quot;: 24
+          },
+          &quot;localOverrides&quot;: [],
+          &quot;tokens&quot;: {}
+        }
+      },
+      {
+        &quot;id&quot;: &quot;header&quot;,
+        &quot;parentId&quot;: &quot;card&quot;,
+        &quot;kind&quot;: &quot;text&quot;,
+        &quot;slot&quot;: &quot;header&quot;,
+        &quot;x&quot;: 24,
+        &quot;y&quot;: 24,
+        &quot;width&quot;: 300,
+        &quot;height&quot;: 28,
+        &quot;rotation&quot;: 0,
+        &quot;text&quot;: &quot;Pinned library consumer&quot;,
+        &quot;value&quot;: &quot;&quot;,
+        &quot;label&quot;: &quot;&quot;,
+        &quot;disabled&quot;: false,
+        &quot;inputType&quot;: &quot;text&quot;,
+        &quot;style&quot;: {
+          &quot;fill&quot;: &quot;#ffffff&quot;,
+          &quot;fillEnabled&quot;: true,
+          &quot;color&quot;: &quot;#18181b&quot;,
+          &quot;stroke&quot;: &quot;#d4d4d8&quot;,
+          &quot;strokeWidth&quot;: 0,
+          &quot;radius&quot;: 0,
+          &quot;opacity&quot;: 1,
+          &quot;padding&quot;: 16,
+          &quot;gap&quot;: 16,
+          &quot;fontSize&quot;: 16,
+          &quot;fontWeight&quot;: 400,
+          &quot;fontFamily&quot;: &quot;system-ui&quot;,
+          &quot;lineHeight&quot;: 1.2,
+          &quot;letterSpacing&quot;: 0,
+          &quot;textAlign&quot;: &quot;auto&quot;
+        },
+        &quot;library&quot;: null
+      },
+      {
+        &quot;id&quot;: &quot;input&quot;,
+        &quot;parentId&quot;: &quot;card&quot;,
+        &quot;kind&quot;: &quot;input&quot;,
+        &quot;slot&quot;: &quot;&quot;,
+        &quot;x&quot;: 24,
+        &quot;y&quot;: 68,
+        &quot;width&quot;: 260,
+        &quot;height&quot;: 56,
+        &quot;rotation&quot;: 0,
+        &quot;text&quot;: &quot;Your email&quot;,
+        &quot;value&quot;: &quot;consumer@example.test&quot;,
+        &quot;label&quot;: &quot;Email&quot;,
+        &quot;disabled&quot;: false,
+        &quot;inputType&quot;: &quot;email&quot;,
+        &quot;style&quot;: {
+          &quot;fill&quot;: &quot;#ffffff&quot;,
+          &quot;fillEnabled&quot;: true,
+          &quot;color&quot;: &quot;#18181b&quot;,
+          &quot;stroke&quot;: &quot;#d4d4d8&quot;,
+          &quot;strokeWidth&quot;: 0,
+          &quot;radius&quot;: 0,
+          &quot;opacity&quot;: 1,
+          &quot;padding&quot;: 16,
+          &quot;gap&quot;: 16,
+          &quot;fontSize&quot;: 16,
+          &quot;fontWeight&quot;: 400,
+          &quot;fontFamily&quot;: &quot;system-ui&quot;,
+          &quot;lineHeight&quot;: 1.2,
+          &quot;letterSpacing&quot;: 0,
+          &quot;textAlign&quot;: &quot;auto&quot;
+        },
+        &quot;library&quot;: {
+          &quot;component&quot;: &quot;Input&quot;,
+          &quot;variant&quot;: &quot;Default&quot;,
+          &quot;props&quot;: {
+            &quot;label&quot;: &quot;Email&quot;,
+            &quot;placeholder&quot;: &quot;Your email&quot;,
+            &quot;value&quot;: &quot;consumer@example.test&quot;,
+            &quot;type&quot;: &quot;email&quot;,
+            &quot;disabled&quot;: false
+          },
+          &quot;localOverrides&quot;: [],
+          &quot;tokens&quot;: {}
+        }
+      },
+      {
+        &quot;id&quot;: &quot;button&quot;,
+        &quot;parentId&quot;: &quot;card&quot;,
+        &quot;kind&quot;: &quot;button&quot;,
+        &quot;slot&quot;: &quot;footer&quot;,
+        &quot;x&quot;: 24,
+        &quot;y&quot;: 140,
+        &quot;width&quot;: 180,
+        &quot;height&quot;: 44,
+        &quot;rotation&quot;: 0,
+        &quot;text&quot;: &quot;Save &amp; Continue&quot;,
+        &quot;value&quot;: &quot;&quot;,
+        &quot;label&quot;: &quot;&quot;,
+        &quot;disabled&quot;: false,
+        &quot;inputType&quot;: &quot;text&quot;,
+        &quot;style&quot;: {
+          &quot;fill&quot;: &quot;#ffffff&quot;,
+          &quot;fillEnabled&quot;: true,
+          &quot;color&quot;: &quot;#18181b&quot;,
+          &quot;stroke&quot;: &quot;#d4d4d8&quot;,
+          &quot;strokeWidth&quot;: 0,
+          &quot;radius&quot;: 0,
+          &quot;opacity&quot;: 1,
+          &quot;padding&quot;: 16,
+          &quot;gap&quot;: 16,
+          &quot;fontSize&quot;: 16,
+          &quot;fontWeight&quot;: 400,
+          &quot;fontFamily&quot;: &quot;system-ui&quot;,
+          &quot;lineHeight&quot;: 1.2,
+          &quot;letterSpacing&quot;: 0,
+          &quot;textAlign&quot;: &quot;auto&quot;
+        },
+        &quot;library&quot;: {
+          &quot;component&quot;: &quot;Button&quot;,
+          &quot;variant&quot;: &quot;Default&quot;,
+          &quot;props&quot;: {
+            &quot;label&quot;: &quot;Save &amp; Continue&quot;,
+            &quot;disabled&quot;: false,
+            &quot;variant&quot;: &quot;neutral&quot;,
+            &quot;appearance&quot;: &quot;accent&quot;
+          },
+          &quot;localOverrides&quot;: [],
+          &quot;tokens&quot;: {}
+        }
+      }
+    ]
+  },
+  &quot;expected&quot;: {
+    &quot;root&quot;: {
+      &quot;x&quot;: 0,
+      &quot;y&quot;: 0,
+      &quot;width&quot;: 400,
+      &quot;height&quot;: 500
+    },
+    &quot;card&quot;: {
+      &quot;x&quot;: 20,
+      &quot;y&quot;: 20,
+      &quot;width&quot;: 360,
+      &quot;height&quot;: 460
+    },
+    &quot;header&quot;: {
+      &quot;x&quot;: 44,
+      &quot;y&quot;: 44,
+      &quot;width&quot;: 300,
+      &quot;height&quot;: 28
+    },
+    &quot;input&quot;: {
+      &quot;x&quot;: 44,
+      &quot;y&quot;: 88,
+      &quot;width&quot;: 260,
+      &quot;height&quot;: 56
+    },
+    &quot;button&quot;: {
+      &quot;x&quot;: 44,
+      &quot;y&quot;: 160,
+      &quot;width&quot;: 180,
+      &quot;height&quot;: 44
+    }
+  },
+  &quot;canvas&quot;: {
+    &quot;root&quot;: {
+      &quot;x&quot;: 0,
+      &quot;y&quot;: 0,
+      &quot;width&quot;: 400,
+      &quot;height&quot;: 500
+    },
+    &quot;card&quot;: {
+      &quot;x&quot;: 20,
+      &quot;y&quot;: 20,
+      &quot;width&quot;: 360,
+      &quot;height&quot;: 460
+    },
+    &quot;header&quot;: {
+      &quot;x&quot;: 44,
+      &quot;y&quot;: 44,
+      &quot;width&quot;: 300,
+      &quot;height&quot;: 28
+    },
+    &quot;input&quot;: {
+      &quot;x&quot;: 44,
+      &quot;y&quot;: 88,
+      &quot;width&quot;: 260,
+      &quot;height&quot;: 56
+    },
+    &quot;button&quot;: {
+      &quot;x&quot;: 44,
+      &quot;y&quot;: 160,
+      &quot;width&quot;: 180,
+      &quot;height&quot;: 44
+    }
+  },
+  &quot;dom&quot;: {
+    &quot;root&quot;: {
+      &quot;x&quot;: 0,
+      &quot;y&quot;: 0,
+      &quot;width&quot;: 400,
+      &quot;height&quot;: 500
+    },
+    &quot;card&quot;: {
+      &quot;x&quot;: 20,
+      &quot;y&quot;: 20,
+      &quot;width&quot;: 360,
+      &quot;height&quot;: 460
+    },
+    &quot;header&quot;: {
+      &quot;x&quot;: 44,
+      &quot;y&quot;: 44,
+      &quot;width&quot;: 300,
+      &quot;height&quot;: 28
+    },
+    &quot;input&quot;: {
+      &quot;x&quot;: 44,
+      &quot;y&quot;: 88,
+      &quot;width&quot;: 260,
+      &quot;height&quot;: 56
+    },
+    &quot;button&quot;: {
+      &quot;x&quot;: 44,
+      &quot;y&quot;: 160,
+      &quot;width&quot;: 180,
+      &quot;height&quot;: 44
+    }
+  },
+  &quot;web&quot;: {
+    &quot;root&quot;: {
+      &quot;x&quot;: 0,
+      &quot;y&quot;: 0,
+      &quot;width&quot;: 400,
+      &quot;height&quot;: 500
+    },
+    &quot;card&quot;: {
+      &quot;x&quot;: 20,
+      &quot;y&quot;: 20,
+      &quot;width&quot;: 360,
+      &quot;height&quot;: 460
+    },
+    &quot;header&quot;: {
+      &quot;x&quot;: 44,
+      &quot;y&quot;: 44,
+      &quot;width&quot;: 300,
+      &quot;height&quot;: 28
+    },
+    &quot;input&quot;: {
+      &quot;x&quot;: 44,
+      &quot;y&quot;: 88,
+      &quot;width&quot;: 260,
+      &quot;height&quot;: 56
+    },
+    &quot;button&quot;: {
+      &quot;x&quot;: 44,
+      &quot;y&quot;: 160,
+      &quot;width&quot;: 180,
+      &quot;height&quot;: 44
+    }
+  },
+  &quot;maxDelta&quot;: {
+    &quot;canvas&quot;: 0,
+    &quot;dom&quot;: 0,
+    &quot;web&quot;: 0,
+    &quot;native&quot;: 0
+  },
+  &quot;nativeDiagnostics&quot;: [],
+  &quot;native&quot;: {
+    &quot;supported&quot;: true,
+    &quot;renderMilliseconds&quot;: 59.015542000000096,
+    &quot;boxes&quot;: {
+      &quot;button&quot;: {
+        &quot;x&quot;: 44,
+        &quot;y&quot;: 160,
+        &quot;width&quot;: 180,
+        &quot;height&quot;: 44
+      },
+      &quot;card&quot;: {
+        &quot;x&quot;: 20,
+        &quot;y&quot;: 20,
+        &quot;width&quot;: 360,
+        &quot;height&quot;: 460
+      },
+      &quot;header&quot;: {
+        &quot;x&quot;: 44,
+        &quot;y&quot;: 44,
+        &quot;width&quot;: 300,
+        &quot;height&quot;: 28
+      },
+      &quot;input&quot;: {
+        &quot;x&quot;: 44,
+        &quot;y&quot;: 88,
+        &quot;width&quot;: 260,
+        &quot;height&quot;: 56
+      },
+      &quot;root&quot;: {
+        &quot;x&quot;: 0,
+        &quot;y&quot;: 0,
+        &quot;width&quot;: 400,
+        &quot;height&quot;: 500
+      }
+    },
+    &quot;revision&quot;: 2,
+    &quot;pixelWidth&quot;: 800,
+    &quot;pixelHeight&quot;: 1000
+  },
+  &quot;accessibility&quot;: {
+    &quot;canvas&quot;: &quot;- img \&quot;Design canvas. Select layers in the Layers panel; arrow keys move selected layers.\&quot;\n- button \&quot;Rotate selected element\&quot;&quot;,
+    &quot;dom&quot;: &quot;- text: Pinned library consumer\n- textbox \&quot;Email\&quot;:\n  - /placeholder: Your email\n  - text: dom@example.test\n- button \&quot;Save &amp; Continue\&quot;&quot;,
+    &quot;web&quot;: &quot;- text: Pinned library consumer\n- textbox \&quot;Email\&quot;:\n  - /placeholder: Your email\n  - text: web@example.test\n- button \&quot;Save &amp; Continue\&quot;&quot;
+  }
+}</pre></details></section><section class="phase" data-phase="primary"><h2>primary</h2><p>Source revision 5 · same authored document and settled Canvas model · maximum outer-box differences canvas 0.0000, dom 0.0000, web 0.0000 logical points.</p><div class="grid"><article><h3>Canvas editor</h3><img src="primary-canvas.png" alt="Actual Canvas editor rendering at primary" /></article><article><h3>Semantic DOM</h3><img src="primary-dom.png" alt="Actual Semantic DOM rendering at primary" /></article><article><h3>Web Awesome 3.14</h3><img src="primary-web.png" alt="Actual Web Awesome 3.14 rendering at primary" /></article><article><h3>System SwiftUI</h3><div class="unsupported"><strong>Unsupported source appearance</strong><p>button: native Button variant Primary is unsupported; use the semantic preview or a supported variant</p><p>The current supported scene is retained. No substituted native image is presented.</p></div></article></div><details><summary>Source contract, geometry and accessibility observations</summary><pre>{
+  &quot;name&quot;: &quot;primary&quot;,
+  &quot;documentId&quot;: &quot;3e954087-2e65-4315-984f-e7c409ff2744&quot;,
+  &quot;sourceRevision&quot;: 5,
+  &quot;scene&quot;: {
+    &quot;documentId&quot;: &quot;3e954087-2e65-4315-984f-e7c409ff2744&quot;,
+    &quot;sourceRevision&quot;: 5,
+    &quot;rootId&quot;: &quot;root&quot;,
+    &quot;width&quot;: 400,
+    &quot;height&quot;: 500,
+    &quot;elements&quot;: [
+      {
+        &quot;id&quot;: &quot;root&quot;,
+        &quot;parentId&quot;: null,
+        &quot;kind&quot;: &quot;frame&quot;,
+        &quot;slot&quot;: &quot;&quot;,
+        &quot;x&quot;: 0,
+        &quot;y&quot;: 0,
+        &quot;width&quot;: 400,
+        &quot;height&quot;: 500,
+        &quot;rotation&quot;: 0,
+        &quot;text&quot;: &quot;&quot;,
+        &quot;value&quot;: &quot;&quot;,
+        &quot;label&quot;: &quot;&quot;,
+        &quot;disabled&quot;: false,
+        &quot;inputType&quot;: &quot;text&quot;,
+        &quot;style&quot;: {
+          &quot;fill&quot;: &quot;#ffffff&quot;,
+          &quot;fillEnabled&quot;: true,
+          &quot;color&quot;: &quot;#18181b&quot;,
+          &quot;stroke&quot;: &quot;#d4d4d8&quot;,
+          &quot;strokeWidth&quot;: 0,
+          &quot;radius&quot;: 0,
+          &quot;opacity&quot;: 1,
+          &quot;padding&quot;: 0,
+          &quot;gap&quot;: 16,
+          &quot;fontSize&quot;: 16,
+          &quot;fontWeight&quot;: 400,
+          &quot;fontFamily&quot;: &quot;system-ui&quot;,
+          &quot;lineHeight&quot;: 1.2,
+          &quot;letterSpacing&quot;: 0,
+          &quot;textAlign&quot;: &quot;auto&quot;
+        },
+        &quot;library&quot;: null
+      },
+      {
+        &quot;id&quot;: &quot;card&quot;,
+        &quot;parentId&quot;: &quot;root&quot;,
+        &quot;kind&quot;: &quot;frame&quot;,
+        &quot;slot&quot;: &quot;&quot;,
+        &quot;x&quot;: 20,
+        &quot;y&quot;: 20,
+        &quot;width&quot;: 360,
+        &quot;height&quot;: 460,
+        &quot;rotation&quot;: 0,
+        &quot;text&quot;: &quot;&quot;,
+        &quot;value&quot;: &quot;&quot;,
+        &quot;label&quot;: &quot;&quot;,
+        &quot;disabled&quot;: false,
+        &quot;inputType&quot;: &quot;text&quot;,
+        &quot;style&quot;: {
+          &quot;fill&quot;: &quot;#ffffff&quot;,
+          &quot;fillEnabled&quot;: true,
+          &quot;color&quot;: &quot;#18181b&quot;,
+          &quot;stroke&quot;: &quot;#d4d4d8&quot;,
+          &quot;strokeWidth&quot;: 0,
+          &quot;radius&quot;: 0,
+          &quot;opacity&quot;: 1,
+          &quot;padding&quot;: 24,
+          &quot;gap&quot;: 16,
+          &quot;fontSize&quot;: 16,
+          &quot;fontWeight&quot;: 400,
+          &quot;fontFamily&quot;: &quot;system-ui&quot;,
+          &quot;lineHeight&quot;: 1.2,
+          &quot;letterSpacing&quot;: 0,
+          &quot;textAlign&quot;: &quot;auto&quot;
+        },
+        &quot;library&quot;: {
+          &quot;component&quot;: &quot;Card&quot;,
+          &quot;variant&quot;: &quot;Default&quot;,
+          &quot;props&quot;: {
+            &quot;padding&quot;: 24
+          },
+          &quot;localOverrides&quot;: [],
+          &quot;tokens&quot;: {
+            &quot;--wa-color-brand-fill-loud&quot;: {
+              &quot;name&quot;: &quot;brand.primary&quot;,
+              &quot;value&quot;: &quot;#145abc&quot;
+            }
+          }
+        }
+      },
+      {
+        &quot;id&quot;: &quot;header&quot;,
+        &quot;parentId&quot;: &quot;card&quot;,
+        &quot;kind&quot;: &quot;text&quot;,
+        &quot;slot&quot;: &quot;header&quot;,
+        &quot;x&quot;: 24,
+        &quot;y&quot;: 24,
+        &quot;width&quot;: 300,
+        &quot;height&quot;: 28,
+        &quot;rotation&quot;: 0,
+        &quot;text&quot;: &quot;Pinned library consumer&quot;,
+        &quot;value&quot;: &quot;&quot;,
+        &quot;label&quot;: &quot;&quot;,
+        &quot;disabled&quot;: false,
+        &quot;inputType&quot;: &quot;text&quot;,
+        &quot;style&quot;: {
+          &quot;fill&quot;: &quot;#ffffff&quot;,
+          &quot;fillEnabled&quot;: true,
+          &quot;color&quot;: &quot;#18181b&quot;,
+          &quot;stroke&quot;: &quot;#d4d4d8&quot;,
+          &quot;strokeWidth&quot;: 0,
+          &quot;radius&quot;: 0,
+          &quot;opacity&quot;: 1,
+          &quot;padding&quot;: 16,
+          &quot;gap&quot;: 16,
+          &quot;fontSize&quot;: 16,
+          &quot;fontWeight&quot;: 400,
+          &quot;fontFamily&quot;: &quot;system-ui&quot;,
+          &quot;lineHeight&quot;: 1.2,
+          &quot;letterSpacing&quot;: 0,
+          &quot;textAlign&quot;: &quot;auto&quot;
+        },
+        &quot;library&quot;: null
+      },
+      {
+        &quot;id&quot;: &quot;input&quot;,
+        &quot;parentId&quot;: &quot;card&quot;,
+        &quot;kind&quot;: &quot;input&quot;,
+        &quot;slot&quot;: &quot;&quot;,
+        &quot;x&quot;: 24,
+        &quot;y&quot;: 68,
+        &quot;width&quot;: 260,
+        &quot;height&quot;: 56,
+        &quot;rotation&quot;: 0,
+        &quot;text&quot;: &quot;Your email&quot;,
+        &quot;value&quot;: &quot;consumer@example.test&quot;,
+        &quot;label&quot;: &quot;Email&quot;,
+        &quot;disabled&quot;: false,
+        &quot;inputType&quot;: &quot;email&quot;,
+        &quot;style&quot;: {
+          &quot;fill&quot;: &quot;#ffffff&quot;,
+          &quot;fillEnabled&quot;: true,
+          &quot;color&quot;: &quot;#18181b&quot;,
+          &quot;stroke&quot;: &quot;#d4d4d8&quot;,
+          &quot;strokeWidth&quot;: 0,
+          &quot;radius&quot;: 0,
+          &quot;opacity&quot;: 1,
+          &quot;padding&quot;: 16,
+          &quot;gap&quot;: 16,
+          &quot;fontSize&quot;: 16,
+          &quot;fontWeight&quot;: 400,
+          &quot;fontFamily&quot;: &quot;system-ui&quot;,
+          &quot;lineHeight&quot;: 1.2,
+          &quot;letterSpacing&quot;: 0,
+          &quot;textAlign&quot;: &quot;auto&quot;
+        },
+        &quot;library&quot;: {
+          &quot;component&quot;: &quot;Input&quot;,
+          &quot;variant&quot;: &quot;Default&quot;,
+          &quot;props&quot;: {
+            &quot;label&quot;: &quot;Email&quot;,
+            &quot;placeholder&quot;: &quot;Your email&quot;,
+            &quot;value&quot;: &quot;consumer@example.test&quot;,
+            &quot;type&quot;: &quot;email&quot;,
+            &quot;disabled&quot;: false
+          },
+          &quot;localOverrides&quot;: [],
+          &quot;tokens&quot;: {
+            &quot;--wa-color-brand-fill-loud&quot;: {
+              &quot;name&quot;: &quot;brand.primary&quot;,
+              &quot;value&quot;: &quot;#145abc&quot;
+            }
+          }
+        }
+      },
+      {
+        &quot;id&quot;: &quot;button&quot;,
+        &quot;parentId&quot;: &quot;card&quot;,
+        &quot;kind&quot;: &quot;button&quot;,
+        &quot;slot&quot;: &quot;footer&quot;,
+        &quot;x&quot;: 24,
+        &quot;y&quot;: 140,
+        &quot;width&quot;: 180,
+        &quot;height&quot;: 44,
+        &quot;rotation&quot;: 0,
+        &quot;text&quot;: &quot;Save &amp; Continue&quot;,
+        &quot;value&quot;: &quot;&quot;,
+        &quot;label&quot;: &quot;&quot;,
+        &quot;disabled&quot;: false,
+        &quot;inputType&quot;: &quot;text&quot;,
+        &quot;style&quot;: {
+          &quot;fill&quot;: &quot;#ffffff&quot;,
+          &quot;fillEnabled&quot;: true,
+          &quot;color&quot;: &quot;#18181b&quot;,
+          &quot;stroke&quot;: &quot;#d4d4d8&quot;,
+          &quot;strokeWidth&quot;: 0,
+          &quot;radius&quot;: 0,
+          &quot;opacity&quot;: 1,
+          &quot;padding&quot;: 16,
+          &quot;gap&quot;: 16,
+          &quot;fontSize&quot;: 16,
+          &quot;fontWeight&quot;: 400,
+          &quot;fontFamily&quot;: &quot;system-ui&quot;,
+          &quot;lineHeight&quot;: 1.2,
+          &quot;letterSpacing&quot;: 0,
+          &quot;textAlign&quot;: &quot;auto&quot;
+        },
+        &quot;library&quot;: {
+          &quot;component&quot;: &quot;Button&quot;,
+          &quot;variant&quot;: &quot;Primary&quot;,
+          &quot;props&quot;: {
+            &quot;label&quot;: &quot;Save &amp; Continue&quot;,
+            &quot;disabled&quot;: false,
+            &quot;variant&quot;: &quot;brand&quot;,
+            &quot;appearance&quot;: &quot;accent&quot;
+          },
+          &quot;localOverrides&quot;: [],
+          &quot;tokens&quot;: {
+            &quot;--wa-color-brand-fill-loud&quot;: {
+              &quot;name&quot;: &quot;brand.primary&quot;,
+              &quot;value&quot;: &quot;#145abc&quot;
+            }
+          }
+        }
+      }
+    ]
+  },
+  &quot;expected&quot;: {
+    &quot;root&quot;: {
+      &quot;x&quot;: 0,
+      &quot;y&quot;: 0,
+      &quot;width&quot;: 400,
+      &quot;height&quot;: 500
+    },
+    &quot;card&quot;: {
+      &quot;x&quot;: 20,
+      &quot;y&quot;: 20,
+      &quot;width&quot;: 360,
+      &quot;height&quot;: 460
+    },
+    &quot;header&quot;: {
+      &quot;x&quot;: 44,
+      &quot;y&quot;: 44,
+      &quot;width&quot;: 300,
+      &quot;height&quot;: 28
+    },
+    &quot;input&quot;: {
+      &quot;x&quot;: 44,
+      &quot;y&quot;: 88,
+      &quot;width&quot;: 260,
+      &quot;height&quot;: 56
+    },
+    &quot;button&quot;: {
+      &quot;x&quot;: 44,
+      &quot;y&quot;: 160,
+      &quot;width&quot;: 180,
+      &quot;height&quot;: 44
+    }
+  },
+  &quot;canvas&quot;: {
+    &quot;root&quot;: {
+      &quot;x&quot;: 0,
+      &quot;y&quot;: 0,
+      &quot;width&quot;: 400,
+      &quot;height&quot;: 500
+    },
+    &quot;card&quot;: {
+      &quot;x&quot;: 20,
+      &quot;y&quot;: 20,
+      &quot;width&quot;: 360,
+      &quot;height&quot;: 460
+    },
+    &quot;header&quot;: {
+      &quot;x&quot;: 44,
+      &quot;y&quot;: 44,
+      &quot;width&quot;: 300,
+      &quot;height&quot;: 28
+    },
+    &quot;input&quot;: {
+      &quot;x&quot;: 44,
+      &quot;y&quot;: 88,
+      &quot;width&quot;: 260,
+      &quot;height&quot;: 56
+    },
+    &quot;button&quot;: {
+      &quot;x&quot;: 44,
+      &quot;y&quot;: 160,
+      &quot;width&quot;: 180,
+      &quot;height&quot;: 44
+    }
+  },
+  &quot;dom&quot;: {
+    &quot;root&quot;: {
+      &quot;x&quot;: 0,
+      &quot;y&quot;: 0,
+      &quot;width&quot;: 400,
+      &quot;height&quot;: 500
+    },
+    &quot;card&quot;: {
+      &quot;x&quot;: 20,
+      &quot;y&quot;: 20,
+      &quot;width&quot;: 360,
+      &quot;height&quot;: 460
+    },
+    &quot;header&quot;: {
+      &quot;x&quot;: 44,
+      &quot;y&quot;: 44,
+      &quot;width&quot;: 300,
+      &quot;height&quot;: 28
+    },
+    &quot;input&quot;: {
+      &quot;x&quot;: 44,
+      &quot;y&quot;: 88,
+      &quot;width&quot;: 260,
+      &quot;height&quot;: 56
+    },
+    &quot;button&quot;: {
+      &quot;x&quot;: 44,
+      &quot;y&quot;: 160,
+      &quot;width&quot;: 180,
+      &quot;height&quot;: 44
+    }
+  },
+  &quot;web&quot;: {
+    &quot;root&quot;: {
+      &quot;x&quot;: 0,
+      &quot;y&quot;: 0,
+      &quot;width&quot;: 400,
+      &quot;height&quot;: 500
+    },
+    &quot;card&quot;: {
+      &quot;x&quot;: 20,
+      &quot;y&quot;: 20,
+      &quot;width&quot;: 360,
+      &quot;height&quot;: 460
+    },
+    &quot;header&quot;: {
+      &quot;x&quot;: 44,
+      &quot;y&quot;: 44,
+      &quot;width&quot;: 300,
+      &quot;height&quot;: 28
+    },
+    &quot;input&quot;: {
+      &quot;x&quot;: 44,
+      &quot;y&quot;: 88,
+      &quot;width&quot;: 260,
+      &quot;height&quot;: 56
+    },
+    &quot;button&quot;: {
+      &quot;x&quot;: 44,
+      &quot;y&quot;: 160,
+      &quot;width&quot;: 180,
+      &quot;height&quot;: 44
+    }
+  },
+  &quot;maxDelta&quot;: {
+    &quot;canvas&quot;: 0,
+    &quot;dom&quot;: 0,
+    &quot;web&quot;: 0
+  },
+  &quot;nativeDiagnostics&quot;: [
+    &quot;button: native Button variant Primary is unsupported; use the semantic preview or a supported variant&quot;
+  ],
+  &quot;native&quot;: {
+    &quot;supported&quot;: false,
+    &quot;message&quot;: &quot;button: native Button variant Primary is unsupported; use the semantic preview or a supported variant&quot;,
+    &quot;currentSupportedScenePreserved&quot;: true
+  },
+  &quot;accessibility&quot;: {
+    &quot;canvas&quot;: &quot;- img \&quot;Design canvas. Select layers in the Layers panel; arrow keys move selected layers.\&quot;\n- button \&quot;Rotate selected element\&quot;&quot;,
+    &quot;dom&quot;: &quot;- text: Pinned library consumer\n- textbox \&quot;Email\&quot;:\n  - /placeholder: Your email\n  - text: consumer@example.test\n- button \&quot;Save &amp; Continue\&quot;&quot;,
+    &quot;web&quot;: &quot;- text: Pinned library consumer\n- textbox \&quot;Email\&quot;:\n  - /placeholder: Your email\n  - text: consumer@example.test\n- button \&quot;Save &amp; Continue\&quot;&quot;
+  },
+  &quot;packagePaint&quot;: {
+    &quot;fill&quot;: &quot;rgb(20, 90, 188)&quot;,
+    &quot;variant&quot;: &quot;brand&quot;
+  }
+}</pre></details></section><section class="phase" data-phase="disabled"><h2>disabled</h2><p>Source revision 6 · same authored document and settled Canvas model · maximum outer-box differences canvas 0.0000, dom 0.0000, web 0.0000, native 0.0000 logical points.</p><div class="grid"><article><h3>Canvas editor</h3><img src="disabled-canvas.png" alt="Actual Canvas editor rendering at disabled" /></article><article><h3>Semantic DOM</h3><img src="disabled-dom.png" alt="Actual Semantic DOM rendering at disabled" /></article><article><h3>Web Awesome 3.14</h3><img src="disabled-web.png" alt="Actual Web Awesome 3.14 rendering at disabled" /></article><article><h3>System SwiftUI</h3><img src="disabled-native.png" alt="Actual System SwiftUI rendering at disabled" /></article></div><details><summary>Source contract, geometry and accessibility observations</summary><pre>{
+  &quot;name&quot;: &quot;disabled&quot;,
+  &quot;documentId&quot;: &quot;3e954087-2e65-4315-984f-e7c409ff2744&quot;,
+  &quot;sourceRevision&quot;: 6,
+  &quot;scene&quot;: {
+    &quot;documentId&quot;: &quot;3e954087-2e65-4315-984f-e7c409ff2744&quot;,
+    &quot;sourceRevision&quot;: 6,
+    &quot;rootId&quot;: &quot;root&quot;,
+    &quot;width&quot;: 400,
+    &quot;height&quot;: 500,
+    &quot;elements&quot;: [
+      {
+        &quot;id&quot;: &quot;root&quot;,
+        &quot;parentId&quot;: null,
+        &quot;kind&quot;: &quot;frame&quot;,
+        &quot;slot&quot;: &quot;&quot;,
+        &quot;x&quot;: 0,
+        &quot;y&quot;: 0,
+        &quot;width&quot;: 400,
+        &quot;height&quot;: 500,
+        &quot;rotation&quot;: 0,
+        &quot;text&quot;: &quot;&quot;,
+        &quot;value&quot;: &quot;&quot;,
+        &quot;label&quot;: &quot;&quot;,
+        &quot;disabled&quot;: false,
+        &quot;inputType&quot;: &quot;text&quot;,
+        &quot;style&quot;: {
+          &quot;fill&quot;: &quot;#ffffff&quot;,
+          &quot;fillEnabled&quot;: true,
+          &quot;color&quot;: &quot;#18181b&quot;,
+          &quot;stroke&quot;: &quot;#d4d4d8&quot;,
+          &quot;strokeWidth&quot;: 0,
+          &quot;radius&quot;: 0,
+          &quot;opacity&quot;: 1,
+          &quot;padding&quot;: 0,
+          &quot;gap&quot;: 16,
+          &quot;fontSize&quot;: 16,
+          &quot;fontWeight&quot;: 400,
+          &quot;fontFamily&quot;: &quot;system-ui&quot;,
+          &quot;lineHeight&quot;: 1.2,
+          &quot;letterSpacing&quot;: 0,
+          &quot;textAlign&quot;: &quot;auto&quot;
+        },
+        &quot;library&quot;: null
+      },
+      {
+        &quot;id&quot;: &quot;card&quot;,
+        &quot;parentId&quot;: &quot;root&quot;,
+        &quot;kind&quot;: &quot;frame&quot;,
+        &quot;slot&quot;: &quot;&quot;,
+        &quot;x&quot;: 20,
+        &quot;y&quot;: 20,
+        &quot;width&quot;: 360,
+        &quot;height&quot;: 460,
+        &quot;rotation&quot;: 0,
+        &quot;text&quot;: &quot;&quot;,
+        &quot;value&quot;: &quot;&quot;,
+        &quot;label&quot;: &quot;&quot;,
+        &quot;disabled&quot;: false,
+        &quot;inputType&quot;: &quot;text&quot;,
+        &quot;style&quot;: {
+          &quot;fill&quot;: &quot;#ffffff&quot;,
+          &quot;fillEnabled&quot;: true,
+          &quot;color&quot;: &quot;#18181b&quot;,
+          &quot;stroke&quot;: &quot;#d4d4d8&quot;,
+          &quot;strokeWidth&quot;: 0,
+          &quot;radius&quot;: 0,
+          &quot;opacity&quot;: 1,
+          &quot;padding&quot;: 24,
+          &quot;gap&quot;: 16,
+          &quot;fontSize&quot;: 16,
+          &quot;fontWeight&quot;: 400,
+          &quot;fontFamily&quot;: &quot;system-ui&quot;,
+          &quot;lineHeight&quot;: 1.2,
+          &quot;letterSpacing&quot;: 0,
+          &quot;textAlign&quot;: &quot;auto&quot;
+        },
+        &quot;library&quot;: {
+          &quot;component&quot;: &quot;Card&quot;,
+          &quot;variant&quot;: &quot;Default&quot;,
+          &quot;props&quot;: {
+            &quot;padding&quot;: 24
+          },
+          &quot;localOverrides&quot;: [],
+          &quot;tokens&quot;: {
+            &quot;--wa-color-brand-fill-loud&quot;: {
+              &quot;name&quot;: &quot;brand.primary&quot;,
+              &quot;value&quot;: &quot;#145abc&quot;
+            }
+          }
+        }
+      },
+      {
+        &quot;id&quot;: &quot;header&quot;,
+        &quot;parentId&quot;: &quot;card&quot;,
+        &quot;kind&quot;: &quot;text&quot;,
+        &quot;slot&quot;: &quot;header&quot;,
+        &quot;x&quot;: 24,
+        &quot;y&quot;: 24,
+        &quot;width&quot;: 300,
+        &quot;height&quot;: 28,
+        &quot;rotation&quot;: 0,
+        &quot;text&quot;: &quot;Pinned library consumer&quot;,
+        &quot;value&quot;: &quot;&quot;,
+        &quot;label&quot;: &quot;&quot;,
+        &quot;disabled&quot;: false,
+        &quot;inputType&quot;: &quot;text&quot;,
+        &quot;style&quot;: {
+          &quot;fill&quot;: &quot;#ffffff&quot;,
+          &quot;fillEnabled&quot;: true,
+          &quot;color&quot;: &quot;#18181b&quot;,
+          &quot;stroke&quot;: &quot;#d4d4d8&quot;,
+          &quot;strokeWidth&quot;: 0,
+          &quot;radius&quot;: 0,
+          &quot;opacity&quot;: 1,
+          &quot;padding&quot;: 16,
+          &quot;gap&quot;: 16,
+          &quot;fontSize&quot;: 16,
+          &quot;fontWeight&quot;: 400,
+          &quot;fontFamily&quot;: &quot;system-ui&quot;,
+          &quot;lineHeight&quot;: 1.2,
+          &quot;letterSpacing&quot;: 0,
+          &quot;textAlign&quot;: &quot;auto&quot;
+        },
+        &quot;library&quot;: null
+      },
+      {
+        &quot;id&quot;: &quot;input&quot;,
+        &quot;parentId&quot;: &quot;card&quot;,
+        &quot;kind&quot;: &quot;input&quot;,
+        &quot;slot&quot;: &quot;&quot;,
+        &quot;x&quot;: 24,
+        &quot;y&quot;: 68,
+        &quot;width&quot;: 260,
+        &quot;height&quot;: 56,
+        &quot;rotation&quot;: 0,
+        &quot;text&quot;: &quot;Your email&quot;,
+        &quot;value&quot;: &quot;consumer@example.test&quot;,
+        &quot;label&quot;: &quot;Email&quot;,
+        &quot;disabled&quot;: true,
+        &quot;inputType&quot;: &quot;email&quot;,
+        &quot;style&quot;: {
+          &quot;fill&quot;: &quot;#ffffff&quot;,
+          &quot;fillEnabled&quot;: true,
+          &quot;color&quot;: &quot;#18181b&quot;,
+          &quot;stroke&quot;: &quot;#d4d4d8&quot;,
+          &quot;strokeWidth&quot;: 0,
+          &quot;radius&quot;: 0,
+          &quot;opacity&quot;: 1,
+          &quot;padding&quot;: 16,
+          &quot;gap&quot;: 16,
+          &quot;fontSize&quot;: 16,
+          &quot;fontWeight&quot;: 400,
+          &quot;fontFamily&quot;: &quot;system-ui&quot;,
+          &quot;lineHeight&quot;: 1.2,
+          &quot;letterSpacing&quot;: 0,
+          &quot;textAlign&quot;: &quot;auto&quot;
+        },
+        &quot;library&quot;: {
+          &quot;component&quot;: &quot;Input&quot;,
+          &quot;variant&quot;: &quot;Disabled&quot;,
+          &quot;props&quot;: {
+            &quot;label&quot;: &quot;Email&quot;,
+            &quot;placeholder&quot;: &quot;Your email&quot;,
+            &quot;value&quot;: &quot;consumer@example.test&quot;,
+            &quot;type&quot;: &quot;email&quot;,
+            &quot;disabled&quot;: true
+          },
+          &quot;localOverrides&quot;: [],
+          &quot;tokens&quot;: {
+            &quot;--wa-color-brand-fill-loud&quot;: {
+              &quot;name&quot;: &quot;brand.primary&quot;,
+              &quot;value&quot;: &quot;#145abc&quot;
+            }
+          }
+        }
+      },
+      {
+        &quot;id&quot;: &quot;button&quot;,
+        &quot;parentId&quot;: &quot;card&quot;,
+        &quot;kind&quot;: &quot;button&quot;,
+        &quot;slot&quot;: &quot;footer&quot;,
+        &quot;x&quot;: 24,
+        &quot;y&quot;: 140,
+        &quot;width&quot;: 180,
+        &quot;height&quot;: 44,
+        &quot;rotation&quot;: 0,
+        &quot;text&quot;: &quot;Button&quot;,
+        &quot;value&quot;: &quot;&quot;,
+        &quot;label&quot;: &quot;&quot;,
+        &quot;disabled&quot;: true,
+        &quot;inputType&quot;: &quot;text&quot;,
+        &quot;style&quot;: {
+          &quot;fill&quot;: &quot;#ffffff&quot;,
+          &quot;fillEnabled&quot;: true,
+          &quot;color&quot;: &quot;#18181b&quot;,
+          &quot;stroke&quot;: &quot;#d4d4d8&quot;,
+          &quot;strokeWidth&quot;: 0,
+          &quot;radius&quot;: 0,
+          &quot;opacity&quot;: 1,
+          &quot;padding&quot;: 16,
+          &quot;gap&quot;: 16,
+          &quot;fontSize&quot;: 16,
+          &quot;fontWeight&quot;: 400,
+          &quot;fontFamily&quot;: &quot;system-ui&quot;,
+          &quot;lineHeight&quot;: 1.2,
+          &quot;letterSpacing&quot;: 0,
+          &quot;textAlign&quot;: &quot;auto&quot;
+        },
+        &quot;library&quot;: {
+          &quot;component&quot;: &quot;Button&quot;,
+          &quot;variant&quot;: &quot;Disabled&quot;,
+          &quot;props&quot;: {
+            &quot;label&quot;: &quot;Button&quot;,
+            &quot;disabled&quot;: true,
+            &quot;variant&quot;: &quot;neutral&quot;,
+            &quot;appearance&quot;: &quot;accent&quot;
+          },
+          &quot;localOverrides&quot;: [],
+          &quot;tokens&quot;: {
+            &quot;--wa-color-brand-fill-loud&quot;: {
+              &quot;name&quot;: &quot;brand.primary&quot;,
+              &quot;value&quot;: &quot;#145abc&quot;
+            }
+          }
+        }
+      }
+    ]
+  },
+  &quot;expected&quot;: {
+    &quot;root&quot;: {
+      &quot;x&quot;: 0,
+      &quot;y&quot;: 0,
+      &quot;width&quot;: 400,
+      &quot;height&quot;: 500
+    },
+    &quot;card&quot;: {
+      &quot;x&quot;: 20,
+      &quot;y&quot;: 20,
+      &quot;width&quot;: 360,
+      &quot;height&quot;: 460
+    },
+    &quot;header&quot;: {
+      &quot;x&quot;: 44,
+      &quot;y&quot;: 44,
+      &quot;width&quot;: 300,
+      &quot;height&quot;: 28
+    },
+    &quot;input&quot;: {
+      &quot;x&quot;: 44,
+      &quot;y&quot;: 88,
+      &quot;width&quot;: 260,
+      &quot;height&quot;: 56
+    },
+    &quot;button&quot;: {
+      &quot;x&quot;: 44,
+      &quot;y&quot;: 160,
+      &quot;width&quot;: 180,
+      &quot;height&quot;: 44
+    }
+  },
+  &quot;canvas&quot;: {
+    &quot;root&quot;: {
+      &quot;x&quot;: 0,
+      &quot;y&quot;: 0,
+      &quot;width&quot;: 400,
+      &quot;height&quot;: 500
+    },
+    &quot;card&quot;: {
+      &quot;x&quot;: 20,
+      &quot;y&quot;: 20,
+      &quot;width&quot;: 360,
+      &quot;height&quot;: 460
+    },
+    &quot;header&quot;: {
+      &quot;x&quot;: 44,
+      &quot;y&quot;: 44,
+      &quot;width&quot;: 300,
+      &quot;height&quot;: 28
+    },
+    &quot;input&quot;: {
+      &quot;x&quot;: 44,
+      &quot;y&quot;: 88,
+      &quot;width&quot;: 260,
+      &quot;height&quot;: 56
+    },
+    &quot;button&quot;: {
+      &quot;x&quot;: 44,
+      &quot;y&quot;: 160,
+      &quot;width&quot;: 180,
+      &quot;height&quot;: 44
+    }
+  },
+  &quot;dom&quot;: {
+    &quot;root&quot;: {
+      &quot;x&quot;: 0,
+      &quot;y&quot;: 0,
+      &quot;width&quot;: 400,
+      &quot;height&quot;: 500
+    },
+    &quot;card&quot;: {
+      &quot;x&quot;: 20,
+      &quot;y&quot;: 20,
+      &quot;width&quot;: 360,
+      &quot;height&quot;: 460
+    },
+    &quot;header&quot;: {
+      &quot;x&quot;: 44,
+      &quot;y&quot;: 44,
+      &quot;width&quot;: 300,
+      &quot;height&quot;: 28
+    },
+    &quot;input&quot;: {
+      &quot;x&quot;: 44,
+      &quot;y&quot;: 88,
+      &quot;width&quot;: 260,
+      &quot;height&quot;: 56
+    },
+    &quot;button&quot;: {
+      &quot;x&quot;: 44,
+      &quot;y&quot;: 160,
+      &quot;width&quot;: 180,
+      &quot;height&quot;: 44
+    }
+  },
+  &quot;web&quot;: {
+    &quot;root&quot;: {
+      &quot;x&quot;: 0,
+      &quot;y&quot;: 0,
+      &quot;width&quot;: 400,
+      &quot;height&quot;: 500
+    },
+    &quot;card&quot;: {
+      &quot;x&quot;: 20,
+      &quot;y&quot;: 20,
+      &quot;width&quot;: 360,
+      &quot;height&quot;: 460
+    },
+    &quot;header&quot;: {
+      &quot;x&quot;: 44,
+      &quot;y&quot;: 44,
+      &quot;width&quot;: 300,
+      &quot;height&quot;: 28
+    },
+    &quot;input&quot;: {
+      &quot;x&quot;: 44,
+      &quot;y&quot;: 88,
+      &quot;width&quot;: 260,
+      &quot;height&quot;: 56
+    },
+    &quot;button&quot;: {
+      &quot;x&quot;: 44,
+      &quot;y&quot;: 160,
+      &quot;width&quot;: 180,
+      &quot;height&quot;: 44
+    }
+  },
+  &quot;maxDelta&quot;: {
+    &quot;canvas&quot;: 0,
+    &quot;dom&quot;: 0,
+    &quot;web&quot;: 0,
+    &quot;native&quot;: 0
+  },
+  &quot;nativeDiagnostics&quot;: [],
+  &quot;native&quot;: {
+    &quot;supported&quot;: true,
+    &quot;renderMilliseconds&quot;: 65.49962500000038,
+    &quot;boxes&quot;: {
+      &quot;button&quot;: {
+        &quot;x&quot;: 44,
+        &quot;y&quot;: 160,
+        &quot;width&quot;: 180,
+        &quot;height&quot;: 44
+      },
+      &quot;card&quot;: {
+        &quot;x&quot;: 20,
+        &quot;y&quot;: 20,
+        &quot;width&quot;: 360,
+        &quot;height&quot;: 460
+      },
+      &quot;header&quot;: {
+        &quot;x&quot;: 44,
+        &quot;y&quot;: 44,
+        &quot;width&quot;: 300,
+        &quot;height&quot;: 28
+      },
+      &quot;input&quot;: {
+        &quot;x&quot;: 44,
+        &quot;y&quot;: 88,
+        &quot;width&quot;: 260,
+        &quot;height&quot;: 56
+      },
+      &quot;root&quot;: {
+        &quot;x&quot;: 0,
+        &quot;y&quot;: 0,
+        &quot;width&quot;: 400,
+        &quot;height&quot;: 500
+      }
+    },
+    &quot;revision&quot;: 4,
+    &quot;pixelWidth&quot;: 800,
+    &quot;pixelHeight&quot;: 1000
+  },
+  &quot;accessibility&quot;: {
+    &quot;canvas&quot;: &quot;- img \&quot;Design canvas. Select layers in the Layers panel; arrow keys move selected layers.\&quot;\n- button \&quot;Rotate selected element\&quot;&quot;,
+    &quot;dom&quot;: &quot;- text: Pinned library consumer\n- textbox \&quot;Email\&quot; [disabled]:\n  - /placeholder: Your email\n  - text: consumer@example.test\n- button \&quot;Button\&quot; [disabled]&quot;,
+    &quot;web&quot;: &quot;- text: Pinned library consumer\n- textbox \&quot;Email\&quot; [disabled]:\n  - /placeholder: Your email\n  - text: consumer@example.test\n- button \&quot;Button\&quot; [disabled]&quot;
+  }
+}</pre></details></section><section class="phase" data-phase="nested-overrides"><h2>nested overrides</h2><p>Source revision 7 · same authored document and settled Canvas model · maximum outer-box differences canvas 0.0000, dom 0.0149, web 0.0149, native 0.0000 logical points.</p><div class="grid"><article><h3>Canvas editor</h3><img src="nested-overrides-canvas.png" alt="Actual Canvas editor rendering at nested-overrides" /></article><article><h3>Semantic DOM</h3><img src="nested-overrides-dom.png" alt="Actual Semantic DOM rendering at nested-overrides" /></article><article><h3>Web Awesome 3.14</h3><img src="nested-overrides-web.png" alt="Actual Web Awesome 3.14 rendering at nested-overrides" /></article><article><h3>System SwiftUI</h3><img src="nested-overrides-native.png" alt="Actual System SwiftUI rendering at nested-overrides" /></article></div><details><summary>Source contract, geometry and accessibility observations</summary><pre>{
+  &quot;name&quot;: &quot;nested-overrides&quot;,
+  &quot;documentId&quot;: &quot;3e954087-2e65-4315-984f-e7c409ff2744&quot;,
+  &quot;sourceRevision&quot;: 7,
+  &quot;scene&quot;: {
+    &quot;documentId&quot;: &quot;3e954087-2e65-4315-984f-e7c409ff2744&quot;,
+    &quot;sourceRevision&quot;: 7,
+    &quot;rootId&quot;: &quot;root&quot;,
+    &quot;width&quot;: 400,
+    &quot;height&quot;: 500,
+    &quot;elements&quot;: [
+      {
+        &quot;id&quot;: &quot;root&quot;,
+        &quot;parentId&quot;: null,
+        &quot;kind&quot;: &quot;frame&quot;,
+        &quot;slot&quot;: &quot;&quot;,
+        &quot;x&quot;: 0,
+        &quot;y&quot;: 0,
+        &quot;width&quot;: 400,
+        &quot;height&quot;: 500,
+        &quot;rotation&quot;: 0,
+        &quot;text&quot;: &quot;&quot;,
+        &quot;value&quot;: &quot;&quot;,
+        &quot;label&quot;: &quot;&quot;,
+        &quot;disabled&quot;: false,
+        &quot;inputType&quot;: &quot;text&quot;,
+        &quot;style&quot;: {
+          &quot;fill&quot;: &quot;#ffffff&quot;,
+          &quot;fillEnabled&quot;: true,
+          &quot;color&quot;: &quot;#18181b&quot;,
+          &quot;stroke&quot;: &quot;#d4d4d8&quot;,
+          &quot;strokeWidth&quot;: 0,
+          &quot;radius&quot;: 0,
+          &quot;opacity&quot;: 1,
+          &quot;padding&quot;: 0,
+          &quot;gap&quot;: 16,
+          &quot;fontSize&quot;: 16,
+          &quot;fontWeight&quot;: 400,
+          &quot;fontFamily&quot;: &quot;system-ui&quot;,
+          &quot;lineHeight&quot;: 1.2,
+          &quot;letterSpacing&quot;: 0,
+          &quot;textAlign&quot;: &quot;auto&quot;
+        },
+        &quot;library&quot;: null
+      },
+      {
+        &quot;id&quot;: &quot;card&quot;,
+        &quot;parentId&quot;: &quot;root&quot;,
+        &quot;kind&quot;: &quot;frame&quot;,
+        &quot;slot&quot;: &quot;&quot;,
+        &quot;x&quot;: 20.23,
+        &quot;y&quot;: 20.17,
+        &quot;width&quot;: 359.31,
+        &quot;height&quot;: 459.73,
+        &quot;rotation&quot;: 0,
+        &quot;text&quot;: &quot;&quot;,
+        &quot;value&quot;: &quot;&quot;,
+        &quot;label&quot;: &quot;&quot;,
+        &quot;disabled&quot;: false,
+        &quot;inputType&quot;: &quot;text&quot;,
+        &quot;style&quot;: {
+          &quot;fill&quot;: &quot;#ffffff&quot;,
+          &quot;fillEnabled&quot;: true,
+          &quot;color&quot;: &quot;#18181b&quot;,
+          &quot;stroke&quot;: &quot;#d4d4d8&quot;,
+          &quot;strokeWidth&quot;: 0,
+          &quot;radius&quot;: 0,
+          &quot;opacity&quot;: 1,
+          &quot;padding&quot;: 24,
+          &quot;gap&quot;: 16,
+          &quot;fontSize&quot;: 16,
+          &quot;fontWeight&quot;: 400,
+          &quot;fontFamily&quot;: &quot;system-ui&quot;,
+          &quot;lineHeight&quot;: 1.2,
+          &quot;letterSpacing&quot;: 0,
+          &quot;textAlign&quot;: &quot;auto&quot;
+        },
+        &quot;library&quot;: {
+          &quot;component&quot;: &quot;Card&quot;,
+          &quot;variant&quot;: &quot;Default&quot;,
+          &quot;props&quot;: {
+            &quot;padding&quot;: 24
+          },
+          &quot;localOverrides&quot;: [],
+          &quot;tokens&quot;: {
+            &quot;--wa-color-brand-fill-loud&quot;: {
+              &quot;name&quot;: &quot;brand.primary&quot;,
+              &quot;value&quot;: &quot;#145abc&quot;
+            }
+          }
+        }
+      },
+      {
+        &quot;id&quot;: &quot;header&quot;,
+        &quot;parentId&quot;: &quot;card&quot;,
+        &quot;kind&quot;: &quot;text&quot;,
+        &quot;slot&quot;: &quot;header&quot;,
+        &quot;x&quot;: 24.000000000000004,
+        &quot;y&quot;: 24,
+        &quot;width&quot;: 300,
+        &quot;height&quot;: 28,
+        &quot;rotation&quot;: 0,
+        &quot;text&quot;: &quot;Pinned library consumer&quot;,
+        &quot;value&quot;: &quot;&quot;,
+        &quot;label&quot;: &quot;&quot;,
+        &quot;disabled&quot;: false,
+        &quot;inputType&quot;: &quot;text&quot;,
+        &quot;style&quot;: {
+          &quot;fill&quot;: &quot;#ffffff&quot;,
+          &quot;fillEnabled&quot;: true,
+          &quot;color&quot;: &quot;#18181b&quot;,
+          &quot;stroke&quot;: &quot;#d4d4d8&quot;,
+          &quot;strokeWidth&quot;: 0,
+          &quot;radius&quot;: 0,
+          &quot;opacity&quot;: 1,
+          &quot;padding&quot;: 16,
+          &quot;gap&quot;: 16,
+          &quot;fontSize&quot;: 16,
+          &quot;fontWeight&quot;: 400,
+          &quot;fontFamily&quot;: &quot;system-ui&quot;,
+          &quot;lineHeight&quot;: 1.2,
+          &quot;letterSpacing&quot;: 0,
+          &quot;textAlign&quot;: &quot;auto&quot;
+        },
+        &quot;library&quot;: null
+      },
+      {
+        &quot;id&quot;: &quot;input&quot;,
+        &quot;parentId&quot;: &quot;card&quot;,
+        &quot;kind&quot;: &quot;input&quot;,
+        &quot;slot&quot;: &quot;&quot;,
+        &quot;x&quot;: 24.000000000000004,
+        &quot;y&quot;: 68,
+        &quot;width&quot;: 311.31,
+        &quot;height&quot;: 41.173,
+        &quot;rotation&quot;: 0,
+        &quot;text&quot;: &quot;Your email&quot;,
+        &quot;value&quot;: &quot;consumer@example.test&quot;,
+        &quot;label&quot;: &quot;Email&quot;,
+        &quot;disabled&quot;: false,
+        &quot;inputType&quot;: &quot;email&quot;,
+        &quot;style&quot;: {
+          &quot;fill&quot;: &quot;#ffffff&quot;,
+          &quot;fillEnabled&quot;: true,
+          &quot;color&quot;: &quot;#18181b&quot;,
+          &quot;stroke&quot;: &quot;#d4d4d8&quot;,
+          &quot;strokeWidth&quot;: 0,
+          &quot;radius&quot;: 0,
+          &quot;opacity&quot;: 1,
+          &quot;padding&quot;: 16,
+          &quot;gap&quot;: 16,
+          &quot;fontSize&quot;: 16,
+          &quot;fontWeight&quot;: 400,
+          &quot;fontFamily&quot;: &quot;system-ui&quot;,
+          &quot;lineHeight&quot;: 1.2,
+          &quot;letterSpacing&quot;: 0,
+          &quot;textAlign&quot;: &quot;auto&quot;
+        },
+        &quot;library&quot;: {
+          &quot;component&quot;: &quot;Input&quot;,
+          &quot;variant&quot;: &quot;Default&quot;,
+          &quot;props&quot;: {
+            &quot;label&quot;: &quot;Email&quot;,
+            &quot;placeholder&quot;: &quot;Your email&quot;,
+            &quot;value&quot;: &quot;consumer@example.test&quot;,
+            &quot;type&quot;: &quot;email&quot;,
+            &quot;disabled&quot;: false
+          },
+          &quot;localOverrides&quot;: [],
+          &quot;tokens&quot;: {
+            &quot;--wa-color-brand-fill-loud&quot;: {
+              &quot;name&quot;: &quot;brand.primary&quot;,
+              &quot;value&quot;: &quot;#145abc&quot;
+            }
+          }
+        }
+      },
+      {
+        &quot;id&quot;: &quot;button&quot;,
+        &quot;parentId&quot;: &quot;card&quot;,
+        &quot;kind&quot;: &quot;button&quot;,
+        &quot;slot&quot;: &quot;footer&quot;,
+        &quot;x&quot;: 24.000000000000004,
+        &quot;y&quot;: 125.17300000000002,
+        &quot;width&quot;: 180,
+        &quot;height&quot;: 44,
+        &quot;rotation&quot;: 0,
+        &quot;text&quot;: &quot;Button&quot;,
+        &quot;value&quot;: &quot;&quot;,
+        &quot;label&quot;: &quot;&quot;,
+        &quot;disabled&quot;: false,
+        &quot;inputType&quot;: &quot;text&quot;,
+        &quot;style&quot;: {
+          &quot;fill&quot;: &quot;#763cba&quot;,
+          &quot;fillEnabled&quot;: true,
+          &quot;color&quot;: &quot;#ffff00&quot;,
+          &quot;stroke&quot;: &quot;#d4d4d8&quot;,
+          &quot;strokeWidth&quot;: 0,
+          &quot;radius&quot;: 13,
+          &quot;opacity&quot;: 1,
+          &quot;padding&quot;: 16,
+          &quot;gap&quot;: 16,
+          &quot;fontSize&quot;: 16,
+          &quot;fontWeight&quot;: 400,
+          &quot;fontFamily&quot;: &quot;system-ui&quot;,
+          &quot;lineHeight&quot;: 1.2,
+          &quot;letterSpacing&quot;: 0,
+          &quot;textAlign&quot;: &quot;auto&quot;
+        },
+        &quot;library&quot;: {
+          &quot;component&quot;: &quot;Button&quot;,
+          &quot;variant&quot;: &quot;Default&quot;,
+          &quot;props&quot;: {
+            &quot;label&quot;: &quot;Button&quot;,
+            &quot;disabled&quot;: false,
+            &quot;variant&quot;: &quot;neutral&quot;,
+            &quot;appearance&quot;: &quot;accent&quot;
+          },
+          &quot;localOverrides&quot;: [
+            &quot;fill&quot;,
+            &quot;color&quot;,
+            &quot;radius&quot;
+          ],
+          &quot;tokens&quot;: {
+            &quot;--wa-color-brand-fill-loud&quot;: {
+              &quot;name&quot;: &quot;brand.primary&quot;,
+              &quot;value&quot;: &quot;#145abc&quot;
+            }
+          }
+        }
+      },
+      {
+        &quot;id&quot;: &quot;nested&quot;,
+        &quot;parentId&quot;: &quot;card&quot;,
+        &quot;kind&quot;: &quot;frame&quot;,
+        &quot;slot&quot;: &quot;&quot;,
+        &quot;x&quot;: 24.000000000000004,
+        &quot;y&quot;: 185.173,
+        &quot;width&quot;: 179.61,
+        &quot;height&quot;: 119.23,
+        &quot;rotation&quot;: 0,
+        &quot;text&quot;: &quot;&quot;,
+        &quot;value&quot;: &quot;&quot;,
+        &quot;label&quot;: &quot;&quot;,
+        &quot;disabled&quot;: false,
+        &quot;inputType&quot;: &quot;text&quot;,
+        &quot;style&quot;: {
+          &quot;fill&quot;: &quot;#145abc&quot;,
+          &quot;fillEnabled&quot;: true,
+          &quot;color&quot;: &quot;#18181b&quot;,
+          &quot;stroke&quot;: &quot;#d4d4d8&quot;,
+          &quot;strokeWidth&quot;: 0,
+          &quot;radius&quot;: 9,
+          &quot;opacity&quot;: 1,
+          &quot;padding&quot;: 5,
+          &quot;gap&quot;: 16,
+          &quot;fontSize&quot;: 16,
+          &quot;fontWeight&quot;: 400,
+          &quot;fontFamily&quot;: &quot;system-ui&quot;,
+          &quot;lineHeight&quot;: 1.2,
+          &quot;letterSpacing&quot;: 0,
+          &quot;textAlign&quot;: &quot;auto&quot;
+        },
+        &quot;library&quot;: {
+          &quot;component&quot;: &quot;Card&quot;,
+          &quot;variant&quot;: &quot;Default&quot;,
+          &quot;props&quot;: {
+            &quot;padding&quot;: 5
+          },
+          &quot;localOverrides&quot;: [
+            &quot;fill&quot;,
+            &quot;radius&quot;
+          ],
+          &quot;tokens&quot;: {
+            &quot;--wa-color-brand-fill-loud&quot;: {
+              &quot;name&quot;: &quot;brand.primary&quot;,
+              &quot;value&quot;: &quot;#145abc&quot;
+            }
+          }
+        }
+      },
+      {
+        &quot;id&quot;: &quot;nested-header&quot;,
+        &quot;parentId&quot;: &quot;nested&quot;,
+        &quot;kind&quot;: &quot;text&quot;,
+        &quot;slot&quot;: &quot;header&quot;,
+        &quot;x&quot;: 5,
+        &quot;y&quot;: 5,
+        &quot;width&quot;: 120,
+        &quot;height&quot;: 20,
+        &quot;rotation&quot;: 0,
+        &quot;text&quot;: &quot;Nested header&quot;,
+        &quot;value&quot;: &quot;&quot;,
+        &quot;label&quot;: &quot;&quot;,
+        &quot;disabled&quot;: false,
+        &quot;inputType&quot;: &quot;text&quot;,
+        &quot;style&quot;: {
+          &quot;fill&quot;: &quot;#ffffff&quot;,
+          &quot;fillEnabled&quot;: true,
+          &quot;color&quot;: &quot;#18181b&quot;,
+          &quot;stroke&quot;: &quot;#d4d4d8&quot;,
+          &quot;strokeWidth&quot;: 0,
+          &quot;radius&quot;: 0,
+          &quot;opacity&quot;: 1,
+          &quot;padding&quot;: 16,
+          &quot;gap&quot;: 16,
+          &quot;fontSize&quot;: 16,
+          &quot;fontWeight&quot;: 400,
+          &quot;fontFamily&quot;: &quot;system-ui&quot;,
+          &quot;lineHeight&quot;: 1.2,
+          &quot;letterSpacing&quot;: 0,
+          &quot;textAlign&quot;: &quot;auto&quot;
+        },
+        &quot;library&quot;: null
+      }
+    ]
+  },
+  &quot;expected&quot;: {
+    &quot;root&quot;: {
+      &quot;x&quot;: 0,
+      &quot;y&quot;: 0,
+      &quot;width&quot;: 400,
+      &quot;height&quot;: 500
+    },
+    &quot;card&quot;: {
+      &quot;x&quot;: 20.23,
+      &quot;y&quot;: 20.17,
+      &quot;width&quot;: 359.31,
+      &quot;height&quot;: 459.73
+    },
+    &quot;header&quot;: {
+      &quot;x&quot;: 44.230000000000004,
+      &quot;y&quot;: 44.17,
+      &quot;width&quot;: 300,
+      &quot;height&quot;: 28
+    },
+    &quot;input&quot;: {
+      &quot;x&quot;: 44.230000000000004,
+      &quot;y&quot;: 88.17,
+      &quot;width&quot;: 311.31,
+      &quot;height&quot;: 41.173000000000016
+    },
+    &quot;button&quot;: {
+      &quot;x&quot;: 44.230000000000004,
+      &quot;y&quot;: 145.34300000000002,
+      &quot;width&quot;: 180,
+      &quot;height&quot;: 44
+    },
+    &quot;nested&quot;: {
+      &quot;x&quot;: 44.230000000000004,
+      &quot;y&quot;: 205.34300000000002,
+      &quot;width&quot;: 179.61,
+      &quot;height&quot;: 119.23000000000002
+    },
+    &quot;nested-header&quot;: {
+      &quot;x&quot;: 49.230000000000004,
+      &quot;y&quot;: 210.34300000000002,
+      &quot;width&quot;: 120.00000000000001,
+      &quot;height&quot;: 20
+    }
+  },
+  &quot;canvas&quot;: {
+    &quot;root&quot;: {
+      &quot;x&quot;: 0,
+      &quot;y&quot;: 0,
+      &quot;width&quot;: 400,
+      &quot;height&quot;: 500
+    },
+    &quot;card&quot;: {
+      &quot;x&quot;: 20.230000000000018,
+      &quot;y&quot;: 20.170000000000016,
+      &quot;width&quot;: 359.31,
+      &quot;height&quot;: 459.73
+    },
+    &quot;header&quot;: {
+      &quot;x&quot;: 44.23000000000002,
+      &quot;y&quot;: 44.170000000000016,
+      &quot;width&quot;: 300,
+      &quot;height&quot;: 28
+    },
+    &quot;input&quot;: {
+      &quot;x&quot;: 44.23000000000002,
+      &quot;y&quot;: 88.17000000000002,
+      &quot;width&quot;: 311.31,
+      &quot;height&quot;: 41.173000000000016
+    },
+    &quot;button&quot;: {
+      &quot;x&quot;: 44.23000000000002,
+      &quot;y&quot;: 145.34300000000007,
+      &quot;width&quot;: 180,
+      &quot;height&quot;: 44
+    },
+    &quot;nested&quot;: {
+      &quot;x&quot;: 44.23000000000002,
+      &quot;y&quot;: 205.34300000000007,
+      &quot;width&quot;: 179.61,
+      &quot;height&quot;: 119.23000000000002
+    },
+    &quot;nested-header&quot;: {
+      &quot;x&quot;: 49.23000000000002,
+      &quot;y&quot;: 210.34300000000007,
+      &quot;width&quot;: 120.00000000000001,
+      &quot;height&quot;: 20
+    }
+  },
+  &quot;dom&quot;: {
+    &quot;root&quot;: {
+      &quot;x&quot;: 0,
+      &quot;y&quot;: 0,
+      &quot;width&quot;: 400,
+      &quot;height&quot;: 500
+    },
+    &quot;card&quot;: {
+      &quot;x&quot;: 20.21875,
+      &quot;y&quot;: 20.15625,
+      &quot;width&quot;: 359.296875,
+      &quot;height&quot;: 459.71875
+    },
+    &quot;header&quot;: {
+      &quot;x&quot;: 44.21875,
+      &quot;y&quot;: 44.15625,
+      &quot;width&quot;: 300,
+      &quot;height&quot;: 28
+    },
+    &quot;input&quot;: {
+      &quot;x&quot;: 44.21875,
+      &quot;y&quot;: 88.15625,
+      &quot;width&quot;: 311.296875,
+      &quot;height&quot;: 41.171875
+    },
+    &quot;button&quot;: {
+      &quot;x&quot;: 44.21875,
+      &quot;y&quot;: 145.328125,
+      &quot;width&quot;: 180,
+      &quot;height&quot;: 44
+    },
+    &quot;nested&quot;: {
+      &quot;x&quot;: 44.21875,
+      &quot;y&quot;: 205.328125,
+      &quot;width&quot;: 179.609375,
+      &quot;height&quot;: 119.21875
+    },
+    &quot;nested-header&quot;: {
+      &quot;x&quot;: 49.21875,
+      &quot;y&quot;: 210.328125,
+      &quot;width&quot;: 120,
+      &quot;height&quot;: 20
+    }
+  },
+  &quot;web&quot;: {
+    &quot;root&quot;: {
+      &quot;x&quot;: 0,
+      &quot;y&quot;: 0,
+      &quot;width&quot;: 400,
+      &quot;height&quot;: 500
+    },
+    &quot;card&quot;: {
+      &quot;x&quot;: 20.21875,
+      &quot;y&quot;: 20.15625,
+      &quot;width&quot;: 359.296875,
+      &quot;height&quot;: 459.71875
+    },
+    &quot;header&quot;: {
+      &quot;x&quot;: 44.21875,
+      &quot;y&quot;: 44.15625,
+      &quot;width&quot;: 300,
+      &quot;height&quot;: 28
+    },
+    &quot;input&quot;: {
+      &quot;x&quot;: 44.21875,
+      &quot;y&quot;: 88.15625,
+      &quot;width&quot;: 311.296875,
+      &quot;height&quot;: 41.171875
+    },
+    &quot;button&quot;: {
+      &quot;x&quot;: 44.21875,
+      &quot;y&quot;: 145.328125,
+      &quot;width&quot;: 180,
+      &quot;height&quot;: 44
+    },
+    &quot;nested&quot;: {
+      &quot;x&quot;: 44.21875,
+      &quot;y&quot;: 205.328125,
+      &quot;width&quot;: 179.609375,
+      &quot;height&quot;: 119.21875
+    },
+    &quot;nested-header&quot;: {
+      &quot;x&quot;: 49.21875,
+      &quot;y&quot;: 210.328125,
+      &quot;width&quot;: 120,
+      &quot;height&quot;: 20
+    }
+  },
+  &quot;maxDelta&quot;: {
+    &quot;canvas&quot;: 5.684341886080802e-14,
+    &quot;dom&quot;: 0.014875000000017735,
+    &quot;web&quot;: 0.014875000000017735,
+    &quot;native&quot;: 5.684341886080802e-14
+  },
+  &quot;nativeDiagnostics&quot;: [],
+  &quot;native&quot;: {
+    &quot;supported&quot;: true,
+    &quot;renderMilliseconds&quot;: 58.65291700000034,
+    &quot;boxes&quot;: {
+      &quot;button&quot;: {
+        &quot;x&quot;: 44.230000000000004,
+        &quot;y&quot;: 145.34300000000002,
+        &quot;width&quot;: 179.99999999999994,
+        &quot;height&quot;: 44
+      },
+      &quot;card&quot;: {
+        &quot;x&quot;: 20.23,
+        &quot;y&quot;: 20.17,
+        &quot;width&quot;: 359.31,
+        &quot;height&quot;: 459.73
+      },
+      &quot;header&quot;: {
+        &quot;x&quot;: 44.230000000000004,
+        &quot;y&quot;: 44.17,
+        &quot;width&quot;: 299.99999999999994,
+        &quot;height&quot;: 28
+      },
+      &quot;input&quot;: {
+        &quot;x&quot;: 44.230000000000004,
+        &quot;y&quot;: 88.17,
+        &quot;width&quot;: 311.31,
+        &quot;height&quot;: 41.173000000000016
+      },
+      &quot;nested&quot;: {
+        &quot;x&quot;: 44.230000000000004,
+        &quot;y&quot;: 205.34300000000002,
+        &quot;width&quot;: 179.61,
+        &quot;height&quot;: 119.23000000000002
+      },
+      &quot;nested-header&quot;: {
+        &quot;x&quot;: 49.230000000000004,
+        &quot;y&quot;: 210.34300000000002,
+        &quot;width&quot;: 119.99999999999999,
+        &quot;height&quot;: 20
+      },
+      &quot;root&quot;: {
+        &quot;x&quot;: 0,
+        &quot;y&quot;: 0,
+        &quot;width&quot;: 400,
+        &quot;height&quot;: 500
+      }
+    },
+    &quot;revision&quot;: 5,
+    &quot;pixelWidth&quot;: 800,
+    &quot;pixelHeight&quot;: 1000,
+    &quot;paint&quot;: {
+      &quot;purple&quot;: 29249,
+      &quot;yellow&quot;: 554,
+      &quot;scope&quot;: &quot;Actual native PNG pixels within the Button presentation bounds, sRGB decoded in Chrome; solid-fill RGB tolerance 3/255&quot;
+    }
+  },
+  &quot;canvasPaint&quot;: {
+    &quot;purple&quot;: 7059,
+    &quot;yellow&quot;: 180,
+    &quot;scope&quot;: &quot;Actual production Canvas pixels within the screen-projected Button bounds; solid-fill RGB tolerance 3/255&quot;
+  },
+  &quot;accessibility&quot;: {
+    &quot;canvas&quot;: &quot;- img \&quot;Design canvas. Select layers in the Layers panel; arrow keys move selected layers.\&quot;\n- button \&quot;Rotate selected element\&quot;&quot;,
+    &quot;dom&quot;: &quot;- text: Pinned library consumer\n- textbox \&quot;Email\&quot;:\n  - /placeholder: Your email\n  - text: consumer@example.test\n- button \&quot;Button\&quot;\n- text: Nested header&quot;,
+    &quot;web&quot;: &quot;- text: Pinned library consumer\n- textbox \&quot;Email\&quot;:\n  - /placeholder: Your email\n  - text: consumer@example.test\n- text: Nested header\n- button \&quot;Button\&quot;&quot;
+  },
+  &quot;packagePaint&quot;: {
+    &quot;fill&quot;: &quot;rgb(118, 60, 186)&quot;,
+    &quot;color&quot;: &quot;rgb(255, 255, 0)&quot;,
+    &quot;radius&quot;: &quot;13px&quot;
+  }
+}</pre></details></section><section class="phase" data-phase="nested-rotations"><h2>nested rotations</h2><p>Source revision 8 · same authored document and settled Canvas model · maximum outer-box differences canvas 0.0000, dom 0.0150, web 0.0150, native 0.0000 logical points.</p><div class="grid"><article><h3>Canvas editor</h3><img src="nested-rotations-canvas.png" alt="Actual Canvas editor rendering at nested-rotations" /></article><article><h3>Semantic DOM</h3><img src="nested-rotations-dom.png" alt="Actual Semantic DOM rendering at nested-rotations" /></article><article><h3>Web Awesome 3.14</h3><img src="nested-rotations-web.png" alt="Actual Web Awesome 3.14 rendering at nested-rotations" /></article><article><h3>System SwiftUI</h3><img src="nested-rotations-native.png" alt="Actual System SwiftUI rendering at nested-rotations" /></article></div><details><summary>Source contract, geometry and accessibility observations</summary><pre>{
+  &quot;name&quot;: &quot;nested-rotations&quot;,
+  &quot;documentId&quot;: &quot;3e954087-2e65-4315-984f-e7c409ff2744&quot;,
+  &quot;sourceRevision&quot;: 8,
+  &quot;scene&quot;: {
+    &quot;documentId&quot;: &quot;3e954087-2e65-4315-984f-e7c409ff2744&quot;,
+    &quot;sourceRevision&quot;: 8,
+    &quot;rootId&quot;: &quot;root&quot;,
+    &quot;width&quot;: 400,
+    &quot;height&quot;: 500,
+    &quot;elements&quot;: [
+      {
+        &quot;id&quot;: &quot;root&quot;,
+        &quot;parentId&quot;: null,
+        &quot;kind&quot;: &quot;frame&quot;,
+        &quot;slot&quot;: &quot;&quot;,
+        &quot;x&quot;: 0,
+        &quot;y&quot;: 0,
+        &quot;width&quot;: 400,
+        &quot;height&quot;: 500,
+        &quot;rotation&quot;: 0,
+        &quot;text&quot;: &quot;&quot;,
+        &quot;value&quot;: &quot;&quot;,
+        &quot;label&quot;: &quot;&quot;,
+        &quot;disabled&quot;: false,
+        &quot;inputType&quot;: &quot;text&quot;,
+        &quot;style&quot;: {
+          &quot;fill&quot;: &quot;#ffffff&quot;,
+          &quot;fillEnabled&quot;: true,
+          &quot;color&quot;: &quot;#18181b&quot;,
+          &quot;stroke&quot;: &quot;#d4d4d8&quot;,
+          &quot;strokeWidth&quot;: 0,
+          &quot;radius&quot;: 0,
+          &quot;opacity&quot;: 1,
+          &quot;padding&quot;: 0,
+          &quot;gap&quot;: 16,
+          &quot;fontSize&quot;: 16,
+          &quot;fontWeight&quot;: 400,
+          &quot;fontFamily&quot;: &quot;system-ui&quot;,
+          &quot;lineHeight&quot;: 1.2,
+          &quot;letterSpacing&quot;: 0,
+          &quot;textAlign&quot;: &quot;auto&quot;
+        },
+        &quot;library&quot;: null
+      },
+      {
+        &quot;id&quot;: &quot;card&quot;,
+        &quot;parentId&quot;: &quot;root&quot;,
+        &quot;kind&quot;: &quot;frame&quot;,
+        &quot;slot&quot;: &quot;&quot;,
+        &quot;x&quot;: 20.23,
+        &quot;y&quot;: 20.17,
+        &quot;width&quot;: 359.31,
+        &quot;height&quot;: 459.73,
+        &quot;rotation&quot;: 0,
+        &quot;text&quot;: &quot;&quot;,
+        &quot;value&quot;: &quot;&quot;,
+        &quot;label&quot;: &quot;&quot;,
+        &quot;disabled&quot;: false,
+        &quot;inputType&quot;: &quot;text&quot;,
+        &quot;style&quot;: {
+          &quot;fill&quot;: &quot;#ffffff&quot;,
+          &quot;fillEnabled&quot;: true,
+          &quot;color&quot;: &quot;#18181b&quot;,
+          &quot;stroke&quot;: &quot;#d4d4d8&quot;,
+          &quot;strokeWidth&quot;: 0,
+          &quot;radius&quot;: 0,
+          &quot;opacity&quot;: 1,
+          &quot;padding&quot;: 24,
+          &quot;gap&quot;: 16,
+          &quot;fontSize&quot;: 16,
+          &quot;fontWeight&quot;: 400,
+          &quot;fontFamily&quot;: &quot;system-ui&quot;,
+          &quot;lineHeight&quot;: 1.2,
+          &quot;letterSpacing&quot;: 0,
+          &quot;textAlign&quot;: &quot;auto&quot;
+        },
+        &quot;library&quot;: {
+          &quot;component&quot;: &quot;Card&quot;,
+          &quot;variant&quot;: &quot;Default&quot;,
+          &quot;props&quot;: {
+            &quot;padding&quot;: 24
+          },
+          &quot;localOverrides&quot;: [],
+          &quot;tokens&quot;: {
+            &quot;--wa-color-brand-fill-loud&quot;: {
+              &quot;name&quot;: &quot;brand.primary&quot;,
+              &quot;value&quot;: &quot;#145abc&quot;
+            }
+          }
+        }
+      },
+      {
+        &quot;id&quot;: &quot;header&quot;,
+        &quot;parentId&quot;: &quot;card&quot;,
+        &quot;kind&quot;: &quot;text&quot;,
+        &quot;slot&quot;: &quot;header&quot;,
+        &quot;x&quot;: 24.000000000000004,
+        &quot;y&quot;: 24,
+        &quot;width&quot;: 300,
+        &quot;height&quot;: 28,
+        &quot;rotation&quot;: 0,
+        &quot;text&quot;: &quot;Pinned library consumer&quot;,
+        &quot;value&quot;: &quot;&quot;,
+        &quot;label&quot;: &quot;&quot;,
+        &quot;disabled&quot;: false,
+        &quot;inputType&quot;: &quot;text&quot;,
+        &quot;style&quot;: {
+          &quot;fill&quot;: &quot;#ffffff&quot;,
+          &quot;fillEnabled&quot;: true,
+          &quot;color&quot;: &quot;#18181b&quot;,
+          &quot;stroke&quot;: &quot;#d4d4d8&quot;,
+          &quot;strokeWidth&quot;: 0,
+          &quot;radius&quot;: 0,
+          &quot;opacity&quot;: 1,
+          &quot;padding&quot;: 16,
+          &quot;gap&quot;: 16,
+          &quot;fontSize&quot;: 16,
+          &quot;fontWeight&quot;: 400,
+          &quot;fontFamily&quot;: &quot;system-ui&quot;,
+          &quot;lineHeight&quot;: 1.2,
+          &quot;letterSpacing&quot;: 0,
+          &quot;textAlign&quot;: &quot;auto&quot;
+        },
+        &quot;library&quot;: null
+      },
+      {
+        &quot;id&quot;: &quot;input&quot;,
+        &quot;parentId&quot;: &quot;card&quot;,
+        &quot;kind&quot;: &quot;input&quot;,
+        &quot;slot&quot;: &quot;&quot;,
+        &quot;x&quot;: 24.000000000000004,
+        &quot;y&quot;: 68,
+        &quot;width&quot;: 311.31,
+        &quot;height&quot;: 41.173,
+        &quot;rotation&quot;: 0,
+        &quot;text&quot;: &quot;Your email&quot;,
+        &quot;value&quot;: &quot;consumer@example.test&quot;,
+        &quot;label&quot;: &quot;Email&quot;,
+        &quot;disabled&quot;: false,
+        &quot;inputType&quot;: &quot;email&quot;,
+        &quot;style&quot;: {
+          &quot;fill&quot;: &quot;#ffffff&quot;,
+          &quot;fillEnabled&quot;: true,
+          &quot;color&quot;: &quot;#18181b&quot;,
+          &quot;stroke&quot;: &quot;#d4d4d8&quot;,
+          &quot;strokeWidth&quot;: 0,
+          &quot;radius&quot;: 0,
+          &quot;opacity&quot;: 1,
+          &quot;padding&quot;: 16,
+          &quot;gap&quot;: 16,
+          &quot;fontSize&quot;: 16,
+          &quot;fontWeight&quot;: 400,
+          &quot;fontFamily&quot;: &quot;system-ui&quot;,
+          &quot;lineHeight&quot;: 1.2,
+          &quot;letterSpacing&quot;: 0,
+          &quot;textAlign&quot;: &quot;auto&quot;
+        },
+        &quot;library&quot;: {
+          &quot;component&quot;: &quot;Input&quot;,
+          &quot;variant&quot;: &quot;Default&quot;,
+          &quot;props&quot;: {
+            &quot;label&quot;: &quot;Email&quot;,
+            &quot;placeholder&quot;: &quot;Your email&quot;,
+            &quot;value&quot;: &quot;consumer@example.test&quot;,
+            &quot;type&quot;: &quot;email&quot;,
+            &quot;disabled&quot;: false
+          },
+          &quot;localOverrides&quot;: [],
+          &quot;tokens&quot;: {
+            &quot;--wa-color-brand-fill-loud&quot;: {
+              &quot;name&quot;: &quot;brand.primary&quot;,
+              &quot;value&quot;: &quot;#145abc&quot;
+            }
+          }
+        }
+      },
+      {
+        &quot;id&quot;: &quot;button&quot;,
+        &quot;parentId&quot;: &quot;card&quot;,
+        &quot;kind&quot;: &quot;button&quot;,
+        &quot;slot&quot;: &quot;footer&quot;,
+        &quot;x&quot;: 24.000000000000004,
+        &quot;y&quot;: 125.17300000000002,
+        &quot;width&quot;: 180,
+        &quot;height&quot;: 44,
+        &quot;rotation&quot;: 27,
+        &quot;text&quot;: &quot;Button&quot;,
+        &quot;value&quot;: &quot;&quot;,
+        &quot;label&quot;: &quot;&quot;,
+        &quot;disabled&quot;: false,
+        &quot;inputType&quot;: &quot;text&quot;,
+        &quot;style&quot;: {
+          &quot;fill&quot;: &quot;#763cba&quot;,
+          &quot;fillEnabled&quot;: true,
+          &quot;color&quot;: &quot;#ffff00&quot;,
+          &quot;stroke&quot;: &quot;#d4d4d8&quot;,
+          &quot;strokeWidth&quot;: 0,
+          &quot;radius&quot;: 13,
+          &quot;opacity&quot;: 1,
+          &quot;padding&quot;: 16,
+          &quot;gap&quot;: 16,
+          &quot;fontSize&quot;: 16,
+          &quot;fontWeight&quot;: 400,
+          &quot;fontFamily&quot;: &quot;system-ui&quot;,
+          &quot;lineHeight&quot;: 1.2,
+          &quot;letterSpacing&quot;: 0,
+          &quot;textAlign&quot;: &quot;auto&quot;
+        },
+        &quot;library&quot;: {
+          &quot;component&quot;: &quot;Button&quot;,
+          &quot;variant&quot;: &quot;Default&quot;,
+          &quot;props&quot;: {
+            &quot;label&quot;: &quot;Button&quot;,
+            &quot;disabled&quot;: false,
+            &quot;variant&quot;: &quot;neutral&quot;,
+            &quot;appearance&quot;: &quot;accent&quot;
+          },
+          &quot;localOverrides&quot;: [
+            &quot;fill&quot;,
+            &quot;color&quot;,
+            &quot;radius&quot;
+          ],
+          &quot;tokens&quot;: {
+            &quot;--wa-color-brand-fill-loud&quot;: {
+              &quot;name&quot;: &quot;brand.primary&quot;,
+              &quot;value&quot;: &quot;#145abc&quot;
+            }
+          }
+        }
+      },
+      {
+        &quot;id&quot;: &quot;nested&quot;,
+        &quot;parentId&quot;: &quot;card&quot;,
+        &quot;kind&quot;: &quot;frame&quot;,
+        &quot;slot&quot;: &quot;&quot;,
+        &quot;x&quot;: 24.000000000000004,
+        &quot;y&quot;: 185.173,
+        &quot;width&quot;: 179.61,
+        &quot;height&quot;: 119.23,
+        &quot;rotation&quot;: 13,
+        &quot;text&quot;: &quot;&quot;,
+        &quot;value&quot;: &quot;&quot;,
+        &quot;label&quot;: &quot;&quot;,
+        &quot;disabled&quot;: false,
+        &quot;inputType&quot;: &quot;text&quot;,
+        &quot;style&quot;: {
+          &quot;fill&quot;: &quot;#145abc&quot;,
+          &quot;fillEnabled&quot;: true,
+          &quot;color&quot;: &quot;#18181b&quot;,
+          &quot;stroke&quot;: &quot;#d4d4d8&quot;,
+          &quot;strokeWidth&quot;: 0,
+          &quot;radius&quot;: 9,
+          &quot;opacity&quot;: 1,
+          &quot;padding&quot;: 5,
+          &quot;gap&quot;: 16,
+          &quot;fontSize&quot;: 16,
+          &quot;fontWeight&quot;: 400,
+          &quot;fontFamily&quot;: &quot;system-ui&quot;,
+          &quot;lineHeight&quot;: 1.2,
+          &quot;letterSpacing&quot;: 0,
+          &quot;textAlign&quot;: &quot;auto&quot;
+        },
+        &quot;library&quot;: {
+          &quot;component&quot;: &quot;Card&quot;,
+          &quot;variant&quot;: &quot;Default&quot;,
+          &quot;props&quot;: {
+            &quot;padding&quot;: 5
+          },
+          &quot;localOverrides&quot;: [
+            &quot;fill&quot;,
+            &quot;radius&quot;
+          ],
+          &quot;tokens&quot;: {
+            &quot;--wa-color-brand-fill-loud&quot;: {
+              &quot;name&quot;: &quot;brand.primary&quot;,
+              &quot;value&quot;: &quot;#145abc&quot;
+            }
+          }
+        }
+      },
+      {
+        &quot;id&quot;: &quot;nested-header&quot;,
+        &quot;parentId&quot;: &quot;nested&quot;,
+        &quot;kind&quot;: &quot;text&quot;,
+        &quot;slot&quot;: &quot;header&quot;,
+        &quot;x&quot;: 5,
+        &quot;y&quot;: 5,
+        &quot;width&quot;: 120,
+        &quot;height&quot;: 20,
+        &quot;rotation&quot;: 0,
+        &quot;text&quot;: &quot;Nested header&quot;,
+        &quot;value&quot;: &quot;&quot;,
+        &quot;label&quot;: &quot;&quot;,
+        &quot;disabled&quot;: false,
+        &quot;inputType&quot;: &quot;text&quot;,
+        &quot;style&quot;: {
+          &quot;fill&quot;: &quot;#ffffff&quot;,
+          &quot;fillEnabled&quot;: true,
+          &quot;color&quot;: &quot;#18181b&quot;,
+          &quot;stroke&quot;: &quot;#d4d4d8&quot;,
+          &quot;strokeWidth&quot;: 0,
+          &quot;radius&quot;: 0,
+          &quot;opacity&quot;: 1,
+          &quot;padding&quot;: 16,
+          &quot;gap&quot;: 16,
+          &quot;fontSize&quot;: 16,
+          &quot;fontWeight&quot;: 400,
+          &quot;fontFamily&quot;: &quot;system-ui&quot;,
+          &quot;lineHeight&quot;: 1.2,
+          &quot;letterSpacing&quot;: 0,
+          &quot;textAlign&quot;: &quot;auto&quot;
+        },
+        &quot;library&quot;: null
+      }
+    ]
+  },
+  &quot;expected&quot;: {
+    &quot;root&quot;: {
+      &quot;x&quot;: 0,
+      &quot;y&quot;: 0,
+      &quot;width&quot;: 400,
+      &quot;height&quot;: 500
+    },
+    &quot;card&quot;: {
+      &quot;x&quot;: 20.23,
+      &quot;y&quot;: 20.17,
+      &quot;width&quot;: 359.31,
+      &quot;height&quot;: 459.73
+    },
+    &quot;header&quot;: {
+      &quot;x&quot;: 44.230000000000004,
+      &quot;y&quot;: 44.17,
+      &quot;width&quot;: 300,
+      &quot;height&quot;: 28
+    },
+    &quot;input&quot;: {
+      &quot;x&quot;: 44.230000000000004,
+      &quot;y&quot;: 88.17,
+      &quot;width&quot;: 311.31,
+      &quot;height&quot;: 41.173000000000016
+    },
+    &quot;button&quot;: {
+      &quot;x&quot;: 44.05162182877686,
+      &quot;y&quot;: 106.88171149129671,
+      &quot;width&quot;: 180.3567563424463,
+      &quot;height&quot;: 120.92257701740662
+    },
+    &quot;nested&quot;: {
+      &quot;x&quot;: 33.12123922725243,
+      &quot;y&quot;: 186.66919915247738,
+      &quot;width&quot;: 201.82752154549516,
+      &quot;height&quot;: 156.57760169504522
+    },
+    &quot;nested-header&quot;: {
+      &quot;x&quot;: 59.19022740200101,
+      &quot;y&quot;: 192.6658047481229,
+      &quot;width&quot;: 121.42342886110555,
+      &quot;height&quot;: 46.48152781696851
+    }
+  },
+  &quot;canvas&quot;: {
+    &quot;root&quot;: {
+      &quot;x&quot;: 0,
+      &quot;y&quot;: 0,
+      &quot;width&quot;: 400,
+      &quot;height&quot;: 500
+    },
+    &quot;card&quot;: {
+      &quot;x&quot;: 20.230000000000018,
+      &quot;y&quot;: 20.170000000000016,
+      &quot;width&quot;: 359.31,
+      &quot;height&quot;: 459.73
+    },
+    &quot;header&quot;: {
+      &quot;x&quot;: 44.23000000000002,
+      &quot;y&quot;: 44.170000000000016,
+      &quot;width&quot;: 300,
+      &quot;height&quot;: 28
+    },
+    &quot;input&quot;: {
+      &quot;x&quot;: 44.23000000000002,
+      &quot;y&quot;: 88.17000000000002,
+      &quot;width&quot;: 311.31,
+      &quot;height&quot;: 41.173000000000016
+    },
+    &quot;button&quot;: {
+      &quot;x&quot;: 44.05162182877689,
+      &quot;y&quot;: 106.8817114912967,
+      &quot;width&quot;: 180.3567563424463,
+      &quot;height&quot;: 120.92257701740662
+    },
+    &quot;nested&quot;: {
+      &quot;x&quot;: 33.12123922725243,
+      &quot;y&quot;: 186.6691991524774,
+      &quot;width&quot;: 201.82752154549516,
+      &quot;height&quot;: 156.57760169504522
+    },
+    &quot;nested-header&quot;: {
+      &quot;x&quot;: 59.19022740200103,
+      &quot;y&quot;: 192.66580474812292,
+      &quot;width&quot;: 121.42342886110555,
+      &quot;height&quot;: 46.48152781696851
+    }
+  },
+  &quot;dom&quot;: {
+    &quot;root&quot;: {
+      &quot;x&quot;: 0,
+      &quot;y&quot;: 0,
+      &quot;width&quot;: 400,
+      &quot;height&quot;: 500
+    },
+    &quot;card&quot;: {
+      &quot;x&quot;: 20.21875,
+      &quot;y&quot;: 20.15625,
+      &quot;width&quot;: 359.296875,
+      &quot;height&quot;: 459.71875
+    },
+    &quot;header&quot;: {
+      &quot;x&quot;: 44.21875,
+      &quot;y&quot;: 44.15625,
+      &quot;width&quot;: 300,
+      &quot;height&quot;: 28
+    },
+    &quot;input&quot;: {
+      &quot;x&quot;: 44.21875,
+      &quot;y&quot;: 88.15625,
+      &quot;width&quot;: 311.296875,
+      &quot;height&quot;: 41.171875
+    },
+    &quot;button&quot;: {
+      &quot;x&quot;: 44.04034423828125,
+      &quot;y&quot;: 106.86683654785156,
+      &quot;width&quot;: 180.35675048828125,
+      &quot;height&quot;: 120.92259216308594
+    },
+    &quot;nested&quot;: {
+      &quot;x&quot;: 33.11126708984375,
+      &quot;y&quot;: 186.65423583984375,
+      &quot;width&quot;: 201.8243408203125,
+      &quot;height&quot;: 156.5665283203125
+    },
+    &quot;nested-header&quot;: {
+      &quot;x&quot;: 59.177734375,
+      &quot;y&quot;: 192.65084838867188,
+      &quot;width&quot;: 121.42340087890625,
+      &quot;height&quot;: 46.481536865234375
+    }
+  },
+  &quot;web&quot;: {
+    &quot;root&quot;: {
+      &quot;x&quot;: 0,
+      &quot;y&quot;: 0,
+      &quot;width&quot;: 400,
+      &quot;height&quot;: 500
+    },
+    &quot;card&quot;: {
+      &quot;x&quot;: 20.21875,
+      &quot;y&quot;: 20.15625,
+      &quot;width&quot;: 359.296875,
+      &quot;height&quot;: 459.71875
+    },
+    &quot;header&quot;: {
+      &quot;x&quot;: 44.21875,
+      &quot;y&quot;: 44.15625,
+      &quot;width&quot;: 300,
+      &quot;height&quot;: 28
+    },
+    &quot;input&quot;: {
+      &quot;x&quot;: 44.21875,
+      &quot;y&quot;: 88.15625,
+      &quot;width&quot;: 311.296875,
+      &quot;height&quot;: 41.171875
+    },
+    &quot;button&quot;: {
+      &quot;x&quot;: 44.04037094116211,
+      &quot;y&quot;: 106.86683654785156,
+      &quot;width&quot;: 180.35675048828125,
+      &quot;height&quot;: 120.92257690429688
+    },
+    &quot;nested&quot;: {
+      &quot;x&quot;: 33.111244201660156,
+      &quot;y&quot;: 186.6542510986328,
+      &quot;width&quot;: 201.82437133789062,
+      &quot;height&quot;: 156.56651306152344
+    },
+    &quot;nested-header&quot;: {
+      &quot;x&quot;: 59.177703857421875,
+      &quot;y&quot;: 192.65084838867188,
+      &quot;width&quot;: 121.42343139648438,
+      &quot;height&quot;: 46.481536865234375
+    }
+  },
+  &quot;maxDelta&quot;: {
+    &quot;canvas&quot;: 2.842170943040401e-14,
+    &quot;dom&quot;: 0.014963312633625492,
+    &quot;web&quot;: 0.014956359451019807,
+    &quot;native&quot;: 5.684341886080802e-14
+  },
+  &quot;nativeDiagnostics&quot;: [],
+  &quot;native&quot;: {
+    &quot;supported&quot;: true,
+    &quot;renderMilliseconds&quot;: 60.838708000000224,
+    &quot;boxes&quot;: {
+      &quot;button&quot;: {
+        &quot;x&quot;: 44.05162182877687,
+        &quot;y&quot;: 106.88171149129673,
+        &quot;width&quot;: 180.35675634244626,
+        &quot;height&quot;: 120.92257701740661
+      },
+      &quot;card&quot;: {
+        &quot;x&quot;: 20.23,
+        &quot;y&quot;: 20.17,
+        &quot;width&quot;: 359.31,
+        &quot;height&quot;: 459.73
+      },
+      &quot;header&quot;: {
+        &quot;x&quot;: 44.230000000000004,
+        &quot;y&quot;: 44.17,
+        &quot;width&quot;: 299.99999999999994,
+        &quot;height&quot;: 28
+      },
+      &quot;input&quot;: {
+        &quot;x&quot;: 44.230000000000004,
+        &quot;y&quot;: 88.17,
+        &quot;width&quot;: 311.31,
+        &quot;height&quot;: 41.173000000000016
+      },
+      &quot;nested&quot;: {
+        &quot;x&quot;: 33.12123922725244,
+        &quot;y&quot;: 186.6691991524774,
+        &quot;width&quot;: 201.8275215454951,
+        &quot;height&quot;: 156.5776016950452
+      },
+      &quot;nested-header&quot;: {
+        &quot;x&quot;: 59.190227402001014,
+        &quot;y&quot;: 192.66580474812292,
+        &quot;width&quot;: 121.42342886110553,
+        &quot;height&quot;: 46.48152781696848
+      },
+      &quot;root&quot;: {
+        &quot;x&quot;: 0,
+        &quot;y&quot;: 0,
+        &quot;width&quot;: 400,
+        &quot;height&quot;: 500
+      }
+    },
+    &quot;revision&quot;: 6,
+    &quot;pixelWidth&quot;: 800,
+    &quot;pixelHeight&quot;: 1000
+  },
+  &quot;accessibility&quot;: {
+    &quot;canvas&quot;: &quot;- img \&quot;Design canvas. Select layers in the Layers panel; arrow keys move selected layers.\&quot;\n- button \&quot;Rotate selected element\&quot;&quot;,
+    &quot;dom&quot;: &quot;- text: Pinned library consumer\n- textbox \&quot;Email\&quot;:\n  - /placeholder: Your email\n  - text: consumer@example.test\n- button \&quot;Button\&quot;\n- text: Nested header&quot;,
+    &quot;web&quot;: &quot;- text: Pinned library consumer\n- textbox \&quot;Email\&quot;:\n  - /placeholder: Your email\n  - text: consumer@example.test\n- text: Nested header\n- button \&quot;Button\&quot;&quot;
+  }
+}</pre></details></section><section class="phase" data-phase="authored-border"><h2>authored border</h2><p>Source revision 10 · same authored document and settled Canvas model · maximum outer-box differences canvas 0.0000, dom 0.0149, web 0.0149, native 0.0000 logical points.</p><div class="grid"><article><h3>Canvas editor</h3><img src="authored-border-canvas.png" alt="Actual Canvas editor rendering at authored-border" /></article><article><h3>Semantic DOM</h3><img src="authored-border-dom.png" alt="Actual Semantic DOM rendering at authored-border" /></article><article><h3>Web Awesome 3.14</h3><img src="authored-border-web.png" alt="Actual Web Awesome 3.14 rendering at authored-border" /></article><article><h3>System SwiftUI</h3><img src="authored-border-native.png" alt="Actual System SwiftUI rendering at authored-border" /></article></div><details><summary>Source contract, geometry and accessibility observations</summary><pre>{
+  &quot;name&quot;: &quot;authored-border&quot;,
+  &quot;documentId&quot;: &quot;3e954087-2e65-4315-984f-e7c409ff2744&quot;,
+  &quot;sourceRevision&quot;: 10,
+  &quot;scene&quot;: {
+    &quot;documentId&quot;: &quot;3e954087-2e65-4315-984f-e7c409ff2744&quot;,
+    &quot;sourceRevision&quot;: 10,
+    &quot;rootId&quot;: &quot;root&quot;,
+    &quot;width&quot;: 400,
+    &quot;height&quot;: 500,
+    &quot;elements&quot;: [
+      {
+        &quot;id&quot;: &quot;root&quot;,
+        &quot;parentId&quot;: null,
+        &quot;kind&quot;: &quot;frame&quot;,
+        &quot;slot&quot;: &quot;&quot;,
+        &quot;x&quot;: 0,
+        &quot;y&quot;: 0,
+        &quot;width&quot;: 400,
+        &quot;height&quot;: 500,
+        &quot;rotation&quot;: 0,
+        &quot;text&quot;: &quot;&quot;,
+        &quot;value&quot;: &quot;&quot;,
+        &quot;label&quot;: &quot;&quot;,
+        &quot;disabled&quot;: false,
+        &quot;inputType&quot;: &quot;text&quot;,
+        &quot;style&quot;: {
+          &quot;fill&quot;: &quot;#ffffff&quot;,
+          &quot;fillEnabled&quot;: true,
+          &quot;color&quot;: &quot;#18181b&quot;,
+          &quot;stroke&quot;: &quot;#d4d4d8&quot;,
+          &quot;strokeWidth&quot;: 0,
+          &quot;radius&quot;: 0,
+          &quot;opacity&quot;: 1,
+          &quot;padding&quot;: 0,
+          &quot;gap&quot;: 16,
+          &quot;fontSize&quot;: 16,
+          &quot;fontWeight&quot;: 400,
+          &quot;fontFamily&quot;: &quot;system-ui&quot;,
+          &quot;lineHeight&quot;: 1.2,
+          &quot;letterSpacing&quot;: 0,
+          &quot;textAlign&quot;: &quot;auto&quot;
+        },
+        &quot;library&quot;: null
+      },
+      {
+        &quot;id&quot;: &quot;card&quot;,
+        &quot;parentId&quot;: &quot;root&quot;,
+        &quot;kind&quot;: &quot;frame&quot;,
+        &quot;slot&quot;: &quot;&quot;,
+        &quot;x&quot;: 20.23,
+        &quot;y&quot;: 20.17,
+        &quot;width&quot;: 359.31,
+        &quot;height&quot;: 459.73,
+        &quot;rotation&quot;: 0,
+        &quot;text&quot;: &quot;&quot;,
+        &quot;value&quot;: &quot;&quot;,
+        &quot;label&quot;: &quot;&quot;,
+        &quot;disabled&quot;: false,
+        &quot;inputType&quot;: &quot;text&quot;,
+        &quot;style&quot;: {
+          &quot;fill&quot;: &quot;#ffffff&quot;,
+          &quot;fillEnabled&quot;: true,
+          &quot;color&quot;: &quot;#18181b&quot;,
+          &quot;stroke&quot;: &quot;#763cba&quot;,
+          &quot;strokeWidth&quot;: 2.5,
+          &quot;radius&quot;: 0,
+          &quot;opacity&quot;: 1,
+          &quot;padding&quot;: 24,
+          &quot;gap&quot;: 16,
+          &quot;fontSize&quot;: 16,
+          &quot;fontWeight&quot;: 400,
+          &quot;fontFamily&quot;: &quot;system-ui&quot;,
+          &quot;lineHeight&quot;: 1.2,
+          &quot;letterSpacing&quot;: 0,
+          &quot;textAlign&quot;: &quot;auto&quot;
+        },
+        &quot;library&quot;: {
+          &quot;component&quot;: &quot;Card&quot;,
+          &quot;variant&quot;: &quot;Default&quot;,
+          &quot;props&quot;: {
+            &quot;padding&quot;: 24
+          },
+          &quot;localOverrides&quot;: [],
+          &quot;tokens&quot;: {
+            &quot;--wa-color-brand-fill-loud&quot;: {
+              &quot;name&quot;: &quot;brand.primary&quot;,
+              &quot;value&quot;: &quot;#145abc&quot;
+            }
+          }
+        }
+      },
+      {
+        &quot;id&quot;: &quot;header&quot;,
+        &quot;parentId&quot;: &quot;card&quot;,
+        &quot;kind&quot;: &quot;text&quot;,
+        &quot;slot&quot;: &quot;header&quot;,
+        &quot;x&quot;: 26.500000000000004,
+        &quot;y&quot;: 26.5,
+        &quot;width&quot;: 300,
+        &quot;height&quot;: 28,
+        &quot;rotation&quot;: 0,
+        &quot;text&quot;: &quot;Pinned library consumer&quot;,
+        &quot;value&quot;: &quot;&quot;,
+        &quot;label&quot;: &quot;&quot;,
+        &quot;disabled&quot;: false,
+        &quot;inputType&quot;: &quot;text&quot;,
+        &quot;style&quot;: {
+          &quot;fill&quot;: &quot;#ffffff&quot;,
+          &quot;fillEnabled&quot;: true,
+          &quot;color&quot;: &quot;#18181b&quot;,
+          &quot;stroke&quot;: &quot;#d4d4d8&quot;,
+          &quot;strokeWidth&quot;: 0,
+          &quot;radius&quot;: 0,
+          &quot;opacity&quot;: 1,
+          &quot;padding&quot;: 16,
+          &quot;gap&quot;: 16,
+          &quot;fontSize&quot;: 16,
+          &quot;fontWeight&quot;: 400,
+          &quot;fontFamily&quot;: &quot;system-ui&quot;,
+          &quot;lineHeight&quot;: 1.2,
+          &quot;letterSpacing&quot;: 0,
+          &quot;textAlign&quot;: &quot;auto&quot;
+        },
+        &quot;library&quot;: null
+      },
+      {
+        &quot;id&quot;: &quot;input&quot;,
+        &quot;parentId&quot;: &quot;card&quot;,
+        &quot;kind&quot;: &quot;input&quot;,
+        &quot;slot&quot;: &quot;&quot;,
+        &quot;x&quot;: 26.500000000000004,
+        &quot;y&quot;: 70.5,
+        &quot;width&quot;: 306.31,
+        &quot;height&quot;: 40.673,
+        &quot;rotation&quot;: 0,
+        &quot;text&quot;: &quot;Your email&quot;,
+        &quot;value&quot;: &quot;consumer@example.test&quot;,
+        &quot;label&quot;: &quot;Email&quot;,
+        &quot;disabled&quot;: false,
+        &quot;inputType&quot;: &quot;email&quot;,
+        &quot;style&quot;: {
+          &quot;fill&quot;: &quot;#ffffff&quot;,
+          &quot;fillEnabled&quot;: true,
+          &quot;color&quot;: &quot;#18181b&quot;,
+          &quot;stroke&quot;: &quot;#d4d4d8&quot;,
+          &quot;strokeWidth&quot;: 0,
+          &quot;radius&quot;: 0,
+          &quot;opacity&quot;: 1,
+          &quot;padding&quot;: 16,
+          &quot;gap&quot;: 16,
+          &quot;fontSize&quot;: 16,
+          &quot;fontWeight&quot;: 400,
+          &quot;fontFamily&quot;: &quot;system-ui&quot;,
+          &quot;lineHeight&quot;: 1.2,
+          &quot;letterSpacing&quot;: 0,
+          &quot;textAlign&quot;: &quot;auto&quot;
+        },
+        &quot;library&quot;: {
+          &quot;component&quot;: &quot;Input&quot;,
+          &quot;variant&quot;: &quot;Default&quot;,
+          &quot;props&quot;: {
+            &quot;label&quot;: &quot;Email&quot;,
+            &quot;placeholder&quot;: &quot;Your email&quot;,
+            &quot;value&quot;: &quot;consumer@example.test&quot;,
+            &quot;type&quot;: &quot;email&quot;,
+            &quot;disabled&quot;: false
+          },
+          &quot;localOverrides&quot;: [],
+          &quot;tokens&quot;: {
+            &quot;--wa-color-brand-fill-loud&quot;: {
+              &quot;name&quot;: &quot;brand.primary&quot;,
+              &quot;value&quot;: &quot;#145abc&quot;
+            }
+          }
+        }
+      },
+      {
+        &quot;id&quot;: &quot;button&quot;,
+        &quot;parentId&quot;: &quot;card&quot;,
+        &quot;kind&quot;: &quot;button&quot;,
+        &quot;slot&quot;: &quot;footer&quot;,
+        &quot;x&quot;: 26.500000000000004,
+        &quot;y&quot;: 127.17300000000002,
+        &quot;width&quot;: 180,
+        &quot;height&quot;: 44,
+        &quot;rotation&quot;: 0,
+        &quot;text&quot;: &quot;Button&quot;,
+        &quot;value&quot;: &quot;&quot;,
+        &quot;label&quot;: &quot;&quot;,
+        &quot;disabled&quot;: false,
+        &quot;inputType&quot;: &quot;text&quot;,
+        &quot;style&quot;: {
+          &quot;fill&quot;: &quot;#763cba&quot;,
+          &quot;fillEnabled&quot;: true,
+          &quot;color&quot;: &quot;#ffff00&quot;,
+          &quot;stroke&quot;: &quot;#d4d4d8&quot;,
+          &quot;strokeWidth&quot;: 0,
+          &quot;radius&quot;: 13,
+          &quot;opacity&quot;: 1,
+          &quot;padding&quot;: 16,
+          &quot;gap&quot;: 16,
+          &quot;fontSize&quot;: 16,
+          &quot;fontWeight&quot;: 400,
+          &quot;fontFamily&quot;: &quot;system-ui&quot;,
+          &quot;lineHeight&quot;: 1.2,
+          &quot;letterSpacing&quot;: 0,
+          &quot;textAlign&quot;: &quot;auto&quot;
+        },
+        &quot;library&quot;: {
+          &quot;component&quot;: &quot;Button&quot;,
+          &quot;variant&quot;: &quot;Default&quot;,
+          &quot;props&quot;: {
+            &quot;label&quot;: &quot;Button&quot;,
+            &quot;disabled&quot;: false,
+            &quot;variant&quot;: &quot;neutral&quot;,
+            &quot;appearance&quot;: &quot;accent&quot;
+          },
+          &quot;localOverrides&quot;: [
+            &quot;fill&quot;,
+            &quot;color&quot;,
+            &quot;radius&quot;
+          ],
+          &quot;tokens&quot;: {
+            &quot;--wa-color-brand-fill-loud&quot;: {
+              &quot;name&quot;: &quot;brand.primary&quot;,
+              &quot;value&quot;: &quot;#145abc&quot;
+            }
+          }
+        }
+      },
+      {
+        &quot;id&quot;: &quot;nested&quot;,
+        &quot;parentId&quot;: &quot;card&quot;,
+        &quot;kind&quot;: &quot;frame&quot;,
+        &quot;slot&quot;: &quot;&quot;,
+        &quot;x&quot;: 26.500000000000004,
+        &quot;y&quot;: 187.173,
+        &quot;width&quot;: 179.61,
+        &quot;height&quot;: 119.23,
+        &quot;rotation&quot;: 0,
+        &quot;text&quot;: &quot;&quot;,
+        &quot;value&quot;: &quot;&quot;,
+        &quot;label&quot;: &quot;&quot;,
+        &quot;disabled&quot;: false,
+        &quot;inputType&quot;: &quot;text&quot;,
+        &quot;style&quot;: {
+          &quot;fill&quot;: &quot;#145abc&quot;,
+          &quot;fillEnabled&quot;: true,
+          &quot;color&quot;: &quot;#18181b&quot;,
+          &quot;stroke&quot;: &quot;#d4d4d8&quot;,
+          &quot;strokeWidth&quot;: 0,
+          &quot;radius&quot;: 9,
+          &quot;opacity&quot;: 1,
+          &quot;padding&quot;: 5,
+          &quot;gap&quot;: 16,
+          &quot;fontSize&quot;: 16,
+          &quot;fontWeight&quot;: 400,
+          &quot;fontFamily&quot;: &quot;system-ui&quot;,
+          &quot;lineHeight&quot;: 1.2,
+          &quot;letterSpacing&quot;: 0,
+          &quot;textAlign&quot;: &quot;auto&quot;
+        },
+        &quot;library&quot;: {
+          &quot;component&quot;: &quot;Card&quot;,
+          &quot;variant&quot;: &quot;Default&quot;,
+          &quot;props&quot;: {
+            &quot;padding&quot;: 5
+          },
+          &quot;localOverrides&quot;: [
+            &quot;fill&quot;,
+            &quot;radius&quot;
+          ],
+          &quot;tokens&quot;: {
+            &quot;--wa-color-brand-fill-loud&quot;: {
+              &quot;name&quot;: &quot;brand.primary&quot;,
+              &quot;value&quot;: &quot;#145abc&quot;
+            }
+          }
+        }
+      },
+      {
+        &quot;id&quot;: &quot;nested-header&quot;,
+        &quot;parentId&quot;: &quot;nested&quot;,
+        &quot;kind&quot;: &quot;text&quot;,
+        &quot;slot&quot;: &quot;header&quot;,
+        &quot;x&quot;: 5,
+        &quot;y&quot;: 5,
+        &quot;width&quot;: 120,
+        &quot;height&quot;: 20,
+        &quot;rotation&quot;: 0,
+        &quot;text&quot;: &quot;Nested header&quot;,
+        &quot;value&quot;: &quot;&quot;,
+        &quot;label&quot;: &quot;&quot;,
+        &quot;disabled&quot;: false,
+        &quot;inputType&quot;: &quot;text&quot;,
+        &quot;style&quot;: {
+          &quot;fill&quot;: &quot;#ffffff&quot;,
+          &quot;fillEnabled&quot;: true,
+          &quot;color&quot;: &quot;#18181b&quot;,
+          &quot;stroke&quot;: &quot;#d4d4d8&quot;,
+          &quot;strokeWidth&quot;: 0,
+          &quot;radius&quot;: 0,
+          &quot;opacity&quot;: 1,
+          &quot;padding&quot;: 16,
+          &quot;gap&quot;: 16,
+          &quot;fontSize&quot;: 16,
+          &quot;fontWeight&quot;: 400,
+          &quot;fontFamily&quot;: &quot;system-ui&quot;,
+          &quot;lineHeight&quot;: 1.2,
+          &quot;letterSpacing&quot;: 0,
+          &quot;textAlign&quot;: &quot;auto&quot;
+        },
+        &quot;library&quot;: null
+      }
+    ]
+  },
+  &quot;expected&quot;: {
+    &quot;root&quot;: {
+      &quot;x&quot;: 0,
+      &quot;y&quot;: 0,
+      &quot;width&quot;: 400,
+      &quot;height&quot;: 500
+    },
+    &quot;card&quot;: {
+      &quot;x&quot;: 20.23,
+      &quot;y&quot;: 20.17,
+      &quot;width&quot;: 359.31,
+      &quot;height&quot;: 459.73
+    },
+    &quot;header&quot;: {
+      &quot;x&quot;: 46.730000000000004,
+      &quot;y&quot;: 46.67,
+      &quot;width&quot;: 300,
+      &quot;height&quot;: 28
+    },
+    &quot;input&quot;: {
+      &quot;x&quot;: 46.730000000000004,
+      &quot;y&quot;: 90.67,
+      &quot;width&quot;: 306.31,
+      &quot;height&quot;: 40.673000000000016
+    },
+    &quot;button&quot;: {
+      &quot;x&quot;: 46.730000000000004,
+      &quot;y&quot;: 147.34300000000002,
+      &quot;width&quot;: 180,
+      &quot;height&quot;: 44
+    },
+    &quot;nested&quot;: {
+      &quot;x&quot;: 46.730000000000004,
+      &quot;y&quot;: 207.34300000000002,
+      &quot;width&quot;: 179.61,
+      &quot;height&quot;: 119.23000000000002
+    },
+    &quot;nested-header&quot;: {
+      &quot;x&quot;: 51.730000000000004,
+      &quot;y&quot;: 212.34300000000002,
+      &quot;width&quot;: 120.00000000000001,
+      &quot;height&quot;: 20
+    }
+  },
+  &quot;canvas&quot;: {
+    &quot;root&quot;: {
+      &quot;x&quot;: 0,
+      &quot;y&quot;: 0,
+      &quot;width&quot;: 400,
+      &quot;height&quot;: 500
+    },
+    &quot;card&quot;: {
+      &quot;x&quot;: 20.230000000000018,
+      &quot;y&quot;: 20.170000000000016,
+      &quot;width&quot;: 359.31,
+      &quot;height&quot;: 459.73
+    },
+    &quot;header&quot;: {
+      &quot;x&quot;: 46.73000000000002,
+      &quot;y&quot;: 46.670000000000016,
+      &quot;width&quot;: 300,
+      &quot;height&quot;: 28
+    },
+    &quot;input&quot;: {
+      &quot;x&quot;: 46.73000000000002,
+      &quot;y&quot;: 90.67000000000002,
+      &quot;width&quot;: 306.31,
+      &quot;height&quot;: 40.673000000000016
+    },
+    &quot;button&quot;: {
+      &quot;x&quot;: 46.73000000000002,
+      &quot;y&quot;: 147.34300000000007,
+      &quot;width&quot;: 180,
+      &quot;height&quot;: 44
+    },
+    &quot;nested&quot;: {
+      &quot;x&quot;: 46.73000000000002,
+      &quot;y&quot;: 207.34300000000007,
+      &quot;width&quot;: 179.61,
+      &quot;height&quot;: 119.23000000000002
+    },
+    &quot;nested-header&quot;: {
+      &quot;x&quot;: 51.73000000000002,
+      &quot;y&quot;: 212.34300000000007,
+      &quot;width&quot;: 120.00000000000001,
+      &quot;height&quot;: 20
+    }
+  },
+  &quot;dom&quot;: {
+    &quot;root&quot;: {
+      &quot;x&quot;: 0,
+      &quot;y&quot;: 0,
+      &quot;width&quot;: 400,
+      &quot;height&quot;: 500
+    },
+    &quot;card&quot;: {
+      &quot;x&quot;: 20.21875,
+      &quot;y&quot;: 20.15625,
+      &quot;width&quot;: 359.296875,
+      &quot;height&quot;: 459.71875
+    },
+    &quot;header&quot;: {
+      &quot;x&quot;: 46.71875,
+      &quot;y&quot;: 46.65625,
+      &quot;width&quot;: 300,
+      &quot;height&quot;: 28
+    },
+    &quot;input&quot;: {
+      &quot;x&quot;: 46.71875,
+      &quot;y&quot;: 90.65625,
+      &quot;width&quot;: 306.296875,
+      &quot;height&quot;: 40.671875
+    },
+    &quot;button&quot;: {
+      &quot;x&quot;: 46.71875,
+      &quot;y&quot;: 147.328125,
+      &quot;width&quot;: 180,
+      &quot;height&quot;: 44
+    },
+    &quot;nested&quot;: {
+      &quot;x&quot;: 46.71875,
+      &quot;y&quot;: 207.328125,
+      &quot;width&quot;: 179.609375,
+      &quot;height&quot;: 119.21875
+    },
+    &quot;nested-header&quot;: {
+      &quot;x&quot;: 51.71875,
+      &quot;y&quot;: 212.328125,
+      &quot;width&quot;: 120,
+      &quot;height&quot;: 20
+    }
+  },
+  &quot;web&quot;: {
+    &quot;root&quot;: {
+      &quot;x&quot;: 0,
+      &quot;y&quot;: 0,
+      &quot;width&quot;: 400,
+      &quot;height&quot;: 500
+    },
+    &quot;card&quot;: {
+      &quot;x&quot;: 20.21875,
+      &quot;y&quot;: 20.15625,
+      &quot;width&quot;: 359.296875,
+      &quot;height&quot;: 459.71875
+    },
+    &quot;header&quot;: {
+      &quot;x&quot;: 46.71875,
+      &quot;y&quot;: 46.65625,
+      &quot;width&quot;: 300,
+      &quot;height&quot;: 28
+    },
+    &quot;input&quot;: {
+      &quot;x&quot;: 46.71875,
+      &quot;y&quot;: 90.65625,
+      &quot;width&quot;: 306.296875,
+      &quot;height&quot;: 40.671875
+    },
+    &quot;button&quot;: {
+      &quot;x&quot;: 46.71875,
+      &quot;y&quot;: 147.328125,
+      &quot;width&quot;: 180,
+      &quot;height&quot;: 44
+    },
+    &quot;nested&quot;: {
+      &quot;x&quot;: 46.71875,
+      &quot;y&quot;: 207.328125,
+      &quot;width&quot;: 179.609375,
+      &quot;height&quot;: 119.21875
+    },
+    &quot;nested-header&quot;: {
+      &quot;x&quot;: 51.71875,
+      &quot;y&quot;: 212.328125,
+      &quot;width&quot;: 120,
+      &quot;height&quot;: 20
+    }
+  },
+  &quot;maxDelta&quot;: {
+    &quot;canvas&quot;: 5.684341886080802e-14,
+    &quot;dom&quot;: 0.014875000000017735,
+    &quot;web&quot;: 0.014875000000017735,
+    &quot;native&quot;: 5.684341886080802e-14
+  },
+  &quot;nativeDiagnostics&quot;: [],
+  &quot;native&quot;: {
+    &quot;supported&quot;: true,
+    &quot;renderMilliseconds&quot;: 59.34812499999953,
+    &quot;boxes&quot;: {
+      &quot;button&quot;: {
+        &quot;x&quot;: 46.730000000000004,
+        &quot;y&quot;: 147.34300000000002,
+        &quot;width&quot;: 179.99999999999994,
+        &quot;height&quot;: 44
+      },
+      &quot;card&quot;: {
+        &quot;x&quot;: 20.23,
+        &quot;y&quot;: 20.17,
+        &quot;width&quot;: 359.31,
+        &quot;height&quot;: 459.73
+      },
+      &quot;header&quot;: {
+        &quot;x&quot;: 46.730000000000004,
+        &quot;y&quot;: 46.67,
+        &quot;width&quot;: 299.99999999999994,
+        &quot;height&quot;: 28
+      },
+      &quot;input&quot;: {
+        &quot;x&quot;: 46.730000000000004,
+        &quot;y&quot;: 90.67,
+        &quot;width&quot;: 306.30999999999995,
+        &quot;height&quot;: 40.673000000000016
+      },
+      &quot;nested&quot;: {
+        &quot;x&quot;: 46.730000000000004,
+        &quot;y&quot;: 207.34300000000002,
+        &quot;width&quot;: 179.60999999999996,
+        &quot;height&quot;: 119.23000000000002
+      },
+      &quot;nested-header&quot;: {
+        &quot;x&quot;: 51.730000000000004,
+        &quot;y&quot;: 212.34300000000002,
+        &quot;width&quot;: 120.00000000000001,
+        &quot;height&quot;: 20
+      },
+      &quot;root&quot;: {
+        &quot;x&quot;: 0,
+        &quot;y&quot;: 0,
+        &quot;width&quot;: 400,
+        &quot;height&quot;: 500
+      }
+    },
+    &quot;revision&quot;: 7,
+    &quot;pixelWidth&quot;: 800,
+    &quot;pixelHeight&quot;: 1000
+  },
+  &quot;accessibility&quot;: {
+    &quot;canvas&quot;: &quot;- img \&quot;Design canvas. Select layers in the Layers panel; arrow keys move selected layers.\&quot;\n- button \&quot;Rotate selected element\&quot;&quot;,
+    &quot;dom&quot;: &quot;- text: Pinned library consumer\n- textbox \&quot;Email\&quot;:\n  - /placeholder: Your email\n  - text: consumer@example.test\n- button \&quot;Button\&quot;\n- text: Nested header&quot;,
+    &quot;web&quot;: &quot;- text: Pinned library consumer\n- textbox \&quot;Email\&quot;:\n  - /placeholder: Your email\n  - text: consumer@example.test\n- text: Nested header\n- button \&quot;Button\&quot;&quot;
+  }
+}</pre></details></section><section class="phase" data-phase="restored"><h2>restored</h2><p>Source revision 14 · same authored document and settled Canvas model · maximum outer-box differences canvas 0.0000, dom 0.0000, web 0.0000, native 0.0000 logical points.</p><div class="grid"><article><h3>Canvas editor</h3><img src="restored-canvas.png" alt="Actual Canvas editor rendering at restored" /></article><article><h3>Semantic DOM</h3><img src="restored-dom.png" alt="Actual Semantic DOM rendering at restored" /></article><article><h3>Web Awesome 3.14</h3><img src="restored-web.png" alt="Actual Web Awesome 3.14 rendering at restored" /></article><article><h3>System SwiftUI</h3><img src="restored-native.png" alt="Actual System SwiftUI rendering at restored" /></article></div><details><summary>Source contract, geometry and accessibility observations</summary><pre>{
+  &quot;name&quot;: &quot;restored&quot;,
+  &quot;documentId&quot;: &quot;3e954087-2e65-4315-984f-e7c409ff2744&quot;,
+  &quot;sourceRevision&quot;: 14,
+  &quot;scene&quot;: {
+    &quot;documentId&quot;: &quot;3e954087-2e65-4315-984f-e7c409ff2744&quot;,
+    &quot;sourceRevision&quot;: 14,
+    &quot;rootId&quot;: &quot;root&quot;,
+    &quot;width&quot;: 400,
+    &quot;height&quot;: 500,
+    &quot;elements&quot;: [
+      {
+        &quot;id&quot;: &quot;root&quot;,
+        &quot;parentId&quot;: null,
+        &quot;kind&quot;: &quot;frame&quot;,
+        &quot;slot&quot;: &quot;&quot;,
+        &quot;x&quot;: 0,
+        &quot;y&quot;: 0,
+        &quot;width&quot;: 400,
+        &quot;height&quot;: 500,
+        &quot;rotation&quot;: 0,
+        &quot;text&quot;: &quot;&quot;,
+        &quot;value&quot;: &quot;&quot;,
+        &quot;label&quot;: &quot;&quot;,
+        &quot;disabled&quot;: false,
+        &quot;inputType&quot;: &quot;text&quot;,
+        &quot;style&quot;: {
+          &quot;fill&quot;: &quot;#ffffff&quot;,
+          &quot;fillEnabled&quot;: true,
+          &quot;color&quot;: &quot;#18181b&quot;,
+          &quot;stroke&quot;: &quot;#d4d4d8&quot;,
+          &quot;strokeWidth&quot;: 0,
+          &quot;radius&quot;: 0,
+          &quot;opacity&quot;: 1,
+          &quot;padding&quot;: 0,
+          &quot;gap&quot;: 16,
+          &quot;fontSize&quot;: 16,
+          &quot;fontWeight&quot;: 400,
+          &quot;fontFamily&quot;: &quot;system-ui&quot;,
+          &quot;lineHeight&quot;: 1.2,
+          &quot;letterSpacing&quot;: 0,
+          &quot;textAlign&quot;: &quot;auto&quot;
+        },
+        &quot;library&quot;: null
+      },
+      {
+        &quot;id&quot;: &quot;card&quot;,
+        &quot;parentId&quot;: &quot;root&quot;,
+        &quot;kind&quot;: &quot;frame&quot;,
+        &quot;slot&quot;: &quot;&quot;,
+        &quot;x&quot;: 20,
+        &quot;y&quot;: 20,
+        &quot;width&quot;: 360,
+        &quot;height&quot;: 460,
+        &quot;rotation&quot;: 0,
+        &quot;text&quot;: &quot;&quot;,
+        &quot;value&quot;: &quot;&quot;,
+        &quot;label&quot;: &quot;&quot;,
+        &quot;disabled&quot;: false,
+        &quot;inputType&quot;: &quot;text&quot;,
+        &quot;style&quot;: {
+          &quot;fill&quot;: &quot;#ffffff&quot;,
+          &quot;fillEnabled&quot;: true,
+          &quot;color&quot;: &quot;#18181b&quot;,
+          &quot;stroke&quot;: &quot;#d4d4d8&quot;,
+          &quot;strokeWidth&quot;: 0,
+          &quot;radius&quot;: 0,
+          &quot;opacity&quot;: 1,
+          &quot;padding&quot;: 24,
+          &quot;gap&quot;: 16,
+          &quot;fontSize&quot;: 16,
+          &quot;fontWeight&quot;: 400,
+          &quot;fontFamily&quot;: &quot;system-ui&quot;,
+          &quot;lineHeight&quot;: 1.2,
+          &quot;letterSpacing&quot;: 0,
+          &quot;textAlign&quot;: &quot;auto&quot;
+        },
+        &quot;library&quot;: {
+          &quot;component&quot;: &quot;Card&quot;,
+          &quot;variant&quot;: &quot;Default&quot;,
+          &quot;props&quot;: {
+            &quot;padding&quot;: 24
+          },
+          &quot;localOverrides&quot;: [],
+          &quot;tokens&quot;: {
+            &quot;--wa-color-brand-fill-loud&quot;: {
+              &quot;name&quot;: &quot;brand.primary&quot;,
+              &quot;value&quot;: &quot;#145abc&quot;
+            }
+          }
+        }
+      },
+      {
+        &quot;id&quot;: &quot;header&quot;,
+        &quot;parentId&quot;: &quot;card&quot;,
+        &quot;kind&quot;: &quot;text&quot;,
+        &quot;slot&quot;: &quot;header&quot;,
+        &quot;x&quot;: 24,
+        &quot;y&quot;: 24,
+        &quot;width&quot;: 300,
+        &quot;height&quot;: 28,
+        &quot;rotation&quot;: 0,
+        &quot;text&quot;: &quot;Pinned library consumer&quot;,
+        &quot;value&quot;: &quot;&quot;,
+        &quot;label&quot;: &quot;&quot;,
+        &quot;disabled&quot;: false,
+        &quot;inputType&quot;: &quot;text&quot;,
+        &quot;style&quot;: {
+          &quot;fill&quot;: &quot;#ffffff&quot;,
+          &quot;fillEnabled&quot;: true,
+          &quot;color&quot;: &quot;#18181b&quot;,
+          &quot;stroke&quot;: &quot;#d4d4d8&quot;,
+          &quot;strokeWidth&quot;: 0,
+          &quot;radius&quot;: 0,
+          &quot;opacity&quot;: 1,
+          &quot;padding&quot;: 16,
+          &quot;gap&quot;: 16,
+          &quot;fontSize&quot;: 16,
+          &quot;fontWeight&quot;: 400,
+          &quot;fontFamily&quot;: &quot;system-ui&quot;,
+          &quot;lineHeight&quot;: 1.2,
+          &quot;letterSpacing&quot;: 0,
+          &quot;textAlign&quot;: &quot;auto&quot;
+        },
+        &quot;library&quot;: null
+      },
+      {
+        &quot;id&quot;: &quot;input&quot;,
+        &quot;parentId&quot;: &quot;card&quot;,
+        &quot;kind&quot;: &quot;input&quot;,
+        &quot;slot&quot;: &quot;&quot;,
+        &quot;x&quot;: 24,
+        &quot;y&quot;: 68,
+        &quot;width&quot;: 260,
+        &quot;height&quot;: 56,
+        &quot;rotation&quot;: 0,
+        &quot;text&quot;: &quot;Your email&quot;,
+        &quot;value&quot;: &quot;consumer@example.test&quot;,
+        &quot;label&quot;: &quot;Email&quot;,
+        &quot;disabled&quot;: false,
+        &quot;inputType&quot;: &quot;email&quot;,
+        &quot;style&quot;: {
+          &quot;fill&quot;: &quot;#ffffff&quot;,
+          &quot;fillEnabled&quot;: true,
+          &quot;color&quot;: &quot;#18181b&quot;,
+          &quot;stroke&quot;: &quot;#d4d4d8&quot;,
+          &quot;strokeWidth&quot;: 0,
+          &quot;radius&quot;: 0,
+          &quot;opacity&quot;: 1,
+          &quot;padding&quot;: 16,
+          &quot;gap&quot;: 16,
+          &quot;fontSize&quot;: 16,
+          &quot;fontWeight&quot;: 400,
+          &quot;fontFamily&quot;: &quot;system-ui&quot;,
+          &quot;lineHeight&quot;: 1.2,
+          &quot;letterSpacing&quot;: 0,
+          &quot;textAlign&quot;: &quot;auto&quot;
+        },
+        &quot;library&quot;: {
+          &quot;component&quot;: &quot;Input&quot;,
+          &quot;variant&quot;: &quot;Default&quot;,
+          &quot;props&quot;: {
+            &quot;label&quot;: &quot;Email&quot;,
+            &quot;placeholder&quot;: &quot;Your email&quot;,
+            &quot;value&quot;: &quot;consumer@example.test&quot;,
+            &quot;type&quot;: &quot;email&quot;,
+            &quot;disabled&quot;: false
+          },
+          &quot;localOverrides&quot;: [],
+          &quot;tokens&quot;: {
+            &quot;--wa-color-brand-fill-loud&quot;: {
+              &quot;name&quot;: &quot;brand.primary&quot;,
+              &quot;value&quot;: &quot;#145abc&quot;
+            }
+          }
+        }
+      },
+      {
+        &quot;id&quot;: &quot;button&quot;,
+        &quot;parentId&quot;: &quot;card&quot;,
+        &quot;kind&quot;: &quot;button&quot;,
+        &quot;slot&quot;: &quot;footer&quot;,
+        &quot;x&quot;: 24,
+        &quot;y&quot;: 140,
+        &quot;width&quot;: 180,
+        &quot;height&quot;: 44,
+        &quot;rotation&quot;: 0,
+        &quot;text&quot;: &quot;Save &amp; Continue&quot;,
+        &quot;value&quot;: &quot;&quot;,
+        &quot;label&quot;: &quot;&quot;,
+        &quot;disabled&quot;: false,
+        &quot;inputType&quot;: &quot;text&quot;,
+        &quot;style&quot;: {
+          &quot;fill&quot;: &quot;#ffffff&quot;,
+          &quot;fillEnabled&quot;: true,
+          &quot;color&quot;: &quot;#18181b&quot;,
+          &quot;stroke&quot;: &quot;#d4d4d8&quot;,
+          &quot;strokeWidth&quot;: 0,
+          &quot;radius&quot;: 0,
+          &quot;opacity&quot;: 1,
+          &quot;padding&quot;: 16,
+          &quot;gap&quot;: 16,
+          &quot;fontSize&quot;: 16,
+          &quot;fontWeight&quot;: 400,
+          &quot;fontFamily&quot;: &quot;system-ui&quot;,
+          &quot;lineHeight&quot;: 1.2,
+          &quot;letterSpacing&quot;: 0,
+          &quot;textAlign&quot;: &quot;auto&quot;
+        },
+        &quot;library&quot;: {
+          &quot;component&quot;: &quot;Button&quot;,
+          &quot;variant&quot;: &quot;Default&quot;,
+          &quot;props&quot;: {
+            &quot;label&quot;: &quot;Save &amp; Continue&quot;,
+            &quot;disabled&quot;: false,
+            &quot;variant&quot;: &quot;neutral&quot;,
+            &quot;appearance&quot;: &quot;accent&quot;
+          },
+          &quot;localOverrides&quot;: [],
+          &quot;tokens&quot;: {
+            &quot;--wa-color-brand-fill-loud&quot;: {
+              &quot;name&quot;: &quot;brand.primary&quot;,
+              &quot;value&quot;: &quot;#145abc&quot;
+            }
+          }
+        }
+      }
+    ]
+  },
+  &quot;expected&quot;: {
+    &quot;root&quot;: {
+      &quot;x&quot;: 0,
+      &quot;y&quot;: 0,
+      &quot;width&quot;: 400,
+      &quot;height&quot;: 500
+    },
+    &quot;card&quot;: {
+      &quot;x&quot;: 20,
+      &quot;y&quot;: 20,
+      &quot;width&quot;: 360,
+      &quot;height&quot;: 460
+    },
+    &quot;header&quot;: {
+      &quot;x&quot;: 44,
+      &quot;y&quot;: 44,
+      &quot;width&quot;: 300,
+      &quot;height&quot;: 28
+    },
+    &quot;input&quot;: {
+      &quot;x&quot;: 44,
+      &quot;y&quot;: 88,
+      &quot;width&quot;: 260,
+      &quot;height&quot;: 56
+    },
+    &quot;button&quot;: {
+      &quot;x&quot;: 44,
+      &quot;y&quot;: 160,
+      &quot;width&quot;: 180,
+      &quot;height&quot;: 44
+    }
+  },
+  &quot;canvas&quot;: {
+    &quot;root&quot;: {
+      &quot;x&quot;: 0,
+      &quot;y&quot;: 0,
+      &quot;width&quot;: 400,
+      &quot;height&quot;: 500
+    },
+    &quot;card&quot;: {
+      &quot;x&quot;: 20,
+      &quot;y&quot;: 20,
+      &quot;width&quot;: 360,
+      &quot;height&quot;: 460
+    },
+    &quot;header&quot;: {
+      &quot;x&quot;: 44,
+      &quot;y&quot;: 44,
+      &quot;width&quot;: 300,
+      &quot;height&quot;: 28
+    },
+    &quot;input&quot;: {
+      &quot;x&quot;: 44,
+      &quot;y&quot;: 88,
+      &quot;width&quot;: 260,
+      &quot;height&quot;: 56
+    },
+    &quot;button&quot;: {
+      &quot;x&quot;: 44,
+      &quot;y&quot;: 160,
+      &quot;width&quot;: 180,
+      &quot;height&quot;: 44
+    }
+  },
+  &quot;dom&quot;: {
+    &quot;root&quot;: {
+      &quot;x&quot;: 0,
+      &quot;y&quot;: 0,
+      &quot;width&quot;: 400,
+      &quot;height&quot;: 500
+    },
+    &quot;card&quot;: {
+      &quot;x&quot;: 20,
+      &quot;y&quot;: 20,
+      &quot;width&quot;: 360,
+      &quot;height&quot;: 460
+    },
+    &quot;header&quot;: {
+      &quot;x&quot;: 44,
+      &quot;y&quot;: 44,
+      &quot;width&quot;: 300,
+      &quot;height&quot;: 28
+    },
+    &quot;input&quot;: {
+      &quot;x&quot;: 44,
+      &quot;y&quot;: 88,
+      &quot;width&quot;: 260,
+      &quot;height&quot;: 56
+    },
+    &quot;button&quot;: {
+      &quot;x&quot;: 44,
+      &quot;y&quot;: 160,
+      &quot;width&quot;: 180,
+      &quot;height&quot;: 44
+    }
+  },
+  &quot;web&quot;: {
+    &quot;root&quot;: {
+      &quot;x&quot;: 0,
+      &quot;y&quot;: 0,
+      &quot;width&quot;: 400,
+      &quot;height&quot;: 500
+    },
+    &quot;card&quot;: {
+      &quot;x&quot;: 20,
+      &quot;y&quot;: 20,
+      &quot;width&quot;: 360,
+      &quot;height&quot;: 460
+    },
+    &quot;header&quot;: {
+      &quot;x&quot;: 44,
+      &quot;y&quot;: 44,
+      &quot;width&quot;: 300,
+      &quot;height&quot;: 28
+    },
+    &quot;input&quot;: {
+      &quot;x&quot;: 44,
+      &quot;y&quot;: 88,
+      &quot;width&quot;: 260,
+      &quot;height&quot;: 56
+    },
+    &quot;button&quot;: {
+      &quot;x&quot;: 44,
+      &quot;y&quot;: 160,
+      &quot;width&quot;: 180,
+      &quot;height&quot;: 44
+    }
+  },
+  &quot;maxDelta&quot;: {
+    &quot;canvas&quot;: 0,
+    &quot;dom&quot;: 0,
+    &quot;web&quot;: 0,
+    &quot;native&quot;: 0
+  },
+  &quot;nativeDiagnostics&quot;: [],
+  &quot;native&quot;: {
+    &quot;supported&quot;: true,
+    &quot;renderMilliseconds&quot;: 58.68287499999951,
+    &quot;boxes&quot;: {
+      &quot;button&quot;: {
+        &quot;x&quot;: 44,
+        &quot;y&quot;: 160,
+        &quot;width&quot;: 180,
+        &quot;height&quot;: 44
+      },
+      &quot;card&quot;: {
+        &quot;x&quot;: 20,
+        &quot;y&quot;: 20,
+        &quot;width&quot;: 360,
+        &quot;height&quot;: 460
+      },
+      &quot;header&quot;: {
+        &quot;x&quot;: 44,
+        &quot;y&quot;: 44,
+        &quot;width&quot;: 300,
+        &quot;height&quot;: 28
+      },
+      &quot;input&quot;: {
+        &quot;x&quot;: 44,
+        &quot;y&quot;: 88,
+        &quot;width&quot;: 260,
+        &quot;height&quot;: 56
+      },
+      &quot;root&quot;: {
+        &quot;x&quot;: 0,
+        &quot;y&quot;: 0,
+        &quot;width&quot;: 400,
+        &quot;height&quot;: 500
+      }
+    },
+    &quot;revision&quot;: 8,
+    &quot;pixelWidth&quot;: 800,
+    &quot;pixelHeight&quot;: 1000
+  },
+  &quot;accessibility&quot;: {
+    &quot;canvas&quot;: &quot;- img \&quot;Design canvas. Select layers in the Layers panel; arrow keys move selected layers.\&quot;\n- button \&quot;Rotate selected element\&quot;&quot;,
+    &quot;dom&quot;: &quot;- text: Pinned library consumer\n- textbox \&quot;Email\&quot;:\n  - /placeholder: Your email\n  - text: consumer@example.test\n- button \&quot;Save &amp; Continue\&quot;&quot;,
+    &quot;web&quot;: &quot;- text: Pinned library consumer\n- textbox \&quot;Email\&quot;:\n  - /placeholder: Your email\n  - text: consumer@example.test\n- button \&quot;Save &amp; Continue\&quot;&quot;
+  }
+}</pre></details></section>
+<h2>Interaction and editability</h2><p>One canonical inspector edit produces one history step; undo restores the exact source document. Consumers do not mutate that document. Real semantic and web inputs retain ephemeral values across source updates and undo, then reset to their authored initial value. The web input retains focus and returns typed node-ID action/change events. Native physical keyboard and accessible-name observations remain separate source-bound evidence, not a whole-product VoiceOver claim.</p>
+<h2>Instrumented completion observations</h2><p>Thirty sequential updates use the same editor source stream. Their completion boundaries differ and include instrumentation; these measurements cannot rank physical input latency or FPS. Native snapshots include an intentional 50 ms scheduling wait.</p><div class="scroll"><table><thead><tr><th>Path</th><th>p50</th><th>p95</th><th>Measured boundary</th></tr></thead><tbody><tr><th>Canvas editor</th><td>34.90 ms</td><td>40.32 ms</td><td>Real editor transaction, layout settlement, read-only Canvas projection and geometry assertions, including browser IPC</td></tr><tr><th>Semantic DOM</th><td>3.68 ms</td><td>4.30 ms</td><td>Same source feed plus observed label update; IPC/Angular scheduling included</td></tr><tr><th>Web Awesome 3.14</th><td>18.80 ms</td><td>20.21 ms</td><td>Same scene MessageChannel + Lit update + two RAF opportunities</td></tr><tr><th>System SwiftUI</th><td>58.31 ms</td><td>59.33 ms</td><td>Same scene IPC + intentional 50ms snapshot scheduling + PNG encode/reply</td></tr></tbody></table></div>
+<h2>Asset costs</h2><p>The actual pinned web runtime adds 424.0 KiB of raw JavaScript/CSS. Its experiment host adds 101.0 KiB. The built native helper contains 672.6 KiB plus a 32.7 KiB resource-limit launcher; system frameworks are excluded. These are fixture asset costs, not installed memory, distribution size or initial-load network measurements.</p>
+<h2>Remaining delivery</h2><p><a href="https://github.com/zubair-io/Sugar-Maple/issues/88">#88</a> and <a href="https://github.com/zubair-io/Sugar-Maple/issues/51">#51</a> remain open for verified review and delivery. Broader native styling, whole-product accessibility/performance, library import UX and arbitrary-source isolation need their own acceptance. The editor continues to show authored semantic appearance and actionable copy/preview limitations.</p><details><summary>Scope, checks and limits</summary><pre>{
+  &quot;checks&quot;: [
+    &quot;Actual editor settled Canvas model is the source for every feed&quot;,
+    &quot;Canonical inspector source edit and exact undo&quot;,
+    &quot;Every visible outer box across actual Canvas/DOM/package/SwiftUI at unchanged 0.1 tolerance&quot;,
+    &quot;Default/Primary/Disabled with actionable unsupported native Primary&quot;,
+    &quot;Named nested slots, resolved fill/percent/fractional geometry and nested rotations&quot;,
+    &quot;Bound token and local fill/color/radius reach actual package paint&quot;,
+    &quot;Semantic/package appearance boundary visible in production inspector&quot;,
+    &quot;Source checkpoint unaffected by consumers&quot;,
+    &quot;Semantic/web ephemeral input through source update/undo/reset; focused web input retained&quot;,
+    &quot;Typed node action/change, absent preview authoring bridge, offline requests and stop&quot;
+  ],
+  &quot;limitations&quot;: [
+    &quot;Outer presentation geometry does not prove pixel-identical intrinsic chrome/glyphs&quot;,
+    &quot;Native physical keyboard/accessibility evidence is separate, source-bound to bbed36b&quot;,
+    &quot;These different timing boundaries cannot rank physical input latency/FPS&quot;,
+    &quot;Native helper includes a fixed 50ms scheduling wait&quot;,
+    &quot;No whole-product VoiceOver, hostile arbitrary source or distribution/memory parity claim&quot;
+  ],
+  &quot;productionDecision&quot;: &quot;NO-GO for arbitrary-source or production integration until final review/CI, current-base integration and resulting-main validation; continue explicitly trusted supported experiments&quot;
+}</pre></details></main><script>document.querySelector('#phase').addEventListener('change',event=>{const selected=event.target.value;document.querySelectorAll('[data-phase]').forEach(section=>{section.hidden=selected!=='all'&&section.dataset.phase!==selected;});});</script></body></html>

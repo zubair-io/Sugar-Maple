@@ -1,0 +1,39 @@
+{
+  "provenance": "Selected accessibility observations from actual CUA native calls on the test-owned signed helper; not a full AX export or VoiceOver audit",
+  "bundle": "/Users/riabuz/Projects/_Sugar Maple/build/library-preview-native/579435f8-e5a7-4e76-a4c6-3cd4c9e5a2d6/Fixture.app",
+  "observations": [
+    {
+      "phase": "initial",
+      "inputName": "Email",
+      "inputValue": "consumer@example.test",
+      "button": "Save & Continue"
+    },
+    {
+      "phase": "source-update",
+      "inputName": "Email",
+      "inputValue": "qa",
+      "button": "Updated source label",
+      "focused": "Email"
+    },
+    {
+      "phase": "undo",
+      "inputName": "Email",
+      "inputValue": "qax",
+      "button": "Save & Continue",
+      "focused": "Email"
+    },
+    {
+      "phase": "reset",
+      "inputName": "Email",
+      "inputValue": "consumer@example.test",
+      "focused": "Email"
+    },
+    {
+      "phase": "final",
+      "inputName": "Email",
+      "inputValue": "reset",
+      "focused": "Email"
+    }
+  ],
+  "input": "Native clicks and individual keyboard events; no clipboard or injected control values"
+}

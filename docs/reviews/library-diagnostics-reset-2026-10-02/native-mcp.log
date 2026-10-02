@@ -1,0 +1,1 @@
+PASS: real native MCP reset restores semantic paint in one command, exact undo/redo, revision-bound captures and durable replay

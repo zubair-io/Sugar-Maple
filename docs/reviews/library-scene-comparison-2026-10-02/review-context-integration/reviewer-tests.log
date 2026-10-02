@@ -1,0 +1,54 @@
+
+> jules-pr-reviewer@1.0.0 test
+> tsc && node --test tests/*.test.mjs
+
+✔ progress and unfinished sessions never qualify as finished reviews (1.186375ms)
+✔ transient cleanup retries are bounded and do not expose upstream bodies (12.648875ms)
+✔ auth and permission failures do not retry; network timeout does (0.326542ms)
+✔ publishes first, then deletes only the exact session with authentication (0.095917ms)
+✔ publication failure retains the session (0.060834ms)
+✔ 404 is an idempotent cleanup success (0.066417ms)
+✔ cleanup failure reports the problem without rewriting the saved review (0.362125ms)
+✔ invalid session IDs cannot change the API path (0.46225ms)
+✔ a large archive cannot displace shipping source later in the diff (0.648875ms)
+✔ preserves complete source hunks and refuses incomplete shipping review (0.468584ms)
+✔ recognizes quoted paths and retains workflow changes before optional fixtures (0.781541ms)
+✔ executable prototype code cannot be omitted to make an archive fit (0.145042ms)
+✔ completed final verdict is accepted; live sessions never fabricate approval (0.959375ms)
+✔ failed sessions stop immediately; completed sessions without verdict retain diagnosis (0.805792ms)
+✔ new-session visibility and terminal failures use the same deadline and remain inspectable (0.3045ms)
+✔ eventual activity visibility retries; auth fails promptly without exposing the upstream body (0.238709ms)
+✔ unknown states and a spoofed terminal error never leak arbitrary API content (0.099542ms)
+✔ cleanup requires a trusted published verdict/footer for the exact session (0.713458ms)
+✔ timed-out sessions can be inspected but cannot be deleted (0.134333ms)
+✔ recovery rejects path injection, wrong repository/identity, invalid mode and PR number (0.494208ms)
+✔ activity diagnostics expose counts without private messages or failure bodies (0.125958ms)
+✔ opt-in artifacts require a complete final review and select chronologically, never by API page order (0.3565ms)
+✔ artifact opt-ins are inspection-only, exclusive and off by default (0.209833ms)
+✔ pending feedback can be inspected without completion or an inferred verdict (0.207917ms)
+✔ manual reply binds to a complete unchanged pending question and rejects duplicate delivery (0.368167ms)
+✔ reply submits exactly one authenticated JSON request to the validated original session (11.852208ms)
+✔ reply never retries an uncertain or rejected POST and never exposes response/error bodies (0.969916ms)
+✔ reply rejects path injection and invalid payloads before network access (0.142167ms)
+✔ current edited description is used while the code head remains pinned (0.612875ms)
+✔ base or head movement during preparation cannot start a review on stale context (0.12775ms)
+✔ merge-base metadata selects complete committed trees without trusting file patches (0.079583ms)
+✔ current branch ref replaces cached PR base SHA and movement rejects before review (0.108333ms)
+✔ complete exact-tree diff handles over 20,000 archive lines and preserves prototype source (135.89475ms)
+✔ revision options cannot become Git options or executable shell text (0.802333ms)
+✔ authentication stays in child configuration, without changing parent environment (0.22275ms)
+✔ blank and hostile upstream failures give an actionable operation without exposing bodies (0.165791ms)
+✔ the observed inline-comment/final-block review publishes a blocking status (1.504167ms)
+✔ fenced, quoted, indented and HTML-comment examples cannot select a verdict (0.09775ms)
+✔ missing, conflicting, duplicate, malformed and nonterminal verdicts fail closed (0.053917ms)
+✔ supported plain/backtick verdicts, CRLF, case and configured status policies remain intact (0.051834ms)
+✔ publication reference and recovered artifact use the same final-verdict policy (0.230416ms)
+✔ polling accepts the actual blocking review and retains ambiguous completed sessions (0.362375ms)
+ℹ tests 42
+ℹ suites 0
+ℹ pass 42
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 186.403458

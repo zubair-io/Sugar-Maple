@@ -1,0 +1,14 @@
+{
+  "before": {
+    "color": "#ffff00",
+    "fillToken": "brand.primary",
+    "overrides": [
+      "color"
+    ]
+  },
+  "after": {
+    "color": "#ffff00",
+    "fillToken": "brand.primary",
+    "overrides": []
+  }
+}

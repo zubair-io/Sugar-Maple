@@ -8,8 +8,11 @@ repository-owned static source, never an imported arbitrary Swift project.
 ```sh
 bun prototypes/library-preview/native/test.ts --trust-native-fixture
 bun prototypes/library-preview/native/limits-test.ts --trust-native-fixture
+bun prototypes/library-preview/native/scene-test.ts --trust-native-fixture
 # Interactive: click Save & Continue, then select the Email value and type qa.
 bun prototypes/library-preview/native/human-test.ts --trust-native-fixture
+# Interactive authored-scene check: action, qa, append x/y through update/undo, reset.
+bun prototypes/library-preview/native/scene-human-test.ts --trust-native-fixture
 ```
 
 The explicit native trust flag is independent of the web experiment. Builds
@@ -46,8 +49,13 @@ transaction or command messages. Replies are ready/error, bounded PNG render,
 Button action and Input change. Parent reply validation rejects extra keys,
 unknown session/revision or malformed data. Superseded replies cannot finish
 a newer request. Strings are control values, not source interpolation.
-Unsupported Primary/color/appearance variants fail explicitly; Default and
-Disabled are the pinned native mapping's supported variants.
+Unsupported Primary/appearance variants fail explicitly; Default and
+Disabled are the pinned native mapping's supported variants. Protocol 2 also
+accepts an immutable authored scene with resolved outer geometry, validated
+named slots and explicit supported Button/frame paint overrides. Native input
+paint and typography gaps return diagnostics. See [the scene contract](../scene-projection.md)
+for the supported presentation subset and its limits; native chrome is not
+claimed to match web-package or Canvas pixels.
 
 `test.ts` checks actual compilation/rendering, the file/network canaries,
 PNG validity, supersession, privileged packet rejection and unsupported

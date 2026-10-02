@@ -1,0 +1,13 @@
+# Authored-scene comparison and fractional-border recovery
+
+Recorded source: f415b0a0fe2bc47a33a18abe94a9c44e8d242f97, based on PR #89 at ef711665b3ec5661c4ba7b7f84b3d7778c1e80ac. [verification.json](verification.json) binds every source and retained artifact by SHA-256. The actual four-path comparison and cleanup gates exited 0.
+
+[Open the interactive report](index.html). Nine source states compare the actual settled Canvas editor, semantic DOM, pinned Web Awesome 3.14 and sandboxed SwiftUI. All supported visible outer boxes pass the unchanged 0.1 logical-point tolerance. Unsupported native Primary displays an actionable limitation without a substitute capture. Actual raster/package paint, named slots, canonical inspector edit, exact undo, consumer-local input retention/reset and typed events are verified. Thirty completion samples and actual fixture asset costs are recorded with their distinct measurement boundaries.
+
+The comparison exposed #93: CSS frame layout borders rounded fractional widths and the package host added a second inset. Retained border-before observations and a terminal failing log document that defect. The shared semantic/export styles and package scene now paint frame borders as insets while preserving the authoritative layout contribution. Five browser and five production WKWebView cases cover free, horizontal, vertical and grid geometry plus exact undo; real generated Angular/Tailwind consumers compile and render.
+
+Local gates passed: 131 model tests / 2,138 assertions, typecheck, all 30 browser/consumer suites, production Mac packaging/signing and full native acceptance. The isolated comparison owns a fresh source server; an unrelated port-4200 listener is never used or stopped, and no owned descendants remain. Eight injected browser launch/close failures and an actual native shutdown failure exit naturally without leaking the owners.
+
+Native physical keyboard/action and accessible-name evidence remains at its original bbed36b source in [the native proof](../library-scene-native-2026-10-02/README.md). Diagnostics and reset/durable restart evidence remains at its original 2989424 source in [the reset proof](../library-diagnostics-reset-2026-10-02/README.md). These historical observations are not relabeled as new physical runs.
+
+Decision: continue explicitly trusted supported scene experiments. Production import UX and arbitrary JavaScript/Swift source execution remain NO-GO. Platform control chrome/glyphs/focus differ. Exact-head review/CI, integration with current main and the latest dependency repairs, and verified resulting-main delivery remain required. Issues stay open until the corresponding delivery acceptance is met.

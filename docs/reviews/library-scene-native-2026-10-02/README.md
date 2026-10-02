@@ -1,0 +1,11 @@
+# Native authored-scene evidence — partial #88
+
+Source: `bbed36b219d5c5ab8b14621b7b5d6cd865d957ff`, based on the reviewed legacy comparison candidate `ef711665b3ec5661c4ba7b7f84b3d7778c1e80ac`. `verification.json` records source and artifact hashes. This proves a scoped branch candidate; issue #88 and production integration remain incomplete.
+
+The complete native preview gate passes real SwiftUI compilation, App Sandbox host-file/network probes, strict malformed/unsupported packet rejection, source geometry, nested slots, local Button/frame paint, Default/Disabled, undo/reset and existing CPU/wall/RSS/output/cancellation checks. The geometry fixture includes fractional parent sizes/positions, resolved fill/percent sizes and nested rotations. Actual SwiftUI presentation bounds agree with independently projected editor model bounds within the unchanged 0.1 logical-point tolerance. The PNGs use the display's backing scale. Outer-box fidelity does not establish native intrinsic chrome/glyph or web-package pixel parity.
+
+The complete web preview gate also passes, including seven contract cases, strict prototype typecheck, six browser-cleanup failures, legacy package boundary checks and the authored-scene web consumer.
+
+The separately run physical native fixture passes a real Button click and keyboard entry. Without refocusing, appending `x` after the source label update returns `qax`, and appending `y` after source undo returns `qaxy`. Explicit reset visibly restores `consumer@example.test`; subsequent physical keyboard input returns `reset`. The source document remains unchanged by native input. `physical-ax-observations.json` records selected actual CUA accessibility observations; it is not a full accessibility-tree export or VoiceOver audit. The helper closes through its owned supervisor after evidence is saved.
+
+Primary and unsupported library-only native appearance properties remain rejected. Native Input custom fill/radius/stroke/letter spacing, multiline text and nondefault line-height return explicit diagnostics before replacing the supported scene. Editor diagnostics, the final comparison using the actual editor, final-head review/CI and verified main integration remain required. Arbitrary Swift/JavaScript source execution is not supported.
