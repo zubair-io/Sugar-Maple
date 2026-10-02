@@ -36,6 +36,15 @@ function fixture() {
       kind: 'text',
       name: 'Hidden',
       hidden: true,
+      text: 'HIDDEN_EXPORT_CANARY',
+    }),
+    NodeSchema.parse({
+      id: 'hidden-child',
+      pageId,
+      parentId: 'hidden',
+      kind: 'text',
+      name: 'Visible child inside hidden parent',
+      text: 'HIDDEN_DESCENDANT_EXPORT_CANARY',
     }),
   ];
   return doc;
@@ -60,11 +69,16 @@ test('complete CSS rules cover visible descendants and packaged markup reference
   expect(css).toContain('.node-card{');
   expect(css).toContain('.node-action{');
   expect(css).not.toContain('.node-hidden{');
+  expect(css).not.toContain('.node-hidden-child{');
   const markup = exportNode(doc, 'card', 'html-css' as any);
   expect(markup).toContain('<style>');
   expect(markup).toContain('class="node-action"');
   expect(markup).toContain('Continue &amp; &lt;next&gt;');
   expect(markup).not.toContain('style="');
+  expect(markup).not.toContain('class="node-hidden"');
+  expect(markup).not.toContain('class="node-hidden-child"');
+  expect(markup).not.toContain('HIDDEN_EXPORT_CANARY');
+  expect(markup).not.toContain('HIDDEN_DESCENDANT_EXPORT_CANARY');
   expect(JSON.stringify(doc)).toBe(before);
 });
 
