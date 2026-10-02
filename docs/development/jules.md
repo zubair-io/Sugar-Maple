@@ -1,6 +1,6 @@
 # Jules code reviews
 
-The Jules PR Review workflow reviews non-draft, same-repository pull requests, including stacked PRs targeting another feature branch. Fork and Dependabot PRs do not receive API credentials. Review findings are posted as a PR comment and the `jules/review` commit status records the verdict. Blocking findings fail that status; this does not configure branch protection automatically.
+The Jules PR Review workflow reviews non-draft, same-repository pull requests, including stacked PRs targeting another feature branch. Fork and Dependabot PRs do not receive API credentials. Review findings are posted as a PR comment and the `jules/review` commit status records the verdict. Blocking findings fail that status; this does not configure branch protection automatically. The verdict must be one standalone terminal plain or single-backtick line outside fenced/quoted examples. Missing, conflicting, duplicate or nonterminal verdicts retain the session instead of defaulting to a successful comment. Polling, publication and exact-session recovery share this parser; historical comments/statuses are not rewritten.
 
 ## Setup
 

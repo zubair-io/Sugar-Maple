@@ -6,8 +6,7 @@ import { publishThenDelete } from './cleanup.js';
 import { collectReview } from './poll.js';
 import { selectReviewDiff } from './diff.js';
 
-type FailOn = 'never' | 'blocking' | 'any';
-type Verdict = 'approve' | 'comment' | 'block';
+import { parseFinalVerdict, statusFromVerdict, type FailOn } from './verdict.js';
 
 const COMMENT_MARKER = '<!-- jules-pr-reviewer -->';
 const VALID_FAIL_ON: FailOn[] = ['never', 'blocking', 'any'];
@@ -144,7 +143,8 @@ async function run(): Promise<void> {
       return;
     }
 
-    const verdict = parseVerdict(reviewMessage);
+    const verdict = parseFinalVerdict(reviewMessage);
+    if (!verdict) throw new Error('Completed review has no unique terminal verdict; session retained.');
 
     const finalBody =
       `${COMMENT_MARKER}\n## 🤖 Jules Review\n\n${reviewMessage}\n\n---\n_Session: \`${session.id}\`_`;
@@ -270,30 +270,6 @@ function wrapPermissionError(err: unknown, needed: string, op: string): Error {
 
 function truncate(s: string, max: number): string {
   return s.length <= max ? s : s.slice(0, max - 1) + '…';
-}
-
-function parseVerdict(message: string): Verdict {
-  const match = message.match(/VERDICT:\s*(approve|comment|block)/i);
-  if (match) return match[1].toLowerCase() as Verdict;
-  if (/\[BLOCKING\]/.test(message)) return 'block';
-  return 'comment';
-}
-
-function statusFromVerdict(
-  verdict: Verdict,
-  failOn: FailOn,
-): { state: 'success' | 'failure'; description: string } {
-  if (failOn === 'never') {
-    return { state: 'success', description: `Review complete (verdict: ${verdict})` };
-  }
-  if (failOn === 'any') {
-    return verdict === 'approve'
-      ? { state: 'success', description: 'Approved' }
-      : { state: 'failure', description: `Review verdict: ${verdict}` };
-  }
-  return verdict === 'block'
-    ? { state: 'failure', description: 'Blocking issues found' }
-    : { state: 'success', description: `Review complete (verdict: ${verdict})` };
 }
 
 run().catch(err => {

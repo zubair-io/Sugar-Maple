@@ -1,4 +1,5 @@
 import { createHash } from 'node:crypto';
+import { parseFinalVerdict } from './verdict.js';
 export class RecoveryPolicyError extends Error {}
 export interface ReviewComment { body?: string | null; user: { login: string; type: string } | null }
 export function validateRecoveryInput(sessionId: string, pr: string, mode: string) {
@@ -11,7 +12,8 @@ export function publishedSessionReference(comments: ReviewComment[], sessionId: 
     if (comment.user?.login !== 'github-actions[bot]' || comment.user.type !== 'Bot') return false;
     const body = comment.body ?? '';
     if (!body.startsWith('<!-- jules-pr-reviewer -->')) return false;
-    const published = body.trim().endsWith(`_Session: \`${sessionId}\`_`) && /^`?VERDICT:\s*(approve|comment|block)`?\s*$/im.test(body);
+    const footer = `\n---\n_Session: \`${sessionId}\`_`;
+    const published = body.trim().endsWith(footer) && parseFinalVerdict(body.trim().slice(0, -footer.length)) !== null;
     return published || (!cleanup && body.includes('Jules PR review failed to complete.') && body.includes(`Session: \`${sessionId}\``));
   });
 }
@@ -62,7 +64,7 @@ function latestAgentMessage(activities: Record<string, unknown>[], truncated: bo
 export function completedReviewArtifact(state: string, activities: Record<string, unknown>[], truncated: boolean): string | null {
   if (state !== 'COMPLETED') return null;
   const text = latestAgentMessage(activities, truncated);
-  return text && /^`?VERDICT:\s*(approve|comment|block)`?\s*$/im.test(text) ? text : null;
+  return text && parseFinalVerdict(text) !== null ? text : null;
 }
 
 /** Pending requests may be inspected, but cannot stand in for a final verdict. */
