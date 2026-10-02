@@ -8,7 +8,7 @@
 
 `css` now returns rules for the selected visible subtree, retaining bound fill-token custom properties and exact fractional frame insets. Hidden descendant subtrees are omitted. Class/declaration fragments do not include semantic markup, descendants or assets; use complete-element targets for those. Parent-relative styles require an equivalent parent layout. Invalid token names reject before source generation.
 
-The MCP output retains `code` and adds optional `setup` CSS and `notes`. Pure fragments using Maple Sans return the licensed embedded font-face in `setup`; complete web outputs include it themselves. The inspector shows this setup in a separately selectable Required font CSS disclosure. Local custom fonts require assets from the consuming application. Prototype action metadata is an intentionally unwired integration point; no application navigation handler is invented.
+The new targets retain `code` and add optional `setup` CSS and `notes`; existing target responses retain their previously published code-only shape. Pure fragments using Maple Sans return the licensed embedded font-face in `setup`; complete web outputs include it themselves. The inspector shows this setup in a separately selectable Required font CSS disclosure. Local custom fonts require assets from the consuming application. Prototype action metadata is an intentionally unwired integration point; no application navigation handler is invented.
 
 The code box is the exact copy payload. Clipboard success is reported only after the write resolves. On permission failure, the error is visible and the keyboard-focusable code box remains available for manual selection/copy.
 

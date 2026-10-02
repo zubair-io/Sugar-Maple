@@ -11,6 +11,11 @@ try {
   await page.addScriptTag({ content: await Bun.file('tools/web-copy-page.js').text() });
   const report = await page.evaluate(() => (window as any).canvasTransformAcceptance());
   assert.equal(report.passed, true);
+  assert.deepEqual(
+    Object.keys(report.exported.html),
+    ['code'],
+    'Previously published strict response shape remains compatible',
+  );
   await page.evaluate(() =>
     Object.defineProperty(navigator, 'clipboard', {
       configurable: true,

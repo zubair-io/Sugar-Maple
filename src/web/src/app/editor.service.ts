@@ -745,7 +745,7 @@ export class EditorService {
         return window.sugarMaple.viewport.inspect();
       }
       case 'code.export':
-        return { code: exportNode(this.doc(), args.id, args.target), ...exportSupport(this.doc(), args.id, args.target) };
+        return { code: exportNode(this.doc(), args.id, args.target), ...(['tailwind-classes', 'css-declarations', 'html-css'].includes(args.target) ? exportSupport(this.doc(), args.id, args.target) : {}) };
       case 'render.capture':
       case 'render.ready':
         this.assertNoTextDraft();

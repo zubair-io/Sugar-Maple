@@ -226,6 +226,7 @@ try {
       if (target!=='html-css') assert.ok(output.setup.includes('data:font/woff2;base64,'));
       else assert.ok(output.code.includes('<style>') && output.code.includes('class="node-child"'));
     }
+    assert.deepEqual(Object.keys(await data('code.export',{id:'child',target:'html'})),['code']);
     assert.deepEqual(await data('document.checkpoint'),baseline);
     const current = await data('document.get');
     await data('history.undo',{documentId:current.documentId,expectedRevision:current.revision});

@@ -91,7 +91,7 @@ window.canvasTransformAcceptance = async () => {
     "Font prerequisites accompany pure fragments",
   );
   check(
-    exported.html.notes.some((note) => note.includes("Unwired action")),
+    exported["html-css"].notes.some((note) => note.includes("Unwired action")),
     "Application actions are identified",
   );
   const developer = [...document.querySelectorAll("button")].find(
