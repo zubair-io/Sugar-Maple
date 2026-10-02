@@ -221,6 +221,15 @@ try {
     for (const operation of operations) assert.equal(created.document.nodes.find((node: any) => node.id === operation.node.id).pathData, operation.node.pathData);
     await geometry();
     const exported = await data('code.export', { id: 'sdk-freehand', target: 'svg' }); assert.ok(exported.code.includes(operations[3].node.pathData));
+    for (const operation of operations) {
+      const swift = await data('code.export', { id: operation.node.id, target: 'swiftui' });
+      assert.ok(swift.code.includes('Path { path in') && swift.code.includes('path.addLine'));
+      assert.equal(swift.code.includes('strokedPath'), operation.node.id !== 'sdk-freehand');
+      const source = resolve(output, operation.node.id + '-consumer.swift');
+      await Bun.write(source, swift.code);
+      await command(['swiftc', '-typecheck', source]);
+    }
+    assert.deepEqual((await data('document.get')).document, created.document, 'Native SwiftUI export is read-only');
     await data('history.undo', { documentId: created.documentId, expectedRevision: created.revision });
     const undonePaths = await data('document.get'); assert.deepEqual(undonePaths.document, beforePaths.document);
     await data('history.redo', { documentId: undonePaths.documentId, expectedRevision: undonePaths.revision });

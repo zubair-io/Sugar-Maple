@@ -73,6 +73,11 @@ try {
       }
       const svg = await page.evaluate(id => window.sugarMaple.dispatch('code.export', { id, target: 'svg' }), node.id);
       assert.ok(svg.code.includes('<path') && svg.code.includes(node.pathData));
+      const beforeExport = await checkpoint(page);
+      const swift = await page.evaluate(id => window.sugarMaple.dispatch('code.export', { id, target: 'swiftui' }), node.id);
+      assert.ok(swift.code.includes('Path { path in') && swift.code.includes('path.addLine'));
+      assert.equal(swift.code.includes('strokedPath'), kind !== 'freehand');
+      assert.deepEqual(await checkpoint(page), beforeExport, 'SwiftUI export does not edit scene or history');
       await page.screenshot({ path: `build/drawing-${kind}-chrome-${zoom}.png` });
       await undo(page); assert.deepEqual((await get(page)).document, before.document);
     }
