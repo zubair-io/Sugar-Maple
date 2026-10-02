@@ -135,9 +135,10 @@ final class EditorHost: NSObject, WKScriptMessageHandlerWithReply, WKNavigationD
             return ["ok": true]
         case "clipboard.write":
             guard let text = body["text"] as? String else { throw HostError.message("Missing clipboard text") }
-            NSPasteboard.general.clearContents(); NSPasteboard.general.setString(text, forType: .string)
+            guard body["format"] == nil || body["format"] is String else { throw NativeClipboard.ClipboardError.invalidFormat }
+            try NativeClipboard.write(text, format: body["format"] as? String ?? "text")
             return ["ok": true]
-        case "clipboard.read": return ["text": NSPasteboard.general.string(forType: .string) ?? ""]
+        case "clipboard.read": return ["text": try NativeClipboard.read()]
         case "file.reset": return ["ok": true]
         case "file.acceptOpen":
             guard let url = pendingOpenURL, let fingerprint = pendingFingerprint,
