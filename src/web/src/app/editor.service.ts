@@ -709,6 +709,7 @@ export class EditorService {
         this.mcp.set('Agent writing');
         try {
           await this.validateAssetOperations(args.operations);
+          this.assertNoTextDraft();
           const result = this.store.transact(args, 'agent');
           this.refresh();
           return result;
