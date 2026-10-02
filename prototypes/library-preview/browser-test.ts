@@ -25,6 +25,7 @@ try {
   await page.waitForFunction(() => (window as any).previewEvents.some((e: any) => e.kind === 'action'));
   await frame.getByRole('textbox', { name: 'Email', exact: true }).fill('changed@example.test');
   await page.waitForFunction(() => (window as any).previewEvents.some((e: any) => e.kind === 'change' && e.value === 'changed@example.test'));
+  await expect(page.frameLocator('#semantic').getByRole('textbox', { name: 'Email', exact: true })).toHaveValue('changed@example.test');
   await page.getByLabel('Button label', { exact: true }).fill('Save <script>literal</script>');
   await expect(frame.getByRole('button', { name: 'Save <script>literal</script>' })).toBeVisible();
   await page.getByLabel('Button variant').selectOption('Primary');
