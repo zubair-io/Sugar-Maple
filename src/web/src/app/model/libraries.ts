@@ -5,6 +5,7 @@ import {
   validateManifest,
   libraryProps,
   type LibraryReference,
+  LibraryBindingSchema,
 } from './library-schema';
 
 function component(doc: SceneDocument, ref: LibraryReference) {
@@ -29,25 +30,18 @@ export function applyLibraryProperties(doc: SceneDocument, node: SceneNode) {
 }
 export function trackLibraryOverrides(node: SceneNode, patch: Partial<SceneNode>) {
   if (!node.libraryRef) return;
-  const fields = [
-    'text',
-    'initialValue',
-    'accessibleLabel',
-    'disabled',
-    'inputType',
-    'fill',
-    'color',
-    'radius',
-    'padding',
-    'gap',
-    'fontSize',
-  ] as const;
+  const fields = LibraryBindingSchema.options;
   node.libraryRef = {
     ...node.libraryRef,
     localOverrides: [
       ...new Set([
         ...node.libraryRef.localOverrides,
-        ...fields.filter((field) => Object.hasOwn(patch, field)),
+        ...fields.filter(
+          (field) =>
+            Object.hasOwn(patch, field) ||
+            (field === 'fill' &&
+              (Object.hasOwn(patch, 'fillToken') || Object.hasOwn(patch, 'gradient'))),
+        ),
       ]),
     ],
   };
@@ -101,8 +95,19 @@ export function applyLibrary(doc: SceneDocument, op: Operation, ids: string[]) {
       props: { ...node.libraryRef.props, ...op.props },
       variant: op.variant ?? node.libraryRef.variant,
     };
-  if (op.type === 'library.reset')
+  if (op.type === 'library.reset') {
+    // The insertion baseline is NodeSchema defaults plus pinned variant props.
+    // Clearing flags alone leaves unrepresented style paint on the semantic node
+    // while making mapped exporters believe those overrides disappeared.
+    // Reset the supported baseline even for older saved instances whose reset
+    // already cleared flags while leaving stale paint behind. History replays
+    // stored deltas, so this does not reinterpret prior reset transactions.
+    for (const field of LibraryBindingSchema.options)
+      Object.assign(node, { [field]: NodeSchema.shape[field].parse(undefined) });
+    node.fillToken = NodeSchema.shape.fillToken.parse(undefined);
+    node.gradient = NodeSchema.shape.gradient.parse(undefined);
     node.libraryRef = { ...node.libraryRef, props: {}, localOverrides: [] };
+  }
   if (op.type === 'library.remap') {
     const ref = {
       ...node.libraryRef,
