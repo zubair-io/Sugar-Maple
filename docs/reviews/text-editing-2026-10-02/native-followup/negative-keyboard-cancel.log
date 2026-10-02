@@ -1,0 +1,146 @@
+77 |   await field.fill('Cancel by pointer');
+78 |   await page.getByRole('button', { name: 'Cancel text edit', exact: true }).click(); await settle(page);
+79 |   assert.deepEqual(await checkpoint(page), canceled); await expect(field).toHaveValue('Alpha');
+80 |   await field.fill('Cancel by keyboard'); await field.press('Tab');
+81 |   const cancelButton = page.getByRole('button', { name: 'Cancel text edit', exact: true });
+82 |   await expect(cancelButton).toBeFocused(); assert.deepEqual(await checkpoint(page), canceled);
+                                                        ^
+AssertionError: Expected values to be strictly deep-equal:
++ actual - expected
+... Skipped lines
+
+  {
+    base: {
+      assets: {},
+      comments: [],
+      folders: [],
+...
+          targetId: null,
++         text: 'Cancel by keyboard',
+-         text: 'Alpha',
+          textAlign: 'auto',
+          transition: 'instant',
+          variantName: 'Default',
+          variants: {},
+          viewBox: '0 0 100 100',
+...
+      },
++     {
++       delta: {
++         comments: [],
++         folders: [],
++         nodes: [
++           {
++             accessibleLabel: '',
++             asset: '',
++             color: '#18181b',
++             columns: 2,
++             componentId: null,
++             disabled: false,
++             fill: '#ffffff',
++             fillEnabled: true,
++             fillToken: '',
++             fontFamily: 'system-ui',
++             fontSize: 16,
++             fontWeight: 400,
++             gap: 16,
++             gradient: null,
++             height: 80,
++             heightMode: 'fixed',
++             heightPercent: 100,
++             hidden: false,
++             id: 'a',
++             initialValue: '',
++             inputType: 'text',
++             isComponent: false,
++             kind: 'text',
++             layout: 'free',
++             letterSpacing: 0,
++             libraryRef: null,
++             librarySlot: '',
++             lineHeight: 1.2,
++             locked: false,
++             name: 'Alpha label',
++             opacity: 1,
++             order: 0,
++             overrides: [],
++             padding: 16,
++             pageId: '197e2a18-d5e2-4786-8bda-a64abb1fb876',
++             parentId: null,
++             pathData: '',
++             prototypeAction: 'navigate',
++             radius: 0,
++             repeatIndex: null,
++             repeatTemplateId: null,
++             rotation: 0,
++             stroke: '#d4d4d8',
++             strokeWidth: 0,
++             targetId: null,
++             text: 'Cancel by keyboard',
++             textAlign: 'auto',
++             transition: 'instant',
++             variantName: 'Default',
++             variants: {},
++             viewBox: '0 0 100 100',
++             width: 180,
++             widthMode: 'fixed',
++             widthPercent: 100,
++             x: 40,
++             y: 40
++           }
++         ],
++         pages: [],
++         removedComments: [],
++         removedFolders: [],
++         removedNodes: [],
++         removedPages: []
++       },
++       kind: 'edit',
++       origin: 'human',
++       receipt: {
++         documentId: '55f27881-790e-4c01-931c-6a20b50cb882',
++         ids: [],
++         revision: 6,
++         transactionId: '3ef0c4d5-0333-40db-8fe7-bbbe64e6118d'
++       },
++       requestId: '2a523959-f10f-4292-87be-26ffbea1da88',
++       signature: '{"documentId":"55f27881-790e-4c01-931c-6a20b50cb882","expectedRevision":5,"requestId":"2a523959-f10f-4292-87be-26ffbea1da88","operations":[{"type":"node.update","id":"a","patch":{"text":"Cancel by keyboard"}}]}'
++     }
+    ]
+  }
+
+ generatedMessage: true,
+     actual: {
+  checkpointVersion: 2,
+  document: [Object ...],
+  base: [Object ...],
+  journal: [
+    [Object ...], [Object ...], [Object ...], [Object ...], [Object ...], [Object ...]
+  ],
+},
+   expected: {
+  checkpointVersion: 2,
+  document: [Object ...],
+  base: [Object ...],
+  journal: [
+    [Object ...], [Object ...], [Object ...], [Object ...], [Object ...]
+  ],
+},
+   operator: "deepStrictEqual",
+       diff: "simple",
+       code: "ERR_ASSERTION"
+
+      at /Users/riabuz/Projects/_Sugar Maple/src/web/tests/text-editing-e2e.ts:82:52
+
+Bun v1.4.2 (macOS arm64)
+ 9 |  return new Response(Bun.file(path.join(root,'index.html')));
+10 | }});
+11 | try {
+12 |  const child = Bun.spawn([process.execPath,'src/web/tests/text-editing-e2e.ts'],{env:{...process.env,SUGAR_MAPLE_TEST_URL:server.url.toString()},stdout:'inherit',stderr:'inherit'});
+13 |  const code = await child.exited;
+14 |  if(code) throw new Error(`Text checks exited ${code}`);
+                         ^
+error: Text checks exited 1
+      at /Users/riabuz/Projects/_Sugar Maple/build/test-text-target.ts:14:21
+
+Bun v1.4.2 (macOS arm64)

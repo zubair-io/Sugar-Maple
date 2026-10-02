@@ -1,0 +1,20 @@
+The following is a diff from the previous accessibility tree for Window: "Sugar Maple" with ~ and + representing changed and added elements, respectively. Removed elements are summarized by ID range.
+Removed element IDs: 147-149, 152-154, 157-159, 162-164
+~					141 text entry area (settable) Text content, Value: caf´, Secondary Actions: Show Writing Tools
+~						142 text (settable) caf´
+~					143 text Text stays in this field until you finish editing. Escape cancels.
++					193 button Cancel text edit
++					194 text Family
++						195 stepper 0
++							196 unknown
++							197 unknown
++						198 stepper 0
++							199 unknown
++							200 unknown
++						201 stepper 0
++							202 unknown
++							203 unknown
++						204 stepper 0
++							205 unknown
++							206 unknown
+The focused UI element is 141 text entry area (settable) Text content, Value: caf´, Secondary Actions: Show Writing Tools
