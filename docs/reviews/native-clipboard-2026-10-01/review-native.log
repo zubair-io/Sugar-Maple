@@ -1,0 +1,1 @@
+PASS: actual named NSPasteboard structured/text formats, UTF-8 roundtrip, structured precedence, version-one fallback, rejected malformed/future/Boolean/oversize writes preserve content and invalid structured reads reject

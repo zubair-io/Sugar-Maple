@@ -1,0 +1,33 @@
+{
+  "UTExportedTypeDeclarations": [
+    {
+      "UTTypeConformsTo": [
+        "com.apple.package"
+      ],
+      "UTTypeDescription": "Sugar Maple Document",
+      "UTTypeIdentifier": "io.zubair.SugarMaple.document",
+      "UTTypeTagSpecification": {
+        "public.filename-extension": [
+          "syrup"
+        ]
+      }
+    },
+    {
+      "UTTypeConformsTo": [
+        "public.json"
+      ],
+      "UTTypeDescription": "Editable Sugar Maple Elements",
+      "UTTypeIdentifier": "io.zubair.sugarmaple.elements"
+    }
+  ],
+  "CFBundleDocumentTypes": [
+    {
+      "CFBundleTypeName": "Sugar Maple Document",
+      "CFBundleTypeRole": "None",
+      "LSItemContentTypes": [
+        "io.zubair.SugarMaple.document"
+      ],
+      "LSTypeIsPackage": true
+    }
+  ]
+}
