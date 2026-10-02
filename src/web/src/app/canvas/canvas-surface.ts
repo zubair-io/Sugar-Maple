@@ -38,6 +38,7 @@ import {
       [strokeColor]="p.drawingColor()"
       [strokeSize]="p.drawingWidth()"
       [enabled]="enabled()"
+      [canvasCoordinates]="pointerCoordinates"
       (cameraChange)="cameraChanged($event)"
       (sizeChange)="p.size.set($event)"
       (deleteSelection)="p.e.remove()"
@@ -86,7 +87,13 @@ export class CanvasSurface {
   readonly board = viewChild(CanvasComponent);
   readonly zoom = input.required<number>();
   readonly pan = input.required<{ x: number; y: number }>();
+  readonly viewportCamera = input.required<() => { zoom: number; pan: { x: number; y: number } }>();
   readonly enabled = input(true);
+  readonly pointerCoordinates = (event: PointerEvent, rect: DOMRect) => {
+    const { zoom, pan } = this.viewportCamera()();
+    return { x: (event.clientX - rect.left - pan.x) / zoom,
+      y: (event.clientY - rect.top - pan.y) / zoom };
+  };
   readonly cameraChange = output<{ zoom: number; pan: { x: number; y: number } }>();
   readonly handles = computed(() => {
     const ids = this.p.e.selection(),

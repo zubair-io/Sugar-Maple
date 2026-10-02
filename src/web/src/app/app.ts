@@ -117,6 +117,7 @@ export class App {
   readonly surface = viewChild(CanvasSurface);
   readonly zoom = signal(0.8);
   readonly pan = signal({ x: 0, y: 0 });
+  readonly canvasCamera = () => ({ zoom: this.zoom(), pan: this.pan() });
   readonly tab = signal('Pages');
   readonly currentPageName = computed(
     () => this.e.doc().pages.find((p) => p.id === this.e.pageId())?.name ?? 'Page',

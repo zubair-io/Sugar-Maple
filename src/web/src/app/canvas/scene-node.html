@@ -45,6 +45,7 @@
         <svg width="100%" height="100%" [attr.viewBox]="node().viewBox" preserveAspectRatio="none">
           <path
             [attr.d]="node().pathData"
+            stroke-miterlimit="10"
             [attr.fill]="
               node().fillEnabled && !node().gradient
                 ? (document().tokens[node().fillToken] ?? node().fill)

@@ -1,0 +1,12 @@
+Native benchmark failed: Error Domain=WKErrorDomain Code=4 "A JavaScript exception occurred" UserInfo={WKJavaScriptExceptionLineNumber=0, WKJavaScriptExceptionMessage=Error: WK camera handoff geometry {"fromZoom":0.5,"toZoom":1.5,"start":{"x":119.96627432412504,"y":130.07906082478186},"end":{"x":240.29271271045735,"y":179.8942013471187},"node":{"id":"61b553b7-9ec3-4269-b431-ac0e739239ae","pageId":"4c0528de-4820-444f-9e5d-ecaa0d50a417","parentId":"frame","kind":"path","name":"Line","x":236.0427127104573,"y":175.64420134711872,"width":360.6213923787104,"height":12.752127095213126,"widthMode":"fixed","heightMode":"fixed","widthPercent":100,"heightPercent":100,"rotation":0,"radius":0,"gradient":null,"fillEnabled":false,"fill":"#2563eb","color":"#18181b","stroke":"#2563eb","strokeWidth":8,"opacity":1,"text":"","fontSize":16,"fontWeight":400,"fontFamily":"system-ui","lineHeight":1.2,"letterSpacing":0,"textAlign":"auto","layout":"free","gap":16,"padding":16,"columns":2,"hidden":false,"locked":false,"order":0,"inputType":"text","initialValue":"","accessibleLabel":"","disabled":false,"prototypeAction":"navigate","targetId":null,"transition":"instant","asset":"","pathData":"M356.3714 8.5021 L4.25 4.25","viewBox":"0 0 360.6214 12.7521","libraryRef":null,"librarySlot":"","componentId":null,"isComponent":false,"variantName":"Default","variants":{},"overrides":[],"repeatTemplateId":null,"repeatIndex":null,"fillToken":""},"values":[356.3714,8.5021,4.25,4.25]}, WKJavaScriptExceptionColumnNumber=0, NSLocalizedDescription=A JavaScript exception occurred}
+10 |   kind: 'frame', x: 40, y: 40, width: 500, height: 400, rotation: 25, strokeWidth: 2 })];
+11 | const fixture = resolve(output, 'fixture.json'), executable = resolve(output, 'native-drawing');
+12 | await Bun.write(fixture, JSON.stringify(new DocumentStore(document).checkpoint()));
+13 | async function run(cmd: string[]) {
+14 |   const child = Bun.spawn(cmd, { cwd: root, stdout: 'inherit', stderr: 'inherit' });
+15 |   if (await child.exited) throw Error('Native drawing failed: ' + cmd[0]);
+                                     ^
+error: Native drawing failed: /Users/riabuz/Projects/_Sugar Maple/build/native-canvas-drawing/native-drawing
+      at run (/Users/riabuz/Projects/_Sugar Maple/tools/native-canvas-drawing.ts:15:33)
+
+Bun v1.4.2 (macOS arm64)

@@ -1,0 +1,322 @@
+{
+  "sourceCommit": "f32f5cadf4934474138b56ca446a89666cae151d",
+  "runtimeIntegrationCommit": "279e3a125c1a14a1d1b94dfae8e10bf894810a29",
+  "source": {
+    "src/web/src/app/model/vector-path.ts": "d807bc7ff865511730716f1595e5dec51faa319414e42e52101033e0ca991803",
+    "src/web/src/app/model/swift-export.ts": "726a334c542f27c6a01c46ec3d4c1d547aeeb0b0eee97097924471ac292207f2",
+    "src/web/src/app/model/svg.ts": "25e5aea5a7849242b17233107e31bd3af2b5af5132ea82747cb2ba8846bb5905",
+    "src/web/src/app/canvas/scene-node.html": "32b3bcbd5307a9fc19b4c07a524239aa375a246bb49d3f01830027798701cbe0"
+  },
+  "baseline": {
+    "commit": "8b75614a4437008092d704f178f075a8cef177da",
+    "scope": "Unmodified git archive of model sources, resolving the existing pinned workspace dependencies through a private symlink; actual swiftExport rejects a canonical line path."
+  },
+  "main": {
+    "commit": "edd130af96c292c325792c6de9bb0ed8c19974d1",
+    "textPr": 84,
+    "head": "63287a1618ccdf25eed68235f6649c5ba49b73b2",
+    "approvalSession": "17688139800880809419",
+    "exactHeadCI": 36994033031,
+    "reviewRun": 36994033098,
+    "resultingMainCI": 36995710963,
+    "reviewComment": "https://github.com/zubair-io/Sugar-Maple/pull/84#issuecomment-5950189379"
+  },
+  "checks": {
+    "model": {
+      "passed": 130,
+      "assertions": 2114,
+      "files": 27,
+      "sourceCommit": "96e425c82cd8fecfd3a393ae6cc3bef87047715c"
+    },
+    "typecheck": {
+      "passed": true,
+      "sourceCommit": "279e3a125c1a14a1d1b94dfae8e10bf894810a29"
+    },
+    "macBuild": {
+      "passed": true,
+      "sourceCommit": "279e3a125c1a14a1d1b94dfae8e10bf894810a29"
+    },
+    "browser": {
+      "passed": true,
+      "suites": 29,
+      "sourceCommit": "96e425c82cd8fecfd3a393ae6cc3bef87047715c",
+      "scope": "All browser/consumer suites, including actual human drawing SwiftUI export and unchanged checkpoint."
+    },
+    "nativeSdk": {
+      "passed": true,
+      "sourceCommit": "96e425c82cd8fecfd3a393ae6cc3bef87047715c",
+      "scope": "Owned private DEBUG app/profile/48494; actual HTTP MCP exports all four drawing paths, every returned standalone source typechecks; canonical document, undo/redo, capture and durable checkpoint pass. Owner stopped normally."
+    },
+    "consumer": {
+      "passed": true,
+      "sourceCommit": "f32f5cadf4934474138b56ca446a89666cae151d",
+      "fixtures": 23,
+      "target": "macOS 14 SwiftUI SDK, actual ImageRenderer and independent WKWebView SVG, equal 2x pixels",
+      "minimumInkOverlap": 0.9645868465430016,
+      "maximumLargeColorDifference": 0.0304022450888681,
+      "emptyPixels": 0
+    }
+  },
+  "sourceFidelity": "The four runtime files are unchanged between integration 279e3a1 and final checked source f32f5ca. Later commits only document capabilities, replace an obsolete tool-error example and add the empty consumer fixture. The production bundle was built from integration 279e3a1; native SDK uses that identical runtime. Model/browser source 96e425c includes the revised tool-error example. Latest native consumer source f32f5ca includes the empty fixture.",
+  "limitations": [
+    "Final PR CI and approving review are pending; this vector change is not merged.",
+    "Full native acceptance is enabled in CI but has not been run locally for this vector branch; local native consumer and actual SDK checks above pass.",
+    "This is fixture-level macOS visual evidence, not whole-product/iOS/VoiceOver or hardware input acceptance.",
+    "SwiftUI gradients, responsive sizing, custom fonts and nondefault exact line height remain unsupported; path gradients and advanced Bezier editing remain open.",
+    "Executable JS/Swift library previews remain #51; this export never executes imported source."
+  ],
+  "artifacts": {
+    "before.log": {
+      "sha256": "345c576c9579596709b337367f8fd5625f3ad3c6aaad7f0558905ffc3e8b0a97",
+      "bytes": 103
+    },
+    "native-consumer.log": {
+      "sha256": "0e38ad1a01b215596732b7e1b18c4a54341a4b8076e17f25fb03e82ad55189c3",
+      "bytes": 2289
+    },
+    "model.log": {
+      "sha256": "421cc644d69e1977e7a2798d1cce827b005019b0732237386ecbef528c6768d5",
+      "bytes": 14229
+    },
+    "typecheck.log": {
+      "sha256": "9b2b770f3351789b5fd00fa72323f6eb7ea6de3fa3d75b7678bcbee1c8f6d5f6",
+      "bytes": 36
+    },
+    "mac-build.log": {
+      "sha256": "0ccec2bfd97b2199f91e2c81356ca03b0f0f866418a783e10a2a98f3a059225e",
+      "bytes": 58280
+    },
+    "browser.log": {
+      "sha256": "cb2cc5e61cc444901f57a613318aa6306e0f89751bfef66028d4cbed0424680a",
+      "bytes": 6474
+    },
+    "native-mcp.log": {
+      "sha256": "55e9108a73898876d39b1b9523e08c9a23760e400cc46d1ae23c7b941331af4c",
+      "bytes": 144
+    },
+    "consumer/14-native.png": {
+      "sha256": "1ed5e222cd85df359a0c5c96e7f82d362dc3a2671482154b0ddec7c883fae775",
+      "bytes": 5639
+    },
+    "consumer/consumer.swift": {
+      "sha256": "31ab86810e24731e022ed8200e1db4b995f434ca088b0ec5303fadcad7fbca8a",
+      "bytes": 31314
+    },
+    "consumer/7-native.png": {
+      "sha256": "80a3a2fec3d6a8a6be922d3db20b8dd3c1caf35104eb9426b210d04c8a9cc972",
+      "bytes": 4553
+    },
+    "consumer/15-svg.png": {
+      "sha256": "79130469e2f775a0542a99da13a0bce7eb30fd0322769f43bff4628e9e0853a0",
+      "bytes": 4402
+    },
+    "consumer/19-native.png": {
+      "sha256": "84a726099881caa720a731519bc7fe908ebc60db1b5a9725758d7bde8745165e",
+      "bytes": 1849
+    },
+    "consumer/6-svg.png": {
+      "sha256": "9a7a7a20d9ecb2d22cb8f8e716505955ba6423b4a8310df0bed9bc39af5d175f",
+      "bytes": 4816
+    },
+    "consumer/14-svg.png": {
+      "sha256": "061f44b2bf73ec65c714353e5e839473d44c9f1e501fbabb041e0a171e07baa2",
+      "bytes": 5940
+    },
+    "consumer/7-svg.png": {
+      "sha256": "9a7a7a20d9ecb2d22cb8f8e716505955ba6423b4a8310df0bed9bc39af5d175f",
+      "bytes": 4816
+    },
+    "consumer/11-native.png": {
+      "sha256": "142e97810e64039b44af7221b9a93e6e215ddcbb176a38241532310d4565820f",
+      "bytes": 4580
+    },
+    "consumer/2-native.png": {
+      "sha256": "3fc5f196ed6f48f480be7ce0140d469b20e6306543fbf7ab21e7af4f4b6fa617",
+      "bytes": 6073
+    },
+    "consumer/22-svg.png": {
+      "sha256": "e616b0212c3a25aa227364cde527dfbe5d1aa86bde1cac4cc185d6c3e443f6cb",
+      "bytes": 7424
+    },
+    "consumer/5-svg.png": {
+      "sha256": "86a49deb26125b4d6ead3158137b418be2277eb0a8c96c05d45e96053eb08dd4",
+      "bytes": 4888
+    },
+    "consumer/16-svg.png": {
+      "sha256": "4b9112afd4b7157819b90c92c559cb89c551c7225b817740e72c6d7d6849bc43",
+      "bytes": 3171
+    },
+    "consumer/5-native.png": {
+      "sha256": "142e97810e64039b44af7221b9a93e6e215ddcbb176a38241532310d4565820f",
+      "bytes": 4580
+    },
+    "consumer/16-native.png": {
+      "sha256": "b1fca8b4392f73e6ad1cfda099fc0c7cb9091af419f7a504788989ddc8f1cacb",
+      "bytes": 2802
+    },
+    "consumer/21-native.png": {
+      "sha256": "5923e20e0056979abc1c768388c70d3fbaa28a6189d8b862470cffddbdcd7d40",
+      "bytes": 1393
+    },
+    "consumer/8-native.png": {
+      "sha256": "142e97810e64039b44af7221b9a93e6e215ddcbb176a38241532310d4565820f",
+      "bytes": 4580
+    },
+    "consumer/20-svg.png": {
+      "sha256": "9217241ae87f5533908bff1bdb42319aa4da75a77b99547f913bca59a2db04c1",
+      "bytes": 2552
+    },
+    "consumer/21-svg.png": {
+      "sha256": "5923e20e0056979abc1c768388c70d3fbaa28a6189d8b862470cffddbdcd7d40",
+      "bytes": 1393
+    },
+    "consumer/0-native.png": {
+      "sha256": "657eff3396df137dc7ddb04f0050ad8f85057ea7e7829c5a3bc40f5752ccacc7",
+      "bytes": 1739
+    },
+    "consumer/4-svg.png": {
+      "sha256": "910ad8e529dd740d6c14e197fa2489c9265f94030303641ec2467361506bdfdf",
+      "bytes": 6572
+    },
+    "consumer/17-svg.png": {
+      "sha256": "1d809dfbbf5f8bc9981b5fa49bf309b3d2c8df35b79b1beff703695a274a2465",
+      "bytes": 1173
+    },
+    "consumer/comparison.json": {
+      "sha256": "a4fd05feb27cd0563cd22a25a530c928d73c2d0c5afbcfb04938cd437a23af6d",
+      "bytes": 5194
+    },
+    "consumer/13-native.png": {
+      "sha256": "2c06bc6e8e5fba6715afc8aa339e0a0be13f9a7ae4708885214cb97a8818dabf",
+      "bytes": 3360
+    },
+    "consumer/1-svg.png": {
+      "sha256": "4c61beef31355799bb1379b2c84940e04d57fb6a90f2ace6b9a77591d0465874",
+      "bytes": 1681
+    },
+    "consumer/12-svg.png": {
+      "sha256": "28fb37e1166eccda628532076f5f0ec3cea45b9319f3b222b086cc992ecf4a91",
+      "bytes": 1837
+    },
+    "consumer/10-native.png": {
+      "sha256": "ea4b815b4a00abae4063c30edd49d2ae391253baa0aa1b37510b2719245983e2",
+      "bytes": 2658
+    },
+    "consumer/3-native.png": {
+      "sha256": "3c208c2374299dd9ff78129c32f699c93e2c342fb78f3f8ba990b99ee0d86eff",
+      "bytes": 5488
+    },
+    "consumer/8-svg.png": {
+      "sha256": "86a49deb26125b4d6ead3158137b418be2277eb0a8c96c05d45e96053eb08dd4",
+      "bytes": 4888
+    },
+    "consumer/22-native.png": {
+      "sha256": "73d4015caf9208cdcc2e489379d240d65dc3b770723730dd13906f298724c394",
+      "bytes": 7481
+    },
+    "consumer/15-native.png": {
+      "sha256": "dd4b25a4f6dca7d6bc4cda9d862ce1e743f5d32887c90e06a75983f971428b80",
+      "bytes": 4332
+    },
+    "consumer/6-native.png": {
+      "sha256": "80a3a2fec3d6a8a6be922d3db20b8dd3c1caf35104eb9426b210d04c8a9cc972",
+      "bytes": 4553
+    },
+    "consumer/9-svg.png": {
+      "sha256": "e4195a18573cc29bc7eaed311b22ab7768cc63212feabb4b4b9bb4a51b2752cd",
+      "bytes": 5972
+    },
+    "consumer/18-native.png": {
+      "sha256": "635d6a055b58e36d9785e26472656f54cf65f83baef56e12eab5fa6a6095e62a",
+      "bytes": 1649
+    },
+    "consumer/0-svg.png": {
+      "sha256": "657eff3396df137dc7ddb04f0050ad8f85057ea7e7829c5a3bc40f5752ccacc7",
+      "bytes": 1739
+    },
+    "consumer/13-svg.png": {
+      "sha256": "8d3da090864baa5784ee5ce2da182306e08232e12990382a4a4cec4ae6ca1f90",
+      "bytes": 4329
+    },
+    "consumer/fixtures.json": {
+      "sha256": "223efac110631c00e89875132a0b5814f6fcce95f3587d7430e51e8d9c67bc37",
+      "bytes": 15088
+    },
+    "consumer/18-svg.png": {
+      "sha256": "ce5335c09a41e8481fd887d5693c63332a7aad04399a27eca5ef0dbdc978fcb0",
+      "bytes": 1990
+    },
+    "consumer/1-native.png": {
+      "sha256": "4c61beef31355799bb1379b2c84940e04d57fb6a90f2ace6b9a77591d0465874",
+      "bytes": 1681
+    },
+    "consumer/11-svg.png": {
+      "sha256": "86a49deb26125b4d6ead3158137b418be2277eb0a8c96c05d45e96053eb08dd4",
+      "bytes": 4888
+    },
+    "consumer/12-native.png": {
+      "sha256": "28fb37e1166eccda628532076f5f0ec3cea45b9319f3b222b086cc992ecf4a91",
+      "bytes": 1837
+    },
+    "consumer/2-svg.png": {
+      "sha256": "c88fa750bc66acdcbd23053cf48083ce2291194dae2a5a1fac82ae4951797e13",
+      "bytes": 6355
+    },
+    "consumer/4-native.png": {
+      "sha256": "1c15cab34e26a3e19fc084d02aac3d9dc4386ddc2bbb4285cd606e4275857a8e",
+      "bytes": 6185
+    },
+    "consumer/10-svg.png": {
+      "sha256": "d0baf302b5433e1bb421adae96e634df9d84aeb0f91dbbf36c45144d0082a007",
+      "bytes": 3123
+    },
+    "consumer/17-native.png": {
+      "sha256": "eaf4cde71bb8de3046fe1d968bbbb7f21a2f4a873d6f94275a1c68afb57bed15",
+      "bytes": 812
+    },
+    "consumer/20-native.png": {
+      "sha256": "4cfc904689839def70d6fef63f399521ecfd96279abae6998a47f3c0e2226bc2",
+      "bytes": 2494
+    },
+    "consumer/3-svg.png": {
+      "sha256": "27536100bfb701116aeaab85916110861ed9b8cc8b133344a26970a146a803f3",
+      "bytes": 6000
+    },
+    "consumer/9-native.png": {
+      "sha256": "abb766efc98a49939d10a18d26a31902fb34bdbb067d085e851bb9c0157102dc",
+      "bytes": 5716
+    },
+    "consumer/19-svg.png": {
+      "sha256": "aaeaaa5229168ab4aee6c60fc01256ea1c413a995d5f8e7921064ea50cdf87ea",
+      "bytes": 1725
+    },
+    "native-sdk/sdk-line-consumer.swift": {
+      "sha256": "4883ea457039504506763f9e5f2552b0a12091e41de2be92766083c7fc549ec0",
+      "bytes": 786
+    },
+    "native-sdk/sdk-arrow-consumer.swift": {
+      "sha256": "77c09fcf76de847af3a3db60587d7b029ba4046e6f7541778fcbdba7b960a3aa",
+      "bytes": 930
+    },
+    "native-sdk/sdk-path-consumer.swift": {
+      "sha256": "f79a99b7b56182f976e3b59305dbcc5ab43c323071b5f3ebbb47f2e27e72681e",
+      "bytes": 853
+    },
+    "native-sdk/sdk-freehand-consumer.swift": {
+      "sha256": "be5be8701ca95a6e5b35dd21d256bd6fcafad438b1845dfbb1f09adca04ce1d4",
+      "bytes": 2988
+    },
+    "native-sdk/report.json": {
+      "sha256": "2fd89fcd9709cca30e916eb7d148e1d6fdef05c35311db3fb9e40c76719054f3",
+      "bytes": 571
+    },
+    "native-sdk/checkpoint.json": {
+      "sha256": "0a613ba4c75eb4ce46529ec1c7d3b4d52aa1dbd578a53d8c4a9b999a67023069",
+      "bytes": 19968
+    },
+    "native-sdk/native-mcp.png": {
+      "sha256": "8f38d8bfbd4e3055285727b4b7a94d4b461de9fb8848e9b7b599a3c0fe72674c",
+      "bytes": 219902
+    }
+  }
+}
