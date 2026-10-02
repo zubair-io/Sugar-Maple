@@ -25,6 +25,7 @@ import { CanvasProjection } from './canvas/canvas-projection';
 import { AssetInspector } from './canvas/asset-inspector';
 import { intersects } from './canvas/scene-layout';
 import { changedPatch, movePatch } from './canvas/transform-geometry';
+import { alignment, distribution, type Axis, type Edge } from './canvas/placement-geometry';
 import { MuiButtonComponent } from './chrome/maple/ui/button/mui-button.component';
 import { MuiSectionComponent } from './chrome/maple/ui/section/mui-section.component';
 import { MuiFieldComponent } from './chrome/maple/ui/field/mui-field.component';
@@ -191,23 +192,13 @@ export class App {
   });
   readonly canAlign = computed(() => {
     const nodes = this.e.selectedRoots();
-    if (
-      !nodes.length ||
-      nodes.some(
-        (node) =>
-          node.locked ||
-          node.rotation !== 0 ||
-          node.widthMode !== 'fixed' ||
-          node.heightMode !== 'fixed',
-      )
-    )
-      return false;
-    if (nodes.some((node) => node.parentId !== nodes[0].parentId)) return false;
-    const parent = this.e.doc().nodes.find((node) => node.id === nodes[0].parentId);
-    return nodes.length > 1
-      ? !parent || parent.layout === 'free'
-      : !!parent && parent.layout === 'free';
+    return (
+      this.e.mode() === 'Design' && nodes.length > 0 &&
+      nodes.every((node) => this.canMove(node)) &&
+      (nodes.length > 1 || !!nodes[0].parentId)
+    );
   });
+  readonly canDistribute = computed(() => this.canAlign() && this.e.selectedRoots().length >= 3);
   readonly kinds = [
     'artboard',
     'frame',
@@ -415,36 +406,27 @@ export class App {
     });
   }
   align(axis: 'x' | 'y') {
-    const nodes = this.e.selectedRoots().filter((n) => !n.locked);
-    if (nodes.length < 2 || nodes.some((n) => n.parentId !== nodes[0].parentId)) {
-      this.e.error.set('Select siblings to align.');
+    this.alignSelection(axis === 'x' ? 'left' : 'top');
+  }
+  alignSelection(edge: Edge) {
+    if (!this.canAlign()) return;
+    this.place(alignment(
+      this.e.selectedRoots().map((node) => this.projection.byId().get(node.id)!), edge,
+    ));
+  }
+  distribute(axis: Axis) {
+    if (!this.canDistribute()) return;
+    this.place(distribution(
+      this.e.selectedRoots().map((node) => this.projection.byId().get(node.id)!), axis,
+    ));
+  }
+  private place(updates: { id: string; patch: Partial<SceneNode> }[] | null) {
+    if (!updates) {
+      this.e.error.set('Placement would exceed document coordinate limits.');
       return;
     }
-    const value = Math.min(...nodes.map((n) => n[axis]));
-    this.e.perform(nodes.map((n) => ({ type: 'node.update', id: n.id, patch: { [axis]: value } })));
-  }
-  alignSelection(edge: 'left' | 'center' | 'right' | 'top' | 'middle' | 'bottom') {
-    if (!this.canAlign()) return;
-    const nodes = this.e.selectedRoots();
-    const horizontal = ['left', 'center', 'right'].includes(edge);
-    const axis = horizontal ? 'x' : 'y';
-    const size = horizontal ? 'width' : 'height';
-    const parent = this.e.doc().nodes.find((node) => node.id === nodes[0].parentId);
-    const minimum = nodes.length === 1 ? 0 : Math.min(...nodes.map((node) => node[axis]));
-    const maximum =
-      nodes.length === 1
-        ? parent![size]
-        : Math.max(...nodes.map((node) => node[axis] + node[size]));
-    const updates = nodes.map((node) => {
-      const target =
-        edge === 'left' || edge === 'top'
-          ? minimum
-          : edge === 'right' || edge === 'bottom'
-            ? maximum - node[size]
-            : (minimum + maximum - node[size]) / 2;
-      return { type: 'node.update' as const, id: node.id, patch: { [axis]: target } };
-    });
-    this.e.perform(updates);
+    if (updates.length)
+      this.e.perform(updates.map((update) => ({ type: 'node.update' as const, ...update })));
   }
   group() {
     const nodes = this.e.selectedRoots();

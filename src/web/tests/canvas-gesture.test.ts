@@ -68,6 +68,8 @@ function fixture() {
     canMove: () => true,
     canResize: () => true,
     canRotate: () => true,
+    size: () => ({width:1000,height:800}),
+    snapping: () => false,
   };
   const tool = new CanvasSelectionTool(projection as any);
   tool.activate({

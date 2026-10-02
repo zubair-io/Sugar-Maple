@@ -4,8 +4,14 @@ import { blankDocument, NodeSchema } from "../src/web/src/app/model/schema";
 import { DocumentStore } from "../src/web/src/app/model/store";
 if (process.platform !== "darwin")
   throw Error("Canvas native transforms require macOS");
+const placement = process.argv.includes("--placement");
 const root = resolve(import.meta.dir, ".."),
-  output = resolve(root, "build/native-canvas-transforms");
+  output = resolve(
+    root,
+    placement
+      ? "build/native-canvas-placement"
+      : "build/native-canvas-transforms",
+  );
 mkdirSync(output, { recursive: true });
 const doc = blankDocument(),
   pageId = doc.pages[0].id;
@@ -59,14 +65,24 @@ await run([
   executable,
   resolve(root, "src/web/dist/sugar-maple-editor/browser"),
   fixture,
-  resolve(root, "tools/canvas-transform-native-page.js"),
+  resolve(
+    root,
+    placement
+      ? "tools/canvas-placement-native-page.js"
+      : "tools/canvas-transform-native-page.js",
+  ),
   resolve(output, "report.json"),
   resolve(output, "webkit.png"),
   "--transforms",
 ]);
 const report = await Bun.file(resolve(output, "report.json")).json();
-if (report.result?.passed !== true || report.result?.checks !== 18)
+if (
+  report.result?.passed !== true ||
+  report.result?.checks !== (placement ? 16 : 18)
+)
   throw Error("Incomplete WK transform proof");
 console.log(
-  "PASS: 18 production WKWebView resize/rotation keyboard cases, zoom 0.5/1.5, independent pinned-anchor geometry, inherited locks/visibility and exact undo",
+  placement
+    ? "PASS: 16 production WKWebView alignment/distribution DOM cases, zoom 0.5/1.5, independent rotated geometry, locked ancestors, snapping preference without history, exact undo and no console errors"
+    : "PASS: 18 production WKWebView resize/rotation keyboard cases, zoom 0.5/1.5, independent pinned-anchor geometry, inherited locks/visibility and exact undo",
 );
