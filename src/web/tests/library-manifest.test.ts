@@ -210,6 +210,57 @@ test('slot validation and scoped reads expose exact library dependencies', () =>
   expect(read.references.libraries).toEqual({ [key]: manifest });
 });
 
+test('copying a slotted subtree alone detaches only its external slot, while copying its parent retains named slots', () => {
+  const source = fixture(), pageId = source.document.pages[0].id;
+  source.transact(tx(source, [
+    { type: 'library.insert', id: 'card', key, component: 'Card', pageId, x: 0, y: 0 },
+    { type: 'node.add', node: { id: 'header', parentId: 'card', pageId, kind: 'frame', name: 'Header', librarySlot: 'header' } },
+    { type: 'node.add', node: { id: 'title', parentId: 'header', pageId, kind: 'text', name: 'Title', text: 'Hello Maple' } },
+  ]));
+  const sourceBefore = source.checkpoint(), target = new DocumentStore(), before = target.document;
+  const paste = pasteElements(target.document, target.document.pages[0].id, JSON.stringify(editablePayload(source.document, 'header')));
+  target.transact(tx(target, paste.operations));
+  const root = target.document.nodes.find(n => n.id === paste.rootId)!;
+  expect(root.parentId).toBeNull();
+  expect(root.librarySlot).toBe('');
+  expect(target.document.nodes.find(n => n.parentId === root.id)?.text).toBe('Hello Maple');
+  expect(new Set(target.document.nodes.map(n => n.id)).size).toBe(2);
+  expect(target.checkpoint().journal).toHaveLength(1);
+  expect(DocumentStore.fromCheckpoint(target.checkpoint()).document).toEqual(target.document);
+  target.undo(); expect(target.document).toEqual(before);
+  target.redo(); expect(target.document.nodes.find(n => n.id === paste.rootId)?.librarySlot).toBe('');
+  expect(source.checkpoint()).toEqual(sourceBefore);
+  const complete = new DocumentStore();
+  const tree = pasteElements(complete.document, complete.document.pages[0].id, JSON.stringify(editablePayload(source.document, 'card')));
+  complete.transact(tx(complete, tree.operations));
+  expect(complete.document.nodes.find(n => n.name === 'Header')?.librarySlot).toBe('header');
+  expect(complete.document.nodes.find(n => n.id === tree.rootId)?.libraryRef?.key).toBe(key);
+});
+
+test('default library content requires a declared empty slot; rejected default children do not mutate history', () => {
+  const strict = structuredClone(manifest); strict.components.Card.slots = ['header', 'footer'];
+  const store = new DocumentStore(), pageId = store.document.pages[0].id;
+  store.transact(tx(store, [
+    { type: 'library.import', manifest: strict },
+    { type: 'library.insert', id: 'card', key, component: 'Card', pageId, x: 0, y: 0 },
+  ]));
+  const before = store.checkpoint();
+  for (const slot of [undefined, '']) {
+    expect(() => store.transact(tx(store, [
+      { type: 'document.rename', name: 'Must not commit' },
+      { type: 'node.add', node: { id: 'child', parentId: 'card', pageId, kind: 'text', name: 'Child', ...(slot === undefined ? {} : { librarySlot: slot }) } },
+    ]))).toThrow('slot');
+    expect(store.checkpoint()).toEqual(before);
+  }
+  store.transact(tx(store, [
+    { type: 'node.add', node: { id: 'header', parentId: 'card', pageId, kind: 'text', name: 'Header', librarySlot: 'header' } },
+    { type: 'node.add', node: { id: 'ordinary', pageId, kind: 'frame', name: 'Ordinary frame' } },
+    { type: 'node.add', node: { id: 'ordinary-child', parentId: 'ordinary', pageId, kind: 'text', name: 'Ordinary content' } },
+  ]));
+  expect(store.document.nodes.find(n => n.id === 'ordinary-child')?.librarySlot).toBe('');
+  expect(DocumentStore.fromCheckpoint(store.checkpoint()).document).toEqual(store.document);
+});
+
 test('mapped output uses pinned imports and supported native symbols; unsafe attributes and unsupported styles never approximate', () => {
   const store = fixture(),
     before = store.checkpoint();

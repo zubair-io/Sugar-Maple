@@ -42,6 +42,7 @@ export function pasteElements(doc: SceneDocument, pageId: string, text: string):
   validateDocument({ version: 1, id: uid(), name: 'Clipboard', comments: [], folders: [],
     pages: [...new Set(all.map(n => n.pageId))].map((id, order) => ({ id, name: 'Source', order })),
     nodes: all.map(n => ({ ...n, parentId: allIds.has(n.parentId ?? '') ? n.parentId : null,
+      librarySlot: allIds.has(n.parentId ?? '') ? n.librarySlot : '',
       targetId: allIds.has(n.targetId ?? '') ? n.targetId : null })), tokens: value.tokens ?? {}, assets: value.assets ?? {}, libraries: value.libraries ?? {} });
   const reuse = value.sourceDocumentId === doc.id && dependencies.every(n => doc.nodes.some(d => d.id === n.id));
   const ids = new Map(all.map(n => [n.id, reuse && !sourceIds.has(n.id) ? n.id : uid()]));
@@ -64,6 +65,7 @@ export function pasteElements(doc: SceneDocument, pageId: string, text: string):
   const remap = (n: SceneNode, selected: boolean): SceneNode => ({ ...n, id: ids.get(n.id)!,
     pageId: selected ? pageId : definitionsPage,
     parentId: ids.get(n.parentId ?? '') ?? null,
+    librarySlot: ids.has(n.parentId ?? '') ? n.librarySlot : '',
     componentId: n.componentId ? ids.get(n.componentId)! : null,
     targetId: ids.get(n.targetId ?? '') ?? null,
     repeatTemplateId: ids.get(n.repeatTemplateId ?? '') ?? null,
@@ -76,7 +78,7 @@ export function pasteElements(doc: SceneDocument, pageId: string, text: string):
   if (!reuse) for (const n of dependencies) operations.push({ type: 'node.add', node: remap(n, false) });
   for (const n of source) {
     const node = remap(n, true);
-    if (n.id === root.id) node.parentId = null;
+    if (n.id === root.id) { node.parentId = null; node.librarySlot = ''; }
     operations.push({ type: 'node.add', node });
   }
   if (operations.length > 500) throw Error('Clipboard exceeds the atomic paste limit of 500 operations');
