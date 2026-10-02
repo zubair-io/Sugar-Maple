@@ -6,6 +6,34 @@ export function repeatCells(doc: SceneDocument, gridId: string) {
     .filter((n) => n.parentId === gridId && n.repeatIndex !== null)
     .sort((a, b) => a.repeatIndex! - b.repeatIndex!);
 }
+/** Command and temporary Canvas preview share the same resolved grid extent. */
+export function repeatGeometry(
+  doc: SceneDocument,
+  grid: SceneNode,
+  rows: number,
+  columns: number,
+  gap = grid.gap,
+  anchor: 'position' | 'top-left' = 'position',
+) {
+  const template = doc.nodes.find((n) => n.id === grid.repeatTemplateId);
+  if (!template) throw Error('Missing Repeat Grid template');
+  const inset = grid.padding + grid.strokeWidth;
+  const width = columns * template.width + (columns - 1) * gap + 2 * inset,
+    height = rows * template.height + (rows - 1) * gap + 2 * inset;
+  let x = grid.x,
+    y = grid.y;
+  const parent = doc.nodes.find((n) => n.id === grid.parentId);
+  if (anchor === 'top-left' && (!parent || parent.layout === 'free')) {
+    const angle = (grid.rotation * Math.PI) / 180,
+      c = Math.cos(angle),
+      s = Math.sin(angle),
+      dw = width - grid.width,
+      dh = height - grid.height;
+    x += (c * dw - s * dh - dw) / 2;
+    y += (s * dw + c * dh - dh) / 2;
+  }
+  return { x, y, width, height, gap, columns };
+}
 export function repeatTargets(doc: SceneDocument, gridId: string) {
   const grid = doc.nodes.find((n) => n.id === gridId);
   if (!grid?.repeatTemplateId) throw Error('Select a Repeat Grid');
@@ -136,11 +164,13 @@ export function applyRepeat(doc: SceneDocument, op: Operation, ids: string[]) {
     return true;
   }
   if (op.type === 'repeat.resize') {
-    const count = op.rows * op.columns;
+    const count = op.count ?? op.rows * op.columns;
     if (count > 100) throw Error('Repeat Grid supports at most 100 cells');
+    if (count > op.rows * op.columns || Math.ceil(count / op.columns) !== op.rows)
+      throw Error('Repeat Grid count must fit the declared rows with only the last row partial');
     prepare(doc, grid);
-    const cells = repeatCells(doc, grid.id),
-      template = doc.nodes.find((n) => n.id === grid.repeatTemplateId)!;
+    const geometry = repeatGeometry(doc, grid, op.rows, op.columns, op.gap ?? grid.gap, op.anchor);
+    const cells = repeatCells(doc, grid.id);
     const removed = new Set(
       cells.slice(count).flatMap((cell) => subtree(doc, cell.id).map((n) => n.id)),
     );
@@ -151,9 +181,7 @@ export function applyRepeat(doc: SceneDocument, op: Operation, ids: string[]) {
         n.overrides = [];
       }
     for (let i = cells.length; i < count; i++) appendCell(doc, grid, i);
-    grid.columns = op.columns;
-    grid.width = op.columns * (template.width + grid.gap) + 2 * grid.padding - grid.gap;
-    grid.height = op.rows * (template.height + grid.gap) + 2 * grid.padding - grid.gap;
+    Object.assign(grid, geometry);
     return true;
   }
   if (op.type === 'repeat.populate') {
