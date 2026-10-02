@@ -5,7 +5,8 @@ import { buildReviewPrompt } from './prompt.js';
 import { publishThenDelete } from './cleanup.js';
 import { collectReview } from './poll.js';
 import { selectReviewDiff } from './diff.js';
-import { fetchRevisionDiff, safeReviewFailure } from './revision-diff.js';
+import { fetchRevisionDiff, safeReviewFailure, RevisionDiffError } from './revision-diff.js';
+import { pinnedCurrentPull, pinnedPreparedPull, completeMergeBase } from './review-context.js';
 
 import { parseFinalVerdict, statusFromVerdict, type FailOn } from './verdict.js';
 
@@ -46,22 +47,28 @@ async function run(): Promise<void> {
     return;
   }
 
-  const pr = ctx.payload.pull_request;
-  if (!pr) {
+  const eventPR = ctx.payload.pull_request;
+  if (!eventPR) {
     core.setFailed('No pull_request payload found.');
     return;
   }
 
   const owner = ctx.repo.owner;
   const repo = ctx.repo.repo;
-  const prNumber = pr.number;
-  const headSha: string = pr.head.sha;
+  const prNumber = eventPR.number;
+  const headSha: string = eventPR.head.sha;
+  const octokit = github.getOctokit(token);
+  let pr;
+  try {
+    pr = pinnedCurrentPull(headSha, (await octokit.rest.pulls.get({ owner, repo, pull_number: prNumber })).data);
+  } catch (error) {
+    core.setFailed(safeReviewFailure(error, 'current PR metadata'));
+    return;
+  }
   const baseSha: string = pr.base.sha;
   const isDraft: boolean = !!pr.draft;
   const isFork: boolean = pr.head.repo?.full_name !== `${owner}/${repo}`;
   const labels: string[] = (pr.labels || []).map((l: any) => l.name);
-
-  const octokit = github.getOctokit(token);
 
   if (isDraft && skipDrafts) { core.info('Skipping draft PR.'); return; }
   if (isFork && skipForks) { core.info('Skipping fork PR (skip_forks=true).'); return; }
@@ -100,9 +107,12 @@ async function run(): Promise<void> {
     }
     commentId = createdId;
 
+    operation = 'merge-base metadata';
+    const comparison = await octokit.rest.repos.compareCommitsWithBasehead({ owner, repo, basehead: `${baseSha}...${headSha}` });
+    const mergeBase = completeMergeBase(baseSha, headSha, comparison.data.merge_base_commit?.sha);
     operation = 'exact revision diff';
-    core.info(`Reading complete revision diff ${baseSha}..${headSha}; GitHub full-diff API limits do not apply.`);
-    const diff = fetchRevisionDiff(`${owner}/${repo}`, baseSha, headSha, token);
+    core.info(`Reading complete revision diff ${mergeBase}..${headSha}; current PR base ${baseSha}; GitHub full-diff API limits do not apply.`);
+    const diff = fetchRevisionDiff(`${owner}/${repo}`, mergeBase, headSha, token);
 
     let rulesFromFile: string | undefined;
     if (rulesFilePath) {
@@ -113,6 +123,12 @@ async function run(): Promise<void> {
     operation = 'complete shipping-source selection';
     const { text: diffText, truncatedNote } = selectReviewDiff(diff);
     core.info(`Retrieved ${Buffer.byteLength(diff)} diff bytes; selected ${diffText.length} characters with every shipping-source hunk included. ${truncatedNote ? 'Non-runtime evidence omissions are listed in the review prompt.' : 'No hunks omitted.'}`);
+
+    operation = 'prepared PR metadata revalidation';
+    pr = pinnedPreparedPull(headSha, baseSha, (await octokit.rest.pulls.get({ owner, repo, pull_number: prNumber })).data);
+    if ((pr.draft && skipDrafts) || (skipForks && pr.head.repo?.full_name !== `${owner}/${repo}`) || pr.labels.some(label => label.name === bypassLabel)) {
+      throw new RevisionDiffError('PR review eligibility changed during preparation; no session was created.');
+    }
 
     const prompt = buildReviewPrompt({
       repoFullName: `${owner}/${repo}`,
