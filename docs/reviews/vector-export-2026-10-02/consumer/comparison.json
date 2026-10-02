@@ -1,0 +1,209 @@
+[
+  {
+    "height" : 200,
+    "inkIntersectionOverUnion" : 1,
+    "largeColorDifferenceOverInkUnion" : 0,
+    "name" : "implicit-relative",
+    "nativeInk" : 5676,
+    "svgInk" : 5676,
+    "width" : 240
+  },
+  {
+    "height" : 200,
+    "inkIntersectionOverUnion" : 1,
+    "largeColorDifferenceOverInkUnion" : 0,
+    "name" : "horizontal-vertical",
+    "nativeInk" : 2880,
+    "svgInk" : 2880,
+    "width" : 240
+  },
+  {
+    "height" : 200,
+    "inkIntersectionOverUnion" : 0.96679139382600565,
+    "largeColorDifferenceOverInkUnion" : 0.030402245088868102,
+    "name" : "cubic-smooth",
+    "nativeInk" : 2083,
+    "svgInk" : 2122,
+    "width" : 240
+  },
+  {
+    "height" : 200,
+    "inkIntersectionOverUnion" : 0.96480938416422291,
+    "largeColorDifferenceOverInkUnion" : 0.015640273704789834,
+    "name" : "quadratic-smooth",
+    "nativeInk" : 1986,
+    "svgInk" : 2034,
+    "width" : 240
+  },
+  {
+    "height" : 200,
+    "inkIntersectionOverUnion" : 0.97303206997084546,
+    "largeColorDifferenceOverInkUnion" : 0.01348396501457726,
+    "name" : "smooth-reset",
+    "nativeInk" : 2680,
+    "svgInk" : 2734,
+    "width" : 240
+  },
+  {
+    "height" : 200,
+    "inkIntersectionOverUnion" : 0.96727019498607247,
+    "largeColorDifferenceOverInkUnion" : 0.027855153203342618,
+    "name" : "arc-small",
+    "nativeInk" : 1395,
+    "svgInk" : 1430,
+    "width" : 240
+  },
+  {
+    "height" : 200,
+    "inkIntersectionOverUnion" : 0.96857541899441346,
+    "largeColorDifferenceOverInkUnion" : 0.023743016759776536,
+    "name" : "arc-large",
+    "nativeInk" : 1389,
+    "svgInk" : 1430,
+    "width" : 240
+  },
+  {
+    "height" : 200,
+    "inkIntersectionOverUnion" : 0.96857541899441346,
+    "largeColorDifferenceOverInkUnion" : 0.023743016759776536,
+    "name" : "arc-other-sweep",
+    "nativeInk" : 1389,
+    "svgInk" : 1430,
+    "width" : 240
+  },
+  {
+    "height" : 200,
+    "inkIntersectionOverUnion" : 0.96727019498607247,
+    "largeColorDifferenceOverInkUnion" : 0.027855153203342618,
+    "name" : "arc-other-large",
+    "nativeInk" : 1395,
+    "svgInk" : 1430,
+    "width" : 240
+  },
+  {
+    "height" : 200,
+    "inkIntersectionOverUnion" : 0.97139885595423814,
+    "largeColorDifferenceOverInkUnion" : 0.016120644825793031,
+    "name" : "arc-radii-corrected",
+    "nativeInk" : 1889,
+    "svgInk" : 1902,
+    "width" : 240
+  },
+  {
+    "height" : 200,
+    "inkIntersectionOverUnion" : 0.96458684654300164,
+    "largeColorDifferenceOverInkUnion" : 0,
+    "name" : "arc-degenerate",
+    "nativeInk" : 1186,
+    "svgInk" : 1144,
+    "width" : 240
+  },
+  {
+    "height" : 200,
+    "inkIntersectionOverUnion" : 0.96727019498607247,
+    "largeColorDifferenceOverInkUnion" : 0.027855153203342618,
+    "name" : "compact-flags",
+    "nativeInk" : 1395,
+    "svgInk" : 1430,
+    "width" : 240
+  },
+  {
+    "height" : 200,
+    "inkIntersectionOverUnion" : 1,
+    "largeColorDifferenceOverInkUnion" : 0,
+    "name" : "compound-nonzero",
+    "nativeInk" : 27240,
+    "svgInk" : 27240,
+    "width" : 240
+  },
+  {
+    "height" : 200,
+    "inkIntersectionOverUnion" : 1,
+    "largeColorDifferenceOverInkUnion" : 0,
+    "name" : "viewbox-origin",
+    "nativeInk" : 15794,
+    "svgInk" : 15794,
+    "width" : 240
+  },
+  {
+    "height" : 200,
+    "inkIntersectionOverUnion" : 0.98155136268343812,
+    "largeColorDifferenceOverInkUnion" : 0.012368972746331237,
+    "name" : "anisotropic-stroke",
+    "nativeInk" : 4742,
+    "svgInk" : 4710,
+    "width" : 480
+  },
+  {
+    "height" : 200,
+    "inkIntersectionOverUnion" : 0.9905516187300264,
+    "largeColorDifferenceOverInkUnion" : 0.00013894678338196472,
+    "name" : "acute-miter",
+    "nativeInk" : 7130,
+    "svgInk" : 7196,
+    "width" : 240
+  },
+  {
+    "height" : 200,
+    "inkIntersectionOverUnion" : 0.99851581230734099,
+    "largeColorDifferenceOverInkUnion" : 0,
+    "name" : "clipping-opacity",
+    "nativeInk" : 17492,
+    "svgInk" : 17518,
+    "width" : 240
+  },
+  {
+    "height" : 34,
+    "inkIntersectionOverUnion" : 0.99677627337201802,
+    "largeColorDifferenceOverInkUnion" : 0,
+    "name" : "line",
+    "nativeInk" : 1546,
+    "svgInk" : 1551,
+    "width" : 134
+  },
+  {
+    "height" : 50,
+    "inkIntersectionOverUnion" : 0.98514182800540295,
+    "largeColorDifferenceOverInkUnion" : 0.00090049527239981989,
+    "name" : "arrow",
+    "nativeInk" : 2188,
+    "svgInk" : 2221,
+    "width" : 134
+  },
+  {
+    "height" : 94,
+    "inkIntersectionOverUnion" : 1,
+    "largeColorDifferenceOverInkUnion" : 0,
+    "name" : "path",
+    "nativeInk" : 2417,
+    "svgInk" : 2417,
+    "width" : 134
+  },
+  {
+    "height" : 60,
+    "inkIntersectionOverUnion" : 0.99840764331210186,
+    "largeColorDifferenceOverInkUnion" : 0.006369426751592357,
+    "name" : "freehand",
+    "nativeInk" : 1882,
+    "svgInk" : 1883,
+    "width" : 132
+  },
+  {
+    "height" : 200,
+    "inkIntersectionOverUnion" : 0,
+    "largeColorDifferenceOverInkUnion" : 0,
+    "name" : "empty-path",
+    "nativeInk" : 0,
+    "svgInk" : 0,
+    "width" : 240
+  },
+  {
+    "height" : 300,
+    "inkIntersectionOverUnion" : 0.99525166191832859,
+    "largeColorDifferenceOverInkUnion" : 0,
+    "name" : "nested-placement",
+    "nativeInk" : 10480,
+    "svgInk" : 10530,
+    "width" : 360
+  }
+]
