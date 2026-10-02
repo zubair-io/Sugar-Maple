@@ -40,6 +40,9 @@ try {
       assert.ok(Date.now() < deadline, 'Helper must reject privileged packet keys'); await Bun.sleep(10);
     }
   }
+  native.stop('Test-owned runtime cancellation');
+  await native.owner.done.catch(() => {});
+  assert.throws(() => native.render(fixtureProps()), /Native preview stopped: Test-owned runtime cancellation/);
   await Bun.write('build/library-preview-native/report.json', JSON.stringify({ build, ready, stats: native.owner.stats(),
     passed: true, tested: ['real SwiftUI compilation/rendering','actual App Sandbox host-file and network denial','typed props','superseded reply','privileged packet rejection','explicit unsupported native variant'],
     remaining: ['native human action/change events','negative CPU/wall/RSS/output tests','build cancellation and stale generation tests','Canvas/DOM/native comparison','final-head review/CI'] }, null, 2));
