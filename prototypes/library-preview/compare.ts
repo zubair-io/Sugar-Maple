@@ -121,11 +121,14 @@ try {
   }));
   await real.getByRole('button',{name:'Stop preview'}).click();
   await dom.evaluate(()=>window.sugarMaplePreview!.dispose());
+  console.log('Comparison native phase: building trusted fixture');
   const buildStart=performance.now(),build=await buildNativeFixture(true);
+  console.log('Comparison native phase: trusted build completed');
   const executableBytes=(await Bun.file(build.executable).arrayBuffer()).byteLength;
   const nativeFiles=[];
   for(const name of new Bun.Glob('**/*').scanSync({cwd:build.bundle,onlyFiles:true}))nativeFiles.push({name,bytes:(await Bun.file(resolve(build.bundle,name)).arrayBuffer()).byteLength});
   const runtimeStart=performance.now(); native=new NativePreview(build,()=>{}); await native.ready;
+  console.log('Comparison native phase: sandboxed helper ready');
   const frame=await native.render(fixtureProps()); assert.equal(frame.kind,'rendered');
   if(frame.kind==='rendered')await Bun.write(resolve(folder,'native-fixture.png'),Buffer.from(frame.png,'base64'));
   const coldNative=performance.now()-runtimeStart,samples:number[]=[];
