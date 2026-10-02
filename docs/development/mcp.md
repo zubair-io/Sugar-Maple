@@ -51,6 +51,29 @@ Node sizing fields (`widthMode`, `heightMode`, `widthPercent`, `heightPercent`) 
 
 Component masters may define `variants`, for example `{"Pressed":{"fill":"#475569"}}` through `node.update`. Apply `{"type":"component.variant","id":"instance-id","name":"Pressed"}` to switch an instance and `{"type":"component.reset","id":"instance-id"}` to clear its overrides. `Default` selects the base master style. Master child additions/removals/reparenting synchronize within the same transaction; no separate refresh command is needed. Local property overrides take precedence over variant values. Detach before independently restructuring inherited layers. Run `bun tools/mcp-components-test.ts` against the running app for the transport/render/undo fixture.
 
+## Repeat Grid resizing
+
+Use the discovered `transaction.apply` operation schema. `repeat.resize` accepts `id`, `rows` (1–100), `columns` (1–20), optional `gap` (0–1000 design units), optional `anchor` (`position` or `top-left`) and optional `count` (1–100). The total is limited to 100 cells and valid scene extents. Defaults retain the current gutter and authored position, with a rectangular `rows * columns` cell count. An explicit count must fit the declared rows with only the last row partial.
+
+For example, after reading the current document and revision:
+
+```json
+{
+  "documentId": "current-document-id",
+  "expectedRevision": 12,
+  "requestId": "unique-request-id",
+  "operations": [
+    {"type":"repeat.resize","id":"grid-id","rows":2,"columns":3,"count":5,"gap":24,"anchor":"top-left"}
+  ]
+}
+```
+
+`top-left` preserves the transformed grid origin when the parent uses free layout. A stack/grid parent continues to own child placement. The resolved extent includes template dimensions, gutters, padding and borders. Surviving cell IDs and local text/input/image overrides remain unchanged; new cells inherit the template, and shrinking removes the final cells. One transaction remains one undo step. Invalid count, gutter, anchor or extent rejects the whole batch.
+
+The Design Canvas exposes row/column/gutter sliders for fixed-size grids and templates, with arrow keys, Shift, Home and End. Drag previews stay outside the saved document/history; capture waits until completion or cancellation. Gutter gestures preserve a partial last row. Escape, pointer cancellation, selection/page/mode changes or concurrent revisions cancel a stale gesture. Existing inspector row/column editing remains available for other sizing modes. These controls do not introduce a separate MCP tool or writable document.
+
+`bun tools/native-canvas-transform-mcp.ts --repeat` uses an owned DEBUG app/profile and actual authenticated HTTP MCP transport. It verifies the command, transformed Canvas layout, retained imported data, invalid-batch rejection, undo/redo, revision-bound capture and native durable checkpoint. Browser and native pointer checks run in the acceptance suites; WK script pointer events use a local capture shim and do not prove OS pointer capture or VoiceOver.
+
 ## Page folders
 
 Folders are document objects, not slash-delimited names. `folder.add` accepts an optional stable `id` and `name`; `folder.update` renames by ID; `folder.remove` removes the folder while returning its pages to the document root. `page.add` and `page.update` accept nullable `folderId`. For example, a single batch can contain `{"type":"folder.add","id":"home","name":"Home"}` and `{"type":"page.update","id":"page-id","name":"Overview","folderId":"home"}`. Missing references reject the entire batch. Node IDs, prototype targets and page IDs are unchanged. `bun tools/mcp-folders-test.ts` validates these commands against the running Mac app and restores the original document with three undos.

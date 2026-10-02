@@ -47,6 +47,7 @@ try {
     "maple-design-e2e",
     "components-e2e",
     "repeat-data-e2e",
+    "repeat-handles-e2e",
     "library-e2e",
     "library-consumer",
     "folders-e2e",
