@@ -1,0 +1,14 @@
+{
+  "engine" : "WKWebView",
+  "memory" : {
+    "ownerPeakRSSBytes" : 192249856,
+    "scope" : "This benchmark UI process only; WebKit content\/GPU\/network process memory is not included"
+  },
+  "nativeBridge" : "In-memory benchmark recovery\/status\/autosave only; production native disk\/MCP\/clipboard costs excluded",
+  "os" : "Version 27.0 (Build 26A428)",
+  "result" : {
+    "checks" : 18,
+    "passed" : true,
+    "scope" : "Production WK controls\/geometry at both zooms; synthetic DOM pointer events use a local capture shim; separate OS input evidence required"
+  }
+}

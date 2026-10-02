@@ -1,0 +1,136 @@
+{
+  "recordedAt": "2026-10-02T07:55:52.910970+00:00",
+  "runtimeSourceHead": "fc0e881f44a14a334341b235548d7a74aba78a18",
+  "candidateLockDependencyHead": "896cb172d7478d376ebe0a843312983135a5f735",
+  "mergedMainHead": "d1c05622d17709bb022757e051f329c243c3e026",
+  "checks": {
+    "model": {
+      "passed": 124,
+      "failed": 0,
+      "assertions": 2067,
+      "files": 26
+    },
+    "browserConsumerSuites": 28,
+    "drawingChrome": "Real mouse line/arrow/freehand and click-polyline controls at DPR2, zoom 0.5/1.5; exact one-step undo, preview/capture guard, cancel/stale/mode/lock/layout checks and SVG data",
+    "drawingWK": "18 production WK drawing/control cases at zoom 0.5/1.5; simulated pen pressure and local DOM pointer capture shim",
+    "native": "Full native acceptance includes reparenting, inherited locks, all previous consumer/persistence/preview/clipboard gates, and actual SDK canonical line/arrow/path/freehand create/project/export/undo/redo/capture/durable checkpoint",
+    "build": "Production web/macOS DEBUG build, typecheck and Maple inventory pass",
+    "osInput": "Actual CUA macOS line and mouse freehand drags inside a 35-degree rotated frame near 100% zoom; real native SDK reads establish one human transaction, unchanged prior nodes, exact SVG path and exact native Cmd+Z document restoration",
+    "interactiveOwnerCleanup": "TTY --drawing --hold SDK run passes; newline exits 0 and closes only owned QA app/profile/client"
+  },
+  "limitations": [
+    "OS input covers one mouse-driven rotated fixture near 100% zoom; hardware pen pressure, all zoom/DPR combinations, IME and VoiceOver acceptance remain open.",
+    "WK pointer input is synthetic and its pointer-capture shim does not prove OS capture.",
+    "Paths are canonical portable stroked polylines or filled freehand outlines, not advanced Bezier-point editing. Arrows do not attach to nodes or provide dynamic connector routing.",
+    "SwiftUI path export remains explicitly unsupported under #17; no SwiftUI path consumer is claimed.",
+    "The first interactive owner was launched without a PTY, so its stdin was closed. Its exact verified owned app/wrapper were stopped after acceptance; the subsequent PTY cleanup check exited normally.",
+    "Lock dependency #82 is a candidate until actual final-head approving review and successful exact-head/main CI."
+  ],
+  "artifacts": [
+    {
+      "path": "model.log",
+      "sha256": "7d805abc2e060b721dcb8c5a6a5e9c50d5302537b2cc07c5b4982dadb044bb0e",
+      "bytes": 13570
+    },
+    {
+      "path": "typecheck.log",
+      "sha256": "9b2b770f3351789b5fd00fa72323f6eb7ea6de3fa3d75b7678bcbee1c8f6d5f6",
+      "bytes": 36
+    },
+    {
+      "path": "mac-build.log",
+      "sha256": "7eb4586646f08725c0da180028f87682d5f7bcd0b6724687a657fc9356d9d912",
+      "bytes": 74593
+    },
+    {
+      "path": "browser.log",
+      "sha256": "f5b43960b910c5889a911b6ea4cb689dceb940b40fa48ed949ea99186ba6ec6f",
+      "bytes": 6188
+    },
+    {
+      "path": "native.log",
+      "sha256": "b380a2654443eecb73ee29560be6c1f5c17ef804baf845331840177b0c1aadec",
+      "bytes": 5309
+    },
+    {
+      "path": "maple-inventory.log",
+      "sha256": "2fe6b41a9c6f94ec84c48303af2c72755551297070e0656ddc19bbd092c38337",
+      "bytes": 231
+    },
+    {
+      "path": "wk-report.json",
+      "sha256": "f2f5c313fdbf40a1e893b4795890d4ad24eb71f32ab36d7769c400e4b0fc9bc7",
+      "bytes": 577
+    },
+    {
+      "path": "webkit.png",
+      "sha256": "35520f0b2e0037aa8e7e39ea426cd8c7b6ee08f32cf6d69cda99d4613a1d46d8",
+      "bytes": 381191
+    },
+    {
+      "path": "fixture.json",
+      "sha256": "b851ed9d88a1e03b00b6201fde96397ee7b3ed6a7e24c32df2c5f06518fccb70",
+      "bytes": 2484
+    },
+    {
+      "path": "sdk-report.json",
+      "sha256": "79e5a1a6655a208a3ac0d80677ed6687ee017eb7fd0b27a818807ed5d093921e",
+      "bytes": 571
+    },
+    {
+      "path": "native-mcp.png",
+      "sha256": "8f38d8bfbd4e3055285727b4b7a94d4b461de9fb8848e9b7b599a3c0fe72674c",
+      "bytes": 219902
+    },
+    {
+      "path": "native-os-input-verifier.ts",
+      "sha256": "3bccd860e308f9ab2c0379107a9592d86214344c4cc353eb95736e8fc8c1cecc",
+      "bytes": 3584
+    },
+    {
+      "path": "interactive-cleanup.log",
+      "sha256": "881cb831a63e2a77e116b17d03f13a4e3a6d5ecd9fc1ec9ac1ce3301699ecd37",
+      "bytes": 237
+    },
+    {
+      "path": "os-line.json",
+      "sha256": "de22fa156c56b95282ce62cefa0d60234d9e946248b4f8ded762d4766caf0363",
+      "bytes": 51013
+    },
+    {
+      "path": "os-line.png",
+      "sha256": "9526ba60c05e570f1586afdda44962d4a8b325f70818755eeb52bbd3ba6f99ed",
+      "bytes": 226075
+    },
+    {
+      "path": "os-line-undo.json",
+      "sha256": "3b1c43c979bb29359c96c62629b4697684d67b3202b37054f20ef96889b744ba",
+      "bytes": 7175
+    },
+    {
+      "path": "os-freehand.json",
+      "sha256": "63b0abd0237661ab8bdaa36261c74dcb39c0628b4632b863aac275f073826f7b",
+      "bytes": 56894
+    },
+    {
+      "path": "os-freehand.png",
+      "sha256": "f26ba16e22c6ede1bb3df59809a432ac201407597c3251df5adbe165caea8e93",
+      "bytes": 231977
+    },
+    {
+      "path": "os-freehand-undo.json",
+      "sha256": "f8673e8656f0979e070edaf49668536e6d312b8bf9fc66e9c5600162b6fc44b7",
+      "bytes": 7176
+    },
+    {
+      "path": "chrome-line-0.5.png",
+      "sha256": "fe64557a27a1c07357852fcfc135d0bdbab5c0bb366c1aa6899decef5779a103",
+      "bytes": 221817
+    },
+    {
+      "path": "chrome-line-1.5.png",
+      "sha256": "c21b9fd6110cea4cc389a04401148cdc7a535c2308b3041f9e4079e9ed50b925",
+      "bytes": 259757
+    }
+  ]
+}
