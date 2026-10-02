@@ -1,4 +1,4 @@
-import { chromium, expect } from '../../src/web/node_modules/@playwright/test';
+import { chromium, expect, type Browser } from '../../src/web/node_modules/@playwright/test';
 import { strict as assert } from 'node:assert';
 import { mkdirSync } from 'node:fs';
 import { resolve } from 'node:path';
@@ -14,13 +14,15 @@ if(editorURL.hostname!=='127.0.0.1'||editorURL.protocol!=='http:'||editorURL.use
   throw Error('Comparison editor URL must be a plain loopback HTTP origin');
 const folder = resolve('build/library-preview-comparison'); mkdirSync(folder,{recursive:true});
 const fixture = libraryFixture(), output: Record<string,any> = {}, errors: string[] = [];
-const server = servePreview(), browser = await chromium.launch({channel:'chrome',headless:true});
+const server = servePreview();
+let browser:Browser|undefined;
 let native: NativePreview | undefined;
 function metrics(samples: number[]) {
   const sorted=[...samples].sort((a,b)=>a-b);
   return {samples,p50:sorted[Math.floor(sorted.length*.5)],p95:sorted[Math.min(sorted.length-1,Math.ceil(sorted.length*.95)-1)]};
 }
 try {
+  browser = await chromium.launch({channel:'chrome',headless:true});
   const context = await browser.newContext({viewport:{width:1440,height:1100},deviceScaleFactor:1});
   const editor = await context.newPage(); editor.on('pageerror', e=>errors.push(e.message));
   await editor.goto(editorURL.href); await editor.waitForFunction(()=>window.sugarMaple.ready);
@@ -139,4 +141,4 @@ try {
     timingDefinitions:{canvas:'CRDT transaction + Angular/Canvas scheduling + two RAF opportunities, excluding document.get',dom:'immutable scene feed + two RAF opportunities',web:'MessageChannel + actual Lit updates + two RAF opportunities',native:'IPC + SwiftUI update + fixed 50ms snapshot scheduling + PNG encode/reply'},
     limitations:['Timings have different boundaries and cannot rank input latency/FPS.','Native snapshot includes an intentional 50ms scheduling wait.','Web/native POC consumes props, not complete authored layout/styles/slots.','Human native AX/event evidence is separate; no full VoiceOver audit.','No whole-product memory or production distribution comparison is claimed.']},null,2));
   console.log('PASS: real Canvas/DOM fixture geometry and inspector undo; actual DOM input, package typed events and native rendered consumers; four pipeline timings and asset costs recorded');
-} finally { native?.stop(); await native?.owner.done.catch(()=>{}); await browser.close(); server.stop(true); }
+} finally { native?.stop(); await native?.owner.done.catch(()=>{}); try { await browser?.close(); } finally { server.stop(true); } }
