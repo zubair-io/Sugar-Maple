@@ -34,7 +34,8 @@ import { MuiButtonComponent } from './chrome/maple/ui/button/mui-button.componen
 import { MuiSectionComponent } from './chrome/maple/ui/section/mui-section.component';
 import { MuiFieldComponent } from './chrome/maple/ui/field/mui-field.component';
 import { SceneNode, uid, Operation } from './model/schema';
-import { exportNode, ExportTarget } from './model/export';
+import { exportNode, exportSupport, ExportTarget } from './model/export';
+import { ExportTargetSchema } from './model/tool-contract';
 import { LayersPanel } from './layers-panel';
 import {
   MuiInputComponent,
@@ -192,6 +193,11 @@ export class App {
       return 'Unsupported export: ' + (error instanceof Error ? error.message : String(error));
     }
   });
+  readonly exportSupport = computed(() => {
+    try {
+      return this.e.selected() ? exportSupport(this.e.doc(), this.e.selected()!, this.target()) : {setup: '', notes: []};
+    } catch { return {setup: '', notes: []}; }
+  });
   readonly master = computed(() =>
     this.e.doc().nodes.find((n) => n.id === this.e.node()?.componentId && n.isComponent),
   );
@@ -246,18 +252,8 @@ export class App {
     'button',
     'input',
   ] as const;
-  readonly targets: ExportTarget[] = [
-    'html',
-    'tailwind',
-    'angular',
-    'css',
-    'swiftui',
-    'editable',
-    'svg',
-    'web-library',
-    'swift-library',
-  ];
-  readonly exportOptions = this.targets.map(value => ({value, label: value === 'web-library' ? 'Mapped web library' : value === 'swift-library' ? 'Mapped SwiftUI (macOS)' : value}));
+  readonly targets = ExportTargetSchema.options;
+  readonly exportOptions = this.targets.map(value => ({value, label: value === 'tailwind-classes' ? 'Tailwind classes only' : value === 'css-declarations' ? 'CSS declarations only' : value === 'html-css' ? 'Complete HTML + CSS' : value === 'web-library' ? 'Mapped web library' : value === 'swift-library' ? 'Mapped SwiftUI (macOS)' : value}));
   readonly modes = ['Design', 'Prototype', 'Developer'] as const;
   constructor() {
     effect(() => {

@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import { CommentsQuerySchema, TransactionSchema } from './schema';
 import { ScopedReadSchema, CaptureSchema } from './read-contract';
-export const ExportTargetSchema = z.enum(['html', 'angular', 'tailwind', 'css', 'swiftui', 'editable', 'svg', 'web-library', 'swift-library']);
+export const ExportTargetSchema = z.enum(['html', 'angular', 'tailwind', 'tailwind-classes', 'css', 'css-declarations', 'html-css', 'swiftui', 'editable', 'svg', 'web-library', 'swift-library']);
 const id = z.string().min(1).max(128).regex(/^[\w-]+$/);
 const empty = z.object({}).strict();
 const revision = z.object({ documentId: id, expectedRevision: z.number().int().nonnegative() }).strict();

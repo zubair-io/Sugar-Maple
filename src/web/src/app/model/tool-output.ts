@@ -34,7 +34,7 @@ export const ToolOutputSchemas = {
   'history.redo': receipt, 'selection.set': receipt,
   'nodes.reparent': receipt,
   'comments.list': receipt.extend({ comments: z.array(CommentSchema.extend({ pageName: z.string() })) }).strict(),
-  'code.export': z.object({ code: z.string() }).strict(),
+  'code.export': z.object({ code: z.string(), setup: z.string().optional(), notes: z.array(z.string()).optional() }).strict(),
   'layout.inspect': z.object({
     documentId: z.string(), revision: z.number().int().nonnegative(), pageId: z.string(),
     renderer: z.literal('canvas'), viewport: bounds,
