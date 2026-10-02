@@ -82,7 +82,7 @@ try {
   await expect(cancelButton).toBeFocused(); assert.deepEqual(await checkpoint(page), canceled);
   await cancelButton.press('Enter'); await settle(page);
   assert.deepEqual(await checkpoint(page), canceled); await expect(field).toHaveValue('Alpha');
-  await field.fill('x'.repeat(20001)); await field.press('Tab'); await settle(page);
+  await field.fill('x'.repeat(20001)); await page.getByLabel('Font family', { exact: true }).click(); await settle(page);
   assert.deepEqual(await checkpoint(page), canceled); await expect(field).toHaveValue('x'.repeat(20001));
   await page.getByRole('button', { name: 'Cancel text edit', exact: true }).click();
   await expect(field).toHaveValue('Alpha'); assert.deepEqual(await checkpoint(page), canceled);
