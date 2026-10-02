@@ -1,0 +1,38 @@
+bun test v1.4.2 (744846f84)
+
+src/web/tests/document-snapshot.test.ts:
+(pass) mutating a nested node in a read snapshot cannot change the scene or recovery base [8.93ms]
+(pass) comment messages, library mappings and instance properties are detached from read snapshots [4.11ms]
+(pass) snapshot mutation cannot poison later edits, undo, redo or recovered history [6.77ms]
+(pass) scoped and discovery reads detach nodes, library dependencies, page and folder references [2.26ms]
+135 |   const receipt = store.transact(request), expected = structuredClone(receipt);
+136 |   const checkpoint = store.checkpoint();
+137 |   receipt.documentId = 'wrong-document';
+138 |   receipt.revision = 999;
+139 |   receipt.ids.push('untracked-id');
+140 |   expect(store.transact(request)).toEqual(expected);
+                                        ^
+error: expect(received).toEqual(expected)
+
+  {
+-   "documentId": "3bbaef8c-75fa-49bf-97b9-f70e61384487",
+-   "ids": [],
+-   "revision": 1,
++   "documentId": "wrong-document",
++   "ids": [
++     "untracked-id",
++   ],
++   "revision": 999,
+    "transactionId": "22c0634a-07a9-46ab-bd9f-f33799645f01",
+  }
+
+- Expected  - 3
++ Received  + 5
+
+      at <anonymous> (/Users/riabuz/.codex/worktrees/mac-build-recovery/_SugarMaple/src/web/tests/document-snapshot.test.ts:140:35)
+(fail) mutating a returned transaction receipt cannot corrupt retry receipts or saved history [4.01ms]
+
+ 4 pass
+ 1 fail
+ 14 expect() calls
+Ran 5 tests across 1 file. [107.00ms]
