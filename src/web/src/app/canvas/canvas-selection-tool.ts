@@ -1,48 +1,90 @@
 import type { Tool, ToolContext } from './whiteboard/core/tools/tool.interface';
 import type { CanvasPointerEvent } from './whiteboard/core/models/types';
-import type { SceneNode } from '../model/schema';
-import { hit, type Box } from './scene-layout';
+import { hit, type Box, type Item } from './scene-layout';
 import type { CanvasProjection } from './canvas-projection';
+import {
+  angleAt,
+  angleDelta,
+  changedPatch,
+  editableItem,
+  handleCursor,
+  handlePoint,
+  movePatch,
+  resizeDirections,
+  resizePatch,
+  rotationPatch,
+  type TransformHandle,
+} from './transform-geometry';
 export class CanvasSelectionTool implements Tool {
   readonly name = 'select' as const;
   readonly cursor = 'default';
   private context!: ToolContext;
+  private pendingHandle: TransformHandle | null = null;
   private gesture: {
     start: CanvasPointerEvent;
-    originals: SceneNode[];
-    resize: boolean;
+    originals: Item[];
+    handle: TransformHandle | null;
     documentId: string;
     pageId: string;
     revision: number;
     marquee: boolean;
+    moved: boolean;
+    angle: number;
+    rotationDelta: number;
   } | null = null;
   marquee: Box | null = null;
   constructor(private projection: CanvasProjection) {}
   activate(context: ToolContext) {
     this.context = context;
   }
+  beginHandle(handle: TransformHandle) {
+    this.pendingHandle = handle;
+  }
+  endHandleRequest() {
+    this.pendingHandle = null;
+  }
   deactivate() {
     this.gesture = null;
+    this.pendingHandle = null;
     this.marquee = null;
     this.projection.draft.set({});
     this.context?.toolState.set({});
   }
+  private handles(item: Item): TransformHandle[] {
+    return [
+      ...(this.projection.canResize(item.node)
+        ? (Object.keys(resizeDirections) as TransformHandle[])
+        : []),
+      ...(this.projection.canRotate(item.node) ? ['rotate' as const] : []),
+    ];
+  }
   onPointerDown(event: CanvasPointerEvent) {
+    const pending = this.pendingHandle;
+    this.pendingHandle = null;
     if (event.button !== 0) return {};
     const p = this.projection,
       e = p.e,
       ids = e.selection();
     const selected = ids.length === 1 ? p.byId().get(ids[0]) : undefined;
+    const zoom = this.context.camera().zoom;
+    const candidates = selected && e.mode() === 'Design' ? this.handles(selected) : [];
     const handle =
-      selected &&
-      p.canResize(selected.node) &&
-      Math.abs(event.canvas.x - selected.x - selected.width) < 10 / this.context.camera().zoom &&
-      Math.abs(event.canvas.y - selected.y - selected.height) < 10 / this.context.camera().zoom
-        ? selected
-        : undefined;
-    const item = handle ?? hit(p.items(), event.canvas.x, event.canvas.y);
-    if (event.shiftKey && item) {
+      pending && candidates.includes(pending)
+        ? pending
+        : selected
+          ? (candidates
+              .map((kind) => ({ kind, point: handlePoint(selected, kind, zoom) }))
+              .map(({ kind, point }) => ({
+                kind,
+                distance: Math.hypot(event.canvas.x - point.x, event.canvas.y - point.y),
+              }))
+              .filter((h) => h.distance < 8 / zoom)
+              .sort((a, b) => a.distance - b.distance)[0]?.kind ?? null)
+          : null;
+    const item = handle ? selected : hit(p.items(), event.canvas.x, event.canvas.y);
+    if (event.shiftKey && item && !handle) {
       e.select(item.node.id, true);
+      this.context.selectedIds.set(e.selection());
       return { render: true };
     }
     if (item && !ids.includes(item.node.id)) e.select(item.node.id);
@@ -51,26 +93,44 @@ export class CanvasSelectionTool implements Tool {
     if (e.mode() !== 'Design') return { render: true };
     this.gesture = {
       start: event,
-      resize: !!handle,
+      handle,
       documentId: e.doc().id,
       pageId: e.pageId(),
       revision: e.revision(),
       marquee: !item,
-      originals: e.selectedRoots().filter((n) => (handle ? p.canResize(n) : p.canMove(n))),
+      moved: false,
+      angle: item ? angleAt(item, event.canvas.x, event.canvas.y) : 0,
+      rotationDelta: 0,
+      originals: e
+        .selectedRoots()
+        .filter((n) =>
+          handle === 'rotate' ? p.canRotate(n) : handle ? p.canResize(n) : p.canMove(n),
+        )
+        .map((n) => p.byId().get(n.id))
+        .filter((i): i is Item => !!i),
     };
-    return { cursor: handle ? 'nwse-resize' : item ? 'move' : 'crosshair', render: true };
+    return {
+      cursor: handle && item ? handleCursor(item, handle) : item ? 'move' : 'crosshair',
+      render: true,
+    };
+  }
+  private current() {
+    const g = this.gesture,
+      e = this.projection.e;
+    return (
+      g &&
+      g.documentId === e.doc().id &&
+      g.pageId === e.pageId() &&
+      g.revision === e.revision() &&
+      e.mode() === 'Design'
+    );
   }
   onPointerMove(event: CanvasPointerEvent) {
     const g = this.gesture,
       p = this.projection;
     if (!g)
       return { cursor: hit(p.items(), event.canvas.x, event.canvas.y) ? 'pointer' : 'default' };
-    if (
-      g.documentId !== p.e.doc().id ||
-      g.pageId !== p.e.pageId() ||
-      g.revision !== p.e.revision() ||
-      p.e.mode() !== 'Design'
-    ) {
+    if (!this.current()) {
       this.deactivate();
       return { render: true };
     }
@@ -86,38 +146,43 @@ export class CanvasSelectionTool implements Tool {
       this.context.toolState.set({ selectionBox: this.marquee } as any);
       return { render: true };
     }
-    if (Math.hypot(dx, dy) < 2 / this.context.camera().zoom) {
+    if (g.handle === 'rotate' && g.originals[0]) {
+      const angle = angleAt(g.originals[0], event.canvas.x, event.canvas.y);
+      g.rotationDelta += angleDelta(g.angle, angle);
+      g.angle = angle;
+    }
+    if (!g.moved && Math.hypot(dx, dy) < 2 / this.context.camera().zoom) {
       p.draft.set({});
       return { render: true };
     }
+    g.moved = true;
     p.draft.set(
       Object.fromEntries(
-        g.originals.map((n) => [
-          n.id,
-          g.resize
-            ? {
-                width: Math.max(1, Math.min(10000, n.width + dx)),
-                height: Math.max(1, Math.min(10000, n.height + dy)),
-              }
-            : {
-                x: Math.max(-100000, Math.min(100000, n.x + dx)),
-                y: Math.max(-100000, Math.min(100000, n.y + dy)),
-              },
-        ]),
+        g.originals
+          .map((item) => [
+            item.node.id,
+            changedPatch(
+              item.node,
+              g.handle === 'rotate'
+                ? rotationPatch(item, g.rotationDelta, event.shiftKey)
+                : g.handle
+                  ? resizePatch(item, g.handle, dx, dy, event.shiftKey)
+                  : movePatch(item, dx, dy),
+            ),
+          ])
+          .filter(([, patch]) => Object.keys(patch).length),
       ),
     );
-    return { render: true, cursor: g.resize ? 'nwse-resize' : 'move' };
+    return {
+      render: true,
+      cursor: g.handle && g.originals[0] ? handleCursor(g.originals[0], g.handle) : 'move',
+    };
   }
   onPointerUp(event: CanvasPointerEvent) {
     const g = this.gesture,
       p = this.projection;
     if (!g) return {};
-    if (
-      g.documentId !== p.e.doc().id ||
-      g.pageId !== p.e.pageId() ||
-      g.revision !== p.e.revision() ||
-      p.e.mode() !== 'Design'
-    ) {
+    if (!this.current()) {
       this.deactivate();
       return { render: true };
     }
@@ -129,7 +194,7 @@ export class CanvasSelectionTool implements Tool {
           .items()
           .filter(
             (i) =>
-              !i.node.locked &&
+              editableItem(i) &&
               i.bounds.x >= box.x &&
               i.bounds.y >= box.y &&
               i.bounds.x + i.bounds.width <= box.x + box.width &&
@@ -137,6 +202,7 @@ export class CanvasSelectionTool implements Tool {
           )
           .map((i) => i.node.id),
       );
+      this.context.selectedIds.set(p.e.selection());
     } else {
       const operations = Object.entries(p.draft()).map(([id, patch]) => ({
         type: 'node.update' as const,
@@ -146,12 +212,10 @@ export class CanvasSelectionTool implements Tool {
       if (operations.length) p.e.perform(operations);
     }
     this.deactivate();
-    this.context.toolState.set({});
     return { cursor: 'default', render: true };
   }
   onPointerCancel() {
     this.deactivate();
-    this.context.toolState.set({});
     return { render: true, cursor: 'default' };
   }
   onKeyDown(event: KeyboardEvent) {
