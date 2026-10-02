@@ -45,6 +45,7 @@ try {
   const before = await editor.evaluate(()=>window.sugarMaple.dispatch('document.checkpoint'));
   await editor.getByLabel('Library prop label',{exact:true}).fill('Edited through inspector');
   await editor.getByLabel('Library prop label',{exact:true}).press('Tab');
+  await editor.waitForFunction(async()=> (await window.sugarMaple.dispatch('document.get')).document.nodes.find(node=>node.id==='button')?.text==='Edited through inspector',undefined,{timeout:5000});
   const edited = await editor.evaluate(()=>window.sugarMaple.dispatch('document.checkpoint'));
   assert.equal(edited.document.nodes.find((node:any)=>node.id==='button').text,'Edited through inspector');
   assert.equal(edited.journal.length,before.journal.length+1);
@@ -64,6 +65,7 @@ try {
   }));
   const beforeVariant=(await editor.evaluate(()=>window.sugarMaple.dispatch('document.checkpoint'))).document.nodes.find((node:any)=>node.id==='button');
   await editor.getByLabel('Library variant',{exact:true}).selectOption('Primary');
+  await editor.waitForFunction(async()=> (await window.sugarMaple.dispatch('document.get')).document.nodes.find(node=>node.id==='button')?.libraryRef?.variant==='Primary',undefined,{timeout:5000});
   const afterVariant=(await editor.evaluate(()=>window.sugarMaple.dispatch('document.checkpoint'))).document.nodes.find((node:any)=>node.id==='button');
   const visualFields=['fill','fillEnabled','color','stroke','strokeWidth','radius'];
   output.canvas.primaryVariant={identity:afterVariant.libraryRef.variant,
@@ -141,4 +143,7 @@ try {
     timingDefinitions:{canvas:'CRDT transaction + Angular/Canvas scheduling + two RAF opportunities, excluding document.get',dom:'immutable scene feed + two RAF opportunities',web:'MessageChannel + actual Lit updates + two RAF opportunities',native:'IPC + SwiftUI update + fixed 50ms snapshot scheduling + PNG encode/reply'},
     limitations:['Timings have different boundaries and cannot rank input latency/FPS.','Native snapshot includes an intentional 50ms scheduling wait.','Web/native POC consumes props, not complete authored layout/styles/slots.','Human native AX/event evidence is separate; no full VoiceOver audit.','No whole-product memory or production distribution comparison is claimed.']},null,2));
   console.log('PASS: real Canvas/DOM fixture geometry and inspector undo; actual DOM input, package typed events and native rendered consumers; four pipeline timings and asset costs recorded');
-} finally { native?.stop(); await native?.owner.done.catch(()=>{}); try { await browser?.close(); } finally { server.stop(true); } }
+} finally {
+  try { native?.stop(); await native?.owner.done.catch(()=>{}); }
+  finally { try { await browser?.close(); } finally { server.stop(true); } }
+}

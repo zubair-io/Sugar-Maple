@@ -32,6 +32,7 @@ try{
   console.log(`Owned source checkout editor: ${editorURL}; process group ${server.child.pid}`);
   await run(['tools/library-consumer.ts']);
   await run(['tools/library-preview-acceptance.ts']);
+  await run(['prototypes/library-preview/native-stop-failure-test.ts','--trust-native-fixture']);
   await run(['prototypes/library-preview/compare.ts','--trust-native-fixture']);
   await run(['run','build:web']);
   await run(['prototypes/library-preview/package-cost.ts']);
