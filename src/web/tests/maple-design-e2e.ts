@@ -47,7 +47,9 @@ const difference = await page.evaluate(
       c.width = 402;
       c.height = 874;
       const context = c.getContext('2d')!;
-      context.drawImage(image, 0, 0);
+      // Fit may scale the authored artboard as editor toolbars change its
+      // available viewport. Compare both consumers at the authored dimensions.
+      context.drawImage(image, 0, 0, c.width, c.height);
       return context.getImageData(0, 0, 402, 874).data;
     }
     const a = await pixels('data:image/png;base64,' + png),
