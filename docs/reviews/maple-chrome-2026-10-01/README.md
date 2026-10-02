@@ -1,0 +1,9 @@
+# Maple chrome audit — October 1, 2026
+
+Issue #4 remains partial. This change records the exact source/adaptation inventory, corrects local Field/Section provenance, adds an explicit update/notices contract, and enforces the static TypeScript runtime import boundary in web CI. It does not port the missing toolbar/tree/inspector modules or establish light/dark specimen acceptance.
+
+The pinned upstream git objects were inspected read-only at `dc6205dbd5ea8031510777e3031abad50cb7e2e7`. Nineteen local source files contain 10 exact pinned copies, 3 adaptations and 6 local compositions/styles. The upstream UI directory has 171 component source modules. The machine inventory records local/upstream SHA-256 and upstream blob IDs, the exact root notice-file observation, and all upstream UI module paths.
+
+An actual `git archive` of the candidate was extracted into an owned isolated directory with no `../_Maple`. A frozen dependency install, the inventory check and production Angular build passed. Four negative probes in that isolated copy rejected a scene-to-host import, a side-effect backend import, a dynamic package import and unrecorded source drift. For the import probes, the owned copy's source hash was deliberately updated so rejection came from the dependency boundary rather than just the hash guard; the copy was restored and rechecked afterward. The original/upstream checkout was not modified. Raw logs retain the existing stylesheet budget warning.
+
+[Source inventory, update rules, notices and concrete missing primitives](../../development/maple-chrome.md) define the remaining work. The check inspects static TypeScript dependencies and recorded source hashes; runtime cold-launch/no-network, theme, input/keyboard/accessibility and visual fixtures remain required. Complete #4 remains open until those requirements are delivered and verified.

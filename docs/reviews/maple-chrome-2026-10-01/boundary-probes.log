@@ -1,0 +1,5 @@
+PASS: Scene-to-host import rejected before acceptance
+PASS: Side-effect backend import rejected before acceptance
+PASS: Dynamic package import rejected before acceptance
+PASS: Unrecorded source drift rejected before acceptance
+PASS: 19 chrome source files match the exact inventory; runtime imports stay in the vendored closure plus Angular core; model/Canvas imports exclude Maple chrome. Upstream has 171 component source modules; this is a narrow subset.
