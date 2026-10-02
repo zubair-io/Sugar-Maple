@@ -10,11 +10,28 @@ import { swiftExport } from './swift-export';
 import { editablePayload } from './clipboard';
 import { ExportTargetSchema } from './tool-contract';
 import type { SceneDocument, SceneNode } from './schema';
-export type ExportTarget = 'html' | 'tailwind' | 'angular' | 'css' | 'swiftui' | 'editable' | 'svg' | 'web-library' | 'swift-library';
+export type ExportTarget =
+  | 'html'
+  | 'tailwind'
+  | 'angular'
+  | 'css'
+  | 'swiftui'
+  | 'editable'
+  | 'svg'
+  | 'web-library'
+  | 'swift-library';
 const escape = (v: string) =>
   v.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 export function nodeStyles(n: SceneNode, doc: SceneDocument): Record<string, string | number> {
   const parent = doc.nodes.find((v) => v.id === n.parentId);
+  const frame = ['frame', 'artboard'].includes(n.kind);
+  // CSS borders round their layout width to device pixels. Frame geometry keeps
+  // the exact authored inset, so paint it without adding a CSS layout border.
+  const parentBorder =
+    parent && ['frame', 'artboard'].includes(parent.kind) ? parent.strokeWidth : 0;
+  const freeInset = parent?.layout === 'free' ? parentBorder : 0;
+  const freeSize = (percent: number) =>
+    freeInset ? `calc(${percent}% - ${(2 * freeInset * percent) / 100}px)` : `${percent}%`;
   return {
     margin: 0,
     fontFamily: fontStack(n.fontFamily),
@@ -24,17 +41,17 @@ export function nodeStyles(n: SceneNode, doc: SceneDocument): Record<string, str
     textAlign: textAlignment(n),
     appearance: ['button', 'input'].includes(n.kind) ? 'none' : 'auto',
     position: parent && parent.layout !== 'free' ? 'relative' : 'absolute',
-    left: parent && parent.layout !== 'free' ? 0 : n.x,
-    top: parent && parent.layout !== 'free' ? 0 : n.y,
+    left: parent && parent.layout !== 'free' ? 0 : n.x + freeInset,
+    top: parent && parent.layout !== 'free' ? 0 : n.y + freeInset,
     width:
       n.widthMode === 'hug'
         ? 'max-content'
         : n.widthMode === 'fill'
           ? parent?.layout === 'horizontal'
             ? 0
-            : '100%'
+            : freeSize(100)
           : n.widthMode === 'percent'
-            ? n.widthPercent + '%'
+            ? freeSize(n.widthPercent)
             : n.width,
     height:
       n.heightMode === 'hug'
@@ -42,9 +59,9 @@ export function nodeStyles(n: SceneNode, doc: SceneDocument): Record<string, str
         : n.heightMode === 'fill'
           ? parent?.layout === 'vertical'
             ? 0
-            : '100%'
+            : freeSize(100)
           : n.heightMode === 'percent'
-            ? n.heightPercent + '%'
+            ? freeSize(n.heightPercent)
             : n.height,
     minWidth: 0,
     minHeight: 0,
@@ -63,7 +80,10 @@ export function nodeStyles(n: SceneNode, doc: SceneDocument): Record<string, str
             : n.fill,
     color: n.color,
     borderRadius: n.kind === 'ellipse' ? '50%' : n.radius,
-    border: n.kind === 'path' ? 'none' : `${n.strokeWidth}px solid ${n.stroke}`,
+    border: n.kind === 'path' || frame ? 'none' : `${n.strokeWidth}px solid ${n.stroke}`,
+    ...(frame
+      ? { boxShadow: n.strokeWidth ? `inset 0 0 0 ${n.strokeWidth}px ${n.stroke}` : 'none' }
+      : {}),
     opacity: n.opacity,
     fontSize: n.fontSize,
     fontWeight: n.fontWeight,
@@ -73,7 +93,7 @@ export function nodeStyles(n: SceneNode, doc: SceneDocument): Record<string, str
     flexDirection: n.layout === 'vertical' ? 'column' : 'row',
     gridTemplateColumns: `repeat(${n.columns}, minmax(0, 1fr))`,
     gap: n.gap,
-    padding: ['frame', 'artboard'].includes(n.kind) ? n.padding : n.kind === 'input' ? 8 : 0,
+    padding: frame ? n.padding + n.strokeWidth : n.kind === 'input' ? 8 : 0,
     flexShrink: 0,
     overflow: 'hidden',
   };
@@ -98,8 +118,8 @@ export function exportNode(
   const children = doc.nodes
     .filter((v) => v.parentId === id && !v.hidden)
     .sort((a, b) => a.order - b.order);
-  if (target === 'web-library') return mappedWebExport(doc,id);
-  if (target === 'swift-library') return mappedSwiftExport(doc,id);
+  if (target === 'web-library') return mappedWebExport(doc, id);
+  if (target === 'swift-library') return mappedSwiftExport(doc, id);
   if (target === 'editable') {
     return JSON.stringify(editablePayload(doc, id), null, 2);
   }
@@ -132,10 +152,15 @@ export function exportNode(
             .join(' '),
         )}"`
       : `style="${escape(style)}"`;
-  const controls = tag === 'input'
-    ? ` type="${n.inputType}" maxlength="20000" aria-label="${escape(controlLabel(n))}" value="${escape(n.initialValue)}"${n.disabled ? ' disabled' : ''}`
-    : tag === 'button' ? `${n.accessibleLabel ? ` aria-label="${escape(n.accessibleLabel)}"` : ''}${n.disabled ? ' disabled' : ''}` : '';
-  const action = hasPrototypeAction(n) ? ` data-maple-action="${n.prototypeAction}"${n.targetId ? ` data-maple-target="${n.targetId}"` : ''}${!['button', 'input'].includes(n.kind) ? ` role="button" aria-label="${escape(controlLabel(n))}" tabindex="${n.disabled ? -1 : 0}"${n.disabled ? ' aria-disabled="true"' : ''}` : ''}` : '';
+  const controls =
+    tag === 'input'
+      ? ` type="${n.inputType}" maxlength="20000" aria-label="${escape(controlLabel(n))}" value="${escape(n.initialValue)}"${n.disabled ? ' disabled' : ''}`
+      : tag === 'button'
+        ? `${n.accessibleLabel ? ` aria-label="${escape(n.accessibleLabel)}"` : ''}${n.disabled ? ' disabled' : ''}`
+        : '';
+  const action = hasPrototypeAction(n)
+    ? ` data-maple-action="${n.prototypeAction}"${n.targetId ? ` data-maple-target="${n.targetId}"` : ''}${!['button', 'input'].includes(n.kind) ? ` role="button" aria-label="${escape(controlLabel(n))}" tabindex="${n.disabled ? -1 : 0}"${n.disabled ? ' aria-disabled="true"' : ''}` : ''}`
+    : '';
   const font =
     !nested && subtree(doc, id).some((n) => n.fontFamily === 'Maple Sans')
       ? `<style>${bundledFontStyle()}</style>`

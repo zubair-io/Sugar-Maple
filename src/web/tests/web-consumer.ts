@@ -30,6 +30,8 @@ store.transact({
         height: 300,
         padding: 20,
         gap: 12,
+        strokeWidth: 2.5,
+        stroke: '#763cba',
       },
     },
     {
@@ -60,8 +62,35 @@ store.transact({
         height: 44,
       },
     },
-    {type:'node.add', node:{id:'email',kind:'input',parentId:'root',pageId:store.document.pages[0].id,inputType:'email',accessibleLabel:'Email',initialValue:'mock@example.test',widthMode:'fill',height:44}},
-    {type:'node.add', node:{id:'secret',kind:'input',parentId:'root',pageId:store.document.pages[0].id,inputType:'password',accessibleLabel:'Password',initialValue:'PrototypeOnly',disabled:true,widthMode:'fill',height:44}},
+    {
+      type: 'node.add',
+      node: {
+        id: 'email',
+        kind: 'input',
+        parentId: 'root',
+        pageId: store.document.pages[0].id,
+        inputType: 'email',
+        accessibleLabel: 'Email',
+        initialValue: 'mock@example.test',
+        widthMode: 'fill',
+        height: 44,
+      },
+    },
+    {
+      type: 'node.add',
+      node: {
+        id: 'secret',
+        kind: 'input',
+        parentId: 'root',
+        pageId: store.document.pages[0].id,
+        inputType: 'password',
+        accessibleLabel: 'Password',
+        initialValue: 'PrototypeOnly',
+        disabled: true,
+        widthMode: 'fill',
+        height: 44,
+      },
+    },
   ],
 });
 const folder = resolve('build/evidence/web-consumer');
@@ -104,7 +133,7 @@ const css = (await compile('@tailwind utilities;')).build(classes);
 const browser = await chromium.launch({ channel: 'chrome', headless: true });
 const page = await browser.newPage();
 await page.setContent('<style>' + css + '</style>' + markup);
-assert.equal(Math.round((await page.locator('button').boundingBox())!.width), 360);
+assert.ok(Math.abs((await page.locator('button').boundingBox())!.width - 355) <= 0.1);
 assert.equal(Math.round((await page.locator('button').boundingBox())!.height), 44);
 await page.evaluate(() => document.fonts.ready);
 assert.equal(await page.locator('p').evaluate((el) => getComputedStyle(el).textAlign), 'right');
@@ -114,11 +143,14 @@ assert.match(
   /Maple Sans/,
 );
 assert.equal(await page.locator('p').textContent(), 'Hello @user {literal} {{noBinding}}');
-assert.equal(await page.getByRole('textbox', {name:'Email',exact:true}).inputValue(), 'mock@example.test');
-assert.equal(await page.getByLabel('Password', {exact:true}).getAttribute('type'), 'password');
-assert.equal(await page.getByLabel('Password', {exact:true}).isDisabled(), true);
+assert.equal(
+  await page.getByRole('textbox', { name: 'Email', exact: true }).inputValue(),
+  'mock@example.test',
+);
+assert.equal(await page.getByLabel('Password', { exact: true }).getAttribute('type'), 'password');
+assert.equal(await page.getByLabel('Password', { exact: true }).isDisabled(), true);
 await page.setContent(exportNode(store.document, 'root', 'html'));
-assert.equal(Math.round((await page.locator('button').boundingBox())!.width), 360);
+assert.ok(Math.abs((await page.locator('button').boundingBox())!.width - 355) <= 0.1);
 await browser.close();
 console.log(
   'PASS: generated Angular strict-template consumer compiles; Tailwind 4 compiles classes and renders matching semantic HTML geometry without Maple',
