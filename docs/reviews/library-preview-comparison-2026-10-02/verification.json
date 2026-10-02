@@ -1,8 +1,8 @@
 {
-  "sourceCommit": "4f0dd1301b2ac631cb78dab3e5ab0009ea7cadfc",
+  "sourceCommit": "fa45529897eca5374e6a3f9da2240645f12489ec",
   "baseCommit": "2754035a1ca439e84452d53ec421489533971f20",
   "editorSourceCommit": "edd130af96c292c325792c6de9bb0ed8c19974d1",
-  "recordedAt": "2026-10-02T13:58:29.583Z",
+  "recordedAt": "2026-10-02T14:30:56.769Z",
   "runtime": "1.4.2",
   "sourceHashes": {
     "prototypes/library-preview/compare.ts": "e467f5b97f62512a10b3f516c8bda8998d01f8efd7fd6f82f29cf3743416772b",
@@ -17,37 +17,37 @@
     "prototypes/library-preview/browser-test.ts": "540bcdf6bdad0d63484dbb59b7015b5fa5c8bb0fd7169884cd95ed85f78a01d0",
     "prototypes/library-preview/server-owner-test.ts": "570d77fbdd210274eeedac38c99661914c7d241addfa9e9b080d0eb89505acb0",
     "prototypes/library-preview/native/supervise.ts": "4cbc602380bb944aa683c1356c612264c614c4464eb5376053e258c07078b942",
-    "tools/library-preview-comparison.ts": "107eb5cb7575e8cd1493e4f7731900e82813c597bca0dd2e18df57c1e0f8734f",
+    "tools/library-preview-comparison.ts": "8d48f39e1775e68b8e9663b30ceb26de6e2aca2363e302150a38259693377a0a",
     ".github/workflows/editor.yml": "8e7e35b49d2156990d9c783d3d54db5ce3ca830ea72ef591c3ed85af1d183446"
   },
   "artifacts": {
     "acceptance.log": {
       "bytes": 5296,
-      "sha256": "c834aa17956eb5173fdabf34908996ca0c3f1b5def57d2d186ae1502372ce020"
+      "sha256": "2acd107752f6f194a846dbf16d8a32006163ba3145d6dbcac3f4e692a54b93b0"
     },
     "server-owner-report.json": {
       "bytes": 334,
-      "sha256": "1284b7f0b836075db4e4b8bdc3f76b510ed6c6103521f8d3ccd58d498858052b"
+      "sha256": "f01759cddc2282373267a167466d23f3482658284a2eb7c89847991e7c1a4d89"
     },
     "server-owner-acceptance.log": {
       "bytes": 114,
       "sha256": "fd3df200e252aca2110c0e776088277fac33d255804592f5546e7f4676137784"
     },
     "comparison.json": {
-      "bytes": 30188,
-      "sha256": "4db212070c3af5beb173c24130bd37fdd42dc4b90697a453df1757a8e69ec991"
+      "bytes": 30131,
+      "sha256": "3da50bff86fb85041aa29971c2450cc8c5197b88eafd71dec21aceb8840bce66"
     },
     "package-cost.json": {
       "bytes": 7191,
-      "sha256": "6f80086f90da37900f0dbd5492795b58e7602018257d8678de61559c449faf68"
+      "sha256": "6fd6540013005529f50e1d30adc2d16ff38605309212859b7308e5c438d69073"
     },
     "index.html": {
       "bytes": 11898,
-      "sha256": "b938fc835409167c5f99b9da72571a01525d4074c2289c725f121fc9fcd85f53"
+      "sha256": "b55969409024b4eb325936f515be6ce04274936031b2e2ba616b64845b4a3987"
     },
     "canvas-editor.png": {
-      "bytes": 86813,
-      "sha256": "73eef3ea23ade0f505567938495502a8f715fda1569e4c12b2293b812660798e"
+      "bytes": 86779,
+      "sha256": "90f7de4d6553de64d8c4bc3a54206707b3ace5f13d25baaa2dcf072df2bfc1fb"
     },
     "canvas-fixture.png": {
       "bytes": 10559,
@@ -66,8 +66,8 @@
       "sha256": "136b26f9286c5a324ddd23940209230e14da444afbc94d599acd595bffc5ca95"
     },
     "report.png": {
-      "bytes": 450506,
-      "sha256": "07ea850b39d48b356eb928072f445c8d3e9507aed9a114721595c81f830528b9"
+      "bytes": 450633,
+      "sha256": "a16a4193cee35962b3ae5fc5fd6c6c15747966ae1f878200bee2d30dde2128f8"
     }
   },
   "commands": [
