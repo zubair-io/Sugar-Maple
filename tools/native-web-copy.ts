@@ -35,8 +35,8 @@ await run([
   "--transforms",
 ]);
 const report = await Bun.file(resolve(output, "report.json")).json();
-if (report.result?.passed !== true || report.result?.checks !== 6)
+if (report.result?.passed !== true || report.result?.checks !== 7)
   throw Error("Incomplete native web copy proof");
 console.log(
-  "PASS: six production WK handoff fragment/subtree/token/font/action/inspector checks with unchanged source/history; no OS clipboard claim",
+  "PASS: seven production WK handoff fragment/subtree/token/font/action/inspector checks with unchanged source/history; no OS clipboard claim",
 );

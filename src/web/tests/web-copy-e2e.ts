@@ -52,6 +52,35 @@ try {
   await expect(page.locator('pre').first()).toHaveText(report.exported['css-declarations'].code);
   await page.locator('pre').first().focus();
   await expect(page.locator('pre').first()).toBeFocused();
+  const beforeManual = await page.evaluate(() => window.sugarMaple.dispatch('document.checkpoint'));
+  await page.locator('pre').first().press('Control+a');
+  assert.equal(
+    await page.evaluate(() => window.getSelection()?.toString()),
+    report.exported['css-declarations'].code,
+  );
+  assert.equal(
+    await page
+      .locator('pre')
+      .first()
+      .evaluate((el) => {
+        const event = new KeyboardEvent('keydown', {
+          key: 'c',
+          ctrlKey: true,
+          bubbles: true,
+          cancelable: true,
+        });
+        el.dispatchEvent(event);
+        return event.defaultPrevented;
+      }),
+    false,
+    'Selected code is not replaced by editable-element copy',
+  );
+  await page.locator('pre').first().press('Control+z');
+  assert.deepEqual(
+    await page.evaluate(() => window.sugarMaple.dispatch('document.checkpoint')),
+    beforeManual,
+  );
+
   const code = report.exported['tailwind-classes'].code;
   const css = (await compile('@tailwind utilities;')).build(code.split(' '));
   const consumer = await browser.newPage();
