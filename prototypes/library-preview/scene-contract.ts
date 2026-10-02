@@ -10,6 +10,7 @@ import {
 } from "../../src/web/src/app/model/library-schema";
 import {
   validateDocument,
+  NodeSchema,
   type SceneDocument,
 } from "../../src/web/src/app/model/schema";
 import { flatten, type Item } from "../../src/web/src/app/canvas/scene-layout";
@@ -148,6 +149,19 @@ export const SceneEventSchema = z.discriminatedUnion("kind", [
 
 export type SceneEvent = z.infer<typeof SceneEventSchema>;
 
+// Platform chrome has intrinsic styling. These authored changes are rejected
+// rather than silently accepted by a native control that cannot display them.
+export const nativeSceneStyleSupport = {
+  lineHeight: NodeSchema.shape.lineHeight.parse(undefined),
+  input: {
+    fill: NodeSchema.shape.fill.parse(undefined),
+    fillEnabled: NodeSchema.shape.fillEnabled.parse(undefined),
+    radius: NodeSchema.shape.radius.parse(undefined),
+    strokeWidth: NodeSchema.shape.strokeWidth.parse(undefined),
+    letterSpacing: NodeSchema.shape.letterSpacing.parse(undefined),
+  },
+};
+
 /** The transport carries resolved presentation data, never commands, code or a writable document. */
 export function validateLibraryScene(value: unknown): LibraryScene {
   const scene = LibrarySceneSchema.parse(boundedPacket(value));
@@ -180,6 +194,16 @@ export function validateLibraryScene(value: unknown): LibraryScene {
       const c = manifest.components[node.library.component];
       if (node.kind !== c.semanticKind)
         throw Error("Preview component kind does not match pinned mapping");
+      if (
+        Object.keys(node.library.props).length !==
+          Object.keys(c.props).length ||
+        Object.keys(c.props).some(
+          (name) => !Object.hasOwn(node.library!.props, name),
+        )
+      )
+        throw Error(
+          "Preview scene requires complete resolved library properties",
+        );
       libraryProps(c, node.library);
       const semantic = {
         text: node.text,
@@ -342,8 +366,32 @@ export function projectLibraryScene(
 /** Report platform mapping gaps before starting a renderer or changing its current scene. */
 export function nativeSceneDiagnostics(scene: LibraryScene): string[] {
   return scene.elements.flatMap((node) => {
+    const styles: string[] = [];
+    if (
+      node.kind !== "frame" &&
+      (node.text.includes("\n") || node.text.includes("\r"))
+    )
+      styles.push(
+        `${node.id}: native multiline text is unsupported; use semantic preview`,
+      );
+    if (
+      node.kind !== "frame" &&
+      node.style.lineHeight !== nativeSceneStyleSupport.lineHeight
+    )
+      styles.push(
+        `${node.id}: native lineHeight is unsupported; use semantic preview`,
+      );
+    if (node.kind === "input")
+      for (const [name, value] of Object.entries(nativeSceneStyleSupport.input))
+        if (
+          node.style[name as keyof typeof nativeSceneStyleSupport.input] !==
+          value
+        )
+          styles.push(
+            `${node.id}: native Input style ${name} is unsupported; use semantic preview`,
+          );
     const ref = node.library;
-    if (!ref) return [];
+    if (!ref) return styles;
     const c = manifest.components[ref.component],
       swift = c.swift;
     if (
@@ -351,13 +399,16 @@ export function nativeSceneDiagnostics(scene: LibraryScene): string[] {
       !swift.supportedVariants.includes(ref.variant)
     )
       return [
+        ...styles,
         `${node.id}: native ${ref.component} variant ${ref.variant} is unsupported; use the semantic preview or a supported variant`,
       ];
-    return Object.entries(c.props)
-      .filter(([name, p]) => !p.semantic && ref.props[name] !== p.default)
-      .map(
-        ([name]) =>
-          `${node.id}: native ${ref.component} property ${name} is unsupported; use semantic preview`,
-      );
+    return styles.concat(
+      Object.entries(c.props)
+        .filter(([name, p]) => !p.semantic && ref.props[name] !== p.default)
+        .map(
+          ([name]) =>
+            `${node.id}: native ${ref.component} property ${name} is unsupported; use semantic preview`,
+        ),
+    );
   });
 }
