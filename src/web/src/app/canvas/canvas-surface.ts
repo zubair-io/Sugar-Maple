@@ -16,6 +16,8 @@ import type { Camera } from './whiteboard/shared-types';
 import { CanvasProjection } from './canvas-projection';
 import { CanvasSelectionTool } from './canvas-selection-tool';
 import { CanvasDrawingTool } from './canvas-drawing-tool';
+import { RepeatHandles } from './repeat-handles';
+import type { RepeatHandle } from './repeat-geometry';
 import {
   changedPatch,
   handleCursor,
@@ -27,7 +29,7 @@ import {
 } from './transform-geometry';
 @Component({
   selector: 'canvas-surface',
-  imports: [CanvasComponent],
+  imports: [CanvasComponent, RepeatHandles],
   providers: [
     { provide: WHITEBOARD_USER_PROVIDER, useValue: { user: signal({ _id: 'local-editor' }) } },
   ],
@@ -57,7 +59,10 @@ import {
         (pointerdown)="handleDown($event, h.kind)"
         (keydown)="handleKey($event, h.kind)"
       ></button>
-    }`,
+    }
+    <repeat-handles [zoom]="zoom()" [pan]="pan()" [enabled]="enabled()"
+      (pointerRequest)="repeatDown($event.event,$event.kind)"
+      (cancelRequest)="tool.onPointerCancel()" />`,
   styles: `
     :host {
       display: block;
@@ -152,7 +157,10 @@ export class CanvasSurface {
     });
     afterRenderEffect(() => {
       this.p.e.selection();
-      untracked(() => this.drawing.cancelIfStale());
+      untracked(() => {
+        this.drawing.cancelIfStale();
+        if (this.tool.repeat.active && !this.tool.repeat.current()) this.tool.repeat.cancel();
+      });
     });
     effect(() => {
       const board = this.board(),
@@ -195,6 +203,14 @@ export class CanvasSurface {
     this.tool.beginHandle(handle);
     this.board()?.onPointerDown(event);
     this.tool.endHandleRequest();
+  }
+  repeatDown(event:PointerEvent,kind:RepeatHandle) {
+    if (!this.enabled() || this.p.e.mode()!=='Design' || event.button!==0 || !event.isPrimary) return;
+    this.tool.repeat.request(kind);
+    this.board()?.onPointerDown(event);
+    this.tool.repeat.endRequest();
+    // Whiteboard focuses Canvas for drawing; an overlay slider owns its arrow keys.
+    (event.currentTarget as HTMLElement)?.focus({ preventScroll: true });
   }
   handleKey(event: KeyboardEvent, handle: TransformHandle) {
     if (!['ArrowRight', 'ArrowLeft', 'ArrowUp', 'ArrowDown'].includes(event.key)) return;

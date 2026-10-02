@@ -4,6 +4,7 @@ import { EditorService } from '../editor.service';
 import { DocumentStore } from '../model/store';
 import { repeatCells, repeatTargets } from '../model/repeat';
 import { parseRepeatData, repeatImportOperations } from '../model/repeat-data';
+import { supportsRepeatHandles } from './repeat-geometry';
 import { type SceneNode, type Operation, uid } from '../model/schema';
 
 @Component({
@@ -27,6 +28,17 @@ import { type SceneNode, type Operation, uid } from '../model/schema';
         /></label>
       </div>
       <button (click)="resize()">Resize grid</button>
+      @if (hasCanvasControls()) {
+        <p class="hint">
+          Use the green Canvas controls to repeat columns/rows or adjust gutters. Their arrow keys
+          and Home/End provide keyboard alternatives.
+        </p>
+      } @else {
+        <p class="hint">
+          Canvas repeat controls require fixed grid and template dimensions. Set their width and
+          height sizing to Fixed, or use the row and column fields here.
+        </p>
+      }
       <button (click)="editTemplate()">Edit template</button>
       <p class="hint">
         Resizing keeps surviving cell IDs and data. New cells use the template; shrinking removes
@@ -241,6 +253,7 @@ export class RepeatInspector {
   readonly e = inject(EditorService);
   readonly grid = input.required<SceneNode>();
   readonly Math = Math;
+  readonly hasCanvasControls = computed(() => supportsRepeatHandles(this.e.doc(), this.grid()));
   readonly cells = computed(() => repeatCells(this.e.doc(), this.grid().id));
   readonly targets = computed(() => repeatTargets(this.e.doc(), this.grid().id));
   rows = 1;
