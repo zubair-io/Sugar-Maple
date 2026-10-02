@@ -3,19 +3,22 @@ import { StreamableHTTPClientTransport } from "@modelcontextprotocol/sdk/client/
 import { resolve } from "node:path";
 import { mkdirSync } from "node:fs";
 import { strict as assert } from "node:assert";
-import { flatten, project } from "../src/web/src/app/canvas/scene-layout";
+import { flatten, project, transform } from "../src/web/src/app/canvas/scene-layout";
 import { drawingGeometry, type DrawingKind } from '../src/web/src/app/canvas/drawing-geometry';
+import { importedRepeatFixture } from './repeat-fixture';
+import { repeatCells } from '../src/web/src/app/model/repeat';
 // Own a separate DEBUG bundle/profile/port. Never connect to the user's editor.
 const root = resolve(import.meta.dir, ".."),
+  repeat = process.argv.includes('--repeat'),
   locks = process.argv.includes('--locks'),
   drawing = process.argv.includes('--drawing'),
   reparent = process.argv.includes('--reparent'),
   hold = process.argv.includes('--hold'),
-  output = resolve(root, drawing ? "build/canvas-drawing-mcp" : locks ? "build/canvas-lock-mcp" : reparent ? "build/canvas-reparent-mcp" : "build/canvas-transform-mcp");
-const app = resolve(output, drawing ? "Sugar Maple Drawing QA.app" : locks ? "Sugar Maple Lock QA.app" : reparent ? "Sugar Maple Reparent QA.app" : "Sugar Maple Transform QA.app"),
+  output = resolve(root, repeat ? "build/repeat-handles-mcp" : drawing ? "build/canvas-drawing-mcp" : locks ? "build/canvas-lock-mcp" : reparent ? "build/canvas-reparent-mcp" : "build/canvas-transform-mcp");
+const app = resolve(output, repeat ? "Sugar Maple Repeat QA.app" : drawing ? "Sugar Maple Drawing QA.app" : locks ? "Sugar Maple Lock QA.app" : reparent ? "Sugar Maple Reparent QA.app" : "Sugar Maple Transform QA.app"),
   profile = resolve(output, "profile");
 const port = 48494,
-  identifier = drawing ? "io.zubair.sugarmaple.drawing-qa" : locks ? "io.zubair.sugarmaple.lock-qa" : reparent ? "io.zubair.sugarmaple.reparent-qa" : "io.zubair.sugarmaple.transform-qa";
+  identifier = repeat ? "io.zubair.sugarmaple.repeat-qa" : drawing ? "io.zubair.sugarmaple.drawing-qa" : locks ? "io.zubair.sugarmaple.lock-qa" : reparent ? "io.zubair.sugarmaple.reparent-qa" : "io.zubair.sugarmaple.transform-qa";
 mkdirSync(profile, { recursive: true });
 async function command(cmd: string[]) {
   const child = Bun.spawn(cmd, { cwd: root, stdout: "pipe", stderr: "pipe" });
@@ -272,6 +275,55 @@ try {
     await data('history.undo', { documentId: inFlow.documentId, expectedRevision: inFlow.revision });
     assert.deepEqual((await data('document.get')).document, flowing.document);
   }
+  if (repeat) {
+    const { store, grid } = importedRepeatFixture();
+    await tx([
+      ...Object.entries(store.document.assets).map(([key, source]) => ({ type: 'asset.set', key, source })),
+      ...store.document.nodes.map(node => ({ type: 'node.add', node: { ...node, pageId } })),
+      { type: 'node.update', id: grid, patch: { rotation: 30, strokeWidth: 7, padding: 9 } },
+    ]);
+    await data('selection.set', { id: grid });
+    const original = await data('document.get');
+    const survivors = repeatCells(original.document, grid).map(node => node.id);
+    const origin = transform(flatten(project(original.document, pageId)).find(item => item.node.id === grid)!.transform,
+      original.document.nodes.find((node: any) => node.id === grid).x, original.document.nodes.find((node: any) => node.id === grid).y);
+    await tx([{ type: 'repeat.resize', id: grid, rows: 2, columns: 3, gap: 35, count: 5, anchor: 'top-left' }]);
+    const resized = await data('document.get'), resizedCheckpoint = await data('document.checkpoint');
+    assert.equal(resized.revision, original.revision + 1);
+    assert.equal(repeatCells(resized.document, grid).length, 5);
+    assert.deepEqual(repeatCells(resized.document, grid).slice(0, 2).map(node => node.id), survivors);
+    const node = resized.document.nodes.find((node: any) => node.id === grid);
+    assert.equal(node.width, 3 * 200 + 2 * 35 + 2 * 16);
+    assert.equal(node.height, 2 * 220 + 35 + 2 * 16);
+    const item = flatten(project(resized.document, pageId)).find(item => item.node.id === grid)!;
+    const anchored = transform(item.transform, item.x, item.y);
+    assert.ok(Math.hypot(anchored.x - origin.x, anchored.y - origin.y) < 1e-6);
+    assert.equal(resized.document.nodes.find((node: any) => node.id === 'title').text, 'First');
+    assert.equal(resized.document.nodes.find((node: any) => node.id === 'photo').asset, store.document.nodes.find(node => node.id === 'photo')!.asset);
+    await geometry();
+    for (const invalid of [{ gap: -1 }, { gap: 1001 }, { count: 7 }, { anchor: 'bottom-right' }]) {
+      const response: any = await client.callTool({ name: 'transaction.apply', arguments: {
+        documentId: resized.documentId, expectedRevision: resized.revision, requestId: crypto.randomUUID(),
+        operations: [{ type: 'document.rename', name: 'Must not partially apply' },
+          { type: 'repeat.resize', id: grid, rows: 2, columns: 3, gap: 35, count: 5, anchor: 'top-left', ...invalid }],
+      } });
+      assert.equal(response.isError, true);
+      assert.deepEqual(await data('document.checkpoint'), resizedCheckpoint, 'Rejected resize leaves the whole batch unchanged');
+    }
+    await tx([{ type: 'repeat.resize', id: grid, rows: 2, columns: 3, gap: 45, count: 5, anchor: 'top-left' }]);
+    const gutter = await data('document.get');
+    assert.equal(repeatCells(gutter.document, grid).length, 5);
+    assert.deepEqual(repeatCells(gutter.document, grid).map(node => node.id), repeatCells(resized.document, grid).map(node => node.id));
+    await data('history.undo', { documentId: gutter.documentId, expectedRevision: gutter.revision });
+    assert.deepEqual((await data('document.get')).document, resized.document);
+    const undoResize = await data('document.get');
+    await data('history.undo', { documentId: undoResize.documentId, expectedRevision: undoResize.revision });
+    assert.deepEqual((await data('document.get')).document, original.document);
+    const redoResize = await data('document.get');
+    await data('history.redo', { documentId: redoResize.documentId, expectedRevision: redoResize.revision });
+    assert.deepEqual((await data('document.get')).document, resized.document);
+    await geometry();
+  }
   const current = await data("document.get"),
     capture = await call("render.capture", {
       documentId: current.documentId,
@@ -301,7 +353,7 @@ try {
         port,
         identifier,
         scope:
-          drawing ? "Actual native HTTP MCP SDK creates line/arrow/polyline/pressure-outline canonical paths, verifies exact portable SVG data, projected geometry, one batch/undo/redo, capture and durable native checkpoint. Human input is tested separately." : locks ? "Actual native HTTP MCP SDK explicit editing through a locked ancestor, exact atomic undo/redo, transformed capture and durable checkpoint. Direct human guards are tested separately." : reparent ? "Actual native HTTP MCP SDK nodes.reparent discovery/output validation, rotated world placement, stale/no-op/cycle rejection, explicit managed-flow placement, one-step undo and durable checkpoint/capture." : "Actual native HTTP MCP SDK, transformed layout/selection/capture, atomic authoring undo/redo and durable native checkpoint. Human pointer gestures are tested separately in Chrome.",
+          repeat ? "Actual native HTTP MCP shared repeat.resize gap/count/top-left command, rotated world anchor and exact Canvas layout, partial last-row and imported data/asset retention, whole-batch rejection, one-step undo/redo and durable capture/checkpoint; pointer input is tested separately." : drawing ? "Actual native HTTP MCP SDK creates line/arrow/polyline/pressure-outline canonical paths, verifies exact portable SVG data, projected geometry, one batch/undo/redo, capture and durable native checkpoint. Human input is tested separately." : locks ? "Actual native HTTP MCP SDK explicit editing through a locked ancestor, exact atomic undo/redo, transformed capture and durable checkpoint. Direct human guards are tested separately." : reparent ? "Actual native HTTP MCP SDK nodes.reparent discovery/output validation, rotated world placement, stale/no-op/cycle rejection, explicit managed-flow placement, one-step undo and durable checkpoint/capture." : "Actual native HTTP MCP SDK, transformed layout/selection/capture, atomic authoring undo/redo and durable native checkpoint. Human pointer gestures are tested separately in Chrome.",
         capture: capture.structuredContent.capture,
       },
       null,
@@ -309,7 +361,7 @@ try {
     ),
   );
   console.log(
-          drawing ? "PASS: actual native MCP canonical line/arrow/path/freehand, exact SVG data, projected geometry, atomic undo/redo and durable capture/checkpoint" : locks ? "PASS: actual isolated native MCP explicit editing with a locked ancestor, exact undo/redo and durable capture/checkpoint" : reparent ? "PASS: actual isolated native MCP nodes.reparent, rotated geometry, strict SDK schemas, stale/no-op/cycle checks, explicit flow mode, exact undo and durable capture/checkpoint" : "PASS: actual isolated native Sugar Maple MCP on 48494, nested transformed Canvas layout, selection/capture, exact atomic undo/redo and durable checkpoint",
+          repeat ? "PASS: actual native MCP Repeat Grid gap/count/top-left, rotated geometry, imported data, atomic rejection/undo/redo and durable capture" : drawing ? "PASS: actual native MCP canonical line/arrow/path/freehand, exact SVG data, projected geometry, atomic undo/redo and durable capture/checkpoint" : locks ? "PASS: actual isolated native MCP explicit editing with a locked ancestor, exact undo/redo and durable capture/checkpoint" : reparent ? "PASS: actual isolated native MCP nodes.reparent, rotated geometry, strict SDK schemas, stale/no-op/cycle checks, explicit flow mode, exact undo and durable capture/checkpoint" : "PASS: actual isolated native Sugar Maple MCP on 48494, nested transformed Canvas layout, selection/capture, exact atomic undo/redo and durable checkpoint",
   );
   if (hold) {
     await Bun.write(resolve(output, 'interactive-state.json'), JSON.stringify({ app, profile, port, identifier,
