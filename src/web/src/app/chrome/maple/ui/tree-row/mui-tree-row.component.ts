@@ -63,6 +63,8 @@ export class MuiTreeRowComponent {
   readonly errorTitle = input<string | undefined>(undefined);
   readonly active = input<boolean>(false);
   readonly disabled = input<boolean>(false);
+  /** A containing tree owns its roving tab stop. */
+  readonly tabIndex = input<number>(0);
   /** Forwarded to the real treeitem element's `aria-haspopup` (e.g. a row
    * with a right-click/keyboard context menu) — an attribute bound
    * directly on `<mui-tree-row>` would land on this component's own host

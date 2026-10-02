@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import {
   MuiButtonComponent,
   MuiInputComponent,
@@ -135,9 +135,10 @@ import { ChromeTheme } from './sugar-maple-chrome-theme';
       </section>
       <section aria-label="Inspector specimen">
         <h2>Inspector and tabs</h2>
+        <mui-button (pressed)="toggleExtraTab()">Toggle extra inspector tab</mui-button>
         <mui-inspector-panel
           title="Inspector"
-          [tabs]="tabs"
+          [tabs]="tabs()"
           [activeTabId]="activeTab()"
           (activeTabIdChange)="activeTab.set($event)"
           [showBack]="true"
@@ -239,8 +240,14 @@ export class SugarMapleChromeSpecimen {
     { id: 'export', label: 'Export', icon: 'share-up-square' },
     { id: 'blocked', label: 'Unavailable', icon: 'folder', disabled: true },
   ];
-  readonly tabs = [
+  readonly extraTab = signal(false);
+  readonly tabs = computed(() => [
     { id: 'Details', label: 'Details' },
     { id: 'Comments', label: 'Comments' },
-  ];
+    ...(this.extraTab() ? [{ id: 'History', label: 'History' }] : []),
+  ]);
+  toggleExtraTab(): void {
+    if (this.extraTab() && this.activeTab() === 'History') this.activeTab.set('Details');
+    this.extraTab.update(value => !value);
+  }
 }

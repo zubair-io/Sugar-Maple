@@ -34,6 +34,7 @@ try {
   await expect(page.getByText('Committed input: Hello', { exact: true })).toBeVisible();
   await page.getByRole('button', { name: 'Clear', exact: true }).click();
   await expect(search).toHaveValue('');
+  await expect(search).toBeFocused();
   const numeric = page.getByRole('textbox', { name: 'Specimen numeric' });
   await page.getByRole('button', { name: 'Increase', exact: true }).click();
   await expect(numeric).toHaveValue('6');
@@ -80,6 +81,20 @@ try {
     'aria-selected',
     'true',
   );
+  await page.getByRole('button', { name: 'Toggle extra inspector tab', exact: true }).click();
+  const history = page.getByRole('tab', { name: 'History', exact: true });
+  await history.click();
+  await expect(history).toHaveAttribute('aria-selected', 'true');
+  // Resize only the newly added button; the containing row's width stays fixed.
+  await history.evaluate(el => { el.style.width = '210px'; });
+  await expect.poll(() => page.locator('mui-tabs').evaluate(el => {
+    const selected = el.querySelector('[aria-selected="true"]')!.getBoundingClientRect();
+    const indicator = el.querySelector('.indicator')!.getBoundingClientRect();
+    return Math.max(Math.abs(selected.x - indicator.x), Math.abs(selected.width - indicator.width));
+  })).toBeLessThan(1);
+  await page.getByRole('button', { name: 'Toggle extra inspector tab', exact: true }).click();
+  await expect(history).toHaveCount(0);
+  await expect(page.getByRole('tab', { name: 'Details', exact: true })).toHaveAttribute('aria-selected', 'true');
   const fixtureStyle = () =>
     page.getByTestId('unscoped-classes').evaluate((el) => {
       const css = getComputedStyle(el);
@@ -131,6 +146,20 @@ try {
   await rows.nth(1).click({ modifiers: ['Shift'] });
   await expect(rows.nth(0)).toHaveAttribute('aria-selected', 'true');
   await expect(rows.nth(1)).toHaveAttribute('aria-selected', 'true');
+  const beforeNavigation = await page.evaluate(() => window.sugarMaple.dispatch('document.checkpoint'));
+  await rows.nth(0).focus();
+  await expect(page.getByRole('tree', { name: 'Layers' }).locator('[role="treeitem"][tabindex="0"]')).toHaveCount(1);
+  await rows.nth(0).press('ArrowDown');
+  await expect(rows.nth(1)).toBeFocused();
+  await rows.nth(1).press('Home');
+  await expect(rows.nth(0)).toBeFocused();
+  await rows.nth(0).press('ArrowRight');
+  await expect(rows.nth(1)).toBeFocused();
+  await rows.nth(1).press('ArrowLeft');
+  await expect(rows.nth(0)).toBeFocused();
+  await rows.nth(0).press('End');
+  await expect(rows.nth(1)).toBeFocused();
+  assert.deepEqual(await page.evaluate(() => window.sugarMaple.dispatch('document.checkpoint')), beforeNavigation);
   await rows.nth(0).focus();
   await rows.nth(0).press('Shift+Enter');
   await expect(rows.nth(0)).toHaveAttribute('aria-selected', 'false');
@@ -141,6 +170,7 @@ try {
   await expect(rows).toHaveCount(0);
   await page.getByRole('button', { name: 'Clear', exact: true }).click();
   await expect(rows).toHaveCount(2);
+  await expect(page.getByRole('textbox', { name: 'Find layer', exact: true })).toBeFocused();
   await page.evaluate(() => document.fonts.ready);
   const pixels = () =>
     page.locator('canvas-surface canvas').evaluate((el: HTMLCanvasElement) => el.toDataURL());

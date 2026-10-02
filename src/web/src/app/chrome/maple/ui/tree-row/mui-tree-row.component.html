@@ -1,7 +1,7 @@
 <div
   class="mui-tree-row flex items-center gap-1 py-1 px-4 border-l-2 border-transparent cursor-pointer"
   role="treeitem"
-  tabindex="0"
+  [attr.tabindex]="disabled() ? -1 : tabIndex()"
   [style.padding-left.px]="indentPx()"
   [class.is-active]="active()"
   [class.is-disabled]="disabled()"
