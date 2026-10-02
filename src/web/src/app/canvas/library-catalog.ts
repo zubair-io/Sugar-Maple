@@ -12,6 +12,7 @@ import {
 } from '../model/library-schema';
 import { webAwesomeManifest } from '../model/bundled-library';
 import { type Operation, uid } from '../model/schema';
+import { libraryAppearance } from '../model/library-appearance';
 
 @Component({
   selector: 'library-catalog',
@@ -78,9 +79,40 @@ import { type Operation, uid } from '../model/schema';
             {{ component()?.web?.symbol || 'Web unsupported' }} ·
             {{ component()?.swift?.symbol || 'Swift unsupported' }}
           </p>
-          <p>
-            Semantic design/preview. Mapped copy targets declare their actual library dependencies.
-          </p>
+          @if (appearance(); as support) {
+            <section aria-label="Library appearance diagnostics" class="appearance">
+              <p>Canvas and Preview use authored semantic appearance.</p>
+              <p>Source: {{ support.source }}</p>
+              <p>Package appearance is shown only in the isolated library preview experiment.</p>
+              @if (support.appearance.length) {
+                <p>
+                  Source appearance:
+                  @for (property of support.appearance; track property.name) {
+                    <span>{{ property.name }} = {{ property.value }} </span>
+                  }
+                </p>
+              }
+              <p [attr.data-supported]="support.web.available">
+                Mapped web copy: {{ support.web.message }}
+              </p>
+              <p [attr.data-supported]="support.swift.available">
+                Mapped SwiftUI copy (macOS): {{ support.swift.message }}
+              </p>
+              <div role="status" aria-label="Native library preview support">
+                @if (support.native.length) {
+                  <p>Isolated native preview:</p>
+                  @for (diagnostic of support.native; track diagnostic) {
+                    <p>{{ diagnostic }}</p>
+                  }
+                } @else {
+                  <p>
+                    Isolated native preview: supported properties for {{ ref.variant }}. Native
+                    control appearance differs from Canvas and the web package.
+                  </p>
+                }
+              </div>
+            </section>
+          }
           @if (component(); as c) {
             <label
               >Library variant<select
@@ -129,7 +161,8 @@ import { type Operation, uid } from '../model/schema';
             }
             <p>
               Local semantic overrides: {{ ref.localOverrides.join(', ') || 'none' }}. Source props
-              stay pinned; local overrides win in semantic and mapped output.
+              stay pinned; local overrides apply to semantic design. Mapped copy support is listed
+              above.
             </p>
             <button [disabled]="e.mode() !== 'Design'" (click)="reset()">
               Reset library overrides
@@ -186,6 +219,11 @@ import { type Operation, uid } from '../model/schema';
     h4,
     p {
       margin: 0;
+    }
+    .appearance {
+      padding: 8px 0;
+      gap: 6px;
+      border-block: 1px solid var(--chrome-border, #cbd5e1);
     }
     h3 {
       font-size: 14px;
@@ -261,6 +299,10 @@ export class LibraryCatalog {
       : {},
   );
   readonly variantNames = computed(() => Object.keys(this.component()?.variants ?? {}));
+  readonly appearance = computed(() => {
+    const node = this.e.node();
+    return node ? libraryAppearance(this.e.doc(), node) : null;
+  });
   readonly compatible = computed(() =>
     Object.entries(this.e.doc().libraries)
       .filter(
