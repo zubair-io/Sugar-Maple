@@ -1,0 +1,48 @@
+{
+  "sourceCommit": "0787693ed1ffe52495d06ffffdcb0245c10384a4",
+  "baseCommit": "ef711665b3ec5661c4ba7b7f84b3d7778c1e80ac",
+  "recordedAt": "2026-10-02T15:23:48.551Z",
+  "runtime": "1.4.2",
+  "sourceHashes": {
+    "prototypes/library-preview/scene-contract.ts": "1518118de33dd8d9940a02566a3188100e82e3b96bb709e1742b862c47855c2e",
+    "prototypes/library-preview/scene-contract.test.ts": "ff716d212ad5a0a8fa7db87110ee304aac0c8d4eb804e9f8eac4263b5d728745",
+    "prototypes/library-preview/scene-web.ts": "6202dbb3d49c3d2253aa123e14155f9587ee72be68bbc760ed90ea0fc82eec95",
+    "prototypes/library-preview/scene-web-test.ts": "ba5fc5577a6ca2f2e253aa6dec2c9dd74e434d74467eddefd1418f1dce90d04c",
+    "prototypes/library-preview/web-controller.ts": "adee942efaa88e96dfe2782364569028ac3e4ff4a4faf1744fa2721e49ce8938",
+    "prototypes/library-preview/web-runtime.ts": "8ba5c7e8eab05b6b6e2922e6b99e03ceab497d1af07b6b814c66d0b7fa4c4edc",
+    "prototypes/library-preview/scene-projection.md": "3db2b430e5a9428b431e9a29748081f799e5572865a3e13ddbf24f344c2875e2",
+    "tools/library-preview-acceptance.ts": "cc5b840273c51d0c2a2c25b294466c9fbf040929561206ad978ad38f5d4faf7f",
+    "prototypes/library-preview/tsconfig.json": "d635855e5f87c530036ce343130a3a70e73db2d1812ed25afe6fd2151470ca49"
+  },
+  "artifacts": {
+    "acceptance.log": {
+      "bytes": 2422,
+      "sha256": "935e20269170267772269a36980cd676d7b6f66ac6f3769911387d3a396d78f2"
+    },
+    "report.json": {
+      "bytes": 1063,
+      "sha256": "7063779cd0267d0f1f28579c2319cc9b27d6d6614da3baf7875a48b65f9656ca"
+    },
+    "scene.png": {
+      "bytes": 93628,
+      "sha256": "3a5ac8f6510bcc693c8aa97d2788a826d24941a9c5e16e83d752cca3f1860d6c"
+    }
+  },
+  "localPassed": true,
+  "commands": [
+    "bun tools/library-preview-acceptance.ts"
+  ],
+  "complete": [
+    "Six contract tests including four new authored-scene cases and strict prototype typecheck",
+    "Real opaque-iframe legacy package/boundary acceptance and six launch/close cleanup failure cases",
+    "Real scene consumer: all five authored geometry boxes, named slots, actual Primary brand token, actual shadow fill/color/radius override, accessibility, focused ephemeral input, source update/undo/reset, Disabled, invalid-feed preservation, offline and stop"
+  ],
+  "incomplete": [
+    "Native authored-scene renderer/consumer and real native input",
+    "Editor semantic/package appearance diagnostics",
+    "Actual editor Canvas/DOM/web/native final projection comparison",
+    "Full #88 acceptance, final-head review/CI/integration/main verification",
+    "Full VoiceOver/physical paint/input latency and arbitrary source execution"
+  ],
+  "issue": 88
+}

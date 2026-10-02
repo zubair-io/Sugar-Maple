@@ -58,14 +58,18 @@ private struct Fixture: View {
         edit.submenu?.addItem(NSMenuItem(title: "Select All", action: #selector(NSText.selectAll(_:)), keyEquivalent: "a"))
         menu.addItem(edit); app.mainMenu = menu
         let model = Model()
+        let sceneModel = NativeSceneModel()
         func send(_ event: [String: Any]) {
-            var packet = event; packet["version"] = 1; packet["session"] = session
+            var packet = event; if packet["version"] == nil { packet["version"] = 1 }; packet["session"] = session
             guard let data = try? JSONSerialization.data(withJSONObject: packet, options: [.sortedKeys]),
                   data.count < 4000000 else { exit(65) }
             FileHandle.standardOutput.write(data + Data([10]))
         }
         model.emit = send
-        let host = NSHostingView(rootView: Fixture(model: model))
+        sceneModel.emit = send
+        let legacyHost = NSHostingView(rootView: Fixture(model: model))
+        let sceneHost = NSHostingView(rootView: NativeSceneView(model: sceneModel))
+        var host: NSView = legacyHost
         let window = NSWindow(contentRect: NSRect(x: 0, y: 0, width: 400, height: 500),
                               styleMask: [.titled, .closable], backing: .buffered, defer: false)
         window.title = "Sugar Maple — Trusted Native Preview Fixture"
@@ -109,9 +113,48 @@ private struct Fixture: View {
         }
         func receive(_ data: Data) {
             var revision = max(0, model.revision)
+            var version = 1
             do {
                 guard data.count <= maxPacket,
-                      let packet = try JSONSerialization.jsonObject(with: data) as? [String: Any],
+                      let packet = try JSONSerialization.jsonObject(with: data) as? [String: Any] else { throw Invalid.packet }
+                if (packet["version"] as? NSNumber)?.intValue == 2 {
+                    version = 2
+                    _ = try SceneRead.object(packet, ["version", "session", "revision", "kind", "scene", "reset"])
+                    guard try SceneRead.number(packet["version"], 2, 2) == 2,
+                          try SceneRead.string(packet["session"], 80) == session,
+                          try SceneRead.string(packet["kind"], 20) == "render-scene" else { throw SceneInvalid.packet }
+                    revision = try SceneRead.integer(packet["revision"])
+                    guard revision > model.revision else {
+                        send(["version": 2, "kind": "error", "revision": revision, "code": "stale_revision", "message": "Render the current revision again"]); return
+                    }
+                    let next = try NativeScene(packet["scene"]), reset = try SceneRead.bool(packet["reset"])
+                    try sceneModel.apply(next, revision: revision, reset: reset)
+                    model.revision = revision
+                    host = sceneHost
+                    if window.contentView !== host { window.contentView = host }
+                    let size = NSSize(width: next.width, height: next.height)
+                    if host.bounds.size != size { window.setContentSize(size) }
+                    let requestedRevision = revision
+                    func capture(_ attempts: Int) {
+                        guard model.revision == requestedRevision, host === sceneHost else { return }
+                        host.layoutSubtreeIfNeeded()
+                        guard sceneModel.boxes.count == next.nodes.count else {
+                            if attempts > 0 { DispatchQueue.main.asyncAfter(deadline: .now() + 0.02) { capture(attempts - 1) } }
+                            else { send(["version": 2, "kind": "error", "revision": requestedRevision, "code": "runtime_error", "message": "Native scene geometry did not settle"]) }
+                            return
+                        }
+                        guard let bitmap = host.bitmapImageRepForCachingDisplay(in: host.bounds) else { exit(66) }
+                        host.cacheDisplay(in: host.bounds, to: bitmap)
+                        guard let png = bitmap.representation(using: .png, properties: [:]) else { exit(66) }
+                        let boxes = sceneModel.boxes.mapValues { ["x": $0.minX, "y": $0.minY, "width": $0.width, "height": $0.height] }
+                        sceneModel.settledRevision = requestedRevision
+                        send(["version": 2, "kind": "rendered", "revision": requestedRevision, "width": bitmap.pixelsWide,
+                              "height": bitmap.pixelsHigh, "png": png.base64EncodedString(), "boxes": boxes])
+                    }
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) { capture(50) }
+                    return
+                }
+                guard
                       Set(packet.keys) == Set(["version", "session", "revision", "kind", "label", "inputLabel", "value", "placeholder", "inputType", "disabled", "inputDisabled", "padding"]),
                       try number(packet, "version", 1) == 1,
                       try string(packet, "session", 80) == session,
@@ -129,6 +172,8 @@ private struct Fixture: View {
                 guard ["text", "email", "password"].contains(inputType),
                       !value.contains("\n"), !value.contains("\r") else { throw Invalid.packet }
                 // All props are validated before any published state is changed.
+                sceneModel.scene = nil; sceneModel.values = [:]; sceneModel.boxes = [:]
+                host = legacyHost; window.contentView = host; window.setContentSize(NSSize(width: 400, height: 500))
                 model.revision = revision; model.label = label; model.value = value; model.inputLabel = inputLabel
                 model.placeholder = placeholder; model.inputType = inputType; model.disabled = disabled
                 model.inputDisabled = inputDisabled; model.padding = padding
@@ -141,7 +186,14 @@ private struct Fixture: View {
                     send(["kind": "rendered", "revision": revision, "width": bitmap.pixelsWide,
                           "height": bitmap.pixelsHigh, "png": png.base64EncodedString()])
                 }
-            } catch { send(["kind": "error", "revision": revision, "code": "invalid_props"]) }
+            } catch {
+                if version == 2 {
+                    let message: String
+                    if case SceneInvalid.unsupported(let reason) = error { message = reason }
+                    else { message = "Invalid native scene; use a supported scene projection" }
+                    send(["version": 2, "kind": "error", "revision": revision, "code": "invalid_scene", "message": String(message.prefix(200))])
+                } else { send(["kind": "error", "revision": revision, "code": "invalid_props"]) }
+            }
         }
         DispatchQueue.global(qos: .userInitiated).async {
             var buffer = Data()

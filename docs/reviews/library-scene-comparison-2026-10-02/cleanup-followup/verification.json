@@ -1,0 +1,308 @@
+{
+  "sourceCommit": "f385bfc73e281a165d9a82b7923370fba6ecc683",
+  "recordedAt": "2026-10-02T18:00:25.642Z",
+  "priorTerminalFailures": [
+    {
+      "run": 37042373985,
+      "head": "fab0dba28ed44130b8be852776fe06c14f44b48c",
+      "step": "legacy comparison native-stop fixture",
+      "reason": "Whole-fixture 30-second wall budget exceeded; previous logs did not retain the child phase."
+    },
+    {
+      "run": 37042951665,
+      "head": "a99d580",
+      "step": "scene comparison native-stop fixture",
+      "reason": "Whole-fixture 30-second wall budget exceeded; legacy comparison passed."
+    }
+  ],
+  "change": {
+    "preparationWallMilliseconds": 600000,
+    "cleanupWallMilliseconds": 30000,
+    "nativeBuildAndRuntimeBudgetsUnchanged": true,
+    "comparisonSuccessRequiredBeforeInjectedFailure": true,
+    "realLeakedListenerMustFail": true,
+    "childOutputAndStderrRetainedOnFailure": true
+  },
+  "checks": {
+    "legacyOwnerExitCode": 0,
+    "sceneOwnerExitCode": 0,
+    "actualSceneStates": 9,
+    "logicalPointTolerance": 0.1,
+    "legacyCleanup": {
+      "passed": true,
+      "comparison": {
+        "preparationMilliseconds": 10044.273749999998,
+        "cleanupMilliseconds": 332.50754100000086,
+        "cleanupDeadlineMilliseconds": 30000,
+        "leakedServerRejected": false,
+        "maxRSSKiB": 221328,
+        "bytes": 399,
+        "stderr": ""
+      },
+      "leak": {
+        "preparationMilliseconds": 8.644500000000335,
+        "cleanupMilliseconds": 30003.166291,
+        "cleanupDeadlineMilliseconds": 30000,
+        "leakedServerRejected": true,
+        "maxRSSKiB": 11152,
+        "bytes": 97,
+        "stderr": ""
+      }
+    },
+    "sceneCleanup": {
+      "passed": true,
+      "comparison": {
+        "preparationMilliseconds": 10450.9345,
+        "cleanupMilliseconds": 317.1545839999999,
+        "cleanupDeadlineMilliseconds": 30000,
+        "leakedServerRejected": false,
+        "maxRSSKiB": 320656,
+        "bytes": 1391,
+        "stderr": ""
+      },
+      "leak": {
+        "preparationMilliseconds": 6.107125000000451,
+        "cleanupMilliseconds": 30001.759291000002,
+        "cleanupDeadlineMilliseconds": 30000,
+        "leakedServerRejected": true,
+        "maxRSSKiB": 11152,
+        "bytes": 92,
+        "stderr": ""
+      }
+    }
+  },
+  "sources": {
+    ".github/workflows/editor.yml": {
+      "bytes": 1400,
+      "sha256": "b2e223edf22851b6ea6632009db4a6cc887e319ad861a4a4866dcbdf0ed2fe9f"
+    },
+    "prototypes/library-preview/README.md": {
+      "bytes": 5897,
+      "sha256": "c0e314ce0234fe789a4459a5b0423c9cf8e1bd0c90b4bbf12aa60b1afa3f3299"
+    },
+    "prototypes/library-preview/browser-test.ts": {
+      "bytes": 9442,
+      "sha256": "540bcdf6bdad0d63484dbb59b7015b5fa5c8bb0fd7169884cd95ed85f78a01d0"
+    },
+    "prototypes/library-preview/build.ts": {
+      "bytes": 4054,
+      "sha256": "eacfae61f6b06326618b30b35240e013d8bec961eea6edf53f4daaceac6dcd92"
+    },
+    "prototypes/library-preview/compare.ts": {
+      "bytes": 14261,
+      "sha256": "2a8600528ddd0da05d2a7a9fce3278a7a12195668a9876920ea7eecf92de3e17"
+    },
+    "prototypes/library-preview/comparison-report.ts": {
+      "bytes": 9986,
+      "sha256": "aab94bc7efcad09730e9a352d8c540bff3e05cfe5f7718f1a1f3ae246a9470ba"
+    },
+    "prototypes/library-preview/contract.test.ts": {
+      "bytes": 1397,
+      "sha256": "db78d56219e0a5fa51ca6c1bce6c9b790d4a5f37f794fdffffd0ee1cb19b7836"
+    },
+    "prototypes/library-preview/contract.ts": {
+      "bytes": 2639,
+      "sha256": "fdf2362614b206900950128565e3c0cb6490cb44a08a2db86a2fe00502ffa415"
+    },
+    "prototypes/library-preview/host.css": {
+      "bytes": 2228,
+      "sha256": "a24540b648d3e441dc8d5daff81c490da0b96b516402398f7a2169fd665fc9b4"
+    },
+    "prototypes/library-preview/host.ts": {
+      "bytes": 4200,
+      "sha256": "7c330ea5e50b81228fd1d7c71d5938396e61ecab67928fedceee14544dd764ec"
+    },
+    "prototypes/library-preview/index.html": {
+      "bytes": 1967,
+      "sha256": "97412ca3c566e97035fe85cd1baa062b6e0011d81a91065ee46b0430d64033f4"
+    },
+    "prototypes/library-preview/launch-failure-test.ts": {
+      "bytes": 1647,
+      "sha256": "d5bdd68c165f6d8a5dfa98727769fd251e8e8f349d9a2e65ae99b5d89fe0b072"
+    },
+    "prototypes/library-preview/native-stop-failure-test.ts": {
+      "bytes": 4580,
+      "sha256": "742de8f8351e018a5cfad2e3d655f13cdb93c9a7799b90f7b0a401fb2c98dfc2"
+    },
+    "prototypes/library-preview/native/README.md": {
+      "bytes": 4949,
+      "sha256": "91b6846ea23ac796520857a00857394766a690e25369dd69c56e48a34f2db50b"
+    },
+    "prototypes/library-preview/native/build.ts": {
+      "bytes": 5417,
+      "sha256": "2d7908c5039741aaaf60af8b9b8ba58d5c9c4584e8fd01c481a4e2b824e3f809"
+    },
+    "prototypes/library-preview/native/controller.ts": {
+      "bytes": 9434,
+      "sha256": "8924d82a09d26cf493f69e7540d19c0748321b46c27525819ab0cdfd22ed0feb"
+    },
+    "prototypes/library-preview/native/fixture.entitlements": {
+      "bytes": 233,
+      "sha256": "baa050bc06d89900bed3bb4954acdf2f17c4f47e259b1870f889d4a301fbcaf4"
+    },
+    "prototypes/library-preview/native/fixture.swift": {
+      "bytes": 13147,
+      "sha256": "d70df2d361be3c00a2fe96885f6df4f4785ecd27e137fc16e0f4c1f2fce5fc48"
+    },
+    "prototypes/library-preview/native/human-test.ts": {
+      "bytes": 1872,
+      "sha256": "69b0318ebe10c0720430cf2182d884639f772d915c0bc9af381840e00c2f42a2"
+    },
+    "prototypes/library-preview/native/limit.c": {
+      "bytes": 535,
+      "sha256": "9ce971d297ba842c46856e5e7d6ec0907dcf2c584505eb22e63fae28e5324c70"
+    },
+    "prototypes/library-preview/native/limits-test.ts": {
+      "bytes": 3340,
+      "sha256": "30283cb863592883f860e1532cf2dc8b8e5e1cb4b8379f7345c799fc303bbca1"
+    },
+    "prototypes/library-preview/native/scene-human-test.ts": {
+      "bytes": 4526,
+      "sha256": "38d9058c5da22604fddbed3a833cecb1f273d2a593d3b731980b31e3000b14ba"
+    },
+    "prototypes/library-preview/native/scene-test.ts": {
+      "bytes": 9591,
+      "sha256": "4e8e9f79d700aac2a520a159842f0d32b470b21cdf011b3e9bdd0ea3132fbfaa"
+    },
+    "prototypes/library-preview/native/scene.swift": {
+      "bytes": 17607,
+      "sha256": "2a808510e0081f74a8388ec5e26b55e515439d15be023e081e13f8b298b084c5"
+    },
+    "prototypes/library-preview/native/supervise.ts": {
+      "bytes": 3130,
+      "sha256": "4cbc602380bb944aa683c1356c612264c614c4464eb5376053e258c07078b942"
+    },
+    "prototypes/library-preview/native/test.ts": {
+      "bytes": 3397,
+      "sha256": "7139c3ea8abc43f2188b4c44ca896b64f849a7b38f618c578a0faaa4c5578ab5"
+    },
+    "prototypes/library-preview/package-cost.ts": {
+      "bytes": 1920,
+      "sha256": "ee63980d528fadd248046440d283da87ae0dc9f15e3c267893d0cdbd8812ea6a"
+    },
+    "prototypes/library-preview/report-test.ts": {
+      "bytes": 1983,
+      "sha256": "e2f235fb582fbdab5ec748a2f9aa6ceb6368574626035aaea339dcb157a67864"
+    },
+    "prototypes/library-preview/scene-compare.ts": {
+      "bytes": 28475,
+      "sha256": "fcec1db6e16c3d3654022fc4a13f4a846b5db5f9d1ccaf97352798e17dbfdcdd"
+    },
+    "prototypes/library-preview/scene-comparison-report.ts": {
+      "bytes": 7760,
+      "sha256": "03da4239dbbd34d443c63f167a5991e07a3081d2db2a12e2c85cebc72a597928"
+    },
+    "prototypes/library-preview/scene-contract.test.ts": {
+      "bytes": 8648,
+      "sha256": "fdcad00bc82781c6e70a42ca9e4ce413b8bdd27a3b355df8a61ac375a422c44e"
+    },
+    "prototypes/library-preview/scene-contract.ts": {
+      "bytes": 11936,
+      "sha256": "382f2287d72d26098b4b6f008177927d2663e123bfe6cc109dc36f858bb2fefa"
+    },
+    "prototypes/library-preview/scene-paint-read.ts": {
+      "bytes": 3021,
+      "sha256": "6eb274dc4df6072aec91dd8420f2e03f257132b17e082047bce69bbb35bae0f9"
+    },
+    "prototypes/library-preview/scene-projection.md": {
+      "bytes": 8205,
+      "sha256": "45bc48b60324fa778a2bb4b7b1551b0b22b08e66cd244d3ad7f43cff232e77ca"
+    },
+    "prototypes/library-preview/scene-report-test.ts": {
+      "bytes": 2955,
+      "sha256": "42965ba889b153ae975da83f1ddbff52f445aa8d695dd7c1c303d83682b061c6"
+    },
+    "prototypes/library-preview/scene-web-test.ts": {
+      "bytes": 9434,
+      "sha256": "ba5fc5577a6ca2f2e253aa6dec2c9dd74e434d74467eddefd1418f1dce90d04c"
+    },
+    "prototypes/library-preview/scene-web.ts": {
+      "bytes": 9371,
+      "sha256": "e451d603f2529a48db07ff01b3a54a3a836051c41b5c2591d1166b0f3fbdd76d"
+    },
+    "prototypes/library-preview/serve-report.ts": {
+      "bytes": 989,
+      "sha256": "986a605244e628ecda460ddf7956b9884d87050236104902f8fc1d9f4f83afb8"
+    },
+    "prototypes/library-preview/serve-scene-report.ts": {
+      "bytes": 1581,
+      "sha256": "1d06557a547d558ae92701c2c7ae765d4dd4cf0b5215504038eeab03fe1286a6"
+    },
+    "prototypes/library-preview/serve.ts": {
+      "bytes": 1823,
+      "sha256": "1a1da20e19615a7b95c337ce5375759920a118fca9cd9bfd0ea9d6b43420dedb"
+    },
+    "prototypes/library-preview/server-owner-test.ts": {
+      "bytes": 3213,
+      "sha256": "c816ef311f6a6b838713768a395cbf0ad50d6e3b362e503035b74975c6521234"
+    },
+    "prototypes/library-preview/tsconfig.json": {
+      "bytes": 372,
+      "sha256": "d635855e5f87c530036ce343130a3a70e73db2d1812ed25afe6fd2151470ca49"
+    },
+    "prototypes/library-preview/web-controller.ts": {
+      "bytes": 6052,
+      "sha256": "adee942efaa88e96dfe2782364569028ac3e4ff4a4faf1744fa2721e49ce8938"
+    },
+    "prototypes/library-preview/web-runtime.ts": {
+      "bytes": 5006,
+      "sha256": "8ba5c7e8eab05b6b6e2922e6b99e03ceab497d1af07b6b814c66d0b7fa4c4edc"
+    },
+    "src/web/src/app/model/library-preview-support.ts": {
+      "bytes": 2677,
+      "sha256": "dfed9b1a38b6805879ece67f40dc1398422936b38cfc6d814154306e06cbbe9f"
+    },
+    "tools/library-preview-acceptance.ts": {
+      "bytes": 858,
+      "sha256": "cc5b840273c51d0c2a2c25b294466c9fbf040929561206ad978ad38f5d4faf7f"
+    },
+    "tools/library-preview-comparison.ts": {
+      "bytes": 3633,
+      "sha256": "defb75b5f357657d7a54b16b4dfa2dc1ff852b3d660bb212866f98d421f2a569"
+    }
+  },
+  "artifacts": {
+    "failed-ci-first.log": {
+      "bytes": 30395,
+      "sha256": "f7bccb6a591e656fcabcede259fa6b2959dd178608b1e92da09089afba610b14"
+    },
+    "failed-ci-second.log": {
+      "bytes": 30048,
+      "sha256": "6c613f73d328c999e573756c73e04fb5ceaec49e58e42fb16771cc4993b3afc4"
+    },
+    "legacy.log": {
+      "bytes": 6483,
+      "sha256": "608174f72828cf464b432aaa3c91085e42e0ba2ede685227f931a813c5800e94"
+    },
+    "scene.log": {
+      "bytes": 5639,
+      "sha256": "e3767541d506e9362fc4a62caaa4e2bf94fcdad823202965de1a382af881b625"
+    },
+    "legacy-owner.json": {
+      "bytes": 334,
+      "sha256": "8f94bc0ccae5e65479c6173016734f8524d756a8a7c71ad1a5018dec25f92afc"
+    },
+    "scene-owner.json": {
+      "bytes": 342,
+      "sha256": "313f68a8bfc7eb17ecfc2feaac8b7d72d3f1509549608939795b96e3a2baff88"
+    },
+    "legacy-stop.json": {
+      "bytes": 520,
+      "sha256": "0fb9f30779c30b1dda90c5242d4ae08682694aae4a792b2d3e156653642b5132"
+    },
+    "scene-stop.json": {
+      "bytes": 518,
+      "sha256": "4f007cb7713986ff58e826af61ebe68524278eeb859d1fe24ab90c43f182266e"
+    },
+    "scene-comparison.json": {
+      "bytes": 115438,
+      "sha256": "c4d702c9c5efb222e9050711452eba5400065896d613f0e1ad47f97be0302530"
+    }
+  },
+  "limitations": [
+    "Fresh exact-head Editor CI and actual reviewer approval remain required after this follow-up.",
+    "Preparation allowance is now explicitly the existing owned editor 10-minute lifetime; this is not a renderer, geometry, native build/runtime or cleanup-tolerance relaxation.",
+    "Prior full model/browser/native acceptance and physical evidence retain their original source-bound scope.",
+    "Current main/dependency integration and resulting-main delivery remain pending."
+  ]
+}

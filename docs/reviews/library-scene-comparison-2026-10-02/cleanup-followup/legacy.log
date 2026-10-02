@@ -1,0 +1,83 @@
+❯ Building...
+✔ Building...
+Initial chunk files | Names                       |  Raw size
+styles.css          | styles                      |  30.85 kB | 
+chunk-VUJOFXKG.js   | -                           | 987 bytes | 
+main.js             | main                        | 917 bytes | 
+
+                    | Initial total               |  32.75 kB
+
+Lazy chunk files    | Names                       |  Raw size
+chunk-NHQMD56O.js   | app                         | 561.22 kB | 
+chunk-RY42GGBF.js   | -                           | 204.09 kB | 
+chunk-C4HUV5RL.js   | -                           | 163.81 kB | 
+chunk-NXCTEXN5.js   | sugar-maple-chrome-specimen |  24.82 kB | 
+chunk-2753TX7P.js   | preview-application         |   6.21 kB | 
+
+Application bundle generation complete. [4.318 seconds] - 2026-10-02T17:54:14.596Z
+
+Watch mode enabled. Watching for file changes...
+NOTE: Raw file sizes do not reflect development server per-request transformations.
+  ➜  Local:   http://127.0.0.1:58839/
+Owned source checkout editor: http://127.0.0.1:58839; process group 20491
+PASS: exact Web Awesome 3.14.0 declarations compile; generated Button/Input/Card imports bundle and render offline with real shadow controls, values, slots and declared card spacing
+bun test v1.4.2 (744846f84)
+
+prototypes/library-preview/scene-contract.test.ts:
+(pass) the bounded library scene carries resolved authored geometry and named slots without mutating the source [21.04ms]
+(pass) source token bindings, local overrides and nested slots survive projection and one-step source undo [9.36ms]
+(pass) resolved responsive boxes and nested rotations are carried instead of replacing them with package intrinsic sizes [3.79ms]
+(pass) native style gaps return actionable diagnostics before replacing a supported scene [4.12ms]
+(pass) scene packets reject inconsistent graphs, unsupported source, privileged keys and aggregate payload excess [9.54ms]
+
+prototypes/library-preview/contract.test.ts:
+(pass) preview shares the real pinned manifest types, variants and bounds [0.41ms]
+(pass) preview messages reject privileged methods, paths, extra keys, wrong versions and unbounded payloads [4.13ms]
+
+ 7 pass
+ 0 fail
+ 55 expect() calls
+Ran 7 tests across 2 files. [348.00ms]
+{"passed":true,"package":{"name":"@awesome.me/webawesome","version":"3.14.0"},"hashes":{"runtime.js":{"bytes":278826,"sha256":"20aa6124e0667ff106800a82d3ecb6468b6eb07d8b07d11d59e6fe584a2f85ad"},"runtime.css":{"bytes":155312,"sha256":"f15ad9222cd24a7a5d24b52ad66f3e8520ee259b11a7215a2beb157208cd4cae"},"host.js":{"bytes":101234,"sha256":"6752c5af365ac8f0784ba62d2b982c81be39c5652c6296c33c99f9c8436ce25f"},"host.css":{"bytes":2228,"sha256":"a24540b648d3e441dc8d5daff81c490da0b96b516402398f7a2169fd665fc9b4"},"semantic.html":{"bytes":3050,"sha256":"9aab368f9a08fdfe8ed1a6448e49b4b82858a736798b1ce9fe5fb81e44b22129"},"fixture.json":{"bytes":23547,"sha256":"6ad036dd1219c5a70e03cb1cf8879513b1dd374bd9a492112dbbb3201cb5eaa8"}}}
+PASS: browser-test.ts stops its server when the browser launch boundary throws
+PASS: browser-test.ts stops its server when the browser close boundary throws
+PASS: compare.ts stops its server when the browser launch boundary throws
+PASS: compare.ts stops its server when the browser close boundary throws
+PASS: scene-compare.ts stops its server when the browser launch boundary throws
+PASS: scene-compare.ts stops its server when the browser close boundary throws
+PASS: report-test.ts stops its server when the browser launch boundary throws
+PASS: report-test.ts stops its server when the browser close boundary throws
+PASS: isolated real Web Awesome controls, typed props/events, denied parent/storage/network/bridge, stale rejection, malformed input, opt-in/stop and offline rendering
+PASS: authored geometry and actual package slots/variants/token/overrides, accessible typed events, ephemeral update/undo/reset, disabled/rejection/stop and offline scene rendering
+PASS: complete actual comparison exits naturally after native shutdown failure; real leaked listener fails the unchanged 30-second cleanup deadline
+Comparison native phase: building trusted fixture
+Comparison native phase: trusted build completed
+Comparison native phase: sandboxed helper ready
+PASS: real Canvas/DOM fixture geometry and inspector undo; actual DOM input, package typed events and native rendered consumers; four pipeline timings and asset costs recorded
+$ bun run --cwd src/web build
+$ bun --bun ../../node_modules/@angular/cli/bin/ng.js build --base-href ./
+❯ Building...
+✔ Building...
+Initial chunk files | Names                       |  Raw size | Estimated transfer size
+main-22KQWQNO.js    | main                        | 179.77 kB |                52.43 kB
+styles-3L4SZE66.css | styles                      |  26.88 kB |                 4.63 kB
+
+                    | Initial total               | 206.65 kB |                57.06 kB
+
+Lazy chunk files    | Names                       |  Raw size | Estimated transfer size
+chunk-yRHUeEQ6.js   | -                           | 401.52 kB |                80.37 kB
+chunk-D8lyCZ4R.js   | app                         | 337.10 kB |                82.96 kB
+chunk-5z5aunkp.js   | -                           |  55.97 kB |                13.86 kB
+chunk-CiiMLmeo.js   | sugar-maple-chrome-specimen |   7.72 kB |                 2.38 kB
+chunk-BT9F88aS.js   | preview-application         |   2.50 kB |                 1.11 kB
+
+Application bundle generation complete. [2.345 seconds] - 2026-10-02T17:55:23.858Z
+
+▲ [WARNING] src/app/app.scss exceeded maximum budget. Budget 4.00 kB was not met by 3.65 kB with a total of 7.65 kB.
+
+
+Output location: /Users/riabuz/Projects/_Sugar Maple/src/web/dist/sugar-maple-editor
+
+{"editor":{"raw":1625076,"gzip":877215,"brotli":831568},"library":{"files":[{"name":"runtime.js","raw":278826,"gzip":72556,"brotli":61180,"sha256":"20aa6124e0667ff106800a82d3ecb6468b6eb07d8b07d11d59e6fe584a2f85ad"},{"name":"runtime.css","raw":155312,"gzip":16517,"brotli":11061,"sha256":"f15ad9222cd24a7a5d24b52ad66f3e8520ee259b11a7215a2beb157208cd4cae"}],"raw":434138,"gzip":89073,"brotli":72241},"host":{"raw":103462,"brotli":25114},"semantic":{"files":[{"name":"semantic.html","raw":3050,"gzip":691,"brotli":457,"sha256":"9aab368f9a08fdfe8ed1a6448e49b4b82858a736798b1ce9fe5fb81e44b22129"}],"raw":3050,"gzip":691,"brotli":457}}
+Wrote source-bound real-library comparison report
+PASS: comparison report renders all four real images and supports path/column controls

@@ -64,8 +64,10 @@ input/button, but package styling and variants differ. The prototype must not
 invent a heading role that the source text node did not declare. Web Awesome's
 header slot accepts host-supplied content; it does not confer a heading role.
 ARIA snapshots and screenshots provide evidence for this fixture, not a full
-VoiceOver or accessibility audit. The semantic comparison is DOM export; the
-interactive Canvas editor has not yet been measured against this runtime.
+VoiceOver or accessibility audit. The original props-only comparison uses DOM export. The follow-up
+[authored-scene comparison](scene-projection.md) now measures the actual settled
+Canvas editor against the bounded scene runtime. Keep their source-bound
+evidence and measurement boundaries separate.
 
 `build/library-preview/build.json` records exact asset sizes and SHA-256 hashes.
 The real package runtime currently adds roughly 262 KB JavaScript and 155 KB
@@ -80,10 +82,12 @@ writes a visually inspectable `comparison.png` and both ARIA snapshots.
 Issue #51 remains open. The accompanying [native experiment](native/README.md)
 provides a separately trusted fixed SwiftUI helper with build/runtime bounds,
 cancellation and stale-result checks; its evidence is separate from this web
-gate. Still required: the complete Canvas/DOM/web/native comparison of
-editability, fidelity, accessibility, latency and package cost, and a final
-go/no-go. These web results do not establish Swift/native fidelity, safe
-arbitrary-source execution, or the full issue's completion.
+gate. The follow-up [scene comparison](scene-projection.md) records supported
+Canvas/DOM/web/native geometry, input behavior, accessibility observations,
+instrumented completion and fixture asset costs. It approves continued trusted
+experiments while keeping production integration and arbitrary source import
+NO-GO. Final exact-head review/CI and main delivery remain required. These
+original web results retain their narrower source-bound scope.
 
 ## Verification scope
 

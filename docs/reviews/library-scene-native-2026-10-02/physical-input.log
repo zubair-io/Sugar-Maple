@@ -1,0 +1,5 @@
+{"phase":"initial","bundle":"/Users/riabuz/Projects/_Sugar Maple/build/library-preview-native/579435f8-e5a7-4e76-a4c6-3cd4c9e5a2d6/Fixture.app","pid":79756,"task":"Click Save & Continue; use Cmd-A in Email and type qa with keyboard events"}
+PHASE updated: append x without clicking or selecting the Email field; expected qax
+PHASE undo: append y without refocusing; expected qaxy
+PHASE reset: observe consumer@example.test; use Cmd-A and type reset
+PASS: physical native scene keyboard/action, focused state through source update/undo and reset

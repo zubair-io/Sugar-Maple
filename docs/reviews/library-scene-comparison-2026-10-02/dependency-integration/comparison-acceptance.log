@@ -1,0 +1,67 @@
+❯ Building...
+✔ Building...
+Initial chunk files | Names                       |  Raw size
+styles.css          | styles                      |  30.85 kB | 
+chunk-VUJOFXKG.js   | -                           | 987 bytes | 
+main.js             | main                        | 917 bytes | 
+
+                    | Initial total               |  32.75 kB
+
+Lazy chunk files    | Names                       |  Raw size
+chunk-D4O4ZY2X.js   | app                         | 562.57 kB | 
+chunk-RY42GGBF.js   | -                           | 204.09 kB | 
+chunk-AGRGHCCF.js   | -                           | 171.74 kB | 
+chunk-NXCTEXN5.js   | sugar-maple-chrome-specimen |  24.82 kB | 
+chunk-SIYVDXQH.js   | preview-application         |   6.21 kB | 
+
+Application bundle generation complete. [1.832 seconds] - 2026-10-02T18:31:06.495Z
+
+Watch mode enabled. Watching for file changes...
+NOTE: Raw file sizes do not reflect development server per-request transformations.
+  ➜  Local:   http://127.0.0.1:57700/
+Owned source checkout editor: http://127.0.0.1:57700; process group 59359
+PASS: exact Web Awesome 3.14.0 declarations compile; generated Button/Input/Card imports bundle and render offline with real shadow controls, values, slots and declared card spacing
+bun test v1.4.2 (744846f84)
+
+prototypes/library-preview/scene-contract.test.ts:
+(pass) the bounded library scene carries resolved authored geometry and named slots without mutating the source [12.71ms]
+(pass) source token bindings, local overrides and nested slots survive projection and one-step source undo [4.70ms]
+(pass) resolved responsive boxes and nested rotations are carried instead of replacing them with package intrinsic sizes [2.72ms]
+(pass) native style gaps return actionable diagnostics before replacing a supported scene [2.36ms]
+(pass) scene packets reject inconsistent graphs, unsupported source, privileged keys and aggregate payload excess [6.50ms]
+
+prototypes/library-preview/contract.test.ts:
+(pass) preview shares the real pinned manifest types, variants and bounds [0.40ms]
+(pass) preview messages reject privileged methods, paths, extra keys, wrong versions and unbounded payloads [0.43ms]
+
+ 7 pass
+ 0 fail
+ 55 expect() calls
+Ran 7 tests across 2 files. [277.00ms]
+{"passed":true,"package":{"name":"@awesome.me/webawesome","version":"3.14.0"},"hashes":{"runtime.js":{"bytes":278826,"sha256":"20aa6124e0667ff106800a82d3ecb6468b6eb07d8b07d11d59e6fe584a2f85ad"},"runtime.css":{"bytes":155312,"sha256":"f15ad9222cd24a7a5d24b52ad66f3e8520ee259b11a7215a2beb157208cd4cae"},"host.js":{"bytes":101234,"sha256":"6752c5af365ac8f0784ba62d2b982c81be39c5652c6296c33c99f9c8436ce25f"},"host.css":{"bytes":2228,"sha256":"a24540b648d3e441dc8d5daff81c490da0b96b516402398f7a2169fd665fc9b4"},"semantic.html":{"bytes":3050,"sha256":"9aab368f9a08fdfe8ed1a6448e49b4b82858a736798b1ce9fe5fb81e44b22129"},"fixture.json":{"bytes":23547,"sha256":"1ee3d3266a5fdbf7a18639c0e8ad49e55ba128bfb3562b81446d603f8fd1020b"}}}
+PASS: browser-test.ts stops its server when the browser launch boundary throws
+PASS: browser-test.ts stops its server when the browser close boundary throws
+PASS: compare.ts stops its server when the browser launch boundary throws
+PASS: compare.ts stops its server when the browser close boundary throws
+PASS: scene-compare.ts stops its server when the browser launch boundary throws
+PASS: scene-compare.ts stops its server when the browser close boundary throws
+PASS: report-test.ts stops its server when the browser launch boundary throws
+PASS: report-test.ts stops its server when the browser close boundary throws
+PASS: isolated real Web Awesome controls, typed props/events, denied parent/storage/network/bridge, stale rejection, malformed input, opt-in/stop and offline rendering
+PASS: authored geometry and actual package slots/variants/token/overrides, accessible typed events, ephemeral update/undo/reset, disabled/rejection/stop and offline scene rendering
+PASS: complete actual comparison exits naturally after native shutdown failure; real leaked listener fails the unchanged 30-second cleanup deadline
+Comparison native phase: building trusted fixture
+Comparison native phase: trusted build completed
+Comparison native phase: sandboxed helper ready
+PASS: default: actual Canvas, DOM, package, SwiftUI geometry, source identity and unchanged checkpoint
+PASS: source-update: actual Canvas, DOM, package, SwiftUI geometry, source identity and unchanged checkpoint
+PASS: source-undo: actual Canvas, DOM, package, SwiftUI geometry, source identity and unchanged checkpoint
+PASS: primary: actual Canvas, DOM, package; actionable native limitation geometry, source identity and unchanged checkpoint
+PASS: disabled: actual Canvas, DOM, package, SwiftUI geometry, source identity and unchanged checkpoint
+PASS: nested-overrides: actual Canvas, DOM, package, SwiftUI geometry, source identity and unchanged checkpoint
+PASS: nested-rotations: actual Canvas, DOM, package, SwiftUI geometry, source identity and unchanged checkpoint
+PASS: authored-border: actual Canvas, DOM, package, SwiftUI geometry, source identity and unchanged checkpoint
+PASS: restored: actual Canvas, DOM, package, SwiftUI geometry, source identity and unchanged checkpoint
+PASS: actual editor authored-scene comparison across Canvas, semantic DOM, pinned package and sandboxed SwiftUI; source edit/undo/input boundaries and measured observations recorded
+PASS: authored-scene comparison report generated from measured captures and explicit unsupported records
+PASS: real scene comparison report states, captured images, unsupported native boundary, filtering, narrow serving and responsive layout

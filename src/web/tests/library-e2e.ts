@@ -94,16 +94,29 @@ try {
   );
   const snapshot = await checkpoint();
   // Autosave is asynchronous: prove the exact journal is durable before unloading.
-  await expect.poll(() => page.evaluate(() => new Promise((resolve, reject) => {
-    const open = indexedDB.open('sugar-maple', 1);
-    open.onerror = () => reject(open.error);
-    open.onsuccess = () => {
-      const db = open.result;
-      const read = db.transaction('checkpoints').objectStore('checkpoints').get('active');
-      read.onsuccess = () => { db.close(); resolve(read.result); };
-      read.onerror = () => { db.close(); reject(read.error); };
-    };
-  }))).toEqual(snapshot);
+  await expect
+    .poll(() =>
+      page.evaluate(
+        () =>
+          new Promise((resolve, reject) => {
+            const open = indexedDB.open('sugar-maple', 1);
+            open.onerror = () => reject(open.error);
+            open.onsuccess = () => {
+              const db = open.result;
+              const read = db.transaction('checkpoints').objectStore('checkpoints').get('active');
+              read.onsuccess = () => {
+                db.close();
+                resolve(read.result);
+              };
+              read.onerror = () => {
+                db.close();
+                reject(read.error);
+              };
+            };
+          }),
+      ),
+    )
+    .toEqual(snapshot);
   await page.reload();
   await page.waitForFunction(() => window.sugarMaple.ready);
   assert.deepEqual(await checkpoint(), snapshot);
@@ -125,20 +138,133 @@ try {
     node.id,
   );
   assert.ok(native.code.includes('Button('));
+  const diagnostics = page.getByRole('region', {
+    name: 'Library appearance diagnostics',
+    exact: true,
+  });
+  await expect(diagnostics).toContainText('Canvas and Preview use authored semantic appearance.');
+  await expect(diagnostics).toContainText(
+    'Package appearance is shown only in the isolated library preview experiment.',
+  );
+  await expect(diagnostics).toContainText('supported properties for Disabled');
+  const originalAppearance = await checkpoint();
+  await page.getByLabel('Library variant', { exact: true }).selectOption('Primary');
+  await expect(diagnostics).toContainText('Source: Web Awesome Button · Primary');
+  await expect(diagnostics).toContainText('variant = brand');
+  await expect(diagnostics).toContainText('native Button variant Primary is unsupported');
+  await expect(diagnostics).toContainText(
+    'Mapped SwiftUI copy (macOS): Unsupported native platform/variant',
+  );
+  const primaryAppearance = await checkpoint(),
+    primaryNode = primaryAppearance.document.nodes.find((n: any) => n.id === node.id),
+    originalNode = originalAppearance.document.nodes.find((n: any) => n.id === node.id);
+  for (const property of ['fill', 'color', 'stroke', 'radius'])
+    assert.equal(primaryNode[property], originalNode[property]);
+  assert.equal(primaryAppearance.journal.length, originalAppearance.journal.length + 1);
+  assert.deepEqual(
+    await checkpoint(),
+    primaryAppearance,
+    'Reading support diagnostics must not add history',
+  );
+  await diagnostics.scrollIntoViewIfNeeded();
+  await page.screenshot({ path: 'build/evidence/library-primary-diagnostics.png' });
+  await page.getByRole('button', { name: 'Design', exact: true }).click();
+  await page.keyboard.press('Meta+z');
+  await expect(diagnostics).toContainText('Source: Web Awesome Button · Disabled');
+  assert.deepEqual((await checkpoint()).document, originalAppearance.document);
+  await page.getByLabel('Library prop appearance', { exact: true }).selectOption('outlined');
+  await expect(diagnostics).toContainText('native Button property appearance is unsupported');
+  await expect(diagnostics).toContainText(
+    'Mapped SwiftUI copy (macOS): Unsupported native property: appearance',
+  );
+  await page.getByRole('button', { name: 'Design', exact: true }).click();
+  await page.keyboard.press('Meta+z');
+  await page.getByLabel('Library variant', { exact: true }).selectOption('Default');
+  await page.evaluate(async (id) => {
+    const d = await window.sugarMaple.dispatch('document.get');
+    await window.sugarMaple.dispatch('transaction.apply', {
+      documentId: d.documentId,
+      expectedRevision: d.revision,
+      requestId: crypto.randomUUID(),
+      operations: [{ type: 'node.update', id, patch: { color: '#ffff00' } }],
+    });
+  }, node.id);
+  await expect(diagnostics).toContainText(
+    'Mapped web copy: Unsupported mapped library style override: color',
+  );
+  const yellowPixels = () =>
+    page.evaluate(() => {
+      const canvas = document.querySelector('canvas.drawing-canvas') as HTMLCanvasElement,
+        pixels = canvas.getContext('2d')!.getImageData(0, 0, canvas.width, canvas.height).data;
+      let count = 0;
+      for (let i = 0; i < pixels.length; i += 4)
+        if (pixels[i] > 220 && pixels[i + 1] > 220 && pixels[i + 2] < 50 && pixels[i + 3] > 220)
+          count++;
+      return count;
+    });
+  await expect.poll(yellowPixels).toBeGreaterThan(0);
+  const beforeStyleReset = await checkpoint();
+  await page.getByRole('button', { name: 'Reset library overrides', exact: true }).click();
+  await expect.poll(yellowPixels).toBe(0);
+  const styleReset = await checkpoint(),
+    resetNode = styleReset.document.nodes.find((n: any) => n.id === node.id);
+  assert.equal(resetNode.color, '#18181b');
+  assert.deepEqual(resetNode.libraryRef.localOverrides, []);
+  assert.equal(styleReset.journal.length, beforeStyleReset.journal.length + 1);
+  await page.getByRole('button', { name: 'Design', exact: true }).click();
+  await page.keyboard.press('Meta+z');
+  assert.deepEqual((await checkpoint()).document, beforeStyleReset.document);
+  await expect.poll(yellowPixels).toBeGreaterThan(0);
+  await page.getByRole('button', { name: 'Reset library overrides', exact: true }).click();
+  await expect.poll(yellowPixels).toBe(0);
+  await expect(diagnostics).toContainText('Mapped web copy: Available for this selection.');
+  await expect(diagnostics).toContainText(
+    'Mapped SwiftUI copy (macOS): Available for this selection.',
+  );
+  await page.getByRole('button', { name: 'Developer', exact: true }).click();
+  await expect(diagnostics).toContainText('Source: Web Awesome Button · Default');
+  await expect(page.getByLabel('Library variant', { exact: true })).toBeDisabled();
+  await page.getByRole('button', { name: 'Design', exact: true }).click();
   // Use private in-page clipboard storage: the real editor copy/paste path runs
   // without reading or overwriting the user's operating-system clipboard.
   await page.evaluate(async (key) => {
     let copied = '';
-    Object.defineProperty(navigator, 'clipboard', { configurable: true, value: {
-      writeText: async (text: string) => { copied = text; }, readText: async () => copied,
-    } });
+    Object.defineProperty(navigator, 'clipboard', {
+      configurable: true,
+      value: {
+        writeText: async (text: string) => {
+          copied = text;
+        },
+        readText: async () => copied,
+      },
+    });
     const d = await window.sugarMaple.dispatch('document.get');
     await window.sugarMaple.dispatch('transaction.apply', {
-      documentId: d.documentId, expectedRevision: d.revision, requestId: crypto.randomUUID(),
+      documentId: d.documentId,
+      expectedRevision: d.revision,
+      requestId: crypto.randomUUID(),
       operations: [
-        { type: 'library.insert', key, component: 'Card', id: 'copy-slot-card', pageId: d.document.pages[0].id, x: 0, y: 0 },
-        { type: 'node.add', node: { id: 'copy-slot-child', parentId: 'copy-slot-card', pageId: d.document.pages[0].id,
-          kind: 'text', name: 'Slotted title', text: 'Copy me independently', librarySlot: 'header' } },
+        {
+          type: 'library.insert',
+          key,
+          component: 'Card',
+          id: 'copy-slot-card',
+          pageId: d.document.pages[0].id,
+          x: 0,
+          y: 0,
+        },
+        {
+          type: 'node.add',
+          node: {
+            id: 'copy-slot-child',
+            parentId: 'copy-slot-card',
+            pageId: d.document.pages[0].id,
+            kind: 'text',
+            name: 'Slotted title',
+            text: 'Copy me independently',
+            librarySlot: 'header',
+          },
+        },
       ],
     });
     await window.sugarMaple.dispatch('selection.set', { id: 'copy-slot-child' });
@@ -148,20 +274,27 @@ try {
   await page.getByRole('button', { name: 'Design', exact: true }).click();
   const beforePaste = await checkpoint();
   await page.keyboard.press('Meta+v');
-  await expect.poll(async () => (await checkpoint()).document.nodes.length).toBe(beforePaste.document.nodes.length + 1);
-  const pasted = await checkpoint(), detached = pasted.document.nodes.find((n: any) => n.name === 'Slotted title' && n.id !== 'copy-slot-child');
+  await expect
+    .poll(async () => (await checkpoint()).document.nodes.length)
+    .toBe(beforePaste.document.nodes.length + 1);
+  const pasted = await checkpoint(),
+    detached = pasted.document.nodes.find(
+      (n: any) => n.name === 'Slotted title' && n.id !== 'copy-slot-child',
+    );
   assert.ok(detached);
   assert.equal(detached.parentId, null);
   assert.equal(detached.librarySlot, '');
   assert.equal(detached.text, 'Copy me independently');
   assert.equal(pasted.journal.length, beforePaste.journal.length + 1);
   await page.keyboard.press('Meta+z');
-  await expect.poll(async () => (await checkpoint()).document.nodes.length).toBe(beforePaste.document.nodes.length);
+  await expect
+    .poll(async () => (await checkpoint()).document.nodes.length)
+    .toBe(beforePaste.document.nodes.length);
   assert.deepEqual((await checkpoint()).document, beforePaste.document);
   await page.screenshot({ path: 'build/evidence/library-picker.png' });
   assert.deepEqual(errors, []);
   console.log(
-    'PASS: real manifest file validation/preview/cancel, atomic import, library picker, typed props/variants/local overrides, reload identity, mapped targets, and actual editor copy/keyboard paste/one undo of a detached slotted child using an isolated clipboard',
+    'PASS: real library picker, validation/import/reload, typed props/overrides, visible semantic/package/Primary/property/copy diagnostics with unchanged source paint and exact undo/reset, mapped targets and isolated clipboard paste',
   );
 } finally {
   await browser.close();

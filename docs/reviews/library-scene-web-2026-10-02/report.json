@@ -1,0 +1,30 @@
+{
+  "passed": true,
+  "checks": 8,
+  "sourceRevision": 7,
+  "maxAuthoredGeometryDelta": 0,
+  "primary": {
+    "fill": "rgb(20, 90, 188)",
+    "token": "#145abc"
+  },
+  "override": {
+    "fill": "rgb(118, 60, 186)",
+    "color": "rgb(255, 255, 0)",
+    "radius": "13px"
+  },
+  "accessibility": "- text: Pinned library consumer\n- textbox \"Email\":\n  - /placeholder: Your email\n  - text: consumer@example.test\n- button \"Save & Continue\"",
+  "assertions": [
+    "Real package hosts match all five authored boxes",
+    "Actual named Card slots and accessible controls",
+    "Node-specific typed events without authoring mutation",
+    "Ephemeral input survives source update/undo; explicit reset restores authored value",
+    "Primary uses pinned brand appearance and resolved token",
+    "Local fill/color/radius reach actual shadow base",
+    "Disabled and invalid-feed guards",
+    "Stop and offline boundary"
+  ],
+  "limitations": [
+    "Native scene renderer is not exercised here",
+    "No physical paint/input latency or full VoiceOver measurement"
+  ]
+}
