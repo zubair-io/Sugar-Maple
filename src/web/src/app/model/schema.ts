@@ -224,7 +224,9 @@ export const OperationSchema = z.discriminatedUnion('type', [
   z.object({ type: z.literal('library.reset'), id }).strict(),
   z.object({ type: z.literal('asset.set'), key: z.string().regex(assetKeyPattern), source: z.string().max(6_666_700) }).strict(),
   z.object({ type: z.literal('repeat.prepare'), id }).strict(),
-  z.object({ type: z.literal('repeat.resize'), id, rows: z.number().int().min(1).max(100), columns: z.number().int().min(1).max(20) }).strict(),
+  z.object({ type: z.literal('repeat.resize'), id, rows: z.number().int().min(1).max(100), columns: z.number().int().min(1).max(20),
+    gap: z.number().finite().min(0).max(1000).optional(), anchor: z.enum(['position', 'top-left']).optional(),
+    count: z.number().int().min(1).max(100).optional() }).strict(),
   z.object({
     type: z.literal('repeat.import'), id,
     rows: z.array(z.record(z.string().min(1).max(128), z.string().max(20000))).min(1).max(1000),
