@@ -9,7 +9,8 @@
     "build:mac": "bun tools/build-mac.ts",
     "dev:mac": "bun tools/build-mac.ts --open",
     "test:e2e": "bun tools/browser-acceptance.ts",
-    "test:mcp": "bun tools/mcp-integration.ts"
+    "test:mcp": "bun tools/mcp-integration.ts",
+    "test:library-preview": "bun tools/library-preview-acceptance.ts"
   },
   "devDependencies": {
     "@angular/cli": "22.1.8",
