@@ -65,7 +65,147 @@ async function durable() {
 const baseline = supportDirectory + "/library-baseline.json",
   key = libraryKey(manifest);
 try {
-  if (process.argv.includes("--verify")) {
+  if (process.argv.includes("--verify-reset")) {
+    const resetBaseline = supportDirectory + "/library-reset-baseline.json";
+    assert.deepEqual(
+      await call("document.checkpoint"),
+      await Bun.file(resetBaseline).json(),
+    );
+    assert.equal((await call("document.get")).durable, true);
+    await Bun.write(
+      "build/evidence/library-reset-native-reopened.json",
+      JSON.stringify(await call("document.checkpoint"), null, 2),
+    );
+    console.log(
+      "PASS: real native restart preserves the exact reset checkpoint and undo journal",
+    );
+  } else if (process.argv.includes("--reset")) {
+    await call("document.new", { name: "Library reset native QA" });
+    const d = await call("document.get");
+    await call(
+      "transaction.apply",
+      await tx([
+        { type: "library.import", manifest },
+        {
+          type: "library.insert",
+          key,
+          component: "Button",
+          id: "reset-button",
+          pageId: d.document.pages[0].id,
+          x: 40,
+          y: 40,
+          props: { label: "Reset fixture" },
+        },
+        { type: "token.set", name: "brand.primary", value: "#763cba" },
+        {
+          type: "node.update",
+          id: "reset-button",
+          patch: { color: "#ffff00", fillToken: "brand.primary", radius: 13 },
+        },
+      ]),
+    );
+    await call("selection.set", { id: "reset-button" });
+    await call("viewport.fit");
+    const before = await call("document.checkpoint");
+    async function capture(name: string) {
+      await Bun.sleep(110); // Respect the native revision-bound capture rate limit.
+      const target = await call("document.get"),
+        response = await result("render.capture", {
+          documentId: target.documentId,
+          expectedRevision: target.revision,
+        });
+      assert.equal(response.isError ?? false, false);
+      const image = response.content.find((c: any) => c.type === "image");
+      assert.ok(image);
+      await Bun.write(
+        `build/evidence/library-reset-native-${name}.png`,
+        Buffer.from(image.data, "base64"),
+      );
+    }
+    await capture("before");
+    await call(
+      "transaction.apply",
+      await tx([{ type: "library.reset", id: "reset-button" }]),
+    );
+    const reset = await call("document.checkpoint"),
+      node = reset.document.nodes.find((n: any) => n.id === "reset-button");
+    assert.equal(reset.journal.length, before.journal.length + 1);
+    assert.equal(node.color, "#18181b");
+    assert.equal(node.fill, "#ffffff");
+    assert.equal(node.fillToken, "");
+    assert.equal(node.radius, 0);
+    assert.deepEqual(node.libraryRef.localOverrides, []);
+    assert.equal(node.libraryRef.variant, "Default");
+    assert.deepEqual(reset.document.tokens, before.document.tokens);
+    for (const field of [
+      "id",
+      "x",
+      "y",
+      "width",
+      "height",
+      "rotation",
+      "librarySlot",
+    ])
+      assert.equal(
+        node[field],
+        before.document.nodes.find((n: any) => n.id === node.id)[field],
+      );
+    await capture("reset");
+    const target = await call("document.get");
+    await call("history.undo", {
+      documentId: target.documentId,
+      expectedRevision: target.revision,
+    });
+    assert.deepEqual((await call("document.get")).document, before.document);
+    await capture("undo");
+    const undone = await call("document.get");
+    await call("history.redo", {
+      documentId: undone.documentId,
+      expectedRevision: undone.revision,
+    });
+    assert.deepEqual((await call("document.get")).document, reset.document);
+    await capture("redo");
+    await durable();
+    const final = await call("document.checkpoint");
+    assert.deepEqual(
+      DocumentStore.fromCheckpoint(final).document,
+      final.document,
+    );
+    await Bun.write(
+      supportDirectory + "/library-reset-baseline.json",
+      JSON.stringify(final),
+    );
+    await Bun.write(
+      "build/evidence/library-reset-native-report.json",
+      JSON.stringify(
+        {
+          passed: true,
+          before,
+          reset,
+          final,
+          checks: [
+            "real authenticated MCP reset command",
+            "one atomic undo step",
+            "source/default paint and cleared fill token",
+            "preserved tokens/variant/geometry",
+            "exact native undo/redo",
+            "complete checkpoint replay",
+            "actual native revision-bound render captures",
+            "durable autosave",
+          ],
+          remaining: [
+            "verify exact checkpoint after native process restart",
+            "exact-head review/CI and resulting main",
+          ],
+        },
+        null,
+        2,
+      ),
+    );
+    console.log(
+      "PASS: real native MCP reset restores semantic paint in one command, exact undo/redo, revision-bound captures and durable replay",
+    );
+  } else if (process.argv.includes("--verify")) {
     assert.deepEqual(
       await call("document.checkpoint"),
       await Bun.file(baseline).json(),
