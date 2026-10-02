@@ -410,9 +410,10 @@ export function validateLibraryBindings(doc: {
           throw Error('Duplicate library overrides');
       }
     }
-    if (node.librarySlot) {
-      const parent = nodes.get(node.parentId ?? ''),
-        ref = parent?.libraryRef;
+    const parent = nodes.get(node.parentId ?? ''), ref = parent?.libraryRef;
+    // Empty string is ordinary content outside a library, but the default slot
+    // inside one. A manifest must declare that slot as explicitly as named slots.
+    if (node.librarySlot || ref) {
       if (!ref) throw Error('A named library slot needs a library parent');
       const manifest = doc.libraries[ref.key];
       if (manifest && !manifest.components[ref.component].slots.includes(node.librarySlot))

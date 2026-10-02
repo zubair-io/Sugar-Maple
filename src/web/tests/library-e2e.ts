@@ -114,10 +114,42 @@ try {
     node.id,
   );
   assert.ok(native.code.includes('Button('));
+  // Use private in-page clipboard storage: the real editor copy/paste path runs
+  // without reading or overwriting the user's operating-system clipboard.
+  await page.evaluate(async (key) => {
+    let copied = '';
+    Object.defineProperty(navigator, 'clipboard', { configurable: true, value: {
+      writeText: async (text: string) => { copied = text; }, readText: async () => copied,
+    } });
+    const d = await window.sugarMaple.dispatch('document.get');
+    await window.sugarMaple.dispatch('transaction.apply', {
+      documentId: d.documentId, expectedRevision: d.revision, requestId: crypto.randomUUID(),
+      operations: [
+        { type: 'library.insert', key, component: 'Card', id: 'copy-slot-card', pageId: d.document.pages[0].id, x: 0, y: 0 },
+        { type: 'node.add', node: { id: 'copy-slot-child', parentId: 'copy-slot-card', pageId: d.document.pages[0].id,
+          kind: 'text', name: 'Slotted title', text: 'Copy me independently', librarySlot: 'header' } },
+      ],
+    });
+    await window.sugarMaple.dispatch('selection.set', { id: 'copy-slot-child' });
+  }, key);
+  await page.getByRole('button', { name: 'Developer', exact: true }).click();
+  await page.getByRole('button', { name: 'Copy element', exact: true }).click();
+  const beforePaste = await checkpoint();
+  await page.keyboard.press('Meta+v');
+  await expect.poll(async () => (await checkpoint()).document.nodes.length).toBe(beforePaste.document.nodes.length + 1);
+  const pasted = await checkpoint(), detached = pasted.document.nodes.find((n: any) => n.name === 'Slotted title' && n.id !== 'copy-slot-child');
+  assert.ok(detached);
+  assert.equal(detached.parentId, null);
+  assert.equal(detached.librarySlot, '');
+  assert.equal(detached.text, 'Copy me independently');
+  assert.equal(pasted.journal.length, beforePaste.journal.length + 1);
+  await page.keyboard.press('Meta+z');
+  await expect.poll(async () => (await checkpoint()).document.nodes.length).toBe(beforePaste.document.nodes.length);
+  assert.deepEqual((await checkpoint()).document, beforePaste.document);
   await page.screenshot({ path: 'build/evidence/library-picker.png' });
   assert.deepEqual(errors, []);
   console.log(
-    'PASS: real manifest file validation/preview/cancel, atomic import, library picker, typed props/variants/local overrides, reload identity and mapped export targets',
+    'PASS: real manifest file validation/preview/cancel, atomic import, library picker, typed props/variants/local overrides, reload identity, mapped targets, and actual editor copy/keyboard paste/one undo of a detached slotted child using an isolated clipboard',
   );
 } finally {
   await browser.close();
