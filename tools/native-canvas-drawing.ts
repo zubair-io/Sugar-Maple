@@ -18,5 +18,5 @@ await run(['swiftc', 'src/apple/Sugar Maple/NativeAccessPolicy.swift', 'tools/na
 await run([executable, resolve(root, 'src/web/dist/sugar-maple-editor/browser'), fixture,
   resolve(root, 'tools/drawing-native-page.js'), resolve(output, 'report.json'), resolve(output, 'webkit.png'), '--transforms']);
 const report = await Bun.file(resolve(output, 'report.json')).json();
-if (report.result?.passed !== true || report.result?.checks !== 18) throw Error('Incomplete WK drawing proof');
-console.log('PASS: 18 production WK drawing/control cases at zoom 0.5/1.5, pressure outlines, polyline completion, draft/capture guard, stale/locked/layout rejection and exact undo; DOM pointer events use a local capture shim and do not prove OS capture');
+if (report.result?.passed !== true || report.result?.checks !== 20) throw Error('Incomplete WK drawing proof');
+console.log('PASS: 20 production WK drawing/control cases, synchronous host-camera handoffs and zoom 0.5/1.5, pressure outlines, polyline completion, draft/capture guard, stale/locked/layout rejection and exact undo; DOM pointer events use a local capture shim and do not prove OS capture');
