@@ -1,0 +1,35 @@
+{
+  "package": {
+    "name": "@awesome.me/webawesome",
+    "version": "3.14.0"
+  },
+  "lockSHA256": "1388ee3dfc3f0becdf4a93108f03826c847fea9e4e9b088c446a70f01310a24c",
+  "offline": true,
+  "importedSourceExecutedDuringBuild": false,
+  "hashes": {
+    "runtime.js": {
+      "bytes": 261718,
+      "sha256": "a435037e1efa05415cdfe0e78e2f9bd1d8d1fe0d1d2f77fbdfd6cd648aec64b5"
+    },
+    "runtime.css": {
+      "bytes": 155312,
+      "sha256": "f15ad9222cd24a7a5d24b52ad66f3e8520ee259b11a7215a2beb157208cd4cae"
+    },
+    "host.js": {
+      "bytes": 89413,
+      "sha256": "a9ba8ba8aa6c89440d1dd5d51f721ad4963aeaa814c52899bff329743b32b5e4"
+    },
+    "host.css": {
+      "bytes": 2228,
+      "sha256": "a24540b648d3e441dc8d5daff81c490da0b96b516402398f7a2169fd665fc9b4"
+    },
+    "semantic.html": {
+      "bytes": 3044,
+      "sha256": "b4f5734f42e9131109a5fde7fb89b259f3b8bd8fedb740039ff6fef58d25dd05"
+    },
+    "fixture.json": {
+      "bytes": 23547,
+      "sha256": "c02d47c3aa0cd684d23832cbe2510857f54933ecb0e48c68125e9e56f236d95f"
+    }
+  }
+}

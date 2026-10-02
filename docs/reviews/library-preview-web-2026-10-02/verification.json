@@ -1,0 +1,58 @@
+{
+  "sourceCommit": "10ff6259ea63946b07cd860dda9ff5cd2039a028",
+  "baseCommit": "edd130af96c292c325792c6de9bb0ed8c19974d1",
+  "recordedAt": "2026-10-02T11:30:58.456Z",
+  "runtime": "1.4.2",
+  "commands": [
+    "bun tools/library-preview-acceptance.ts"
+  ],
+  "sourceHashes": {
+    "prototypes/library-preview/contract.ts": "fdf2362614b206900950128565e3c0cb6490cb44a08a2db86a2fe00502ffa415",
+    "prototypes/library-preview/web-runtime.ts": "06be1cb814ccc0c55e1783e85e1d83b16badcf0f03332217b4c0acaf395d98d6",
+    "prototypes/library-preview/web-controller.ts": "e87c0c8c28685f85e5b188a26a12f7bef143cf6381a523dc46510196e7aced36",
+    "prototypes/library-preview/host.ts": "a1a3cb545eb17e9b4106283d47277634e704d62e3f1c4e33b0fae98f395fc318",
+    "prototypes/library-preview/index.html": "97412ca3c566e97035fe85cd1baa062b6e0011d81a91065ee46b0430d64033f4",
+    "prototypes/library-preview/host.css": "a24540b648d3e441dc8d5daff81c490da0b96b516402398f7a2169fd665fc9b4",
+    "prototypes/library-preview/build.ts": "eacfae61f6b06326618b30b35240e013d8bec961eea6edf53f4daaceac6dcd92",
+    "prototypes/library-preview/serve.ts": "1a1da20e19615a7b95c337ce5375759920a118fca9cd9bfd0ea9d6b43420dedb",
+    "prototypes/library-preview/tsconfig.json": "274ab819b08a37e7f49017e5513266e2e17cd30cdb84f188b0618f8a016983fb",
+    "prototypes/library-preview/contract.test.ts": "db78d56219e0a5fa51ca6c1bce6c9b790d4a5f37f794fdffffd0ee1cb19b7836",
+    "prototypes/library-preview/browser-test.ts": "5290f089a395393e08465cb4f581b9274d146d0e66b96b04a51611cd0416d45d",
+    "tools/library-preview-acceptance.ts": "cb4de5eb403536ad97b5382862a39bdbbf89cc5fdb39fab0d65e65d4d8124c59",
+    ".github/workflows/editor.yml": "414760e20d84160cb3e94d40a460ab7fa38c21d6fd34e114bf16935849e9eaff",
+    "package.json": "0a6b4442765550880eba3c657f24be39a9a9a113df6598c44b3c21e051f6e2b6"
+  },
+  "artifacts": {
+    "acceptance.log": {
+      "sha256": "568fe1455d46c83f24425335fa8677ac6d94066889c1bcb2c34ae916a303d750",
+      "bytes": 1237
+    },
+    "browser-report.json": {
+      "sha256": "4dc3b6fe21f7097a03697d513a293216a1d0bd1c398f81b10a10e7ebf60c3b7d",
+      "bytes": 2451
+    },
+    "build.json": {
+      "sha256": "7abc99683ae42a293777704b12f538c4095c3cfef17f37b58a9afef5079f8410",
+      "bytes": 1044
+    },
+    "comparison.png": {
+      "sha256": "ac43cd2e1f6abe2ee1636ee2f36b4ce555a75e39576398d147b992f3f50094a6",
+      "bytes": 98118
+    }
+  },
+  "completedScope": [
+    "2 contract tests / 12 assertions",
+    "strict frontend TypeScript",
+    "offline pinned library build",
+    "real Chrome props/events and boundary probes",
+    "restart, stop, stale and malformed messages",
+    "visual screenshot inspection"
+  ],
+  "incompleteScope": [
+    "PR final-head CI/review and merge",
+    "native SwiftUI helper with resource/build limits",
+    "interactive Canvas comparison",
+    "full accessibility and whole-process memory",
+    "production go/no-go for issue 51"
+  ]
+}
