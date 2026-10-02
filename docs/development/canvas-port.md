@@ -70,7 +70,7 @@ The local 1,000/5,000-node Chrome stress fixture paints 110/209 nodes, respectiv
 
 R5–R10 remain product roadmap items: richer typography/constraints, everyday form semantics and overlays, portable asset catalog/data population, a pinned production UI-library manifest and mappings, scoped agent reads/incremental invalidation, and isolated real-code runtimes. JavaScript/Swift library import and arbitrary code execution have not been shipped by this port.
 
-SwiftUI still explicitly rejects paths, gradients and responsive sizing; named images require an asset catalog. The tested fixes do not claim complete visual equivalence across targets. Native package Open is supported; a Finder double-click association is not advertised. Development signing/builds pass; notarized distribution has not been validated.
+SwiftUI supports fixed-size vector paths through [native vector handoff](vector-export.md) and self-contained embedded images. It still rejects gradients, responsive sizing, unregistered custom fonts and nondefault exact line height. The tested fixtures do not establish complete visual equivalence across targets. Native package Open is supported; a Finder double-click association is not advertised. Development signing/builds pass; notarized distribution has not been validated.
 
 ## Reproduction
 

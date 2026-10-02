@@ -46,7 +46,7 @@ The autosave increment below supersedes recovery-only persistence. Browser docum
 
 Linked instances now propagate master property edits while retaining per-instance overrides. Repeat Grid creates a grid of linked cells and populates text from a JSON array. Duplicating a frame includes its subtree. Color tokens import from DTCG opaque sRGB values (aliases resolve on import) and export as DTCG values. Other token types are rejected explicitly.
 
-Developer handoff includes complete SwiftUI view source with `@State` fields and action callbacks, plus semantic web/Tailwind output. The generated Swift fixture is type-checked with `swiftc`. SwiftUI vector-path export is explicitly unsupported; named images require assets in the consuming native catalog.
+Developer handoff includes complete SwiftUI view source with `@State` fields and action callbacks, plus semantic web/Tailwind output. Generated Swift fixtures are compiled against the actual SDK. [Fixed-size vector paths](vector-export.md) compile and render against independent SVG references; images embed their shared document-owned bytes. Broader target/style fidelity remains tracked in #17.
 
 SVG import is a bounded subset: explicit six-digit colors and supported geometry, no scripts, styles, transforms, filters or external references. Unsupported inputs fail before mutation. SVG/PNG output is generated from scene semantics. These formats approximate platform text/control rendering; they are not a claim of pixel-identical native/web export.
 

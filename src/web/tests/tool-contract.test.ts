@@ -18,7 +18,7 @@ test('all tool inputs validate strictly, including invalid export targets and re
 });
 test('bridge error envelope retains stable code, context, cause and recovery action', () => {
   const context = { documentId: 'd', revision: 12 };
-  for (const [message, code] of [['Wrong document', 'wrong_document'], ['Stale revision', 'stale_revision'], ['Font loading timed out', 'timeout'], ['SwiftUI path export is not yet supported', 'unsupported_feature']])
+  for (const [message, code] of [['Wrong document', 'wrong_document'], ['Stale revision', 'stale_revision'], ['Font loading timed out', 'timeout'], ['SwiftUI gradient export is not yet supported', 'unsupported_feature']])
     expect(toolError(Error(message), context)).toMatchObject({ code, message, ...context });
   try { toolArguments('code.export', { id: 'n', target: 'png' }); } catch (error) { expect(toolError(error, context).code).toBe('invalid_input'); }
 });
