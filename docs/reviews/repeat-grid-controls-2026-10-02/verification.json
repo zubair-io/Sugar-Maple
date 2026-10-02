@@ -1,7 +1,9 @@
 {
-  "sourceCommit": "b2fa1701ff42ec5ee8853f66e6606492c65c4fec",
+  "sourceCommit": "8c4628c5cac53db202f96372c79ad7e7ae9fa64b",
   "baseCommit": "b21199ffc1774cbe1803f363977ab62b3c32c94d",
-  "recordedAt": "2026-10-02T13:54:08.398Z",
+  "runtimeEvidenceSourceCommit": "b2fa170",
+  "reviewFollowup": "Nested-grid regression and explanatory source comment; model/typecheck rerun. Runtime behavior unchanged; browser/native/OS input evidence retained from b2fa170.",
+  "recordedAt": "2026-10-02T14:32:34.311Z",
   "runtime": "1.4.2",
   "sourceHashes": {
     "docs/development/mcp.md": "3c00f99e3dcaa9f9c211d41de4283c63bea19b73e0f300f41176ce5aa1ff6772",
@@ -11,14 +13,14 @@
     "src/web/src/app/canvas/canvas-repeat-gesture.ts": "4563607825e9861ec1c5e34a97ea7ddc6c9b59e75bb7b4a6502edb0c9118511f",
     "src/web/src/app/canvas/canvas-selection-tool.ts": "8c33a9b39a46b03fb35eefca5f072fd1d60fda24404dccc7ffd8ac624e28596c",
     "src/web/src/app/canvas/canvas-surface.ts": "fdbfcf21454a0186564eed72439e120ed631c84efc55ab8e1a3d53bb26a04318",
-    "src/web/src/app/canvas/repeat-geometry.ts": "85de2c517aa259fd23ecdfe2aa0040a40bc000e794936ae736f0ce71bd62fd13",
+    "src/web/src/app/canvas/repeat-geometry.ts": "1e01ee7105989303e5435e4c4112fb72d443ebed59f4246964d202508e97f90f",
     "src/web/src/app/canvas/repeat-handles.ts": "ef1a37726010b1687a6ebab7c80a4a6b21d503f465966786e58f5a1e914039f1",
     "src/web/src/app/canvas/repeat-inspector.ts": "7d879f369baa54be41bb6127eb2c791314bc185adc2176754aa0f3930d0d5690",
     "src/web/src/app/model/repeat.ts": "2f00da8ab3fc4731d0757b4adcea1a608a8bc5e6b0fd413fdbe8ce23c52a7aef",
     "src/web/src/app/model/schema.ts": "51a3a5468efd30f055dccb497bf50efdddfa708ecc4ef8bf05bdcf38f11fa058",
     "src/web/tests/canvas-gesture.test.ts": "438b86812482cc52681818d90ed8acc7c3881f0573d7ef54c85ddeb581808f29",
     "src/web/tests/repeat-handles-e2e.ts": "72f42162d155e3622af5c02a9e7ae74b6f38619ab2f77413255cf65313d3fff6",
-    "src/web/tests/repeat-handles.test.ts": "fc1e7b32b8b9c6e7bf82b819d120e1fc56d677f465ac94a932cbdece2f606d36",
+    "src/web/tests/repeat-handles.test.ts": "703bdc395d7653828c2eb39d0ca5dd17b1696ea1d71e0ba476045324f385bad3",
     "tools/browser-acceptance.ts": "3b75ef15fa36d203d70a6c3be7c8acb6613a0ce46e52949e27b0d29105eaf449",
     "tools/native-acceptance.ts": "8506edbe71a75f62b817bfef87cd2c954df669626209f4f74d94dc5bb343bf6e",
     "tools/native-canvas-transform-mcp.ts": "0074deaf17efe6cbc23fb331ae54155592069b7d8634b39dd133177b93aac4c3",
@@ -27,8 +29,8 @@
   },
   "artifacts": {
     "model.log": {
-      "bytes": 14811,
-      "sha256": "0b841a253bd4077a5bfa52ffd8b617cca12891975aaa2348fdad6a4ee29b21c9"
+      "bytes": 14902,
+      "sha256": "4f3cc6136be026a06d1852ad84fa8ae85aa101784bdc5bb42f96fb5c67e32663"
     },
     "typecheck.log": {
       "bytes": 36,
@@ -129,7 +131,7 @@
     "bun tools/native-canvas-transform-mcp.ts --repeat --hold (real macOS CUA input and owned MCP evidence)"
   ],
   "completedLocal": [
-    "135 model tests / typecheck / native production build",
+    "136 model tests / typecheck rerun; prior unchanged-runtime native production build",
     "all 30 browser and portable/package consumer suites; focused Repeat Grid 20 cases",
     "full native suite with 19 focused WK Repeat Grid cases and actual HTTP MCP resize/gap/count/anchor/layout/capture/durable checkpoint",
     "three real native OS input edits: click/arrow columns, click/Shift-arrow gutter and rotated pointer drag; human-origin one-operation journal entries, imported values/stable IDs/world anchor and exact Cmd+Z undo",
