@@ -1,0 +1,71 @@
+{
+  "passed": true,
+  "checks": 7,
+  "sourceUnchanged": true,
+  "viewports": [
+    {
+      "width": 1440,
+      "expected": {
+        "x": 14.5,
+        "y": 14.5,
+        "width": 1123,
+        "height": 44
+      },
+      "declarationBox": {
+        "x": 14.5,
+        "y": 14.5,
+        "width": 1123,
+        "height": 44
+      },
+      "classBox": {
+        "x": 14.5,
+        "y": 14.5,
+        "width": 1123,
+        "height": 44
+      }
+    },
+    {
+      "width": 834,
+      "expected": {
+        "x": 14.5,
+        "y": 14.5,
+        "width": 638.1875,
+        "height": 44
+      },
+      "declarationBox": {
+        "x": 14.5,
+        "y": 14.5,
+        "width": 638.1875,
+        "height": 44
+      },
+      "classBox": {
+        "x": 14.5,
+        "y": 14.5,
+        "width": 638.1875,
+        "height": 44
+      }
+    },
+    {
+      "width": 393,
+      "expected": {
+        "x": 14.5,
+        "y": 14.5,
+        "width": 285.390625,
+        "height": 44
+      },
+      "declarationBox": {
+        "x": 14.5,
+        "y": 14.5,
+        "width": 285.390625,
+        "height": 44
+      },
+      "classBox": {
+        "x": 14.5,
+        "y": 14.5,
+        "width": 285.390625,
+        "height": 44
+      }
+    }
+  ],
+  "clipboard": "instrumented browser success/failure; exact displayed payload"
+}

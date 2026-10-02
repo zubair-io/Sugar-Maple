@@ -1,0 +1,56 @@
+{
+  "passed": true,
+  "checks": 7,
+  "sourceUnchanged": true,
+  "limitation": "Native UI checks use DOM events; OS clipboard/input and full VoiceOver are separate.",
+  "rawReportSHA256": "d5642b4abc21b31489fd1c07b82348b24bbdc213db6a2619e2bbfaf358e8b463",
+  "exports": {
+    "css": {
+      "codeBytes": 475374,
+      "codeSHA256": "225040053d35df5474966c4a132a0f1e8073147fbe57517b3aa5a277f11ac07a",
+      "setupBytes": 0,
+      "notes": []
+    },
+    "css-declarations": {
+      "codeBytes": 597,
+      "codeSHA256": "b15a4f1369ebafe48d0dc3d34d43d56a7cc58170cf338ca68162240551c1b140",
+      "setupBytes": 474186,
+      "notes": [
+        "Styles retain the authored parent layout; use an equivalent parent container.",
+        "This fragment styles the selected element only; it does not include its semantic markup, descendants or assets.",
+        "Unwired action on Continue action: back. Supply application behavior; style fragments do not include an action handler."
+      ]
+    },
+    "html": {
+      "codeBytes": 474886,
+      "codeSHA256": "c0a7cb79f2400dd97256bc7891409d39a3a152a3d98b47f6d5a2a04d6ee6a414",
+      "setupBytes": 0,
+      "notes": []
+    },
+    "html-css": {
+      "codeBytes": 475517,
+      "codeSHA256": "2828b72a09600274426ed50974839bfef44a1b13bcf2db3eff1296d2d33b5e35",
+      "setupBytes": 0,
+      "notes": [
+        "Unwired action on Continue action: back. Supply application behavior; style fragments do not include an action handler."
+      ]
+    },
+    "tailwind": {
+      "codeBytes": 474942,
+      "codeSHA256": "f9da9a734c4c83bf09b8f26933d4e2f80e880713dc8f388947475b7080bd1361",
+      "setupBytes": 0,
+      "notes": []
+    },
+    "tailwind-classes": {
+      "codeBytes": 663,
+      "codeSHA256": "e66753709068ef0960241156f7dd95f412bb04db79f38d822af043f323f1f395",
+      "setupBytes": 474186,
+      "notes": [
+        "Styles retain the authored parent layout; use an equivalent parent container.",
+        "Tailwind 4: include these literal classes in a scanned source file and compile the utilities.",
+        "This fragment styles the selected element only; it does not include its semantic markup, descendants or assets.",
+        "Unwired action on Continue action: back. Supply application behavior; style fragments do not include an action handler."
+      ]
+    }
+  }
+}
