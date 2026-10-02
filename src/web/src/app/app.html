@@ -247,6 +247,7 @@
       }
       <div class="viewport">
         <canvas-surface
+          [viewportCamera]="canvasCamera"
           [zoom]="zoom()"
           [pan]="pan()"
           [enabled]="!preview() && !commentUi.placing() && !commentUi.draft()"
