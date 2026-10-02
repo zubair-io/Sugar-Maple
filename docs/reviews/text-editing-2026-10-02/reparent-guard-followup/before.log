@@ -1,0 +1,29 @@
+37 |   assert.deepEqual(await field.evaluate((field: HTMLTextAreaElement) => ({ start: field.selectionStart, end: field.selectionEnd })), caret);
+38 |   await expect(field).toBeFocused();
+39 |   assert.ok((await failure(page, 'render.ready')).includes('Finish or cancel'));
+40 |   assert.ok((await failure(page, 'transaction.apply', { requestId: crypto.randomUUID(), operations: [{ type: 'document.rename', name: 'Agent while typing' }] })).includes('Finish or cancel'));
+41 |   assert.ok((await failure(page, 'history.undo')).includes('Finish or cancel'));
+42 |   assert.ok((await failure(page, 'nodes.reparent', { ids: ['a'], parentId: null, placement: 'preserve-world' })).includes('Finish or cancel'));
+              ^
+AssertionError: false == true
+ generatedMessage: true,
+     actual: false,
+   expected: true,
+   operator: "==",
+       diff: "simple",
+       code: "ERR_ASSERTION"
+
+      at /Users/riabuz/Projects/_Sugar Maple/src/web/tests/text-editing-e2e.ts:42:10
+
+Bun v1.4.2 (macOS arm64)
+ 9 |  return new Response(Bun.file(path.join(root,'index.html')));
+10 | }});
+11 | try {
+12 |  const child = Bun.spawn([process.execPath,'src/web/tests/text-editing-e2e.ts'],{env:{...process.env,SUGAR_MAPLE_TEST_URL:server.url.toString()},stdout:'inherit',stderr:'inherit'});
+13 |  const code = await child.exited;
+14 |  if(code) throw new Error(`Text checks exited ${code}`);
+                         ^
+error: Text checks exited 1
+      at /Users/riabuz/Projects/_Sugar Maple/build/test-text-target.ts:14:21
+
+Bun v1.4.2 (macOS arm64)
