@@ -1,0 +1,18 @@
+{
+  "passed": true,
+  "port": 48494,
+  "identifier": "io.zubair.sugarmaple.reparent-qa",
+  "scope": "Actual native HTTP MCP SDK nodes.reparent discovery/output validation, rotated world placement, stale/no-op/cycle rejection, explicit managed-flow placement, one-step undo and durable checkpoint/capture.",
+  "capture": {
+    "pixelHeight": 900,
+    "coordinateUnits": "CSS pixels in the editor WebView",
+    "scale": 1,
+    "rect": {
+      "y": 0,
+      "x": 0,
+      "height": 900,
+      "width": 1440
+    },
+    "pixelWidth": 1440
+  }
+}
