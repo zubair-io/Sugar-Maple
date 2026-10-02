@@ -1,5 +1,6 @@
 import {
   Component,
+  afterRenderEffect,
   computed,
   effect,
   inject,
@@ -120,7 +121,9 @@ export class CanvasSurface {
     });
   });
   constructor() {
-    effect(() => {
+    // Whiteboard's required activeTool input is bound during rendering.
+    // Cancel only after bindings exist, including the initial/HMR render.
+    afterRenderEffect(() => {
       this.p.e.mode();
       this.p.e.doc().id;
       this.p.e.pageId();

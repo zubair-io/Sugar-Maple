@@ -51,6 +51,9 @@ try {
       const page = await context.newPage(),
         errors: string[] = [];
       page.on('pageerror', (e) => errors.push(e.message));
+      page.on('console', (message) => {
+        if (message.type() === 'error') errors.push(message.text());
+      });
       await page.goto(url);
       await page.waitForFunction(() => window.sugarMaple.ready);
       const d = await get(page),

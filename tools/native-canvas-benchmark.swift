@@ -57,6 +57,9 @@ import Darwin
         let fixture = try JSONSerialization.jsonObject(with: Data(contentsOf: URL(fileURLWithPath: args[2])))
         guard let value = fixture as? [String:Any], let document = value["document"] as? [String:Any], let nodes = document["nodes"] as? [[String:Any]] else { fatalError("Invalid fixture") }
         let config = WKWebViewConfiguration()
+        if transforms {
+            config.userContentController.addUserScript(WKUserScript(source: "window.canvasTransformErrors=[]; const originalConsoleError=console.error; console.error=(...args)=>{window.canvasTransformErrors.push(args.map(String).join(' ')); originalConsoleError.apply(console,args)}; window.addEventListener('error',event=>window.canvasTransformErrors.push(event.message));", injectionTime: .atDocumentStart, forMainFrameOnly: true))
+        }
         config.websiteDataStore = .nonPersistent()
         config.setURLSchemeHandler(BenchmarkResources(URL(fileURLWithPath: args[1], isDirectory: true)), forURLScheme: "sugar-maple")
         config.userContentController.addScriptMessageHandler(BenchmarkBridge(fixture), contentWorld: .page, name: "native")
