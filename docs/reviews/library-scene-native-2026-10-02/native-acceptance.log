@@ -1,0 +1,3 @@
+PASS: trusted sandboxed SwiftUI renders real controls, denies private host canary, rejects unsupported variants and superseded replies
+PASS: real native authored scenes, geometry, nested slots, overrides, undo/reset and independent helper validation
+PASS: actual CPU, wall, sampled RSS and output limits terminate owned processes; runtime/build cancellation cleans up without publishing stale output
