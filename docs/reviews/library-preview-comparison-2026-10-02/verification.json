@@ -1,0 +1,85 @@
+{
+  "sourceCommit": "7a24330eeaebcfa2e23334d6d08b9ea1110f9371",
+  "baseCommit": "2754035a1ca439e84452d53ec421489533971f20",
+  "editorSourceCommit": "edd130af96c292c325792c6de9bb0ed8c19974d1",
+  "recordedAt": "2026-10-02T12:26:52.084Z",
+  "runtime": "1.4.2",
+  "sourceHashes": {
+    "prototypes/library-preview/compare.ts": "a77f4c3b3edb25c595ffdd1f302b53c7a109d348b1fff1d284d8f71765eb98a0",
+    "prototypes/library-preview/package-cost.ts": "ee63980d528fadd248046440d283da87ae0dc9f15e3c267893d0cdbd8812ea6a",
+    "prototypes/library-preview/comparison-report.ts": "aab94bc7efcad09730e9a352d8c540bff3e05cfe5f7718f1a1f3ae246a9470ba",
+    "prototypes/library-preview/report-test.ts": "13310c6032f5f8a5fa25a67976526fe76c99ac049a015176b6f015032867ea7c",
+    "prototypes/library-preview/serve-report.ts": "986a605244e628ecda460ddf7956b9884d87050236104902f8fc1d9f4f83afb8",
+    "prototypes/library-preview/host.ts": "7c330ea5e50b81228fd1d7c71d5938396e61ecab67928fedceee14544dd764ec",
+    "prototypes/library-preview/browser-test.ts": "bbc1d83b156ba05fc1bcb30f08fe7760510ea1baa321da46b2f3be8c5b5054f8",
+    "tools/library-preview-comparison.ts": "3615673f1fec4007a7d1fe17cfd48df4aaac07020e069b8171c9359cea081d35",
+    ".github/workflows/editor.yml": "7b01e6eaf3c1aad4778892344cdb4479f927e42cdd9b4d5a71f8922115ed8512"
+  },
+  "artifacts": {
+    "acceptance.log": {
+      "bytes": 3672,
+      "sha256": "b974da6207f6a7a21e26ca5f2403a7955828290f3f5894cd3a8585c7e61ff7d9"
+    },
+    "comparison.json": {
+      "bytes": 30073,
+      "sha256": "8ce41c1c4ea893c9936f646ece2cf2261bf517c1ce659997500681d1847d7d76"
+    },
+    "package-cost.json": {
+      "bytes": 7191,
+      "sha256": "065cde95f0831c8f630b55e675882aa2c60627ec7627bc66321b4b26b9bb5d35"
+    },
+    "index.html": {
+      "bytes": 11898,
+      "sha256": "4d34afb334acd577f9163d47ef7060b5ed4fd50d56c2fa468353a6188a73fcf7"
+    },
+    "canvas-editor.png": {
+      "bytes": 86827,
+      "sha256": "833690e0a83cee015a92f9ac718c35c5a8cb69300f4b56609f730f462f54aa05"
+    },
+    "canvas-fixture.png": {
+      "bytes": 10559,
+      "sha256": "ce82afddadae7f81dd8322f328a72d8e086b420e76d3f45cbc2830b8e789836c"
+    },
+    "dom-fixture.png": {
+      "bytes": 10204,
+      "sha256": "4c6ef59e62e9597b6f5937da3ae1331c4d15c9fbe22085ac7365017169d4df90"
+    },
+    "web-fixture.png": {
+      "bytes": 13204,
+      "sha256": "0aeb3c5c45db61e80ddb1ec60d5a749186c1aedc7e810f318bf2b54ad0bf46ae"
+    },
+    "native-fixture.png": {
+      "bytes": 35324,
+      "sha256": "136b26f9286c5a324ddd23940209230e14da444afbc94d599acd595bffc5ca95"
+    },
+    "report.png": {
+      "bytes": 450356,
+      "sha256": "b9a3faedb87cdc4b7d38985ad46796df433aecccd957ce03aa6037061f9bcb4a"
+    }
+  },
+  "commands": [
+    "bun tools/library-preview-comparison.ts --trust-native-fixture"
+  ],
+  "localPassed": true,
+  "completedLocal": [
+    "pinned package consumer/cache",
+    "web contract tests / strict typecheck / actual boundary browser acceptance",
+    "same-fixture actual Canvas/DOM geometry and inspector edit/undo",
+    "actual DOM ephemeral values / package typed events / native SwiftUI rendering",
+    "four defined pipeline completion samples",
+    "production package build and per-file asset compression/hashes",
+    "four-image interactive report controls and visual inspection"
+  ],
+  "nativeHumanEvidence": "Separate committed real UI run in docs/reviews/library-preview-native-2026-10-02; this gate does not perform native human input",
+  "decision": {
+    "experiment": "continue fixed trusted source opt-in POCs",
+    "production": "no-go until supported authored geometry/slots/styles and stronger execution boundary are delivered",
+    "followupIssue": 88
+  },
+  "incomplete": [
+    "final-head CI/review/merge and resulting-main verification",
+    "production integration #88",
+    "arbitrary source import",
+    "full VoiceOver/input latency/presentation/whole-product memory #21"
+  ]
+}
