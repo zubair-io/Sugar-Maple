@@ -3,7 +3,7 @@ import { PROTOCOL, SnapshotSchema, boundedPacket, effectiveProps } from './contr
 const session = document.querySelector<HTMLMetaElement>('meta[name=preview-session]')!.content;
 let port: MessagePort | null = null, latest = -1, rendered = -1;
 const card = document.createElement('wa-card') as any, input = document.createElement('wa-input') as any,
-  button = document.createElement('wa-button') as any, header = document.createElement('h2');
+  button = document.createElement('wa-button') as any, header = document.createElement('p');
 header.slot = 'header'; header.textContent = 'Pinned library consumer'; button.slot = 'footer';
 card.append(header, input, button); document.body.append(card);
 const send = (event: object) => port?.postMessage({ version: PROTOCOL, session, ...event });

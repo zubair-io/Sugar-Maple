@@ -47,7 +47,7 @@ export class WebPreview {
       }
     };
     const policy = `default-src 'none'; script-src 'nonce-${nonce}'; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; base-uri 'none'; form-action 'none'`;
-    frame.srcdoc = `<!doctype html><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="${policy}"><meta name="preview-session" content="${session}"><style>${css.replace(/<\/style/gi, '<\\/style')}\nbody{margin:16px;font-family:system-ui}wa-card{width:360px}h2{font-size:18px;margin:0}</style><script type="module" nonce="${nonce}">${js.replace(/<\/script/gi, '<\\/script')}</script>`;
+    frame.srcdoc = `<!doctype html><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="${policy}"><meta name="preview-session" content="${session}"><style>${css.replace(/<\/style/gi, '<\\/style')}\nbody{margin:16px;font-family:system-ui}wa-card{width:360px}p[slot=header]{font-size:18px;margin:0}</style><script type="module" nonce="${nonce}">${js.replace(/<\/script/gi, '<\\/script')}</script>`;
     const ready = this.pending(); this.container.append(frame); return ready;
   }
   render(value: PreviewProps) {
