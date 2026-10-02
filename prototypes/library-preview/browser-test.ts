@@ -1,11 +1,13 @@
-import { chromium, expect } from '../../src/web/node_modules/@playwright/test';
+import { chromium, expect, type Browser } from '../../src/web/node_modules/@playwright/test';
 import { strict as assert } from 'node:assert';
 import { resolve } from 'node:path';
 import { servePreview } from './serve';
 
-const server = servePreview(), browser = await chromium.launch({ channel: 'chrome', headless: true });
+const server = servePreview();
+let browser:Browser|undefined;
 const output = resolve('build/library-preview');
 try {
+  browser = await chromium.launch({ channel: 'chrome', headless: true });
   const page = await browser.newPage({ viewport: { width: 1280, height: 1200 } });
   const errors: string[] = [], requests: string[] = [];
   page.on('pageerror', error => errors.push(error.message));
@@ -119,4 +121,4 @@ try {
     accessibility: { webAwesome: accessibility, semantic: semanticAccessibility },
     limitations: ['This iframe is not a CPU/process isolation guarantee.', 'Native WK production bridge absence is not proven by this Chrome fixture.', 'Native Swift helper, Canvas comparison and complete go/no-go remain open #51.'] }, null, 2));
   console.log('PASS: isolated real Web Awesome controls, typed props/events, denied parent/storage/network/bridge, stale rejection, malformed input, opt-in/stop and offline rendering');
-} finally { await browser.close(); server.stop(true); }
+} finally { try { await browser?.close(); } finally { server.stop(true); } }
