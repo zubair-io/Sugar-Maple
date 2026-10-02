@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="preview-nonce" content="PREVIEW_NONCE"><title>Real component preview · Sugar Maple POC</title>
+<link rel="stylesheet" href="/host.css"><script type="module" src="/host.js"></script></head>
+<body><main><header><p class="eyebrow">Sugar Maple · library preview experiment</p><h1>Real components, editable props.</h1>
+<p>Compare the pinned Web Awesome library with portable semantic output. Your design stays independent of this preview.</p></header>
+<section class="controls" aria-label="Preview properties"><label>Button label<input id="label" value="Save &amp; Continue" maxlength="20000"></label>
+<label>Input value<input id="value" value="consumer@example.test" maxlength="20000"></label>
+<label>Button variant<select id="variant"><option>Default</option><option>Primary</option><option>Disabled</option></select></label>
+<label class="check"><input type="checkbox" id="disabled"> Disabled button</label></section>
+<div class="actions"><button id="start">Run pinned library preview</button><button id="stop">Stop preview</button><span id="status" role="status">Stopped</span><span class="badge">Web Awesome 3.14.0 · offline bundle</span></div>
+<p id="error" role="alert"></p>
+<section class="comparison" aria-label="Rendering comparison"><article><h2>Semantic HTML</h2><p>Portable controls from the document model</p><iframe id="semantic" title="Portable semantic preview" src="/semantic.html"></iframe></article>
+<article><h2>Actual Web Awesome</h2><p>Real package controls and declared variants</p><div id="runtime"><p class="empty">Select Run to start the isolated preview.</p></div></article></section>
+<details><summary>Typed preview events</summary><pre id="events">[]</pre></details>
+<footer>POC only. Native Swift helper validation and production rollout remain tracked in issue #51.</footer>
+</main></body></html>
