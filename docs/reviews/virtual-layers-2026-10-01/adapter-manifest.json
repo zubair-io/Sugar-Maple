@@ -1,0 +1,48 @@
+{
+  "baseline": "48978d5646f8155c4067cb1f9c12117c1a510806",
+  "scope": "Same frozen checkpoint bytes, 360-sample camera workload and image/checkpoint proofs; paths, frozen fixture loading and full-vs-windowed Layers assertion differ",
+  "files": {
+    "canvas-engine-benchmark.ts": {
+      "baselineSHA256": "cd80be117c649962f57231f59b3fd9111d12e1bba245800ec73007f7f1fa589b",
+      "adaptedSHA256": "7da913ff3cd5560364fc0ab4dbce9b6290ff38dc246c39430d2e70c0ff814552",
+      "replacements": [
+        [
+          "const root = resolve(import.meta.dir, '..');",
+          "const root = resolve(import.meta.dir, '..', '..', '..');"
+        ],
+        [
+          "'build/canvas-engine-benchmark'",
+          "'build/virtual-layers-engine-benchmark'"
+        ],
+        [
+          "'tools/native-canvas-benchmark.swift'",
+          "resolve(import.meta.dir, 'native-canvas-benchmark.swift')"
+        ],
+        [
+          "const fixture = canvasBenchmarkFixture(total);",
+          "const fixture = JSON.parse(new TextDecoder().decode(Bun.gunzipSync(await Bun.file(resolve(root, `docs/reviews/virtual-layers-2026-10-01/frozen-fixture-${total}.json.gz`)).arrayBuffer())));"
+        ]
+      ]
+    },
+    "canvas-benchmark-page.js": {
+      "baselineSHA256": "4bf82872c45e27cfaa9b049c3856c46548ae9542308bd00c6b7165ddc6ceef0c",
+      "adaptedSHA256": "11ca1fb91cc826e3bce7462bf1bcaae699529acbfcc41b87d2590a0c910b96cf",
+      "replacements": [
+        [
+          "if (document.querySelectorAll('.layer-row').length !== total) fail('Full Layers panel did not mount');",
+          "const tree = document.querySelector('[role=\"tree\"][aria-label=\"Layers\"]');\n      const mounted = document.querySelectorAll('.layer-row').length;\n      if (!tree || Number(tree.dataset.layerCount) !== total) fail('Wrong full Layers model count');\n      if (mounted < 1 || mounted > Math.ceil(tree.clientHeight / 36) + 18)\n        fail('Virtual Layers panel exceeded its viewport and focus-pin bound');"
+        ]
+      ]
+    },
+    "canvas-benchmark-fixture.ts": {
+      "baselineSHA256": "3a23c76a4e4d7484416b5b3c7b7b868f03dbeedbd2d08ec7339690d7483a29e3",
+      "adaptedSHA256": "3a23c76a4e4d7484416b5b3c7b7b868f03dbeedbd2d08ec7339690d7483a29e3",
+      "replacements": []
+    },
+    "native-canvas-benchmark.swift": {
+      "baselineSHA256": "688eb96dbb5f9685ae7452fbba31401994a09bb660878253e5839a719cce56b3",
+      "adaptedSHA256": "688eb96dbb5f9685ae7452fbba31401994a09bb660878253e5839a719cce56b3",
+      "replacements": []
+    }
+  }
+}

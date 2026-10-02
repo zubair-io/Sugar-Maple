@@ -93,6 +93,17 @@ try {
     'Local override',
   );
   const snapshot = await checkpoint();
+  // Autosave is asynchronous: prove the exact journal is durable before unloading.
+  await expect.poll(() => page.evaluate(() => new Promise((resolve, reject) => {
+    const open = indexedDB.open('sugar-maple', 1);
+    open.onerror = () => reject(open.error);
+    open.onsuccess = () => {
+      const db = open.result;
+      const read = db.transaction('checkpoints').objectStore('checkpoints').get('active');
+      read.onsuccess = () => { db.close(); resolve(read.result); };
+      read.onerror = () => { db.close(); reject(read.error); };
+    };
+  }))).toEqual(snapshot);
   await page.reload();
   await page.waitForFunction(() => window.sugarMaple.ready);
   assert.deepEqual(await checkpoint(), snapshot);

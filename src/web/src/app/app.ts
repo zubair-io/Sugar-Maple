@@ -29,11 +29,10 @@ import { MuiSectionComponent } from './chrome/maple/ui/section/mui-section.compo
 import { MuiFieldComponent } from './chrome/maple/ui/field/mui-field.component';
 import { SceneNode, uid, Operation } from './model/schema';
 import { exportNode, ExportTarget } from './model/export';
-import { layerRows } from './model/layers';
+import { LayersPanel } from './layers-panel';
 import {
   MuiInputComponent,
   MuiToolbarComponent,
-  MuiTreeRowComponent,
   MuiInspectorPanelComponent,
   type MuiToolbarEntry,
   type MapleIconName,
@@ -59,7 +58,7 @@ import { ChromeTheme } from './chrome/maple/sugar-maple-chrome-theme';
     MuiFieldComponent,
     MuiInputComponent,
     MuiToolbarComponent,
-    MuiTreeRowComponent,
+    LayersPanel,
     MuiInspectorPanelComponent,
   ],
   host: { '[attr.data-chrome-theme]': 'theme.appearance()' },
@@ -150,35 +149,6 @@ export class App {
   readonly preview = signal<string | null>(null);
 
   readonly search = signal('');
-  readonly layers = computed(() => layerRows(this.e.pageNodes(), this.search()));
-  readonly focusedLayer = signal<string | null>(null);
-  readonly layerTabStop = computed(() => {
-    const rows = this.layers();
-    return rows.find(row => row.node.id === this.focusedLayer())?.node.id
-      ?? rows.find(row => this.e.selection().includes(row.node.id))?.node.id
-      ?? rows[0]?.node.id;
-  });
-  layerKey(event: KeyboardEvent, id: string): void {
-    if (!(event.target instanceof HTMLElement) || event.target.getAttribute('role') !== 'treeitem') return;
-    if (!['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
-    event.preventDefault();
-    event.stopPropagation(); // Tree navigation must not nudge selected Canvas nodes.
-    const rows = this.layers(), index = rows.findIndex(row => row.node.id === id);
-    if (index < 0) return;
-    let next = index;
-    if (event.key === 'ArrowUp') next = Math.max(0, index - 1);
-    if (event.key === 'ArrowDown') next = Math.min(rows.length - 1, index + 1);
-    if (event.key === 'Home') next = 0;
-    if (event.key === 'End') next = rows.length - 1;
-    if (event.key === 'ArrowLeft') {
-      const parent = rows.findIndex(row => row.node.id === rows[index].node.parentId);
-      if (parent >= 0) next = parent;
-    }
-    if (event.key === 'ArrowRight' && rows[index + 1]?.node.parentId === id) next = index + 1;
-    const target = rows[next].node.id;
-    this.focusedLayer.set(target);
-    queueMicrotask(() => document.querySelector<HTMLElement>(`[data-layer-id="${CSS.escape(target)}"] [role="treeitem"]`)?.focus());
-  }
 
   readonly left = signal(true);
   readonly right = signal(true);
