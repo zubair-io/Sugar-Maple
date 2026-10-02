@@ -11,6 +11,7 @@ export class NodeTextEditor implements OnDestroy {
   private session: { documentId: string; nodeId: string; text: string } | null = null;
   private composing = false;
   private deferredChange = false;
+  private cancelFocus = false;
   private readonly control: TextEditControl = {
     pending: () => !!this.session && (this.composing || this.element.value !== this.session.text),
     finish: () => this.finish(),
@@ -33,6 +34,7 @@ export class NodeTextEditor implements OnDestroy {
     });
   }
   @HostListener('focus') begin() {
+    this.cancelFocus = false;
     if (!this.session) this.session = { documentId: this.e.doc().id, nodeId: this.node().id, text: this.node().text };
   }
   @HostListener('input') changed() {
@@ -43,13 +45,19 @@ export class NodeTextEditor implements OnDestroy {
   }
   @HostListener('compositionend') compositionEnd() {
     this.composing = false; this.e.textDraft.set(this.control.pending());
-    if (this.deferredChange) { this.deferredChange = false; this.commit(); }
+    if (this.deferredChange) { this.deferredChange = false; if (!this.cancelFocus) this.commit(); }
   }
   @HostListener('change') change() {
     if (this.composing) this.deferredChange = true;
-    else this.commit();
+    else {
+      const session = this.session;
+      // Native change precedes blur. Let blur identify a cancellation focus target.
+      queueMicrotask(() => { if (this.session === session && !this.cancelFocus) this.commit(); });
+    }
   }
-  @HostListener('blur') blur() {
+  @HostListener('blur', ['$event']) blur(event: FocusEvent) {
+    this.cancelFocus = event.relatedTarget instanceof Element && event.relatedTarget.hasAttribute('data-text-edit-cancel');
+    if (this.cancelFocus) return;
     if (this.composing) this.deferredChange = true;
     else this.commit();
   }
@@ -85,7 +93,7 @@ export class NodeTextEditor implements OnDestroy {
     return true;
   }
   private cancel() {
-    this.session = null; this.composing = false; this.deferredChange = false;
+    this.session = null; this.composing = false; this.deferredChange = false; this.cancelFocus = false;
     this.element.value = this.node().text; this.e.textDraft.set(false); this.element.blur(); this.e.error.set('');
   }
   ngOnDestroy() { this.unregister(); }
