@@ -21,6 +21,13 @@ test('preserves complete source hunks and refuses incomplete shipping review', (
 test('recognizes quoted paths and retains workflow changes before optional fixtures', () => {
   const quoted = 'diff --git "a/src/apple/Sugar Maple/Editor.swift" "b/src/apple/Sugar Maple/Editor.swift"\n+changed\n';
   const workflow = file('.github/workflows/editor.yml', 'typecheck');
-  const fixture = file('prototypes/example.ts', 'x'.repeat(1000));
+  const fixture = file('designs/example.json', 'x'.repeat(1000));
   assert.equal(selectReviewDiff(fixture + quoted + workflow, quoted.length + workflow.length).text, quoted + workflow);
+});
+
+test('executable prototype code cannot be omitted to make an archive fit', () => {
+  const prototype = file('prototypes/library-preview/native/scene.swift', 'complete implementation');
+  const archive = file('docs/reviews/result.json', 'x'.repeat(2000));
+  assert.equal(selectReviewDiff(archive + prototype, prototype.length).text, prototype);
+  assert.throws(() => selectReviewDiff(prototype, prototype.length - 1), /Shipping source diff exceeds/);
 });
