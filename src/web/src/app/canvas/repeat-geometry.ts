@@ -173,6 +173,8 @@ export function repeatPreviewNodes(doc: SceneDocument, draft: RepeatDraft): Scen
         repeatIndex: n === template ? cell : n.repeatIndex,
         order: n === template ? cell : n.order,
         targetId: n.targetId ? (ids.get(n.targetId) ?? n.targetId) : null,
+        // Valid nested templates are owned children inside this subtree. Match cloneTree:
+        // unlike targetId, a Repeat Grid cannot reference an external template.
         repeatTemplateId: n.repeatTemplateId ? (ids.get(n.repeatTemplateId) ?? null) : null,
       })),
     );
