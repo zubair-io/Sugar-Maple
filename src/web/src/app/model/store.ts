@@ -42,16 +42,16 @@ export class DocumentStore {
     const store = new DocumentStore(validateDocument(value.base));
     for (const entry of entries) {
       if (entry.kind === 'edit') {
-        const next = validateDocument(applyDelta(store.document, entry.delta));
+        const next = validateDocument(applyDelta(store.project(), entry.delta));
         if (
-          entry.receipt.documentId !== store.document.id ||
+          entry.receipt.documentId !== store.root.get('id') ||
           entry.receipt.revision !== store.revision + 1 ||
           store.receipts.has(entry.requestId)
         )
           throw Error('Invalid journal receipt');
         const transaction = TransactionSchema.parse(JSON.parse(entry.signature));
         if (
-          transaction.documentId !== store.document.id ||
+          transaction.documentId !== store.root.get('id') ||
           transaction.expectedRevision !== store.revision ||
           transaction.requestId !== entry.requestId
         )
@@ -64,7 +64,7 @@ export class DocumentStore {
       else store.redo();
     }
     const projection = validateDocument(value.document);
-    if (canonical(store.document) !== canonical(projection))
+    if (canonical(store.project()) !== canonical(projection))
       throw Error('Document projection does not match its history');
     return store;
   }
