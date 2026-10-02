@@ -136,7 +136,7 @@ export class DocumentStore {
     ids: string[];
     transactionId: string;
   } {
-    return { documentId: this.document.id, revision: this.revision, ids, transactionId: uid() };
+    return { documentId: this.root.get('id') as string, revision: this.revision, ids, transactionId: uid() };
   }
   transact(input: unknown, origin: 'human' | 'agent' = 'human') {
     const tx = TransactionSchema.parse(input),
@@ -146,7 +146,7 @@ export class DocumentStore {
       if (prior.signature !== signature) throw Error('Request ID reused with different operations');
       return prior.result;
     }
-    if (tx.documentId !== this.document.id) throw Error('Wrong document');
+    if (tx.documentId !== this.root.get('id')) throw Error('Wrong document');
     if (tx.expectedRevision !== this.revision) throw Error('Stale revision');
     const before = this.document;
     const doc = structuredClone(before),
