@@ -1,0 +1,2 @@
+PASS: actual isolated native MCP explicit editing with a locked ancestor, exact undo/redo and durable capture/checkpoint
+Owned app ready for native UI acceptance. Send a newline to finish and stop only this owner.

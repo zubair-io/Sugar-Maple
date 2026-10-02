@@ -1,0 +1,147 @@
+{
+  "recordedAt": "2026-10-02T06:48:56.208168+00:00",
+  "runtimeSourceHead": "aeb9eae879337be7ba85c62f88432a904187b2a8",
+  "qaWrapperHead": "9725699c31253b7bedccd0d722ae324824e0adb7",
+  "mergedDependencyHead": "e3f61cf53d125afd148d0f5fb4a06c263924f45a",
+  "checks": {
+    "model": {
+      "passed": 105,
+      "failed": 0,
+      "assertions": 1687,
+      "files": 24
+    },
+    "browserConsumerSuites": 26,
+    "native": "Full native acceptance, including 18 WK transforms, 16 WK placement, 12 WK lock controls, real SDK locked-agent editing, persistence/clipboard/private-pasteboard, preview, Repeat Grid and compiled consumers",
+    "build": "Production web and macOS DEBUG bundle pass; typecheck and Maple provenance inventory pass",
+    "osInput": "Owned native QA bundle on private profile/port: Layers unlock, native keyboard resize, native pointer drag, one human transaction each, native Cmd+Z exact document restoration, re-lock plus Delete/duplicate leaves exact checkpoint unchanged with actionable message",
+    "interactiveOwnerCleanup": "Corrected --locks --hold SDK run passes, and newline releases input, closes client/stops owned app and exits 0 without EOF assistance."
+  },
+  "limitations": [
+    "Native OS input evidence covers one nested rotated fixture at 100% zoom; it does not establish all grips/pixel ratios/zoom combinations or VoiceOver/IME acceptance.",
+    "WK control input is synthetic DOM; OS input evidence is recorded separately through CUA and real native MCP.",
+    "Authoring locks guard direct human changes; explicit agent transactions, token/master propagation and explicit visibility/lock controls retain independent documented semantics.",
+    "The optional interactive QA wrapper needed stdin pause to exit after its owned app was stopped; that test-only cleanup is the sole change after runtimeSourceHead."
+  ],
+  "artifacts": [
+    {
+      "path": "model.log",
+      "sha256": "d1d3d1171073ac0c9b2818df116fc0b3ac418f07c8ce659d5c5a1593be78e51c",
+      "bytes": 11486
+    },
+    {
+      "path": "browser.log",
+      "sha256": "c3fa2dcc5b71a66e21c41eafe512981ec18df96bd581f18b7db7b59745c198dc",
+      "bytes": 5421
+    },
+    {
+      "path": "mac-build.log",
+      "sha256": "d24175deb80630f4ca98f76e35893a96363a70020cb70603464d6d90103639a6",
+      "bytes": 58225
+    },
+    {
+      "path": "typecheck.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "maple-inventory.log",
+      "sha256": "2fe6b41a9c6f94ec84c48303af2c72755551297070e0656ddc19bbd092c38337",
+      "bytes": 231
+    },
+    {
+      "path": "native.log",
+      "sha256": "2517b424e584513daf287d475d73f3610fcdb5e95f30c0c70eb8447cbed2052a",
+      "bytes": 4226
+    },
+    {
+      "path": "chrome.png",
+      "sha256": "6c2a254f83c57b48407b2907f757d9737c57105325b65b037ed05c6a72633c89",
+      "bytes": 210431
+    },
+    {
+      "path": "webkit.png",
+      "sha256": "5e5f8b4b166aa90c8cc501cdc90bc831402d9491e1351fad39153bce70800786",
+      "bytes": 349349
+    },
+    {
+      "path": "webkit-report.json",
+      "sha256": "08ab5f5efb548208192aaabbfb1f2069557282168322b3d814da350e7ca42469",
+      "bytes": 532
+    },
+    {
+      "path": "native-mcp-report.json",
+      "sha256": "f0acb5657470ff988c3d7e070f2c4e2a674f40d79f6182bd919defe2a9d64e1b",
+      "bytes": 513
+    },
+    {
+      "path": "native-mcp.png",
+      "sha256": "96e580daba6fff8d96a9db4d767327489d2871e68cb05894248c02392fcc583b",
+      "bytes": 183798
+    },
+    {
+      "path": "os-keyboard-resize.json",
+      "sha256": "136b1468c139ed92869d769399458f9f8a5e4fe330e7d2bed10b44a2fcdfed74",
+      "bytes": 19175
+    },
+    {
+      "path": "os-keyboard-resize.png",
+      "sha256": "c9c23054c18383f87a98cf2def2e9db60b520625fa85a82bd8cbe924886294eb",
+      "bytes": 190840
+    },
+    {
+      "path": "os-pointer-drag.json",
+      "sha256": "d52952b43903d0045c3ee1e069f81a92f52ae121e372574a71a703cc69577412",
+      "bytes": 23183
+    },
+    {
+      "path": "os-pointer-drag.png",
+      "sha256": "5888b54c4f9e64e3e4fea60b5159a9f3e1cd8a76ca075f606df9fb45ed041eaf",
+      "bytes": 190821
+    },
+    {
+      "path": "os-locked.json",
+      "sha256": "e3a773f030f38df6823c1e17264702447ac154780f016c5dfcf5bf911805216b",
+      "bytes": 29040
+    },
+    {
+      "path": "os-pointer-undo.json",
+      "sha256": "a7b1a202b72710295c2303ba0fb167c5d37bd02f87938ecdf9ae72a3e52e9921",
+      "bytes": 2239
+    },
+    {
+      "path": "os-resize.log",
+      "sha256": "d08c66a30109c36984e65fa5bb3e6be53baad2d983d0cc99b7107e1d2f10c1eb",
+      "bytes": 2014
+    },
+    {
+      "path": "os-resize-undo.log",
+      "sha256": "fc1fc03790f1a3867a7f8008f29d78caa036e1b3243a784be703f1001a1aca11",
+      "bytes": 54
+    },
+    {
+      "path": "os-pointer.log",
+      "sha256": "98943754529c87c25f3cc5d6d0097e152e80743e80bd009c53edc59eb9a7c470",
+      "bytes": 2014
+    },
+    {
+      "path": "os-pointer-undo.log",
+      "sha256": "fc1fc03790f1a3867a7f8008f29d78caa036e1b3243a784be703f1001a1aca11",
+      "bytes": 54
+    },
+    {
+      "path": "os-locked.log",
+      "sha256": "444bb3ed0c4f7afdec004f1f47b41ad31a5198f91fcc997495fdd7e9ee74b234",
+      "bytes": 88
+    },
+    {
+      "path": "os-input-verifier.ts",
+      "sha256": "06cb881d4e74b7bf56f775de7ffaa1f7c1131e074e8d69b86830f3e0c670a885",
+      "bytes": 3573
+    },
+    {
+      "path": "interactive-cleanup.log",
+      "sha256": "4e960ef4f69c82b5cc631e8f54c5ef0a9e8c9ea999bcd3700d91a8d4e5e70a7e",
+      "bytes": 214
+    }
+  ]
+}
