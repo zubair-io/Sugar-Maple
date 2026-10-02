@@ -1,0 +1,14 @@
+{
+  "pr": 99,
+  "observedHead": "5dd6add91781a52ec1712405138e5a09faf191b5",
+  "branch": "codex/review-diff-recovery",
+  "cachedPullBase": "722081cfc42956385f7d8a2e344a61bb2ae811d0",
+  "liveBranchBase": "77f389791ba7f55da9182eb85cd06010e27b15fc",
+  "mergeBase": "722081cfc42956385f7d8a2e344a61bb2ae811d0",
+  "readCurrentBranchInsteadOfCachedPullBase": true,
+  "baseRevalidated": true,
+  "diffBytes": 28773,
+  "shippingHunks": 4,
+  "allShippingHunksRetained": true,
+  "selectedCharacters": 28583
+}

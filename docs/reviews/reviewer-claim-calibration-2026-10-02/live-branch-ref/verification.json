@@ -1,0 +1,132 @@
+{
+  "sourceCommit": "b7a9266749f87661ad15b91380edf77bcf3c3e5e",
+  "currentMain": "7b5ded778b9dbb078049c5a46004ad80832d9741",
+  "issue": 98,
+  "recordedAt": "2026-10-02T20:41:58.416342+00:00",
+  "checks": {
+    "typecheckExitCode": 0,
+    "reviewerTests": 42,
+    "testsExitCode": 0,
+    "productionBundleExitCode": 0,
+    "actualCachedBaseReproductionExitCode": 0,
+    "actualLargePR95RetrievalExitCode": 0
+  },
+  "sources": {
+    ".github/actions/jules-review/package-lock.json": {
+      "bytes": 12710,
+      "sha256": "2b1d837b80baafc25c30f6e5ae18fe17e8f1ab5e92f571a626ae42fe29e5686f"
+    },
+    ".github/actions/jules-review/package.json": {
+      "bytes": 1044,
+      "sha256": "fa37e98ac00f982af375544f324c0daf17a0af7ff59e3dfbf31e92e104dcadef"
+    },
+    ".github/actions/jules-review/src/cleanup.ts": {
+      "bytes": 2245,
+      "sha256": "46cd1d134b4d8f541aac0e53495ca4fa414980c5221c6090a733b8c001e8ce29"
+    },
+    ".github/actions/jules-review/src/diff.ts": {
+      "bytes": 1579,
+      "sha256": "d049a12126edd95b68fd2621b1c52edc60c7b398d5210747ef63f95c2c4e1e82"
+    },
+    ".github/actions/jules-review/src/index.ts": {
+      "bytes": 12748,
+      "sha256": "d678c5bbb0e4fcdbdad9903e5a465deb7d3f87ac9ad97ea19473b07b539405de"
+    },
+    ".github/actions/jules-review/src/poll.ts": {
+      "bytes": 3036,
+      "sha256": "2c5387579818963b0cf2d0138f54f1af43bb53721291368969e7dbf4941d51a0"
+    },
+    ".github/actions/jules-review/src/prompt.ts": {
+      "bytes": 5426,
+      "sha256": "69ce3981264b7ecd6118c62fc6eb08fbc2c9f398d12e9bce993a5c3b3d5fda6b"
+    },
+    ".github/actions/jules-review/src/recovery-policy.ts": {
+      "bytes": 5681,
+      "sha256": "3cfc8ed01ed21f8e1ebe70bd3283696fbe281ad45f257f422a8c4f64c777c44d"
+    },
+    ".github/actions/jules-review/src/recovery.ts": {
+      "bytes": 8274,
+      "sha256": "feb15ab163a8f400acb256d6328fec6125c9f1a91f21f1b185a591cedcbb9dd6"
+    },
+    ".github/actions/jules-review/src/reply.ts": {
+      "bytes": 1162,
+      "sha256": "021cae72e252fc162a3f9975e6f84549bfedcaf72d3953992b6d4d1c162bdbe1"
+    },
+    ".github/actions/jules-review/src/review-context.ts": {
+      "bytes": 1446,
+      "sha256": "36d545983f2667802d9917de5b91a40726e3b12549ed2ef1740a7d29c4f92e87"
+    },
+    ".github/actions/jules-review/src/revision-diff.ts": {
+      "bytes": 4055,
+      "sha256": "7ca0cc013d087129b779c2e63e7d8f611b43d4a40740b1699bc2b89e0f92d507"
+    },
+    ".github/actions/jules-review/src/verdict.ts": {
+      "bytes": 1816,
+      "sha256": "1aa235fb9bd5eeb784e5ff7623213aa7c74c45fcbcc03337184edc3446e749c4"
+    },
+    ".github/actions/jules-review/tests/cleanup.test.mjs": {
+      "bytes": 3861,
+      "sha256": "b9bc1873d2a18e0f1f1bba2455768d166c8fccac774acbe1fb1a85911a3ce597"
+    },
+    ".github/actions/jules-review/tests/diff.test.mjs": {
+      "bytes": 1910,
+      "sha256": "19212c51e0e7f65a084d39195a46655825f84ad632a48cbb1e0c614b3e80c6bd"
+    },
+    ".github/actions/jules-review/tests/poll.test.mjs": {
+      "bytes": 3988,
+      "sha256": "c5fcc4c5933e114c4eda81d4c2603b94d2b9affe05670d17e2089090e35a1ff9"
+    },
+    ".github/actions/jules-review/tests/recovery.test.mjs": {
+      "bytes": 7085,
+      "sha256": "cfc7f5f3f50b98a9cb0d9663a552b0f8a18731f2f250b69129335c5a8d4fa485"
+    },
+    ".github/actions/jules-review/tests/reply.test.mjs": {
+      "bytes": 1629,
+      "sha256": "9818a64304a43a705ef5c21d8b1c1a0914f3bb332b3cb794ecdbf56315c9ebc4"
+    },
+    ".github/actions/jules-review/tests/review-context.test.mjs": {
+      "bytes": 2040,
+      "sha256": "f17163e4b680d418013ce7e43a08b7dd2c642dc2e50bbbe79ad0355ccb805aa4"
+    },
+    ".github/actions/jules-review/tests/revision-diff.test.mjs": {
+      "bytes": 3941,
+      "sha256": "5fde029da7fabee90f6a54231c0491ce36f00f0c3aa7ab87e7f690cc9dc6f415"
+    },
+    ".github/actions/jules-review/tests/verdict.test.mjs": {
+      "bytes": 4050,
+      "sha256": "3f308d3a762400f4ed779a0b0213b997e72ef1229f08cdb167866126c74430f8"
+    },
+    ".github/actions/jules-review/tsconfig.json": {
+      "bytes": 351,
+      "sha256": "dba5915b76957dd84e19975040905f780ca12a90d057513cfd281263da4cc288"
+    }
+  },
+  "artifacts": {
+    "typecheck.log": {
+      "bytes": 53,
+      "sha256": "37c2b5e0406a7068753a91a0ab1b0bca9d47dec29ce65cbc23a4cabef2a524d9"
+    },
+    "tests.log": {
+      "bytes": 4074,
+      "sha256": "3b0e03b14409a94ccafbdf366e0bd8ed4f8b4266d9eef5e838314bd004488a4a"
+    },
+    "build.log": {
+      "bytes": 403,
+      "sha256": "320d1cddbbbad478d35a8bee736661f0d4e32a771396db3925f25f607b7c5dcb"
+    },
+    "actual-cached-pr-base.json": {
+      "bytes": 496,
+      "sha256": "bfb917cfaed931b7848ffd572052c780b2b81310b63f7ee4ebea0960301328d0"
+    },
+    "actual-large-pr95.json": {
+      "bytes": 4057,
+      "sha256": "e1bb5209dd135dec6a0d780508fc17fcf1092b974f3acc5064d9a1cd632a3add"
+    }
+  },
+  "limitations": [
+    "Earlier #99 approval covers historical head 5dd6add; this follow-up requires fresh exact-head review/CI.",
+    "These fixtures do not prove model interpretation; fresh #90 review remains required.",
+    "The branch is rebased onto verified main containing #97. Initial prompt-only and current-context proofs retain their original source attribution.",
+    "Resulting-main delivery and actual final #95 review preparation remain required."
+  ]
+}
