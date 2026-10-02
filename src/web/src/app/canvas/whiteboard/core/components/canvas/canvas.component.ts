@@ -520,12 +520,10 @@ export class CanvasComponent implements OnDestroy {
      * Delete selected elements
      */
     private deleteSelectedElements(): void {
-        const wb = this.whiteboard();
         const ids = this.selectedIds();
-
         this.deleteSelection.emit(ids);
-
-        this.selectedIds.set([]);
+        // The host command owns selection after accepting or rejecting deletion.
+        // Clearing it here would hide locked selections even when no edit occurs.
         this.requestRender();
     }
 
