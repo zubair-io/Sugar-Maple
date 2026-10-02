@@ -1,6 +1,16 @@
 import type { Tool, ToolContext } from './whiteboard/core/tools/tool.interface';
 import type { CanvasPointerEvent } from './whiteboard/core/models/types';
-import { hit, type Box, type Item } from './scene-layout';
+import { hit, intersects, type Box, type Item } from './scene-layout';
+import {
+  resizeDirection,
+  resizePoint,
+  snapIndex,
+  snapMove,
+  snapPoint,
+  union,
+  type Guide,
+  type SnapIndex,
+} from './placement-geometry';
 import type { CanvasProjection } from './canvas-projection';
 import {
   angleAt,
@@ -31,6 +41,8 @@ export class CanvasSelectionTool implements Tool {
     moved: boolean;
     angle: number;
     rotationDelta: number;
+    snap: SnapIndex;
+    bounds: Box | null;
   } | null = null;
   marquee: Box | null = null;
   constructor(private projection: CanvasProjection) {}
@@ -91,6 +103,22 @@ export class CanvasSelectionTool implements Tool {
     if (!item) e.select(null);
     this.context.selectedIds.set(e.selection());
     if (e.mode() !== 'Design') return { render: true };
+    const originals = e
+      .selectedRoots()
+      .filter((n) =>
+        handle === 'rotate' ? p.canRotate(n) : handle ? p.canResize(n) : p.canMove(n),
+      )
+      .map((n) => p.byId().get(n.id))
+      .filter((i): i is Item => !!i);
+    const moving = new Set(originals.map((i) => i.node.id));
+    const camera = this.context.camera(),
+      size = p.size();
+    const viewport = {
+      x: camera.x + size.width / 2 - size.width / (2 * zoom),
+      y: camera.y + size.height / 2 - size.height / (2 * zoom),
+      width: size.width / zoom,
+      height: size.height / zoom,
+    };
     this.gesture = {
       start: event,
       handle,
@@ -101,13 +129,20 @@ export class CanvasSelectionTool implements Tool {
       moved: false,
       angle: item ? angleAt(item, event.canvas.x, event.canvas.y) : 0,
       rotationDelta: 0,
-      originals: e
-        .selectedRoots()
-        .filter((n) =>
-          handle === 'rotate' ? p.canRotate(n) : handle ? p.canResize(n) : p.canMove(n),
-        )
-        .map((n) => p.byId().get(n.id))
-        .filter((i): i is Item => !!i),
+      originals,
+      bounds: originals.length ? union(originals.map((i) => i.bounds)) : null,
+      snap: snapIndex(
+        p
+          .items()
+          .filter(
+            (i) =>
+              editableItem(i) &&
+              !moving.has(i.node.id) &&
+              !i.ancestors.some((a) => moving.has(a.node.id)) &&
+              intersects(i.bounds, viewport) &&
+              i.ancestors.every((a) => intersects(i.bounds, a.bounds)),
+          ),
+      ),
     };
     return {
       cursor: handle && item ? handleCursor(item, handle) : item ? 'move' : 'crosshair',
@@ -153,9 +188,39 @@ export class CanvasSelectionTool implements Tool {
     }
     if (!g.moved && Math.hypot(dx, dy) < 2 / this.context.camera().zoom) {
       p.draft.set({});
+      this.context.toolState.set({});
       return { render: true };
     }
     g.moved = true;
+    let delta = { x: dx, y: dy },
+      guides: Guide[] = [];
+    if (p.snapping() && !event.ctrlKey && g.bounds && g.handle !== 'rotate') {
+      const threshold = 6 / this.context.camera().zoom;
+      if (g.handle && g.originals[0]) {
+        const item = g.originals[0],
+          patch = resizePatch(item, g.handle, dx, dy, event.shiftKey);
+        const snapped = snapPoint(
+          g.snap,
+          resizePoint(item, g.handle, patch),
+          threshold,
+          resizeDirection(item, g.handle, event.shiftKey),
+        );
+        delta = { x: dx + snapped.delta.x, y: dy + snapped.delta.y };
+        const actual = resizePoint(
+          item,
+          g.handle,
+          resizePatch(item, g.handle, delta.x, delta.y, event.shiftKey),
+        );
+        guides = snapped.guides.filter(
+          (guide) => Math.abs(actual[guide.axis] - guide.value) < 1e-6,
+        );
+      } else {
+        const snapped = snapMove(g.snap, g.bounds, dx, dy, threshold);
+        delta = { x: dx + snapped.delta.x, y: dy + snapped.delta.y };
+        guides = snapped.guides;
+      }
+    }
+    this.context.toolState.set({ snapGuides: guides } as any);
     p.draft.set(
       Object.fromEntries(
         g.originals
@@ -166,8 +231,8 @@ export class CanvasSelectionTool implements Tool {
               g.handle === 'rotate'
                 ? rotationPatch(item, g.rotationDelta, event.shiftKey)
                 : g.handle
-                  ? resizePatch(item, g.handle, dx, dy, event.shiftKey)
-                  : movePatch(item, dx, dy),
+                  ? resizePatch(item, g.handle, delta.x, delta.y, event.shiftKey)
+                  : movePatch(item, delta.x, delta.y),
             ),
           ])
           .filter(([, patch]) => Object.keys(patch).length),

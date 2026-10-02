@@ -1,0 +1,47 @@
+{
+  "observedAtUTC": "2026-10-02T05:54:19.248450+00:00",
+  "runtimeSourceCommit": "a881f091a236dbbd28dd742b676b655204d04e33",
+  "previousEvidence": "run-state.json",
+  "reviewSession": "10868633626738147958",
+  "change": "Explicit nullish border-width default in single-parent alignment; expanded guide rendering statements. Canonical SceneNode already supplies border defaults.",
+  "validation": {
+    "modelTests": 98,
+    "modelAssertions": 1648,
+    "chrome": "Production placement checks passed at zoom 0.5/1.5, DPR 2",
+    "wkPlacementCases": 16,
+    "buildMac": "Passed",
+    "typecheck": "Passed",
+    "inventory": "Passed"
+  },
+  "scopeLimits": [
+    "Focused acceptance follows the review correction; the original full 25-suite/native run remains bound to its earlier runtime source.",
+    "WK uses synthetic DOM inputs; full OS input/accessibility/performance gates remain open."
+  ],
+  "sourceSHA256": {
+    "src/web/src/app/canvas/placement-geometry.ts": "e192086593d2c5d35bbaa56ff1380076995cdf16679658bfa2df968bb9fb8770",
+    "src/web/src/app/canvas/whiteboard/core/components/canvas/renderer.service.ts": "23e6651f0145706da3f289a6da2379dab7fdd7cc90de0e62d848bae77fcdc964",
+    "src/web/tests/canvas-placement.test.ts": "491b97f3b411f3dfb6ea4db29f0170385a71da8c5d01b1143d89480945a1b6e7"
+  },
+  "bundleSHA256": {
+    "src/web/dist/sugar-maple-editor/browser/chunk-Byw6A2ZW.js": "bf1c7952e8951a0396bb81a8f1da594a8667adaa067ed23cd3c294edc53b9ea9",
+    "src/web/dist/sugar-maple-editor/browser/chunk-CLeSTCUP.js": "b7d353e575ed5ce9841d6d347fb9ab708f4eae47098ce8b8e2d49e21389a2fb4",
+    "src/web/dist/sugar-maple-editor/browser/chunk-Cxd5TsTy.js": "82616887aa5d7a335d3affb92012f2e00453872e4e3d0fde98b90df2ae5156c6",
+    "src/web/dist/sugar-maple-editor/browser/chunk-DIrWkmY4.js": "fe5798506d0b2ecfbd2f4d820c6e505393d2f4e5a995da44264366b1dd43a544",
+    "src/web/dist/sugar-maple-editor/browser/chunk-GKbWTQ3V.js": "3f0e87b75fbb9b25757dfdb9b56b9bf6f366f476d11bb95fd4cd37e3701f9b2b",
+    "src/web/dist/sugar-maple-editor/browser/index.html": "16b9c276f78eefd195bdff945642d66ca5e149b90d07afdb6e3193e2f4afb7a2",
+    "src/web/dist/sugar-maple-editor/browser/main-KKFFXZJL.js": "00b4d49ff85e85f8d095e6f6d9000273bcf06fc0a31d4402091a43f3ae4dc287",
+    "src/web/dist/sugar-maple-editor/browser/styles-3L4SZE66.css": "2c2efbb44e1ad105f76bebaf26a40a4d3d867163c4616ff18e7dbf73e3faed18"
+  },
+  "evidenceSHA256": {
+    "review-build-mac.log": "4511730c6f5e6e7b07ca46b747ead2e8fb6b5e2bf4968fbc38a3ec8d6c52f9bc",
+    "review-chrome-guides-0.5.png": "8aed04459637a9c768f9685ccf377b8bb8ce2e1e375b8cfd9e03dc72133ea020",
+    "review-chrome-guides-1.5.png": "312b3892f65f4d225085232070f42fb549fb8c665e10405b4e48ae54aa916b99",
+    "review-chrome.log": "f5e15d6a8b1c074ea142b4bd2e125154af2ffe423ae80c069b5d09f4741de081",
+    "review-inventory.log": "2fe6b41a9c6f94ec84c48303af2c72755551297070e0656ddc19bbd092c38337",
+    "review-model-tests.log": "cff339e823d18e6a6cc7b0ccdf4c9d1b29fb08c33e177966d2d9f4192614290e",
+    "review-typecheck.log": "9b2b770f3351789b5fd00fa72323f6eb7ea6de3fa3d75b7678bcbee1c8f6d5f6",
+    "review-wk-report.json": "8a953a20d5a20ee3ffccf417ea45bd2da5acd3d0498b43bb2ac0a34855212888",
+    "review-wk.log": "d91b51d18cd4e08ce50d0e9c1e004a4441e7f6ac8bd02d00f6fd1f38e68098e6",
+    "review-wk.png": "46c7d8daa869e88ea66a5b7d07407fd37ffe1a3990856cd3d38c9c090667f295"
+  }
+}

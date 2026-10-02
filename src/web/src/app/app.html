@@ -204,6 +204,8 @@
             >Comment</mui-button
           >
         </div>
+        <mui-button variant="ghost" size="sm" ariaLabel="Snapping" title="Snap to visible layer edges and centers. Hold Control while dragging to bypass."
+          [ariaPressed]="projection.snapping()" [active]="projection.snapping()" [disabled]="e.mode() !== 'Design' || !!preview()" (pressed)="projection.snapping.set(!projection.snapping())">Snap</mui-button>
         <button (click)="fit()">Fit</button
         ><button
           class="panel-toggle"
@@ -287,6 +289,10 @@
                       {{ action.glyph }}
                     </button>
                   }
+                </div>
+                <div class="alignment-strip" role="group" aria-label="Distribute selected layers">
+                  <button type="button" aria-label="Distribute horizontal spacing" title="Equal horizontal gaps, keeping the first and last layers fixed" [disabled]="!canDistribute()" (click)="distribute('x')">↔</button>
+                  <button type="button" aria-label="Distribute vertical spacing" title="Equal vertical gaps, keeping the first and last layers fixed" [disabled]="!canDistribute()" (click)="distribute('y')">↕</button>
                 </div>
                 <div class="inspector-grid">
                   @for (field of transformFields; track field.key) {
@@ -642,8 +648,8 @@
               <div class="actions">
                 @if (e.selection().length > 1) {
                   <button (click)="group()">Group selection</button
-                  ><button (click)="align('x')">Align left</button
-                  ><button (click)="align('y')">Align top</button>
+                  ><button [disabled]="!canAlign()" (click)="align('x')">Align left</button
+                  ><button [disabled]="!canAlign()" (click)="align('y')">Align top</button>
                 }
                 <button (click)="makeComponent()">Make component</button>
                 @if (n.componentId) {
