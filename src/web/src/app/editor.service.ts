@@ -22,6 +22,7 @@ import {
   type Operation,
 } from './model/schema';
 import { exportNode, type ExportTarget } from './model/export';
+import { assertHumanEdits, lockingNode } from './model/edit-locks';
 
 declare global {
   interface Window {
@@ -53,6 +54,7 @@ export class EditorService {
   readonly mode = signal<'Design' | 'Prototype' | 'Developer'>('Design');
   readonly nativePreviewRoot = signal<string | null>(null);
   readonly node = computed(() => this.doc().nodes.find((n) => n.id === this.selected()) ?? null);
+  private readonly nodeIndex = computed(() => new Map(this.doc().nodes.map(node => [node.id, node])));
   readonly pageNodes = computed(() =>
     this.doc()
       .nodes.filter((n) => n.pageId === this.pageId())
@@ -207,6 +209,7 @@ export class EditorService {
     }
   }
   command(operations: Operation[], origin: 'human' | 'agent' = 'human') {
+    if (origin === 'human') assertHumanEdits(this.doc(), operations);
     const result = this.store.transact(
       {
         documentId: this.doc().id,
@@ -226,6 +229,17 @@ export class EditorService {
       this.report(e);
       return null;
     }
+  }
+  lockedBy(node: SceneNode | null): SceneNode | null {
+    return lockingNode(this.nodeIndex(), node?.id ?? null);
+  }
+  insertionParent(kind: SceneNode['kind']): string | null {
+    const current = this.node();
+    return kind === 'artboard' ? null : current && ['artboard', 'frame'].includes(current.kind)
+      ? current.id : current?.parentId ?? null;
+  }
+  canInsert(kind: SceneNode['kind']): boolean {
+    return !lockingNode(this.nodeIndex(), this.insertionParent(kind));
   }
   private updateFileTab() {
     const entry = { id: this.doc().id, name: this.doc().name };
@@ -323,13 +337,7 @@ export class EditorService {
     }
   }
   add(kind: SceneNode['kind']) {
-    const current = this.node(),
-      parent =
-        kind === 'artboard'
-          ? null
-          : current && ['artboard', 'frame'].includes(current.kind)
-            ? current.id
-            : (current?.parentId ?? null);
+    const parent = this.insertionParent(kind);
     const result = this.perform([
       {
         type: 'node.add',
@@ -379,7 +387,7 @@ export class EditorService {
     this.refresh();
   }
   remove() {
-    const nodes = this.selectedRoots().filter((n) => !n.locked);
+    const nodes = this.selectedRoots();
     if (nodes.length) this.perform(nodes.map((n) => ({ type: 'node.remove', id: n.id })));
   }
   async save(saveAs = false) {
@@ -536,11 +544,11 @@ export class EditorService {
     }
   }
   async performDecoded(operations: Operation[], expectedDocumentId: string, expectedRevision: number, stillCurrent: () => boolean = () => true) {
+    assertHumanEdits(this.doc(), operations);
     await this.validateAssetOperations(operations);
     if (!stillCurrent()) throw Error('Import canceled before applying data');
     if (this.doc().id !== expectedDocumentId || this.revision() !== expectedRevision) throw Error('Document changed while data loaded. Preview the import again.');
-    const result = this.store.transact({ documentId: expectedDocumentId, expectedRevision, requestId: uid(), operations });
-    this.refresh(); return result;
+    return this.command(operations);
   }
   async validateAssetOperations(operations: Operation[]) {
     const sources = operations.flatMap(op => op.type === 'asset.set' ? [op.source] :
