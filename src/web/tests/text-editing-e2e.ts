@@ -39,6 +39,7 @@ try {
   assert.ok((await failure(page, 'render.ready')).includes('Finish or cancel'));
   assert.ok((await failure(page, 'transaction.apply', { requestId: crypto.randomUUID(), operations: [{ type: 'document.rename', name: 'Agent while typing' }] })).includes('Finish or cancel'));
   assert.ok((await failure(page, 'history.undo')).includes('Finish or cancel'));
+  assert.ok((await failure(page, 'nodes.reparent', { ids: ['a'], parentId: null, placement: 'preserve-world' })).includes('Finish or cancel'));
   assert.deepEqual(await checkpoint(page), before);
   await select(page, 'b');
   const committed = await get(page), committedCheckpoint = await checkpoint(page);

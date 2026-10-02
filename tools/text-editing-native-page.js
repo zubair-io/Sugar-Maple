@@ -21,6 +21,7 @@ window.canvasTransformAcceptance = async function () {
   equal(await checkpoint(), before, 'WK draft is not authored'); check(document.activeElement === field() && field().selectionStart === 3, 'WK caret remains focused'); checks++;
   check((await fail('render.ready')).includes('Finish or cancel') && (await fail('history.undo')).includes('Finish or cancel'), 'WK capture/history draft boundary'); checks++;
   check((await fail('transaction.apply', { requestId: crypto.randomUUID(), operations: [{ type: 'document.rename', name: 'While typing' }] })).includes('Finish or cancel'), 'WK agent guard');
+  check((await fail('nodes.reparent', { ids: ['a'], parentId: null, placement: 'preserve-world' })).includes('Finish or cancel'), 'WK no-op reparent request still respects a pending draft');
   equal(await checkpoint(), before, 'WK rejected mutation leaves checkpoint'); checks++;
   await select('b'); const committed = await checkpoint();
   check(committed.journal.length === before.journal.length + 1 && committed.journal.at(-1).origin === 'human', 'WK one human text entry');
