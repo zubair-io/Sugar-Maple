@@ -6,6 +6,10 @@
     <key>UTTypeDescription</key><string>Sugar Maple Document</string>
     <key>UTTypeConformsTo</key><array><string>com.apple.package</string></array>
     <key>UTTypeTagSpecification</key><dict><key>public.filename-extension</key><array><string>syrup</string></array></dict>
+  </dict><dict>
+    <key>UTTypeIdentifier</key><string>io.zubair.sugarmaple.elements</string>
+    <key>UTTypeDescription</key><string>Editable Sugar Maple Elements</string>
+    <key>UTTypeConformsTo</key><array><string>public.json</string></array>
   </dict></array>
   <key>CFBundleDocumentTypes</key><array><dict>
     <key>CFBundleTypeName</key><string>Sugar Maple Document</string>

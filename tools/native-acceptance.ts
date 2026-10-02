@@ -43,7 +43,7 @@ async function run(cmd: string[]) {
 for (const [name, files] of cases) {
   const executable = resolve(output, name);
   await run(["swiftc", ...files, "-o", executable]);
-  await run([executable]);
+  await run(name === "native-clipboard" ? [executable, resolve(root, "build/DerivedData/Build/Products/Debug/Sugar Maple.app/Contents/Info.plist")] : [executable]);
 }
 
 await run([process.execPath, "tools/mcp-stdio-test.ts"]);
