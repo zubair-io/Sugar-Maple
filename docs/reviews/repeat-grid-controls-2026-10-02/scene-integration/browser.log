@@ -1,0 +1,43 @@
+$ bun tools/browser-acceptance.ts
+$ bun run --cwd src/web start
+$ bun --bun ../../node_modules/@angular/cli/bin/ng.js serve --host 127.0.0.1
+PASS: Maple chrome controls, numeric bounds, per-input error descriptions, overflow focus, nested/disabled tree activation, keyboard tabs, light/dark persistence, local fonts, utility isolation, production Shift-selection/search, mode guards, unchanged document and Canvas pixels, no editor in specimen or remote requests
+PASS: 10,000-layer bounded DOM, sibling ARIA, off-window keyboard navigation, focused control retention, single-step visibility/undo, external selection reveal, Shift-selection, contextual search, resize and panel recreation
+PASS: create artboard/text/pages, edit, pointer drag, inspect code, recover on reload; no browser errors
+PASS: real canvas pixels, no authored design DOM, typed errors, asset diagnostics, cross-page inspector, dissolve animation, Back and unchanged preview revision
+Canvas transforms PASS: DPR 1, zoom 0.5; 8 pointer/keyboard grips, rotation, history, capture, cancellation, locks and modes
+Canvas transforms PASS: DPR 1, zoom 1.5; 8 pointer/keyboard grips, rotation, history, capture, cancellation, locks and modes
+Canvas transforms PASS: DPR 2, zoom 0.5; 8 pointer/keyboard grips, rotation, history, capture, cancellation, locks and modes
+Canvas transforms PASS: DPR 2, zoom 1.5; 8 pointer/keyboard grips, rotation, history, capture, cancellation, locks and modes
+PASS: inherited lock Inspector/read-only controls, mixed Delete atomicity, duplicate/insertion guards, explicit show/unlock, Developer/Prototype shortcut routing, isolated read-only copy, unlocked edit/undo and explicit agent edits
+PASS: real line/arrow/freehand/path gestures in a rotated frame, draft/capture boundary, polyline point undo, close/cancel, locked/managed/stale guards, SVG handoff and one exact undo at DPR2 zoom 0.5
+PASS: real line/arrow/freehand/path gestures in a rotated frame, draft/capture boundary, polyline point undo, close/cancel, locked/managed/stale guards, SVG handoff and one exact undo at DPR2 zoom 1.5
+PASS: visible smart guides, move snapping at zoom 0.5, bypass/toggle/no history, hidden/locked targets, six rendered alignment commands, equal spacing, one-step undo and no-op placement
+PASS: visible smart guides, move snapping at zoom 1.5, bypass/toggle/no history, hidden/locked targets, six rendered alignment commands, equal spacing, one-step undo and no-op placement
+PASS: reparent preview/cancel, rotated world placement and descendants, hug conversion, local-flow mode, one undo, no-op, cycle/lock/hidden rejection and stale async guard at zoom 0.5
+PASS: reparent preview/cancel, rotated world placement and descendants, hug conversion, local-flow mode, one undo, no-op, cycle/lock/hidden rejection and stale async guard at zoom 1.5
+PASS: actual canvas and native DOM preview geometry agree for free, stack, grid, border/padding, fixed/fill/hug/percent and text measurement
+PASS typography: 1 CSS-pixel geometry tolerance; bundled/local/missing font diagnostics; inspector authoring [{"width":1440,"maxDelta":2.842170943040401e-14},{"width":834,"maxDelta":5.684341886080802e-14},{"width":393,"maxDelta":5.684341886080802e-14}]
+PASS: native textarea draft/caret, Unicode/multiline, selection/file context commit, one human undo, deferred synthetic composition, read-only mode guard, capture/agent/history rejection including delayed image decode, cancel and oversized draft preservation; actual OS IME is separate
+PASS: 1,000/5,000-node documents render on one canvas, cull offscreen nodes and stay below the local 250ms flush regression ceiling
+[{"nodes":1000,"drawn":110,"total":1000,"paintMs":0.6999998092651367,"frames":5,"flushMs":0.7999999523162842,"framesSince":1},{"nodes":5000,"drawn":198,"total":5000,"paintMs":1.6000001430511475,"frames":7,"flushMs":1.7000000476837158,"framesSince":1}]
+PASS: native file/menu routing and cancellation; structured editable copy vs text name/code, UTF-8 hierarchy paste with remapped IDs and one undo (stubbed native I/O)
+PASS: real IndexedDB autosave, New preserves previous document, posted feedback survives reload
+PASS: tab creation, isolated content/undo, double-click/F2 rename, Escape, close preserves saved file, centered modes
+PASS: Shift selection, grouped pointer move, transparent group, independent undo, marquee, delete and restore
+PASS: responsive stack at mobile width, preview navigation/back without document mutation, real IndexedDB recovery
+PASS: five real Chrome Canvas/semantic/HTML/CSS free/stack/grid fractional-border geometry and undo cases at unchanged .1-point tolerance
+PASS: offline typed/password/disabled forms, overlay close/Escape/focus trap/restoration, reduced motion, retained navigation values, reset without authored mutation, and deleted-destination diagnostics
+PASS: offline custom viewport validation, nested component Inspect without action/input mutation, ephemeral reset, authoring focus/checkpoint preservation, isolated bootstrap/feed/live values/stale snapshot rejection and disposal
+PASS: SVG import, actual path rendering, SVG code and PNG download, script-bearing SVG rejection
+PASS: generated Angular strict-template consumer compiles; Tailwind 4 compiles classes and renders matching semantic HTML geometry without Maple
+PASS: Maple phone design reconstructed as 37 editable nodes, gradients/path geometry exported, text edit recovered and undone
+PASS: create component variant, insert instance, switch state, override and reset, recover developer identity
+PASS: real CSV/JSON file UI, named mappings, preview/cancel, empty/oversized/corrupt data rejection without mutation, explicit truncation, one-batch import, stable resizing, template editing, native-ready agent decode rejection, offline image preview and strict Angular/Tailwind/HTML/SVG consumers
+PASS: 20 real Repeat Grid Canvas pointer/keyboard/cancel/history cases
+PASS: real library picker, validation/import/reload, typed props/overrides, visible semantic/package/Primary/property/copy diagnostics with unchanged source paint and exact undo/reset, mapped targets and isolated clipboard paste
+PASS: exact Web Awesome 3.14.0 declarations compile; generated Button/Input/Card imports bundle and render offline with real shadow controls, values, slots and declared card spacing
+PASS: create/move/collapse/rename folders, inherit folder for new pages, reload and undo folder removal without deleting pages
+PASS: pinned placement, current-page isolation, bubble navigation/highlight, zoom projection, resolve/reply/reopen, persisted anchor, agent resolution and cancellation
+error: script "start" exited with code 143
+error: script "dev" exited with code 143

@@ -1,0 +1,18 @@
+{
+  "passed": true,
+  "port": 48494,
+  "identifier": "io.zubair.sugarmaple.repeat-qa",
+  "scope": "Actual native HTTP MCP shared repeat.resize gap/count/top-left command, rotated world anchor and exact Canvas layout, partial last-row and imported data/asset retention, whole-batch rejection, one-step undo/redo and durable capture/checkpoint; pointer input is tested separately.",
+  "capture": {
+    "scale": 1,
+    "pixelWidth": 1440,
+    "coordinateUnits": "CSS pixels in the editor WebView",
+    "rect": {
+      "height": 900,
+      "x": 0,
+      "y": 0,
+      "width": 1440
+    },
+    "pixelHeight": 900
+  }
+}
