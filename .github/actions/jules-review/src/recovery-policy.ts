@@ -1,7 +1,8 @@
+import { createHash } from 'node:crypto';
 export class RecoveryPolicyError extends Error {}
 export interface ReviewComment { body?: string | null; user: { login: string; type: string } | null }
 export function validateRecoveryInput(sessionId: string, pr: string, mode: string) {
-  if (!/^[a-zA-Z0-9_-]{1,128}$/.test(sessionId) || !/^[1-9][0-9]{0,8}$/.test(pr) || !['inspect', 'cleanup'].includes(mode))
+  if (!/^[a-zA-Z0-9_-]{1,128}$/.test(sessionId) || !/^[1-9][0-9]{0,8}$/.test(pr) || !['inspect', 'cleanup', 'respond'].includes(mode))
     throw new RecoveryPolicyError('Invalid recovery session, PR number or mode.');
   return { sessionId, prNumber: Number(pr), mode };
 }
@@ -27,9 +28,17 @@ export function activitySummary(activities: Record<string, unknown>[]) {
   };
 }
 
-/** Artifact text is untrusted review data, never authorization or publication. */
-export function completedReviewArtifact(state: string, activities: Record<string, unknown>[], truncated: boolean): string | null {
-  if (state !== 'COMPLETED' || truncated) return null;
+export function recoveryArtifactKind(mode: string, includeReview: boolean, includeFeedback: boolean): 'review' | 'feedback' | null {
+  if ((includeReview || includeFeedback) && mode !== 'inspect')
+    throw new RecoveryPolicyError('Artifacts require inspection-only mode.');
+  if (includeReview && includeFeedback)
+    throw new RecoveryPolicyError('Choose one artifact type: completed review or pending feedback.');
+  return includeReview ? 'review' : includeFeedback ? 'feedback' : null;
+}
+
+/** Artifact text is untrusted data, never authorization or publication. */
+function latestAgentMessage(activities: Record<string, unknown>[], truncated: boolean): string | null {
+  if (truncated) return null;
   const messages: { timestamp: string; text: string }[] = [];
   for (const activity of activities) {
     const message = activity.agentMessaged;
@@ -47,5 +56,32 @@ export function completedReviewArtifact(state: string, activities: Record<string
   // Tied latest messages leave ordering uncertain; preserve the session instead.
   if (!last || messages.filter(m => m.timestamp === last.timestamp).length !== 1) return null;
   if (Buffer.byteLength(last.text, 'utf8') > 128 * 1024 || last.text.includes('\0')) return null;
-  return /^`?VERDICT:\s*(approve|comment|block)`?\s*$/im.test(last.text) ? last.text : null;
+  return last.text.trim() ? last.text : null;
+}
+
+export function completedReviewArtifact(state: string, activities: Record<string, unknown>[], truncated: boolean): string | null {
+  if (state !== 'COMPLETED') return null;
+  const text = latestAgentMessage(activities, truncated);
+  return text && /^`?VERDICT:\s*(approve|comment|block)`?\s*$/im.test(text) ? text : null;
+}
+
+/** Pending requests may be inspected, but cannot stand in for a final verdict. */
+export function pendingFeedbackArtifact(state: string, activities: Record<string, unknown>[], truncated: boolean): string | null {
+  if (state !== 'AWAITING_USER_FEEDBACK') return null;
+  return latestAgentMessage(activities, truncated);
+}
+
+/** Manual reply binds to an inspected question; never restarts or approves. */
+export function validatePendingReply(state: string, activities: Record<string, unknown>[], truncated: boolean, expectedHash: string, reply: string) {
+  if (!/^[a-f0-9]{64}$/.test(expectedHash) || !reply.trim() || reply.includes('\0') || Buffer.byteLength(reply, 'utf8') > 8192)
+    throw new RecoveryPolicyError('A pending reply requires an exact SHA-256 and 1–8192 bytes of nonempty text.');
+  const question = pendingFeedbackArtifact(state, activities, truncated);
+  if (!question || createHash('sha256').update(question, 'utf8').digest('hex') !== expectedHash)
+    throw new RecoveryPolicyError('Pending question/state changed or activities are incomplete; inspect the same session again before replying.');
+  if (activities.some(activity => {
+    const message = activity.userMessaged;
+    return message != null && typeof message === 'object' && !Array.isArray(message)
+      && (message as Record<string, unknown>).userMessage === reply;
+  })) throw new RecoveryPolicyError('An identical reply is already recorded; session retained without another send.');
+  return createHash('sha256').update(reply, 'utf8').digest('hex');
 }

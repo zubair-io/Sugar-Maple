@@ -18,7 +18,7 @@ button {
   white-space: nowrap;
 }
 button:hover {
-  background: maple.$maple-color-bg-hover;
+  background: var(--color-bg-hover);
 }
 .workspace {
   display: grid;
@@ -37,18 +37,18 @@ button:hover {
 }
 .sidebar,
 .inspector {
-  background: maple.$maple-color-sidebar;
+  background: var(--color-sidebar);
   overflow: auto;
   position: relative;
 }
 .sidebar {
-  border-right: 1px solid #ffffff12;
+  border-right: 1px solid var(--color-border);
   display: flex;
   flex-direction: column;
 }
 .inspector {
-  border-left: 1px solid rgba(255, 255, 255, 0.1);
-  padding-bottom: 24px;
+  border-left: 1px solid var(--color-border);
+  overflow: hidden;
 }
 .tabs {
   display: flex;
@@ -56,24 +56,24 @@ button:hover {
   flex-shrink: 0;
   align-items: center;
   padding: 0 8px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid var(--color-border);
   gap: 4px;
 }
 .tabs button {
   padding: 7px 6px;
   flex: 1;
-  color: maple.$maple-color-text-muted;
+  color: var(--color-text-muted);
   font-size: 11px;
 }
 .tabs .active {
-  color: maple.$maple-color-text-main;
-  background: maple.$maple-color-bg-active;
+  color: var(--color-text-main);
+  background: var(--color-bg-active);
 }
 .section-heading {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  color: #a49b94;
+  color: var(--color-text-muted);
   font-size: 10px;
   letter-spacing: 1px;
   font-weight: 600;
@@ -82,38 +82,30 @@ button:hover {
 .section-heading span {
   font-weight: 400;
 }
-.page-row,
-.layer-row {
+.page-row {
   display: flex;
   align-items: center;
   padding: 2px 8px;
   height: 32px;
 }
-.page-row button:first-child,
-.layer-row button:first-child {
+.page-row button:first-child {
   flex: 1;
   text-align: left;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 .page-row.active {
-  background: #ffffff06;
+  background: var(--color-bg-hover);
 }
-.layer-row.active {
-  background: #32465f;
-  color: #d8e8ff;
-}
+
 .layer-row button:not(:first-child) {
   padding: 3px;
-  color: #aaa;
+  color: var(--color-text-muted);
   font-size: 10px;
 }
-.node-icon {
-  margin-right: 10px;
-  color: #9b938e;
-}
+
 .muted {
-  color: #a69e97;
+  color: var(--color-text-muted);
   line-height: 1.6;
   padding: 0 14px;
   font-size: 11px;
@@ -124,10 +116,10 @@ button:hover {
 .sidebar-bottom {
   margin-top: auto;
   padding: 20px 14px;
-  color: #766f69;
+  color: var(--color-text-muted);
   font-size: 9px;
   letter-spacing: 2px;
-  border-top: 1px solid #ffffff08;
+  border-top: 1px solid var(--color-border);
 }
 .sidebar-bottom span {
   display: block;
@@ -147,8 +139,8 @@ button:hover {
   align-items: center;
   justify-content: space-between;
   height: 44px;
-  border-bottom: 1px solid #ffffff08;
-  background: maple.$maple-color-surface;
+  border-bottom: 1px solid var(--color-border);
+  background: var(--color-surface);
   padding: 0 10px;
   z-index: 2;
 }
@@ -156,12 +148,7 @@ button:hover {
   display: flex;
   gap: 5px;
 }
-.tools button {
-  font-size: 19px;
-  width: 34px;
-  height: 32px;
-  line-height: 16px;
-}
+
 .viewport {
   position: relative;
   flex: 1;
@@ -213,7 +200,7 @@ kbd {
 }
 .inspector-heading {
   height: 52px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid var(--color-border);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -223,7 +210,7 @@ kbd {
 }
 .inspector-heading span {
   font-size: 10px;
-  color: #a69e97;
+  color: var(--color-text-muted);
   font-weight: 400;
   text-transform: capitalize;
 }
@@ -232,13 +219,13 @@ kbd {
   align-items: baseline;
   justify-content: space-between;
   padding: 18px 14px 8px;
-  color: maple.$maple-color-text-main;
+  color: var(--color-text-main);
   font-size: 12px;
   font-weight: 650;
   text-transform: capitalize;
 }
 .inspector-subheading span {
-  color: maple.$maple-color-text-muted;
+  color: var(--color-text-muted);
   font-size: 10px;
   font-weight: 400;
 }
@@ -249,7 +236,7 @@ kbd {
   justify-content: space-between;
   gap: 8px;
   padding: 7px 14px;
-  color: #aaa19a;
+  color: var(--color-text-muted);
   font-size: 11px;
 }
 .inspector input,
@@ -257,40 +244,36 @@ kbd {
 .sidebar input {
   width: 65%;
   min-width: 0;
-  background: maple.$maple-color-input-bg;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--color-input-bg);
+  border: 1px solid var(--color-border);
   border-radius: maple.$maple-radius-sm;
-  color: maple.$maple-color-text-main;
+  color: var(--color-text-main);
   padding: 8px 9px;
   outline-offset: 0;
 }
-.mui-field { padding: 12px 4px 4px; }
+.mui-field {
+  padding: 12px 4px 4px;
+}
 .mui-field input,
 .mui-field textarea,
-.mui-field select { width: 100%; }
+.mui-field select {
+  width: 100%;
+}
 .inspector input:hover,
 .inspector textarea:hover,
-.sidebar input:hover { border-color: maple.$maple-color-border-hi; }
+.sidebar input:hover {
+  border-color: var(--color-border-hi);
+}
 .inspector input:focus,
 .inspector textarea:focus,
-.sidebar input:focus { border-color: maple.$maple-color-primary; }
+.sidebar input:focus {
+  border-color: var(--color-primary);
+}
 .inspector input[type='color'] {
   height: 30px;
   padding: 3px;
 }
-.fields {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 2px;
-  padding: 0 8px 2px;
-}
-.fields label {
-  padding: 5px;
-  font-size: 10px;
-}
-.fields input {
-  width: 65px;
-}
+
 .actions {
   display: flex;
   gap: 4px;
@@ -298,12 +281,14 @@ kbd {
   padding: 16px 12px;
 }
 .actions button {
-  background: maple.$maple-color-surface;
+  background: var(--color-surface);
   font-size: 11px;
 }
-.actions button:hover { background: maple.$maple-color-surface-hover; }
+.actions button:hover {
+  background: var(--color-surface-hover);
+}
 .danger {
-  color: #e89a90;
+  color: var(--color-error-text);
 }
 .inspector-empty {
   padding: 100px 32px 0;
@@ -311,15 +296,15 @@ kbd {
 }
 .inspector-empty > span {
   font-size: 36px;
-  color: #74695f;
+  color: var(--color-text-muted);
 }
 .inspector-empty h3 {
   font-weight: 500;
-  color: #c6bbb1;
+  color: var(--color-text-main);
   margin: 18px 0 10px;
 }
 .inspector-empty p {
-  color: #837a72;
+  color: var(--color-text-muted);
   font-size: 11px;
   line-height: 1.8;
 }
@@ -328,10 +313,10 @@ pre {
   overflow-wrap: anywhere;
   margin: 12px;
   padding: 12px;
-  background: #171615;
-  border: 1px solid #ffffff0b;
+  background: var(--color-input-bg);
+  border: 1px solid var(--color-border);
   border-radius: 5px;
-  color: #bdc8c5;
+  color: var(--color-text-main);
   font: 10px/1.7 monospace;
   max-height: 420px;
   overflow: auto;
@@ -343,7 +328,7 @@ pre {
   gap: 8px;
 }
 .asset-grid button {
-  background: #ffffff05;
+  background: var(--color-bg-hover);
   height: 70px;
   text-transform: capitalize;
   font-size: 10px;
@@ -357,14 +342,14 @@ pre {
   cursor: pointer;
 }
 footer {
-  height: 28px;
+  height: 44px;
   display: flex;
   align-items: center;
   gap: 8px;
   padding: 0 12px;
   font-size: 10px;
-  color: #9f968e;
-  border-top: 1px solid #ffffff12;
+  color: var(--color-text-muted);
+  border-top: 1px solid var(--color-border);
   flex-shrink: 0;
 }
 footer button {
@@ -373,7 +358,7 @@ footer button {
 }
 footer input {
   width: 70px;
-  accent-color: #c77960;
+  accent-color: var(--color-primary);
 }
 .footer-center {
   margin: auto;
@@ -404,27 +389,14 @@ footer > span:last-child {
   .workspace.no-right {
     grid-template-columns: 220px minmax(0, 1fr);
   }
-  .mcp {
-    display: none;
-  }
-  .document-title {
-    width: 100px;
-  }
-  .topbar {
-    gap: 2px;
-  }
-  .mode-switch button {
-    padding: 5px 6px;
-  }
+
   .empty-canvas h1 {
     font-size: 18px;
   }
   .tools {
     gap: 0;
   }
-  .tools button {
-    width: 28px;
-  }
+
 }
 .folder-create {
   display: flex;
@@ -456,7 +428,7 @@ footer > span:last-child {
   display: block;
   margin-top: 4px;
   font-size: 11px;
-  color: #a49b94;
+  color: var(--color-text-muted);
 }
 
 .sidebar[hidden],
@@ -487,4 +459,38 @@ footer > span:last-child {
 }
 .page-row > mui-button {
   flex-shrink: 0;
+}
+
+.layer-row {
+  display: flex;
+  align-items: center;
+  padding: 0 8px;
+  height: auto;
+  min-height: 36px;
+}
+.layer-row > mui-tree-row {
+  flex: 1;
+  min-width: 0;
+}
+.layer-row > button {
+  flex: 0 0 28px;
+}
+.layer-search {
+  padding: 8px 14px;
+}
+.tools {
+  align-items: center;
+  min-width: 0;
+}
+footer {
+  background: var(--color-surface);
+}
+.appearance {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+.appearance mui-select {
+  width: 72px;
 }

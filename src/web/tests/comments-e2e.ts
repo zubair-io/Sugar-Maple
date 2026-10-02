@@ -7,7 +7,7 @@ await p.waitForFunction(() => window.sugarMaple.ready);
 await p.getByRole('button', { name: 'Add artboard', exact: true }).click();
 const originalNodes = (await p.evaluate(() => window.sugarMaple.dispatch('document.get'))).document
   .nodes;
-await p.getByRole('button', { name: 'Comments', exact: true }).click();
+await p.getByRole('tab', { name: 'Comments', exact: true }).click();
 await expect(p.getByLabel('Comment scope')).toHaveCount(0);
 await expect(p.getByLabel('New page comment')).toHaveCount(0);
 await p.getByRole('button', { name: 'Add comment', exact: true }).click();
@@ -40,11 +40,11 @@ assert.ok(Math.abs(iconBox!.x + iconBox!.width / 2 - pinBox!.x - pinBox!.width /
 assert.ok(Math.abs(iconBox!.y + iconBox!.height / 2 - pinBox!.y - pinBox!.height / 2) < 0.5);
 assert.ok(Math.abs(pinBox!.x + 16 - viewport!.x - 220) < 1);
 assert.ok(Math.abs(pinBox!.y + 16 - viewport!.y - 160) < 1);
-await p.getByRole('button', { name: 'Details', exact: true }).click();
+await p.getByRole('tab', { name: 'Details', exact: true }).click();
 await p.getByRole('button', { name: 'Toggle right panel' }).click();
 await pin.click();
-await expect(p.getByRole('button', { name: 'Comments', exact: true })).toHaveAttribute(
-  'aria-pressed',
+await expect(p.getByRole('tab', { name: 'Comments', exact: true })).toHaveAttribute(
+  'aria-selected',
   'true',
 );
 await expect(article).toBeFocused();
@@ -54,15 +54,19 @@ const zoomBefore = await p.getByRole('slider', { name: 'Zoom' }).inputValue();
 await p.getByRole('slider', { name: 'Zoom' }).focus();
 await p.keyboard.press('ArrowRight');
 await expect(p.getByRole('slider', { name: 'Zoom' })).not.toHaveValue(zoomBefore);
-await expect.poll(async () => p.locator('.viewport').evaluate((el, anchor) => {
-  const viewport = el.getBoundingClientRect();
-  const camera = window.sugarMaple.viewport.camera();
-  const pin = el.querySelector('comment-canvas button.comment-pin')!.getBoundingClientRect();
-  return Math.max(
-    Math.abs(pin.x + pin.width / 2 - viewport.x - (anchor.x * camera.zoom + camera.pan.x)),
-    Math.abs(pin.y + pin.height / 2 - viewport.y - (anchor.y * camera.zoom + camera.pan.y)),
-  );
-}, thread.anchor)).toBeLessThan(1);
+await expect
+  .poll(async () =>
+    p.locator('.viewport').evaluate((el, anchor) => {
+      const viewport = el.getBoundingClientRect();
+      const camera = window.sugarMaple.viewport.camera();
+      const pin = el.querySelector('comment-canvas button.comment-pin')!.getBoundingClientRect();
+      return Math.max(
+        Math.abs(pin.x + pin.width / 2 - viewport.x - (anchor.x * camera.zoom + camera.pan.x)),
+        Math.abs(pin.y + pin.height / 2 - viewport.y - (anchor.y * camera.zoom + camera.pan.y)),
+      );
+    }, thread.anchor),
+  )
+  .toBeLessThan(1);
 await p.getByRole('button', { name: 'Add page', exact: true }).click();
 await expect(article).toHaveCount(0);
 await expect(pin).toHaveCount(0);

@@ -1,8 +1,8 @@
 <div class="app-shell" [attr.inert]="e.ready() ? null : ''">
-  <editor-header (preview)="startPreview()" />
+  <editor-header class="maple-chrome" (preview)="startPreview()" />
   <div class="workspace" [class.no-left]="!left()" [class.no-right]="!right()">
     <aside
-      class="sidebar"
+      class="sidebar maple-chrome"
       id="left-panel"
       aria-label="Pages, layers, assets and tokens"
       [hidden]="!left()"
@@ -67,8 +67,11 @@
               [class.active]="e.pageId() === row.id"
               [style.padding-left.px]="row.folderId ? 20 : 0"
             >
-              <button [attr.aria-current]="e.pageId() === row.id ? 'page' : null"
-                (dblclick)="renamePage(row.id, row.name)" (click)="selectPage(row.id)">
+              <button
+                [attr.aria-current]="e.pageId() === row.id ? 'page' : null"
+                (dblclick)="renamePage(row.id, row.name)"
+                (click)="selectPage(row.id)"
+              >
                 ▤ {{ row.name }}
               </button>
               <mui-button
@@ -98,43 +101,58 @@
         <div class="section-heading">
           LAYERS <span>{{ e.pageNodes().length }}</span>
         </div>
-        <label
-          >Find layer<input
-            aria-label="Find layer"
-            [ngModel]="search()"
-            (ngModelChange)="search.set($event)"
-        /></label>
-        @for (row of layers(); track row.node.id) {
-          @let node = row.node;
-          <div
-            class="layer-row"
-            [class.active]="e.selection().includes(node.id)"
-            [style.padding-left.px]="12 + row.depth * 14"
-          >
-            <button [attr.aria-label]="'Select ' + node.name" (click)="e.select(node.id, $event.shiftKey)">
-              <span class="node-icon">{{
-                node.kind === 'text' ? 'T' : node.kind === 'artboard' ? '▣' : '◇'
-              }}</span
-              >{{ node.name }}</button
-            ><button
-              [attr.aria-label]="(node.hidden ? 'Show ' : 'Hide ') + node.name"
-              [title]="(node.hidden ? 'Show ' : 'Hide ') + node.name"
-              (click)="
-                e.perform([{ type: 'node.update', id: node.id, patch: { hidden: !node.hidden } }])
-              "
-            >
-              {{ node.hidden ? '○' : '◉' }}</button
-            ><button
-              [attr.aria-label]="(node.locked ? 'Unlock ' : 'Lock ') + node.name"
-              [title]="(node.locked ? 'Unlock ' : 'Lock ') + node.name"
-              (click)="
-                e.perform([{ type: 'node.update', id: node.id, patch: { locked: !node.locked } }])
-              "
-            >
-              {{ node.locked ? '▣' : '▫' }}
-            </button>
-          </div>
-        }
+        <mui-field label="Find layer" class="layer-search" [stacked]="true">
+          <mui-input
+            variant="search"
+            size="sm"
+            ariaLabel="Find layer"
+            [value]="search()"
+            (valueChange)="search.set($event)"
+          />
+        </mui-field>
+        <div role="tree" aria-label="Layers" aria-multiselectable="true">
+          @for (row of layers(); track row.node.id) {
+            @let node = row.node;
+            <div class="layer-row">
+              <mui-tree-row
+                [attr.data-layer-id]="node.id"
+                [tabIndex]="layerTabStop() === node.id ? 0 : -1"
+                (focusin)="focusedLayer.set(node.id)"
+                (keydown)="layerKey($event, node.id)"
+                [label]="node.name"
+                [ariaLabel]="'Select ' + node.name"
+                [depth]="row.depth"
+                [icon]="
+                  node.kind === 'artboard'
+                    ? 'design-artboard'
+                    : node.kind === 'text'
+                      ? 'design-text'
+                      : 'design-frame'
+                "
+                iconColor="active-only"
+                [active]="e.selection().includes(node.id)"
+                (activated)="e.select(node.id, $event.shiftKey)"
+              />
+              <button
+                [attr.aria-label]="(node.hidden ? 'Show ' : 'Hide ') + node.name"
+                [title]="(node.hidden ? 'Show ' : 'Hide ') + node.name"
+                (click)="
+                  e.perform([{ type: 'node.update', id: node.id, patch: { hidden: !node.hidden } }])
+                "
+              >
+                {{ node.hidden ? '○' : '◉' }}</button
+              ><button
+                [attr.aria-label]="(node.locked ? 'Unlock ' : 'Lock ') + node.name"
+                [title]="(node.locked ? 'Unlock ' : 'Lock ') + node.name"
+                (click)="
+                  e.perform([{ type: 'node.update', id: node.id, patch: { locked: !node.locked } }])
+                "
+              >
+                {{ node.locked ? '▣' : '▫' }}
+              </button>
+            </div>
+          }
+        </div>
         @if (!e.pageNodes().length) {
           <p class="muted empty-layers">Your page is ready.<br />Add an artboard to begin.</p>
         }
@@ -154,8 +172,13 @@
         <div class="section-heading">PRIMITIVES</div>
         <div class="asset-grid">
           @for (kind of kinds; track kind) {
-            <button [disabled]="e.mode() !== 'Design'" [title]="'Add ' + kind"
-              (click)="e.add(kind)"><span>◇</span>{{ kind }}</button>
+            <button
+              [disabled]="e.mode() !== 'Design'"
+              [title]="'Add ' + kind"
+              (click)="e.add(kind)"
+            >
+              <span>◇</span>{{ kind }}
+            </button>
           }
         </div>
         <label class="file-button"
@@ -196,7 +219,7 @@
       <div class="sidebar-bottom">SUGAR MAPLE <span>Local workspace</span></div>
     </aside>
     <main class="canvas-shell">
-      <div class="canvas-toolbar">
+      <div class="canvas-toolbar maple-chrome">
         <button
           class="panel-toggle"
           (click)="left.set(!left())"
@@ -212,30 +235,7 @@
           </svg>
         </button>
         <div class="tools">
-          @for (kind of kinds; track kind) {
-            <button
-              [disabled]="e.mode() !== 'Design'"
-              (click)="e.add(kind)"
-              [title]="'Add ' + kind"
-              [attr.aria-label]="'Add ' + kind"
-            >
-              {{
-                kind === 'artboard'
-                  ? '▣'
-                  : kind === 'frame'
-                    ? '▢'
-                    : kind === 'text'
-                      ? 'T'
-                      : kind === 'rectangle'
-                        ? '□'
-                        : kind === 'ellipse'
-                          ? '○'
-                          : kind === 'button'
-                            ? '▰'
-                            : '▤'
-              }}
-            </button>
-          }
+          <mui-toolbar [entries]="creationTools()" (itemSelected)="createFromToolbar($event)" />
           <mui-button
             variant="ghost"
             size="sm"
@@ -263,11 +263,15 @@
         </button>
       </div>
       <div class="viewport">
-        <canvas-surface [zoom]="zoom()" [pan]="pan()" [enabled]="!preview() && !commentUi.placing() && !commentUi.draft()"
-          (cameraChange)="zoom.set($event.zoom); pan.set($event.pan)" />
-        <comment-canvas [zoom]="zoom()" [pan]="pan()" />
+        <canvas-surface
+          [zoom]="zoom()"
+          [pan]="pan()"
+          [enabled]="!preview() && !commentUi.placing() && !commentUi.draft()"
+          (cameraChange)="zoom.set($event.zoom); pan.set($event.pan)"
+        />
+        <comment-canvas class="maple-chrome" [zoom]="zoom()" [pan]="pan()" />
         @if (!e.pageNodes().length) {
-          <div class="empty-canvas">
+          <div class="empty-canvas maple-chrome">
             <div class="empty-artboards">▱</div>
             <h1>Make room for your next idea.</h1>
             <p>Build a screen. Explore a flow. Make it yours.</p>
@@ -278,281 +282,496 @@
         }
       </div>
     </main>
-    <aside class="inspector" id="right-panel" aria-label="Details and comments" [hidden]="!right()">
-      <nav class="tabs" aria-label="Right panel sections">
-        @for (section of ['Details', 'Comments']; track section) {
-          <button
-            [class.active]="commentUi.panel() === section"
-            [attr.aria-pressed]="commentUi.panel() === section"
-            (click)="commentUi.panel.set(section)"
-          >
-            {{ section }}
-          </button>
-        }
-      </nav>
-      @if (commentUi.panel() === 'Comments') {
-        <page-comments />
-      } @else {
-        <div class="inspector-heading">
-          {{ e.mode() === 'Design' ? (e.node()?.name ?? 'Details') : e.mode() }}
-          <span>{{ e.node()?.kind ?? 'Document' }}</span>
-        </div>
-        @if (e.node(); as n) {
-          <div class="inspector-name-row"><input aria-label="Layer name" [ngModel]="n.name"
-            (change)="patch('name', value($event))" /></div>
-          @if (e.mode() === 'Design') {
-            <mui-section title="Transform" sectionId="transform-details">
-              <div class="alignment-strip" role="group" aria-label="Align selected layers">
-                @for (action of alignmentActions; track action.key) {
-                  <button type="button" [attr.aria-label]="action.label" [title]="action.label"
-                    [disabled]="!canAlign()" (click)="alignSelection(action.key)">{{ action.glyph }}</button>
-                }
-              </div>
-              <div class="inspector-grid">
-                @for (field of transformFields; track field.key) {
-                  <label class="compact-field">
-                    <span>{{ field.label }}</span>
-                    <input type="number" [attr.aria-label]="field.name" [ngModel]="n[field.key]"
-                      [disabled]="n.locked || (managedByParent() && (field.key === 'x' || field.key === 'y'))"
-                      (change)="patch(field.key, +value($event))" />
-                  </label>
-                }
-              </div>
-              @if (managedByParent()) { <p class="inspector-note">Position is managed by the parent layout.</p> }
-              <mui-field label="Parent">
-                <mui-select ariaLabel="Parent" [value]="n.parentId ?? ''" [options]="parentSelectOptions()"
-                  (valueChange)="patch('parentId', $event || null)" />
-              </mui-field>
-            </mui-section>
-            <mui-section title="Layout" sectionId="layout-details">
-              @if (!n.repeatTemplateId) { <mui-field label="Flow">
-                <mui-select ariaLabel="Layout flow" [value]="n.layout"
-                  [options]="layoutOptions"
-                  (valueChange)="patch('layout', $event)" />
-              </mui-field> } @else { <p>Repeat Grid layout · resize below</p> }
-              <div class="inspector-grid">
-                @for (axis of ['width', 'height']; track axis) {
-                  <label class="compact-field">
-                    <span>{{ axis === 'width' ? 'W' : 'H' }}</span>
-                    <mui-select [ariaLabel]="axis + ' sizing'"
-                      [value]="axis === 'width' ? n.widthMode : n.heightMode"
-                      [options]="sizingOptions"
-                      (valueChange)="patch(axis + 'Mode', $event)" />
-                  </label>
-                  @if ((axis === 'width' ? n.widthMode : n.heightMode) === 'percent') {
-                    <label class="compact-field"><span>{{ axis === 'width' ? 'W%' : 'H%' }}</span>
-                      <input type="number" min="1" max="100" [attr.aria-label]="axis + ' percent'"
-                        [ngModel]="axis === 'width' ? n.widthPercent : n.heightPercent"
-                        (change)="patch(axis + 'Percent', +value($event))" />
+    <aside
+      class="inspector maple-chrome"
+      id="right-panel"
+      aria-label="Details and comments"
+      [hidden]="!right()"
+    >
+      <mui-inspector-panel
+        title="Inspector"
+        [tabs]="inspectorTabs"
+        [showBack]="false"
+        [activeTabId]="commentUi.panel()"
+        (activeTabIdChange)="commentUi.panel.set($any($event))"
+      >
+        @if (commentUi.panel() === 'Comments') {
+          <page-comments />
+        } @else {
+          <div class="inspector-heading">
+            {{ e.mode() === 'Design' ? (e.node()?.name ?? 'Details') : e.mode() }}
+            <span>{{ e.node()?.kind ?? 'Document' }}</span>
+          </div>
+          @if (e.node(); as n) {
+            <div class="inspector-name-row">
+              <input
+                aria-label="Layer name"
+                [ngModel]="n.name"
+                (change)="patch('name', value($event))"
+              />
+            </div>
+            @if (e.mode() === 'Design') {
+              <mui-section title="Transform" sectionId="transform-details">
+                <div class="alignment-strip" role="group" aria-label="Align selected layers">
+                  @for (action of alignmentActions; track action.key) {
+                    <button
+                      type="button"
+                      [attr.aria-label]="action.label"
+                      [title]="action.label"
+                      [disabled]="!canAlign()"
+                      (click)="alignSelection(action.key)"
+                    >
+                      {{ action.glyph }}
+                    </button>
+                  }
+                </div>
+                <div class="inspector-grid">
+                  @for (field of transformFields; track field.key) {
+                    <label class="compact-field">
+                      <span>{{ field.label }}</span>
+                      <input
+                        type="number"
+                        [attr.aria-label]="field.name"
+                        [ngModel]="n[field.key]"
+                        [disabled]="
+                          n.locked ||
+                          (managedByParent() && (field.key === 'x' || field.key === 'y'))
+                        "
+                        (change)="patch(field.key, +value($event))"
+                      />
                     </label>
                   }
+                </div>
+                @if (managedByParent()) {
+                  <p class="inspector-note">Position is managed by the parent layout.</p>
                 }
-              </div>
-              @if (n.layout !== 'free') {
+                <mui-field label="Parent">
+                  <mui-select
+                    ariaLabel="Parent"
+                    [value]="n.parentId ?? ''"
+                    [options]="parentSelectOptions()"
+                    (valueChange)="patch('parentId', $event || null)"
+                  />
+                </mui-field>
+              </mui-section>
+              <mui-section title="Layout" sectionId="layout-details">
+                @if (!n.repeatTemplateId) {
+                  <mui-field label="Flow">
+                    <mui-select
+                      ariaLabel="Layout flow"
+                      [value]="n.layout"
+                      [options]="layoutOptions"
+                      (valueChange)="patch('layout', $event)"
+                    />
+                  </mui-field>
+                } @else {
+                  <p>Repeat Grid layout · resize below</p>
+                }
                 <div class="inspector-grid">
-                  <label class="compact-field"><span>Gap</span><input type="number" min="0" aria-label="Gap"
-                    [ngModel]="n.gap" (change)="patch('gap', +value($event))" /></label>
-                  <label class="compact-field"><span>Pad</span><input type="number" min="0" aria-label="Padding"
-                    [ngModel]="n.padding" (change)="patch('padding', +value($event))" /></label>
-                  @if (n.layout === 'grid' && !n.repeatTemplateId) {
-                    <label class="compact-field"><span>Cols</span><input type="number" min="1" max="24" aria-label="Grid columns"
-                      [ngModel]="n.columns" (change)="patch('columns', +value($event))" /></label>
+                  @for (axis of ['width', 'height']; track axis) {
+                    <label class="compact-field">
+                      <span>{{ axis === 'width' ? 'W' : 'H' }}</span>
+                      <mui-select
+                        [ariaLabel]="axis + ' sizing'"
+                        [value]="axis === 'width' ? n.widthMode : n.heightMode"
+                        [options]="sizingOptions"
+                        (valueChange)="patch(axis + 'Mode', $event)"
+                      />
+                    </label>
+                    @if ((axis === 'width' ? n.widthMode : n.heightMode) === 'percent') {
+                      <label class="compact-field"
+                        ><span>{{ axis === 'width' ? 'W%' : 'H%' }}</span>
+                        <input
+                          type="number"
+                          min="1"
+                          max="100"
+                          [attr.aria-label]="axis + ' percent'"
+                          [ngModel]="axis === 'width' ? n.widthPercent : n.heightPercent"
+                          (change)="patch(axis + 'Percent', +value($event))"
+                        />
+                      </label>
+                    }
                   }
                 </div>
-              }
-            </mui-section>
-            @if (['text', 'button', 'input'].includes(n.kind)) {
-              <mui-section title="Typography" sectionId="typography-details">
-                <mui-field label="Text" [stacked]="true">
-                  <textarea aria-label="Text content" [ngModel]="n.text"
-                    (change)="patch('text', value($event))"></textarea>
-                </mui-field>
-                <mui-field label="Family" [stacked]="true">
-                  <input aria-label="Font family" list="font-families" [ngModel]="n.fontFamily"
-                    (change)="patch('fontFamily', value($event))" />
-                  <datalist id="font-families"><option>system-ui</option><option>Maple Sans</option><option>serif</option><option>monospace</option><option>sans-serif</option></datalist>
-                </mui-field>
-                <font-inspector [node]="n" />
-                <div class="inspector-grid">
-                  <label class="compact-field"><span>Size</span><input type="number" min="6" aria-label="Font size"
-                    [ngModel]="n.fontSize" (change)="patch('fontSize', +value($event))" /></label>
-                  <label class="compact-field"><span>Weight</span><input type="number" min="100" max="900" step="100" aria-label="Font weight"
-                    [ngModel]="n.fontWeight" (change)="patch('fontWeight', +value($event))" /></label>
-                </div>
-                <div class="inspector-grid">
-                  <label class="compact-field"><span>Line ×</span><input type="number" min="0.5" max="5" step="0.1" aria-label="Line height"
-                    [ngModel]="n.lineHeight" (change)="patch('lineHeight', +value($event))" /></label>
-                  <label class="compact-field"><span>Track</span><input type="number" min="-20" max="100" step="0.1" aria-label="Letter spacing"
-                    [ngModel]="n.letterSpacing" (change)="patch('letterSpacing', +value($event))" /></label>
-                </div>
-                <mui-field label="Align"><mui-select ariaLabel="Text alignment" [value]="n.textAlign" [options]="textAlignOptions"
-                  (valueChange)="patch('textAlign', $event)" /></mui-field>
-                <mui-field label="Text color"><input type="color" aria-label="Text color" [value]="n.color"
-                  (change)="patch('color', value($event))" /></mui-field>
-              </mui-section>
-            }
-            @if (['button', 'input'].includes(n.kind)) {
-              <mui-section title="Control" sectionId="control-details">
-                <mui-field label="Accessible name" [stacked]="true"><input aria-label="Accessible name"
-                  [ngModel]="n.accessibleLabel" (change)="patch('accessibleLabel', value($event))" [placeholder]="n.name" /></mui-field>
-                <mui-field label="Disabled"><input type="checkbox" aria-label="Disabled control"
-                  [ngModel]="n.disabled" (ngModelChange)="patch('disabled', $event)" /></mui-field>
-                @if (n.kind === 'input') {
-                  <mui-field label="Type"><mui-select ariaLabel="Input type" [value]="n.inputType" [options]="inputTypeOptions"
-                    (valueChange)="patch('inputType', $event)" /></mui-field>
-                  <mui-field label="Initial value" [stacked]="true"><input aria-label="Initial value" [type]="n.inputType === 'password' ? 'password' : 'text'"
-                    [ngModel]="n.initialValue" (change)="patch('initialValue', value($event))" /></mui-field>
-                  <p class="muted">Text is the placeholder. Initial values are saved with the document; use mock data. Preview edits reset separately.</p>
+                @if (n.layout !== 'free') {
+                  <div class="inspector-grid">
+                    <label class="compact-field"
+                      ><span>Gap</span
+                      ><input
+                        type="number"
+                        min="0"
+                        aria-label="Gap"
+                        [ngModel]="n.gap"
+                        (change)="patch('gap', +value($event))"
+                    /></label>
+                    <label class="compact-field"
+                      ><span>Pad</span
+                      ><input
+                        type="number"
+                        min="0"
+                        aria-label="Padding"
+                        [ngModel]="n.padding"
+                        (change)="patch('padding', +value($event))"
+                    /></label>
+                    @if (n.layout === 'grid' && !n.repeatTemplateId) {
+                      <label class="compact-field"
+                        ><span>Cols</span
+                        ><input
+                          type="number"
+                          min="1"
+                          max="24"
+                          aria-label="Grid columns"
+                          [ngModel]="n.columns"
+                          (change)="patch('columns', +value($event))"
+                      /></label>
+                    }
+                  </div>
                 }
               </mui-section>
-            }
-            @if (n.kind === 'image') { <asset-inspector [node]="n" /> }
-            <mui-section title="Style" sectionId="style-details">
-              <mui-field label="Opacity"><input type="number" min="0" max="100" aria-label="Opacity percent"
-                [ngModel]="Math.round(n.opacity * 100)"
-                (change)="patch('opacity', +value($event) / 100)" /></mui-field>
-              @if (n.kind !== 'text' && n.kind !== 'path' && n.kind !== 'image') {
-                <mui-field label="Corners"><input type="number" min="0" aria-label="Corner radius"
-                  [ngModel]="n.radius" (change)="patch('radius', +value($event))" /></mui-field>
+              @if (['text', 'button', 'input'].includes(n.kind)) {
+                <mui-section title="Typography" sectionId="typography-details">
+                  <mui-field label="Text" [stacked]="true">
+                    <textarea
+                      aria-label="Text content"
+                      [ngModel]="n.text"
+                      (change)="patch('text', value($event))"
+                    ></textarea>
+                  </mui-field>
+                  <mui-field label="Family" [stacked]="true">
+                    <input
+                      aria-label="Font family"
+                      list="font-families"
+                      [ngModel]="n.fontFamily"
+                      (change)="patch('fontFamily', value($event))"
+                    />
+                    <datalist id="font-families">
+                      <option>system-ui</option>
+                      <option>Maple Sans</option>
+                      <option>serif</option>
+                      <option>monospace</option>
+                      <option>sans-serif</option>
+                    </datalist>
+                  </mui-field>
+                  <font-inspector [node]="n" />
+                  <div class="inspector-grid">
+                    <label class="compact-field"
+                      ><span>Size</span
+                      ><input
+                        type="number"
+                        min="6"
+                        aria-label="Font size"
+                        [ngModel]="n.fontSize"
+                        (change)="patch('fontSize', +value($event))"
+                    /></label>
+                    <label class="compact-field"
+                      ><span>Weight</span
+                      ><input
+                        type="number"
+                        min="100"
+                        max="900"
+                        step="100"
+                        aria-label="Font weight"
+                        [ngModel]="n.fontWeight"
+                        (change)="patch('fontWeight', +value($event))"
+                    /></label>
+                  </div>
+                  <div class="inspector-grid">
+                    <label class="compact-field"
+                      ><span>Line ×</span
+                      ><input
+                        type="number"
+                        min="0.5"
+                        max="5"
+                        step="0.1"
+                        aria-label="Line height"
+                        [ngModel]="n.lineHeight"
+                        (change)="patch('lineHeight', +value($event))"
+                    /></label>
+                    <label class="compact-field"
+                      ><span>Track</span
+                      ><input
+                        type="number"
+                        min="-20"
+                        max="100"
+                        step="0.1"
+                        aria-label="Letter spacing"
+                        [ngModel]="n.letterSpacing"
+                        (change)="patch('letterSpacing', +value($event))"
+                    /></label>
+                  </div>
+                  <mui-field label="Align"
+                    ><mui-select
+                      ariaLabel="Text alignment"
+                      [value]="n.textAlign"
+                      [options]="textAlignOptions"
+                      (valueChange)="patch('textAlign', $event)"
+                  /></mui-field>
+                  <mui-field label="Text color"
+                    ><input
+                      type="color"
+                      aria-label="Text color"
+                      [value]="n.color"
+                      (change)="patch('color', value($event))"
+                  /></mui-field>
+                </mui-section>
               }
-              @if (n.kind !== 'text' && n.kind !== 'image') {
-                <div class="style-group-title">Fills</div>
-                <mui-field label="Enabled"><input type="checkbox" aria-label="Fill enabled"
-                  [ngModel]="n.fillEnabled" (ngModelChange)="patch('fillEnabled', $event)" /></mui-field>
-                @if (n.fillEnabled) {
-                  <mui-field label="Color"><input type="color" aria-label="Fill color" [value]="n.fill"
-                    (change)="patch('fill', value($event))" /></mui-field>
-                  <mui-field label="Token"><mui-select ariaLabel="Fill token" [value]="n.fillToken"
-                    [options]="tokenSelectOptions()" (valueChange)="patch('fillToken', $event)" /></mui-field>
-                  @if (n.kind !== 'path') {
-                    <mui-field label="Type"><mui-select ariaLabel="Fill style" [value]="n.gradient?.type ?? 'solid'"
-                      [options]="fillStyleOptions" (valueChange)="fillStyle($event)" /></mui-field>
-                    @if (n.gradient; as gradient) {
-                      @for (stop of gradient.stops; track $index) {
-                        <mui-field [label]="'Stop ' + stop.offset * 100 + '%'">
-                          <input type="color" [attr.aria-label]="'Gradient stop ' + stop.offset * 100 + '%'"
-                            [value]="stop.color" (change)="gradientStop($index, value($event))" />
-                        </mui-field>
+              @if (['button', 'input'].includes(n.kind)) {
+                <mui-section title="Control" sectionId="control-details">
+                  <mui-field label="Accessible name" [stacked]="true"
+                    ><input
+                      aria-label="Accessible name"
+                      [ngModel]="n.accessibleLabel"
+                      (change)="patch('accessibleLabel', value($event))"
+                      [placeholder]="n.name"
+                  /></mui-field>
+                  <mui-field label="Disabled"
+                    ><input
+                      type="checkbox"
+                      aria-label="Disabled control"
+                      [ngModel]="n.disabled"
+                      (ngModelChange)="patch('disabled', $event)"
+                  /></mui-field>
+                  @if (n.kind === 'input') {
+                    <mui-field label="Type"
+                      ><mui-select
+                        ariaLabel="Input type"
+                        [value]="n.inputType"
+                        [options]="inputTypeOptions"
+                        (valueChange)="patch('inputType', $event)"
+                    /></mui-field>
+                    <mui-field label="Initial value" [stacked]="true"
+                      ><input
+                        aria-label="Initial value"
+                        [type]="n.inputType === 'password' ? 'password' : 'text'"
+                        [ngModel]="n.initialValue"
+                        (change)="patch('initialValue', value($event))"
+                    /></mui-field>
+                    <p class="muted">
+                      Text is the placeholder. Initial values are saved with the document; use mock
+                      data. Preview edits reset separately.
+                    </p>
+                  }
+                </mui-section>
+              }
+              @if (n.kind === 'image') {
+                <asset-inspector [node]="n" />
+              }
+              <mui-section title="Style" sectionId="style-details">
+                <mui-field label="Opacity"
+                  ><input
+                    type="number"
+                    min="0"
+                    max="100"
+                    aria-label="Opacity percent"
+                    [ngModel]="Math.round(n.opacity * 100)"
+                    (change)="patch('opacity', +value($event) / 100)"
+                /></mui-field>
+                @if (n.kind !== 'text' && n.kind !== 'path' && n.kind !== 'image') {
+                  <mui-field label="Corners"
+                    ><input
+                      type="number"
+                      min="0"
+                      aria-label="Corner radius"
+                      [ngModel]="n.radius"
+                      (change)="patch('radius', +value($event))"
+                  /></mui-field>
+                }
+                @if (n.kind !== 'text' && n.kind !== 'image') {
+                  <div class="style-group-title">Fills</div>
+                  <mui-field label="Enabled"
+                    ><input
+                      type="checkbox"
+                      aria-label="Fill enabled"
+                      [ngModel]="n.fillEnabled"
+                      (ngModelChange)="patch('fillEnabled', $event)"
+                  /></mui-field>
+                  @if (n.fillEnabled) {
+                    <mui-field label="Color"
+                      ><input
+                        type="color"
+                        aria-label="Fill color"
+                        [value]="n.fill"
+                        (change)="patch('fill', value($event))"
+                    /></mui-field>
+                    <mui-field label="Token"
+                      ><mui-select
+                        ariaLabel="Fill token"
+                        [value]="n.fillToken"
+                        [options]="tokenSelectOptions()"
+                        (valueChange)="patch('fillToken', $event)"
+                    /></mui-field>
+                    @if (n.kind !== 'path') {
+                      <mui-field label="Type"
+                        ><mui-select
+                          ariaLabel="Fill style"
+                          [value]="n.gradient?.type ?? 'solid'"
+                          [options]="fillStyleOptions"
+                          (valueChange)="fillStyle($event)"
+                      /></mui-field>
+                      @if (n.gradient; as gradient) {
+                        @for (stop of gradient.stops; track $index) {
+                          <mui-field [label]="'Stop ' + stop.offset * 100 + '%'">
+                            <input
+                              type="color"
+                              [attr.aria-label]="'Gradient stop ' + stop.offset * 100 + '%'"
+                              [value]="stop.color"
+                              (change)="gradientStop($index, value($event))"
+                            />
+                          </mui-field>
+                        }
                       }
                     }
                   }
                 }
-              }
-              @if (n.kind !== 'text' && n.kind !== 'image') {
-                <div class="style-group-title">Borders</div>
-                <div class="inspector-grid">
-                  <label class="compact-field"><span>Width</span><input type="number" min="0" max="50" aria-label="Border width"
-                    [ngModel]="n.strokeWidth" (change)="patch('strokeWidth', +value($event))" /></label>
-                  @if (n.strokeWidth > 0) {
-                    <label class="compact-field"><span>Color</span><input type="color" aria-label="Border color"
-                      [value]="n.stroke" (change)="patch('stroke', value($event))" /></label>
-                  }
-                </div>
-              }
-            </mui-section>
-            <library-catalog [inspector]="true" />
-            @if (n.isComponent) {
-              <div class="inspector-subheading">Component variants</div>
-              <label>Variant name<input #variantName placeholder="Pressed" /></label
-              ><label>Variant fill<input #variantFill type="color" value="#475569" /></label
-              ><button (click)="addVariant(variantName.value, variantFill.value)">
-                Add variant
-              </button>
-              @for (variant of n.variants | keyvalue; track variant.key) {
-                <p class="muted">{{ variant.key }}</p>
-              }
-            }
-            @if (master(); as source) {
-              <label
-                >Variant<mui-select
-                  ariaLabel="Variant"
-                  [value]="n.variantName"
-                  [options]="variantSelectOptions()"
-                  (valueChange)="
-                    e.perform([{ type: 'component.variant', id: n.id, name: $event }])
-                  "
-              /></label>
-              <p class="muted">{{ source.name }} · {{ n.overrides.length }} overrides</p>
-              <button (click)="e.perform([{ type: 'component.reset', id: n.id }])">
-                Reset overrides
-              </button>
-            }
-            <div class="actions">
-              @if (e.selection().length > 1) {
-                <button (click)="group()">Group selection</button
-                ><button (click)="align('x')">Align left</button
-                ><button (click)="align('y')">Align top</button>
-              }
-              <button (click)="makeComponent()">Make component</button>
-              @if (n.componentId) {
-                <button (click)="e.perform([{ type: 'component.detach', id: n.id }])">
-                  Detach instance
+                @if (n.kind !== 'text' && n.kind !== 'image') {
+                  <div class="style-group-title">Borders</div>
+                  <div class="inspector-grid">
+                    <label class="compact-field"
+                      ><span>Width</span
+                      ><input
+                        type="number"
+                        min="0"
+                        max="50"
+                        aria-label="Border width"
+                        [ngModel]="n.strokeWidth"
+                        (change)="patch('strokeWidth', +value($event))"
+                    /></label>
+                    @if (n.strokeWidth > 0) {
+                      <label class="compact-field"
+                        ><span>Color</span
+                        ><input
+                          type="color"
+                          aria-label="Border color"
+                          [value]="n.stroke"
+                          (change)="patch('stroke', value($event))"
+                      /></label>
+                    }
+                  </div>
+                }
+              </mui-section>
+              <library-catalog [inspector]="true" />
+              @if (n.isComponent) {
+                <div class="inspector-subheading">Component variants</div>
+                <label>Variant name<input #variantName placeholder="Pressed" /></label
+                ><label>Variant fill<input #variantFill type="color" value="#475569" /></label
+                ><button (click)="addVariant(variantName.value, variantFill.value)">
+                  Add variant
                 </button>
-              }
-              @if (n.repeatTemplateId) { <repeat-inspector [grid]="n" /> }
-              @if (repeatParent(); as grid) {
-                @if (n.hidden) {
-                  <p>Editing the Repeat Grid template. Data overrides stay local to each cell.</p>
-                  <button (click)="e.select(grid.id)">Return to Repeat Grid</button>
+                @for (variant of n.variants | keyvalue; track variant.key) {
+                  <p class="muted">{{ variant.key }}</p>
                 }
               }
-              <button (click)="reorder(-1)">Move earlier</button
-              ><button (click)="reorder(1)">Move later</button
-              ><button (click)="duplicate()">Duplicate</button
-              ><button (click)="repeat()">Repeat Grid</button
-              ><button class="danger" (click)="e.remove()">Delete</button>
-            </div>
-          } @else if (e.mode() === 'Prototype') {
-            <div class="inspector-subheading">On click / tap</div>
-            <mui-field label="Action"><mui-select ariaLabel="Prototype action" [value]="n.prototypeAction" [options]="actionOptions"
-              (valueChange)="patch('prototypeAction', $event)" /></mui-field>
-            <label
-              >Navigate to<mui-select
-                ariaLabel="Navigate to"
-                [value]="n.targetId ?? ''"
-                [options]="linkSelectOptions()"
-                (valueChange)="patch('targetId', $event || null)"
-            /></label>
-            <label>Transition<mui-select ariaLabel="Transition" [value]="n.transition"
-              [options]="transitionOptions" (valueChange)="patch('transition', $event)" /></label>
-            <p class="muted">Open Preview to follow this link.</p>
-          } @else {
-            <div class="inspector-subheading">Developer handoff</div>
-            <library-catalog [inspector]="true" />
-            <p class="muted">Semantic {{ n.kind }} · {{ n.width }} × {{ n.height }}</p>
-            @if (master(); as source) {
-              <p class="muted">
-                Component: {{ source.name }} · Variant: {{ n.variantName }} ·
-                {{ n.overrides.length }} overrides
-              </p>
+              @if (master(); as source) {
+                <label
+                  >Variant<mui-select
+                    ariaLabel="Variant"
+                    [value]="n.variantName"
+                    [options]="variantSelectOptions()"
+                    (valueChange)="
+                      e.perform([{ type: 'component.variant', id: n.id, name: $event }])
+                    "
+                /></label>
+                <p class="muted">{{ source.name }} · {{ n.overrides.length }} overrides</p>
+                <button (click)="e.perform([{ type: 'component.reset', id: n.id }])">
+                  Reset overrides
+                </button>
+              }
+              <div class="actions">
+                @if (e.selection().length > 1) {
+                  <button (click)="group()">Group selection</button
+                  ><button (click)="align('x')">Align left</button
+                  ><button (click)="align('y')">Align top</button>
+                }
+                <button (click)="makeComponent()">Make component</button>
+                @if (n.componentId) {
+                  <button (click)="e.perform([{ type: 'component.detach', id: n.id }])">
+                    Detach instance
+                  </button>
+                }
+                @if (n.repeatTemplateId) {
+                  <repeat-inspector [grid]="n" />
+                }
+                @if (repeatParent(); as grid) {
+                  @if (n.hidden) {
+                    <p>Editing the Repeat Grid template. Data overrides stay local to each cell.</p>
+                    <button (click)="e.select(grid.id)">Return to Repeat Grid</button>
+                  }
+                }
+                <button (click)="reorder(-1)">Move earlier</button
+                ><button (click)="reorder(1)">Move later</button
+                ><button (click)="duplicate()">Duplicate</button
+                ><button (click)="repeat()">Repeat Grid</button
+                ><button class="danger" (click)="e.remove()">Delete</button>
+              </div>
+            } @else if (e.mode() === 'Prototype') {
+              <div class="inspector-subheading">On click / tap</div>
+              <mui-field label="Action"
+                ><mui-select
+                  ariaLabel="Prototype action"
+                  [value]="n.prototypeAction"
+                  [options]="actionOptions"
+                  (valueChange)="patch('prototypeAction', $event)"
+              /></mui-field>
+              <label
+                >Navigate to<mui-select
+                  ariaLabel="Navigate to"
+                  [value]="n.targetId ?? ''"
+                  [options]="linkSelectOptions()"
+                  (valueChange)="patch('targetId', $event || null)"
+              /></label>
+              <label
+                >Transition<mui-select
+                  ariaLabel="Transition"
+                  [value]="n.transition"
+                  [options]="transitionOptions"
+                  (valueChange)="patch('transition', $event)"
+              /></label>
+              <p class="muted">Open Preview to follow this link.</p>
+            } @else {
+              <div class="inspector-subheading">Developer handoff</div>
+              <library-catalog [inspector]="true" />
+              <p class="muted">Semantic {{ n.kind }} · {{ n.width }} × {{ n.height }}</p>
+              @if (master(); as source) {
+                <p class="muted">
+                  Component: {{ source.name }} · Variant: {{ n.variantName }} ·
+                  {{ n.overrides.length }} overrides
+                </p>
+              }
+              <label
+                >Export target<mui-select
+                  ariaLabel="Export target"
+                  [value]="target()"
+                  [options]="exportOptions"
+                  (valueChange)="target.set($any($event))"
+              /></label>
+              <pre tabindex="0">{{ code() }}</pre>
+              <div class="actions">
+                <button (click)="e.exportAsset('svg')">Export SVG</button
+                ><button (click)="e.exportAsset('png')">Export PNG</button
+                ><button (click)="e.copy(target())">Copy code</button
+                ><button (click)="e.copy('name')">Copy name</button
+                ><button (click)="e.copy('editable')">Copy element</button>
+              </div>
             }
-            <label
-              >Export target<mui-select
-                ariaLabel="Export target"
-                [value]="target()"
-                [options]="exportOptions"
-                (valueChange)="target.set($any($event))"
-            /></label>
-            <pre tabindex="0">{{ code() }}</pre>
-            <div class="actions">
-              <button (click)="e.exportAsset('svg')">Export SVG</button
-              ><button (click)="e.exportAsset('png')">Export PNG</button
-              ><button (click)="e.copy(target())">Copy code</button
-              ><button (click)="e.copy('name')">Copy name</button
-              ><button (click)="e.copy('editable')">Copy element</button>
+          } @else {
+            <div class="inspector-empty">
+              <span>⌖</span>
+              <h3>Every detail, in reach.</h3>
+              <p>Select a layer to edit its properties, connect a flow, or inspect its code.</p>
             </div>
           }
-        } @else {
-          <div class="inspector-empty">
-            <span>⌖</span>
-            <h3>Every detail, in reach.</h3>
-            <p>Select a layer to edit its properties, connect a flow, or inspect its code.</p>
-          </div>
         }
-      }
+      </mui-inspector-panel>
     </aside>
   </div>
-  <footer>
+  <footer class="maple-chrome">
+    <label class="appearance"
+      >Appearance<mui-select
+        ariaLabel="Chrome appearance"
+        [value]="theme.appearance()"
+        [options]="theme.options"
+        (valueChange)="theme.set($event)"
+    /></label>
     <button (click)="e.undo()" [disabled]="!e.store.canUndo" title="Undo Cmd+Z">↶</button
     ><button (click)="e.redo()" [disabled]="!e.store.canRedo">↷</button><span>{{ e.status() }}</span
     ><span class="footer-center">{{ e.mcp() }}</span
@@ -569,7 +788,7 @@
     /><span>{{ (zoom() * 100).toFixed(0) }}%</span>
   </footer>
   @if (e.error()) {
-    <div role="alert" class="error-toast">
+    <div role="alert" class="error-toast maple-chrome">
       {{ e.error()
       }}<mui-button
         variant="ghost"
@@ -588,5 +807,5 @@
 </div>
 
 @if (!e.ready()) {
-  <div class="error-toast" role="status">Opening local workspace…</div>
+  <div class="error-toast maple-chrome" role="status">Opening local workspace…</div>
 }
