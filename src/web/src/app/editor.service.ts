@@ -23,6 +23,7 @@ import {
 } from './model/schema';
 import { exportNode, type ExportTarget } from './model/export';
 import { assertHumanEdits, lockingNode } from './model/edit-locks';
+import type { ReparentPlan, ReparentRequest } from './canvas/reparent-geometry';
 
 declare global {
   interface Window {
@@ -240,6 +241,18 @@ export class EditorService {
   }
   canInsert(kind: SceneNode['kind']): boolean {
     return !lockingNode(this.nodeIndex(), this.insertionParent(kind));
+  }
+  async prepareReparent(request: ReparentRequest): Promise<ReparentPlan> {
+    this.checkTarget(request);
+    const pageId = this.doc().nodes.find(node => node.id === request.ids[0])?.pageId;
+    if (!pageId) throw Error('Node not found');
+    await this.settleLayout(this.doc().nodes.filter(node => node.pageId === pageId));
+    this.checkTarget(request);
+    return window.sugarMaple.viewport.planReparent(request);
+  }
+  commitReparent(request: ReparentRequest, plan: ReparentPlan, origin: 'human' | 'agent' = 'human') {
+    this.checkTarget(request);
+    return plan.operations.length ? this.command(plan.operations, origin) : this.store.result();
   }
   private updateFileTab() {
     const entry = { id: this.doc().id, name: this.doc().name };
@@ -692,6 +705,10 @@ export class EditorService {
         this.select(args.id);
         this.pageId.set(this.node()!.pageId);
         return this.store.result();
+      case 'nodes.reparent': {
+        const plan = await this.prepareReparent(args);
+        return this.commitReparent(args, plan, 'agent');
+      }
       case 'viewport.fit':
         return window.sugarMaple.viewport.fit();
       case 'layout.inspect': {
@@ -738,12 +755,12 @@ export class EditorService {
         throw Error('Unknown command');
     }
   }
-  private async settleLayout() {
-    await this.assets.settle(this.pageNodes(), this.doc().assets);
+  private async settleLayout(nodes = this.pageNodes()) {
+    await this.assets.settle(nodes, this.doc().assets);
     let timeout: ReturnType<typeof setTimeout> | undefined;
     try {
       await Promise.race([
-        this.fonts.settle(this.pageNodes()).then(() => document.fonts.ready),
+        this.fonts.settle(nodes).then(() => document.fonts.ready),
         new Promise((_, reject) => {
           timeout = setTimeout(() => reject(Error('Font loading timed out')), 5000);
         }),

@@ -144,3 +144,19 @@ See [native scoped acceptance](../reviews/scoped-mcp-2026-10-01/README.md) for r
 ## Pinned library mappings
 
 `transaction.apply` includes `library.import`, `library.insert`, `library.props`, `library.reset` and `library.remap`. Source manifests and instance references persist in the document, and `document.read` returns the referenced manifests in `references.libraries`. `code.export` adds `web-library` and `swift-library` targets; unsupported properties/platforms fail explicitly. Import evaluates metadata only. See [library commands, fixture, safe updates, offline use and consuming checks](libraries.md).
+
+## Reparenting with world placement
+
+`nodes.reparent` takes the current document/revision, distinct node IDs, a same-page frame/artboard ID (or `null` for page root), and a placement policy. For example:
+
+```json
+{"documentId":"current-id","expectedRevision":7,"ids":["card","label"],"parentId":"screen-2","placement":"preserve-world"}
+```
+
+`preserve-world` is the default. It preserves rendered world corners, rotation and descendant geometry through rotated parents and borders, using settled font measurements. Responsive root dimensions become fixed at their current rendered size. The destination must use free layout; its clipping can change visibility. The Inspector previews this move and its sizing/clipping changes before applying it. A move that cannot retain descendant geometry or fit authored coordinate limits fails atomically.
+
+`layout` keeps existing authored local position/size rules and allows the destination stack/grid to reflow the subtree. Selected descendants of a moved ancestor travel with that ancestor. Moved roots append to the destination sibling order; existing sibling order is retained, with normalization only when appending would overflow the order limit. Component and Repeat Grid structural restrictions remain enforced by the shared transaction validator.
+
+The tool returns the standard receipt and commits one undoable human/agent operation. Same-parent moves create no revision or history entry. Cycles, cross-page selections/destinations, duplicate IDs, missing nodes and hidden/locked ancestors fail explicitly. Revisions are checked before and after asynchronous geometry settlement. Retrying an already committed request with its old revision produces `stale_revision`; read the current document to verify the move rather than creating a second operation. Raw `node.update` parent patches remain authored local-coordinate edits; this tool supplies world-placement semantics.
+
+At most 500 distinct IDs are accepted. Moved subtrees count by root updates, not descendant count. Moves requiring more than the existing 500-update atomic transaction limit, including order normalization, fail without applying a partial move.

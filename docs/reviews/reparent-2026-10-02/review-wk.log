@@ -1,0 +1,2 @@
+PASS: fresh visible WKWebView production Canvas transform keyboard/geometry acceptance; /Users/riabuz/Projects/_Sugar Maple/build/native-canvas-reparent/report.json
+PASS: 12 production WKWebView reparent preview/cancel/apply cases, rotated geometry, responsive sizing, layout rules, stale preview cancellation, inherited guards and exact undo at zoom 0.5/1.5
