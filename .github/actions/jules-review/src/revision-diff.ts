@@ -21,7 +21,7 @@ export function gitAuthentication(token: string, environment: NodeJS.ProcessEnv 
 
 function git(args: string[], root: string, environment: NodeJS.ProcessEnv, operation: string, maxBuffer: number) {
   try {
-    return execFileSync('/usr/bin/git', ['-c', 'core.hooksPath=/dev/null', '-c', 'credential.helper=', ...args], {
+    return execFileSync('git', ['-c', `core.hooksPath=${join(root, 'jules-disabled-hooks')}`, '-c', 'credential.helper=', ...args], {
       cwd: root, env: environment, encoding: 'utf8', timeout: 120_000, maxBuffer,
       stdio: ['ignore', 'pipe', 'pipe'],
     });
