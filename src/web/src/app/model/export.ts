@@ -10,16 +10,7 @@ import { swiftExport } from './swift-export';
 import { editablePayload } from './clipboard';
 import { ExportTargetSchema } from './tool-contract';
 import type { SceneDocument, SceneNode } from './schema';
-export type ExportTarget =
-  | 'html'
-  | 'tailwind'
-  | 'angular'
-  | 'css'
-  | 'swiftui'
-  | 'editable'
-  | 'svg'
-  | 'web-library'
-  | 'swift-library';
+export type ExportTarget = ReturnType<typeof ExportTargetSchema.parse>;
 const escape = (v: string) =>
   v.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 export function nodeStyles(n: SceneNode, doc: SceneDocument): Record<string, string | number> {
@@ -106,6 +97,83 @@ function css(n: SceneNode, doc: SceneDocument) {
     )
     .join(';');
 }
+function declarations(n: SceneNode, doc: SceneDocument) {
+  if (n.fillToken && !/^[\w.-]+$/.test(n.fillToken))
+    throw Error('Unsupported fill token name; use letters, digits, underscores, hyphens or dots.');
+  return (
+    css(n, doc) +
+    (n.fillToken && n.fillEnabled && !n.gradient
+      ? `;--${n.fillToken.replace(/\./g, '-')}:${doc.tokens[n.fillToken] ?? n.fill};background:var(--${n.fillToken.replace(/\./g, '-')})`
+      : '')
+  );
+}
+function classes(n: SceneNode, doc: SceneDocument) {
+  return declarations(n, doc)
+    .split(';')
+    .map((s) => '[' + s.replace(/"/g, "'").replace(/_/g, '\\_').replace(/ /g, '_') + ']')
+    .join(' ');
+}
+function visibleSubtree(doc: SceneDocument, id: string): SceneNode[] {
+  const node = doc.nodes.find((n) => n.id === id);
+  if (!node) throw Error('Select an element');
+  return [
+    node,
+    ...doc.nodes
+      .filter((n) => n.parentId === id && !n.hidden)
+      .sort((a, b) => a.order - b.order)
+      .flatMap((n) => visibleSubtree(doc, n.id)),
+  ];
+}
+function styleSheet(doc: SceneDocument, id: string) {
+  const nodes = visibleSubtree(doc, id);
+  return (
+    (nodes.some((n) => n.fontFamily === 'Maple Sans') ? bundledFontStyle() : '') +
+    nodes.map((n) => `.node-${n.id}{${declarations(n, doc)}}`).join('\n')
+  );
+}
+export function exportSupport(doc: SceneDocument, id: string, target: ExportTarget) {
+  ExportTargetSchema.parse(target);
+  const nodes = ['tailwind-classes', 'css-declarations'].includes(target)
+    ? visibleSubtree(doc, id).slice(0, 1)
+    : visibleSubtree(doc, id);
+  const web = [
+    'html',
+    'angular',
+    'tailwind',
+    'tailwind-classes',
+    'css',
+    'css-declarations',
+    'html-css',
+  ].includes(target);
+  const notes: string[] = [];
+  if (web) {
+    if (nodes[0].parentId)
+      notes.push('Styles retain the authored parent layout; use an equivalent parent container.');
+    if (target === 'tailwind' || target === 'tailwind-classes')
+      notes.push(
+        'Tailwind 4: include these literal classes in a scanned source file and compile the utilities.',
+      );
+    if (target === 'tailwind-classes' || target === 'css-declarations')
+      notes.push(
+        'This fragment styles the selected element only; it does not include its semantic markup, descendants or assets.',
+      );
+    for (const family of new Set(nodes.map((n) => n.fontFamily)))
+      if (!['system-ui', 'sans-serif', 'serif', 'monospace', 'Maple Sans'].includes(family))
+        notes.push(
+          `Provide the local font "${family}" in the consuming application; this export does not embed it.`,
+        );
+    for (const n of nodes.filter(hasPrototypeAction))
+      notes.push(
+        `Unwired action on ${n.name}: ${n.prototypeAction}${n.targetId ? ` to ${n.targetId}` : ''}. Supply application behavior; style fragments do not include an action handler.`,
+      );
+  }
+  const setup =
+    ['tailwind-classes', 'css-declarations'].includes(target) &&
+    nodes[0].fontFamily === 'Maple Sans'
+      ? bundledFontStyle()
+      : '';
+  return { setup, notes };
+}
 export function exportNode(
   doc: SceneDocument,
   id: string,
@@ -124,10 +192,12 @@ export function exportNode(
     return JSON.stringify(editablePayload(doc, id), null, 2);
   }
   if (target === 'svg') return svgExport(doc, id);
-  if (target === 'css')
-    return `${n.fontFamily === 'Maple Sans' ? bundledFontStyle() : ''}.node-${n.id}{${css(n, doc)}}`;
+  if (target === 'css') return styleSheet(doc, id);
+  if (target === 'css-declarations') return declarations(n, doc);
+  if (target === 'tailwind-classes') return classes(n, doc);
+  if (target === 'html-css' && !nested)
+    return `<style>${styleSheet(doc, id)}</style>${exportNode(doc, id, target, true)}`;
   if (target === 'swiftui') return swiftExport(doc, id);
-  if (n.kind === 'path') return `<div style="${escape(css(n, doc))}">${svgExport(doc, id)}</div>`;
   const tag =
     n.kind === 'button'
       ? 'button'
@@ -138,20 +208,12 @@ export function exportNode(
           : n.kind === 'image'
             ? 'img'
             : 'div';
-  const style =
-    css(n, doc) +
-    (n.fillToken && n.fillEnabled && !n.gradient
-      ? `;--${n.fillToken.replace(/\./g, '-')}:${doc.tokens[n.fillToken] ?? n.fill};background:var(--${n.fillToken.replace(/\./g, '-')})`
-      : '');
   const attrs =
-    target === 'tailwind'
-      ? `class="${escape(
-          style
-            .split(';')
-            .map((s) => '[' + s.replace(/"/g, "'").replace(/_/g, '\\_').replace(/ /g, '_') + ']')
-            .join(' '),
-        )}"`
-      : `style="${escape(style)}"`;
+    target === 'html-css'
+      ? `class="node-${n.id}"`
+      : target === 'tailwind'
+        ? `class="${escape(classes(n, doc))}"`
+        : `style="${escape(declarations(n, doc))}"`;
   const controls =
     tag === 'input'
       ? ` type="${n.inputType}" maxlength="20000" aria-label="${escape(controlLabel(n))}" value="${escape(n.initialValue)}"${n.disabled ? ' disabled' : ''}`
@@ -161,6 +223,7 @@ export function exportNode(
   const action = hasPrototypeAction(n)
     ? ` data-maple-action="${n.prototypeAction}"${n.targetId ? ` data-maple-target="${n.targetId}"` : ''}${!['button', 'input'].includes(n.kind) ? ` role="button" aria-label="${escape(controlLabel(n))}" tabindex="${n.disabled ? -1 : 0}"${n.disabled ? ' aria-disabled="true"' : ''}` : ''}`
     : '';
+  if (n.kind === 'path') return `<div${action} ${attrs}>${svgExport(doc, id)}</div>`;
   const font =
     !nested && subtree(doc, id).some((n) => n.fontFamily === 'Maple Sans')
       ? `<style>${bundledFontStyle()}</style>`

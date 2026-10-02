@@ -114,6 +114,7 @@ await run([
 await run([process.execPath, "tools/repeat-export-test.ts"]);
 
 await run([process.execPath, "tools/library-native-consumer.ts"]);
+await run([process.execPath, "tools/native-web-copy.ts"]);
 await run([process.execPath, "tools/native-library-diagnostics.ts"]);
 await run([process.execPath, "tools/native-scene-border.ts"]);
 await run([process.execPath, "tools/native-library-preview-acceptance.ts"]);

@@ -212,6 +212,26 @@ try {
   });
   assert.deepEqual((await data("document.get")).document, after.document);
   await geometry();
+  if (!drawing && !locks && !reparent) {
+    const beforeCopy = await data('document.get');
+    await tx([{type:'token.set',name:'brand.primary',value:'#2468ac'},
+      {type:'node.update',id:'child',patch:{fontFamily:'Maple Sans',fillToken:'brand.primary'}}]);
+    const baseline = await data('document.checkpoint');
+    const listed = await client.listTools(), exportedTool = listed.tools.find(tool=>tool.name==='code.export');
+    assert.ok(exportedTool?.inputSchema && exportedTool?.outputSchema);
+    for (const target of ['tailwind-classes','css-declarations','html-css']) {
+      const output = await data('code.export',{id:'child',target});
+      assert.equal(typeof output.code,'string');
+      assert.ok(Array.isArray(output.notes));
+      if (target!=='html-css') assert.ok(output.setup.includes('data:font/woff2;base64,'));
+      else assert.ok(output.code.includes('<style>') && output.code.includes('class="node-child"'));
+    }
+    assert.deepEqual(await data('document.checkpoint'),baseline);
+    const current = await data('document.get');
+    await data('history.undo',{documentId:current.documentId,expectedRevision:current.revision});
+    assert.deepEqual((await data('document.get')).document,beforeCopy.document);
+    console.log('PASS: actual isolated native MCP discovers and returns classes/declarations/complete-CSS exports with SDK-valid prerequisites and unchanged source');
+  }
   if (drawing) {
     const beforePaths = await data('document.get');
     const operations = (['line', 'arrow', 'path', 'freehand'] as DrawingKind[]).map((kind, index) => ({ type: 'node.add', node: {

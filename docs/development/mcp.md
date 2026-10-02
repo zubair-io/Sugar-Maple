@@ -187,3 +187,8 @@ See [native scoped acceptance](../reviews/scoped-mcp-2026-10-01/README.md) for r
 The tool returns the standard receipt and commits one undoable human/agent operation. Same-parent moves create no revision or history entry. Cycles, cross-page selections/destinations, duplicate IDs, missing nodes and hidden/locked ancestors fail explicitly. Revisions are checked before and after asynchronous geometry settlement. Retrying an already committed request with its old revision produces `stale_revision`; read the current document to verify the move rather than creating a second operation. Raw `node.update` parent patches remain authored local-coordinate edits; this tool supplies world-placement semantics.
 
 At most 500 distinct IDs are accepted. Moved subtrees count by root updates, not descendant count. Moves requiring more than the existing 500-update atomic transaction limit, including order normalization, fail without applying a partial move.
+
+
+### Distinct web copy formats
+
+`code.export` also accepts `tailwind-classes`, `css-declarations` and `html-css`. The first two are selected-element style fragments; the last is complete visible subtree markup plus CSS. `css` includes descendant rules. Results retain `code` and add optional `setup` font CSS and `notes` for build/font/parent-layout/unwired-action dependencies. For example: `{"id":"selected-button","target":"tailwind-classes"}`. No target mutates source/history. [Formats and consuming prerequisites](web-copy.md) document the supported boundaries.
