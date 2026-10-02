@@ -80,13 +80,14 @@ export function alignment(items: Item[], edge: Edge) {
   const parent = items.length === 1 ? items[0].ancestors.at(-1) : undefined;
   if (items.length === 1 && !parent) return [];
   const frame = parent?.transform ?? identity,
-    boxes = items.map((i) => boxIn(i, frame));
+    boxes = items.map((i) => boxIn(i, frame)),
+    border = parent?.node.strokeWidth ?? 0;
   const reference = parent
     ? {
-        x: parent.x + parent.node.strokeWidth,
-        y: parent.y + parent.node.strokeWidth,
-        width: Math.max(0, parent.width - 2 * parent.node.strokeWidth),
-        height: Math.max(0, parent.height - 2 * parent.node.strokeWidth),
+        x: parent.x + border,
+        y: parent.y + border,
+        width: Math.max(0, parent.width - 2 * border),
+        height: Math.max(0, parent.height - 2 * border),
       }
     : union(boxes);
   const horizontal = ['left', 'center', 'right'].includes(edge),

@@ -112,11 +112,19 @@ export class RendererService {
       c.fillRect(box.x, box.y, box.width, box.height);
       c.strokeRect(box.x, box.y, box.width, box.height);
     }
-    c.strokeStyle='#ec4899';c.lineWidth=1/camera.zoom;c.setLineDash([4/camera.zoom,4/camera.zoom]);
-    for(const guide of this.s.snapping() ? ((_tool as {snapGuides?:Guide[]})?.snapGuides??[]) : []) {
+    c.strokeStyle = '#ec4899';
+    c.lineWidth = 1 / camera.zoom;
+    c.setLineDash([4 / camera.zoom, 4 / camera.zoom]);
+    const guides = this.s.snapping() ? ((_tool as { snapGuides?: Guide[] })?.snapGuides ?? []) : [];
+    for (const guide of guides) {
       c.beginPath();
-      if(guide.axis==='x'){c.moveTo(guide.value,guide.start-8/camera.zoom);c.lineTo(guide.value,guide.end+8/camera.zoom);}
-      else {c.moveTo(guide.start-8/camera.zoom,guide.value);c.lineTo(guide.end+8/camera.zoom,guide.value);}
+      if (guide.axis === 'x') {
+        c.moveTo(guide.value, guide.start - 8 / camera.zoom);
+        c.lineTo(guide.value, guide.end + 8 / camera.zoom);
+      } else {
+        c.moveTo(guide.start - 8 / camera.zoom, guide.value);
+        c.lineTo(guide.end + 8 / camera.zoom, guide.value);
+      }
       c.stroke();
     }
     c.restore();

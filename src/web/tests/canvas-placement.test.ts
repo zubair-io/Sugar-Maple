@@ -72,6 +72,15 @@ for (const edge of ['left', 'center', 'right', 'top', 'middle', 'bottom'] as Edg
     expect(after.map((i) => i.node.rotation)).toEqual(before.map((i) => i.node.rotation));
     expect(alignment(after, edge)).toEqual([]);
   });
+test('single-parent alignment treats a missing projected border as zero without invalid coordinates', () => {
+  const f = fixture(), child = f.selected()[0], parent = child.ancestors.at(-1)!;
+  parent.node = { ...parent.node, strokeWidth: undefined as unknown as number };
+  f.apply(alignment([child], 'left'));
+  const positioned = f.selected()[0];
+  expect(Number.isFinite(positioned.node.x)).toBe(true);
+  expect(Number.isFinite(positioned.node.y)).toBe(true);
+  expect(boxIn(positioned, parent.transform).x).toBeCloseTo(parent.x, 7);
+});
 test('one rotated child aligns inside its rotated parent coordinate frame, preserving border offset', () => {
   for (const edge of ['left', 'center', 'right', 'top', 'middle', 'bottom'] as Edge[]) {
     const f = fixture(),
