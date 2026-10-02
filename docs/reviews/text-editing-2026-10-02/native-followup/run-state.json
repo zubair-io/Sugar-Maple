@@ -136,18 +136,27 @@
     },
     {
       "path": "unicode-238dd9a/before.json",
-      "sha256": "b6b1ac12d18ee83c1f0a7a8724fdca9b092102c33bd3b0300dbe8bbbbf0ddd74",
-      "bytes": 13389
+      "sha256": "796fd3a62269f7d114a31300017ee5b557df25f5e9171b7e2dfe9c7a676d3bae",
+      "bytes": 7918,
+      "originalOutputSha256": "b6b1ac12d18ee83c1f0a7a8724fdca9b092102c33bd3b0300dbe8bbbbf0ddd74",
+      "originalOutputBytes": 13389,
+      "format": "JSON compacted without changing values"
     },
     {
       "path": "unicode-238dd9a/draft.json",
-      "sha256": "60a829a0536851cf91f20604d74a2db156acdba8ac05c29cab82a596b89b2715",
-      "bytes": 11994
+      "sha256": "4de30c3c05d67c310728d33311b38620a5219f60dcfbf75c17d13ce4e25fa2c2",
+      "bytes": 7444,
+      "originalOutputSha256": "60a829a0536851cf91f20604d74a2db156acdba8ac05c29cab82a596b89b2715",
+      "originalOutputBytes": 11994,
+      "format": "JSON compacted without changing values"
     },
     {
       "path": "unicode-238dd9a/committed.json",
-      "sha256": "9dae06ae1b7e268a2e57fcdfa6e4f2b6120c2d78a33886dfb4ed5181ab2527c8",
-      "bytes": 21463
+      "sha256": "366b048d05049c2f309e872c3e746cc398c084b829a841a1d5c8685c9b758eaf",
+      "bytes": 12552,
+      "originalOutputSha256": "9dae06ae1b7e268a2e57fcdfa6e4f2b6120c2d78a33886dfb4ed5181ab2527c8",
+      "originalOutputBytes": 21463,
+      "format": "JSON compacted without changing values"
     },
     {
       "path": "unicode-238dd9a/committed.svg",
@@ -161,13 +170,19 @@
     },
     {
       "path": "unicode-238dd9a/undo.json",
-      "sha256": "51df4dace8e3482ffe02120be55d6ee89e043f5ab28df05206b8abae989588e2",
-      "bytes": 21462
+      "sha256": "e086d88e46962778ab6370eb4541445c782cccebdd821dcb9df8180805fbec98",
+      "bytes": 12531,
+      "originalOutputSha256": "51df4dace8e3482ffe02120be55d6ee89e043f5ab28df05206b8abae989588e2",
+      "originalOutputBytes": 21462,
+      "format": "JSON compacted without changing values"
     },
     {
       "path": "unicode-238dd9a/composition-selection.json",
-      "sha256": "88d7ed6fc9960b7b25adf83251f75dfb2c6bab89d867012fcca5032b40ceca05",
-      "bytes": 10101
+      "sha256": "6514a4608b6a6e276db787bb10eef8e61281e4b248d0bc1042f7ca691a5ce3b7",
+      "bytes": 6096,
+      "originalOutputSha256": "88d7ed6fc9960b7b25adf83251f75dfb2c6bab89d867012fcca5032b40ceca05",
+      "originalOutputBytes": 10101,
+      "format": "JSON compacted without changing values"
     },
     {
       "path": "unicode-238dd9a/final-marked-ax.txt",
@@ -176,8 +191,11 @@
     },
     {
       "path": "unicode-238dd9a/final-key-sequence.json",
-      "sha256": "903dc7d21492cc279d61d221dbd01d62d8ef5a21504c460c7802b3d429e04188",
-      "bytes": 39819
+      "sha256": "d627a2bdedbc4839b797e4a41c36cd78a5dd10999e4d2e881bed623b52ee1bca",
+      "bytes": 39567,
+      "originalOutputSha256": "903dc7d21492cc279d61d221dbd01d62d8ef5a21504c460c7802b3d429e04188",
+      "originalOutputBytes": 39819,
+      "format": "JSON compacted without changing values"
     },
     {
       "path": "unicode-238dd9a/final-settled-draft-ax.txt",
@@ -196,13 +214,19 @@
     },
     {
       "path": "cancel-18bd887/before.json",
-      "sha256": "db6da26ae55ba4617e37457a0799298033c15d79672eadda3aef32746d9166e3",
-      "bytes": 13389
+      "sha256": "4210f2fa430a42fab7901fdb78d8c4e2bd2a7838d24b6324abd02364d65e480e",
+      "bytes": 7918,
+      "originalOutputSha256": "db6da26ae55ba4617e37457a0799298033c15d79672eadda3aef32746d9166e3",
+      "originalOutputBytes": 13389,
+      "format": "JSON compacted without changing values"
     },
     {
       "path": "cancel-18bd887/cancel.json",
-      "sha256": "c6099a384ad4e13fd310001bc73c81eb036ccdb9475f05e18ae81ed6429fd529",
-      "bytes": 18665
+      "sha256": "724ce008e96ad869c3b7d5612c940d7cabd717114e89c19518b9f9aa769189b1",
+      "bytes": 10927,
+      "originalOutputSha256": "c6099a384ad4e13fd310001bc73c81eb036ccdb9475f05e18ae81ed6429fd529",
+      "originalOutputBytes": 18665,
+      "format": "JSON compacted without changing values"
     },
     {
       "path": "cancel-18bd887/cancel-boundary-before-ax.txt",
@@ -221,18 +245,27 @@
     },
     {
       "path": "keyboard-18bd887/before.json",
-      "sha256": "0ef8045423bf1d3d81119e4533d950727860b88dde0ea4700211a689e0939024",
-      "bytes": 13389
+      "sha256": "3cf46f8d1248dc765e0fa995fbacab794e9357568a399a423ea5086f59ecd1da",
+      "bytes": 7918,
+      "originalOutputSha256": "0ef8045423bf1d3d81119e4533d950727860b88dde0ea4700211a689e0939024",
+      "originalOutputBytes": 13389,
+      "format": "JSON compacted without changing values"
     },
     {
       "path": "keyboard-18bd887/draft.json",
-      "sha256": "b849e73326eb92053e9877dc545fc64a3bfabf487a8001e51bbff3bcab6c45c9",
-      "bytes": 11994
+      "sha256": "8a263ac738f1c6736f6850d1efa47baf72d0119883c2d6b1e39fb4bd350a7570",
+      "bytes": 7444,
+      "originalOutputSha256": "b849e73326eb92053e9877dc545fc64a3bfabf487a8001e51bbff3bcab6c45c9",
+      "originalOutputBytes": 11994,
+      "format": "JSON compacted without changing values"
     },
     {
       "path": "keyboard-18bd887/cancel.json",
-      "sha256": "023001ee880a0cda9c2bc9e1144b3da568e7924839e6db16f85074ad74e13a59",
-      "bytes": 18665
+      "sha256": "2831d46064b1e76184aed784ebf745a6c2caaa601ae0c082df8371a94262f53d",
+      "bytes": 10927,
+      "originalOutputSha256": "023001ee880a0cda9c2bc9e1144b3da568e7924839e6db16f85074ad74e13a59",
+      "originalOutputBytes": 18665,
+      "format": "JSON compacted without changing values"
     },
     {
       "path": "keyboard-18bd887/option-tab-cancel-focus-ax.txt",
@@ -246,13 +279,19 @@
     },
     {
       "path": "negative-cancel-238dd9a/before.json",
-      "sha256": "14c4954c1fa86d09c5c3c358db23b73a22890c044e1e5e0e8b1dc9ed0b55f339",
-      "bytes": 13389
+      "sha256": "84dea260ba4bb85f0f3d27cb493538f3201eb5fabfc1b5f4e79377cf39ba5066",
+      "bytes": 7918,
+      "originalOutputSha256": "14c4954c1fa86d09c5c3c358db23b73a22890c044e1e5e0e8b1dc9ed0b55f339",
+      "originalOutputBytes": 13389,
+      "format": "JSON compacted without changing values"
     },
     {
       "path": "negative-cancel-238dd9a/cancel.json",
-      "sha256": "d599940425a3fc9cf33653ab1fee18168a97ba3ae2704ad76ae1328d0c9903c9",
-      "bytes": 21403
+      "sha256": "59431ae96144f00478894d3684b3272ddb016cd315720ad985127a7af08dd66f",
+      "bytes": 12496,
+      "originalOutputSha256": "d599940425a3fc9cf33653ab1fee18168a97ba3ae2704ad76ae1328d0c9903c9",
+      "originalOutputBytes": 21403,
+      "format": "JSON compacted without changing values"
     },
     {
       "path": "negative-cancel-238dd9a/final-cancel-before-ax.txt",
@@ -266,13 +305,19 @@
     },
     {
       "path": "native-cr-95b2a2e/committed.json",
-      "sha256": "882d176eb9a7dc8d24ed431bca3068e45b9f3c3201aad7ccaaa7cc4a47749632",
-      "bytes": 21463
+      "sha256": "40a6c50d9104792668e0461ff6df8794141f0685656aa5e4c3aaef36a566f5fd",
+      "bytes": 12552,
+      "originalOutputSha256": "882d176eb9a7dc8d24ed431bca3068e45b9f3c3201aad7ccaaa7cc4a47749632",
+      "originalOutputBytes": 21463,
+      "format": "JSON compacted without changing values"
     },
     {
       "path": "native-cr-95b2a2e/composition-selection.json",
-      "sha256": "2fff166a77e4f1afe175876dee9e725a9bb2020e60b1e02fc72b47ae71dd9bbc",
-      "bytes": 10101
+      "sha256": "e371166b8c1f4ad2f43828bb7cf6f94678ee4cae8f09a56475fedf90a0001c88",
+      "bytes": 6096,
+      "originalOutputSha256": "2fff166a77e4f1afe175876dee9e725a9bb2020e60b1e02fc72b47ae71dd9bbc",
+      "originalOutputBytes": 10101,
+      "format": "JSON compacted without changing values"
     },
     {
       "path": "native-cr-95b2a2e/dead-key-ax.txt",
