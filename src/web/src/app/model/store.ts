@@ -69,8 +69,10 @@ export class DocumentStore {
     return store;
   }
   get document(): SceneDocument {
-    return {
-      ...structuredClone((this.root.get('documentMetadata') as Y.Map<unknown>).toJSON()),
+    // Y.Map.toJSON() retains nested plain JSON values. Detach the whole projection
+    // so callers cannot mutate the scene, recovery base or journal outside a command.
+    return structuredClone({
+      ...(this.root.get('documentMetadata') as Y.Map<unknown>).toJSON(),
       version: 1,
       id: this.root.get('id') as string,
       name: this.root.get('name') as string,
@@ -78,16 +80,16 @@ export class DocumentStore {
         v.toJSON(),
       ),
       folders: Array.from((this.root.get('folders') as Y.Map<any>).values())
-        .map((v) => structuredClone(v.toJSON()))
+        .map((v) => v.toJSON())
         .sort((a, b) => a.order - b.order),
       pages: Array.from((this.root.get('pages') as Y.Map<any>).values())
-        .map((v) => structuredClone(v.toJSON()))
+        .map((v) => v.toJSON())
         .sort((a, b) => a.order - b.order),
       nodes: Array.from((this.root.get('nodes') as Y.Map<any>).values()).map((v) => v.toJSON()),
       tokens: (this.root.get('tokens') as Y.Map<string>).toJSON(),
       assets: (this.root.get('assets') as Y.Map<string>).toJSON(),
       libraries: Object.fromEntries(Array.from((this.root.get('libraries') as Y.Map<Y.Map<unknown>>).entries()).map(([key, value]) => [key, value.toJSON() as SceneDocument['libraries'][string]])),
-    };
+    });
   }
   private write(doc: SceneDocument) {
     this.root.set('id', doc.id);
