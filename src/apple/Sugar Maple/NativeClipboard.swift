@@ -38,7 +38,8 @@ import CoreFoundation
     }
     static func read(from board: NSPasteboard = .general) throws -> String {
         if board.types?.contains(editableType) == true {
-            guard let data = board.data(forType: editableType), data.count <= maximumBytes else { throw ClipboardError.tooLarge }
+            guard let data = board.data(forType: editableType) else { throw ClipboardError.invalidEditable }
+            guard data.count <= maximumBytes else { throw ClipboardError.tooLarge }
             guard let text = String(data: data, encoding: .utf8) else { throw ClipboardError.invalidEditable }
             try validate(text, editable: true)
             return text
