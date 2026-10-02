@@ -1,0 +1,13 @@
+{
+  "pr": 90,
+  "head": "86285c8e0695118ac57393a4977adce21cc1bf75",
+  "currentBase": "010366bb2c18f4c1bd3f8df556880c09391b9a6a",
+  "mergeBase": "010366bb2c18f4c1bd3f8df556880c09391b9a6a",
+  "currentDescriptionMatches": true,
+  "diffBytes": 1474393,
+  "diffLines": 38835,
+  "shippingHunks": 18,
+  "completeShippingHunksRetained": true,
+  "selectedCharacters": 349766,
+  "omissionNote": "All shipping source, tools, tests and workflows are included. 9 other file diffs were omitted to fit the 350000-character budget. Omitted paths: docs/reviews/repeat-grid-controls-2026-10-02/native-human-columns.json, docs/reviews/repeat-grid-controls-2026-10-02/native-human-drag.json, docs/reviews/repeat-grid-controls-2026-10-02/native-human-gap.json, docs/reviews/repeat-grid-controls-2026-10-02/native-human-undo-columns.json, docs/reviews/repeat-grid-controls-2026-10-02/native-human-undo-drag.json, docs/reviews/repeat-grid-controls-2026-10-02/native-human-undo-gap.json, docs/reviews/repeat-grid-controls-2026-10-02/scene-integration/range-diff.log, docs/reviews/repeat-grid-controls-2026-10-02/scene-integration/verification.json, docs/reviews/repeat-grid-controls-2026-10-02/verification.json."
+}

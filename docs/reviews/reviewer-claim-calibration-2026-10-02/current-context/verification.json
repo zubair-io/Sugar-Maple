@@ -1,0 +1,57 @@
+{
+  "sourceCommit": "3958ea6b0ab5eef6a821b078172e5f907e175114",
+  "issue": 98,
+  "recordedAt": "2026-10-02T20:14:02.491794+00:00",
+  "checks": {
+    "typecheckExitCode": 0,
+    "reviewerTests": 41,
+    "reviewerTestsExitCode": 0,
+    "productionBundleExitCode": 0,
+    "actualPR90DiffExitCode": 0
+  },
+  "sources": {
+    ".github/actions/jules-review/src/index.ts": {
+      "bytes": 12289,
+      "sha256": "7d8212e4159e0b49f3e7c08f466794af49f23ed147c6fa5838e5ab393da45817"
+    },
+    ".github/actions/jules-review/src/prompt.ts": {
+      "bytes": 5426,
+      "sha256": "69ce3981264b7ecd6118c62fc6eb08fbc2c9f398d12e9bce993a5c3b3d5fda6b"
+    },
+    ".github/actions/jules-review/src/review-context.ts": {
+      "bytes": 1197,
+      "sha256": "92371f29159787f33d6d9bbd73ce3af06b42dedebd8fa7145b3320be3a407c66"
+    },
+    ".github/actions/jules-review/src/revision-diff.ts": {
+      "bytes": 4036,
+      "sha256": "aba50ab312968f3d7bdd44186acdc119887c2c125b9f7ad48cb507f7864f926b"
+    },
+    ".github/actions/jules-review/tests/review-context.test.mjs": {
+      "bytes": 1423,
+      "sha256": "6903af3e0d4ca2d4040e468b345b4b8533d2413df79eb85e2df1e5519ca05ec1"
+    }
+  },
+  "artifacts": {
+    "typecheck.log": {
+      "bytes": 53,
+      "sha256": "37c2b5e0406a7068753a91a0ab1b0bca9d47dec29ce65cbc23a4cabef2a524d9"
+    },
+    "tests.log": {
+      "bytes": 3977,
+      "sha256": "79113df1fc076d0f935318b85afa3b32760708a9b97820f6331a5f9c0935e3d1"
+    },
+    "build.log": {
+      "bytes": 403,
+      "sha256": "87eecc10f531ad353d31266a88a31099ac91402ac8a7240429385365a0ad0e26"
+    },
+    "real-pr90-context.json": {
+      "bytes": 1192,
+      "sha256": "26271ce9e6d4ca96539de86fcc93f2f380d57707a1c29bb3f0e9f9dcd233d621"
+    }
+  },
+  "limitations": [
+    "Fresh model verdict on unchanged #90 code is required; these checks do not prove reviewer interpretation.",
+    "No existing blocked verdict, active session or merge gate is overridden.",
+    "Exact-head CI/review and resulting-main checks remain required."
+  ]
+}

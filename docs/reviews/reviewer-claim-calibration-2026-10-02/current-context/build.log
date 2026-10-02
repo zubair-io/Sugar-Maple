@@ -1,0 +1,14 @@
+
+> jules-pr-reviewer@1.0.0 build
+> ncc build src/index.ts -o dist --source-map --license licenses.txt
+
+ncc: Version 0.38.4
+ncc: Compiling file index.js into ESM
+ncc: Using typescript@6.0.3 (local user-provided)
+   0kB  dist/package.json
+  30kB  dist/licenses.txt
+  40kB  dist/sourcemap-register.cjs
+1391kB  dist/index.js
+1635kB  dist/index.js.map
+1635kB  dist/index.js.map
+3096kB  [1894ms] - ncc 0.38.4
