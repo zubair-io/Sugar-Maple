@@ -222,6 +222,29 @@
           </svg>
         </button>
       </div>
+      @if (e.mode() === 'Design') {
+        <div class="drawing-toolbar" role="toolbar" aria-label="Drawing tools">
+          <mui-button variant="ghost" size="sm" ariaLabel="Select tool" title="Select and transform layers (V)"
+            [ariaPressed]="!projection.drawingTool()" [active]="!projection.drawingTool()" (pressed)="setDrawing(null)">Select</mui-button>
+          @for (tool of drawingTools; track tool.kind) {
+            <mui-button variant="ghost" size="sm" [ariaLabel]="'Draw ' + tool.label.toLowerCase()"
+              [title]="canDraw() ? tool.label + ' (' + tool.key + ')' : 'Choose an unlocked, visible free-layout frame with non-hug sizing, or press Escape to draw on the page.'" [disabled]="!canDraw()"
+              [ariaPressed]="projection.drawingTool() === tool.kind" [active]="projection.drawingTool() === tool.kind"
+              (pressed)="setDrawing(tool.kind)">{{ tool.label }}</mui-button>
+          }
+          <label>Stroke <input type="color" aria-label="Drawing stroke color" [disabled]="projection.drawingPending()"
+            [ngModel]="projection.drawingColor()" (ngModelChange)="projection.drawingColor.set($event)" /></label>
+          <label>Width <input type="number" min="1" max="64" aria-label="Drawing stroke width" [disabled]="projection.drawingPending()"
+            [ngModel]="projection.drawingWidth()" (change)="projection.drawingWidth.set(Math.max(1, Math.min(64, +value($event) || 4)))" /></label>
+          @if (projection.drawingTool() === 'path' && projection.drawingPending()) {
+            <mui-button size="sm" ariaLabel="Finish path" (pressed)="surface()?.drawing.finish()">Finish</mui-button>
+            <mui-button size="sm" ariaLabel="Close path" (pressed)="surface()?.drawing.finish(true)">Close</mui-button>
+          }
+          @if (projection.drawingTool()) {
+            <span class="drawing-hint">{{ projection.drawingTool() === 'path' ? 'Click points. Enter finishes; Shift+Enter closes; Backspace removes a point.' : 'Drag to draw. Shift constrains line/arrow angles.' }} Escape cancels.</span>
+          }
+        </div>
+      }
       <div class="viewport">
         <canvas-surface
           [zoom]="zoom()"
@@ -230,7 +253,7 @@
           (cameraChange)="zoom.set($event.zoom); pan.set($event.pan)"
         />
         <comment-canvas class="maple-chrome" [zoom]="zoom()" [pan]="pan()" />
-        @if (!e.pageNodes().length) {
+        @if (!e.pageNodes().length && !projection.drawingTool()) {
           <div class="empty-canvas maple-chrome">
             <div class="empty-artboards">▱</div>
             <h1>Make room for your next idea.</h1>

@@ -5,7 +5,7 @@ import { Injectable, inject } from '@angular/core';
 import type { Camera } from '../../../shared-types';
 import { CanvasProjection } from '../../../../canvas-projection';
 import { intersects, wrapText, type Box, type Item } from '../../../../scene-layout';
-import type { Guide } from '../../../../placement-geometry';
+import type { ToolState } from '../../models/types';
 // Sugar Maple Canvas2D renderer at the original Whiteboard CanvasComponent seam.
 @Injectable()
 export class RendererService {
@@ -37,7 +37,7 @@ export class RendererService {
     _layers: unknown,
     _elements: unknown,
     camera: Camera,
-    _tool: unknown,
+    _tool: ToolState,
     _ids: string[],
     ..._remote: unknown[]
   ) {
@@ -104,7 +104,7 @@ export class RendererService {
         c.restore();
       }
     }
-    const box = (_tool as { selectionBox?: Box })?.selectionBox;
+    const box = _tool.selectionBox;
     if (box) {
       c.fillStyle = '#3b82f620';
       c.strokeStyle = '#60a5fa';
@@ -115,7 +115,7 @@ export class RendererService {
     c.strokeStyle = '#ec4899';
     c.lineWidth = 1 / camera.zoom;
     c.setLineDash([4 / camera.zoom, 4 / camera.zoom]);
-    const guides = this.s.snapping() ? ((_tool as { snapGuides?: Guide[] })?.snapGuides ?? []) : [];
+    const guides = this.s.snapping() ? (_tool.snapGuides ?? []) : [];
     for (const guide of guides) {
       c.beginPath();
       if (guide.axis === 'x') {
