@@ -1,0 +1,1 @@
+PASS: native file/menu routing and cancellation; structured editable copy vs text name/code, UTF-8 hierarchy paste with remapped IDs and one undo (stubbed native I/O)

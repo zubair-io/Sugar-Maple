@@ -11,6 +11,7 @@ const sources = [
   "src/apple/Sugar Maple/NativeAccessPolicy.swift",
 ];
 const cases = [
+  ["native-clipboard", ["src/apple/Sugar Maple/NativeClipboard.swift", "tools/native-clipboard-test.swift"]],
   ["native-persistence", [...sources, "tools/native-persistence-test.swift"]],
   [
     "native-autosave",
@@ -42,7 +43,7 @@ async function run(cmd: string[]) {
 for (const [name, files] of cases) {
   const executable = resolve(output, name);
   await run(["swiftc", ...files, "-o", executable]);
-  await run([executable]);
+  await run(name === "native-clipboard" ? [executable, resolve(root, "build/DerivedData/Build/Products/Debug/Sugar Maple.app/Contents/Info.plist")] : [executable]);
 }
 
 await run([process.execPath, "tools/mcp-stdio-test.ts"]);
