@@ -1,0 +1,56 @@
+{
+  "sourceCommit": "5c30305a5c07d5c77a0d49c635a3f880daaefbd5",
+  "dependencyHead": "722081cfc42956385f7d8a2e344a61bb2ae811d0",
+  "issue": 98,
+  "recordedAt": "2026-10-02T19:53:59.054974+00:00",
+  "checks": {
+    "typecheckExitCode": 0,
+    "existingReviewerTestsExitCode": 0,
+    "tests": 38,
+    "productionBundleExitCode": 0
+  },
+  "finding": {
+    "pr": 90,
+    "head": "86285c8e0695118ac57393a4977adce21cc1bf75",
+    "blockedReviewComment": 5959255325,
+    "historicalApprovedHead": "a1d6740eb8ec12fa5fbbaf7fd09323e412d263ff",
+    "historicalReviewComment": 5954724020
+  },
+  "sources": {
+    ".github/actions/jules-review/src/prompt.ts": {
+      "bytes": 5426,
+      "sha256": "69ce3981264b7ecd6118c62fc6eb08fbc2c9f398d12e9bce993a5c3b3d5fda6b"
+    },
+    ".github/actions/jules-review/src/index.ts": {
+      "bytes": 11166,
+      "sha256": "c0530dd1c8aab40ab114ed8945990954632ae9ababe285d82f709df5e283e65f"
+    },
+    ".github/actions/jules-review/src/diff.ts": {
+      "bytes": 1579,
+      "sha256": "d049a12126edd95b68fd2621b1c52edc60c7b398d5210747ef63f95c2c4e1e82"
+    },
+    ".github/actions/jules-review/src/revision-diff.ts": {
+      "bytes": 4036,
+      "sha256": "aba50ab312968f3d7bdd44186acdc119887c2c125b9f7ad48cb507f7864f926b"
+    }
+  },
+  "artifacts": {
+    "typecheck.log": {
+      "bytes": 53,
+      "sha256": "37c2b5e0406a7068753a91a0ab1b0bca9d47dec29ce65cbc23a4cabef2a524d9"
+    },
+    "tests.log": {
+      "bytes": 3693,
+      "sha256": "af786908e9df9196a9c19ad38e386dbb875e3b5f47a35f83316a7199dc89bc33"
+    },
+    "build.log": {
+      "bytes": 403,
+      "sha256": "750fdf85438aaa694aea6d9efa9d48923e78c8c053896be687d183040b443a36"
+    }
+  },
+  "limitations": [
+    "Existing unit tests and compilation do not prove model interpretation of the clarified prompt.",
+    "Actual fresh review of unchanged #90 code remains required; this change does not override its blocked status or treat historic approval as current approval.",
+    "This candidate requires fresh exact-head reviewer approval/CI and successful resulting-main delivery."
+  ]
+}
