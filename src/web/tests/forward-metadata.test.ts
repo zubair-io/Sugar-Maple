@@ -90,3 +90,35 @@ test('reading a scene cannot mutate stored metadata or the recovery base outside
   expect(store.checkpoint()).toEqual(before);
   expect(store.revision).toBe(0);
 });
+
+test('legacy documents without metadata initialize safe scene reads through every public load path', () => {
+  const legacy: any = blankDocument();
+  delete legacy.comments;
+  delete legacy.folders;
+  delete legacy.libraries;
+  delete legacy.pages[0].folderId;
+  const expected = validateDocument(legacy);
+  for (const store of [
+    new DocumentStore(legacy),
+    DocumentStore.fromCheckpoint({ document: legacy }),
+    DocumentStore.fromCheckpoint({
+      checkpointVersion: 2,
+      base: legacy,
+      document: legacy,
+      journal: [],
+    }),
+  ]) {
+    expect(store.document).toEqual(expected);
+    expect(store.checkpoint().document).toEqual(expected);
+    store.transact({
+      documentId: expected.id,
+      expectedRevision: 0,
+      requestId: uid(),
+      operations: [{ type: 'document.rename', name: 'Legacy edited' }],
+    });
+    const recovered = DocumentStore.fromCheckpoint(JSON.parse(JSON.stringify(store.checkpoint())));
+    expect(recovered.document.name).toBe('Legacy edited');
+    recovered.undo();
+    expect(recovered.document).toEqual(expected);
+  }
+});
