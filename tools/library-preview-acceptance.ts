@@ -4,6 +4,7 @@ for (const args of [
   ['test', 'prototypes/library-preview/contract.test.ts'],
   ['src/web/node_modules/typescript/bin/tsc', '-p', 'prototypes/library-preview/tsconfig.json'],
   ['prototypes/library-preview/build.ts', '--trust-fixture'],
+  ['prototypes/library-preview/launch-failure-test.ts'],
   ['prototypes/library-preview/browser-test.ts'],
 ]) {
   const child = Bun.spawn([process.execPath, ...args], {

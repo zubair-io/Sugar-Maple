@@ -1,0 +1,70 @@
+❯ Building...
+✔ Building...
+Initial chunk files | Names                       |  Raw size
+styles.css          | styles                      |  30.85 kB | 
+chunk-VUJOFXKG.js   | -                           | 987 bytes | 
+main.js             | main                        | 917 bytes | 
+
+                    | Initial total               |  32.75 kB
+
+Lazy chunk files    | Names                       |  Raw size
+chunk-WGUVFGPD.js   | app                         | 549.75 kB | 
+chunk-RY42GGBF.js   | -                           | 204.09 kB | 
+chunk-KJJTXNLG.js   | -                           | 163.23 kB | 
+chunk-NXCTEXN5.js   | sugar-maple-chrome-specimen |  24.82 kB | 
+chunk-U7IKHBDW.js   | preview-application         |   6.21 kB | 
+
+Application bundle generation complete. [1.662 seconds] - 2026-10-02T14:24:17.101Z
+
+Watch mode enabled. Watching for file changes...
+NOTE: Raw file sizes do not reflect development server per-request transformations.
+  ➜  Local:   http://127.0.0.1:52177/
+Owned source checkout editor: http://127.0.0.1:52177; process group 83139
+PASS: exact Web Awesome 3.14.0 declarations compile; generated Button/Input/Card imports bundle and render offline with real shadow controls, values, slots and declared card spacing
+bun test v1.4.2 (744846f84)
+
+prototypes/library-preview/contract.test.ts:
+(pass) preview shares the real pinned manifest types, variants and bounds [0.68ms]
+(pass) preview messages reject privileged methods, paths, extra keys, wrong versions and unbounded payloads [0.75ms]
+
+ 2 pass
+ 0 fail
+ 12 expect() calls
+Ran 2 tests across 1 file. [197.00ms]
+{"passed":true,"package":{"name":"@awesome.me/webawesome","version":"3.14.0"},"hashes":{"runtime.js":{"bytes":261717,"sha256":"836c67fa76885bd0c29e57001e1eeeadcfdcfafb20515de5d284b7e26f97d93a"},"runtime.css":{"bytes":155312,"sha256":"f15ad9222cd24a7a5d24b52ad66f3e8520ee259b11a7215a2beb157208cd4cae"},"host.js":{"bytes":89431,"sha256":"1016626aceb6d1d757ccf1c1134222069852c0ff6bb7d0d9262b431da0699cab"},"host.css":{"bytes":2228,"sha256":"a24540b648d3e441dc8d5daff81c490da0b96b516402398f7a2169fd665fc9b4"},"semantic.html":{"bytes":3044,"sha256":"b4f5734f42e9131109a5fde7fb89b259f3b8bd8fedb740039ff6fef58d25dd05"},"fixture.json":{"bytes":23547,"sha256":"bda90c775b21b0512420a5e053a0aaa7c2c7d5c8d0cc9cd80759df6d8960cc0f"}}}
+PASS: browser-test.ts stops its server when the browser launch boundary throws
+PASS: browser-test.ts stops its server when the browser close boundary throws
+PASS: compare.ts stops its server when the browser launch boundary throws
+PASS: compare.ts stops its server when the browser close boundary throws
+PASS: report-test.ts stops its server when the browser launch boundary throws
+PASS: report-test.ts stops its server when the browser close boundary throws
+PASS: isolated real Web Awesome controls, typed props/events, denied parent/storage/network/bridge, stale rejection, malformed input, opt-in/stop and offline rendering
+PASS: actual comparison stops browser/server and exits naturally when native shutdown throws
+PASS: real Canvas/DOM fixture geometry and inspector undo; actual DOM input, package typed events and native rendered consumers; four pipeline timings and asset costs recorded
+$ bun run --cwd src/web build
+$ bun --bun ../../node_modules/@angular/cli/bin/ng.js build --base-href ./
+❯ Building...
+✔ Building...
+Initial chunk files | Names                       |  Raw size | Estimated transfer size
+main-Y7DSJB7M.js    | main                        | 179.77 kB |                52.47 kB
+styles-3L4SZE66.css | styles                      |  26.88 kB |                 4.63 kB
+
+                    | Initial total               | 206.65 kB |                57.10 kB
+
+Lazy chunk files    | Names                       |  Raw size | Estimated transfer size
+chunk-nWE4TzDI.js   | -                           | 401.25 kB |                80.19 kB
+chunk-LIYLjZRJ.js   | app                         | 332.53 kB |                81.77 kB
+chunk-CTm-zbuY.js   | -                           |  55.97 kB |                13.86 kB
+chunk-BGf-4CpQ.js   | sugar-maple-chrome-specimen |   7.72 kB |                 2.39 kB
+chunk-CbXF3plF.js   | preview-application         |   2.50 kB |                 1.11 kB
+
+Application bundle generation complete. [2.085 seconds] - 2026-10-02T14:24:43.975Z
+
+▲ [WARNING] src/app/app.scss exceeded maximum budget. Budget 4.00 kB was not met by 3.65 kB with a total of 7.65 kB.
+
+
+Output location: /Users/riabuz/Projects/_Sugar Maple/src/web/dist/sugar-maple-editor
+
+{"editor":{"raw":1620229,"gzip":875708,"brotli":830240},"library":{"files":[{"name":"runtime.js","raw":261717,"gzip":68028,"brotli":57176,"sha256":"836c67fa76885bd0c29e57001e1eeeadcfdcfafb20515de5d284b7e26f97d93a"},{"name":"runtime.css","raw":155312,"gzip":16517,"brotli":11061,"sha256":"f15ad9222cd24a7a5d24b52ad66f3e8520ee259b11a7215a2beb157208cd4cae"}],"raw":417029,"gzip":84545,"brotli":68237},"host":{"raw":91659,"brotli":22423},"semantic":{"files":[{"name":"semantic.html","raw":3044,"gzip":677,"brotli":445,"sha256":"b4f5734f42e9131109a5fde7fb89b259f3b8bd8fedb740039ff6fef58d25dd05"}],"raw":3044,"gzip":677,"brotli":445}}
+Wrote source-bound real-library comparison report
+PASS: comparison report renders all four real images and supports path/column controls

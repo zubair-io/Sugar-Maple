@@ -1,0 +1,248 @@
+{
+  "recordedAt": "2026-10-02T14:24:44.018Z",
+  "editor": {
+    "files": [
+      {
+        "name": "styles-3L4SZE66.css",
+        "raw": 26882,
+        "gzip": 5310,
+        "brotli": 4635,
+        "sha256": "2c2efbb44e1ad105f76bebaf26a40a4d3d867163c4616ff18e7dbf73e3faed18"
+      },
+      {
+        "name": "index.html",
+        "raw": 6961,
+        "gzip": 1843,
+        "brotli": 1526,
+        "sha256": "6995f527f62be9a726a56f7218e1aef431a73ec214959ece6f5014798a5fd7f6"
+      },
+      {
+        "name": "chunk-CbXF3plF.js",
+        "raw": 2504,
+        "gzip": 1271,
+        "brotli": 1115,
+        "sha256": "acee9a8d90f07f2844b881e1315b7b402065074a946344de23f9c8f82d22eb4c"
+      },
+      {
+        "name": "main-Y7DSJB7M.js",
+        "raw": 179772,
+        "gzip": 60032,
+        "brotli": 52465,
+        "sha256": "da092d10c6b57de42fd46887907c9338e4b8f4bb1d76ca913e9da0607e21b2db"
+      },
+      {
+        "name": "chunk-nWE4TzDI.js",
+        "raw": 401252,
+        "gzip": 97592,
+        "brotli": 80190,
+        "sha256": "cd59c35d10f5e8b67e58a24a44bc810ae44738224b821537f9c1055217e37285"
+      },
+      {
+        "name": "chunk-BGf-4CpQ.js",
+        "raw": 7720,
+        "gzip": 2753,
+        "brotli": 2389,
+        "sha256": "c260fed60b004aacabadfbd20e66f4e2634429c9d52157d5fd4bf2efabab6a5e"
+      },
+      {
+        "name": "favicon.svg",
+        "raw": 207,
+        "gzip": 177,
+        "brotli": 164,
+        "sha256": "48db4d8fab8ae19c9dbecc46135dfe2adbd8fdc7b1964b62a7773155ab9e0271"
+      },
+      {
+        "name": "chunk-LIYLjZRJ.js",
+        "raw": 332527,
+        "gzip": 96558,
+        "brotli": 81767,
+        "sha256": "019b59681b0adb856d97975d5f11cd2af0250582be1d1eab431e5321fb34f411"
+      },
+      {
+        "name": "chunk-CTm-zbuY.js",
+        "raw": 55965,
+        "gzip": 15742,
+        "brotli": 13859,
+        "sha256": "3b5dc7669f0b0c92cb9113b00754856741023c9e6d43c5451598009ddd6da40c"
+      },
+      {
+        "name": "media/Lato-Regular-W7754I4D.woff2",
+        "raw": 23580,
+        "gzip": 23577,
+        "brotli": 23539,
+        "sha256": "918b7dc3e2e2d015c16ce08b57bcb64d2253bafc1707658f361e72865498e537"
+      },
+      {
+        "name": "media/Merriweather-Bold-2LFYFGH3.woff2",
+        "raw": 48660,
+        "gzip": 48663,
+        "brotli": 48664,
+        "sha256": "4e1ab49396c02be0d9a2a25eed7bc73781c047d85fcb5dfc2889873eaf992b09"
+      },
+      {
+        "name": "media/Lato-Bold-2XVSBPG4.woff2",
+        "raw": 23040,
+        "gzip": 23043,
+        "brotli": 22999,
+        "sha256": "c447dd7677b419db7b21dbdfc6277c7816a913ffda76fd2e52702df538de0e49"
+      },
+      {
+        "name": "media/JetBrainsMono-Regular-3OOWLGQ2.woff2",
+        "raw": 21168,
+        "gzip": 21196,
+        "brotli": 21153,
+        "sha256": "14425ba9c695763c1547f48a206b7aa60350a33ae23de09f0407877f3fcd89eb"
+      },
+      {
+        "name": "fonts/maple-provenance.json",
+        "raw": 2301,
+        "gzip": 863,
+        "brotli": 780,
+        "sha256": "3f1962eb27e0cde4a74092df5b32b7ff4371b8c1d646343255be44caa0a0b81a"
+      },
+      {
+        "name": "fonts/JetBrainsMono-Regular.woff2",
+        "raw": 21168,
+        "gzip": 21196,
+        "brotli": 21153,
+        "sha256": "14425ba9c695763c1547f48a206b7aa60350a33ae23de09f0407877f3fcd89eb"
+      },
+      {
+        "name": "fonts/provenance.json",
+        "raw": 305,
+        "gzip": 245,
+        "brotli": 215,
+        "sha256": "73351fec8a7fbf98411622714e6cecea70256c443a100fa3550ec432b0cbd095"
+      },
+      {
+        "name": "fonts/LATO-OFL.txt",
+        "raw": 4407,
+        "gzip": 1993,
+        "brotli": 1444,
+        "sha256": "74ba064d03f1f1c4a952da936c3eb71866c34404916734de3cae73b34357e59e"
+      },
+      {
+        "name": "fonts/Inter-LICENSE.txt",
+        "raw": 4380,
+        "gzip": 1974,
+        "brotli": 1419,
+        "sha256": "262481e844521b326f5ecd053e59b98c8b2da78c8ee1bdbb6e8174305e54935a"
+      },
+      {
+        "name": "fonts/Merriweather-Bold.woff2",
+        "raw": 48660,
+        "gzip": 48663,
+        "brotli": 48664,
+        "sha256": "4e1ab49396c02be0d9a2a25eed7bc73781c047d85fcb5dfc2889873eaf992b09"
+      },
+      {
+        "name": "fonts/InterVariable.woff2",
+        "raw": 352240,
+        "gzip": 351779,
+        "brotli": 352245,
+        "sha256": "693b77d4f32ee9b8bfc995589b5fad5e99adf2832738661f5402f9978429a8e3"
+      },
+      {
+        "name": "fonts/Lato-Regular.woff2",
+        "raw": 23580,
+        "gzip": 23577,
+        "brotli": 23539,
+        "sha256": "918b7dc3e2e2d015c16ce08b57bcb64d2253bafc1707658f361e72865498e537"
+      },
+      {
+        "name": "fonts/Lato-Bold.woff2",
+        "raw": 23040,
+        "gzip": 23043,
+        "brotli": 22999,
+        "sha256": "c447dd7677b419db7b21dbdfc6277c7816a913ffda76fd2e52702df538de0e49"
+      },
+      {
+        "name": "fonts/JETBRAINS-MONO-OFL.txt",
+        "raw": 4399,
+        "gzip": 1972,
+        "brotli": 1413,
+        "sha256": "a76abf002c49097d146e86740a3105a5d00450b1592e820a1109a8c5680cd697"
+      },
+      {
+        "name": "fonts/MERRIWEATHER-OFL.txt",
+        "raw": 4438,
+        "gzip": 1987,
+        "brotli": 1429,
+        "sha256": "715bd349bfa6116f99e351e1548321dcfa25b91df65502d22ca8d624557697d2"
+      },
+      {
+        "name": "third-party/perfect-freehand-LICENSE.txt",
+        "raw": 1073,
+        "gzip": 659,
+        "brotli": 475,
+        "sha256": "6a5ac82b42ce0af6a1e5fe39b46f0b52f1368e81e437175e8d9ae21569c8688e"
+      }
+    ],
+    "raw": 1620229,
+    "gzip": 875708,
+    "brotli": 830240
+  },
+  "addedLibraryRuntime": {
+    "files": [
+      {
+        "name": "runtime.js",
+        "raw": 261717,
+        "gzip": 68028,
+        "brotli": 57176,
+        "sha256": "836c67fa76885bd0c29e57001e1eeeadcfdcfafb20515de5d284b7e26f97d93a"
+      },
+      {
+        "name": "runtime.css",
+        "raw": 155312,
+        "gzip": 16517,
+        "brotli": 11061,
+        "sha256": "f15ad9222cd24a7a5d24b52ad66f3e8520ee259b11a7215a2beb157208cd4cae"
+      }
+    ],
+    "raw": 417029,
+    "gzip": 84545,
+    "brotli": 68237
+  },
+  "experimentHost": {
+    "files": [
+      {
+        "name": "host.js",
+        "raw": 89431,
+        "gzip": 24748,
+        "brotli": 21714,
+        "sha256": "1016626aceb6d1d757ccf1c1134222069852c0ff6bb7d0d9262b431da0699cab"
+      },
+      {
+        "name": "host.css",
+        "raw": 2228,
+        "gzip": 900,
+        "brotli": 709,
+        "sha256": "a24540b648d3e441dc8d5daff81c490da0b96b516402398f7a2169fd665fc9b4"
+      }
+    ],
+    "raw": 91659,
+    "gzip": 25648,
+    "brotli": 22423
+  },
+  "semanticFixture": {
+    "files": [
+      {
+        "name": "semantic.html",
+        "raw": 3044,
+        "gzip": 677,
+        "brotli": 445,
+        "sha256": "b4f5734f42e9131109a5fde7fb89b259f3b8bd8fedb740039ff6fef58d25dd05"
+      }
+    ],
+    "raw": 3044,
+    "gzip": 677,
+    "brotli": 445
+  },
+  "scope": "Per-file raw/gzip/Brotli asset costs; current production editor includes bundled chrome/fonts. Runtime and host are optional extra packages, not replacements for the editor.",
+  "exclusions": [
+    "Native system SwiftUI/OS framework disk cost",
+    "network headers/HTTP caching",
+    "installed app memory",
+    "arbitrary imported library costs"
+  ]
+}
