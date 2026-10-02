@@ -1,0 +1,116 @@
+{
+  "recordedAt": "2026-10-02T08:15:23.258796+00:00",
+  "runtimeSourceHead": "d5d0e82b20ddaf94370255ba1ab4306ec08eb2d3",
+  "qaSourceHead": "6ec045b3bd7b5825f6bc84a64c0141a1a10cab62",
+  "corrections": [
+    "Canvas pointerdown transfers focus explicitly because prevented default handling left WK keyboard focus on the toolbar; real native Backspace previously deleted the selected parent instead of a draft point.",
+    "Focused Canvas Delete now reaches canonical human commands and preserves selection on rejected deletion; full browser regression caught the previously unwired output.",
+    "WK line geometry uses actual delivered event coordinates with an independent inverse and unchanged 0.1 local-unit tolerance. Integer-screen-coordinate cases are deliberately exercised at both zooms; initial macOS CI failed the earlier nominal-subpixel endpoint assertion. Updated remote CI is still required."
+  ],
+  "checks": {
+    "model": {
+      "passed": 124,
+      "failed": 0,
+      "assertions": 2067,
+      "files": 26
+    },
+    "browserConsumerSuites": 28,
+    "build": "Production web/macOS DEBUG build, typecheck and Maple inventory pass on runtime head",
+    "native": "Full native acceptance passes on runtime head. The later test-only delivered-coordinate correction passes separately in all 18 production WK drawing/control cases.",
+    "osInput": "Actual native mouse clicks inside a 35-degree rotated frame move focus to Canvas; Backspace leaves exact checkpoint unchanged, Shift+Enter creates one closed canonical path/human journal entry, prior nodes unchanged, SVG exact path data and native Cmd+Z exact document restore.",
+    "interactiveCleanup": "TTY native SDK --drawing --hold run exits 0 after newline and closes only the owned app/client"
+  },
+  "limitations": [
+    "Native OS input here is one closed-polyline mouse/keyboard fixture near 100% zoom; earlier line/freehand OS proofs remain bound to fc0e881 in ../run-state.json.",
+    "WK input is synthetic, with a local pointer capture shim; it does not establish hardware pen pressure or OS capture.",
+    "Native IME/VoiceOver, full hardware zoom/DPR, advanced vector editing and SwiftUI paths remain open.",
+    "Initial remote web CI passed and macOS CI failed the nominal endpoint assertion at run 36981250123; this follow-up requires new exact-head CI and actual approving review before merge."
+  ],
+  "artifacts": [
+    {
+      "path": "model.log",
+      "sha256": "d5a6ca128976322a7d6d402c94d49fbc9e18972d79e16f85fb3cda6689b62244",
+      "bytes": 13569
+    },
+    {
+      "path": "typecheck.log",
+      "sha256": "9b2b770f3351789b5fd00fa72323f6eb7ea6de3fa3d75b7678bcbee1c8f6d5f6",
+      "bytes": 36
+    },
+    {
+      "path": "mac-build.log",
+      "sha256": "d8e9cd23f4ee13df1955fda24917cf07cf5ba6ba90599be94e1256d5a33d2d3b",
+      "bytes": 56670
+    },
+    {
+      "path": "browser.log",
+      "sha256": "5c2a0700435328ba354ecd3a866df57b0c94a98930354ae96b6b2a1756622405",
+      "bytes": 6205
+    },
+    {
+      "path": "native.log",
+      "sha256": "b380a2654443eecb73ee29560be6c1f5c17ef804baf845331840177b0c1aadec",
+      "bytes": 5309
+    },
+    {
+      "path": "maple-inventory.log",
+      "sha256": "2fe6b41a9c6f94ec84c48303af2c72755551297070e0656ddc19bbd092c38337",
+      "bytes": 231
+    },
+    {
+      "path": "wk-rounded-input.log",
+      "sha256": "8917a6393413ce02e93cce768c94c46085d73adeb2648362320a902e6d13e414",
+      "bytes": 405
+    },
+    {
+      "path": "wk-report.json",
+      "sha256": "9fc96a5e9e56ce575c7a411bfcddfa84166c543ed14cccaf3ef23bda6d478ce5",
+      "bytes": 1725
+    },
+    {
+      "path": "webkit.png",
+      "sha256": "54e0640ae146a28d4d1e2fb6b5b2c6871d02ef65f35f1777bede12f2507a9e4d",
+      "bytes": 380808
+    },
+    {
+      "path": "failed-native-path-checkpoint.json",
+      "sha256": "17bae454a813a4e6a2973a82fe08d5210a53860898a288237ff883885f2690e8",
+      "bytes": 55611
+    },
+    {
+      "path": "os-path-draft.json",
+      "sha256": "ace615ec8b26dcdcc54e5e502bec795da1b25f74d614ff4a11826d1d1de6e133",
+      "bytes": 65617
+    },
+    {
+      "path": "os-path.json",
+      "sha256": "096157f665f1b603f30b5cb5dbb8e0abf0f30f62af2a1366ab728ecf2063b29a",
+      "bytes": 51042
+    },
+    {
+      "path": "os-path.png",
+      "sha256": "f1cebc79d77c9558a1c761e01bfa06f4d2910847e8a1fb2b1e5df83fc08eeb81",
+      "bytes": 221608
+    },
+    {
+      "path": "os-path-undo.json",
+      "sha256": "1f1ae68253148ef691a54a9dc6ea07e0c3bda4ee805e3d14f1dca6b260552fc0",
+      "bytes": 7175
+    },
+    {
+      "path": "native-os-input-verifier.ts",
+      "sha256": "60b1fd56b9c7da9fb0864a34c0d6fd49b2459a0535ed1945081b1013e4d4c935",
+      "bytes": 4215
+    },
+    {
+      "path": "interactive-cleanup.log",
+      "sha256": "881cb831a63e2a77e116b17d03f13a4e3a6d5ecd9fc1ec9ac1ce3301699ecd37",
+      "bytes": 237
+    },
+    {
+      "path": "initial-macos-ci.log",
+      "sha256": "082c55da1c1e7830cf3ce502b682a720723703a2b58ac9bb6b8be8b34033f40b",
+      "bytes": 7098
+    }
+  ]
+}

@@ -5,11 +5,17 @@ import { Awareness } from 'y-protocols/awareness';
 import { EditorService } from '../editor.service';
 import { flatten, project } from './scene-layout';
 import type { SceneNode } from '../model/schema';
+import type { DrawingKind } from './drawing-geometry';
 @Injectable({ providedIn: 'root' })
 export class CanvasProjection implements OnDestroy {
   readonly e = inject(EditorService);
   readonly assets = this.e.assets;
   readonly draft = signal<Record<string, Partial<SceneNode>>>({});
+  readonly draftNodes = signal<SceneNode[]>([]);
+  readonly drawingTool = signal<DrawingKind | null>(null);
+  readonly drawingPending = signal(false);
+  readonly drawingWidth = signal(4);
+  readonly drawingColor = signal('#2563eb');
   readonly snapping = signal(true);
   readonly size = signal({ width: 1000, height: 800 });
   readonly stats = signal({ drawn: 0, total: 0, paintMs: 0, frames: 0 });
@@ -18,7 +24,7 @@ export class CanvasProjection implements OnDestroy {
   private readonly fontsVersion = signal(0);
   readonly document = computed(() => ({
     ...this.e.doc(),
-    nodes: this.e.doc().nodes.map((n) => ({ ...n, ...this.draft()[n.id] })),
+    nodes: [...this.e.doc().nodes.map((n) => ({ ...n, ...this.draft()[n.id] })), ...this.draftNodes()],
   }));
   readonly roots = computed(() => {
     this.fontsVersion();
@@ -56,7 +62,7 @@ export class CanvasProjection implements OnDestroy {
     effect(() => {
       this.e.revision();
       this.e.doc().id;
-      untracked(() => this.draft.set({}));
+      untracked(() => { this.draft.set({}); this.draftNodes.set([]); });
     });
     document.fonts.addEventListener('loadingdone', this.fontsChanged);
   }

@@ -25,5 +25,15 @@
       "source": "../Just-Maple/packages/whiteboard/src/core/tools/tool.interface.ts",
       "sha256": "0e3d78855c0be0528424446b1d4fd38f6b1aff414d6c044136ebaf38e16d017f"
     }
-  ]
+  ],
+  "freehandGeometry": {
+    "package": "perfect-freehand",
+    "version": "1.2.2",
+    "license": "MIT",
+    "source": "https://github.com/steveruizok/perfect-freehand",
+    "upstreamUse": "Just-Maple Whiteboard renderer getStroke options; canonical Sugar Maple path outline replaces the upstream separate StrokeElement store.",
+    "moduleSHA256": "0ddf0e44c727ab39d7211af95685bf12234236f0e2eca376091e5791a71626e4",
+    "licensePath": "src/web/public/third-party/perfect-freehand-LICENSE.txt",
+    "licenseSHA256": "6a5ac82b42ce0af6a1e5fe39b46f0b52f1368e81e437175e8d9ae21569c8688e"
+  }
 }

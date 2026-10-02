@@ -1,4 +1,6 @@
 import type { StrokeElement, ShapeElement, TextElement, Camera } from '../../shared-types';
+import type { Box } from '../../../scene-layout';
+import type { Guide } from '../../../placement-geometry';
 
 /**
  * Point in screen coordinates (before camera transform)
@@ -40,6 +42,7 @@ export interface CanvasPointerEvent {
     metaKey: boolean;
     altKey: boolean;
     isPan: boolean; // Space held or middle-click
+    pointerType?: string;
 }
 
 /**
@@ -66,7 +69,8 @@ export interface ToolState {
             strokeWidth: number;
         };
     };
-    selectionBox?: BoundingBox;
+    selectionBox?: Box;
+    snapGuides?: Guide[];
 }
 
 /**

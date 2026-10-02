@@ -1,0 +1,2 @@
+PASS: fresh visible WKWebView production Canvas transform keyboard/geometry acceptance; /Users/riabuz/Projects/_Sugar Maple/build/native-canvas-drawing/report.json
+PASS: 18 production WK drawing/control cases at zoom 0.5/1.5, pressure outlines, polyline completion, draft/capture guard, stale/locked/layout rejection and exact undo; DOM pointer events use a local capture shim and do not prove OS capture

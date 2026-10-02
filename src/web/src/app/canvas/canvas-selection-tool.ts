@@ -178,7 +178,7 @@ export class CanvasSelectionTool implements Tool {
         width: Math.abs(dx),
         height: Math.abs(dy),
       };
-      this.context.toolState.set({ selectionBox: this.marquee } as any);
+      this.context.toolState.set({ selectionBox: this.marquee });
       return { render: true };
     }
     if (g.handle === 'rotate' && g.originals[0]) {
@@ -220,7 +220,7 @@ export class CanvasSelectionTool implements Tool {
         guides = snapped.guides;
       }
     }
-    this.context.toolState.set({ snapGuides: guides } as any);
+    this.context.toolState.set({ snapGuides: guides });
     p.draft.set(
       Object.fromEntries(
         g.originals
