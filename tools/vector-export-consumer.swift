@@ -9,7 +9,7 @@ private final class VectorNavigation: NSObject, WKNavigationDelegate {
     func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) { self.error = error }
     func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) { self.error = error }
 }
-private struct VectorFixtureRecord: Decodable { let name: String; let width: Double; let height: Double; let svg: String }
+private struct VectorFixtureRecord: Decodable { let name: String; let width: Double; let height: Double; let expectsInk: Bool; let svg: String }
 @main private struct VectorConsumer {
     @MainActor static func wait(_ predicate: () -> Bool) {
         let deadline = Date().addingTimeInterval(30)
@@ -81,7 +81,9 @@ private struct VectorFixtureRecord: Decodable { let name: String; let width: Dou
                 "inkIntersectionOverUnion": overlap, "largeColorDifferenceOverInkUnion": difference])
             print("\(fixture.name): native ink \(nativeInk), SVG ink \(svgInk), overlap \(overlap), difference \(difference)")
             try JSONSerialization.data(withJSONObject: reports, options: [.prettyPrinted, .sortedKeys]).write(to: folder.appendingPathComponent("comparison.json"))
-            precondition(nativeInk > 0 && svgInk > 0 && overlap >= 0.94 && difference <= 0.1, "Native vector differs from independent SVG renderer: \(fixture.name)")
+            if fixture.expectsInk {
+                precondition(nativeInk > 0 && svgInk > 0 && overlap >= 0.94 && difference <= 0.1, "Native vector differs from independent SVG renderer: \(fixture.name)")
+            } else { precondition(nativeInk == 0 && svgInk == 0, "Empty vector must not paint a rectangle or hairline") }
         }
         print("PASS: \(fixtures.count) standalone SwiftUI vector fixtures compile against macOS 14 and render against actual WKWebView SVG references")
     }

@@ -35,6 +35,8 @@ for (const kind of ['line', 'arrow', 'path', 'freehand'] as const) {
   const points = [{ x: 20, y: 20, pressure: .2 }, { x: 40, y: 60, pressure: .9 }, { x: 80, y: 30, pressure: .5 }];
   fixtures.push(NodeSchema.parse({ id: kind, name: kind, pageId, kind: 'path', ...drawingGeometry(kind, points, 6, '#2563eb')!, padding: 0 }));
 }
+fixtures.push(NodeSchema.parse({ id: 'empty-path', name: 'empty-path', pageId, kind: 'path', pathData: '',
+  width: 120, height: 100, viewBox: '0 0 120 100', fillEnabled: false, strokeWidth: 0 }));
 // Actual parent placement/rotation/token resolution, in addition to standalone vectors.
 const parent = NodeSchema.parse({ id: 'nested', name: 'nested-placement', pageId, kind: 'frame', layout: 'free', padding: 0, width: 180, height: 150, fill: '#ffffff' });
 const child = NodeSchema.parse({ id: 'nested-child', name: 'nested-child', pageId, parentId: parent.id, kind: 'path', pathData: 'M10 10 H70 V50 H10z',
@@ -48,7 +50,7 @@ for (const [index, node] of [...fixtures, parent].entries()) {
   assert.equal(exportNode(doc, node.id, 'swiftui').replace('struct SugarMapleView:', `struct ${name}:`), source);
   generated += source + '\n';
   views.push(`AnyView(${name}())`);
-  records.push({ name: node.name, width: node.width, height: node.height, svg: exportNode(doc, node.id, 'svg') });
+  records.push({ name: node.name, width: node.width, height: node.height, expectsInk: node.id !== 'empty-path', svg: exportNode(doc, node.id, 'svg') });
 }
 await Bun.write(resolve(folder, 'fixtures.json'), JSON.stringify(records, null, 2));
 const harness = await Bun.file(resolve('tools/vector-export-consumer.swift')).text();
