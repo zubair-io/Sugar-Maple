@@ -13,6 +13,7 @@ import {
   signal,
   computed,
   effect,
+  untracked,
   HostListener,
   viewChild,
 } from '@angular/core';
@@ -24,6 +25,7 @@ import { CanvasSurface } from './canvas/canvas-surface';
 import { CanvasProjection } from './canvas/canvas-projection';
 import { AssetInspector } from './canvas/asset-inspector';
 import { intersects } from './canvas/scene-layout';
+import { planReparent, type ReparentPlan, type ReparentPlacement, type ReparentRequest } from './canvas/reparent-geometry';
 import { changedPatch, movePatch } from './canvas/transform-geometry';
 import { alignment, distribution, type Axis, type Edge } from './canvas/placement-geometry';
 import { MuiButtonComponent } from './chrome/maple/ui/button/mui-button.component';
@@ -112,8 +114,18 @@ export class App {
   ]);
   readonly parentSelectOptions = computed(() => [
     { value: '', label: 'Page root' },
-    ...this.parentOptions().map((n) => ({ value: n.id, label: n.name })),
+    ...this.parentOptions().map((n) => ({ value: n.id, label: n.name, disabled: !this.projection.canEdit(n) })),
   ]);
+  readonly reparentPlacement = signal<ReparentPlacement>('preserve-world');
+  readonly reparentOptions = [
+    { value: 'preserve-world', label: 'Preserve world placement' },
+    { value: 'layout', label: 'Keep layout rules (may move)' },
+  ];
+  readonly reparentPreview = signal<{ request: ReparentRequest; plan: ReparentPlan } | null>(null);
+  readonly reparentBusy = signal(false);
+  readonly canReparent = computed(() => this.e.mode() === 'Design' && !this.reparentBusy() &&
+    this.e.selectedRoots().length > 0 && this.e.selectedRoots().every(node => this.projection.canEdit(node)));
+  private reparentRequest = 0;
   readonly tokenSelectOptions = computed(() => [
     { value: '', label: 'Literal color' },
     ...this.options(Object.keys(this.e.doc().tokens)),
@@ -166,11 +178,20 @@ export class App {
   readonly master = computed(() =>
     this.e.doc().nodes.find((n) => n.id === this.e.node()?.componentId && n.isComponent),
   );
-  readonly parentOptions = computed(() =>
-    this.e
-      .pageNodes()
-      .filter((n) => ['artboard', 'frame'].includes(n.kind) && n.id !== this.e.selected()),
-  );
+  readonly parentOptions = computed(() => {
+    const selected = new Set(this.e.selectedRoots().map(node => node.id));
+    const nodes = new Map(this.e.pageNodes().map(node => [node.id, node]));
+    return this.e.pageNodes().filter(node => {
+      if (!['artboard', 'frame'].includes(node.kind) ||
+          !this.projection.canEdit(node) && node.id !== this.e.node()?.parentId) return false;
+      let parent: SceneNode | undefined = node;
+      while (parent) {
+        if (selected.has(parent.id)) return false;
+        parent = nodes.get(parent.parentId ?? '');
+      }
+      return true;
+    });
+  });
   readonly transformFields = [
     { key: 'x', label: 'X', name: 'X position' },
     { key: 'y', label: 'Y', name: 'Y position' },
@@ -223,6 +244,13 @@ export class App {
   readonly modes = ['Design', 'Prototype', 'Developer'] as const;
   constructor() {
     effect(() => {
+      const pending = this.reparentPreview();
+      if (pending && (this.e.mode() !== 'Design' || pending.request.documentId !== this.e.doc().id ||
+          pending.request.expectedRevision !== this.e.revision() ||
+          JSON.stringify(pending.request.ids) !== JSON.stringify(this.e.selectedRoots().map(node => node.id))))
+        untracked(() => this.cancelReparent());
+    });
+    effect(() => {
       if (this.commentUi.openRequest()) this.right.set(true);
     });
     window.sugarMaple.viewport = {
@@ -230,6 +258,9 @@ export class App {
       inspect: () => this.inspectCanvas(),
       stats: () => this.projection.stats(),
       camera: () => ({ zoom: this.zoom(), pan: this.pan() }),
+      planReparent: (request: ReparentRequest) => planReparent(
+        this.e.doc(), request, (text, node) => this.projection.measure(text, node), this.projection.size(),
+      ),
       fit: () => {
         this.fit();
         return { zoom: this.zoom(), pan: this.pan() };
@@ -272,6 +303,38 @@ export class App {
   }
   patch(key: string, value: any) {
     this.e.update({ [key]: value });
+  }
+  async previewReparent(parentId: string | null) {
+    if (this.e.mode() !== 'Design') return;
+    const serial = ++this.reparentRequest;
+    const request: ReparentRequest = {
+      documentId: this.e.doc().id, expectedRevision: this.e.revision(),
+      ids: this.e.selectedRoots().map(node => node.id), parentId, placement: this.reparentPlacement(),
+    };
+    this.reparentPreview.set(null);
+    this.reparentBusy.set(true);
+    try {
+      const plan = await this.e.prepareReparent(request);
+      if (serial === this.reparentRequest && this.e.mode() === 'Design' &&
+          JSON.stringify(request.ids) === JSON.stringify(this.e.selectedRoots().map(node => node.id)))
+        this.reparentPreview.set(plan.operations.length ? { request, plan } : null);
+    } catch (error) { if (serial === this.reparentRequest) this.e.report(error); }
+    finally { if (serial === this.reparentRequest) this.reparentBusy.set(false); }
+  }
+  cancelReparent() {
+    ++this.reparentRequest;
+    this.reparentBusy.set(false);
+    this.reparentPreview.set(null);
+  }
+  applyReparent() {
+    const pending = this.reparentPreview();
+    if (!pending || this.e.mode() !== 'Design') return;
+    try {
+      if (JSON.stringify(pending.request.ids) !== JSON.stringify(this.e.selectedRoots().map(node => node.id)))
+        throw Error('Selection changed. Preview this move again.');
+      this.e.commitReparent(pending.request, pending.plan);
+    } catch (error) { this.e.report(error); }
+    finally { this.cancelReparent(); }
   }
   readonly collapsedFolders = signal<string[]>([]);
   readonly currentFolder = computed(

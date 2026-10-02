@@ -7,6 +7,11 @@ test('all tool inputs validate strictly, including invalid export targets and re
   expect(() => toolArguments('document.get', { unexpected: true })).toThrow();
   expect(() => toolArguments('history.undo', { documentId: 'd', expectedRevision: -1 })).toThrow();
   expect(() => toolArguments('render.ready', {})).toThrow();
+  const move = { documentId: 'd', expectedRevision: 0, ids: ['n'], parentId: null };
+  expect(toolArguments('nodes.reparent', move).placement).toBe('preserve-world');
+  expect(() => toolArguments('nodes.reparent', { ...move, placement: 'guess' })).toThrow();
+  expect(() => toolArguments('nodes.reparent', { ...move, ids: [] })).toThrow();
+  expect(() => toolArguments('nodes.reparent', { ...move, operations: [] })).toThrow();
   const doc = blankDocument();
   doc.nodes.push(NodeSchema.parse({ id: 'n', pageId: doc.pages[0].id, kind: 'text', name: 'Text' }));
   expect(() => exportNode(doc, 'n', 'png' as any)).toThrow();
