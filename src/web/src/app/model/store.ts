@@ -71,10 +71,11 @@ export class DocumentStore {
   get document(): SceneDocument {
     // Y.Map.toJSON() retains nested plain JSON values. Detach the whole projection
     // so callers cannot mutate the scene, recovery base or journal outside a command.
-    return structuredClone({
-      ...structuredClone(
-        (this.root.get('documentMetadata') as Y.Map<unknown> | undefined)?.toJSON() ?? {},
-      ),
+    return structuredClone(this.project());
+  }
+  private project(): SceneDocument {
+    return {
+      ...(this.root.get('documentMetadata') as Y.Map<unknown> | undefined)?.toJSON(),
       version: 1,
       id: this.root.get('id') as string,
       name: this.root.get('name') as string,
@@ -91,7 +92,7 @@ export class DocumentStore {
       tokens: (this.root.get('tokens') as Y.Map<string>).toJSON(),
       assets: (this.root.get('assets') as Y.Map<string>).toJSON(),
       libraries: Object.fromEntries(Array.from((this.root.get('libraries') as Y.Map<Y.Map<unknown>>).entries()).map(([key, value]) => [key, value.toJSON() as SceneDocument['libraries'][string]])),
-    });
+    };
   }
   private write(doc: SceneDocument) {
     this.root.set('id', doc.id);
@@ -148,7 +149,7 @@ export class DocumentStore {
     }
     if (tx.documentId !== this.root.get('id')) throw Error('Wrong document');
     if (tx.expectedRevision !== this.revision) throw Error('Stale revision');
-    const before = this.document;
+    const before = this.project();
     const doc = structuredClone(before),
       ids: string[] = [];
     for (const op of tx.operations) applyOperation(doc, op, ids, origin);
@@ -188,7 +189,7 @@ export class DocumentStore {
   checkpoint() {
     return structuredClone({
       checkpointVersion: 2,
-      document: this.document,
+      document: this.project(),
       base: this.base,
       journal: this.journal,
     });
