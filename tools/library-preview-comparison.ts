@@ -11,7 +11,7 @@ let serverFailure: unknown;
 async function ready(){if(!editorURL)return false;try{return(await fetch(editorURL,{signal:AbortSignal.timeout(1000)})).ok;}catch{return false;}}
 async function run(args:string[]){
   const child=Bun.spawn([process.execPath,...args],{stdout:'inherit',stderr:'inherit',env:{...process.env,MAPLE_COMPARISON_EDITOR_URL:editorURL}});
-  if(await child.exited)throw Error(`Comparison failed: ${args[0]}`);
+  if((await child.exited)!==0)throw Error(`Comparison failed: ${args[0]}`);
   if(serverFailure || server?.child.exitCode !== null)throw Error(`Owned comparison server stopped: ${serverFailure ?? server?.child.exitCode}`);
 }
 try{
