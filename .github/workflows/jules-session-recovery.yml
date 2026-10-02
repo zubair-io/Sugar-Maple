@@ -18,6 +18,10 @@ on:
         description: Save only completed final reviewer text as an untrusted artifact; inspect mode only
         type: boolean
         default: false
+      include_feedback_artifact:
+        description: Save only pending agent message from AWAITING_USER_FEEDBACK; inspect mode only, mutually exclusive with review artifact
+        type: boolean
+        default: false
 permissions:
   contents: read
 jobs:
@@ -52,8 +56,9 @@ jobs:
           SESSION_ID: ${{ inputs.session_id }}
           RECOVERY_MODE: ${{ inputs.mode }}
           INCLUDE_REVIEW_ARTIFACT: ${{ inputs.include_review_artifact }}
-      - name: Retain opt-in final review for human inspection
-        if: success() && inputs.include_review_artifact && inputs.mode == 'inspect'
+          INCLUDE_FEEDBACK_ARTIFACT: ${{ inputs.include_feedback_artifact }}
+      - name: Retain opt-in reviewer data for human inspection
+        if: success() && (inputs.include_review_artifact || inputs.include_feedback_artifact) && inputs.mode == 'inspect'
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: jules-review-${{ inputs.session_id }}
