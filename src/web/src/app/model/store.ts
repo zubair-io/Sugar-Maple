@@ -144,7 +144,7 @@ export class DocumentStore {
     const prior = this.receipts.get(tx.requestId);
     if (prior) {
       if (prior.signature !== signature) throw Error('Request ID reused with different operations');
-      return prior.result;
+      return structuredClone(prior.result);
     }
     if (tx.documentId !== this.root.get('id')) throw Error('Wrong document');
     if (tx.expectedRevision !== this.revision) throw Error('Stale revision');
@@ -165,7 +165,7 @@ export class DocumentStore {
     this.revision++;
     this.receipts.set(tx.requestId, { signature, result });
     this.journal.push(entry);
-    return result;
+    return structuredClone(result);
   }
   undo() {
     this.history.undo();

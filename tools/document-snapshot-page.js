@@ -3,7 +3,7 @@
   const get = () => api.dispatch("document.get");
   const initial = await get(),
     pageId = initial.document.pages[0].id;
-  await api.dispatch("transaction.apply", {
+  const receipt = await api.dispatch("transaction.apply", {
     documentId: initial.documentId,
     expectedRevision: initial.revision,
     requestId: crypto.randomUUID(),
@@ -48,6 +48,10 @@
       throw Error(label + " changed scene, revision or recovery history");
     checks++;
   };
+  receipt.documentId = "wrong-document";
+  receipt.revision = 999;
+  receipt.ids.push("untracked-id");
+  await check("transaction receipt mutation");
   const full = await get();
   full.document.name = "Untracked title";
   full.document.nodes.find(

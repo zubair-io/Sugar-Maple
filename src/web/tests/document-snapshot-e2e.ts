@@ -8,7 +8,7 @@ try {
   const script = await Bun.file('tools/document-snapshot-page.js').text();
   const report = await page.evaluate(script);
   assert.equal(report.passed, true);
-  assert.equal(report.checks, 6);
+  assert.equal(report.checks, 7);
   await Bun.write('build/evidence/document-snapshot-chrome.json', JSON.stringify(report, null, 2));
   await page.screenshot({ path: 'build/evidence/document-snapshot-chrome.png' });
   await page.evaluate(() => window.sugarMaple.flushAutosave());
