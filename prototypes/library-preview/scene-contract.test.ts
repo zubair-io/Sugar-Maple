@@ -87,7 +87,8 @@ test("source token bindings, local overrides and nested slots survive projection
       key: libraryKey(webAwesomeManifest),
       component: "Card",
       id: "nested",
-      x: 0, y: 0,
+      x: 0,
+      y: 0,
       pageId: store.document.pages[0].id,
       props: { padding: 5 },
     },
@@ -152,6 +153,30 @@ test("resolved responsive boxes and nested rotations are carried instead of repl
   expect(input.height).toBeCloseTo(41.2, 8);
   expect(button.rotation).toBe(27);
   expect(input.library!.component).toBe("Input");
+});
+test("native style gaps return actionable diagnostics before replacing a supported scene", () => {
+  const store = libraryFixture();
+  tx(store, [
+    {
+      type: "node.update",
+      id: "input",
+      patch: { fill: "#763cba", radius: 7, letterSpacing: 2 },
+    },
+    {
+      type: "node.update",
+      id: "header",
+      patch: { text: "Two\nlines", lineHeight: 2 },
+    },
+  ]);
+  const checkpoint = store.checkpoint();
+  expect(nativeSceneDiagnostics(scene(store))).toEqual([
+    "header: native multiline text is unsupported; use semantic preview",
+    "header: native lineHeight is unsupported; use semantic preview",
+    "input: native Input style fill is unsupported; use semantic preview",
+    "input: native Input style radius is unsupported; use semantic preview",
+    "input: native Input style letterSpacing is unsupported; use semantic preview",
+  ]);
+  expect(store.checkpoint()).toEqual(checkpoint);
 });
 test("scene packets reject inconsistent graphs, unsupported source, privileged keys and aggregate payload excess", () => {
   const store = libraryFixture(),
