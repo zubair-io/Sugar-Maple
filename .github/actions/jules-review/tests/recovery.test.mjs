@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { activitySummary, completedReviewArtifact, publishedSessionReference, validateRecoveryInput, validateSessionSource } from '../lib/recovery-policy.js';
+import { activitySummary, completedReviewArtifact, pendingFeedbackArtifact, recoveryArtifactKind, publishedSessionReference, validateRecoveryInput, validateSessionSource } from '../lib/recovery-policy.js';
 const bot = { login: 'github-actions[bot]', type: 'Bot' };
 const final = { user: bot, body: '<!-- jules-pr-reviewer -->\n## Jules Review\nVERDICT: approve\n\n---\n_Session: `123`_' };
 test('cleanup requires a trusted published verdict/footer for the exact session', () => {
@@ -46,4 +46,28 @@ test('opt-in artifacts require a complete final review and select chronologicall
     ['COMPLETED',[{...last,agentMessaged:{agentMessage:'x'.repeat(131073)+'\nVERDICT: approve'}}],false],
     ['COMPLETED',[{...last,agentMessaged:'malformed'}],false],
   ]) assert.equal(completedReviewArtifact(state,list,truncated),null);
+});
+test('artifact opt-ins are inspection-only, exclusive and off by default', () => {
+  assert.equal(recoveryArtifactKind('inspect', false, false), null);
+  assert.equal(recoveryArtifactKind('cleanup', false, false), null);
+  assert.equal(recoveryArtifactKind('inspect', true, false), 'review');
+  assert.equal(recoveryArtifactKind('inspect', false, true), 'feedback');
+  for (const args of [['cleanup',true,false],['cleanup',false,true],['inspect',true,true]])
+    assert.throws(() => recoveryArtifactKind(...args));
+});
+test('pending feedback can be inspected without completion or an inferred verdict', () => {
+  const prior = {createTime:'2026-10-01T12:00:00Z',agentMessaged:{agentMessage:'Working'}},
+    last = {createTime:'2026-10-01T12:00:01Z',agentMessaged:{agentMessage:'Which consumer should I inspect?'}};
+  assert.equal(pendingFeedbackArtifact('AWAITING_USER_FEEDBACK',[last,prior],false),last.agentMessaged.agentMessage);
+  assert.equal(completedReviewArtifact('AWAITING_USER_FEEDBACK',[last],false),null);
+  for (const [state,list,truncated] of [
+    ['IN_PROGRESS',[last],false],['COMPLETED',[last],false],['FAILED',[last],false],
+    ['AWAITING_USER_FEEDBACK',[last],true],['AWAITING_USER_FEEDBACK',[],false],
+    ['AWAITING_USER_FEEDBACK',[last,{...last}],false],
+    ['AWAITING_USER_FEEDBACK',[{...last,createTime:'bad'}],false],
+    ['AWAITING_USER_FEEDBACK',[{...last,agentMessaged:{agentMessage:'\0'}}],false],
+    ['AWAITING_USER_FEEDBACK',[{...last,agentMessaged:{agentMessage:'x'.repeat(131073)}}],false],
+    ['AWAITING_USER_FEEDBACK',[{...last,agentMessaged:{agentMessage:'   '}}],false],
+    ['AWAITING_USER_FEEDBACK',[{...last,agentMessaged:'invalid'}],false],
+  ]) assert.equal(pendingFeedbackArtifact(state,list,truncated),null);
 });

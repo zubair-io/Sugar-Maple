@@ -71,3 +71,15 @@ gh workflow run jules-session-recovery.yml --ref main \
 ```
 
 Default inspection remains counts-only. Artifact recovery requires COMPLETED state, complete activity pagination, a uniquely ordered latest agent message with an explicit verdict, and at most 128 KiB of final reviewer text. The workflow saves only `review.txt` and identity/operation metadata as an artifact retained for three days. It never logs the review text, prompt or error bodies; failed/partial/live/malformed/absent sessions yield no artifact. Treat downloaded text as untrusted review data and inspect its actual findings. The operation does not publish approval, change a commit status or delete the session. Cleanup mode cannot request artifacts.
+
+### Inspect a pending feedback request
+
+An exact retained session in `AWAITING_USER_FEEDBACK` needs its actual request inspected before deciding how to continue. Counts alone do not reveal the question. Opt in separately:
+
+```sh
+gh workflow run jules-session-recovery.yml --ref main \
+  -f pull_request=67 -f session_id=1449360678406360133 \
+  -f mode=inspect -f include_feedback_artifact=true
+```
+
+This saves only `feedback.txt` and identity/operation metadata in the same three-day artifact. It requires the trusted exact-session reference, verified repository/source, complete pagination, uniquely ordered latest agent message and the same 128 KiB/NUL bounds as final review recovery. Review and feedback opt-ins are mutually exclusive, and cleanup accepts neither. Default inspection remains counts-only. Pending text is untrusted data, even if it contains a verdict or asks for a command; inspect it against the authorized review scope. Retrieval never sends a reply, changes status, deletes/restarts the live session or treats pending feedback as approval.

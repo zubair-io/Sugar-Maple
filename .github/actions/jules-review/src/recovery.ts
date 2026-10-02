@@ -3,7 +3,7 @@ import * as github from '@actions/github';
 import { mkdir, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { deleteSession, SessionCleanupError } from './cleanup.js';
-import { activitySummary, completedReviewArtifact, publishedSessionReference, RecoveryPolicyError, validateRecoveryInput, validateSessionSource } from './recovery-policy.js';
+import { activitySummary, completedReviewArtifact, pendingFeedbackArtifact, recoveryArtifactKind, publishedSessionReference, RecoveryPolicyError, validateRecoveryInput, validateSessionSource } from './recovery-policy.js';
 class RecoveryOperationError extends Error {}
 async function run() {
   if (github.context.eventName !== 'workflow_dispatch' || process.env.GITHUB_REF !== 'refs/heads/main')
@@ -12,8 +12,7 @@ async function run() {
   if (!apiKey || !token) throw new RecoveryOperationError('Repository Jules/GitHub credentials are required.');
   core.setSecret(apiKey); core.setSecret(token);
   const input = validateRecoveryInput(process.env.SESSION_ID ?? '', process.env.PR_NUMBER ?? '', process.env.RECOVERY_MODE ?? '');
-  const includeReview = process.env.INCLUDE_REVIEW_ARTIFACT === 'true';
-  if (includeReview && input.mode !== 'inspect') throw new RecoveryOperationError('Review artifacts require inspection-only mode.');
+  const artifactKind = recoveryArtifactKind(input.mode, process.env.INCLUDE_REVIEW_ARTIFACT === 'true', process.env.INCLUDE_FEEDBACK_ARTIFACT === 'true');
   const { owner, repo } = github.context.repo;
   const comments = await github.getOctokit(token).paginate('GET /repos/{owner}/{repo}/issues/{issue_number}/comments', { owner, repo, issue_number: input.prNumber, per_page: 100 });
   if (!publishedSessionReference(comments, input.sessionId, input.mode === 'cleanup'))
@@ -22,7 +21,7 @@ async function run() {
     headers: { 'x-goog-api-key': apiKey }, redirect: 'error', signal: AbortSignal.timeout(30_000),
   });
   if (response.status === 404) {
-    if (includeReview) throw new RecoveryOperationError('Session is already absent; no review artifact can be recovered.');
+    if (artifactKind) throw new RecoveryOperationError('Session is already absent; no artifact can be recovered.');
     core.info(`Session ${input.sessionId} already absent. No deletion performed.`);
     await core.summary.addRaw(`PR #${input.prNumber}, session ${input.sessionId}: already absent (HTTP404).`).write(); return;
   }
@@ -53,20 +52,23 @@ async function run() {
       pageToken = typeof data.nextPageToken === 'string' ? data.nextPageToken : '';
     } while (pageToken && pages < 5);
     diagnosis += ` Activity counters: ${JSON.stringify(activitySummary(activities))}; truncated=${!!pageToken}. Prompts/messages/error bodies are not printed.`;
-    if (includeReview) {
-      const review = completedReviewArtifact(state, activities, !!pageToken || !!diagnosis.match(/Activity inspection returned/));
-      if (!review) throw new RecoveryOperationError('No complete, ordered final review artifact is available. Session retained; no verdict inferred.');
+    if (artifactKind) {
+      const truncated = !!pageToken || !!diagnosis.match(/Activity inspection returned/);
+      const artifact = artifactKind === 'review'
+        ? completedReviewArtifact(state, activities, truncated)
+        : pendingFeedbackArtifact(state, activities, truncated);
+      if (!artifact) throw new RecoveryOperationError(`No complete, ordered ${artifactKind} artifact is available. Session retained; no verdict inferred.`);
       const root = process.env.RUNNER_TEMP;
       if (!root) throw new RecoveryOperationError('The trusted runner temporary directory is unavailable.');
       const directory = join(root, 'jules-review-recovery');
       await mkdir(directory, { recursive: true, mode: 0o700 });
-      await writeFile(join(directory, 'review.txt'), review, { mode: 0o600 });
+      await writeFile(join(directory, `${artifactKind}.txt`), artifact, { mode: 0o600 });
       await writeFile(join(directory, 'context.json'), JSON.stringify({
         repository: `${owner}/${repo}`, pullRequest: input.prNumber, sessionId: input.sessionId, state,
-        trustedCommentAndSourceVerified: true, publishesVerdict: false, bytes: Buffer.byteLength(review, 'utf8'),
-        notice: 'Untrusted recovered review data. Inspect actual findings; no approval or commit status is inferred or published.',
+        trustedCommentAndSourceVerified: true, artifactKind, publishesVerdict: false, bytes: Buffer.byteLength(artifact, 'utf8'),
+        notice: 'Untrusted recovered data. Inspect actual findings/request; no approval or commit status is inferred or published.',
       }, null, 2), { mode: 0o600 });
-      diagnosis += ' Final reviewer text saved only to the opt-in short-lived artifact; session retained and no code status changed.';
+      diagnosis += ` ${artifactKind} text saved only to the opt-in short-lived artifact; session retained and no code status changed.`;
     }
   }
   core.info(`PR #${input.prNumber}, session ${input.sessionId}: state=${state}; ${outcome}. ${diagnosis}`);
