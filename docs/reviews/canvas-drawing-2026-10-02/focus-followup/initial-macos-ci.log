@@ -1,0 +1,56 @@
+﻿2026-10-02T07:57:53.4843860Z ##[group]Run bun tools/native-acceptance.ts
+2026-10-02T07:57:53.4844170Z [36;1mbun tools/native-acceptance.ts[0m
+2026-10-02T07:57:53.6703990Z shell: /bin/bash -e {0}
+2026-10-02T07:57:53.6704820Z ##[endgroup]
+2026-10-02T07:58:06.2976230Z PASS: actual named NSPasteboard structured/text formats, UTF-8 roundtrip, structured precedence, version-one fallback, rejected malformed/future/Boolean/oversize writes preserve content and invalid structured reads reject
+2026-10-02T07:58:07.5093780Z PASS: real .syrup save/reopen and invalid-write preservation and external-change conflict
+2026-10-02T07:58:07.5194780Z PASS: actual read/fingerprint reject sparse 32 MB + 1 byte and 3 GB checkpoints with explicit unsigned 64-bit size checks
+2026-10-02T07:58:09.2029960Z PASS: real autosave packages, independent documents, title rename, collisions, invalid names, case-only rename, rename undo, migration, restart, external conflict, recovery preservation and corrupt native Open rejection
+2026-10-02T07:58:10.1908790Z PASS: trusted origin/hostname, resource traversal and symlink isolation, package symlink read/write/fingerprint rejection and original-file preservation
+2026-10-02T07:58:12.0666030Z PASS: real native MCP socket, occupied port, private credentials, structured output, typed loading/timeout/disconnected, deterministic 10/s throttle, stop and credential-rotating reconnect
+2026-10-02T07:58:12.1573260Z PASS: unavailable-host stdio returns actionable JSON-RPC error and keeps stdout protocol-clean
+2026-10-02T07:58:13.4609850Z PASS: generated SwiftUI serif, monospaced, tracking and multiline alignment consumer compiles against the actual SDK
+2026-10-02T07:58:13.9580870Z PASS: actual SwiftUI TextField/SecureField, email hint, initial values, disabled state and accessibility names consumer compiles
+2026-10-02T07:58:20.6800220Z PASS: actual isolated WKWebView, offline bundled fonts, no authoring bridge/store, rejected file command/navigation, live scene with retained ephemeral input, overlays/navigation/reset, idempotent close and disposed renderer
+2026-10-02T07:58:24.8061200Z PASS: actual .syrup save/reopen retains one shared image and complete journal; native NSImage decodes embedded bytes; isolated bundled WKWebView renders two imported images/text/input values
+2026-10-02T07:58:27.1301440Z PASS: generated self-contained SwiftUI Repeat Grid consumer compiles and renders, shared embedded bytes decode once; actual native checkpoint reopens with one-batch undo/redo
+2026-10-02T07:58:34.9085220Z PASS: explicit SwiftUI Button/TextField/VStack mappings compile against the macOS 14 API baseline and render through actual NSHostingView
+2026-10-02T07:58:43.7877180Z PASS: fresh visible WKWebView production Canvas transform keyboard/geometry acceptance; /Users/runner/work/Sugar-Maple/Sugar-Maple/build/native-canvas-transforms/report.json
+2026-10-02T07:58:43.7992720Z PASS: 18 production WKWebView resize/rotation keyboard cases, zoom 0.5/1.5, independent pinned-anchor geometry, inherited locks/visibility and exact undo
+2026-10-02T07:58:51.4027990Z PASS: fresh visible WKWebView production Canvas transform keyboard/geometry acceptance; /Users/runner/work/Sugar-Maple/Sugar-Maple/build/native-canvas-placement/report.json
+2026-10-02T07:58:51.4131360Z PASS: 16 production WKWebView alignment/distribution DOM cases, zoom 0.5/1.5, independent rotated geometry, locked ancestors, snapping preference without history, exact undo and no console errors
+2026-10-02T07:58:58.1280860Z PASS: fresh visible WKWebView production Canvas transform keyboard/geometry acceptance; /Users/runner/work/Sugar-Maple/Sugar-Maple/build/native-canvas-reparent/report.json
+2026-10-02T07:58:58.1514770Z PASS: 12 production WKWebView reparent preview/cancel/apply cases, rotated geometry, responsive sizing, layout rules, stale preview cancellation, inherited guards and exact undo at zoom 0.5/1.5
+2026-10-02T07:59:02.5699630Z PASS: actual isolated native Sugar Maple MCP on 48494, nested transformed Canvas layout, selection/capture, exact atomic undo/redo and durable checkpoint
+2026-10-02T07:59:09.5976470Z PASS: fresh visible WKWebView production Canvas transform keyboard/geometry acceptance; /Users/runner/work/Sugar-Maple/Sugar-Maple/build/native-lock-editing/report.json
+2026-10-02T07:59:09.6045960Z PASS: 12 production WKWebView inherited-lock controls/DOM keyboard cases, atomic deletion, explicit visibility/unlock, read-only mode routing and exact undo; OS input and VoiceOver are separate
+2026-10-02T07:59:15.5440580Z Native benchmark failed: Error Domain=WKErrorDomain Code=4 "A JavaScript exception occurred" UserInfo={WKJavaScriptExceptionLineNumber=0, WKJavaScriptExceptionMessage=Error: WK rotated-parent endpoint geometry, WKJavaScriptExceptionColumnNumber=0, NSLocalizedDescription=A JavaScript exception occurred}
+2026-10-02T07:59:15.6438380Z 10 |   kind: 'frame', x: 40, y: 40, width: 500, height: 400, rotation: 25, strokeWidth: 2 })];
+2026-10-02T07:59:15.6532430Z 11 | const fixture = resolve(output, 'fixture.json'), executable = resolve(output, 'native-drawing');
+2026-10-02T07:59:15.6650810Z 12 | await Bun.write(fixture, JSON.stringify(new DocumentStore(document).checkpoint()));
+2026-10-02T07:59:15.6754180Z 13 | async function run(cmd: string[]) {
+2026-10-02T07:59:15.6856200Z 14 |   const child = Bun.spawn(cmd, { cwd: root, stdout: 'inherit', stderr: 'inherit' });
+2026-10-02T07:59:15.6862070Z 15 |   if (await child.exited) throw Error('Native drawing failed: ' + cmd[0]);
+2026-10-02T07:59:15.6862830Z                                      ^
+2026-10-02T07:59:15.6863500Z error: Native drawing failed: /Users/runner/work/Sugar-Maple/Sugar-Maple/build/native-canvas-drawing/native-drawing
+2026-10-02T07:59:15.6864250Z       at run (/Users/runner/work/Sugar-Maple/Sugar-Maple/tools/native-canvas-drawing.ts:15:33)
+2026-10-02T07:59:15.6865250Z 
+2026-10-02T07:59:15.6951600Z ##[error]
+      at run (/Users/runner/work/Sugar-Maple/Sugar-Maple/tools/native-canvas-drawing.ts:15:33)
+2026-10-02T07:59:15.6974530Z 
+2026-10-02T07:59:15.6974940Z Bun v1.4.2 (macOS arm64)
+2026-10-02T07:59:15.6975470Z 36 |   const process = Bun.spawn(cmd, {
+2026-10-02T07:59:15.6975830Z 37 |     cwd: root,
+2026-10-02T07:59:15.6976200Z 38 |     stdout: "inherit",
+2026-10-02T07:59:15.6976500Z 39 |     stderr: "inherit",
+2026-10-02T07:59:15.6977180Z 40 |   });
+2026-10-02T07:59:15.6977750Z 41 |   if (await process.exited) throw Error(`Native acceptance failed: ${cmd[0]}`);
+2026-10-02T07:59:15.6978210Z                                        ^
+2026-10-02T07:59:15.6978700Z error: Native acceptance failed: /Users/runner/.bun/bin/bun
+2026-10-02T07:59:15.6979350Z       at run (/Users/runner/work/Sugar-Maple/Sugar-Maple/tools/native-acceptance.ts:41:35)
+2026-10-02T07:59:15.6979660Z 
+2026-10-02T07:59:15.6981600Z ##[error]
+      at run (/Users/runner/work/Sugar-Maple/Sugar-Maple/tools/native-acceptance.ts:41:35)
+2026-10-02T07:59:15.6982740Z 
+2026-10-02T07:59:15.6982830Z Bun v1.4.2 (macOS arm64)
+2026-10-02T07:59:15.6988010Z ##[error]Process completed with exit code 1.
