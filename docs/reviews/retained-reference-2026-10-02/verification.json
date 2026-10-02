@@ -1,0 +1,33 @@
+{
+  "sourceCommit": "8edb23b495d7560d45d78fe56a03899e622de957",
+  "baseCommit": "9e66b7ad633c79f615b5ff2f5b39b53361abe028",
+  "issue": 102,
+  "reproductionRun": 37068679753,
+  "retainedSession": "1294350322256185317",
+  "checks": {
+    "before": {
+      "pass": 42,
+      "fail": 1
+    },
+    "after": {
+      "pass": 43,
+      "fail": 0
+    },
+    "typecheckExitCode": 0,
+    "recoveryBundleExitCode": 0
+  },
+  "sources": {
+    ".github/actions/jules-review/src/recovery-policy.ts": "b559209363c19c3a196736d39ef59e5998377a6ca6ecb3171f4375f78d89f4d4",
+    ".github/actions/jules-review/tests/recovery.test.mjs": "e877c6ed243c6b167c3952a0fc9ecf014a42104569cad1fdb9777d59ee8723fe"
+  },
+  "artifacts": {
+    "before.log": "bc86d7def3bad54543e0c9b89235cc959a872d2458373db907dec597125c14b1",
+    "after.log": "200bdd146732f85a8aadf782377ea84a1350154bb69a89df84630df69e9e8f1e",
+    "typecheck.log": "37c2b5e0406a7068753a91a0ab1b0bca9d47dec29ce65cbc23a4cabef2a524d9",
+    "build.log": "9cc08d08804e548ea78fa8b09c79af0c5bb6348cade8c153e3317db69fbee7b7"
+  },
+  "limitations": [
+    "Original remote session inspection remains pending verified main delivery.",
+    "No approval, commit status rewrite, deletion or restart is inferred."
+  ]
+}
