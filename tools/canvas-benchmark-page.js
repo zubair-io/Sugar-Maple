@@ -50,7 +50,11 @@ window.canvasBenchmark = async function (total, samples = 360) {
       if (!layers) fail('Missing actual Layers tab');
       const openedAt = performance.now(); layers.click();
       for (let i = 0; i < 2; i++) await nextFrame();
-      if (document.querySelectorAll('.layer-row').length !== total) fail('Full Layers panel did not mount');
+      const tree = document.querySelector('[role="tree"][aria-label="Layers"]');
+      const mounted = document.querySelectorAll('.layer-row').length;
+      if (!tree || Number(tree.dataset.layerCount ?? mounted) !== total) fail('Wrong full Layers model count');
+      if (tree.dataset.layerCount !== undefined && (mounted < 1 || mounted > Math.ceil(tree.clientHeight / 36) + 18))
+        fail('Virtual Layers panel exceeded its viewport and focus-pin bound');
       layersOpenMs = performance.now() - openedAt;
       for (let i = 0; i < 10; i++) await nextFrame();
     }

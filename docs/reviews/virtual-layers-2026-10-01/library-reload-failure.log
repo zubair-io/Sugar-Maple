@@ -1,0 +1,478 @@
+$ bun tools/browser-acceptance.ts
+PASS: Maple chrome controls, numeric bounds, per-input error descriptions, overflow focus, nested/disabled tree activation, keyboard tabs, light/dark persistence, local fonts, utility isolation, production Shift-selection/search, mode guards, unchanged document and Canvas pixels, no editor in specimen or remote requests
+PASS: 10,000-layer bounded DOM, sibling ARIA, off-window keyboard navigation, focused control retention, single-step visibility/undo, external selection reveal, Shift-selection, contextual search, resize and panel recreation
+PASS: create artboard/text/pages, edit, pointer drag, inspect code, recover on reload; no browser errors
+PASS: real canvas pixels, no authored design DOM, typed errors, asset diagnostics, cross-page inspector, dissolve animation, Back and unchanged preview revision
+PASS: actual canvas and native DOM preview geometry agree for free, stack, grid, border/padding, fixed/fill/hug/percent and text measurement
+PASS typography: 1 CSS-pixel geometry tolerance; bundled/local/missing font diagnostics; inspector authoring [{"width":1440,"maxDelta":2.842170943040401e-14},{"width":834,"maxDelta":1.1368683772161603e-13},{"width":393,"maxDelta":8.171241461241152e-14}]
+PASS: 1,000/5,000-node documents render on one canvas, cull offscreen nodes and stay below the local 250ms flush regression ceiling
+[{"nodes":1000,"drawn":110,"total":1000,"paintMs":0.5999999046325684,"frames":5,"flushMs":0.7000000476837158,"framesSince":1},{"nodes":5000,"drawn":198,"total":5000,"paintMs":1.1000001430511475,"frames":7,"flushMs":1.2000000476837158,"framesSince":1}]
+PASS: native file/menu routing and cancellation; structured editable copy vs text name/code, UTF-8 hierarchy paste with remapped IDs and one undo (stubbed native I/O)
+PASS: real IndexedDB autosave, New preserves previous document, posted feedback survives reload
+PASS: tab creation, isolated content/undo, double-click/F2 rename, Escape, close preserves saved file, centered modes
+PASS: Shift selection, grouped pointer move, transparent group, independent undo, marquee, delete and restore
+PASS: responsive stack at mobile width, preview navigation/back without document mutation, real IndexedDB recovery
+PASS: offline typed/password/disabled forms, overlay close/Escape/focus trap/restoration, reduced motion, retained navigation values, reset without authored mutation, and deleted-destination diagnostics
+PASS: offline custom viewport validation, nested component Inspect without action/input mutation, ephemeral reset, authoring focus/checkpoint preservation, isolated bootstrap/feed/live values/stale snapshot rejection and disposal
+PASS: SVG import, actual path rendering, SVG code and PNG download, script-bearing SVG rejection
+PASS: generated Angular strict-template consumer compiles; Tailwind 4 compiles classes and renders matching semantic HTML geometry without Maple
+PASS: Maple phone design reconstructed as 37 editable nodes, gradients/path geometry exported, text edit recovered and undone
+PASS: create component variant, insert instance, switch state, override and reset, recover developer identity
+PASS: real CSV/JSON file UI, named mappings, preview/cancel, empty/oversized/corrupt data rejection without mutation, explicit truncation, one-batch import, stable resizing, template editing, native-ready agent decode rejection, offline image preview and strict Angular/Tailwind/HTML/SVG consumers
+93 |     'Local override',
+94 |   );
+95 |   const snapshot = await checkpoint();
+96 |   await page.reload();
+97 |   await page.waitForFunction(() => window.sugarMaple.ready);
+98 |   assert.deepEqual(await checkpoint(), snapshot);
+              ^
+AssertionError: Expected values to be strictly deep-equal:
++ actual - expected
+... Skipped lines
+
+  {
+    base: {
+      assets: {},
+      comments: [],
+      folders: [],
+...
+          componentId: null,
++         disabled: false,
+-         disabled: true,
+          fill: '#ffffff',
+          fillEnabled: true,
+          fillToken: '',
+          fontFamily: 'system-ui',
+          fontSize: 16,
+...
+            key: 'web-awesome@1.0.0',
++           localOverrides: [],
++           props: {},
+-           localOverrides: [
+-             'text'
+-           ],
+-           props: {
+-             label: 'Changed source prop'
+-           },
+            tokenBindings: {},
++           variant: 'Default'
+-           variant: 'Disabled'
+          },
+          librarySlot: '',
+          lineHeight: 1.2,
+          locked: false,
+          name: 'Web Awesome Button',
+...
+          targetId: null,
++         text: 'Button',
+-         text: 'Local override',
+          textAlign: 'auto',
+          transition: 'instant',
+          variantName: 'Default',
+          variants: {},
+          viewBox: '0 0 100 100',
+...
+      },
+-     {
+-       delta: {
+-         comments: [],
+-         folders: [],
+-         nodes: [
+-           {
+-             accessibleLabel: '',
+-             asset: '',
+-             color: '#18181b',
+-             columns: 2,
+-             componentId: null,
+-             disabled: false,
+-             fill: '#ffffff',
+-             fillEnabled: true,
+-             fillToken: '',
+-             fontFamily: 'system-ui',
+-             fontSize: 16,
+-             fontWeight: 400,
+-             gap: 16,
+-             gradient: null,
+-             height: 44,
+-             heightMode: 'fixed',
+-             heightPercent: 100,
+-             hidden: false,
+-             id: 'f47ca77c-76cf-4fe6-8483-6d100f2554a6',
+-             initialValue: '',
+-             inputType: 'text',
+-             isComponent: false,
+-             kind: 'button',
+-             layout: 'free',
+-             letterSpacing: 0,
+-             libraryRef: {
+-               component: 'Button',
+-               key: 'web-awesome@1.0.0',
+-               localOverrides: [],
+-               props: {
+-                 label: 'Save from actual picker'
+-               },
+-               tokenBindings: {},
+-               variant: 'Default'
+-             },
+-             librarySlot: '',
+-             lineHeight: 1.2,
+-             locked: false,
+-             name: 'Web Awesome Button',
+-             opacity: 1,
+-             order: 0,
+-             overrides: [],
+-             padding: 16,
+-             pageId: '45b5dfa7-3e23-4612-a0eb-841b39d4fb86',
+-             parentId: null,
+-             pathData: '',
+-             prototypeAction: 'navigate',
+-             radius: 0,
+-             repeatIndex: null,
+-             repeatTemplateId: null,
+-             rotation: 0,
+-             stroke: '#d4d4d8',
+-             strokeWidth: 0,
+-             targetId: null,
+-             text: 'Save from actual picker',
+-             textAlign: 'auto',
+-             transition: 'instant',
+-             variantName: 'Default',
+-             variants: {},
+-             viewBox: '0 0 100 100',
+-             width: 180,
+-             widthMode: 'fixed',
+-             widthPercent: 100,
+-             x: 40,
+-             y: 40
+-           }
+-         ],
+-         pages: [],
+-         removedComments: [],
+-         removedFolders: [],
+-         removedNodes: [],
+-         removedPages: []
+-       },
+-       kind: 'edit',
+-       origin: 'human',
+-       receipt: {
+-         documentId: '85f432c7-0247-45d6-abb4-d231082f63f8',
+-         ids: [],
+-         revision: 3,
+-         transactionId: '0eec5a3c-9af9-4565-9b6c-f7498dd20e64'
+-       },
+-       requestId: 'f92ccf96-01be-4eaa-88cc-10d6fb550dec',
+-       signature: '{"documentId":"85f432c7-0247-45d6-abb4-d231082f63f8","expectedRevision":2,"requestId":"f92ccf96-01be-4eaa-88cc-10d6fb550dec","operations":[{"type":"library.props","id":"f47ca77c-76cf-4fe6-8483-6d100f2554a6","props":{"label":"Save from actual picker"}}]}'
+-     },
+-     {
+-       delta: {
+-         comments: [],
+-         folders: [],
+-         nodes: [
+-           {
+-             accessibleLabel: '',
+-             asset: '',
+-             color: '#18181b',
+-             columns: 2,
+-             componentId: null,
+-             disabled: true,
+-             fill: '#ffffff',
+-             fillEnabled: true,
+-             fillToken: '',
+-             fontFamily: 'system-ui',
+-             fontSize: 16,
+-             fontWeight: 400,
+-             gap: 16,
+-             gradient: null,
+-             height: 44,
+-             heightMode: 'fixed',
+-             heightPercent: 100,
+-             hidden: false,
+-             id: 'f47ca77c-76cf-4fe6-8483-6d100f2554a6',
+-             initialValue: '',
+-             inputType: 'text',
+-             isComponent: false,
+-             kind: 'button',
+-             layout: 'free',
+-             letterSpacing: 0,
+-             libraryRef: {
+-               component: 'Button',
+-               key: 'web-awesome@1.0.0',
+-               localOverrides: [],
+-               props: {
+-                 label: 'Save from actual picker'
+-               },
+-               tokenBindings: {},
+-               variant: 'Disabled'
+-             },
+-             librarySlot: '',
+-             lineHeight: 1.2,
+-             locked: false,
+-             name: 'Web Awesome Button',
+-             opacity: 1,
+-             order: 0,
+-             overrides: [],
+-             padding: 16,
+-             pageId: '45b5dfa7-3e23-4612-a0eb-841b39d4fb86',
+-             parentId: null,
+-             pathData: '',
+-             prototypeAction: 'navigate',
+-             radius: 0,
+-             repeatIndex: null,
+-             repeatTemplateId: null,
+-             rotation: 0,
+-             stroke: '#d4d4d8',
+-             strokeWidth: 0,
+-             targetId: null,
+-             text: 'Save from actual picker',
+-             textAlign: 'auto',
+-             transition: 'instant',
+-             variantName: 'Default',
+-             variants: {},
+-             viewBox: '0 0 100 100',
+-             width: 180,
+-             widthMode: 'fixed',
+-             widthPercent: 100,
+-             x: 40,
+-             y: 40
+-           }
+-         ],
+-         pages: [],
+-         removedComments: [],
+-         removedFolders: [],
+-         removedNodes: [],
+-         removedPages: []
+-       },
+-       kind: 'edit',
+-       origin: 'human',
+-       receipt: {
+-         documentId: '85f432c7-0247-45d6-abb4-d231082f63f8',
+-         ids: [],
+-         revision: 4,
+-         transactionId: '551e45d9-83e1-4755-8685-8faa1e14725c'
+-       },
+-       requestId: 'cfc7c928-7c83-4303-a9af-40a8b2da0203',
+-       signature: '{"documentId":"85f432c7-0247-45d6-abb4-d231082f63f8","expectedRevision":3,"requestId":"cfc7c928-7c83-4303-a9af-40a8b2da0203","operations":[{"type":"library.props","id":"f47ca77c-76cf-4fe6-8483-6d100f2554a6","props":{},"variant":"Disabled"}]}'
+-     },
+-     {
+-       delta: {
+-         comments: [],
+-         folders: [],
+-         nodes: [
+-           {
+-             accessibleLabel: '',
+-             asset: '',
+-             color: '#18181b',
+-             columns: 2,
+-             componentId: null,
+-             disabled: true,
+-             fill: '#ffffff',
+-             fillEnabled: true,
+-             fillToken: '',
+-             fontFamily: 'system-ui',
+-             fontSize: 16,
+-             fontWeight: 400,
+-             gap: 16,
+-             gradient: null,
+-             height: 44,
+-             heightMode: 'fixed',
+-             heightPercent: 100,
+-             hidden: false,
+-             id: 'f47ca77c-76cf-4fe6-8483-6d100f2554a6',
+-             initialValue: '',
+-             inputType: 'text',
+-             isComponent: false,
+-             kind: 'button',
+-             layout: 'free',
+-             letterSpacing: 0,
+-             libraryRef: {
+-               component: 'Button',
+-               key: 'web-awesome@1.0.0',
+-               localOverrides: [
+-                 'text'
+-               ],
+-               props: {
+-                 label: 'Save from actual picker'
+-               },
+-               tokenBindings: {},
+-               variant: 'Disabled'
+-             },
+-             librarySlot: '',
+-             lineHeight: 1.2,
+-             locked: false,
+-             name: 'Web Awesome Button',
+-             opacity: 1,
+-             order: 0,
+-             overrides: [],
+-             padding: 16,
+-             pageId: '45b5dfa7-3e23-4612-a0eb-841b39d4fb86',
+-             parentId: null,
+-             pathData: '',
+-             prototypeAction: 'navigate',
+-             radius: 0,
+-             repeatIndex: null,
+-             repeatTemplateId: null,
+-             rotation: 0,
+-             stroke: '#d4d4d8',
+-             strokeWidth: 0,
+-             targetId: null,
+-             text: 'Local override',
+-             textAlign: 'auto',
+-             transition: 'instant',
+-             variantName: 'Default',
+-             variants: {},
+-             viewBox: '0 0 100 100',
+-             width: 180,
+-             widthMode: 'fixed',
+-             widthPercent: 100,
+-             x: 40,
+-             y: 40
+-           }
+-         ],
+-         pages: [],
+-         removedComments: [],
+-         removedFolders: [],
+-         removedNodes: [],
+-         removedPages: []
+-       },
+-       kind: 'edit',
+-       origin: 'agent',
+-       receipt: {
+-         documentId: '85f432c7-0247-45d6-abb4-d231082f63f8',
+-         ids: [],
+-         revision: 5,
+-         transactionId: 'f9c24f19-d371-4b04-9365-a741b3aa435f'
+-       },
+-       requestId: 'bc3a46ca-7f47-4087-babb-4aae4b72d69c',
+-       signature: '{"documentId":"85f432c7-0247-45d6-abb4-d231082f63f8","expectedRevision":4,"requestId":"bc3a46ca-7f47-4087-babb-4aae4b72d69c","operations":[{"type":"node.update","id":"f47ca77c-76cf-4fe6-8483-6d100f2554a6","patch":{"text":"Local override"}}]}'
+-     },
+-     {
+-       delta: {
+-         comments: [],
+-         folders: [],
+-         nodes: [
+-           {
+-             accessibleLabel: '',
+-             asset: '',
+-             color: '#18181b',
+-             columns: 2,
+-             componentId: null,
+-             disabled: true,
+-             fill: '#ffffff',
+-             fillEnabled: true,
+-             fillToken: '',
+-             fontFamily: 'system-ui',
+-             fontSize: 16,
+-             fontWeight: 400,
+-             gap: 16,
+-             gradient: null,
+-             height: 44,
+-             heightMode: 'fixed',
+-             heightPercent: 100,
+-             hidden: false,
+-             id: 'f47ca77c-76cf-4fe6-8483-6d100f2554a6',
+-             initialValue: '',
+-             inputType: 'text',
+-             isComponent: false,
+-             kind: 'button',
+-             layout: 'free',
+-             letterSpacing: 0,
+-             libraryRef: {
+-               component: 'Button',
+-               key: 'web-awesome@1.0.0',
+-               localOverrides: [
+-                 'text'
+-               ],
+-               props: {
+-                 label: 'Changed source prop'
+-               },
+-               tokenBindings: {},
+-               variant: 'Disabled'
+-             },
+-             librarySlot: '',
+-             lineHeight: 1.2,
+-             locked: false,
+-             name: 'Web Awesome Button',
+-             opacity: 1,
+-             order: 0,
+-             overrides: [],
+-             padding: 16,
+-             pageId: '45b5dfa7-3e23-4612-a0eb-841b39d4fb86',
+-             parentId: null,
+-             pathData: '',
+-             prototypeAction: 'navigate',
+-             radius: 0,
+-             repeatIndex: null,
+-             repeatTemplateId: null,
+-             rotation: 0,
+-             stroke: '#d4d4d8',
+-             strokeWidth: 0,
+-             targetId: null,
+-             text: 'Local override',
+-             textAlign: 'auto',
+-             transition: 'instant',
+-             variantName: 'Default',
+-             variants: {},
+-             viewBox: '0 0 100 100',
+-             width: 180,
+-             widthMode: 'fixed',
+-             widthPercent: 100,
+-             x: 40,
+-             y: 40
+-           }
+-         ],
+-         pages: [],
+-         removedComments: [],
+-         removedFolders: [],
+-         removedNodes: [],
+-         removedPages: []
+-       },
+-       kind: 'edit',
+-       origin: 'human',
+-       receipt: {
+-         documentId: '85f432c7-0247-45d6-abb4-d231082f63f8',
+-         ids: [],
+-         revision: 6,
+-         transactionId: 'f26922de-d3f0-406d-a3da-6142a5c1e1fb'
+-       },
+-       requestId: '93c4d23a-0f5b-4dd9-9af5-f1c09c462b15',
+-       signature: '{"documentId":"85f432c7-0247-45d6-abb4-d231082f63f8","expectedRevision":5,"requestId":"93c4d23a-0f5b-4dd9-9af5-f1c09c462b15","operations":[{"type":"library.props","id":"f47ca77c-76cf-4fe6-8483-6d100f2554a6","props":{"label":"Changed source prop"}}]}'
+-     }
+    ]
+  }
+
+ generatedMessage: true,
+     actual: {
+  checkpointVersion: 2,
+  document: [Object ...],
+  base: [Object ...],
+  journal: [
+    [Object ...], [Object ...]
+  ],
+},
+   expected: {
+  checkpointVersion: 2,
+  document: [Object ...],
+  base: [Object ...],
+  journal: [
+    [Object ...], [Object ...], [Object ...], [Object ...], [Object ...], [Object ...]
+  ],
+},
+   operator: "deepStrictEqual",
+       diff: "simple",
+       code: "ERR_ASSERTION"
+
+      at /Users/riabuz/Projects/_Sugar Maple/src/web/tests/library-e2e.ts:98:10
+
+Bun v1.4.2 (macOS arm64)
+47 |   ]) {
+48 |     const test = Bun.spawn([process.execPath, `src/web/tests/${name}.ts`], {
+49 |       stdout: "inherit",
+50 |       stderr: "inherit",
+51 |     });
+52 |     if (await test.exited) throw Error(`${name} failed`);
+                                      ^
+error: library-e2e failed
+      at /Users/riabuz/Projects/_Sugar Maple/tools/browser-acceptance.ts:52:34
+
+Bun v1.4.2 (macOS arm64)
+error: script "test:e2e" exited with code 1

@@ -1,0 +1,24 @@
+$ bun run --cwd src/web build
+$ bun --bun ../../node_modules/@angular/cli/bin/ng.js build --base-href ./
+❯ Building...
+✔ Building...
+Initial chunk files | Names                       |  Raw size | Estimated transfer size
+main-UABXGPGS.js    | main                        | 177.65 kB |                51.84 kB
+styles-3L4SZE66.css | styles                      |  26.88 kB |                 4.63 kB
+
+                    | Initial total               | 204.53 kB |                56.48 kB
+
+Lazy chunk files    | Names                       |  Raw size | Estimated transfer size
+chunk-Bbx_eHVN.js   | -                           | 386.38 kB |                76.62 kB
+chunk-BakQF2f9.js   | app                         | 273.96 kB |                67.42 kB
+chunk-DP-KmVy4.js   | -                           |  55.96 kB |                13.85 kB
+chunk-B_a-DmhN.js   | sugar-maple-chrome-specimen |   7.72 kB |                 2.38 kB
+chunk-LVr8Sjkl.js   | preview-application         |   2.50 kB |                 1.12 kB
+
+Application bundle generation complete. [2.114 seconds] - 2026-10-02T03:10:17.100Z
+
+▲ [WARNING] src/app/app.scss exceeded maximum budget. Budget 4.00 kB was not met by 3.04 kB with a total of 7.04 kB.
+
+
+Output location: /Users/riabuz/Projects/_Sugar Maple/src/web/dist/sugar-maple-editor
+
