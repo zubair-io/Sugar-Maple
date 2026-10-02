@@ -121,6 +121,144 @@ test('new versions coexist; explicit compatible remap preserves props and reject
     store.transact(tx(store, [{ type: 'library.remap', id: 'button', key, component: 'Input' }])),
   ).toThrow('kind');
 });
+test('reset restores tracked semantic style defaults and pinned variant props in one exact undoable command', () => {
+  const store = fixture(),
+    siblingId = 'unrelated';
+  store.transact(
+    tx(store, [
+      { type: 'library.props', id: 'button', props: {}, variant: 'Disabled' },
+      { type: 'token.set', name: 'brand.primary', value: '#763cba' },
+      {
+        type: 'node.add',
+        node: {
+          id: siblingId,
+          pageId: store.document.pages[0].id,
+          kind: 'text',
+          name: 'Unrelated',
+          color: '#abcdef',
+          text: 'Keep me',
+        },
+      },
+      {
+        type: 'node.update',
+        id: 'button',
+        patch: {
+          color: '#ffff00',
+          fillToken: 'brand.primary',
+          radius: 13,
+          padding: 30,
+          gap: 27,
+          fontSize: 22,
+          text: 'Local override',
+          disabled: false,
+        },
+      },
+    ]),
+  );
+  const before = store.checkpoint(),
+    original = before.document.nodes.find((n) => n.id === 'button')!;
+  expect(original.libraryRef!.localOverrides).toContain('fill');
+  store.transact(tx(store, [{ type: 'library.reset', id: 'button' }]));
+  const reset = store.checkpoint(),
+    node = reset.document.nodes.find((n) => n.id === 'button')!;
+  expect(reset.journal.length).toBe(before.journal.length + 1);
+  expect(node.color).toBe('#18181b');
+  expect(node.fill).toBe('#ffffff');
+  expect(node.fillToken).toBe('');
+  expect(node.gradient).toBeNull();
+  expect(node.radius).toBe(0);
+  expect(node.padding).toBe(16);
+  expect(node.gap).toBe(16);
+  expect(node.fontSize).toBe(16);
+  expect(node.text).toBe('Button');
+  expect(node.disabled).toBe(true);
+  expect(node.libraryRef).toEqual({ ...original.libraryRef, props: {}, localOverrides: [] });
+  for (const name of ['x', 'y', 'width', 'height', 'rotation', 'librarySlot'] as const)
+    expect(node[name]).toBe(original[name]);
+  expect(reset.document.nodes.find((n) => n.id === siblingId)).toEqual(
+    before.document.nodes.find((n) => n.id === siblingId),
+  );
+  expect(DocumentStore.fromCheckpoint(reset).document).toEqual(reset.document);
+  store.undo();
+  expect(store.document).toEqual(before.document);
+  store.redo();
+  expect(store.document).toEqual(reset.document);
+});
+test('gradient-only fill overrides reset without losing pinned token bindings', () => {
+  const store = fixture();
+  store.transact(
+    tx(store, [
+      {
+        type: 'node.update',
+        id: 'button',
+        patch: {
+          gradient: {
+            type: 'linear',
+            angle: 25,
+            stops: [
+              { offset: 0, color: '#112233' },
+              { offset: 1, color: '#445566' },
+            ],
+          },
+        },
+      },
+    ]),
+  );
+  const before = store.document;
+  expect(before.nodes[0].libraryRef!.localOverrides).toEqual(['fill']);
+  store.transact(tx(store, [{ type: 'library.reset', id: 'button' }]));
+  expect(store.document.nodes[0].gradient).toBeNull();
+  expect(store.document.nodes[0].libraryRef!.tokenBindings).toEqual(
+    before.nodes[0].libraryRef!.tokenBindings,
+  );
+  store.undo();
+  expect(store.document).toEqual(before);
+});
+test('reset repairs saved stale paint with cleared flags, and reapplies custom pinned variant defaults', () => {
+  const legacy = fixture().document;
+  legacy.nodes[0].color = '#ffff00';
+  legacy.nodes[0].radius = 13;
+  legacy.nodes[0].libraryRef!.localOverrides = [];
+  const saved = new DocumentStore(legacy).checkpoint(),
+    reopened = DocumentStore.fromCheckpoint(saved);
+  reopened.transact(tx(reopened, [{ type: 'library.reset', id: 'button' }]));
+  expect(reopened.document.nodes[0].color).toBe('#18181b');
+  expect(reopened.document.nodes[0].radius).toBe(0);
+  reopened.undo();
+  expect(reopened.document).toEqual(saved.document);
+  const custom = structuredClone(manifest);
+  custom.revision = '1.0.1';
+  custom.components.Button.props.color = {
+    type: 'string',
+    default: '#112233',
+    maxLength: 7,
+    semantic: 'color',
+    webAttribute: null,
+  };
+  custom.components.Button.variants.Primary.color = '#335577';
+  const store = new DocumentStore();
+  store.transact(
+    tx(store, [
+      { type: 'library.import', manifest: custom },
+      {
+        type: 'library.insert',
+        id: 'custom',
+        key: libraryKey(custom),
+        component: 'Button',
+        pageId: store.document.pages[0].id,
+        x: 0,
+        y: 0,
+        variant: 'Primary',
+        props: { color: '#abcdef' },
+      },
+      { type: 'node.update', id: 'custom', patch: { color: '#ffff00' } },
+    ]),
+  );
+  store.transact(tx(store, [{ type: 'library.reset', id: 'custom' }]));
+  expect(store.document.nodes[0].color).toBe('#335577');
+  expect(store.document.nodes[0].libraryRef!.variant).toBe('Primary');
+  expect(DocumentStore.fromCheckpoint(store.checkpoint()).document).toEqual(store.document);
+});
 test('paste carries pinned library dependencies and token aliases; missing metadata retains editable fallback', () => {
   const store = fixture();
   store.transact(tx(store, [{ type: 'token.set', name: 'brand.primary', value: '#112233' }]));
@@ -211,53 +349,127 @@ test('slot validation and scoped reads expose exact library dependencies', () =>
 });
 
 test('copying a slotted subtree alone detaches only its external slot, while copying its parent retains named slots', () => {
-  const source = fixture(), pageId = source.document.pages[0].id;
-  source.transact(tx(source, [
-    { type: 'library.insert', id: 'card', key, component: 'Card', pageId, x: 0, y: 0 },
-    { type: 'node.add', node: { id: 'header', parentId: 'card', pageId, kind: 'frame', name: 'Header', librarySlot: 'header' } },
-    { type: 'node.add', node: { id: 'title', parentId: 'header', pageId, kind: 'text', name: 'Title', text: 'Hello Maple' } },
-  ]));
-  const sourceBefore = source.checkpoint(), target = new DocumentStore(), before = target.document;
-  const paste = pasteElements(target.document, target.document.pages[0].id, JSON.stringify(editablePayload(source.document, 'header')));
+  const source = fixture(),
+    pageId = source.document.pages[0].id;
+  source.transact(
+    tx(source, [
+      { type: 'library.insert', id: 'card', key, component: 'Card', pageId, x: 0, y: 0 },
+      {
+        type: 'node.add',
+        node: {
+          id: 'header',
+          parentId: 'card',
+          pageId,
+          kind: 'frame',
+          name: 'Header',
+          librarySlot: 'header',
+        },
+      },
+      {
+        type: 'node.add',
+        node: {
+          id: 'title',
+          parentId: 'header',
+          pageId,
+          kind: 'text',
+          name: 'Title',
+          text: 'Hello Maple',
+        },
+      },
+    ]),
+  );
+  const sourceBefore = source.checkpoint(),
+    target = new DocumentStore(),
+    before = target.document;
+  const paste = pasteElements(
+    target.document,
+    target.document.pages[0].id,
+    JSON.stringify(editablePayload(source.document, 'header')),
+  );
   target.transact(tx(target, paste.operations));
-  const root = target.document.nodes.find(n => n.id === paste.rootId)!;
+  const root = target.document.nodes.find((n) => n.id === paste.rootId)!;
   expect(root.parentId).toBeNull();
   expect(root.librarySlot).toBe('');
-  expect(target.document.nodes.find(n => n.parentId === root.id)?.text).toBe('Hello Maple');
-  expect(new Set(target.document.nodes.map(n => n.id)).size).toBe(2);
+  expect(target.document.nodes.find((n) => n.parentId === root.id)?.text).toBe('Hello Maple');
+  expect(new Set(target.document.nodes.map((n) => n.id)).size).toBe(2);
   expect(target.checkpoint().journal).toHaveLength(1);
   expect(DocumentStore.fromCheckpoint(target.checkpoint()).document).toEqual(target.document);
-  target.undo(); expect(target.document).toEqual(before);
-  target.redo(); expect(target.document.nodes.find(n => n.id === paste.rootId)?.librarySlot).toBe('');
+  target.undo();
+  expect(target.document).toEqual(before);
+  target.redo();
+  expect(target.document.nodes.find((n) => n.id === paste.rootId)?.librarySlot).toBe('');
   expect(source.checkpoint()).toEqual(sourceBefore);
   const complete = new DocumentStore();
-  const tree = pasteElements(complete.document, complete.document.pages[0].id, JSON.stringify(editablePayload(source.document, 'card')));
+  const tree = pasteElements(
+    complete.document,
+    complete.document.pages[0].id,
+    JSON.stringify(editablePayload(source.document, 'card')),
+  );
   complete.transact(tx(complete, tree.operations));
-  expect(complete.document.nodes.find(n => n.name === 'Header')?.librarySlot).toBe('header');
-  expect(complete.document.nodes.find(n => n.id === tree.rootId)?.libraryRef?.key).toBe(key);
+  expect(complete.document.nodes.find((n) => n.name === 'Header')?.librarySlot).toBe('header');
+  expect(complete.document.nodes.find((n) => n.id === tree.rootId)?.libraryRef?.key).toBe(key);
 });
 
 test('default library content requires a declared empty slot; rejected default children do not mutate history', () => {
-  const strict = structuredClone(manifest); strict.components.Card.slots = ['header', 'footer'];
-  const store = new DocumentStore(), pageId = store.document.pages[0].id;
-  store.transact(tx(store, [
-    { type: 'library.import', manifest: strict },
-    { type: 'library.insert', id: 'card', key, component: 'Card', pageId, x: 0, y: 0 },
-  ]));
+  const strict = structuredClone(manifest);
+  strict.components.Card.slots = ['header', 'footer'];
+  const store = new DocumentStore(),
+    pageId = store.document.pages[0].id;
+  store.transact(
+    tx(store, [
+      { type: 'library.import', manifest: strict },
+      { type: 'library.insert', id: 'card', key, component: 'Card', pageId, x: 0, y: 0 },
+    ]),
+  );
   const before = store.checkpoint();
   for (const slot of [undefined, '']) {
-    expect(() => store.transact(tx(store, [
-      { type: 'document.rename', name: 'Must not commit' },
-      { type: 'node.add', node: { id: 'child', parentId: 'card', pageId, kind: 'text', name: 'Child', ...(slot === undefined ? {} : { librarySlot: slot }) } },
-    ]))).toThrow('slot');
+    expect(() =>
+      store.transact(
+        tx(store, [
+          { type: 'document.rename', name: 'Must not commit' },
+          {
+            type: 'node.add',
+            node: {
+              id: 'child',
+              parentId: 'card',
+              pageId,
+              kind: 'text',
+              name: 'Child',
+              ...(slot === undefined ? {} : { librarySlot: slot }),
+            },
+          },
+        ]),
+      ),
+    ).toThrow('slot');
     expect(store.checkpoint()).toEqual(before);
   }
-  store.transact(tx(store, [
-    { type: 'node.add', node: { id: 'header', parentId: 'card', pageId, kind: 'text', name: 'Header', librarySlot: 'header' } },
-    { type: 'node.add', node: { id: 'ordinary', pageId, kind: 'frame', name: 'Ordinary frame' } },
-    { type: 'node.add', node: { id: 'ordinary-child', parentId: 'ordinary', pageId, kind: 'text', name: 'Ordinary content' } },
-  ]));
-  expect(store.document.nodes.find(n => n.id === 'ordinary-child')?.librarySlot).toBe('');
+  store.transact(
+    tx(store, [
+      {
+        type: 'node.add',
+        node: {
+          id: 'header',
+          parentId: 'card',
+          pageId,
+          kind: 'text',
+          name: 'Header',
+          librarySlot: 'header',
+        },
+      },
+      { type: 'node.add', node: { id: 'ordinary', pageId, kind: 'frame', name: 'Ordinary frame' } },
+      {
+        type: 'node.add',
+        node: {
+          id: 'ordinary-child',
+          parentId: 'ordinary',
+          pageId,
+          kind: 'text',
+          name: 'Ordinary content',
+        },
+      },
+    ]),
+  );
+  expect(store.document.nodes.find((n) => n.id === 'ordinary-child')?.librarySlot).toBe('');
   expect(DocumentStore.fromCheckpoint(store.checkpoint()).document).toEqual(store.document);
 });
 
