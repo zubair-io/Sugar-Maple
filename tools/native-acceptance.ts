@@ -50,6 +50,8 @@ await run([process.execPath, "tools/mcp-stdio-test.ts"]);
 
 await run([process.execPath, "tools/typography-export-test.ts"]);
 
+await run([process.execPath, "tools/vector-export-test.ts"]);
+
 await run([process.execPath, "tools/prototype-export-test.ts"]);
 
 const previewFixture = resolve(output, "preview-fixture.json");
