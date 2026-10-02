@@ -607,9 +607,19 @@ export class App {
     const f = (event.target as HTMLInputElement).files?.[0];
     if (f) await this.e.image(f);
   }
+  selectCopyPayload(event: KeyboardEvent) {
+    if (!(event.metaKey || event.ctrlKey) || event.key.toLowerCase() !== 'a') return;
+    const selection = window.getSelection();
+    if (!selection) return;
+    const range = document.createRange();
+    range.selectNodeContents(event.currentTarget as HTMLElement);
+    selection.removeAllRanges();
+    selection.addRange(range);
+    event.preventDefault();
+  }
   @HostListener('window:keydown', ['$event']) key(event: KeyboardEvent) {
     if (this.preview() || event.defaultPrevented) return;
-    const typing = (event.target as HTMLElement).matches('input,textarea,select,[contenteditable]');
+    const typing = (event.target as HTMLElement).matches('input,textarea,select,[contenteditable]') || !!(event.target as HTMLElement).closest('[data-copy-payload]');
     if (!typing && !(event.target as HTMLElement).closest('button,[role=option],[role=tab]') && this.projection.drawingTool() &&
       this.surface()?.drawing.onKeyDown(event)) return;
     if (event.key === 'Escape') {

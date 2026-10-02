@@ -119,13 +119,46 @@ window.canvasTransformAcceptance = async () => {
       ?.textContent === exported["tailwind-classes"].setup,
     "Displayed setup equals MCP setup",
   );
+  const codeBox = document.querySelector("pre[data-copy-payload]");
+  codeBox.focus();
+  codeBox.dispatchEvent(
+    new KeyboardEvent("keydown", {
+      key: "a",
+      ctrlKey: true,
+      bubbles: true,
+      cancelable: true,
+    }),
+  );
+  check(
+    window.getSelection()?.toString() === exported["tailwind-classes"].code,
+    "Keyboard selects only the code payload",
+  );
+  const copyKey = new KeyboardEvent("keydown", {
+    key: "c",
+    ctrlKey: true,
+    bubbles: true,
+    cancelable: true,
+  });
+  codeBox.dispatchEvent(copyKey);
+  check(
+    !copyKey.defaultPrevented,
+    "Native selected-text copy is not hijacked by editable-element copy",
+  );
+  codeBox.dispatchEvent(
+    new KeyboardEvent("keydown", {
+      key: "z",
+      ctrlKey: true,
+      bubbles: true,
+      cancelable: true,
+    }),
+  );
   check(
     JSON.stringify(await call("document.checkpoint")) === before,
     "Read-only handoff preserves exact source and history",
   );
   return {
     passed: true,
-    checks: 6,
+    checks: 7,
     exported,
     sourceUnchanged: true,
     limitation:
