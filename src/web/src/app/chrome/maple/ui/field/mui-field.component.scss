@@ -1,7 +1,6 @@
-@use '../../generated/ui-tokens' as maple;
 
 :host { display: block; }
-.mui-field { display: flex; align-items: center; min-height: 36px; gap: 10px; color: maple.$maple-color-text-muted; font-size: 11px; }
+.mui-field { display: flex; align-items: center; min-height: 36px; gap: 10px; color: var(--color-text-muted); font-size: 11px; }
 .mui-field > span { flex: 0 0 92px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .mui-field > :not(span) { flex: 1 1 auto; min-width: 0; }
 .mui-field.is-stacked { display: block; }
