@@ -1,5 +1,7 @@
 import { chromium, expect, type Page } from '@playwright/test';
 import { strict as assert } from 'node:assert';
+import { embeddedAsset } from '../src/app/model/assets';
+import { pixel } from '../../../tools/repeat-fixture';
 const browser = await chromium.launch({ channel: 'chrome', headless: true });
 const get = (page: Page) => page.evaluate(() => window.sugarMaple.dispatch('document.get'));
 const checkpoint = (page: Page) => page.evaluate(() => window.sugarMaple.dispatch('document.checkpoint'));
@@ -76,6 +78,43 @@ try {
   assert.deepEqual(await checkpoint(page), canceled); await expect(field).toHaveValue('x'.repeat(20001));
   await page.getByRole('button', { name: 'Cancel text edit', exact: true }).click();
   await expect(field).toHaveValue('Alpha'); assert.deepEqual(await checkpoint(page), canceled);
+  // Hold a real image decode so a human draft can begin after agent validation starts.
+  const raceBefore = await checkpoint(page), asset = embeddedAsset(pixel);
+  await page.evaluate(async ({ key, source }) => {
+    const qa = window as any, OriginalImage = window.Image;
+    const src = Object.getOwnPropertyDescriptor(HTMLImageElement.prototype, 'src')!;
+    qa.textDecodeStarted = false;
+    qa.restoreTextDecode = () => { window.Image = OriginalImage; };
+    window.Image = function () {
+      const image = new OriginalImage();
+      Object.defineProperty(image, 'src', {
+        get: () => src.get!.call(image),
+        set: value => {
+          qa.releaseTextDecode = () => src.set!.call(image, value);
+          qa.textDecodeStarted = true;
+        },
+      });
+      return image;
+    } as any;
+    const d = await window.sugarMaple.dispatch('document.get');
+    qa.textDecodeResult = window.sugarMaple.dispatch('transaction.apply', {
+      documentId: d.documentId, expectedRevision: d.revision, requestId: crypto.randomUUID(),
+      operations: [{ type: 'asset.set', key, source }, { type: 'document.rename', name: 'Agent decode race' }],
+    }).then(() => '', (error: unknown) => String(error));
+  }, { key: asset.key, source: pixel });
+  try {
+    await page.waitForFunction(() => (window as any).textDecodeStarted);
+    await field.fill('Human starts during image decode'); await field.press('ArrowLeft');
+    const raceCaret = await field.evaluate((field: HTMLTextAreaElement) => field.selectionStart);
+    const raceError = await page.evaluate(async () => {
+      const qa = window as any; qa.releaseTextDecode(); return await qa.textDecodeResult;
+    });
+    assert.ok(raceError.includes('Finish or cancel'), raceError);
+    assert.deepEqual(await checkpoint(page), raceBefore);
+    await expect(field).toHaveValue('Human starts during image decode'); await expect(field).toBeFocused();
+    assert.equal(await field.evaluate((field: HTMLTextAreaElement) => field.selectionStart), raceCaret);
+    await field.press('Escape'); assert.deepEqual(await checkpoint(page), raceBefore);
+  } finally { await page.evaluate(() => (window as any).restoreTextDecode()); }
   await field.fill('Human layer switch'); await page.locator('[data-layer-id="b"] [role="treeitem"]').click(); await settle(page);
   assert.equal((await get(page)).document.nodes.find((node: any) => node.id === 'a').text, 'Human layer switch');
   await undo(page); assert.deepEqual((await get(page)).document, canceled.document);
@@ -86,5 +125,5 @@ try {
   assert.equal((await get(page)).document.nodes.find((node: any) => node.id === 'a').text, 'Saved before New');
   await undo(page); assert.deepEqual((await get(page)).document, fileBefore.document);
   assert.deepEqual(errors, []);
-  console.log('PASS: native textarea draft/caret, Unicode/multiline, selection/file context commit, one human undo, deferred synthetic composition, read-only mode guard, capture/agent/history rejection, cancel and oversized draft preservation; actual OS IME is separate');
+  console.log('PASS: native textarea draft/caret, Unicode/multiline, selection/file context commit, one human undo, deferred synthetic composition, read-only mode guard, capture/agent/history rejection including delayed image decode, cancel and oversized draft preservation; actual OS IME is separate');
 } finally { await browser.close(); }
