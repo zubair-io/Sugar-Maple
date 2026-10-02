@@ -49,11 +49,7 @@ export class NodeTextEditor implements OnDestroy {
   }
   @HostListener('change') change() {
     if (this.composing) this.deferredChange = true;
-    else {
-      const session = this.session;
-      // Native change precedes blur. Let blur identify a cancellation focus target.
-      queueMicrotask(() => { if (this.session === session && !this.cancelFocus) this.commit(); });
-    }
+    // Blur owns ordinary commits and can distinguish cancellation from context changes.
   }
   @HostListener('blur', ['$event']) blur(event: FocusEvent) {
     this.cancelFocus = event.relatedTarget instanceof Element && event.relatedTarget.hasAttribute('data-text-edit-cancel');
