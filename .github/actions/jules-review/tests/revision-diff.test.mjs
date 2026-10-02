@@ -9,7 +9,7 @@ import { selectReviewDiff } from '../lib/diff.js';
 
 test('complete exact-tree diff handles over 20,000 archive lines and preserves prototype source', () => {
   const root = mkdtempSync(join(tmpdir(), 'review revision '));
-  const git = (...args) => execFileSync('/usr/bin/git', ['-c', 'user.name=Fixture', '-c', 'user.email=fixture@example.invalid', ...args], { cwd: root, encoding: 'utf8' }).trim();
+  const git = (...args) => execFileSync('git', ['-c', 'user.name=Fixture', '-c', 'user.email=fixture@example.invalid', ...args], { cwd: root, encoding: 'utf8' }).trim();
   try {
     git('init', '-q');
     writeFileSync(join(root, 'baseline.txt'), 'baseline\n');
