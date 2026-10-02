@@ -127,3 +127,27 @@ test('scoped and discovery reads detach nodes, library dependencies, page and fo
   expect(doc).toEqual(before);
   expect(store.document).toEqual(before);
 });
+
+test('mutating a returned transaction receipt cannot corrupt retry receipts or saved history', () => {
+  const store = new DocumentStore(fixture());
+  const request = {
+    documentId: store.document.id,
+    expectedRevision: 0,
+    requestId: crypto.randomUUID(),
+    operations: [{ type: 'document.rename', name: 'Edited' }],
+  };
+  const receipt = store.transact(request),
+    expected = structuredClone(receipt);
+  const checkpoint = store.checkpoint();
+  receipt.documentId = 'wrong-document';
+  receipt.revision = 999;
+  receipt.ids.push('untracked-id');
+  expect(store.transact(request)).toEqual(expected);
+  expect(store.checkpoint()).toEqual(checkpoint);
+  const retry = store.transact(request);
+  retry.transactionId = 'untracked-transaction';
+  expect(store.transact(request)).toEqual(expected);
+  const restored = DocumentStore.fromCheckpoint(JSON.parse(JSON.stringify(store.checkpoint())));
+  restored.undo();
+  expect(restored.document.name).toBe(fixture().name);
+});
