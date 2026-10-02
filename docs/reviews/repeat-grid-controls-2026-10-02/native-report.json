@@ -1,0 +1,18 @@
+{
+  "engine" : "WKWebView",
+  "memory" : {
+    "ownerPeakRSSBytes" : 193708032,
+    "scope" : "This benchmark UI process only; WebKit content\/GPU\/network process memory is not included"
+  },
+  "nativeBridge" : "In-memory benchmark recovery\/status\/autosave only; production native disk\/MCP\/clipboard costs excluded",
+  "os" : "Version 27.0 (Build 26A428)",
+  "result" : {
+    "checks" : 19,
+    "passed" : true,
+    "scope" : "Actual production WK Canvas repeat controls, projected cells and capture guard, typed resize\/undo, local data, cancellation and keyboard\/lock\/read-only guards; synthetic DOM pointer IDs use a local capture shim",
+    "zoom" : [
+      0.5,
+      1.5
+    ]
+  }
+}
