@@ -1,5 +1,6 @@
 import { strict as assert } from 'node:assert';
 import { resolve } from 'node:path';
+import { mkdirSync } from 'node:fs';
 
 if (!process.argv.includes('--trust-native-fixture')) throw Error('Explicit native fixture opt-in required');
 const canary = `unrelated listener ${crypto.randomUUID()}`;
@@ -8,6 +9,7 @@ const sentinel = Bun.serve({ hostname: '127.0.0.1', port: 4200, fetch() {
   requests++; return new Response(canary);
 } });
 const log = resolve('build/library-preview-comparison-final-acceptance.log');
+mkdirSync(resolve('build'),{recursive:true});
 let child: ReturnType<typeof Bun.spawn> | undefined;
 try {
   const writer = Bun.file(log).writer();
