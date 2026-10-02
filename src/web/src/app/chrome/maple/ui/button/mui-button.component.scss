@@ -1,5 +1,4 @@
 // Scoped equivalents of Maple's template utilities for Sugar Maple's SCSS build.
-@use '../../generated/ui-tokens' as maple;
 :host {
   display: inline-flex;
 }
@@ -13,17 +12,13 @@
   align-items: center;
   justify-content: center;
   gap: 4px;
-  border: 1px solid maple.$maple-color-border;
+  border: 1px solid var(--color-border);
   border-radius: 8px;
   padding: 8px 16px;
-  font:
-    600 13px/1 -apple-system,
-    BlinkMacSystemFont,
-    'Segoe UI',
-    sans-serif;
+  font: 600 13px/1 var(--font-sans, sans-serif);
   white-space: nowrap;
-  color: maple.$maple-color-text-main;
-  background: maple.$maple-color-surface;
+  color: var(--color-text-main);
+  background: var(--color-surface);
   cursor: pointer;
   transition:
     background-color 0.2s,
@@ -45,28 +40,30 @@
 }
 .variant-ghost {
   background: transparent;
-  color: maple.$maple-color-text-muted;
+  color: var(--color-text-muted);
   border-color: transparent;
 }
 .variant-primary {
-  background: maple.$maple-color-primary;
-  border-color: maple.$maple-color-primary;
+  color: #ffffff;
+  background: var(--color-primary);
+  border-color: var(--color-primary);
 }
 .variant-destructive {
-  background: maple.$maple-color-error-bg;
-  color: maple.$maple-color-error-text;
-  border-color: maple.$maple-color-error-text;
+  background: var(--color-error-bg);
+  color: var(--color-error-text);
+  border-color: var(--color-error-text);
 }
 .mui-button:enabled:hover {
-  background: maple.$maple-color-surface-hover;
-  color: maple.$maple-color-text-main;
+  background: var(--color-surface-hover);
+  color: var(--color-text-main);
 }
 .variant-primary:enabled:hover {
-  background: maple.$maple-color-primary;
+  color: #ffffff;
+  background: var(--color-primary);
 }
 .variant-destructive:enabled:hover {
-  background: maple.$maple-color-error-bg;
-  color: maple.$maple-color-error-text;
+  background: var(--color-error-bg);
+  color: var(--color-error-text);
 }
 .variant-primary:enabled:hover,
 .variant-destructive:enabled:hover {
@@ -75,12 +72,12 @@
 }
 .is-toggled {
   background: #ffffff0a;
-  border-color: maple.$maple-color-border;
+  border-color: var(--color-border);
 }
 .is-active {
-  background: maple.$maple-color-primary-dim;
-  color: maple.$maple-color-primary;
-  border-color: maple.$maple-color-primary;
+  background: var(--color-primary-dim);
+  color: var(--color-primary);
+  border-color: var(--color-primary);
 }
 .is-full-width {
   width: 100%;
@@ -95,7 +92,7 @@
   cursor: not-allowed;
 }
 .mui-button:focus-visible {
-  outline: 2px solid maple.$maple-color-primary;
+  outline: 2px solid var(--color-primary);
   outline-offset: 2px;
 }
 .mui-button::before {

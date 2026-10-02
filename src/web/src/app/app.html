@@ -1,8 +1,8 @@
 <div class="app-shell" [attr.inert]="e.ready() ? null : ''">
-  <editor-header (preview)="startPreview()" />
+  <editor-header class="maple-chrome" (preview)="startPreview()" />
   <div class="workspace" [class.no-left]="!left()" [class.no-right]="!right()">
     <aside
-      class="sidebar"
+      class="sidebar maple-chrome"
       id="left-panel"
       aria-label="Pages, layers, assets and tokens"
       [hidden]="!left()"
@@ -194,7 +194,7 @@
       <div class="sidebar-bottom">SUGAR MAPLE <span>Local workspace</span></div>
     </aside>
     <main class="canvas-shell">
-      <div class="canvas-toolbar">
+      <div class="canvas-toolbar maple-chrome">
         <button
           class="panel-toggle"
           (click)="left.set(!left())"
@@ -263,9 +263,9 @@
       <div class="viewport">
         <canvas-surface [zoom]="zoom()" [pan]="pan()" [enabled]="!preview() && !commentUi.placing() && !commentUi.draft()"
           (cameraChange)="zoom.set($event.zoom); pan.set($event.pan)" />
-        <comment-canvas [zoom]="zoom()" [pan]="pan()" />
+        <comment-canvas class="maple-chrome" [zoom]="zoom()" [pan]="pan()" />
         @if (!e.pageNodes().length) {
-          <div class="empty-canvas">
+          <div class="empty-canvas maple-chrome">
             <div class="empty-artboards">▱</div>
             <h1>Make room for your next idea.</h1>
             <p>Build a screen. Explore a flow. Make it yours.</p>
@@ -276,7 +276,7 @@
         }
       </div>
     </main>
-    <aside class="inspector" id="right-panel" aria-label="Details and comments" [hidden]="!right()">
+    <aside class="inspector maple-chrome" id="right-panel" aria-label="Details and comments" [hidden]="!right()">
       <nav class="tabs" aria-label="Right panel sections">
         @for (section of ['Details', 'Comments']; track section) {
           <button
@@ -548,7 +548,7 @@
       }
     </aside>
   </div>
-  <footer>
+  <footer class="maple-chrome">
     <button (click)="e.undo()" [disabled]="!e.store.canUndo" title="Undo Cmd+Z">↶</button
     ><button (click)="e.redo()" [disabled]="!e.store.canRedo">↷</button><span>{{ e.status() }}</span
     ><span class="footer-center">{{ e.mcp() }}</span
@@ -565,7 +565,7 @@
     /><span>{{ (zoom() * 100).toFixed(0) }}%</span>
   </footer>
   @if (e.error()) {
-    <div role="alert" class="error-toast">
+    <div role="alert" class="error-toast maple-chrome">
       {{ e.error()
       }}<mui-button
         variant="ghost"
@@ -584,5 +584,5 @@
 </div>
 
 @if (!e.ready()) {
-  <div class="error-toast" role="status">Opening local workspace…</div>
+  <div class="error-toast maple-chrome" role="status">Opening local workspace…</div>
 }

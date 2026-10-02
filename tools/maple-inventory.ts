@@ -151,6 +151,36 @@ if (process.argv.includes("--refresh")) {
 }
 const inventory = await Bun.file(inventoryPath).json();
 if (inventory.revision !== revision) throw Error("Unexpected Maple source pin");
+const fontRoot = resolve(root, "src/web/public/fonts"),
+  fonts = await Bun.file(resolve(fontRoot, "maple-provenance.json")).json();
+if (
+  fonts.revision !== revision ||
+  fonts.repository !== inventory.repository ||
+  fonts.modifications !== "none"
+)
+  throw Error("Unexpected Maple font source pin or modification");
+const fontNames = new Set<string>();
+for (const font of fonts.files) {
+  if (
+    typeof font.file !== "string" ||
+    !/^[A-Za-z0-9-]+\.(woff2|txt)$/.test(font.file) ||
+    fontNames.has(font.file)
+  )
+    throw Error("Invalid or duplicate Maple font inventory entry");
+  fontNames.add(font.file);
+  if (
+    !font.upstreamPath.startsWith(
+      "src/web/projects/maple-common/src/assets/fonts/",
+    ) ||
+    !/^[a-f0-9]{40}$/.test(font.upstreamBlob) ||
+    sha(readFileSync(resolve(fontRoot, font.file))) !== font.sha256
+  )
+    throw Error(
+      "Maple font or notice differs from pinned inventory: " + font.file,
+    );
+}
+for (const notice of fonts.notices)
+  if (!fontNames.has(notice)) throw Error("Untracked Maple font notice");
 const current = sourceFiles().map((path) => ({
   path: relative(chrome, path).split(sep).join("/"),
   sha256: sha(readFileSync(path)),

@@ -1,0 +1,28 @@
+<div class="mui-page-header flex w-full items-center gap-2">
+  @if (showBack()) {
+    <mui-button
+      variant="ghost"
+      size="sm"
+      [iconOnly]="true"
+      iconLeading="back"
+      ariaLabel="Back"
+      (pressed)="back.emit()"
+    />
+  }
+  <mui-text variant="sheet-title" [truncate]="true" class="title min-w-0 flex-1 text-center">{{
+    title()
+  }}</mui-text>
+  <div class="actions flex items-center gap-1">
+    <ng-content select="[actions]" />
+    @if (showMore()) {
+      <mui-button
+        variant="ghost"
+        size="sm"
+        [iconOnly]="true"
+        iconLeading="ellipsis-horizontal"
+        ariaLabel="More"
+        (pressed)="more.emit()"
+      />
+    }
+  </div>
+</div>

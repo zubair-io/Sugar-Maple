@@ -1,14 +1,13 @@
-@use '../../generated/ui-tokens' as maple;
 
 :host { display: block; }
-.mui-section { border-bottom: 1px solid rgba(255, 255, 255, 0.07); }
+.mui-section { border-bottom: 1px solid var(--color-border); }
 .section-trigger {
   display: flex; align-items: center; width: 100%; min-height: 46px; gap: 8px;
-  padding: 0 16px; border: 0; border-radius: 0; color: maple.$maple-color-text-main;
+  padding: 0 16px; border: 0; border-radius: 0; color: var(--color-text-main);
   background: transparent; text-align: left; cursor: pointer;
 }
-.section-trigger:hover { background: rgba(255, 255, 255, 0.035); }
+.section-trigger:hover { background: var(--color-bg-hover); }
 .section-title { font-size: 12px; font-weight: 650; letter-spacing: 0.01em; }
-.section-description { margin-left: auto; color: maple.$maple-color-text-muted; font-size: 10px; }
-.section-chevron { width: 16px; color: maple.$maple-color-text-muted; text-align: center; font-size: 14px; }
+.section-description { margin-left: auto; color: var(--color-text-muted); font-size: 10px; }
+.section-chevron { width: 16px; color: var(--color-text-muted); text-align: center; font-size: 14px; }
 .section-content { padding: 0 12px 12px; }
