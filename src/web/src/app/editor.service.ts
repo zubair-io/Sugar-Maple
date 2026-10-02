@@ -733,7 +733,9 @@ export class EditorService {
         this.pageId.set(this.node()!.pageId);
         return this.store.result();
       case 'nodes.reparent': {
+        this.assertNoTextDraft();
         const plan = await this.prepareReparent(args);
+        this.assertNoTextDraft();
         return this.commitReparent(args, plan, 'agent');
       }
       case 'viewport.fit':
