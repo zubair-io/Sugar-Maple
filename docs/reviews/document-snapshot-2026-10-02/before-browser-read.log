@@ -1,0 +1,10 @@
+error: evaluate: Error: document.get snapshot mutation changed scene, revision or recovery history
+    at check (eval at evaluate (:311:30), <anonymous>:24:13)
+    at async eval (eval at evaluate (:311:30), <anonymous>:31:3)
+    at async <anonymous>:337:30
+  log: [],
+
+      at check (eval at evaluate (:311:30), <anonymous>:24:13)
+      at eval (eval at evaluate (:311:30), <anonymous>:31:3)
+
+Bun v1.4.2 (macOS arm64)

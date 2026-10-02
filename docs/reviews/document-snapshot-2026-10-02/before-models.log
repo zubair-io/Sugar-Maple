@@ -1,0 +1,176 @@
+bun test v1.4.2 (744846f84)
+
+src/web/tests/document-snapshot.test.ts:
+23 | test('mutating a nested node in a read snapshot cannot change the scene or recovery base', () => {
+24 |   const store = new DocumentStore(fixture()), before = store.checkpoint();
+25 |   const snapshot = store.document;
+26 |   snapshot.nodes[0].gradient!.stops[0].color = '#ff0000';
+27 |   snapshot.nodes[0].gradient!.stops.push({ offset: 0.5, color: '#00ff00' });
+28 |   expect(store.checkpoint()).toEqual(before);
+                                  ^
+error: expect(received).toEqual(expected)
+
+@@ -27,19 +27,23 @@
+            "centerY": 50,
+            "radiusX": 50,
+            "radiusY": 50,
+            "stops": [
+              {
+-               "color": "#112233",
++               "color": "#ff0000",
+                "offset": 0,
+                "opacity": 1,
+              },
+              {
+                "color": "#ffffff",
+                "offset": 1,
+                "opacity": 1,
+              },
++             {
++               "color": "#00ff00",
++               "offset": 0.5,
++             },
+            ],
+            "type": "linear",
+          },
+          "height": 100,
+          "heightMode": "fixed",
+@@ -125,18 +129,22 @@
+            "centerY": 50,
+            "radiusX": 50,
+            "radiusY": 50,
+            "stops": [
+              {
+-               "color": "#112233",
++               "color": "#ff0000",
+                "offset": 0,
+                "opacity": 1,
+              },
+              {
+                "color": "#ffffff",
+                "offset": 1,
+                "opacity": 1,
++             },
++             {
++               "color": "#00ff00",
++               "offset": 0.5,
+              },
+            ],
+            "type": "linear",
+          },
+          "height": 100,
+
+- Expected  - 2
++ Received  + 10
+
+      at <anonymous> (/Users/riabuz/.codex/worktrees/mac-build-recovery/_SugarMaple/src/web/tests/document-snapshot.test.ts:28:30)
+(fail) mutating a nested node in a read snapshot cannot change the scene or recovery base [22.91ms]
+43 |   ]);
+44 |   const before = store.checkpoint(), snapshot = store.document;
+45 |   snapshot.comments[0].messages[0].text = 'Untracked feedback';
+46 |   snapshot.libraries[key].components.Button.web!.module = 'untracked-package/button.js';
+47 |   snapshot.nodes.find(n => n.id === 'button')!.libraryRef!.props.label = 'Untracked label';
+48 |   expect(store.checkpoint()).toEqual(before);
+                                  ^
+error: expect(received).toEqual(expected)
+
+@@ -107,11 +107,11 @@
+          "messages": [
+            {
+              "author": "human",
+              "createdAt": "2026-10-02T22:47:52.856Z",
+              "id": "499e88bf-be68-43bc-a386-2aaf0717fc6b",
+-             "text": "Keep this feedback.",
++             "text": "Untracked feedback",
+            },
+          ],
+          "pageId": "09882444-cf24-4a19-9463-48acd5d0bce6",
+          "resolved": false,
+          "resolvedAt": null,
+@@ -192,11 +192,11 @@
+                "Primary": {
+                  "variant": "brand",
+                },
+              },
+              "web": {
+-               "module": "@awesome.me/webawesome/dist/components/button/button.js",
++               "module": "untracked-package/button.js",
+                "styleBindings": {},
+                "symbol": "WaButton",
+                "tag": "wa-button",
+              },
+              "width": 180,
+@@ -463,11 +463,11 @@
+          "libraryRef": {
+            "component": "Button",
+            "key": "web-awesome@1.0.0",
+            "localOverrides": [],
+            "props": {
+-             "label": "Save",
++             "label": "Untracked label",
+            },
+            "tokenBindings": {},
+            "variant": "Primary",
+          },
+          "librarySlot": "",
+@@ -524,11 +524,11 @@
+              "messages": [
+                {
+                  "author": "human",
+                  "createdAt": "2026-10-02T22:47:52.856Z",
+                  "id": "499e88bf-be68-43bc-a386-2aaf0717fc6b",
+-                 "text": "Keep this feedback.",
++                 "text": "Untracked feedback",
+                },
+              ],
+              "pageId": "09882444-cf24-4a19-9463-48acd5d0bce6",
+              "resolved": false,
+              "resolvedAt": null,
+@@ -608,11 +608,11 @@
+                    "Primary": {
+                      "variant": "brand",
+                    },
+                  },
+                  "web": {
+-                   "module": "@awesome.me/webawesome/dist/components/button/button.js",
++                   "module": "untracked-package/button.js",
+                    "styleBindings": {},
+                    "symbol": "WaButton",
+                    "tag": "wa-button",
+                  },
+                  "width": 180,
+@@ -801,11 +801,11 @@
+              "libraryRef": {
+                "component": "Button",
+                "key": "web-awesome@1.0.0",
+                "localOverrides": [],
+                "props": {
+-                 "label": "Save",
++                 "label": "Untracked label",
+                },
+                "tokenBindings": {},
+                "variant": "Primary",
+              },
+              "librarySlot": "",
+
+- Expected  - 6
++ Received  + 6
+
+      at <anonymous> (/Users/riabuz/.codex/worktrees/mac-build-recovery/_SugarMaple/src/web/tests/document-snapshot.test.ts:48:30)
+(fail) comment messages, library mappings and instance properties are detached from read snapshots [9.74ms]
+63 |       } else if (entry.kind === 'undo') store.undo();
+64 |       else store.redo();
+65 |     }
+66 |     const projection = validateDocument(value.document);
+67 |     if (canonical(store.document) !== canonical(projection))
+68 |       throw Error('Document projection does not match its history');
+                                                                       ^
+error: Document projection does not match its history
+      at fromCheckpoint (/Users/riabuz/.codex/worktrees/mac-build-recovery/_SugarMaple/src/web/src/app/model/store.ts:68:67)
+      at <anonymous> (/Users/riabuz/.codex/worktrees/mac-build-recovery/_SugarMaple/src/web/tests/document-snapshot.test.ts:60:34)
+(fail) snapshot mutation cannot poison later edits, undo, redo or recovered history [7.82ms]
+
+ 0 pass
+ 3 fail
+ 2 expect() calls
+Ran 3 tests across 1 file. [138.00ms]
