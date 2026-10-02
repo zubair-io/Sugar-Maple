@@ -1,0 +1,20 @@
+{
+  "engine" : "WKWebView",
+  "memory" : {
+    "ownerPeakRSSBytes" : 192331776,
+    "scope" : "This benchmark UI process only; WebKit content\/GPU\/network process memory is not included"
+  },
+  "nativeBridge" : "In-memory benchmark recovery\/status\/autosave only; production native disk\/MCP\/clipboard costs excluded",
+  "os" : "Version 27.0 (Build 26A428)",
+  "result" : {
+    "checks" : 10,
+    "diagnostics" : "Canvas and Preview use authored semantic appearance.Source: Web Awesome Button · PrimaryPackage appearance is shown only in the isolated library preview experiment. Source appearance: appearance = accent variant = brand  Mapped web copy: Available for this selection.  Mapped SwiftUI copy (macOS): Unsupported native platform\/variant for Button. Use semantic SwiftUI or choose a supported mapping. Isolated native preview:native Button variant Primary is unsupported; use the semantic preview or a supported variant",
+    "passed" : true,
+    "resetPaint" : {
+      "afterYellowPixels" : 0,
+      "beforeYellowPixels" : 1059
+    },
+    "revision" : 12,
+    "scope" : "Production WKWebView library inspector and canonical dispatcher; synthetic DOM changes\/clicks, no physical OS input or whole-product accessibility claim"
+  }
+}
