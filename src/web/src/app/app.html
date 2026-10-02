@@ -449,7 +449,7 @@
                   </mui-field>
                   <small id="text-edit-help" class="text-edit-help">Text stays in this field until you finish editing. Escape cancels.</small>
                   @if (e.textDraft()) {
-                    <button type="button" (pointerdown)="$event.preventDefault()" (click)="e.cancelTextEditing()">Cancel text edit</button>
+                    <button type="button" data-text-edit-cancel (pointerdown)="$event.preventDefault()" (mousedown)="$event.preventDefault()" (click)="e.cancelTextEditing()">Cancel text edit</button>
                   }
                   <mui-field label="Family" [stacked]="true">
                     <input
