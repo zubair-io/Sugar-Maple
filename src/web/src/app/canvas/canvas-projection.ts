@@ -70,7 +70,7 @@ export class CanvasProjection implements OnDestroy {
     this.measures.clear();
     this.fontsVersion.update((v) => v + 1);
   };
-  private measure(text: string, node: SceneNode) {
+  measure(text: string, node: SceneNode) {
     const key = `${node.fontFamily}/${node.fontWeight}/${node.fontSize}/${node.letterSpacing}/${text}`;
     const known = this.measures.get(key);
     if (known !== undefined) return known;

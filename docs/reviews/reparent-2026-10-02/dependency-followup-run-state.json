@@ -1,0 +1,64 @@
+{
+  "observedAtUTC": "2026-10-02T05:59:22.110546+00:00",
+  "runtimeSourceCommit": "3375ecac48ec05e46727bf77424a180b5a05f66a",
+  "placementDependencyCommit": "88b4d275c70dfec91d10c2d1db4d855d4e016d08",
+  "initialEvidence": "run-state.json",
+  "validation": {
+    "modelTests": 109,
+    "modelAssertions": 1839,
+    "buildMac": "Passed",
+    "typecheck": "Passed",
+    "inventory": "Passed",
+    "productionChrome": "Passed: both zooms/DPR2, preview/cancel/apply, geometry/flow, inherited guards, stale edits, inactive-page font geometry",
+    "wkReparentCases": 12,
+    "nativeMCP": "Passed: real SDK and owned host, strict schemas, world geometry, typed failures, exact undo and durable capture/checkpoint"
+  },
+  "scopeLimits": [
+    "This follow-up inherits the independently tested placement border fallback/readability correction. Original 26-suite browser and complete native evidence remains pinned to its initial runtime; focused production reparent/browser/WK/MCP checks were repeated on this source.",
+    "WK controls use synthetic DOM input. Native OS pointer/VoiceOver/IME, drawing and release-performance gates remain open."
+  ],
+  "sourceSHA256": {
+    "src/apple/Sugar Maple/MCPTools.swift": "c91fdc1c9e3027c2de638bce097e5c3245e2c8547950f6d74c6e44672a31639e",
+    "src/web/src/app/app.html": "2f42a9609f0f3e79c48d3c654965ad6ec9bb4a71763e5210fa5f39641b8ffd5f",
+    "src/web/src/app/app.ts": "0915a4bc9529b3ab2cab7496ec276de6ecb1deb386e2188fbc919efdc836077f",
+    "src/web/src/app/canvas/canvas-projection.ts": "69c4bd38c8e22aad132ab08e6830785fe6050a22155a3e618f1b8e6615901589",
+    "src/web/src/app/canvas/placement-geometry.ts": "e192086593d2c5d35bbaa56ff1380076995cdf16679658bfa2df968bb9fb8770",
+    "src/web/src/app/canvas/reparent-geometry.ts": "bf9b3719fbfe79f656fb72098a122064a3a165e372900921733a54ecedcae246",
+    "src/web/src/app/canvas/whiteboard/core/components/canvas/renderer.service.ts": "23e6651f0145706da3f289a6da2379dab7fdd7cc90de0e62d848bae77fcdc964",
+    "src/web/src/app/editor.service.ts": "3901bb07699b47e6017e4b116e1b60712b04b4bb1890c67768d192b711df531a",
+    "src/web/src/app/model/tool-contract.ts": "6f1e1b0b119cce2718915b987f281f5326c81aa30299d30518cb667e55c02bf0",
+    "src/web/src/app/model/tool-output.ts": "ea2adeeed0cd46d60611f8f7e5b94298a57c49a3d77efc9a5fb2adb27f3d85a3",
+    "src/web/tests/reparent-e2e.ts": "ae5006b0813d477348f932ee9514273aa8a64c170acdc135331de60300cd13e1",
+    "src/web/tests/reparent.test.ts": "7f24457dfaf0f504cb97dd9b22e412342d52ff3cf11383f6599bc17d2cfa82ad",
+    "src/web/tests/tool-contract.test.ts": "986f4abf694bd89097c93789dcbcd72e8ba40f607acfa83cb2b841d7c7eb0928",
+    "tools/browser-acceptance.ts": "57bb9b80db35813da5bbc555b5e5b120ee4d82e77d0405abe612123991198e9f",
+    "tools/canvas-reparent-native-page.js": "8eaf5b634f695f8951a4d470ee6a000f0f40a2aac1b542929e906a8504083e44",
+    "tools/native-acceptance.ts": "749e3560062f2daed3c6349d71837a21b1236fbd78b9075855ae0cc56124a49d",
+    "tools/native-canvas-transform-mcp.ts": "316f9ea91fd508c46230520a43272fc6235f56679ce640db098daa83dd712263",
+    "tools/native-canvas-transform.ts": "deb882444119b0c6855cc9d22a4bcc188ed8884902e5eca37e9e482ef3c60291"
+  },
+  "bundleSHA256": {
+    "src/web/dist/sugar-maple-editor/browser/chunk-BsyHfJmY.js": "e6963366f912bb8f5210f66d98dec40c54c71a2570de5a089214cd0e64df5b60",
+    "src/web/dist/sugar-maple-editor/browser/chunk-Bx_buo7w.js": "ce166391074da52b5d0fb87297a6fd62f6ff683d9661923c888c7601defe1529",
+    "src/web/dist/sugar-maple-editor/browser/chunk-CUCTT7FO.js": "391d4faf22717190541b1e3bd4511ab11519f3235bc53380ef11aff9dd4aecf0",
+    "src/web/dist/sugar-maple-editor/browser/chunk-Cjw6djjv.js": "62903d0849875ec843d2a36bcc2ca91bcfdd62df05c6428102b6670ad46ce26b",
+    "src/web/dist/sugar-maple-editor/browser/chunk-UcrddU09.js": "973b966c2dca598d27fe469bbf7420c85f818fe2f52f3ef22bd44596b570cc0e",
+    "src/web/dist/sugar-maple-editor/browser/index.html": "638900468d2c95907467540383febc22be0c02b70f9470f8b0d79a50548261ed",
+    "src/web/dist/sugar-maple-editor/browser/main-7YHBIH27.js": "7cfb1bd88b5da53d62953c607aac1cf9dafe774b86f535aec02ae5e1519190e1",
+    "src/web/dist/sugar-maple-editor/browser/styles-3L4SZE66.css": "2c2efbb44e1ad105f76bebaf26a40a4d3d867163c4616ff18e7dbf73e3faed18"
+  },
+  "evidenceSHA256": {
+    "dependency-build-mac.log": "b4940f3e9e4bb36180e869f48e8a626ad3a28869993dec6b1d5970b62bf40e0f",
+    "dependency-chrome-preview.png": "179f6ee26a2a39b4921e627c2986140ec37319e8699e0edcee862c3877eb123d",
+    "dependency-chrome.log": "508c074dcde75479057ea9d501c9d1779d809424e833b3e57c86d8f992a288c0",
+    "dependency-inventory.log": "2fe6b41a9c6f94ec84c48303af2c72755551297070e0656ddc19bbd092c38337",
+    "dependency-mcp-report.json": "b08bd32fee822a8413ec836e470439b8535492737a656e8b23d4cdf149c3e2c8",
+    "dependency-mcp.log": "d7b013006f8dc761ac87a7d409e06d2dbcb4cc15dc387f7d3e261be56b2489f2",
+    "dependency-model-tests.log": "30a265d5e7721cdf30b66b526758ae800b979bd43154e4b5e39cf81e0a04c8d1",
+    "dependency-native-mcp.png": "c91f58d2326ab2470a77bbe5eb65a2a3821214923c75be663429ba3ef37850a2",
+    "dependency-typecheck.log": "9b2b770f3351789b5fd00fa72323f6eb7ea6de3fa3d75b7678bcbee1c8f6d5f6",
+    "dependency-wk-report.json": "8feeb180a9335ccfb166c933d29d87b7f1c71f2f23e66fe488e61259f69d0d29",
+    "dependency-wk.log": "afdfb60fa0ab5f4f77aae2fa0bcb6e0fdce090373664ab2aacb3ebabd6e1f817",
+    "dependency-wk.png": "05853474744320ef1187aa345c798e3d625886bb1f1945addd3a9ea586bfcb92"
+  }
+}

@@ -32,6 +32,7 @@ export const ToolOutputSchemas = {
   }).strict(),
   'document.new': receipt, 'transaction.apply': receipt, 'history.undo': receipt,
   'history.redo': receipt, 'selection.set': receipt,
+  'nodes.reparent': receipt,
   'comments.list': receipt.extend({ comments: z.array(CommentSchema.extend({ pageName: z.string() })) }).strict(),
   'code.export': z.object({ code: z.string() }).strict(),
   'layout.inspect': z.object({
