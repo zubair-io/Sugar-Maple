@@ -99,7 +99,7 @@ export class DocumentStore {
     }
     const known = new Set(Object.keys(DocumentSchema.shape));
     const extras = Object.fromEntries(Object.entries(doc).filter(([key]) => !known.has(key)));
-    for (const key of metadata.keys()) if (!Object.hasOwn(extras, key)) metadata.delete(key);
+    for (const key of Array.from(metadata.keys())) if (!Object.hasOwn(extras, key)) metadata.delete(key);
     for (const [key, value] of Object.entries(extras))
       if (JSON.stringify(metadata.get(key)) !== JSON.stringify(value)) metadata.set(key, value);
     for (const key of ['comments', 'folders', 'pages', 'nodes', 'tokens', 'assets', 'libraries'] as const) {
