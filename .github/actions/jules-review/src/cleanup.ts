@@ -1,6 +1,7 @@
-/** Only a completed session with an explicit verdict is a finished review. */
+import { parseFinalVerdict } from './verdict.js';
+/** Only a completed session with an unambiguous final verdict is a finished review. */
 export function isFinalReview(state: string, message: string): boolean {
-  return state.toLowerCase() === 'completed' && /^`?VERDICT:\s*(approve|comment|block)`?\s*$/im.test(message);
+  return state.toLowerCase() === 'completed' && parseFinalVerdict(message) !== null;
 }
 export class SessionCleanupError extends Error {}
 
