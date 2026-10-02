@@ -1,7 +1,7 @@
 import Foundation
 
 enum MCPTools {
-    static let names = ["capabilities","editor.discover","document.read","comments.list","document.get","document.checkpoint","document.new","transaction.apply","history.undo","history.redo","selection.set","code.export","layout.inspect","viewport.fit","render.capture"]
+    static let names = ["capabilities","editor.discover","document.read","comments.list","document.get","document.checkpoint","document.new","transaction.apply","history.undo","history.redo","selection.set","nodes.reparent","code.export","layout.inspect","viewport.fit","render.capture"]
     static func list(transactionSchema: Any, commentsQuerySchema: Any, schemas: [String: Any] = [:], outputSchemas: [String: Any] = [:]) -> [[String:Any]] {
         let string: [String:Any] = ["type":"string"]
         let revision: [String:Any] = ["documentId":string,"expectedRevision":["type":"integer","minimum":0]]
@@ -26,6 +26,7 @@ enum MCPTools {
             tool("history.undo","Undo the last human gesture or agent batch.",revision,["documentId","expectedRevision"]),
             tool("history.redo","Redo the last undone operation.",revision,["documentId","expectedRevision"]),
             tool("selection.set","Select a node and switch to its page.",["id":string],["id"]),
+            tool("nodes.reparent","Move distinct selected-root subtrees to a same-page frame/artboard or page root in one undo step. preserve-world retains rendered world geometry and fixes responsive dimensions; rejects managed destinations or changed descendant layout. layout keeps authored local rules and allows destination reflow. Locked/hidden ancestors, cycles and coordinate overflow are rejected atomically. Identical-parent moves do not create history. Supply the current documentId and expectedRevision; stale retries are rejected."),
             tool("code.export","Export a node. SwiftUI exports a complete view with state; embedded PNG/JPEG/WebP images are self-contained.",["id":string,"target":["type":"string","enum":["html","angular","tailwind","css","swiftui","editable","svg","web-library","swift-library"]]],["id","target"]),
             tool("render.capture","Capture the actual editor WebView after fonts/layout settle. Optional rect uses WebView CSS pixels; scale is 0.5/1/2, with each output dimension at most 4096 pixels. Reject out-of-bounds rectangles and superseded revisions. Returns PNG and exact crop/pixel metadata.",revision,["documentId","expectedRevision"])
         ]

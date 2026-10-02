@@ -11,6 +11,10 @@ export const ToolInputSchemas = {
   'comments.list': CommentsQuerySchema, 'transaction.apply': TransactionSchema,
   'history.undo': revision, 'history.redo': revision,
   'selection.set': z.object({ id }).strict(),
+  'nodes.reparent': revision.extend({
+    ids: z.array(id).min(1).max(500), parentId: id.nullable(),
+    placement: z.enum(['preserve-world', 'layout']).default('preserve-world'),
+  }).strict(),
   'code.export': z.object({ id, target: ExportTargetSchema }).strict(),
   'layout.inspect': empty, 'viewport.fit': empty, 'render.ready': revision, 'render.capture': CaptureSchema,
 };

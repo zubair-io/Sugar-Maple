@@ -1,0 +1,17 @@
+{
+  "engine" : "WKWebView",
+  "memory" : {
+    "ownerPeakRSSBytes" : 192757760,
+    "scope" : "This benchmark UI process only; WebKit content\/GPU\/network process memory is not included"
+  },
+  "nativeBridge" : "In-memory benchmark recovery\/status\/autosave only; production native disk\/MCP\/clipboard costs excluded",
+  "os" : "Version 27.0 (Build 26A428)",
+  "result" : {
+    "checks" : 12,
+    "consoleErrors" : [
+
+    ],
+    "passed" : true,
+    "scope" : "Production WKWebView reparent preview\/cancel\/apply and layout controls, world geometry, inherited guards, stale preview cancellation and exact undo at zoom 0.5\/1.5. Inputs are synthetic DOM, not native OS pointer\/VoiceOver acceptance."
+  }
+}

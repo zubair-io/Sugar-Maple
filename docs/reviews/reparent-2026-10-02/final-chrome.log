@@ -1,0 +1,2 @@
+PASS: reparent preview/cancel, rotated world placement and descendants, hug conversion, local-flow mode, one undo, no-op, cycle/lock/hidden rejection and stale async guard at zoom 0.5
+PASS: reparent preview/cancel, rotated world placement and descendants, hug conversion, local-flow mode, one undo, no-op, cycle/lock/hidden rejection and stale async guard at zoom 1.5
