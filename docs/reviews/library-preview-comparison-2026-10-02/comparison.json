@@ -1,0 +1,1005 @@
+{
+  "recordedAt": "2026-10-02T12:23:38.779Z",
+  "fixture": {
+    "document": {
+      "version": 1,
+      "id": "4de5e3ab-0f76-464a-bbb7-8203d3e857da",
+      "name": "Untitled",
+      "comments": [],
+      "folders": [],
+      "pages": [
+        {
+          "id": "ad5c0b3e-9dbb-45f1-ad2a-8c937d1b849d",
+          "name": "Page 1",
+          "order": 0,
+          "folderId": null
+        }
+      ],
+      "nodes": [
+        {
+          "id": "root",
+          "pageId": "ad5c0b3e-9dbb-45f1-ad2a-8c937d1b849d",
+          "parentId": null,
+          "kind": "artboard",
+          "name": "artboard",
+          "x": 0,
+          "y": 0,
+          "width": 400,
+          "height": 500,
+          "widthMode": "fixed",
+          "heightMode": "fixed",
+          "widthPercent": 100,
+          "heightPercent": 100,
+          "rotation": 0,
+          "radius": 0,
+          "gradient": null,
+          "fillEnabled": true,
+          "fill": "#ffffff",
+          "color": "#18181b",
+          "stroke": "#d4d4d8",
+          "strokeWidth": 0,
+          "opacity": 1,
+          "text": "",
+          "fontSize": 16,
+          "fontWeight": 400,
+          "fontFamily": "system-ui",
+          "lineHeight": 1.2,
+          "letterSpacing": 0,
+          "textAlign": "auto",
+          "layout": "free",
+          "gap": 16,
+          "padding": 0,
+          "columns": 2,
+          "hidden": false,
+          "locked": false,
+          "order": 0,
+          "inputType": "text",
+          "initialValue": "",
+          "accessibleLabel": "",
+          "disabled": false,
+          "prototypeAction": "navigate",
+          "targetId": null,
+          "transition": "instant",
+          "asset": "",
+          "pathData": "",
+          "viewBox": "0 0 100 100",
+          "libraryRef": null,
+          "librarySlot": "",
+          "componentId": null,
+          "isComponent": false,
+          "variantName": "Default",
+          "variants": {},
+          "overrides": [],
+          "repeatTemplateId": null,
+          "repeatIndex": null,
+          "fillToken": ""
+        },
+        {
+          "id": "card",
+          "pageId": "ad5c0b3e-9dbb-45f1-ad2a-8c937d1b849d",
+          "parentId": "root",
+          "kind": "frame",
+          "name": "Web Awesome Card",
+          "x": 20,
+          "y": 20,
+          "width": 360,
+          "height": 460,
+          "widthMode": "fixed",
+          "heightMode": "fixed",
+          "widthPercent": 100,
+          "heightPercent": 100,
+          "rotation": 0,
+          "radius": 0,
+          "gradient": null,
+          "fillEnabled": true,
+          "fill": "#ffffff",
+          "color": "#18181b",
+          "stroke": "#d4d4d8",
+          "strokeWidth": 0,
+          "opacity": 1,
+          "text": "",
+          "fontSize": 16,
+          "fontWeight": 400,
+          "fontFamily": "system-ui",
+          "lineHeight": 1.2,
+          "letterSpacing": 0,
+          "textAlign": "auto",
+          "layout": "vertical",
+          "gap": 16,
+          "padding": 24,
+          "columns": 2,
+          "hidden": false,
+          "locked": false,
+          "order": 1,
+          "inputType": "text",
+          "initialValue": "",
+          "accessibleLabel": "",
+          "disabled": false,
+          "prototypeAction": "navigate",
+          "targetId": null,
+          "transition": "instant",
+          "asset": "",
+          "pathData": "",
+          "viewBox": "0 0 100 100",
+          "libraryRef": {
+            "key": "web-awesome@1.0.0",
+            "component": "Card",
+            "props": {
+              "padding": 24
+            },
+            "variant": "Default",
+            "localOverrides": [],
+            "tokenBindings": {}
+          },
+          "librarySlot": "",
+          "componentId": null,
+          "isComponent": false,
+          "variantName": "Default",
+          "variants": {},
+          "overrides": [],
+          "repeatTemplateId": null,
+          "repeatIndex": null,
+          "fillToken": ""
+        },
+        {
+          "id": "header",
+          "pageId": "ad5c0b3e-9dbb-45f1-ad2a-8c937d1b849d",
+          "parentId": "card",
+          "kind": "text",
+          "name": "text",
+          "x": 0,
+          "y": 0,
+          "width": 300,
+          "height": 28,
+          "widthMode": "fixed",
+          "heightMode": "fixed",
+          "widthPercent": 100,
+          "heightPercent": 100,
+          "rotation": 0,
+          "radius": 0,
+          "gradient": null,
+          "fillEnabled": true,
+          "fill": "#ffffff",
+          "color": "#18181b",
+          "stroke": "#d4d4d8",
+          "strokeWidth": 0,
+          "opacity": 1,
+          "text": "Pinned library consumer",
+          "fontSize": 16,
+          "fontWeight": 400,
+          "fontFamily": "system-ui",
+          "lineHeight": 1.2,
+          "letterSpacing": 0,
+          "textAlign": "auto",
+          "layout": "free",
+          "gap": 16,
+          "padding": 16,
+          "columns": 2,
+          "hidden": false,
+          "locked": false,
+          "order": 2,
+          "inputType": "text",
+          "initialValue": "",
+          "accessibleLabel": "",
+          "disabled": false,
+          "prototypeAction": "navigate",
+          "targetId": null,
+          "transition": "instant",
+          "asset": "",
+          "pathData": "",
+          "viewBox": "0 0 100 100",
+          "libraryRef": null,
+          "librarySlot": "header",
+          "componentId": null,
+          "isComponent": false,
+          "variantName": "Default",
+          "variants": {},
+          "overrides": [],
+          "repeatTemplateId": null,
+          "repeatIndex": null,
+          "fillToken": ""
+        },
+        {
+          "id": "input",
+          "pageId": "ad5c0b3e-9dbb-45f1-ad2a-8c937d1b849d",
+          "parentId": "card",
+          "kind": "input",
+          "name": "Web Awesome Input",
+          "x": 0,
+          "y": 0,
+          "width": 260,
+          "height": 56,
+          "widthMode": "fixed",
+          "heightMode": "fixed",
+          "widthPercent": 100,
+          "heightPercent": 100,
+          "rotation": 0,
+          "radius": 0,
+          "gradient": null,
+          "fillEnabled": true,
+          "fill": "#ffffff",
+          "color": "#18181b",
+          "stroke": "#d4d4d8",
+          "strokeWidth": 0,
+          "opacity": 1,
+          "text": "Your email",
+          "fontSize": 16,
+          "fontWeight": 400,
+          "fontFamily": "system-ui",
+          "lineHeight": 1.2,
+          "letterSpacing": 0,
+          "textAlign": "auto",
+          "layout": "free",
+          "gap": 16,
+          "padding": 16,
+          "columns": 2,
+          "hidden": false,
+          "locked": false,
+          "order": 3,
+          "inputType": "email",
+          "initialValue": "consumer@example.test",
+          "accessibleLabel": "Email",
+          "disabled": false,
+          "prototypeAction": "navigate",
+          "targetId": null,
+          "transition": "instant",
+          "asset": "",
+          "pathData": "",
+          "viewBox": "0 0 100 100",
+          "libraryRef": {
+            "key": "web-awesome@1.0.0",
+            "component": "Input",
+            "props": {
+              "value": "consumer@example.test",
+              "label": "Email"
+            },
+            "variant": "Default",
+            "localOverrides": [],
+            "tokenBindings": {}
+          },
+          "librarySlot": "",
+          "componentId": null,
+          "isComponent": false,
+          "variantName": "Default",
+          "variants": {},
+          "overrides": [],
+          "repeatTemplateId": null,
+          "repeatIndex": null,
+          "fillToken": ""
+        },
+        {
+          "id": "button",
+          "pageId": "ad5c0b3e-9dbb-45f1-ad2a-8c937d1b849d",
+          "parentId": "card",
+          "kind": "button",
+          "name": "Web Awesome Button",
+          "x": 0,
+          "y": 0,
+          "width": 180,
+          "height": 44,
+          "widthMode": "fixed",
+          "heightMode": "fixed",
+          "widthPercent": 100,
+          "heightPercent": 100,
+          "rotation": 0,
+          "radius": 0,
+          "gradient": null,
+          "fillEnabled": true,
+          "fill": "#ffffff",
+          "color": "#18181b",
+          "stroke": "#d4d4d8",
+          "strokeWidth": 0,
+          "opacity": 1,
+          "text": "Save & Continue",
+          "fontSize": 16,
+          "fontWeight": 400,
+          "fontFamily": "system-ui",
+          "lineHeight": 1.2,
+          "letterSpacing": 0,
+          "textAlign": "auto",
+          "layout": "free",
+          "gap": 16,
+          "padding": 16,
+          "columns": 2,
+          "hidden": false,
+          "locked": false,
+          "order": 4,
+          "inputType": "text",
+          "initialValue": "",
+          "accessibleLabel": "",
+          "disabled": false,
+          "prototypeAction": "navigate",
+          "targetId": null,
+          "transition": "instant",
+          "asset": "",
+          "pathData": "",
+          "viewBox": "0 0 100 100",
+          "libraryRef": {
+            "key": "web-awesome@1.0.0",
+            "component": "Button",
+            "props": {
+              "label": "Save & Continue"
+            },
+            "variant": "Default",
+            "localOverrides": [],
+            "tokenBindings": {}
+          },
+          "librarySlot": "footer",
+          "componentId": null,
+          "isComponent": false,
+          "variantName": "Default",
+          "variants": {},
+          "overrides": [],
+          "repeatTemplateId": null,
+          "repeatIndex": null,
+          "fillToken": ""
+        }
+      ],
+      "tokens": {},
+      "assets": {},
+      "libraries": {
+        "web-awesome@1.0.0": {
+          "manifestVersion": 1,
+          "revision": "1.0.0",
+          "id": "web-awesome",
+          "name": "Web Awesome",
+          "package": {
+            "name": "@awesome.me/webawesome",
+            "version": "3.14.0"
+          },
+          "dependencies": {
+            "@ctrl/tinycolor": "4.1.0",
+            "@floating-ui/dom": "1.8.0",
+            "@konnorr/qr-creator": "1.1.0",
+            "@lit-labs/ssr": "4.1.0",
+            "@lit-labs/ssr-client": "1.1.8",
+            "@lit/context": "1.1.6",
+            "@lit/react": "1.0.8",
+            "@shoelace-style/animations": "1.2.0",
+            "@shoelace-style/localize": "3.2.3",
+            "composed-offset-position": "0.0.6",
+            "lit": "3.3.3",
+            "marked": "11.2.0",
+            "nanoid": "5.1.16"
+          },
+          "webStyles": [
+            "@awesome.me/webawesome/dist/styles/webawesome.css"
+          ],
+          "swiftSDK": {
+            "name": "SwiftUI",
+            "version": "macOS 14 minimum - system SwiftUI"
+          },
+          "tokenMappings": {
+            "--wa-color-brand-fill-loud": "brand.primary"
+          },
+          "components": {
+            "Button": {
+              "name": "Web Awesome Button",
+              "semanticKind": "button",
+              "width": 180,
+              "height": 44,
+              "props": {
+                "label": {
+                  "semantic": "text",
+                  "webAttribute": null,
+                  "type": "string",
+                  "default": "Button",
+                  "maxLength": 20000
+                },
+                "disabled": {
+                  "semantic": "disabled",
+                  "webAttribute": "disabled",
+                  "type": "boolean",
+                  "default": false
+                },
+                "variant": {
+                  "semantic": null,
+                  "webAttribute": "variant",
+                  "type": "enum",
+                  "default": "neutral",
+                  "values": [
+                    "neutral",
+                    "brand",
+                    "success",
+                    "warning",
+                    "danger"
+                  ]
+                },
+                "appearance": {
+                  "semantic": null,
+                  "webAttribute": "appearance",
+                  "type": "enum",
+                  "default": "accent",
+                  "values": [
+                    "accent",
+                    "filled-outlined",
+                    "filled",
+                    "outlined",
+                    "plain"
+                  ]
+                }
+              },
+              "slots": [
+                ""
+              ],
+              "variants": {
+                "Default": {},
+                "Primary": {
+                  "variant": "brand"
+                },
+                "Disabled": {
+                  "disabled": true
+                }
+              },
+              "defaultVariant": "Default",
+              "web": {
+                "tag": "wa-button",
+                "symbol": "WaButton",
+                "styleBindings": {},
+                "module": "@awesome.me/webawesome/dist/components/button/button.js"
+              },
+              "swift": {
+                "module": "SwiftUI",
+                "symbol": "Button",
+                "adapter": "button",
+                "platforms": [
+                  "macOS"
+                ],
+                "supportedVariants": [
+                  "Default",
+                  "Disabled"
+                ]
+              }
+            },
+            "Input": {
+              "name": "Web Awesome Input",
+              "semanticKind": "input",
+              "width": 260,
+              "height": 56,
+              "props": {
+                "label": {
+                  "semantic": "accessibleLabel",
+                  "webAttribute": "label",
+                  "type": "string",
+                  "default": "Email",
+                  "maxLength": 200
+                },
+                "placeholder": {
+                  "semantic": "text",
+                  "webAttribute": "placeholder",
+                  "type": "string",
+                  "default": "Your email",
+                  "maxLength": 20000
+                },
+                "value": {
+                  "semantic": "initialValue",
+                  "webAttribute": "value",
+                  "type": "string",
+                  "default": "",
+                  "maxLength": 20000
+                },
+                "type": {
+                  "semantic": "inputType",
+                  "webAttribute": "type",
+                  "type": "enum",
+                  "default": "email",
+                  "values": [
+                    "text",
+                    "email",
+                    "password"
+                  ]
+                },
+                "disabled": {
+                  "semantic": "disabled",
+                  "webAttribute": "disabled",
+                  "type": "boolean",
+                  "default": false
+                }
+              },
+              "slots": [],
+              "variants": {
+                "Default": {},
+                "Disabled": {
+                  "disabled": true
+                }
+              },
+              "defaultVariant": "Default",
+              "web": {
+                "tag": "wa-input",
+                "symbol": "WaInput",
+                "styleBindings": {},
+                "module": "@awesome.me/webawesome/dist/components/input/input.js"
+              },
+              "swift": {
+                "module": "SwiftUI",
+                "symbol": "TextField",
+                "adapter": "input",
+                "platforms": [
+                  "macOS"
+                ],
+                "supportedVariants": [
+                  "Default",
+                  "Disabled"
+                ]
+              }
+            },
+            "Card": {
+              "name": "Web Awesome Card",
+              "semanticKind": "frame",
+              "width": 320,
+              "height": 240,
+              "props": {
+                "padding": {
+                  "semantic": "padding",
+                  "webAttribute": null,
+                  "type": "number",
+                  "default": 16,
+                  "min": 0,
+                  "max": 100
+                }
+              },
+              "slots": [
+                "",
+                "header",
+                "footer",
+                "media",
+                "actions"
+              ],
+              "variants": {
+                "Default": {}
+              },
+              "defaultVariant": "Default",
+              "web": {
+                "tag": "wa-card",
+                "symbol": "WaCard",
+                "styleBindings": {
+                  "--spacing": "padding"
+                },
+                "module": "@awesome.me/webawesome/dist/components/card/card.js"
+              },
+              "swift": {
+                "module": "SwiftUI",
+                "symbol": "VStack",
+                "adapter": "card",
+                "platforms": [
+                  "macOS"
+                ],
+                "supportedVariants": [
+                  "Default"
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "results": {
+    "canvas": {
+      "geometry": {
+        "root": {
+          "x": 0,
+          "y": 0,
+          "width": 400,
+          "height": 500
+        },
+        "card": {
+          "x": 20,
+          "y": 20,
+          "width": 360,
+          "height": 460
+        },
+        "header": {
+          "x": 44,
+          "y": 44,
+          "width": 300,
+          "height": 28
+        },
+        "input": {
+          "x": 44,
+          "y": 88,
+          "width": 260,
+          "height": 56
+        },
+        "button": {
+          "x": 44,
+          "y": 160,
+          "width": 180,
+          "height": 44
+        }
+      },
+      "accessibility": "- img \"Design canvas. Select layers in the Layers panel; arrow keys move selected layers.\"\n- button \"Resize selected element from top left\"\n- button \"Resize selected element from top\"\n- button \"Resize selected element from top right\"\n- button \"Resize selected element from right\"\n- button \"Resize selected element\"\n- button \"Resize selected element from bottom\"\n- button \"Resize selected element from bottom left\"\n- button \"Resize selected element from left\"\n- button \"Rotate selected element\"",
+      "stats": {
+        "drawn": 5,
+        "total": 5,
+        "paintMs": 0.19999980926513672,
+        "frames": 5
+      },
+      "authoredControlDOM": 0,
+      "inspectorEditUndo": true,
+      "updateMilliseconds": {
+        "samples": [
+          32.299999952316284,
+          33.10000014305115,
+          31.90000009536743,
+          34.5,
+          33.299999952316284,
+          31.800000190734863,
+          34.59999990463257,
+          33.40000009536743,
+          32,
+          34.40000009536743,
+          33.40000009536743,
+          31.799999952316284,
+          34.60000014305115,
+          33.299999952316284,
+          31.700000047683716,
+          34.5,
+          33.299999952316284,
+          31.799999952316284,
+          34.700000047683716,
+          33.09999990463257,
+          31.800000190734863,
+          34.59999990463257,
+          31.59999990463257,
+          33.5,
+          33.39999985694885,
+          34.299999952316284,
+          31.799999952316284,
+          34.5,
+          33.200000047683716,
+          32
+        ],
+        "p50": 33.299999952316284,
+        "p95": 34.60000014305115
+      },
+      "primaryVariant": {
+        "identity": "Primary",
+        "semanticStyleChanged": false,
+        "fields": {
+          "fill": "#ffffff",
+          "fillEnabled": true,
+          "color": "#18181b",
+          "stroke": "#d4d4d8",
+          "strokeWidth": 0,
+          "radius": 0
+        }
+      }
+    },
+    "dom": {
+      "geometry": {
+        "root": {
+          "x": 0,
+          "y": 0,
+          "width": 400,
+          "height": 500
+        },
+        "card": {
+          "x": 20,
+          "y": 20,
+          "width": 360,
+          "height": 460
+        },
+        "header": {
+          "x": 44,
+          "y": 44,
+          "width": 300,
+          "height": 28
+        },
+        "input": {
+          "x": 44,
+          "y": 88,
+          "width": 260,
+          "height": 56
+        },
+        "button": {
+          "x": 44,
+          "y": 160,
+          "width": 180,
+          "height": 44
+        }
+      },
+      "largestCanvasGeometryDelta": 0,
+      "accessibility": "- text: Pinned library consumer\n- textbox \"Email\":\n  - /placeholder: Your email\n  - text: consumer@example.test\n- button \"Save & Continue\"",
+      "authoringBridge": "undefined",
+      "ephemeralInput": true,
+      "updateMilliseconds": {
+        "samples": [
+          23.59999990463257,
+          33.299999952316284,
+          33.299999952316284,
+          33.299999952316284,
+          32.30000019073486,
+          33.200000047683716,
+          33.299999952316284,
+          33.200000047683716,
+          33.200000047683716,
+          33.200000047683716,
+          33.200000047683716,
+          33.299999952316284,
+          33.299999952316284,
+          33.30000019073486,
+          33.200000047683716,
+          33.299999952316284,
+          33.200000047683716,
+          33.200000047683716,
+          33.19999980926514,
+          33.30000019073486,
+          33.200000047683716,
+          33.09999990463257,
+          33.200000047683716,
+          33.299999952316284,
+          33.09999990463257,
+          33.39999985694885,
+          33,
+          33.200000047683716,
+          33.200000047683716,
+          33.09999990463257
+        ],
+        "p50": 33.200000047683716,
+        "p95": 33.30000019073486
+      }
+    },
+    "web": {
+      "coldOptInMilliseconds": 125.44800000000032,
+      "accessibility": "- paragraph: Pinned library consumer\n- text: Email\n- textbox \"Email\":\n  - /placeholder: Your email\n  - text: consumer@example.test\n- button \"Save & Continue\"",
+      "build": {
+        "package": {
+          "name": "@awesome.me/webawesome",
+          "version": "3.14.0"
+        },
+        "lockSHA256": "1388ee3dfc3f0becdf4a93108f03826c847fea9e4e9b088c446a70f01310a24c",
+        "offline": true,
+        "importedSourceExecutedDuringBuild": false,
+        "hashes": {
+          "runtime.js": {
+            "bytes": 261717,
+            "sha256": "836c67fa76885bd0c29e57001e1eeeadcfdcfafb20515de5d284b7e26f97d93a"
+          },
+          "runtime.css": {
+            "bytes": 155312,
+            "sha256": "f15ad9222cd24a7a5d24b52ad66f3e8520ee259b11a7215a2beb157208cd4cae"
+          },
+          "host.js": {
+            "bytes": 89431,
+            "sha256": "1016626aceb6d1d757ccf1c1134222069852c0ff6bb7d0d9262b431da0699cab"
+          },
+          "host.css": {
+            "bytes": 2228,
+            "sha256": "a24540b648d3e441dc8d5daff81c490da0b96b516402398f7a2169fd665fc9b4"
+          },
+          "semantic.html": {
+            "bytes": 3044,
+            "sha256": "b4f5734f42e9131109a5fde7fb89b259f3b8bd8fedb740039ff6fef58d25dd05"
+          },
+          "fixture.json": {
+            "bytes": 23547,
+            "sha256": "b3915ed00f08acf491f64edf76b1ca59095e3bc7a821d9bed2131b51e901a5f0"
+          }
+        }
+      },
+      "geometry": {
+        "wa-card": {
+          "x": 16,
+          "y": 16,
+          "width": 360,
+          "height": 265.984375
+        },
+        "wa-input": {
+          "x": 41,
+          "y": 94.796875,
+          "width": 310,
+          "height": 70.1875
+        },
+        "wa-button": {
+          "x": 41,
+          "y": 213.984375,
+          "width": 156.046875,
+          "height": 43
+        }
+      },
+      "typedEvents": true,
+      "primaryVariant": {
+        "variant": "brand",
+        "appearance": "accent"
+      },
+      "updateMilliseconds": {
+        "samples": [
+          30.09999990463257,
+          33.39999985694885,
+          33.10000014305115,
+          33.299999952316284,
+          33.30000019073486,
+          33.200000047683716,
+          33.299999952316284,
+          33.40000009536743,
+          33.40000009536743,
+          33.09999990463257,
+          33.40000009536743,
+          33.39999985694885,
+          33.40000009536743,
+          33.200000047683716,
+          33.40000009536743,
+          33.299999952316284,
+          33.39999985694885,
+          33.09999990463257,
+          33.5,
+          33.200000047683716,
+          33.299999952316284,
+          33.40000009536743,
+          33.299999952316284,
+          33.40000009536743,
+          33.299999952316284,
+          33.299999952316284,
+          33.200000047683716,
+          33.5,
+          33.200000047683716,
+          33.40000009536743
+        ],
+        "p50": 33.299999952316284,
+        "p95": 33.5
+      }
+    },
+    "native": {
+      "buildMilliseconds": 1464.7829589999992,
+      "coldSpawnRenderMilliseconds": 365.15529100000003,
+      "updateMilliseconds": {
+        "samples": [
+          58.812167000000045,
+          58.53779200000008,
+          58.00233299999945,
+          58.23008299999947,
+          58.603917000000365,
+          58.23541699999987,
+          58.64887499999986,
+          57.72400000000016,
+          58.60445900000013,
+          58.10933300000033,
+          58.38779100000011,
+          58.607834000000366,
+          58.06812500000069,
+          58.42058300000008,
+          58.1831659999998,
+          58.455832999999984,
+          58.2026249999999,
+          58.275415999999495,
+          58.618375000000015,
+          58.19929200000024,
+          58.332790999999816,
+          58.3852080000006,
+          58.058874999999716,
+          58.62766699999975,
+          58.33570899999995,
+          58.07074999999986,
+          58.51820899999984,
+          58.27958299999955,
+          58.400040999999874,
+          58.21437500000047
+        ],
+        "p50": 58.33570899999995,
+        "p95": 58.64887499999986
+      },
+      "executableBytes": 252592,
+      "bundleFiles": [
+        {
+          "name": "Contents/Info.plist",
+          "bytes": 412
+        },
+        {
+          "name": "Contents/MacOS/Fixture",
+          "bytes": 252592
+        },
+        {
+          "name": "Contents/_CodeSignature/CodeResources",
+          "bytes": 2200
+        }
+      ],
+      "bundleBytes": 255204,
+      "launcherBytes": 33512,
+      "unsupportedPrimary": "Error: Unsupported native variant/property; the pinned mapping only supports Default/Disabled",
+      "stats": {
+        "maxRSSKiB": 99648,
+        "bytes": 1426815,
+        "stderr": ""
+      },
+      "humanEvidence": {
+        "passed": true,
+        "build": {
+          "generation": "a9cc8d9a-ee41-4047-859f-db27feec9daf",
+          "bundle": "/Users/riabuz/Projects/_Sugar Maple/build/library-preview-native/a9cc8d9a-ee41-4047-859f-db27feec9daf/Fixture.app",
+          "executable": "/Users/riabuz/Projects/_Sugar Maple/build/library-preview-native/a9cc8d9a-ee41-4047-859f-db27feec9daf/Fixture.app/Contents/MacOS/Fixture",
+          "limit": "/Users/riabuz/Projects/_Sugar Maple/build/library-preview-native/a9cc8d9a-ee41-4047-859f-db27feec9daf/limit",
+          "metrics": [
+            {
+              "code": 0,
+              "signal": null,
+              "maxRSSKiB": 0,
+              "bytes": 0
+            },
+            {
+              "code": 0,
+              "signal": null,
+              "maxRSSKiB": 35216,
+              "bytes": 0
+            },
+            {
+              "code": 0,
+              "signal": null,
+              "maxRSSKiB": 0,
+              "bytes": 153
+            },
+            {
+              "code": 0,
+              "signal": null,
+              "maxRSSKiB": 0,
+              "bytes": 0
+            }
+          ]
+        },
+        "events": [
+          {
+            "version": 1,
+            "session": "d80dd7a0-00f2-4ef1-a930-bdde8e34b4f4",
+            "kind": "ready",
+            "canaryDenied": null,
+            "networkDenied": null
+          },
+          {
+            "version": 1,
+            "session": "d80dd7a0-00f2-4ef1-a930-bdde8e34b4f4",
+            "revision": 0,
+            "kind": "rendered",
+            "width": 800,
+            "height": 1000,
+            "pngSHA256": "136b26f9286c5a324ddd23940209230e14da444afbc94d599acd595bffc5ca95"
+          },
+          {
+            "version": 1,
+            "session": "d80dd7a0-00f2-4ef1-a930-bdde8e34b4f4",
+            "revision": 0,
+            "kind": "action",
+            "component": "Button"
+          },
+          {
+            "version": 1,
+            "session": "d80dd7a0-00f2-4ef1-a930-bdde8e34b4f4",
+            "revision": 0,
+            "kind": "change",
+            "component": "Input",
+            "value": "q"
+          },
+          {
+            "version": 1,
+            "session": "d80dd7a0-00f2-4ef1-a930-bdde8e34b4f4",
+            "revision": 0,
+            "kind": "change",
+            "component": "Input",
+            "value": "qa"
+          }
+        ],
+        "stats": {
+          "maxRSSKiB": 94144,
+          "bytes": 48359,
+          "stderr": ""
+        },
+        "scope": "Native control clicks and keyboard input on the owned sandboxed helper return only typed Button action/Input change events"
+      },
+      "humanEvidenceScope": "Previously recorded actual native UI run, not performed by this comparison command",
+      "source": "fixed trusted SwiftUI adapter, not the JavaScript package"
+    }
+  },
+  "scope": "same authored Button/Input/Card fixture and typed props; actual Canvas, DOM preview, pinned package and sandboxed SwiftUI helper",
+  "timingDefinitions": {
+    "canvas": "CRDT transaction + Angular/Canvas scheduling + two RAF opportunities, excluding document.get",
+    "dom": "immutable scene feed + two RAF opportunities",
+    "web": "MessageChannel + actual Lit updates + two RAF opportunities",
+    "native": "IPC + SwiftUI update + fixed 50ms snapshot scheduling + PNG encode/reply"
+  },
+  "limitations": [
+    "Timings have different boundaries and cannot rank input latency/FPS.",
+    "Native snapshot includes an intentional 50ms scheduling wait.",
+    "Web/native POC consumes props, not complete authored layout/styles/slots.",
+    "Human native AX/event evidence is separate; no full VoiceOver audit.",
+    "No whole-product memory or production distribution comparison is claimed."
+  ]
+}
