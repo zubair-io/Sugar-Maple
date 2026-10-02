@@ -1,0 +1,33 @@
+{
+  "source": "08cb891f13d22d6f35af4d9130b34b8a6b96f79f",
+  "base": "ba4024be265791bea996af6ceb88b9bbfff9cb1f",
+  "checks": {
+    "models": {
+      "passed": 139,
+      "assertions": 2169
+    },
+    "typecheck": true,
+    "macPackagingSigning": true,
+    "browserSuites": 31,
+    "fullNativeAcceptance": true,
+    "focusedWKChecks": 7,
+    "focusedChromeChecks": 7,
+    "actualIndexedDBReloadRecoveredUndo": true
+  },
+  "sha256": {
+    "src/web/src/app/model/store.ts": "c8f1a07b40ac1470ca2ff4c7417d79c7f3043f8898ba620feb6c3b1fa0de0909",
+    "src/web/src/app/model/scoped-read.ts": "411b748337d47d49a356f77d4c725e9d4f855fe2a5e5f2f8a5d0c6f1ad1535eb",
+    "src/web/src/app/editor.service.ts": "865cb3ebfd1aa93fbd6d0d73f7b3432e209a4b34cfba86ee46380a9487e9fea9",
+    "src/web/tests/document-snapshot.test.ts": "d3dd8ff36ecf90835bb21efe57a3f13aada0c5ed900ce9048d46543ffd21b5d0",
+    "src/web/tests/document-snapshot-e2e.ts": "908e6035e35ff8ff9b99b7f559ba3eba5c53195240e4379e546a5182488176a1",
+    "tools/document-snapshot-page.js": "64d9348001c771a6bc1db74a41fac9ab73d52cad99d04c59ee82db50d0b17af0",
+    "tools/native-document-snapshot.ts": "f45a27621e43abb1cbd1fc5b363156013f708a9572453c4a0b20e3ec587ed098",
+    "tools/browser-acceptance.ts": "b154ccc203fdcd1f6f4ec1a7701bd873ebb84f4b37b3044f4ec5d9d554d8e92c",
+    "tools/native-acceptance.ts": "894cca9ed29a4f305ac7fae71cb17d21ead0c5054013b730b3ab0ffcd220a11d"
+  },
+  "limitations": [
+    "Stacked on metadata candidate #101; integration with current main, actual head review/CI, merge and resulting-main verification remain pending.",
+    "Shared workstation CPU timings are diagnostic, not isolated comparisons or physical input/presentation/frame/VoiceOver budgets.",
+    "Focused WK fixture uses JavaScript calls and in-memory recovery bridge; real disk and MCP are separate cases in full native acceptance."
+  ]
+}

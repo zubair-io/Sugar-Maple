@@ -1,0 +1,60 @@
+{
+  "date": "2026-10-02T23:15:02.858Z",
+  "source": "08cb891f13d22d6f35af4d9130b34b8a6b96f79f",
+  "baseline": "ba4024be265791bea996af6ceb88b9bbfff9cb1f",
+  "environment": {
+    "runtime": "1.4.2",
+    "platform": "darwin",
+    "arch": "arm64",
+    "nodes": 5000,
+    "fixture": "Every node has two gradient stops; synchronous model CPU timings on a shared workstation with concurrent Rust/GPU workloads; not an isolated performance comparison or physical input latency"
+  },
+  "baselineBefore": {
+    "read": {
+      "count": 30,
+      "medianMs": 19.425083000000086,
+      "p95Ms": 21.262708999999973,
+      "minMs": 15.671125000000075,
+      "maxMs": 22.536207999999988
+    },
+    "singleNodeEdit": {
+      "count": 12,
+      "medianMs": 167.19799999999987,
+      "p95Ms": 208.457042,
+      "minMs": 157.75845800000002,
+      "maxMs": 208.457042
+    }
+  },
+  "fixed": {
+    "read": {
+      "count": 30,
+      "medianMs": 37.594333000000006,
+      "p95Ms": 41.25154199999997,
+      "minMs": 35.01233400000001,
+      "maxMs": 42.15037499999926
+    },
+    "singleNodeEdit": {
+      "count": 12,
+      "medianMs": 164.80566699999963,
+      "p95Ms": 190.17374999999993,
+      "minMs": 151.67212500000005,
+      "maxMs": 190.17374999999993
+    }
+  },
+  "baselineAfter": {
+    "read": {
+      "count": 30,
+      "medianMs": 20.429665999999997,
+      "p95Ms": 23.673291000000063,
+      "minMs": 18.56904200000008,
+      "maxMs": 25.070709000000534
+    },
+    "singleNodeEdit": {
+      "count": 12,
+      "medianMs": 190.90066699999988,
+      "p95Ms": 213.03304200000093,
+      "minMs": 182.75433300000077,
+      "maxMs": 213.03304200000093
+    }
+  }
+}
