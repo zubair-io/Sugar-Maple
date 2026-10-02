@@ -10,10 +10,13 @@ if (
     "Native stop regression requires the owned comparison server and explicit native opt-in",
   );
 
-const entry = "compare.ts";
+const scene = process.argv.includes("--scene");
+const entry = scene ? "scene-compare.ts" : "compare.ts";
 const fault = "Owned native shutdown failure fixture";
 const marker = "Owned native shutdown cleanup boundary";
-const completed = "PASS: real Canvas/DOM fixture geometry and inspector undo";
+const completed = scene
+  ? "PASS: actual editor authored-scene comparison across"
+  : "PASS: real Canvas/DOM fixture geometry and inspector undo";
 const cleanupMilliseconds = 30000;
 
 // A comparison includes bounded compilation and the full real consumer suite.
@@ -112,7 +115,9 @@ const leak = await observe(
   true,
 );
 await Bun.write(
-  "build/library-preview-native-stop.json",
+  scene
+    ? "build/library-scene-native-stop.json"
+    : "build/library-preview-native-stop.json",
   JSON.stringify({ passed: true, comparison, leak }, null, 2),
 );
 console.log(
