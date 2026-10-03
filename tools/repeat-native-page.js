@@ -120,7 +120,16 @@ window.canvasTransformAcceptance = async function () {
         if (kind !== "gap")
           check(
             window.sugarMaple.viewport.stats().total > frames.total,
-            "WK new cells are projected during drag",
+            "WK new cells are projected during drag: " +
+              JSON.stringify({
+                kind,
+                zoom,
+                before: frames,
+                after: window.sugarMaple.viewport.stats(),
+                delivery,
+                handleValue: slider(kind)?.getAttribute("aria-valuenow"),
+                camera: (await settle()).camera,
+              }),
           );
         let rejected = false;
         try {
