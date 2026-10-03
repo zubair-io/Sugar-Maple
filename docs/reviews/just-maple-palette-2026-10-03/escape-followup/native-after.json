@@ -1,0 +1,14 @@
+{
+  "engine" : "WKWebView",
+  "memory" : {
+    "ownerPeakRSSBytes" : 150650880,
+    "scope" : "This benchmark UI process only; WebKit content\/GPU\/network process memory is not included"
+  },
+  "nativeBridge" : "In-memory benchmark recovery\/status\/autosave only; production native disk\/MCP\/clipboard costs excluded",
+  "os" : "Version 27.0 (Build 26A428)",
+  "result" : {
+    "checks" : 1,
+    "passed" : true,
+    "scope" : "Controlled delayed timer against production MCP popover; immediate Escape dismisses and restores trigger without document changes"
+  }
+}
