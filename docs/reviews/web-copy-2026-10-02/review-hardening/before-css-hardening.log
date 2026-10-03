@@ -1,0 +1,26 @@
+bun test v1.4.2 (744846f84)
+
+src/web/tests/web-copy.test.ts:
+(pass) classes and declaration payloads are pasteable fragments with token identity and no markup [2.33ms]
+(pass) complete CSS rules cover visible descendants and packaged markup references those exact rules [0.31ms]
+(pass) malformed token names cannot escape declaration or stylesheet boundaries [0.15ms]
+100 |     })).toThrow();
+101 |     expect(store.checkpoint()).toEqual(before);
+102 |     doc.tokens['brand.primary'] = value;
+103 |     expect(() => new DocumentStore(doc)).toThrow();
+104 |     for (const target of ['tailwind-classes', 'css-declarations', 'css', 'html-css'] as const)
+105 |       expect(() => exportNode(doc, 'action', target)).toThrow();
+                                                            ^
+error: expect(received).toThrow()
+
+Received function did not throw
+Received value: "[margin:0px] [font-family:system-ui,_sans-serif] [line-height:1.2] [letter-spacing:0px] [white-space:pre-wrap] [text-align:center] [appearance:none] [position:relative] [left:0px] [top:0px] [width:100%] [height:44px] [min-width:0px] [min-height:0px] [flex-grow:0] [background:</style><script>globalThis.injected=true</script>] [color:#18181b] [border-radius:0px] [border:0px_solid_#d4d4d8] [opacity:1] [font-size:16px] [font-weight:400] [transform:rotate(0deg)] [box-sizing:border-box] [display:block] [flex-direction:row] [grid-template-columns:repeat(2,_minmax(0,_1fr))] [gap:16px] [padding:0px] [flex-shrink:0] [overflow:hidden] [--brand-primary:</style><script>globalThis.injected=true</script>] [background:var(--brand-primary)]"
+
+      at <anonymous> (/Users/riabuz/Projects/_Sugar Maple/src/web/tests/web-copy.test.ts:105:55)
+(fail) invalid token colors reject at authoring/loading and at the public export helper boundary [5.08ms]
+(pass) fragment support inspects only its selected node even on a deeply nested valid document [1124.39ms]
+
+ 4 pass
+ 1 fail
+ 33 expect() calls
+Ran 5 tests across 1 file. [1182.00ms]
