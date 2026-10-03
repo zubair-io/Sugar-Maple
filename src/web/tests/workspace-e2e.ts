@@ -135,6 +135,54 @@ try {
   });
   const current = await checkpoint();
   assert.deepEqual(current.document, baseline.document);
+  const outcomes = await page.evaluate(async () => {
+    const before = await window.sugarMaple.dispatch('document.get');
+    await window.sugarMaple.dispatch('transaction.apply', {
+      documentId: before.documentId,
+      expectedRevision: before.revision,
+      requestId: crypto.randomUUID(),
+      operations: [{ type: 'document.rename', name: 'Workspace status fixture' }],
+    });
+    const committed = await window.sugarMaple.dispatch('document.get');
+    let rejected = false;
+    try {
+      await window.sugarMaple.dispatch('transaction.apply', {
+        documentId: committed.documentId,
+        expectedRevision: before.revision,
+        requestId: crypto.randomUUID(),
+        operations: [{ type: 'document.rename', name: 'Must reject' }],
+      });
+    } catch {
+      rejected = true;
+    }
+    return { before: before.document, committed, rejected };
+  });
+  assert.equal(outcomes.rejected, true);
+  await page.getByRole('button', { name: 'MCP connection details' }).click();
+  await expect(page.getByRole('dialog')).toContainText(
+    `Committed · revision ${outcomes.committed.revision}`,
+  );
+  await expect(page.getByRole('dialog')).toContainText(
+    `Rejected · revision ${outcomes.committed.revision}`,
+  );
+  await page.keyboard.press('Escape');
+  await page.evaluate(async () => {
+    const d = await window.sugarMaple.dispatch('document.get');
+    await window.sugarMaple.dispatch('history.undo', {
+      documentId: d.documentId,
+      expectedRevision: d.revision,
+    });
+  });
+  assert.deepEqual(
+    (await checkpoint()).document,
+    outcomes.before,
+    'Explicit agent fixture undo restores document',
+  );
+  await page.getByRole('button', { name: 'New file', exact: true }).click();
+  await page.getByRole('button', { name: 'MCP connection details' }).click();
+  await expect(page.getByRole('dialog')).toContainText('No agent transactions for this document');
+  await expect(page.getByRole('dialog')).not.toContainText('Committed · revision');
+  await page.keyboard.press('Escape');
   // Preference input is a versioned local boundary, independent of document persistence.
   for (const scenario of ['bounds', 'corrupt', 'denied'] as const) {
     const context = await browser.newContext({ viewport: { width: 1440, height: 900 } });
