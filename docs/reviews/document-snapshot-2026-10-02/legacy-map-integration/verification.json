@@ -1,0 +1,17 @@
+{
+  "source": "6c73511dd514ea86aed0e33d7f4b882d0639fffe",
+  "metadataParent": "a1a0330d66d8c9ac71d84ce6ba299844a89d5be1",
+  "baseAtBranch": "9c3bcb90017c88a05d11a328960bf6307e925680",
+  "models": 166,
+  "assertions": 2378,
+  "browserSuites": 35,
+  "commandExitCodes": {
+    "models": 0,
+    "typecheck": 0,
+    "macBuild": 0,
+    "browser": 0,
+    "native": 0
+  },
+  "nativeAcceptanceRepeatedSequentially": true,
+  "remaining": "fresh exact-head review/CI, current-main integration, dependency merge and main verification"
+}
