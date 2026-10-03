@@ -1,0 +1,3 @@
+Owned browser editor: http://127.0.0.1:53251; checkout /Users/riabuz/.codex/worktrees/mac-build-recovery/_SugarMaple; revision 35da29564cb711a1e90f55d06300e7ad2d42b4ec
+PASS: actual pointer/keyboard resizing, persisted widths/collapse/reload, constrained panel policy, 48/28 shell, overflow/appearance/MCP focus at1440/1024/800 and document invariance
+Browser source/cleanup report: /Users/riabuz/.codex/worktrees/mac-build-recovery/_SugarMaple/build/browser-acceptance-4917443d-6275-4012-8bac-a0eefae0cfaf.json
