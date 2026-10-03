@@ -15,11 +15,18 @@ export async function runComparison(
     stage: ReturnType<typeof supervise> | undefined;
   let force: ReturnType<typeof setTimeout> | undefined,
     scan: ReturnType<typeof setInterval> | undefined;
-  let closing = false;
+  let closing = false,
+    interruptionDeadline: number | undefined,
+    primaryFailure: unknown;
   const registry = comparisonProcessRegistry();
   const stopStage = (reason: string) => {
+    interruptionDeadline ??= performance.now() + 30000;
     if (!stage?.child.pid || stage.child.exitCode !== null) return;
-    registry.captureDescendants(stage.child.pid);
+    try {
+      registry.captureDescendants(stage.child.pid);
+    } catch (error) {
+      failure ||= error;
+    }
     // Let nested supervisors and Playwright close their detached children first.
     try {
       process.kill(-stage.child.pid, "SIGTERM");
@@ -158,13 +165,21 @@ export async function runComparison(
       if (failure || server.child.exitCode !== null)
         throw failure ?? Error("Owned comparison server stopped");
     }
+  } catch (error) {
+    primaryFailure = error;
+    throw error;
   } finally {
     closing = true;
     clearInterval(scan);
     clearTimeout(force);
-    const cleanupDeadline = performance.now() + 30000;
-    if (stage?.child.pid) registry.captureDescendants(stage.child.pid);
-    if (server?.child.pid) registry.captureDescendants(server.child.pid);
+    const cleanupDeadline = interruptionDeadline ?? performance.now() + 30000;
+    const cleanupErrors: unknown[] = [];
+    try {
+      if (stage?.child.pid) registry.captureDescendants(stage.child.pid);
+      if (server?.child.pid) registry.captureDescendants(server.child.pid);
+    } catch (error) {
+      cleanupErrors.push(error);
+    }
     stage?.stop("Comparison finished");
     server?.stop("Comparison finished");
     try {
@@ -192,11 +207,22 @@ export async function runComparison(
       console.log(
         "Comparison owned process cleanup: " + JSON.stringify(result),
       );
+    } catch (error) {
+      cleanupErrors.push(error);
     } finally {
       process.off("SIGINT", interrupt);
       process.off("SIGTERM", interrupt);
-      registry.remove();
+      try {
+        registry.remove();
+      } catch (error) {
+        cleanupErrors.push(error);
+      }
     }
+    if (cleanupErrors.length)
+      throw new AggregateError(
+        [...(primaryFailure ? [primaryFailure] : []), ...cleanupErrors],
+        "Comparison execution/cleanup failed",
+      );
   }
 }
 
