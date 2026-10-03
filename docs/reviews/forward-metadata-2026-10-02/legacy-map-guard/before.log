@@ -1,0 +1,24 @@
+bun test v1.4.2 (744846f84)
+
+src/web/tests/forward-metadata.test.ts:
+(pass) opaque document/page/folder metadata survives editing, undo/redo and serialized journal recovery [13.57ms]
+(pass) unknown metadata remains JSON data and does not weaken commands or future schema rejection [1.35ms]
+(pass) reserved or cyclic metadata rejects explicitly instead of silently dropping JSON fields [0.38ms]
+(pass) reading a scene cannot mutate stored metadata or the recovery base outside a command [0.29ms]
+(pass) legacy documents without metadata initialize safe scene reads through every public load path [1.91ms]
+68 |       throw Error('Document projection does not match its history');
+69 |     return store;
+70 |   }
+71 |   get document(): SceneDocument {
+72 |     return {
+73 |       ...structuredClone((this.root.get('documentMetadata') as Y.Map<unknown>).toJSON()),
+                                                               ^
+TypeError: undefined is not an object (evaluating 'this.root.get("documentMetadata").toJSON')
+      at document (/Users/riabuz/.codex/worktrees/mcp-contract-hardening/_SugarMaple/src/web/src/app/model/store.ts:73:59)
+      at <anonymous> (/Users/riabuz/.codex/worktrees/mcp-contract-hardening/_SugarMaple/src/web/tests/forward-metadata.test.ts:135:10)
+(fail) legacy in-memory scene without metadata map remains readable through edit, undo and recovery [1.97ms]
+
+ 5 pass
+ 1 fail
+ 51 expect() calls
+Ran 6 tests across 1 file. [90.00ms]
