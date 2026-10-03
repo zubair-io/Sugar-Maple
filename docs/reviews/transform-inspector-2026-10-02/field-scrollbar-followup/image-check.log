@@ -1,0 +1,3 @@
+Owned browser editor: http://127.0.0.1:52176; checkout /Users/riabuz/.codex/worktrees/mcp-contract-hardening/_SugarMaple; revision 6da814ed945016dcafe247be2c7e5a0703dc90d8
+PASS: readable Transform icons/fields and no overflow at 260/320/420px; exact document/history unchanged
+Browser source/cleanup report: /Users/riabuz/.codex/worktrees/mcp-contract-hardening/_SugarMaple/build/browser-acceptance-ead0f91f-7903-4679-a072-42ef3cecf089.json

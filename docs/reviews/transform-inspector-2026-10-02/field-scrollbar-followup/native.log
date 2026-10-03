@@ -1,0 +1,81 @@
+PASS: actual named NSPasteboard structured/text formats, UTF-8 roundtrip, structured precedence, version-one fallback, rejected malformed/future/Boolean/oversize writes preserve content and invalid structured reads reject
+PASS: real .syrup save/reopen and invalid-write preservation and external-change conflict
+PASS: actual read/fingerprint reject sparse 32 MB + 1 byte and 3 GB checkpoints with explicit unsigned 64-bit size checks
+PASS: real autosave packages, independent documents, title rename, collisions, invalid names, case-only rename, rename undo, migration, restart, external conflict, recovery preservation and corrupt native Open rejection
+PASS: trusted origin/hostname, resource traversal and symlink isolation, package symlink read/write/fingerprint rejection and original-file preservation
+PASS: real native MCP socket, occupied port, private credentials, structured output, typed loading/timeout/disconnected, deterministic 10/s throttle, stop and credential-rotating reconnect
+PASS: unavailable-host stdio returns actionable JSON-RPC error and keeps stdout protocol-clean
+PASS: generated SwiftUI serif, monospaced, tracking and multiline alignment consumer compiles against the actual SDK
+implicit-relative: native ink 5676, SVG ink 5676, overlap 1.0, difference 0.0
+horizontal-vertical: native ink 2880, SVG ink 2880, overlap 1.0, difference 0.0
+cubic-smooth: native ink 2083, SVG ink 2122, overlap 0.9667913938260057, difference 0.0304022450888681
+quadratic-smooth: native ink 1986, SVG ink 2034, overlap 0.9648093841642229, difference 0.015640273704789834
+smooth-reset: native ink 2680, SVG ink 2734, overlap 0.9730320699708455, difference 0.01348396501457726
+arc-small: native ink 1395, SVG ink 1430, overlap 0.9672701949860725, difference 0.027855153203342618
+arc-large: native ink 1389, SVG ink 1430, overlap 0.9685754189944135, difference 0.023743016759776536
+arc-other-sweep: native ink 1389, SVG ink 1430, overlap 0.9685754189944135, difference 0.023743016759776536
+arc-other-large: native ink 1395, SVG ink 1430, overlap 0.9672701949860725, difference 0.027855153203342618
+arc-radii-corrected: native ink 1889, SVG ink 1902, overlap 0.9713988559542381, difference 0.01612064482579303
+arc-degenerate: native ink 1186, SVG ink 1144, overlap 0.9645868465430016, difference 0.0
+compact-flags: native ink 1395, SVG ink 1430, overlap 0.9672701949860725, difference 0.027855153203342618
+compound-nonzero: native ink 27240, SVG ink 27240, overlap 1.0, difference 0.0
+viewbox-origin: native ink 15794, SVG ink 15794, overlap 1.0, difference 0.0
+anisotropic-stroke: native ink 4742, SVG ink 4710, overlap 0.9815513626834381, difference 0.012368972746331237
+acute-miter: native ink 7130, SVG ink 7196, overlap 0.9905516187300264, difference 0.00013894678338196472
+clipping-opacity: native ink 17492, SVG ink 17518, overlap 0.998515812307341, difference 0.0
+line: native ink 1546, SVG ink 1551, overlap 0.996776273372018, difference 0.0
+arrow: native ink 2188, SVG ink 2221, overlap 0.985141828005403, difference 0.0009004952723998199
+path: native ink 2417, SVG ink 2417, overlap 1.0, difference 0.0
+freehand: native ink 1882, SVG ink 1883, overlap 0.9984076433121019, difference 0.006369426751592357
+empty-path: native ink 0, SVG ink 0, overlap 0.0, difference 0.0
+nested-placement: native ink 10480, SVG ink 10530, overlap 0.9952516619183286, difference 0.0
+PASS: 23 standalone SwiftUI vector fixtures compile against macOS 14 and render against actual WKWebView SVG references
+PASS: actual SwiftUI TextField/SecureField, email hint, initial values, disabled state and accessibility names consumer compiles
+tools/native-preview-test.swift:73:18: warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+71 |         precondition(child.closed && closeCount == 2)
+72 |         var detached: PreviewWindow? = try PreviewWindow(value:value,resources:resources,owner:nil) { _ in }
+73 |         weak var released = detached
+   |                  `- warning: weak variable 'released' was never mutated; consider changing to 'let' constant [#VariableNeverMutated::WeakMutability]
+74 |         detached?.close(); detached = nil
+75 |         try await Task.sleep(for:.milliseconds(200))
+
+[#VariableNeverMutated]: <https://docs.swift.org/compiler/documentation/diagnostics/variable-never-mutated>
+[#WeakMutability]: <https://docs.swift.org/compiler/documentation/diagnostics/weak-mutability>
+PASS: actual isolated WKWebView, offline bundled fonts, no authoring bridge/store, rejected file command/navigation, live scene with retained ephemeral input, overlays/navigation/reset, idempotent close and disposed renderer
+PASS: actual .syrup save/reopen retains one shared image and complete journal; native NSImage decodes embedded bytes; isolated bundled WKWebView renders two imported images/text/input values
+PASS: generated self-contained SwiftUI Repeat Grid consumer compiles and renders, shared embedded bytes decode once; actual native checkpoint reopens with one-batch undo/redo
+PASS: explicit SwiftUI Button/TextField/VStack mappings compile against the macOS 14 API baseline and render through actual NSHostingView
+PASS: fresh visible WKWebView production Canvas transform keyboard/geometry acceptance; /Users/riabuz/.codex/worktrees/mcp-contract-hardening/_SugarMaple/build/native-web-copy/report.json
+PASS: seven production WK handoff fragment/subtree/token/font/action/inspector checks with unchanged source/history; no OS clipboard claim
+PASS: fresh visible WKWebView production Canvas transform keyboard/geometry acceptance; /Users/riabuz/.codex/worktrees/mcp-contract-hardening/_SugarMaple/build/native-inspector-layout/report.json
+PASS: production WK Transform icon/field/select legibility at 260/320/420px and exact checkpoint preservation
+PASS: fresh visible WKWebView production Canvas transform keyboard/geometry acceptance; /Users/riabuz/.codex/worktrees/mcp-contract-hardening/_SugarMaple/build/native-library-diagnostics/report.json
+PASS: 10 production WKWebView library semantic/package/variant/property/target diagnostics, source paint/history, exact undo/reset and Developer read-only state
+PASS: fresh visible WKWebView production Canvas transform keyboard/geometry acceptance; /Users/riabuz/.codex/worktrees/mcp-contract-hardening/_SugarMaple/build/native-scene-border/report.json
+PASS: five production WKWebView Canvas/semantic/HTML/CSS free/stack/grid fractional-border geometry and undo cases at unchanged .1-point tolerance
+PASS: trusted sandboxed SwiftUI renders real controls, denies private host canary, rejects unsupported variants and superseded replies
+PASS: real native authored scenes, geometry, nested slots, overrides, undo/reset and independent helper validation
+PASS: actual CPU, wall, sampled RSS and output limits terminate owned processes; runtime/build cancellation cleans up without publishing stale output
+PASS: fresh visible WKWebView production Canvas transform keyboard/geometry acceptance; /Users/riabuz/.codex/worktrees/mcp-contract-hardening/_SugarMaple/build/native-canvas-transforms/report.json
+PASS: 18 production WKWebView resize/rotation keyboard cases, zoom 0.5/1.5, independent pinned-anchor geometry, inherited locks/visibility and exact undo
+PASS: fresh visible WKWebView production Canvas transform keyboard/geometry acceptance; /Users/riabuz/.codex/worktrees/mcp-contract-hardening/_SugarMaple/build/native-canvas-placement/report.json
+PASS: 16 production WKWebView alignment/distribution DOM cases, zoom 0.5/1.5, independent rotated geometry, locked ancestors, snapping preference without history, exact undo and no console errors
+PASS: fresh visible WKWebView production Canvas transform keyboard/geometry acceptance; /Users/riabuz/.codex/worktrees/mcp-contract-hardening/_SugarMaple/build/native-canvas-reparent/report.json
+PASS: 12 production WKWebView reparent preview/cancel/apply cases, rotated geometry, responsive sizing, layout rules, stale preview cancellation, inherited guards and exact undo at zoom 0.5/1.5
+PASS: actual isolated native MCP discovers and returns classes/declarations/complete-CSS exports with SDK-valid prerequisites and unchanged source
+PASS: actual isolated native Sugar Maple MCP on 48494, nested transformed Canvas layout, selection/capture, exact atomic undo/redo and durable checkpoint
+PASS: fresh visible WKWebView production Canvas transform keyboard/geometry acceptance; /Users/riabuz/.codex/worktrees/mcp-contract-hardening/_SugarMaple/build/native-lock-editing/report.json
+PASS: 12 production WKWebView inherited-lock controls/DOM keyboard cases, atomic deletion, explicit visibility/unlock, read-only mode routing and exact undo; OS input and VoiceOver are separate
+PASS: fresh visible WKWebView production Canvas transform keyboard/geometry acceptance; /Users/riabuz/.codex/worktrees/mcp-contract-hardening/_SugarMaple/build/native-canvas-drawing/report.json
+PASS: 20 production WK drawing/control cases, synchronous host-camera handoffs and zoom 0.5/1.5, pressure outlines, polyline completion, draft/capture guard, stale/locked/layout rejection and exact undo; DOM pointer events use a local capture shim and do not prove OS capture
+PASS: fresh visible WKWebView production Canvas transform keyboard/geometry acceptance; /Users/riabuz/.codex/worktrees/mcp-contract-hardening/_SugarMaple/build/repeat-handles/native-report.json
+PASS: 19 production WK Repeat Grid control/data/history cases; synthetic DOM pointer IDs use a local capture shim
+PASS: fresh visible WKWebView production Canvas transform keyboard/geometry acceptance; /Users/riabuz/.codex/worktrees/mcp-contract-hardening/_SugarMaple/build/repeat-drops/native-report.json
+PASS: 12 production WK Repeat Grid file/drop/folder mapping/import/history cases; directory entries are fixtures
+PASS: fresh visible WKWebView production Canvas transform keyboard/geometry acceptance; /Users/riabuz/.codex/worktrees/mcp-contract-hardening/_SugarMaple/build/native-text-editing/report.json
+PASS: 12 production WK textarea/caret/ownership, synthetic composition ordering, capture/agent/history guards, cancellation and exact undo; hardware IME and OS input require separate evidence
+PASS: actual isolated native MCP explicit editing with a locked ancestor, exact undo/redo and durable capture/checkpoint
+PASS: actual native MCP canonical line/arrow/path/freehand, exact SVG data, projected geometry, atomic undo/redo and durable capture/checkpoint
+PASS: actual isolated native MCP nodes.reparent, rotated geometry, strict SDK schemas, stale/no-op/cycle checks, explicit flow mode, exact undo and durable capture/checkpoint
+PASS: actual isolated native MCP discovers and returns classes/declarations/complete-CSS exports with SDK-valid prerequisites and unchanged source
+PASS: actual native MCP Repeat Grid gap/count/top-left, rotated geometry, imported data, atomic rejection/undo/redo and durable capture

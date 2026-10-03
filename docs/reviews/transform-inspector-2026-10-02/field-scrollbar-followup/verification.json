@@ -1,0 +1,10 @@
+{
+  "runtime": "55a52de142741397b109a7045b83ef93b851963c",
+  "screenshotsTestedAt": "6da814ed945016dcafe247be2c7e5a0703dc90d8",
+  "mainBase": "fc847d498e1e70149c02aedf5e3b9c50a71b6b9c",
+  "typecheck": "passed",
+  "macBuild": "passed",
+  "browserSuites": 34,
+  "nativeAcceptance": "passed",
+  "limitsRelaxed": false
+}
