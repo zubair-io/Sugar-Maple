@@ -1,0 +1,319 @@
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	﻿2026-10-03T05:33:57.8757180Z ##[group]Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:33:57.8758120Z ^[[36;1mbun prototypes/library-preview/server-owner-test.ts --trust-native-fixture^[[0m
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:33:57.9275240Z shell: /bin/bash -e {0}
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:33:57.9275710Z ##[endgroup]
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:34:00.3652570Z ❯ Building...
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:34:08.5812440Z ✔ Building...
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:34:08.5887840Z Initial chunk files | Names                       |  Raw size
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:34:08.5888470Z chunk-7ADENOIH.js   | -                           |   1.08 MB | 
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:34:08.5889090Z chunk-RYJRJGB5.js   | -                           | 177.91 kB | 
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:34:08.5889470Z main.js             | main                        |  46.56 kB | 
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:34:08.5889880Z styles.css          | styles                      |  32.19 kB | 
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:34:08.5890140Z 
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:34:08.5890290Z                     | Initial total               |   1.34 MB
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:34:08.5890530Z 
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:34:08.5891120Z Lazy chunk files    | Names                       |  Raw size
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:34:08.5891540Z chunk-UWS7WLSX.js   | app                         | 999.22 kB | 
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:34:08.5896530Z chunk-YI6HXPHN.js   | -                           | 733.10 kB | 
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:34:08.5896980Z chunk-SCS773PE.js   | -                           | 197.52 kB | 
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:34:08.5897430Z chunk-SZGVJNJ5.js   | sugar-maple-chrome-specimen |  24.71 kB | 
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:34:08.5897830Z chunk-VI67GQO7.js   | preview-application         |   6.51 kB | 
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:34:08.5898140Z 
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:34:08.5898380Z Application bundle generation complete. [8.229 seconds] - 2026-10-03T05:34:08.580Z
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:34:08.5898710Z 
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:34:08.6051790Z Watch mode enabled. Watching for file changes...
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:34:08.6061300Z NOTE: Raw file sizes do not reflect development server per-request transformations.
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:34:08.6849240Z   ^[[32m➜^[[39m  ^[[1mLocal^[[22m:   ^[[36mhttp://127.0.0.1:^[[1m49755^[[22m/^[[39m
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:34:08.7744400Z Owned source checkout editor: http://127.0.0.1:49755; process group 28538
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:34:08.7745800Z Comparison stage starting: tools/library-consumer.ts
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:34:08.8296530Z Owned comparison stage group: 28866
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:34:12.6419710Z 
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:34:12.6421370Z added 35 packages, and audited 36 packages in 3s
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:34:12.6422450Z 
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:34:12.6423260Z 8 packages are looking for funding
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:34:12.6424290Z   run `npm fund` for details
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:34:12.6425040Z 
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:34:12.6425550Z found 0 vulnerabilities
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:34:24.4538280Z PASS: exact Web Awesome 3.14.0 declarations compile; generated Button/Input/Card imports bundle and render offline with real shadow controls, values, slots and declared card spacing
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:34:24.4844920Z Comparison stage completed: tools/library-consumer.ts; exit 0; elapsed 15696 ms
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:34:24.4945310Z Comparison stage starting: tools/library-preview-acceptance.ts
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:34:24.5148830Z Owned comparison stage group: 29652
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:34:24.5249010Z bun test v1.4.2 (744846f84)
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:34:27.0716180Z {"passed":true,"package":{"name":"@awesome.me/webawesome","version":"3.14.0"},"hashes":{"runtime.js":{"bytes":280845,"sha256":"93082769edb42285947792aed7df06fb85d8d09003f1fe71ee62e7a7268288e8"},"runtime.css":{"bytes":155312,"sha256":"f15ad9222cd24a7a5d24b52ad66f3e8520ee259b11a7215a2beb157208cd4cae"},"host.js":{"bytes":103254,"sha256":"dd1f3116145b33e3910519fc68d57f37fea759ec8678b4457fea071ec520ac41"},"host.css":{"bytes":2228,"sha256":"a24540b648d3e441dc8d5daff81c490da0b96b516402398f7a2169fd665fc9b4"},"semantic.html":{"bytes":3050,"sha256":"9aab368f9a08fdfe8ed1a6448e49b4b82858a736798b1ce9fe5fb81e44b22129"},"fixture.json":{"bytes":23547,"sha256":"fc2302108f347a64e35fc4962f2342855743ad434dc97fb6d4110f57b0c924d5"}}}
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:34:27.5076400Z PASS: browser-test.ts stops its server when the browser launch boundary throws
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:34:27.8963430Z PASS: browser-test.ts stops its server when the browser close boundary throws
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:34:28.4912100Z PASS: compare.ts stops its server when the browser launch boundary throws
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:34:29.0040440Z PASS: compare.ts stops its server when the browser close boundary throws
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:34:29.5394610Z PASS: scene-compare.ts stops its server when the browser launch boundary throws
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:34:30.1152220Z PASS: scene-compare.ts stops its server when the browser close boundary throws
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:34:30.5385910Z PASS: report-test.ts stops its server when the browser launch boundary throws
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:34:30.9302350Z PASS: report-test.ts stops its server when the browser close boundary throws
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:34:40.5905860Z PASS: isolated real Web Awesome controls, typed props/events, denied parent/storage/network/bridge, stale rejection, malformed input, opt-in/stop and offline rendering
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:34:52.6872800Z PASS: authored geometry and actual package slots/variants/token/overrides, accessible typed events, ephemeral update/undo/reset, disabled/rejection/stop and offline scene rendering
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:34:53.5001610Z Comparison stage completed: tools/library-preview-acceptance.ts; exit 0; elapsed 29007 ms
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:34:53.5102050Z Comparison stage starting: prototypes/library-preview/native-stop-failure-test.ts
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:34:53.5302920Z Owned comparison stage group: 31380
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:35:57.7801650Z PASS: complete actual comparison exits naturally after native shutdown failure; real leaked listener fails the unchanged 30-second cleanup deadline
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:35:57.7809940Z Comparison stage completed: prototypes/library-preview/native-stop-failure-test.ts; exit 0; elapsed 64244 ms
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:35:57.7812080Z Comparison stage starting: prototypes/library-preview/compare.ts
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:35:57.8112370Z Owned comparison stage group: 36443
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:15.7489770Z Comparison native phase: building trusted fixture
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:25.0808760Z Comparison native phase: trusted build completed
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:25.7521240Z Comparison native phase: sandboxed helper ready
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:28.1260260Z PASS: real Canvas/DOM fixture geometry and inspector undo; actual DOM input, package typed events and native rendered consumers; four pipeline timings and asset costs recorded
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:28.8557290Z Comparison stage completed: prototypes/library-preview/compare.ts; exit 0; elapsed 31063 ms
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:28.8568800Z Comparison stage starting: run
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:28.8853830Z Owned comparison stage group: 39200
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:30.3490140Z ❯ Building...
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:44.6152860Z ✔ Building...
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:44.6291310Z Initial chunk files | Names                       |  Raw size | Estimated transfer size
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:44.6451810Z main-HPFHS2DB.js    | main                        | 179.77 kB |                52.46 kB
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:44.6557730Z styles-DOXCDFZJ.css | styles                      |  28.04 kB |                 4.86 kB
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:44.6669560Z 
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:44.6674410Z                     | Initial total               | 207.81 kB |                57.32 kB
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:44.6682420Z 
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:44.6789910Z Lazy chunk files    | Names                       |  Raw size | Estimated transfer size
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:44.6793610Z chunk-DCO0SH03.js   | -                           | 409.22 kB |                82.88 kB
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:44.6809630Z chunk-Cz1-Tqwr.js   | app                         | 365.86 kB |                89.17 kB
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:44.6810540Z chunk-C_WAb3-s.js   | -                           |  55.97 kB |                13.86 kB
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:44.6812180Z chunk-1oBN_YKc.js   | sugar-maple-chrome-specimen |   7.72 kB |                 2.39 kB
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:44.6813570Z chunk-BQAEV2lw.js   | preview-application         |   2.50 kB |                 1.11 kB
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:44.6814730Z 
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:44.6817570Z Application bundle generation complete. [14.257 seconds] - 2026-10-03T05:36:44.612Z
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:44.6818410Z 
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:44.6819370Z Output location: /Users/runner/work/Sugar-Maple/Sugar-Maple/src/web/dist/sugar-maple-editor
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:44.6830540Z 
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:47.2423960Z Comparison stage completed: run; exit 0; elapsed 18377 ms
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:47.2425120Z Comparison stage starting: prototypes/library-preview/package-cost.ts
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:47.2678780Z Owned comparison stage group: 40113
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:51.9050620Z {"editor":{"raw":1662735,"gzip":888298,"brotli":840565},"library":{"files":[{"name":"runtime.js","raw":280845,"gzip":73072,"brotli":61690,"sha256":"93082769edb42285947792aed7df06fb85d8d09003f1fe71ee62e7a7268288e8"},{"name":"runtime.css","raw":155312,"gzip":16517,"brotli":11061,"sha256":"f15ad9222cd24a7a5d24b52ad66f3e8520ee259b11a7215a2beb157208cd4cae"}],"raw":436157,"gzip":89589,"brotli":72751},"host":{"raw":105482,"brotli":25538},"semantic":{"files":[{"name":"semantic.html","raw":3050,"gzip":691,"brotli":457,"sha256":"9aab368f9a08fdfe8ed1a6448e49b4b82858a736798b1ce9fe5fb81e44b22129"}],"raw":3050,"gzip":691,"brotli":457}}
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:51.9059630Z Comparison stage completed: prototypes/library-preview/package-cost.ts; exit 0; elapsed 4659 ms
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:51.9100460Z Comparison stage starting: prototypes/library-preview/comparison-report.ts
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:51.9356280Z Owned comparison stage group: 40549
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:51.9358630Z Wrote source-bound real-library comparison report
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:51.9359460Z Comparison stage completed: prototypes/library-preview/comparison-report.ts; exit 0; elapsed 33 ms
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:51.9360140Z Comparison stage starting: prototypes/library-preview/report-test.ts
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:51.9552330Z Owned comparison stage group: 40558
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.1413340Z PASS: comparison report renders all four real images and supports path/column controls
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.7517960Z Comparison stage completed: prototypes/library-preview/report-test.ts; exit 0; elapsed 5813 ms
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9181520Z 115 |             throw Error(
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9234940Z 116 |               "Owned comparison process identity changed; refusing to signal group " +
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9238370Z 52 |     }
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9239760Z 117 |                 group,
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9240830Z 53 |   });
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9308530Z 54 |   const code = await child.exited;
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9308870Z 118 |             );
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9311050Z 55 |   await Promise.all(drains);
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9311520Z 119 |           try {
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9312110Z 56 |   await writer.end();
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9312990Z 120 |             process.kill(-group, "SIGKILL");
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9318190Z 57 |   assert.equal(code, 0, await Bun.file(log).text());
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9319730Z       ^
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9320850Z               ^
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9322310Z SystemError: kill() failed: EPERM: Operation not permitted
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9328290Z AssertionError: ❯ Building...
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9329220Z  syscall: "kill",
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9331420Z ✔ Building...
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9332140Z    errno: 1,
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9333330Z Initial chunk files | Names                       |  Raw size
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9334120Z     code: "EPERM"
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9334980Z chunk-7ADENOIH.js   | -                           |   1.08 MB | 
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9335560Z 
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9336380Z chunk-RYJRJGB5.js   | -                           | 177.91 kB | 
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9337770Z       at kill (unknown:1:1)
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9339250Z main.js             | main                        |  46.56 kB | 
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9340140Z       at cleanup (/Users/runner/work/Sugar-Maple/Sugar-Maple/prototypes/library-preview/native/process-registry.ts:120:21)
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9341040Z styles.css          | styles                      |  32.19 kB | 
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9341970Z       at runComparison (/Users/runner/work/Sugar-Maple/Sugar-Maple/tools/library-preview-comparison.ts:186:37)
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9342640Z 
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9342770Z       at processTicksAndRejections (unknown:7:39)
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9345140Z                     | Initial total               |   1.34 MB
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9348320Z 
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9348600Z 
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9397190Z ##[error]
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	      at kill (unknown:1:1)
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	      at cleanup (/Users/runner/work/Sugar-Maple/Sugar-Maple/prototypes/library-preview/native/process-registry.ts:120:21)
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	      at runComparison (/Users/runner/work/Sugar-Maple/Sugar-Maple/tools/library-preview-comparison.ts:186:37)
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	      at processTicksAndRejections (unknown:7:39)
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9408790Z Lazy chunk files    | Names                       |  Raw size
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9409420Z 
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9410220Z chunk-UWS7WLSX.js   | app                         | 999.22 kB | 
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9413020Z Bun v1.4.2 (macOS arm64)
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9414810Z chunk-YI6HXPHN.js   | -                           | 733.10 kB | 
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9415280Z chunk-SCS773PE.js   | -                           | 197.52 kB | 
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9418280Z chunk-SZGVJNJ5.js   | sugar-maple-chrome-specimen |  24.71 kB | 
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9420390Z chunk-VI67GQO7.js   | preview-application         |   6.51 kB | 
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9421550Z 
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9422940Z Application bundle generation complete. [8.229 seconds] - 2026-10-03T05:34:08.580Z
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9425830Z 
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9426720Z Watch mode enabled. Watching for file changes...
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9428630Z NOTE: Raw file sizes do not reflect development server per-request transformations.
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9433100Z   ^[[32m➜^[[39m  ^[[1mLocal^[[22m:   ^[[36mhttp://127.0.0.1:^[[1m49755^[[22m/^[[39m
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9434070Z Owned source checkout editor: http://127.0.0.1:49755; process group 28538
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9434610Z Comparison stage starting: tools/library-consumer.ts
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9435040Z Owned comparison stage group: 28866
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9435300Z 
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9436560Z added 35 packages, and audited 36 packages in 3s
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9437600Z 
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9438140Z 8 packages are looking for funding
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9439060Z   run `npm fund` for details
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9439780Z 
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9440280Z found 0 vulnerabilities
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9442660Z PASS: exact Web Awesome 3.14.0 declarations compile; generated Button/Input/Card imports bundle and render offline with real shadow controls, values, slots and declared card spacing
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9445500Z Comparison stage completed: tools/library-consumer.ts; exit 0; elapsed 15696 ms
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9447620Z Comparison stage starting: tools/library-preview-acceptance.ts
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9449230Z Owned comparison stage group: 29652
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9450960Z bun test v1.4.2 (744846f84)
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9457080Z {"passed":true,"package":{"name":"@awesome.me/webawesome","version":"3.14.0"},"hashes":{"runtime.js":{"bytes":280845,"sha256":"93082769edb42285947792aed7df06fb85d8d09003f1fe71ee62e7a7268288e8"},"runtime.css":{"bytes":155312,"sha256":"f15ad9222cd24a7a5d24b52ad66f3e8520ee259b11a7215a2beb157208cd4cae"},"host.js":{"bytes":103254,"sha256":"dd1f3116145b33e3910519fc68d57f37fea759ec8678b4457fea071ec520ac41"},"host.css":{"bytes":2228,"sha256":"a24540b648d3e441dc8d5daff81c490da0b96b516402398f7a2169fd665fc9b4"},"semantic.html":{"bytes":3050,"sha256":"9aab368f9a08fdfe8ed1a6448e49b4b82858a736798b1ce9fe5fb81e44b22129"},"fixture.json":{"bytes":23547,"sha256":"fc2302108f347a64e35fc4962f2342855743ad434dc97fb6d4110f57b0c924d5"}}}
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9463330Z PASS: browser-test.ts stops its server when the browser launch boundary throws
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9465970Z PASS: browser-test.ts stops its server when the browser close boundary throws
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9466590Z PASS: compare.ts stops its server when the browser launch boundary throws
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9467280Z PASS: compare.ts stops its server when the browser close boundary throws
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9468020Z PASS: scene-compare.ts stops its server when the browser launch boundary throws
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9469120Z PASS: scene-compare.ts stops its server when the browser close boundary throws
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9471720Z PASS: report-test.ts stops its server when the browser launch boundary throws
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9473340Z PASS: report-test.ts stops its server when the browser close boundary throws
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9476560Z PASS: isolated real Web Awesome controls, typed props/events, denied parent/storage/network/bridge, stale rejection, malformed input, opt-in/stop and offline rendering
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9480690Z PASS: authored geometry and actual package slots/variants/token/overrides, accessible typed events, ephemeral update/undo/reset, disabled/rejection/stop and offline scene rendering
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9483390Z Comparison stage completed: tools/library-preview-acceptance.ts; exit 0; elapsed 29007 ms
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9485030Z Comparison stage starting: prototypes/library-preview/native-stop-failure-test.ts
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9486210Z Owned comparison stage group: 31380
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9491550Z PASS: complete actual comparison exits naturally after native shutdown failure; real leaked listener fails the unchanged 30-second cleanup deadline
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9492640Z Comparison stage completed: prototypes/library-preview/native-stop-failure-test.ts; exit 0; elapsed 64244 ms
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9494600Z Comparison stage starting: prototypes/library-preview/compare.ts
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9495210Z Owned comparison stage group: 36443
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9495690Z Comparison native phase: building trusted fixture
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9496210Z Comparison native phase: trusted build completed
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9496620Z Comparison native phase: sandboxed helper ready
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9497400Z PASS: real Canvas/DOM fixture geometry and inspector undo; actual DOM input, package typed events and native rendered consumers; four pipeline timings and asset costs recorded
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9498570Z Comparison stage completed: prototypes/library-preview/compare.ts; exit 0; elapsed 31063 ms
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9499300Z Comparison stage starting: run
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9499690Z Owned comparison stage group: 39200
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9502410Z ❯ Building...
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9505830Z ✔ Building...
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9506400Z Initial chunk files | Names                       |  Raw size | Estimated transfer size
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9507340Z main-HPFHS2DB.js    | main                        | 179.77 kB |                52.46 kB
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9509810Z styles-DOXCDFZJ.css | styles                      |  28.04 kB |                 4.86 kB
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9510550Z 
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9511120Z                     | Initial total               | 207.81 kB |                57.32 kB
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9511870Z 
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9512840Z Lazy chunk files    | Names                       |  Raw size | Estimated transfer size
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9514110Z chunk-DCO0SH03.js   | -                           | 409.22 kB |                82.88 kB
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9516070Z chunk-Cz1-Tqwr.js   | app                         | 365.86 kB |                89.17 kB
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9517770Z chunk-C_WAb3-s.js   | -                           |  55.97 kB |                13.86 kB
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9519320Z chunk-1oBN_YKc.js   | sugar-maple-chrome-specimen |   7.72 kB |                 2.39 kB
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9520760Z chunk-BQAEV2lw.js   | preview-application         |   2.50 kB |                 1.11 kB
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9521730Z 
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9522400Z Application bundle generation complete. [14.257 seconds] - 2026-10-03T05:36:44.612Z
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9523450Z 
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9524300Z Output location: /Users/runner/work/Sugar-Maple/Sugar-Maple/src/web/dist/sugar-maple-editor
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9525330Z 
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9525660Z Comparison stage completed: run; exit 0; elapsed 18377 ms
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9527150Z Comparison stage starting: prototypes/library-preview/package-cost.ts
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9528410Z Owned comparison stage group: 40113
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9533380Z {"editor":{"raw":1662735,"gzip":888298,"brotli":840565},"library":{"files":[{"name":"runtime.js","raw":280845,"gzip":73072,"brotli":61690,"sha256":"93082769edb42285947792aed7df06fb85d8d09003f1fe71ee62e7a7268288e8"},{"name":"runtime.css","raw":155312,"gzip":16517,"brotli":11061,"sha256":"f15ad9222cd24a7a5d24b52ad66f3e8520ee259b11a7215a2beb157208cd4cae"}],"raw":436157,"gzip":89589,"brotli":72751},"host":{"raw":105482,"brotli":25538},"semantic":{"files":[{"name":"semantic.html","raw":3050,"gzip":691,"brotli":457,"sha256":"9aab368f9a08fdfe8ed1a6448e49b4b82858a736798b1ce9fe5fb81e44b22129"}],"raw":3050,"gzip":691,"brotli":457}}
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9540370Z Comparison stage completed: prototypes/library-preview/package-cost.ts; exit 0; elapsed 4659 ms
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9542350Z Comparison stage starting: prototypes/library-preview/comparison-report.ts
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9543540Z Owned comparison stage group: 40549
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9544740Z Wrote source-bound real-library comparison report
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9546610Z Comparison stage completed: prototypes/library-preview/comparison-report.ts; exit 0; elapsed 33 ms
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9548290Z Comparison stage starting: prototypes/library-preview/report-test.ts
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9549810Z Owned comparison stage group: 40558
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9552100Z PASS: comparison report renders all four real images and supports path/column controls
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9553690Z Comparison stage completed: prototypes/library-preview/report-test.ts; exit 0; elapsed 5813 ms
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9555170Z 115 |             throw Error(
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9556280Z 116 |               "Owned comparison process identity changed; refusing to signal group " +
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9557230Z 117 |                 group,
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9557650Z 118 |             );
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9557910Z 119 |           try {
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9558820Z 120 |             process.kill(-group, "SIGKILL");
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9559260Z       ^
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9559590Z SystemError: kill() failed: EPERM: Operation not permitted
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9560140Z  syscall: "kill",
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9560440Z    errno: 1,
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9562350Z     code: "EPERM"
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9563050Z 
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9564260Z       at kill (unknown:1:1)
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9564940Z       at cleanup (/Users/runner/work/Sugar-Maple/Sugar-Maple/prototypes/library-preview/native/process-registry.ts:120:21)
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9565840Z       at runComparison (/Users/runner/work/Sugar-Maple/Sugar-Maple/tools/library-preview-comparison.ts:186:37)
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9566620Z       at processTicksAndRejections (unknown:7:39)
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9566850Z 
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9573240Z ##[error]
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	      at kill (unknown:1:1)
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	      at cleanup (/Users/runner/work/Sugar-Maple/Sugar-Maple/prototypes/library-preview/native/process-registry.ts:120:21)
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	      at runComparison (/Users/runner/work/Sugar-Maple/Sugar-Maple/tools/library-preview-comparison.ts:186:37)
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	      at processTicksAndRejections (unknown:7:39)
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9576350Z 
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9576630Z Bun v1.4.2 (macOS arm64)
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9576800Z 
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9576800Z 
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9577180Z 1 !== 0
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9577460Z 
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9577600Z  generatedMessage: false,
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9577960Z      actual: 1,
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9578460Z    expected: 0,
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9579450Z    operator: "strictEqual",
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9581790Z        diff: "simple",
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9582090Z        code: "ERR_ASSERTION"
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9582540Z 
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9583080Z       at /Users/runner/work/Sugar-Maple/Sugar-Maple/prototypes/library-preview/server-owner-test.ts:57:10
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9583560Z 
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9623700Z ##[error]Initial chunk files | Names                       |  Raw size
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	chunk-7ADENOIH.js   | -                           |   1.08 MB | 
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	chunk-RYJRJGB5.js   | -                           | 177.91 kB | 
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	main.js             | main                        |  46.56 kB | 
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	styles.css          | styles                      |  32.19 kB | 
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	                    | Initial total               |   1.34 MB
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	Lazy chunk files    | Names                       |  Raw size
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	chunk-UWS7WLSX.js   | app                         | 999.22 kB | 
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	chunk-YI6HXPHN.js   | -                           | 733.10 kB | 
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	chunk-SCS773PE.js   | -                           | 197.52 kB | 
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	chunk-SZGVJNJ5.js   | sugar-maple-chrome-specimen |  24.71 kB | 
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	chunk-VI67GQO7.js   | preview-application         |   6.51 kB | 
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	Application bundle generation complete. [8.229 seconds] - 2026-10-03T05:34:08.580Z
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	Watch mode enabled. Watching for file changes...
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	NOTE: Raw file sizes do not reflect development server per-request transformations.
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	  ➜  Local:   http://127.0.0.1:49755/
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	Owned source checkout editor: http://127.0.0.1:49755; process group 28538
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	Comparison stage starting: tools/library-consumer.ts
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	Owned comparison stage group: 28866
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	added 35 packages, and audited 36 packages in 3s
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	8 packages are looking for funding
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	  run `npm fund` for details
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	found 0 vulnerabilities
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	PASS: exact Web Awesome 3.14.0 declarations compile; generated Button/Input/Card imports bundle and render offline with real shadow controls, values, slots and declared card spacing
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	Comparison stage completed: tools/library-consumer.ts; exit 0; elapsed 15696 ms
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	Comparison stage starting: tools/library-preview-acceptance.ts
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	Owned comparison stage group: 29652
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	bun test v1.4.2 (744846f84)
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	{"passed":true,"package":{"name":"@awesome.me/webawesome","version":"3.14.0"},"hashes":{"runtime.js":{"bytes":280845,"sha256":"93082769edb42285947792aed7df06fb85d8d09003f1fe71ee62e7a7268288e8"},"runtime.css":{"bytes":155312,"sha256":"f15ad9222cd24a7a5d24b52ad66f3e8520ee259b11a7215a2beb157208cd4cae"},"host.js":{"bytes":103254,"sha256":"dd1f3116145b33e3910519fc68d57f37fea759ec8678b4457fea071ec520ac41"},"host.css":{"bytes":2228,"sha256":"a24540b648d3e441dc8d5daff81c490da0b96b516402398f7a2169fd665fc9b4"},"semantic.html":{"bytes":3050,"sha256":"9aab368f9a08fdfe8ed1a6448e49b4b82858a736798b1ce9fe5fb81e44b22129"},"fixture.json":{"bytes":23547,"sha256":"fc2302108f347a64e35fc4962f2342855743ad434dc97fb6d4110f57b0c924d5"}}}
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	PASS: browser-test.ts stops its server when the browser launch boundary throws
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	PASS: browser-test.ts stops its server when the browser close boundary throws
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	PASS: compare.ts stops its server when the browser launch boundary throws
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	PASS: compare.ts stops its server when the browser close boundary throws
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	PASS: scene-compare.ts stops its server when the browser launch boundary throws
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	PASS: scene-compare.ts stops its server when the browser close boundary throws
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	PASS: report-test.ts stops its server when the browser launch boundary throws
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	PASS: report-test.ts stops its server when the browser close boundary throws
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	PASS: isolated real Web Awesome controls, typed props/events, denied parent/storage/network/bridge, stale rejection, malformed input, opt-in/stop and offline rendering
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	PASS: authored geometry and actual package slots/variants/token/overrides, accessible typed events, ephemeral update/undo/reset, disabled/rejection/stop and offline scene rendering
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	Comparison stage completed: tools/library-preview-acceptance.ts; exit 0; elapsed 29007 ms
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	Comparison stage starting: prototypes/library-preview/native-stop-failure-test.ts
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	Owned comparison stage group: 31380
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	PASS: complete actual comparison exits naturally after native shutdown failure; real leaked listener fails the unchanged 30-second cleanup deadline
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	Comparison stage completed: prototypes/library-preview/native-stop-failure-test.ts; exit 0; elapsed 64244 ms
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	Comparison stage starting: prototypes/library-preview/compare.ts
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	Owned comparison stage group: 36443
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	Comparison native phase: building trusted fixture
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	Comparison native phase: trusted build completed
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	Comparison native pha
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9645530Z 
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9645680Z Bun v1.4.2 (macOS arm64)
+macos	Run bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture	2026-10-03T05:36:57.9663420Z ##[error]Process completed with exit code 1.

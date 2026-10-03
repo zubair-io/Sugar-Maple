@@ -1,0 +1,7 @@
+{
+  "passed": true,
+  "seededBytes": 300000,
+  "newBytes": 7152,
+  "staleSuffixAbsent": true,
+  "fullLegacyPassed": true
+}

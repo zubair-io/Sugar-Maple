@@ -1,0 +1,32 @@
+{
+  "engine" : "WKWebView",
+  "memory" : {
+    "ownerPeakRSSBytes" : 138641408,
+    "scope" : "This benchmark UI process only; WebKit content\/GPU\/network process memory is not included"
+  },
+  "nativeBridge" : "In-memory benchmark recovery\/status\/autosave only; production native disk\/MCP\/clipboard costs excluded",
+  "os" : "Version 27.0 (Build 26A428)",
+  "result" : {
+    "checks" : 4,
+    "passed" : true,
+    "scope" : "Actual sized production WKWebView, DOM keyboard resizing and stored preference, chrome geometry\/themes\/MCP focus; pointer\/reload are separately tested in Chrome. No physical input or native restart persistence claim.",
+    "states" : [
+      {
+        "canvas" : 540,
+        "height" : 768,
+        "leftVisible" : false,
+        "rightVisible" : true,
+        "theme" : "dark",
+        "width" : 800
+      },
+      {
+        "canvas" : 540,
+        "height" : 768,
+        "leftVisible" : false,
+        "rightVisible" : true,
+        "theme" : "light",
+        "width" : 800
+      }
+    ]
+  }
+}
