@@ -1,0 +1,12 @@
+Native benchmark failed: Error Domain=WKErrorDomain Code=4 "A JavaScript exception occurred" UserInfo={WKJavaScriptExceptionLineNumber=0, WKJavaScriptExceptionMessage=Error: dark: readable active control Snap, WKJavaScriptExceptionColumnNumber=0, NSLocalizedDescription=A JavaScript exception occurred}
+14 |     cwd: root,
+15 |     stdout: "inherit",
+16 |     stderr: "inherit",
+17 |   });
+18 |   if (await child.exited)
+19 |     throw Error("Native chrome theme acceptance failed: " + args[0]);
+               ^
+error: Native chrome theme acceptance failed: /Users/riabuz/.codex/worktrees/mac-build-recovery/_SugarMaple/build/native-chrome-theme/native-chrome-theme
+      at run (/Users/riabuz/.codex/worktrees/mac-build-recovery/_SugarMaple/tools/native-chrome-theme.ts:19:11)
+
+Bun v1.4.2 (macOS arm64)
