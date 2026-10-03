@@ -1,0 +1,19 @@
+{
+  "base": "bd7cba8cc613d2458a1295a90ac0b841885639e3",
+  "source": "aab0ec876aceaeb6187cf04ac37fe314bd5a2b37",
+  "browserSuites": 38,
+  "models": 162,
+  "assertions": 2364,
+  "fullNativePassed": true,
+  "sharedCases": 8,
+  "nativeAppearanceWidths": [
+    260,
+    320,
+    420
+  ],
+  "nativeAppearances": [
+    "light",
+    "dark"
+  ],
+  "scope": "DOM page/tree/prototype/copy/locked/comments/error acceptance in production Chrome and WK; physical native input/VoiceOver and app-restart acceptance remain separate"
+}
