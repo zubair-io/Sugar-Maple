@@ -96,17 +96,12 @@ export class MuiPopoverComponent implements OnDestroy {
         // it and typing filters nothing.
         queueMicrotask(() => this.focusInside());
       } else {
-        if (this.openTimer !== null) {
-          clearTimeout(this.openTimer);
-          this.openTimer = null;
-        }
         this.detachListeners();
       }
     });
   }
 
   ngOnDestroy(): void {
-    if (this.openTimer !== null) clearTimeout(this.openTimer);
     this.detachListeners();
   }
 
@@ -118,12 +113,17 @@ export class MuiPopoverComponent implements OnDestroy {
   }
 
   private attachListeners(): void {
-    if (this.listenersAttached) return;
+    this.openTimer = null;
+    if (!this.open() || this.listenersAttached) return;
     document.addEventListener('click', this.onDocumentClick);
     this.listenersAttached = true;
   }
 
   private detachListeners(): void {
+    if (this.openTimer !== null) {
+      clearTimeout(this.openTimer);
+      this.openTimer = null;
+    }
     document.removeEventListener('click', this.onDocumentClick);
     document.removeEventListener('keydown', this.onDocumentKeydown);
     this.listenersAttached = false;
