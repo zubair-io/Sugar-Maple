@@ -91,7 +91,11 @@ export class DocumentStore {
       nodes: Array.from((this.root.get('nodes') as Y.Map<any>).values()).map((v) => v.toJSON()),
       tokens: (this.root.get('tokens') as Y.Map<string>).toJSON(),
       assets: (this.root.get('assets') as Y.Map<string>).toJSON(),
-      libraries: Object.fromEntries(Array.from((this.root.get('libraries') as Y.Map<Y.Map<unknown>>).entries()).map(([key, value]) => [key, value.toJSON() as SceneDocument['libraries'][string]])),
+      libraries: Object.fromEntries(
+        Array.from((this.root.get('libraries') as Y.Map<Y.Map<unknown>>).entries()).map(
+          ([key, value]) => [key, value.toJSON() as SceneDocument['libraries'][string]],
+        ),
+      ),
     };
   }
   private write(doc: SceneDocument) {
@@ -104,17 +108,28 @@ export class DocumentStore {
     }
     const known = new Set(Object.keys(DocumentSchema.shape));
     const extras = Object.fromEntries(Object.entries(doc).filter(([key]) => !known.has(key)));
-    for (const key of Array.from(metadata.keys())) if (!Object.hasOwn(extras, key)) metadata.delete(key);
+    for (const key of Array.from(metadata.keys()))
+      if (!Object.hasOwn(extras, key)) metadata.delete(key);
     for (const [key, value] of Object.entries(extras))
       if (JSON.stringify(metadata.get(key)) !== JSON.stringify(value)) metadata.set(key, value);
-    for (const key of ['comments', 'folders', 'pages', 'nodes', 'tokens', 'assets', 'libraries'] as const) {
+    for (const key of [
+      'comments',
+      'folders',
+      'pages',
+      'nodes',
+      'tokens',
+      'assets',
+      'libraries',
+    ] as const) {
       let map = this.root.get(key) as Y.Map<any> | undefined;
       if (!map) {
         map = new Y.Map();
         this.root.set(key, map);
       }
       const records =
-        key === 'tokens' || key === 'assets' || key === 'libraries' ? doc[key] : Object.fromEntries(doc[key].map((v) => [v.id, v]));
+        key === 'tokens' || key === 'assets' || key === 'libraries'
+          ? doc[key]
+          : Object.fromEntries(doc[key].map((v) => [v.id, v]));
       for (const k of Array.from(map.keys())) if (!Object.hasOwn(records, k)) map.delete(k);
       for (const [k, value] of Object.entries(records)) {
         if (typeof value === 'string') {
@@ -137,7 +152,12 @@ export class DocumentStore {
     ids: string[];
     transactionId: string;
   } {
-    return { documentId: this.root.get('id') as string, revision: this.revision, ids, transactionId: uid() };
+    return {
+      documentId: this.root.get('id') as string,
+      revision: this.revision,
+      ids,
+      transactionId: uid(),
+    };
   }
   transact(input: unknown, origin: 'human' | 'agent' = 'human') {
     const tx = TransactionSchema.parse(input),
@@ -158,10 +178,31 @@ export class DocumentStore {
     validateDocument(doc);
     const change = delta(before, doc);
     const result = { documentId: doc.id, revision: this.revision + 1, ids, transactionId: uid() };
-    const entry: JournalEntry = { kind: 'edit', origin, delta: change, requestId: tx.requestId, signature, receipt: result };
-    if (tx.operations.some(op => op.type === 'asset.set' || op.type === 'repeat.import' || op.type === 'library.import') &&
-      new TextEncoder().encode(JSON.stringify({ checkpointVersion: 2, document: doc, base: this.base, journal: [...this.journal, entry] }).replace(/\//g, '\\/')).length > 32_000_000)
-      throw Error('Import would exceed the 32 MB saved checkpoint limit; reduce the libraries, images or data');
+    const entry: JournalEntry = {
+      kind: 'edit',
+      origin,
+      delta: change,
+      requestId: tx.requestId,
+      signature,
+      receipt: result,
+    };
+    if (
+      tx.operations.some(
+        (op) =>
+          op.type === 'asset.set' || op.type === 'repeat.import' || op.type === 'library.import',
+      ) &&
+      new TextEncoder().encode(
+        JSON.stringify({
+          checkpointVersion: 2,
+          document: doc,
+          base: this.base,
+          journal: [...this.journal, entry],
+        }).replace(/\//g, '\\/'),
+      ).length > 32_000_000
+    )
+      throw Error(
+        'Import would exceed the 32 MB saved checkpoint limit; reduce the libraries, images or data',
+      );
     this.ydoc.transact(() => this.write(doc), origin);
     this.revision++;
     this.receipts.set(tx.requestId, { signature, result });
@@ -206,7 +247,8 @@ function applyOperation(
   if (applyComposition(doc, op, ids)) return;
   switch (op.type) {
     case 'asset.set':
-      if (Object.hasOwn(doc.assets, op.key) && doc.assets[op.key] !== op.source) throw Error('Image address already has different bytes');
+      if (Object.hasOwn(doc.assets, op.key) && doc.assets[op.key] !== op.source)
+        throw Error('Image address already has different bytes');
       doc.assets[op.key] = op.source;
       break;
     case 'document.rename':
@@ -269,8 +311,15 @@ function applyOperation(
       if (!n) throw Error('Node not found');
       if (n.repeatTemplateId && op.patch.layout !== undefined && op.patch.layout !== 'grid')
         throw Error('Repeat Grid layout stays a grid');
-      if (doc.nodes.some(grid => grid.repeatTemplateId === n.id) && n.hidden &&
-        (op.patch.hidden !== undefined || op.patch.parentId !== undefined || op.patch.repeatIndex !== undefined || op.patch.isComponent !== undefined || op.patch.componentId !== undefined))
+      if (
+        doc.nodes.some((grid) => grid.repeatTemplateId === n.id) &&
+        n.hidden &&
+        (op.patch.hidden !== undefined ||
+          op.patch.parentId !== undefined ||
+          op.patch.repeatIndex !== undefined ||
+          op.patch.isComponent !== undefined ||
+          op.patch.componentId !== undefined)
+      )
         throw Error('The Repeat Grid template stays hidden and attached to its grid');
       if (
         inheritedChild(doc, n) &&
@@ -284,7 +333,12 @@ function applyOperation(
     }
     case 'node.remove':
       if (!doc.nodes.some((n) => n.id === op.id)) throw Error('Node not found');
-      if (doc.nodes.some(grid => grid.repeatTemplateId === op.id && doc.nodes.find(n => n.id === op.id)?.hidden))
+      if (
+        doc.nodes.some(
+          (grid) =>
+            grid.repeatTemplateId === op.id && doc.nodes.find((n) => n.id === op.id)?.hidden,
+        )
+      )
         throw Error('Delete the Repeat Grid rather than its template');
       if (
         inheritedChild(
