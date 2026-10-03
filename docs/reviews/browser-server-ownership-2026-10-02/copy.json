@@ -1,0 +1,19 @@
+{
+  "url": "http://127.0.0.1:54019",
+  "targets": [
+    "html",
+    "angular",
+    "tailwind",
+    "tailwind-classes",
+    "css",
+    "css-declarations",
+    "html-css",
+    "swiftui",
+    "editable",
+    "svg",
+    "web-library",
+    "swift-library"
+  ],
+  "expectedCopy": "true",
+  "passed": true
+}

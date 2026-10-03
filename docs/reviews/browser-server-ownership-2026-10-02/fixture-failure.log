@@ -1,0 +1,26 @@
+Owned browser editor: http://127.0.0.1:55260; checkout /Users/riabuz/.codex/worktrees/mcp-contract-hardening/_SugarMaple; revision 4965fd85b9b556d016ec4b201b5e8c567dd71da3
+Browser source/cleanup report: /Users/riabuz/.codex/worktrees/mcp-contract-hardening/_SugarMaple/build/browser-acceptance-6e45ab34-83ca-46bd-bfe4-5166c83f691b.json
+
+48 |     const cleanup = () => { closed = true; clearTimeout(deadline); clearInterval(monitor); budget.signal?.removeEventListener('abort', abort); };
+49 |     child.once('error', error => { cleanup(); reject(error); });
+50 |     child.once('close', (code, signal) => {
+51 |       cleanup();
+52 |       if (reason) reject(Error(reason));
+53 |       else if (code !== 0) reject(Error(`Owned process failed (${code ?? signal}): ${stderr.slice(0, 2000)}`));
+                                       ^
+error: Owned process failed (1): 1 | const child=Bun.spawn([process.execPath,'-e',"Bun.serve({port:0,fetch(){return new Response('owned leak')}});setInterval(()=>{},1000)"],{stdout:'ignore',stderr:'ignore'});
+2 | await Bun.write(process.env.MAPLE_OWNER_LEAK_PID!,String(child.pid));
+3 | await Bun.sleep(200);
+4 | throw Error('Forced browser fixture failure after owned descendant launch');
+          ^
+error: Forced browser fixture failure after owned descendant launch
+      at /Users/riabuz/.codex/worktrees/mcp-contract-hardening/_SugarMaple/build/browser-owner-proof/fail.ts:4:7
+
+Bun v1.4.2 (macOS arm64)
+
+      at <anonymous> (/Users/riabuz/.codex/worktrees/mcp-contract-hardening/_SugarMaple/prototypes/library-preview/native/supervise.ts:53:35)
+      at emit (node:events:103:22)
+      at #maybeClose (node:child_process:827:16)
+      at #handleOnExit (node:child_process:570:72)
+
+Bun v1.4.2 (macOS arm64)
