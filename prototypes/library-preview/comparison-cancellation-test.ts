@@ -48,12 +48,21 @@ try {
       if (scenario === "SIGINT" || scenario === "SIGTERM") child.kill(scenario);
       if (scenario === "native") child.kill("SIGTERM");
       if (scenario === "server-loss") process.kill(-serverGroup, "SIGKILL");
-      const code = await Promise.race([
-        child.exited,
-        Bun.sleep(31000).then(() => {
-          throw Error("Cancellation exceeded cleanup contract");
-        }),
-      ]);
+      let timeout: ReturnType<typeof setTimeout> | undefined;
+      let code: number;
+      try {
+        code = await Promise.race([
+          child.exited,
+          new Promise<number>((_, reject) => {
+            timeout = setTimeout(
+              () => reject(Error("Cancellation exceeded cleanup contract")),
+              31000,
+            );
+          }),
+        ]);
+      } finally {
+        clearTimeout(timeout);
+      }
       await Promise.all(drains);
       assert.ok(performance.now() - started < 31000, "Bounded cancellation");
       assert.equal(
