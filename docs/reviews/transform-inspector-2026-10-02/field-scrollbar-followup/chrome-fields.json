@@ -1,0 +1,429 @@
+{
+  "passed": true,
+  "checks": 3,
+  "widths": [
+    {
+      "width": 260,
+      "alignment": [
+        {
+          "x": 1199,
+          "y": 274.09375,
+          "width": 33.828125,
+          "height": 32,
+          "right": 1232.828125,
+          "bottom": 306.09375
+        },
+        {
+          "x": 1236.828125,
+          "y": 274.09375,
+          "width": 33.828125,
+          "height": 32,
+          "right": 1270.65625,
+          "bottom": 306.09375
+        },
+        {
+          "x": 1274.65625,
+          "y": 274.09375,
+          "width": 33.828125,
+          "height": 32,
+          "right": 1308.484375,
+          "bottom": 306.09375
+        },
+        {
+          "x": 1312.484375,
+          "y": 274.09375,
+          "width": 33.84375,
+          "height": 32,
+          "right": 1346.328125,
+          "bottom": 306.09375
+        },
+        {
+          "x": 1350.328125,
+          "y": 274.09375,
+          "width": 33.828125,
+          "height": 32,
+          "right": 1384.15625,
+          "bottom": 306.09375
+        },
+        {
+          "x": 1388.15625,
+          "y": 274.09375,
+          "width": 33.828125,
+          "height": 32,
+          "right": 1421.984375,
+          "bottom": 306.09375
+        }
+      ],
+      "fields": [
+        {
+          "name": "X position",
+          "x": 1224,
+          "y": 362.09375,
+          "width": 82.5,
+          "height": 34,
+          "right": 1306.5,
+          "bottom": 396.09375
+        },
+        {
+          "name": "Y position",
+          "x": 1339.5,
+          "y": 362.09375,
+          "width": 82.5,
+          "height": 34,
+          "right": 1422,
+          "bottom": 396.09375
+        },
+        {
+          "name": "Width",
+          "x": 1224,
+          "y": 404.09375,
+          "width": 82.5,
+          "height": 34,
+          "right": 1306.5,
+          "bottom": 438.09375
+        },
+        {
+          "name": "Height",
+          "x": 1339.5,
+          "y": 404.09375,
+          "width": 82.5,
+          "height": 34,
+          "right": 1422,
+          "bottom": 438.09375
+        },
+        {
+          "name": "Rotation",
+          "x": 1224,
+          "y": 446.09375,
+          "width": 82.5,
+          "height": 34,
+          "right": 1306.5,
+          "bottom": 480.09375
+        }
+      ]
+    },
+    {
+      "width": 320,
+      "alignment": [
+        {
+          "x": 1139,
+          "y": 274.09375,
+          "width": 43.828125,
+          "height": 32,
+          "right": 1182.828125,
+          "bottom": 306.09375
+        },
+        {
+          "x": 1186.828125,
+          "y": 274.09375,
+          "width": 43.828125,
+          "height": 32,
+          "right": 1230.65625,
+          "bottom": 306.09375
+        },
+        {
+          "x": 1234.65625,
+          "y": 274.09375,
+          "width": 43.828125,
+          "height": 32,
+          "right": 1278.484375,
+          "bottom": 306.09375
+        },
+        {
+          "x": 1282.484375,
+          "y": 274.09375,
+          "width": 43.84375,
+          "height": 32,
+          "right": 1326.328125,
+          "bottom": 306.09375
+        },
+        {
+          "x": 1330.328125,
+          "y": 274.09375,
+          "width": 43.828125,
+          "height": 32,
+          "right": 1374.15625,
+          "bottom": 306.09375
+        },
+        {
+          "x": 1378.15625,
+          "y": 274.09375,
+          "width": 43.828125,
+          "height": 32,
+          "right": 1421.984375,
+          "bottom": 306.09375
+        }
+      ],
+      "fields": [
+        {
+          "name": "X position",
+          "x": 1164,
+          "y": 362.09375,
+          "width": 112.5,
+          "height": 34,
+          "right": 1276.5,
+          "bottom": 396.09375
+        },
+        {
+          "name": "Y position",
+          "x": 1309.5,
+          "y": 362.09375,
+          "width": 112.5,
+          "height": 34,
+          "right": 1422,
+          "bottom": 396.09375
+        },
+        {
+          "name": "Width",
+          "x": 1164,
+          "y": 404.09375,
+          "width": 112.5,
+          "height": 34,
+          "right": 1276.5,
+          "bottom": 438.09375
+        },
+        {
+          "name": "Height",
+          "x": 1309.5,
+          "y": 404.09375,
+          "width": 112.5,
+          "height": 34,
+          "right": 1422,
+          "bottom": 438.09375
+        },
+        {
+          "name": "Rotation",
+          "x": 1164,
+          "y": 446.09375,
+          "width": 112.5,
+          "height": 34,
+          "right": 1276.5,
+          "bottom": 480.09375
+        }
+      ]
+    },
+    {
+      "width": 420,
+      "alignment": [
+        {
+          "x": 1039,
+          "y": 274.09375,
+          "width": 60.5,
+          "height": 32,
+          "right": 1099.5,
+          "bottom": 306.09375
+        },
+        {
+          "x": 1103.5,
+          "y": 274.09375,
+          "width": 60.5,
+          "height": 32,
+          "right": 1164,
+          "bottom": 306.09375
+        },
+        {
+          "x": 1168,
+          "y": 274.09375,
+          "width": 60.5,
+          "height": 32,
+          "right": 1228.5,
+          "bottom": 306.09375
+        },
+        {
+          "x": 1232.5,
+          "y": 274.09375,
+          "width": 60.5,
+          "height": 32,
+          "right": 1293,
+          "bottom": 306.09375
+        },
+        {
+          "x": 1297,
+          "y": 274.09375,
+          "width": 60.5,
+          "height": 32,
+          "right": 1357.5,
+          "bottom": 306.09375
+        },
+        {
+          "x": 1361.5,
+          "y": 274.09375,
+          "width": 60.5,
+          "height": 32,
+          "right": 1422,
+          "bottom": 306.09375
+        }
+      ],
+      "fields": [
+        {
+          "name": "X position",
+          "x": 1064,
+          "y": 362.09375,
+          "width": 162.5,
+          "height": 34,
+          "right": 1226.5,
+          "bottom": 396.09375
+        },
+        {
+          "name": "Y position",
+          "x": 1259.5,
+          "y": 362.09375,
+          "width": 162.5,
+          "height": 34,
+          "right": 1422,
+          "bottom": 396.09375
+        },
+        {
+          "name": "Width",
+          "x": 1064,
+          "y": 404.09375,
+          "width": 162.5,
+          "height": 34,
+          "right": 1226.5,
+          "bottom": 438.09375
+        },
+        {
+          "name": "Height",
+          "x": 1259.5,
+          "y": 404.09375,
+          "width": 162.5,
+          "height": 34,
+          "right": 1422,
+          "bottom": 438.09375
+        },
+        {
+          "name": "Rotation",
+          "x": 1064,
+          "y": 446.09375,
+          "width": 162.5,
+          "height": 34,
+          "right": 1226.5,
+          "bottom": 480.09375
+        }
+      ]
+    }
+  ],
+  "descriptiveFields": [
+    {
+      "theme": "dark",
+      "width": 260,
+      "kind": "text",
+      "labels": [
+        "Size",
+        "Weight",
+        "Line ×",
+        "Track"
+      ]
+    },
+    {
+      "theme": "dark",
+      "width": 320,
+      "kind": "text",
+      "labels": [
+        "Size",
+        "Weight",
+        "Line ×",
+        "Track"
+      ]
+    },
+    {
+      "theme": "dark",
+      "width": 420,
+      "kind": "text",
+      "labels": [
+        "Size",
+        "Weight",
+        "Line ×",
+        "Track"
+      ]
+    },
+    {
+      "theme": "dark",
+      "width": 260,
+      "kind": "rectangle",
+      "labels": [
+        "Width",
+        "Color"
+      ]
+    },
+    {
+      "theme": "dark",
+      "width": 320,
+      "kind": "rectangle",
+      "labels": [
+        "Width",
+        "Color"
+      ]
+    },
+    {
+      "theme": "dark",
+      "width": 420,
+      "kind": "rectangle",
+      "labels": [
+        "Width",
+        "Color"
+      ]
+    },
+    {
+      "theme": "light",
+      "width": 260,
+      "kind": "text",
+      "labels": [
+        "Size",
+        "Weight",
+        "Line ×",
+        "Track"
+      ]
+    },
+    {
+      "theme": "light",
+      "width": 320,
+      "kind": "text",
+      "labels": [
+        "Size",
+        "Weight",
+        "Line ×",
+        "Track"
+      ]
+    },
+    {
+      "theme": "light",
+      "width": 420,
+      "kind": "text",
+      "labels": [
+        "Size",
+        "Weight",
+        "Line ×",
+        "Track"
+      ]
+    },
+    {
+      "theme": "light",
+      "width": 260,
+      "kind": "rectangle",
+      "labels": [
+        "Width",
+        "Color"
+      ]
+    },
+    {
+      "theme": "light",
+      "width": 320,
+      "kind": "rectangle",
+      "labels": [
+        "Width",
+        "Color"
+      ]
+    },
+    {
+      "theme": "light",
+      "width": 420,
+      "kind": "rectangle",
+      "labels": [
+        "Width",
+        "Color"
+      ]
+    }
+  ],
+  "scope": "Production inspector layout at constrained 260/320/420px, exact checkpoint preservation; no panel-resize or physical input claim"
+}
