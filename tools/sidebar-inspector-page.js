@@ -336,7 +336,7 @@ window.canvasTransformAcceptance = async function () {
         "Inherited locked prototype read-only",
       );
       await click(".inspector button", "Comments");
-      const article = document.querySelector("comments-panel article"),
+      const article = document.querySelector("page-comments article"),
         reply = article.querySelector("textarea");
       reply.focus();
       await settle();
