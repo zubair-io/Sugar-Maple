@@ -1,0 +1,316 @@
+{
+  "engine" : "WKWebView",
+  "memory" : {
+    "ownerPeakRSSBytes" : 190480384,
+    "scope" : "This benchmark UI process only; WebKit content\/GPU\/network process memory is not included"
+  },
+  "nativeBridge" : "In-memory benchmark recovery\/status\/autosave only; production native disk\/MCP\/clipboard costs excluded",
+  "os" : "Version 27.0 (Build 26A428)",
+  "result" : {
+    "checks" : 3,
+    "passed" : true,
+    "scope" : "Production inspector layout at constrained 260\/320\/420px, exact checkpoint preservation; no panel-resize or physical input claim",
+    "widths" : [
+      {
+        "alignment" : [
+          {
+            "bottom" : 309.09375,
+            "height" : 32,
+            "right" : 1236.828125,
+            "width" : 31.828125,
+            "x" : 1205,
+            "y" : 277.09375
+          },
+          {
+            "bottom" : 309.09375,
+            "height" : 32,
+            "right" : 1272.65625,
+            "width" : 31.828125,
+            "x" : 1240.828125,
+            "y" : 277.09375
+          },
+          {
+            "bottom" : 309.09375,
+            "height" : 32,
+            "right" : 1308.484375,
+            "width" : 31.828125,
+            "x" : 1276.65625,
+            "y" : 277.09375
+          },
+          {
+            "bottom" : 309.09375,
+            "height" : 32,
+            "right" : 1344.328125,
+            "width" : 31.84375,
+            "x" : 1312.484375,
+            "y" : 277.09375
+          },
+          {
+            "bottom" : 309.09375,
+            "height" : 32,
+            "right" : 1380.15625,
+            "width" : 31.828125,
+            "x" : 1348.328125,
+            "y" : 277.09375
+          },
+          {
+            "bottom" : 309.09375,
+            "height" : 32,
+            "right" : 1415.984375,
+            "width" : 31.828125,
+            "x" : 1384.15625,
+            "y" : 277.09375
+          }
+        ],
+        "fields" : [
+          {
+            "bottom" : 399.09375,
+            "height" : 34,
+            "name" : "X position",
+            "right" : 1306.5,
+            "width" : 76.5,
+            "x" : 1230,
+            "y" : 365.09375
+          },
+          {
+            "bottom" : 399.09375,
+            "height" : 34,
+            "name" : "Y position",
+            "right" : 1416,
+            "width" : 76.5,
+            "x" : 1339.5,
+            "y" : 365.09375
+          },
+          {
+            "bottom" : 441.09375,
+            "height" : 34,
+            "name" : "Width",
+            "right" : 1306.5,
+            "width" : 76.5,
+            "x" : 1230,
+            "y" : 407.09375
+          },
+          {
+            "bottom" : 441.09375,
+            "height" : 34,
+            "name" : "Height",
+            "right" : 1416,
+            "width" : 76.5,
+            "x" : 1339.5,
+            "y" : 407.09375
+          },
+          {
+            "bottom" : 483.09375,
+            "height" : 34,
+            "name" : "Rotation",
+            "right" : 1306.5,
+            "width" : 76.5,
+            "x" : 1230,
+            "y" : 449.09375
+          }
+        ],
+        "width" : 260
+      },
+      {
+        "alignment" : [
+          {
+            "bottom" : 309.09375,
+            "height" : 32,
+            "right" : 1186.828125,
+            "width" : 41.828125,
+            "x" : 1145,
+            "y" : 277.09375
+          },
+          {
+            "bottom" : 309.09375,
+            "height" : 32,
+            "right" : 1232.65625,
+            "width" : 41.828125,
+            "x" : 1190.828125,
+            "y" : 277.09375
+          },
+          {
+            "bottom" : 309.09375,
+            "height" : 32,
+            "right" : 1278.5,
+            "width" : 41.84375,
+            "x" : 1236.65625,
+            "y" : 277.09375
+          },
+          {
+            "bottom" : 309.09375,
+            "height" : 32,
+            "right" : 1324.328125,
+            "width" : 41.828125,
+            "x" : 1282.5,
+            "y" : 277.09375
+          },
+          {
+            "bottom" : 309.09375,
+            "height" : 32,
+            "right" : 1370.15625,
+            "width" : 41.828125,
+            "x" : 1328.328125,
+            "y" : 277.09375
+          },
+          {
+            "bottom" : 309.09375,
+            "height" : 32,
+            "right" : 1416,
+            "width" : 41.84375,
+            "x" : 1374.15625,
+            "y" : 277.09375
+          }
+        ],
+        "fields" : [
+          {
+            "bottom" : 399.09375,
+            "height" : 34,
+            "name" : "X position",
+            "right" : 1276.5,
+            "width" : 106.5,
+            "x" : 1170,
+            "y" : 365.09375
+          },
+          {
+            "bottom" : 399.09375,
+            "height" : 34,
+            "name" : "Y position",
+            "right" : 1416,
+            "width" : 106.5,
+            "x" : 1309.5,
+            "y" : 365.09375
+          },
+          {
+            "bottom" : 441.09375,
+            "height" : 34,
+            "name" : "Width",
+            "right" : 1276.5,
+            "width" : 106.5,
+            "x" : 1170,
+            "y" : 407.09375
+          },
+          {
+            "bottom" : 441.09375,
+            "height" : 34,
+            "name" : "Height",
+            "right" : 1416,
+            "width" : 106.5,
+            "x" : 1309.5,
+            "y" : 407.09375
+          },
+          {
+            "bottom" : 483.09375,
+            "height" : 34,
+            "name" : "Rotation",
+            "right" : 1276.5,
+            "width" : 106.5,
+            "x" : 1170,
+            "y" : 449.09375
+          }
+        ],
+        "width" : 320
+      },
+      {
+        "alignment" : [
+          {
+            "bottom" : 309.09375,
+            "height" : 32,
+            "right" : 1103.5,
+            "width" : 58.5,
+            "x" : 1045,
+            "y" : 277.09375
+          },
+          {
+            "bottom" : 309.09375,
+            "height" : 32,
+            "right" : 1166,
+            "width" : 58.5,
+            "x" : 1107.5,
+            "y" : 277.09375
+          },
+          {
+            "bottom" : 309.09375,
+            "height" : 32,
+            "right" : 1228.5,
+            "width" : 58.5,
+            "x" : 1170,
+            "y" : 277.09375
+          },
+          {
+            "bottom" : 309.09375,
+            "height" : 32,
+            "right" : 1291,
+            "width" : 58.5,
+            "x" : 1232.5,
+            "y" : 277.09375
+          },
+          {
+            "bottom" : 309.09375,
+            "height" : 32,
+            "right" : 1353.5,
+            "width" : 58.5,
+            "x" : 1295,
+            "y" : 277.09375
+          },
+          {
+            "bottom" : 309.09375,
+            "height" : 32,
+            "right" : 1416,
+            "width" : 58.5,
+            "x" : 1357.5,
+            "y" : 277.09375
+          }
+        ],
+        "fields" : [
+          {
+            "bottom" : 399.09375,
+            "height" : 34,
+            "name" : "X position",
+            "right" : 1226.5,
+            "width" : 156.5,
+            "x" : 1070,
+            "y" : 365.09375
+          },
+          {
+            "bottom" : 399.09375,
+            "height" : 34,
+            "name" : "Y position",
+            "right" : 1416,
+            "width" : 156.5,
+            "x" : 1259.5,
+            "y" : 365.09375
+          },
+          {
+            "bottom" : 441.09375,
+            "height" : 34,
+            "name" : "Width",
+            "right" : 1226.5,
+            "width" : 156.5,
+            "x" : 1070,
+            "y" : 407.09375
+          },
+          {
+            "bottom" : 441.09375,
+            "height" : 34,
+            "name" : "Height",
+            "right" : 1416,
+            "width" : 156.5,
+            "x" : 1259.5,
+            "y" : 407.09375
+          },
+          {
+            "bottom" : 483.09375,
+            "height" : 34,
+            "name" : "Rotation",
+            "right" : 1226.5,
+            "width" : 156.5,
+            "x" : 1070,
+            "y" : 449.09375
+          }
+        ],
+        "width" : 420
+      }
+    ]
+  }
+}
