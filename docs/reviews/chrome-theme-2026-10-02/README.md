@@ -1,0 +1,7 @@
+# Drawing and Repeat Grid chrome appearance
+
+Clean runtime `f8c79f16371d6a4700a8c7c7113ecad37859344a` passes typecheck, production Mac build, actual WKWebView theme acceptance and five focused browser suites (theme, Repeat data/drop/handles, drawing). Rebased runtime `9945213156a732ce258819dd644481a880719761` adds the #115 screenshot/proof commits; production UI bytes are unchanged and the focused theme fixture passes again against that clean base.
+
+Drawing controls now belong to marked host chrome; Repeat inputs/buttons/table/drop/errors use semantic theme tokens. Visible focus outlines use the host primary token. Shared production Chrome/WK checks create a real two-cell Repeat Grid, preview mapped text, trigger a real validation error and active file-drop state, measure text contrast (including translucent backgrounds composited onto the inspector), and preserve the exact authored checkpoint/history across both themes. Images were visually inspected. Native checks enable permanent scrollbars only for their own process.
+
+Synthetic DOM events do not establish physical pointer/keyboard input, VoiceOver, native clipboard or persistence. Existing Repeat/drawing browser suites cover real browser interaction and mutation/history guards. Full regression CI remains required before merge; overall UI acceptance remains #117–#119. No schema, authored colors, command behavior or scene projection changes.
