@@ -17,6 +17,30 @@ export async function runOwnedBrowserSuite(scripts: string[]) {
       if ((error as NodeJS.ErrnoException).code !== "ESRCH") throw error;
     }
   };
+  async function cleanGroups(ids: number[]) {
+    for (const id of ids) killGroup(id);
+    const deadline = performance.now() + 30000;
+    while (true) {
+      const ps = Bun.spawnSync(["/bin/ps", "-axo", "pid=,pgid=,stat="]);
+      if (ps.exitCode !== 0)
+        throw Error("Browser cleanup process inspection failed");
+      const live = ps.stdout
+        .toString()
+        .trim()
+        .split("\n")
+        .filter((line) => {
+          const [, group, state] = line.trim().split(/\s+/);
+          return ids.includes(Number(group)) && !state.startsWith("Z");
+        });
+      if (!live.length) {
+        for (const id of ids) groups.delete(id);
+        return;
+      }
+      if (performance.now() > deadline)
+        throw Error("Owned browser processes survived cleanup");
+      await Bun.sleep(100);
+    }
+  }
   const report = {
     checkout: process.cwd(),
     revision: Bun.spawnSync(["git", "rev-parse", "HEAD"])
@@ -119,7 +143,7 @@ export async function runOwnedBrowserSuite(scripts: string[]) {
       if (test.child.pid) groups.add(test.child.pid);
       await test.done;
       // A fixture may exit while descendants survive; close its owned group too.
-      if (test.child.pid) killGroup(test.child.pid);
+      if (test.child.pid) await cleanGroups([test.child.pid]);
       test = undefined;
       if (interrupted || failure || server.child.exitCode !== null)
         throw Error(
@@ -132,30 +156,10 @@ export async function runOwnedBrowserSuite(scripts: string[]) {
     server?.stop("Browser suite finished");
     await test?.done.catch(() => {});
     await server?.done.catch(() => {});
-    for (const group of groups) killGroup(group);
+    await cleanGroups([...groups]);
+    report.cleanupPassed = true;
     process.off("SIGINT", stop);
     process.off("SIGTERM", stop);
-    const deadline = performance.now() + 30000;
-    while (true) {
-      const ps = Bun.spawnSync(["/bin/ps", "-axo", "pid=,pgid=,stat="]);
-      if (ps.exitCode !== 0)
-        throw Error("Browser cleanup process inspection failed");
-      const live = ps.stdout
-        .toString()
-        .trim()
-        .split("\n")
-        .filter((line) => {
-          const [, group, state] = line.trim().split(/\s+/);
-          return groups.has(Number(group)) && !state.startsWith("Z");
-        });
-      if (!live.length) {
-        report.cleanupPassed = true;
-        break;
-      }
-      if (performance.now() > deadline)
-        throw Error("Owned browser processes survived cleanup");
-      await Bun.sleep(100);
-    }
     await Bun.write(reportPath, JSON.stringify(report, null, 2));
     console.log(`Browser source/cleanup report: ${reportPath}`);
   }
