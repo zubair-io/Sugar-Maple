@@ -64,9 +64,15 @@ export class CanvasProjection implements OnDestroy {
       untracked(() => this.board.metadata.set('version', ++this.version));
     });
     effect(() => {
-      this.e.revision();
-      this.e.doc().id;
-      untracked(() => { this.draft.set({}); this.draftNodes.set([]); this.repeatDraft.set(null); });
+      const revision = this.e.revision(), documentId = this.e.doc().id, pageId = this.e.pageId();
+      untracked(() => {
+        this.draft.set({}); this.draftNodes.set([]);
+        // A fresh gesture can start before a queued command effect runs.
+        // Cancel only previews derived from another document/page/revision.
+        const source = this.repeatDraft()?.source;
+        if (!source || source.documentId !== documentId || source.pageId !== pageId || source.revision !== revision)
+          this.repeatDraft.set(null);
+      });
     });
     document.fonts.addEventListener('loadingdone', this.fontsChanged);
   }

@@ -97,6 +97,49 @@ window.canvasTransformAcceptance = async function () {
     await select();
     await window.sugarMaple.dispatch("viewport.fit");
     await settle();
+    // No render opportunity between this command and a new pointer gesture:
+    // cancellation effects from the command must preserve the current gesture.
+    const beforeCommand = await get();
+    await window.sugarMaple.dispatch("transaction.apply", {
+      documentId: beforeCommand.documentId,
+      expectedRevision: beforeCommand.revision,
+      requestId: crypto.randomUUID(),
+      operations: [
+        { type: "document.rename", name: "Immediate new repeat gesture" },
+      ],
+    });
+    const beforePaint = window.sugarMaple.viewport.stats(),
+      handoffCheckpoint = await checkpoint();
+    const handoff = await down(
+      "columns",
+      216,
+      window.sugarMaple.viewport.camera().zoom,
+    );
+    check(
+      window.sugarMaple.viewport.hasDraft() &&
+        window.sugarMaple.viewport.stats().total > beforePaint.total,
+      "Fresh command handoff lost current Repeat Grid preview: " +
+        JSON.stringify({
+          before: beforePaint,
+          after: window.sugarMaple.viewport.stats(),
+          draft: window.sugarMaple.viewport.hasDraft(),
+        }),
+    );
+    equal(
+      await checkpoint(),
+      handoffCheckpoint,
+      "Fresh handoff preview is unauthored",
+    );
+    key(canvas, "Escape");
+    pointer(canvas, "pointerup", handoff.end.x, handoff.end.y);
+    await settle();
+    equal(
+      await checkpoint(),
+      handoffCheckpoint,
+      "Fresh handoff cancellation preserves exact checkpoint",
+    );
+    await undo();
+    checks++;
     for (const zoom of [0.5, 1.5]) {
       const control = document.querySelector("[aria-label=Zoom]");
       control.value = String(zoom);
