@@ -1,0 +1,21 @@
+{
+  "passed": true,
+  "comparison": {
+    "preparationMilliseconds": 14209.11225,
+    "cleanupMilliseconds": 1294.3790000000008,
+    "cleanupDeadlineMilliseconds": 30000,
+    "leakedServerRejected": false,
+    "maxRSSKiB": 334736,
+    "bytes": 1617,
+    "stderr": ""
+  },
+  "leak": {
+    "preparationMilliseconds": 19.309332999999242,
+    "cleanupMilliseconds": 30002.444750000002,
+    "cleanupDeadlineMilliseconds": 30000,
+    "leakedServerRejected": true,
+    "maxRSSKiB": 11120,
+    "bytes": 92,
+    "stderr": ""
+  }
+}

@@ -1,0 +1,38 @@
+❯ Building...
+✔ Building...
+Initial chunk files | Names                       |  Raw size
+styles.css          | styles                      |  30.99 kB | 
+chunk-VUJOFXKG.js   | -                           | 987 bytes | 
+main.js             | main                        | 917 bytes | 
+
+                    | Initial total               |  32.90 kB
+
+Lazy chunk files    | Names                       |  Raw size
+chunk-RRVPITPA.js   | app                         | 596.64 kB | 
+chunk-RY42GGBF.js   | -                           | 204.09 kB | 
+chunk-GDBO2EGR.js   | -                           | 176.23 kB | 
+chunk-JM6PIPUG.js   | sugar-maple-chrome-specimen |  24.84 kB | 
+chunk-3YTJMRQJ.js   | preview-application         |   6.21 kB | 
+
+Application bundle generation complete. [1.337 seconds] - 2026-10-03T02:11:05.660Z
+
+Watch mode enabled. Watching for file changes...
+NOTE: Raw file sizes do not reflect development server per-request transformations.
+  ➜  Local:   http://127.0.0.1:57386/
+Owned source checkout editor: http://127.0.0.1:57386; process group 80415
+Comparison stage starting: build/native-phase-check/after-scene.ts
+Comparison native phase: building trusted fixture
+Comparison native phase: trusted build completed
+PASS: default: actual Canvas, DOM, package geometry, source identity and unchanged checkpoint; native checks queued
+PASS: source-update: actual Canvas, DOM, package geometry, source identity and unchanged checkpoint; native checks queued
+PASS: source-undo: actual Canvas, DOM, package geometry, source identity and unchanged checkpoint; native checks queued
+PASS: primary: actual Canvas, DOM, package geometry, source identity and unchanged checkpoint; native checks queued
+PASS: disabled: actual Canvas, DOM, package geometry, source identity and unchanged checkpoint; native checks queued
+PASS: nested-overrides: actual Canvas, DOM, package geometry, source identity and unchanged checkpoint; native checks queued
+PASS: nested-rotations: actual Canvas, DOM, package geometry, source identity and unchanged checkpoint; native checks queued
+PASS: authored-border: actual Canvas, DOM, package geometry, source identity and unchanged checkpoint; native checks queued
+PASS: restored: actual Canvas, DOM, package geometry, source identity and unchanged checkpoint; native checks queued
+Comparison native phase: sandboxed helper ready; ordered native checks starting
+PASS: all 40 ordered native checks and 30 measured samples on one bounded helper; elapsed 4340 ms
+PASS: actual editor authored-scene comparison across Canvas, semantic DOM, pinned package and sandboxed SwiftUI; source edit/undo/input boundaries and measured observations recorded
+Comparison stage completed: build/native-phase-check/after-scene.ts; exit 0; elapsed 77104 ms
