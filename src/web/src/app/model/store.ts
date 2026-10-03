@@ -6,6 +6,7 @@ import { applyComposition, propagate } from './composition';
 import * as Y from 'yjs';
 import {
   blankDocument,
+  DocumentSchema,
   validateDocument,
   NodeSchema,
   TransactionSchema,
@@ -69,6 +70,7 @@ export class DocumentStore {
   }
   get document(): SceneDocument {
     return {
+      ...structuredClone((this.root.get('documentMetadata') as Y.Map<unknown>).toJSON()),
       version: 1,
       id: this.root.get('id') as string,
       name: this.root.get('name') as string,
@@ -76,10 +78,10 @@ export class DocumentStore {
         v.toJSON(),
       ),
       folders: Array.from((this.root.get('folders') as Y.Map<any>).values())
-        .map((v) => v.toJSON())
+        .map((v) => structuredClone(v.toJSON()))
         .sort((a, b) => a.order - b.order),
       pages: Array.from((this.root.get('pages') as Y.Map<any>).values())
-        .map((v) => v.toJSON())
+        .map((v) => structuredClone(v.toJSON()))
         .sort((a, b) => a.order - b.order),
       nodes: Array.from((this.root.get('nodes') as Y.Map<any>).values()).map((v) => v.toJSON()),
       tokens: (this.root.get('tokens') as Y.Map<string>).toJSON(),
@@ -90,6 +92,16 @@ export class DocumentStore {
   private write(doc: SceneDocument) {
     this.root.set('id', doc.id);
     this.root.set('name', doc.name);
+    let metadata = this.root.get('documentMetadata') as Y.Map<unknown> | undefined;
+    if (!metadata) {
+      metadata = new Y.Map();
+      this.root.set('documentMetadata', metadata);
+    }
+    const known = new Set(Object.keys(DocumentSchema.shape));
+    const extras = Object.fromEntries(Object.entries(doc).filter(([key]) => !known.has(key)));
+    for (const key of Array.from(metadata.keys())) if (!Object.hasOwn(extras, key)) metadata.delete(key);
+    for (const [key, value] of Object.entries(extras))
+      if (JSON.stringify(metadata.get(key)) !== JSON.stringify(value)) metadata.set(key, value);
     for (const key of ['comments', 'folders', 'pages', 'nodes', 'tokens', 'assets', 'libraries'] as const) {
       let map = this.root.get(key) as Y.Map<any> | undefined;
       if (!map) {
