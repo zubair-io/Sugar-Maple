@@ -1,9 +1,10 @@
 // Real production WKWebView controls; synthetic pointer IDs use a local capture
-// shim. This does not claim native OS pointer-capture or VoiceOver acceptance.
+// shim and an ID distinct from WK mouse ID 1. This does not claim native OS
+// pointer-capture or VoiceOver acceptance.
 window.canvasTransformAcceptance = async function () {
   let checks = 0;
   const check = (ok, message) => {
-    if (!ok) throw Error(message);
+    if (!ok) throw Error(message + " trace=" + JSON.stringify(pointerTrace));
   };
   const equal = (a, b, message) =>
     check(JSON.stringify(a) === JSON.stringify(b), message);
@@ -44,6 +45,29 @@ window.canvasTransformAcceptance = async function () {
       "releasePointerCapture",
       "hasPointerCapture",
     ].map((name) => [name, canvas[name]]);
+  const pointerTrace = [];
+  const tracePointer = (event) => {
+    pointerTrace.push({
+      type: event.type,
+      trusted: event.isTrusted,
+      pointerType: event.pointerType,
+      pointerId: event.pointerId,
+      target: event.target?.tagName ?? String(event.target),
+      focused: document.hasFocus(),
+      x: event.clientX,
+      y: event.clientY,
+    });
+    if (pointerTrace.length > 16) pointerTrace.shift();
+  };
+  for (const type of [
+    "pointerdown",
+    "pointermove",
+    "pointerup",
+    "pointercancel",
+    "blur",
+    "focus",
+  ])
+    document.addEventListener(type, tracePointer, true);
   let captured = false;
   canvas.setPointerCapture = () => {
     captured = true;
@@ -56,7 +80,7 @@ window.canvasTransformAcceptance = async function () {
     const event = new PointerEvent(type, {
       clientX: x,
       clientY: y,
-      pointerId: 1,
+      pointerId: 700001,
       isPrimary: true,
       pointerType: "pen",
       button: 0,
@@ -125,6 +149,26 @@ window.canvasTransformAcceptance = async function () {
           draft: window.sugarMaple.viewport.hasDraft(),
         }),
     );
+    const penPreview = window.sugarMaple.viewport.stats().total;
+    // A different pointer must not replace the captured pen's draft. WK mouse
+    // events use ID 1, which the earlier synthetic fixture also used.
+    canvas.dispatchEvent(
+      new PointerEvent("pointermove", {
+        clientX: handoff.start.x,
+        clientY: handoff.start.y,
+        pointerId: 1,
+        pointerType: "mouse",
+        isPrimary: true,
+        bubbles: true,
+      }),
+    );
+    await settle();
+    check(
+      window.sugarMaple.viewport.hasDraft() &&
+        window.sugarMaple.viewport.stats().total === penPreview,
+      "A different pointer preserves the captured pen preview",
+    );
+    checks++;
     equal(
       await checkpoint(),
       handoffCheckpoint,
@@ -167,6 +211,7 @@ window.canvasTransformAcceptance = async function () {
               JSON.stringify({
                 kind,
                 zoom,
+                pointerTrace,
                 before: frames,
                 after: window.sugarMaple.viewport.stats(),
                 delivery,
@@ -323,6 +368,15 @@ window.canvasTransformAcceptance = async function () {
         "Actual production WK Canvas repeat controls, projected cells and capture guard, typed resize/undo, local data, cancellation and keyboard/lock/read-only guards; synthetic DOM pointer IDs use a local capture shim",
     };
   } finally {
+    for (const type of [
+      "pointerdown",
+      "pointermove",
+      "pointerup",
+      "pointercancel",
+      "blur",
+      "focus",
+    ])
+      document.removeEventListener(type, tracePointer, true);
     for (const [name, method] of methods) canvas[name] = method;
   }
 };
