@@ -11,6 +11,7 @@ await runOwnedBrowserSuite(
     "drawing-e2e",
     "canvas-placement-e2e",
     "inspector-layout-e2e",
+    "chrome-theme-e2e",
     "reparent-e2e",
     "canvas-parity-e2e",
     "typography-e2e",
