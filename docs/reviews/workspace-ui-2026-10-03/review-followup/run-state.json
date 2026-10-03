@@ -1,0 +1,10 @@
+{
+  "base": "bd7cba8cc613d2458a1295a90ac0b841885639e3",
+  "browserSource": "bd190299825ea251e0b336fec7ce6f21f2a11fac",
+  "nativeSource": "6f841362232cf59b0d6206a4e17d0c8eef391d24",
+  "productionBytesUnchangedBetweenSources": true,
+  "nativeSuitePassed": true,
+  "browserSuitePassedWithCleanup": true,
+  "failedBrowserRunRetained": "workspace-integrated-browser.log",
+  "reviewAddressed": "background-document rejection attributed to request documentId and expectedRevision; rejected label explicitly says expected revision"
+}
