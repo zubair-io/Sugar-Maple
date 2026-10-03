@@ -42,7 +42,7 @@ for (const [width, height] of [
     `--size=${width}x${height}`,
   ]);
   const report = await Bun.file(resolve(output, `${width}.json`)).json();
-  if (report.result?.passed !== true || report.result?.checks !== 2)
+  if (report.result?.passed !== true || report.result?.checks !== 4)
     throw Error("Incomplete native workspace proof");
 }
 console.log(
