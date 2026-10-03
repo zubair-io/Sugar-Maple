@@ -125,14 +125,39 @@ window.canvasTransformAcceptance = async function () {
   check(rejected, "Stale transaction rejected");
   document.querySelector('[aria-label="MCP connection details"]').click();
   await settle();
+  const beforeWrongDocument = JSON.stringify(
+    await window.sugarMaple.dispatch("document.checkpoint"),
+  );
+  let wrongDocumentRejected = false;
+  try {
+    await window.sugarMaple.dispatch("transaction.apply", {
+      documentId: "background-document-fixture",
+      expectedRevision: 73,
+      requestId: crypto.randomUUID(),
+      operations: [{ type: "document.rename", name: "Must not appear here" }],
+    });
+  } catch {
+    wrongDocumentRejected = true;
+  }
+  check(wrongDocumentRejected, "Wrong document transaction rejected");
+  await settle();
+  check(
+    JSON.stringify(await window.sugarMaple.dispatch("document.checkpoint")) ===
+      beforeWrongDocument,
+    "Wrong document rejection preserves exact checkpoint",
+  );
   const content = document.querySelector(".connection-details").textContent;
   check(
     content.includes("Committed · revision " + committed.revision),
     "Actual committed revision displayed",
   );
   check(
-    content.includes("Rejected · revision " + committed.revision),
+    content.includes("Rejected · expected revision " + beforeAgent.revision),
     "Actual rejected revision displayed",
+  );
+  check(
+    !content.includes("expected revision 73"),
+    "Background rejection not attributed to active document",
   );
   document.dispatchEvent(
     new KeyboardEvent("keydown", { key: "Escape", bubbles: true }),

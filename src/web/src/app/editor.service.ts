@@ -717,7 +717,7 @@ export class EditorService {
           this.refresh();
           return result;
         } catch(error) {
-          this.agentOutcomes.update(items => [{documentId:this.doc().id,revision:this.revision(),status:'Rejected' as const},...items].slice(0,5));
+          this.agentOutcomes.update(items => [{documentId:args.documentId,revision:args.expectedRevision,status:'Rejected' as const},...items].slice(0,5));
           throw error;
         } finally {
           this.mcp.set(previousStatus);

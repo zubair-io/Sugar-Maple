@@ -89,7 +89,11 @@
           <strong>Recent agent transactions</strong>
           @for (outcome of agentOutcomes(); track $index) {
             @if (outcome.documentId === e.doc().id) {
-              <p>{{ outcome.status }} · revision {{ outcome.revision }}</p>
+              <p>
+                {{ outcome.status }} ·
+                {{ outcome.status === 'Rejected' ? 'expected revision' : 'revision' }}
+                {{ outcome.revision }}
+              </p>
             }
           }
           @if (!agentOutcomes().length) {
