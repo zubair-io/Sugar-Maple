@@ -1,0 +1,7 @@
+# Public read indexing and isolation follow-up
+
+The prior review assumed repeated cached-signal reads copied the whole scene. The source uses a cached Angular signal, refreshed after commands. Public document.get and comments.list still require detached results to preserve scene/history isolation; their explicit clones remain. Comments now build one page-name index instead of searching every page for each comment, and document.get uses one local projection reference for its output and asset diagnostics.
+
+The shared Chrome/WK fixture verifies names/filtering across20 additional pages/100 comments. Instrumentation counts actual structuredClone inputs: comments.list performs one output copy and zero full-scene copies; document.get performs one full-scene output copy. It retains the seven existing receipt/four-public-read/live undo-redo mutation checks, plus exact undo after the larger fixture. Chrome also proves actual IndexedDB reload and recovered undo.
+
+Current-main source473be0f passes166 models/2378 assertions, typecheck, Mac build, all38 owned browser suites and full native acceptance. Current base bd7cba8 has verified green main CI37096632013. These are read-isolation and copy-count checks, not physical-input performance claims. Existing measurements retain their original source identities. The prior BLOCK remains historical; fresh exact-head approval/CI and resulting-main verification are required.
