@@ -249,7 +249,7 @@ kbd {
   font-size: 10px;
   font-weight: 400;
 }
-.inspector label,
+:where(.inspector) label,
 .sidebar > label {
   display: flex;
   align-items: center;
@@ -259,8 +259,8 @@ kbd {
   color: var(--color-text-muted);
   font-size: 11px;
 }
-.inspector input,
-.inspector textarea,
+:where(.inspector) input,
+:where(.inspector) textarea,
 .sidebar input {
   width: 65%;
   min-width: 0;
