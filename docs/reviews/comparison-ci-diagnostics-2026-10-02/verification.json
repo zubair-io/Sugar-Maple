@@ -1,0 +1,16 @@
+{
+  "finalSource": "795da608cf9f9f547a841dd5ef49c263407a6c7a",
+  "executionSource": "db95e6278030b91ab2cd5d2715530c3e7d99b3e1",
+  "base": "9c3bcb90017c88a05d11a328960bf6307e925680",
+  "comparisonAndWorkflowBytesEqual": true,
+  "legacyAndSceneExitCodes": [
+    0,
+    0
+  ],
+  "failureStreamingExitCode": 0,
+  "sourceSHA256": {
+    "prototypes/library-preview/server-owner-test.ts": "46b5ef2e3f320a870e862d868430a7509db0843dca464bc425eb0510c90aabd2",
+    "tools/library-preview-comparison.ts": "3cf805bd7b1d8ce8731777a73fb4f0d1218fe41a413da2be6da7d9fea50ac04e",
+    ".github/workflows/editor.yml": "a628cbca44845b9614bac1c9081ed5ae5398958362975d4c3f7ce17daadca390"
+  }
+}
