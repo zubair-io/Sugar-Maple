@@ -1,0 +1,1 @@
+PASS: stdout/stderr are visible in the retained log before child exit and are streamed; failure remains a failure
