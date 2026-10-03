@@ -88,13 +88,11 @@
           <p>{{ e.status() }}</p>
           <strong>Recent agent transactions</strong>
           @for (outcome of agentOutcomes(); track $index) {
-            @if (outcome.documentId === e.doc().id) {
-              <p>
-                {{ outcome.status }} ·
-                {{ outcome.status === 'Rejected' ? 'expected revision' : 'revision' }}
-                {{ outcome.revision }}
-              </p>
-            }
+            <p>
+              {{ outcome.status }} ·
+              {{ outcome.status === 'Rejected' ? 'expected revision' : 'revision' }}
+              {{ outcome.revision }}
+            </p>
           }
           @if (!agentOutcomes().length) {
             <p>No agent transactions for this document in this app session.</p>
