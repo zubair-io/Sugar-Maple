@@ -1,3 +1,4 @@
+import { editorURL } from './editor-url';
 import { chromium, expect, type Page } from '@playwright/test';
 import { strict as assert } from 'node:assert';
 import { flatten, project, transform } from '../src/app/canvas/scene-layout';
@@ -70,7 +71,7 @@ try {
     page.on('console', (m) => {
       if (m.type() === 'error') errors.push(m.text());
     });
-    await page.goto(process.env.SUGAR_MAPLE_TEST_URL ?? 'http://127.0.0.1:4200');
+    await page.goto(editorURL());
     await page.waitForFunction(() => window.sugarMaple.ready);
     const d = await get(page),
       pageId = d.document.pages[0].id;

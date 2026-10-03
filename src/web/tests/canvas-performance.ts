@@ -1,9 +1,10 @@
+import { editorURL } from './editor-url';
 import { chromium } from '@playwright/test';
 import { strict as assert } from 'node:assert';
 const browser = await chromium.launch({ channel: 'chrome', headless: true });
 try {
   const page = await browser.newPage({ viewport: { width: 1440, height: 1000 } });
-  await page.goto('http://127.0.0.1:4200');
+  await page.goto(editorURL());
   await page.waitForFunction(() => window.sugarMaple.ready);
   const results = [];
   for (const target of [1000, 5000]) {

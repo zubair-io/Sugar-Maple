@@ -1,8 +1,9 @@
+import { editorURL } from './editor-url';
 import { chromium, expect } from '@playwright/test';
 import { strict as assert } from 'node:assert';
 import { mkdirSync } from 'node:fs';
 
-const url = process.env['SUGAR_MAPLE_TEST_URL'] ?? 'http://127.0.0.1:4200';
+const url = editorURL();
 const browser = await chromium.launch({ channel: 'chrome', headless: true });
 try {
   const page = await browser.newPage({ viewport: { width: 1440, height: 1100 } });

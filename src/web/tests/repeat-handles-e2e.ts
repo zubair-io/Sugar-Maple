@@ -1,3 +1,4 @@
+import { editorURL } from './editor-url';
 import { chromium, expect } from '@playwright/test';
 import { strict as assert } from 'node:assert';
 import { mkdirSync } from 'node:fs';
@@ -53,7 +54,7 @@ async function down(kind: 'columns' | 'rows' | 'gap', delta: number, zoom: numbe
 const cells = (document: any) =>
   document.nodes.filter((n: any) => n.parentId === grid && n.repeatIndex !== null);
 try {
-  await page.goto('http://127.0.0.1:4200');
+  await page.goto(editorURL());
   await page.waitForFunction(() => window.sugarMaple.ready);
   await page.evaluate(
     async ({ nodes, assets, grid }) => {
