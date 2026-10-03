@@ -119,12 +119,11 @@ export function comparisonProcessRegistry() {
           try {
             process.kill(-group, "SIGKILL");
           } catch (error) {
-            if ((error as NodeJS.ErrnoException).code !== "ESRCH") {
-              const stillLive = processes().some(
-                (p) => p.group === group && !p.state.startsWith("Z"),
-              );
-              if (stillLive) throw error;
-            }
+            const code = (error as NodeJS.ErrnoException).code;
+            if (code !== "ESRCH" && code !== "EPERM") throw error;
+            // Darwin can deny a group signal during process teardown. A denial
+            // is never success: poll within the same deadline, revalidating
+            // UID/start identity before every retry and requiring no live member.
           }
         }
         if (performance.now() > deadline)

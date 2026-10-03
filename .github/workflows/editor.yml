@@ -21,6 +21,7 @@ jobs:
       - run: bun --bun src/web/node_modules/@playwright/test/cli.js install --with-deps chrome
       - run: bun run test:e2e
       - run: bun run test:library-preview
+      - run: bun prototypes/library-preview/process-registry-test.ts
       - run: bun prototypes/library-preview/comparison-cancellation-test.ts
         timeout-minutes: 5
 
@@ -37,6 +38,7 @@ jobs:
       - run: bun run build:mac
         timeout-minutes: 10
       - run: bun tools/native-acceptance.ts
+      - run: bun prototypes/library-preview/process-registry-test.ts
       - run: bun prototypes/library-preview/comparison-cancellation-test.ts --trust-native-fixture
         timeout-minutes: 5
       - run: bun --bun src/web/node_modules/@playwright/test/cli.js install chrome
@@ -51,6 +53,7 @@ jobs:
           name: isolated-comparison-diagnostics
           path: |
             build/comparison-cancellation.json
+            build/process-registry.json
             build/library-preview-comparison-final-acceptance.log
             build/library-scene-comparison-final-acceptance.log
             build/library-preview-server-owner.json
