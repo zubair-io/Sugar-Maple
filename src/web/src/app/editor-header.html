@@ -5,32 +5,64 @@
         @for (file of e.openFiles(); track file.id) {
           <div class="file-tab" [class.active]="file.id === e.doc().id">
             @if (editing() === file.id) {
-              <input #nameInput class="document-title" aria-label="Document name"
-                [value]="file.name" (blur)="finishRename($event)"
-                (keydown.enter)="finishRename($event)" (keydown.escape)="cancelRename($event)" />
+              <input
+                #nameInput
+                class="document-title"
+                aria-label="Document name"
+                [value]="file.name"
+                (blur)="finishRename($event)"
+                (keydown.enter)="finishRename($event)"
+                (keydown.escape)="cancelRename($event)"
+              />
             } @else {
-              <button class="tab-title" role="tab" [attr.aria-selected]="file.id === e.doc().id"
-                [title]="file.name + ' — double-click to rename'" [disabled]="e.tabBusy()"
-                (click)="activate(file.id)" (dblclick)="rename(file.id)"
-                (keydown.f2)="rename(file.id)">{{ file.name }}</button>
+              <button
+                class="tab-title"
+                role="tab"
+                [attr.aria-selected]="file.id === e.doc().id"
+                [title]="file.name + ' — double-click to rename'"
+                [disabled]="e.tabBusy()"
+                (click)="activate(file.id)"
+                (dblclick)="rename(file.id)"
+                (keydown.f2)="rename(file.id)"
+              >
+                {{ file.name }}
+              </button>
             }
             @if (file.id === e.doc().id && e.dirty()) {
               <span class="unsaved" aria-label="Unsaved changes" [title]="e.status()">*</span>
             }
-            <mui-button variant="ghost" size="sm" [iconOnly]="true" iconLeading="drawer-close"
-              [ariaLabel]="'Close ' + file.name" [disabled]="e.tabBusy()"
-              (pressed)="e.closeFile(file.id)" />
+            <mui-button
+              variant="ghost"
+              size="sm"
+              [iconOnly]="true"
+              iconLeading="drawer-close"
+              [ariaLabel]="'Close ' + file.name"
+              [disabled]="e.tabBusy()"
+              (pressed)="e.closeFile(file.id)"
+            />
           </div>
         }
       </div>
-      <button class="new-tab" aria-label="New file" title="New file" [disabled]="e.tabBusy()"
-        (click)="e.newDocument()">+</button>
+      <button
+        class="new-tab"
+        aria-label="New file"
+        title="New file"
+        [disabled]="e.tabBusy()"
+        (click)="e.newDocument()"
+      >
+        +
+      </button>
     </div>
   </div>
   <nav class="mode-switch" aria-label="Editor mode">
     @for (mode of modes; track mode) {
-      <button [class.active]="e.mode() === mode" [attr.aria-pressed]="e.mode() === mode"
-        (click)="e.setMode(mode)">{{ mode }}</button>
+      <button
+        [class.active]="e.mode() === mode"
+        [attr.aria-pressed]="e.mode() === mode"
+        (click)="e.setMode(mode)"
+      >
+        {{ mode }}
+      </button>
     }
   </nav>
   <div class="header-right">
@@ -38,7 +70,40 @@
       <button (click)="e.open()">Open</button><button (click)="e.save()">Save</button>
       <button (click)="e.save(true)">Save As</button>
     }
-    <span class="mcp" [title]="e.mcp()">◉ {{ e.native ? 'MCP' : 'Browser' }}</span>
-    <mui-button data-preview-launcher variant="secondary" size="sm" (pressed)="startPreview($event)">▶ Preview</mui-button>
+    <div class="mcp-details">
+      <button
+        class="mcp"
+        aria-label="MCP connection details"
+        [attr.aria-expanded]="mcpOpen()"
+        [title]="e.mcp()"
+        (click)="mcpOpen.set(!mcpOpen())"
+      >
+        ◉<span>{{ e.native ? 'MCP' : 'Browser' }}</span>
+      </button>
+      <mui-popover placement="left" [open]="mcpOpen()" (closeRequested)="mcpOpen.set(false)">
+        <section class="connection-details" aria-label="MCP connection and transaction status">
+          <strong>MCP connection</strong>
+          <p>{{ e.mcp() }}</p>
+          <p>{{ e.doc().name }} · revision {{ e.revision() }}</p>
+          <p>{{ e.status() }}</p>
+          <strong>Recent agent transactions</strong>
+          @for (outcome of e.agentOutcomes(); track $index) {
+            @if (outcome.documentId === e.doc().id) {
+              <p>{{ outcome.status }} · revision {{ outcome.revision }}</p>
+            }
+          }
+          @if (!e.agentOutcomes().length) {
+            <p>No agent transactions in this app session.</p>
+          }
+          <small
+            >Committed is document state; rendered capture and durable save have separate
+            acknowledgements.</small
+          >
+        </section>
+      </mui-popover>
+    </div>
+    <mui-button data-preview-launcher variant="secondary" size="sm" (pressed)="startPreview($event)"
+      >▶ Preview</mui-button
+    >
   </div>
 </header>

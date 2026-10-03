@@ -1,5 +1,6 @@
 @use './app/chrome/maple/generated/ui-tokens' as maple;
 @use './app/inspector';
+@use './app/workspace';
 :root {
   color-scheme: dark;
   --chrome-bg: #{maple.$maple-color-bg};
