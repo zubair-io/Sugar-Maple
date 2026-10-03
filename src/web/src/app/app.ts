@@ -37,6 +37,7 @@ import { SceneNode, uid, Operation } from './model/schema';
 import { exportNode, exportSupport, ExportTarget } from './model/export';
 import { ExportTargetSchema } from './model/tool-contract';
 import { LayersPanel } from './layers-panel';
+import { SelectionInspector } from './selection-inspector';
 import {
   MuiInputComponent,
   MuiToolbarComponent,
@@ -67,6 +68,7 @@ import { ChromeTheme } from './chrome/maple/sugar-maple-chrome-theme';
     MuiInputComponent,
     MuiToolbarComponent,
     LayersPanel,
+    SelectionInspector,
     MuiInspectorPanelComponent,
   ],
   host: { '[attr.data-chrome-theme]': 'theme.appearance()' },
@@ -579,6 +581,7 @@ export class App {
     if (n) this.e.perform([{ type: 'component.create', id: n.id }]);
   }
   insertComponent(id: string) {
+    if (this.e.mode() !== 'Design') { this.e.error.set('Switch to Design to insert a component.'); return; }
     const result = this.e.perform([
       { type: 'component.insert', id, pageId: this.e.pageId(), x: 80, y: 80 },
     ]);

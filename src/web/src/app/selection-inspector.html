@@ -1,0 +1,56 @@
+<section aria-label="Selection properties">
+  <h3>{{ e.selection().length }} layers selected</h3>
+  <p>{{ roots().length }} editing roots · {{ kinds() }}</p>
+  <p>
+    Shared properties apply to all editing roots in one undo step. Mixed values are blank until
+    edited. Selected descendants move with their selected ancestor.
+  </p>
+  @if (!editable()) {
+    <p role="status">
+      Some layers are locked or cannot be edited. Unlock them or refine the selection.
+    </p>
+  }
+  <fieldset [disabled]="!editable()">
+    <legend>Selection transform</legend>
+    <div class="fields">
+      @for (axis of axes; track axis) {
+        <label
+          >{{ axis.toUpperCase() }} · world bounds
+          <input
+            type="number"
+            [attr.aria-label]="'Selection ' + axis.toUpperCase()"
+            [ngModel]="bounds()?.[axis]"
+            [disabled]="!movable()"
+            (change)="move(axis, $event)"
+          />
+        </label>
+      }
+      @for (field of fields(); track field.key) {
+        <label
+          >{{ field.label }}
+          <input
+            [type]="field.text ? 'text' : 'number'"
+            [attr.aria-label]="'Selection ' + field.label"
+            [ngModel]="shared(field.key)"
+            [placeholder]="shared(field.key) === null ? 'Mixed' : ''"
+            [disabled]="disabled(field.key)"
+            [attr.min]="field.min ?? null"
+            [attr.max]="field.max ?? null"
+            [attr.step]="field.step ?? 'any'"
+            (change)="patch(field.key, $event)"
+          />
+        </label>
+      }
+    </div>
+  </fieldset>
+  @if (!movable()) {
+    <p>
+      Position requires unlocked layers in free layout. Fixed sizing is required for literal
+      width/height edits.
+    </p>
+  }
+  <p>
+    Name, text content, component, library and Repeat Grid data editing require a single layer.
+    Other properties appear only when every editing root supports them.
+  </p>
+</section>

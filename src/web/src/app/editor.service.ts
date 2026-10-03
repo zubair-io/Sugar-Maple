@@ -371,6 +371,7 @@ export class EditorService {
     }
   }
   add(kind: SceneNode['kind']) {
+    if (this.mode() !== 'Design') { this.error.set('Switch to Design to create a layer.'); return; }
     const parent = this.insertionParent(kind);
     const result = this.perform([
       {
