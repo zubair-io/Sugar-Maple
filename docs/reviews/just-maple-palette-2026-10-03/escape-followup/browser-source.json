@@ -1,0 +1,15 @@
+{
+  "checkout": "/Users/riabuz/.codex/worktrees/mac-build-recovery/_SugarMaple",
+  "revision": "551f7d9911f03a527b293b18ad018fd861832f50",
+  "dirty": "M src/web/src/app/chrome/maple/inventory.json\n M src/web/src/app/chrome/maple/sugar-maple-chrome-specimen.ts\n M src/web/src/app/chrome/maple/ui/popover/mui-popover.component.ts\n M src/web/tests/workspace-e2e.ts\n M tools/native-workspace.ts\n M tools/workspace-page.js",
+  "url": "http://127.0.0.1:51139",
+  "testsPassed": [
+    "src/web/tests/chrome-e2e.ts",
+    "src/web/tests/chrome-theme-e2e.ts",
+    "src/web/tests/workspace-e2e.ts",
+    "src/web/tests/sidebar-inspector-e2e.ts"
+  ],
+  "cleanupPassed": true,
+  "failure": "",
+  "cleanupFailure": ""
+}
