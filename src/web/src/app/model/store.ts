@@ -70,7 +70,9 @@ export class DocumentStore {
   }
   get document(): SceneDocument {
     return {
-      ...structuredClone((this.root.get('documentMetadata') as Y.Map<unknown>).toJSON()),
+      ...structuredClone(
+        (this.root.get('documentMetadata') as Y.Map<unknown> | undefined)?.toJSON() ?? {},
+      ),
       version: 1,
       id: this.root.get('id') as string,
       name: this.root.get('name') as string,

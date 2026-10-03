@@ -1,6 +1,7 @@
 import { test, expect } from 'bun:test';
 import { DocumentStore } from '../src/app/model/store';
 import { blankDocument, validateDocument, uid } from '../src/app/model/schema';
+import * as Y from 'yjs';
 
 const future = { vendor: 'next-editor', nested: [null, true, 2, { label: 'Preserve me' }] };
 function fixture() {
@@ -98,9 +99,17 @@ test('legacy documents without metadata initialize safe scene reads through ever
   delete legacy.libraries;
   delete legacy.pages[0].folderId;
   const expected = validateDocument(legacy);
+  // The review's legacy {document, crdt} checkpoint shape also normalizes
+  // through the public loader before a read. Its extra CRDT field is ignored.
+  const legacyState = new DocumentStore(legacy) as unknown as {
+    root: Y.Map<unknown>;
+    ydoc: Y.Doc;
+  };
+  legacyState.root.delete('documentMetadata');
   for (const store of [
     new DocumentStore(legacy),
     DocumentStore.fromCheckpoint({ document: legacy }),
+    DocumentStore.fromCheckpoint({ document: legacy, crdt: Y.encodeStateAsUpdate(legacyState.ydoc) }),
     DocumentStore.fromCheckpoint({
       checkpointVersion: 2,
       base: legacy,
@@ -121,4 +130,31 @@ test('legacy documents without metadata initialize safe scene reads through ever
     recovered.undo();
     expect(recovered.document).toEqual(expected);
   }
+});
+
+
+// Current public checkpoint loaders initialize this map. Inject the historical
+// in-memory shape to exercise the getter's compatibility boundary separately.
+test('legacy in-memory scene without metadata map remains readable through edit, undo and recovery', () => {
+  const store = new DocumentStore(blankDocument());
+  const expected = structuredClone(store.document);
+  const root = (store as unknown as { root: { delete(key: string): void; has(key: string): boolean } }).root;
+  root.delete('documentMetadata');
+  expect(root.has('documentMetadata')).toBe(false);
+  expect(store.document).toEqual(expected);
+  expect(store.revision).toBe(0);
+  expect(store.canUndo).toBe(false);
+  store.transact({
+    documentId: expected.id, expectedRevision: 0, requestId: uid(),
+    operations: [{ type: 'document.rename', name: 'Edited legacy state' }],
+  });
+  expect(store.document.name).toBe('Edited legacy state');
+  const recovered = DocumentStore.fromCheckpoint(JSON.parse(JSON.stringify(store.checkpoint())));
+  recovered.undo();
+  expect(recovered.document).toEqual(expected);
+  store.undo();
+  expect(root.has('documentMetadata')).toBe(false);
+  expect(store.document).toEqual(expected);
+  store.redo();
+  expect(store.document.name).toBe('Edited legacy state');
 });
