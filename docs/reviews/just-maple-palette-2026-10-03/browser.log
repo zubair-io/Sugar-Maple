@@ -1,0 +1,6 @@
+Owned browser editor: http://127.0.0.1:52661; checkout /Users/riabuz/.codex/worktrees/mac-build-recovery/_SugarMaple; revision f9f3bfa8756b63f52262df8b1813c6a4f4700566
+PASS: Maple chrome controls, numeric bounds, per-input error descriptions, overflow focus, nested/disabled tree activation, keyboard tabs, light/dark persistence, local fonts, utility isolation, production Shift-selection/search, mode guards, unchanged document and Canvas pixels, no editor in specimen or remote requests
+PASS: drawing and Repeat Grid theme contrast, real preview/error/drop/focus states, exact checkpoint preservation
+PASS: actual pointer/keyboard resizing, persisted widths/collapse/reload, constrained panel policy, 48/28 shell, overflow/appearance/MCP focus at1440/1024/800 and document invariance
+PASS: keyboard page rename, safe layer expansion/icons, contextual atomic prototype destinations, explicit output labels and locked/comments matrix
+Browser source/cleanup report: /Users/riabuz/.codex/worktrees/mac-build-recovery/_SugarMaple/build/browser-acceptance-4c76c22a-a72f-47b9-b1fa-09af48d22f60.json

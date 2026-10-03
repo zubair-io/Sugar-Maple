@@ -1,0 +1,82 @@
+26 |   await page.getByLabel('Chrome appearance',{exact:true}).selectOption(mode);
+27 |   const actual=await page.evaluate((names:string[])=>Object.fromEntries(['.sidebar','.inspector','.topbar','.drawing-toolbar'].map(selector=>{
+28 |    const style=getComputedStyle(document.querySelector(selector)!);
+29 |    return [selector,{paint:style.backgroundColor,tokens:Object.fromEntries(names.map(name=>[name,style.getPropertyValue(name).trim()]))}];
+30 |   })),Object.keys(expectations[mode]));
+31 |   for(const region of Object.values(actual))assert.deepEqual(region.tokens,expectations[mode],mode+' source palette');
+                                                        ^
+AssertionError: dark source palette
++ actual - expected
+
+  {
+    '--color-bg': '#1c1917',
++   '--color-bg-active': '',
++   '--color-bg-hover': 'rgba(255, 255, 255, .1)',
+-   '--color-bg-active': 'rgba(255, 255, 255, 0.15)',
+-   '--color-bg-hover': 'rgba(255, 255, 255, 0.1)',
+    '--color-border': '#44403c',
++   '--color-error-bg': 'rgba(239, 68, 68, .2)',
+-   '--color-error-bg': 'rgba(239, 68, 68, 0.2)',
+    '--color-error-text': '#f87171',
+    '--color-input-bg': '#1c1917',
+    '--color-primary': '#993629',
+    '--color-primary-dim': '#422016',
++   '--color-sidebar': '',
++   '--color-success-bg': 'rgba(34, 197, 94, .2)',
+-   '--color-sidebar': '#292524',
+-   '--color-success-bg': 'rgba(34, 197, 94, 0.2)',
+    '--color-success-text': '#4ade80',
+    '--color-surface': '#262524',
++   '--color-surface-alt': '',
+-   '--color-surface-alt': '#2e2c2a',
+    '--color-surface-hover': '#3a3836',
+    '--color-text-main': '#e7e5e4',
+    '--color-text-muted': '#a8a29e'
+  }
+
+ generatedMessage: false,
+     actual: {
+  "--color-bg": "#1c1917",
+  "--color-surface": "#262524",
+  "--color-surface-alt": "",
+  "--color-surface-hover": "#3a3836",
+  "--color-sidebar": "",
+  "--color-input-bg": "#1c1917",
+  "--color-text-main": "#e7e5e4",
+  "--color-text-muted": "#a8a29e",
+  "--color-border": "#44403c",
+  "--color-primary": "#993629",
+  "--color-bg-hover": "rgba(255, 255, 255, .1)",
+  "--color-bg-active": "",
+  "--color-primary-dim": "#422016",
+  "--color-success-bg": "rgba(34, 197, 94, .2)",
+  "--color-success-text": "#4ade80",
+  "--color-error-bg": "rgba(239, 68, 68, .2)",
+  "--color-error-text": "#f87171",
+},
+   expected: {
+  "--color-bg": "#1c1917",
+  "--color-surface": "#262524",
+  "--color-surface-alt": "#2e2c2a",
+  "--color-surface-hover": "#3a3836",
+  "--color-sidebar": "#292524",
+  "--color-input-bg": "#1c1917",
+  "--color-text-main": "#e7e5e4",
+  "--color-text-muted": "#a8a29e",
+  "--color-border": "#44403c",
+  "--color-primary": "#993629",
+  "--color-bg-hover": "rgba(255, 255, 255, 0.1)",
+  "--color-bg-active": "rgba(255, 255, 255, 0.15)",
+  "--color-primary-dim": "#422016",
+  "--color-success-bg": "rgba(34, 197, 94, 0.2)",
+  "--color-success-text": "#4ade80",
+  "--color-error-bg": "rgba(239, 68, 68, 0.2)",
+  "--color-error-text": "#f87171",
+},
+   operator: "deepStrictEqual",
+       diff: "simple",
+       code: "ERR_ASSERTION"
+
+      at /Users/riabuz/.codex/worktrees/mac-build-recovery/_SugarMaple/build/palette-source-audit.ts:31:52
+
+Bun v1.4.2 (macOS arm64)
