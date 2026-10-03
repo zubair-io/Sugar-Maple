@@ -31,8 +31,8 @@
   min-width: 0;
 }
 .compact-field > span {
-  width: 34px;
-  flex: 0 0 34px;
+  width: 20px;
+  flex: 0 0 20px;
   color: var(--color-text-muted);
   font-size: 11px;
   text-align: center;
@@ -50,20 +50,54 @@
 .alignment-strip {
   display: grid;
   grid-template-columns: repeat(6, minmax(0, 1fr));
-  gap: 2px;
-  padding: 2px 0 6px;
+  gap: 4px;
+  padding: 4px 0 8px;
 }
-.alignment-strip button {
+.distribution-strip {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px;
+  padding-bottom: 8px;
+}
+.inspector .alignment-strip button,
+.inspector .distribution-strip button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
   min-width: 0;
   height: 32px;
   padding: 0;
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
   color: var(--color-text-muted);
   font-size: 10px;
-  font-weight: 700;
 }
-.alignment-strip button:enabled:hover {
+.inspector .alignment-strip button:enabled:hover,
+.inspector .distribution-strip button:enabled:hover {
   color: var(--color-text-main);
   background: var(--color-surface-hover);
+}
+.alignment-strip svg,
+.distribution-strip svg {
+  width: 18px;
+  height: 18px;
+  flex: 0 0 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.distribution-strip span {
+  min-width: 0;
+}
+.transform-parent-field {
+  margin-top: 8px;
+}
+.transform-parent-field mui-select {
+  display: flex;
+  width: 100%;
 }
 .style-group-title {
   margin: 12px 0 4px;

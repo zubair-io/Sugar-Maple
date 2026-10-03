@@ -223,12 +223,12 @@ export class App {
     { key: 'rotation', label: '°', name: 'Rotation' },
   ] as const;
   readonly alignmentActions = [
-    { key: 'left', label: 'Align left', glyph: 'L' },
-    { key: 'center', label: 'Align horizontal center', glyph: 'C' },
-    { key: 'right', label: 'Align right', glyph: 'R' },
-    { key: 'top', label: 'Align top', glyph: 'T' },
-    { key: 'middle', label: 'Align vertical middle', glyph: 'M' },
-    { key: 'bottom', label: 'Align bottom', glyph: 'B' },
+    { key: 'left', label: 'Align left', path: 'M4 3v18M7 6h12v4H7zM7 14h8v4H7z' },
+    { key: 'center', label: 'Align horizontal center', path: 'M12 3v18M4 6h16v4H4zM7 14h10v4H7z' },
+    { key: 'right', label: 'Align right', path: 'M20 3v18M5 6h12v4H5zM9 14h8v4H9z' },
+    { key: 'top', label: 'Align top', path: 'M3 4h18M6 7h4v12H6zM14 7h4v8h-4z' },
+    { key: 'middle', label: 'Align vertical middle', path: 'M3 12h18M6 4h4v16H6zM14 7h4v10h-4z' },
+    { key: 'bottom', label: 'Align bottom', path: 'M3 20h18M6 5h4v12H6zM14 9h4v8h-4z' },
   ] as const;
   readonly managedByParent = computed(() => {
     const parent = this.e.doc().nodes.find((node) => node.id === this.e.node()?.parentId);

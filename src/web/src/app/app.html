@@ -310,13 +310,13 @@
                       [disabled]="!canAlign()"
                       (click)="alignSelection(action.key)"
                     >
-                      {{ action.glyph }}
+                      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path [attr.d]="action.path" /></svg>
                     </button>
                   }
                 </div>
-                <div class="alignment-strip" role="group" aria-label="Distribute selected layers">
-                  <button type="button" aria-label="Distribute horizontal spacing" title="Equal horizontal gaps, keeping the first and last layers fixed" [disabled]="!canDistribute()" (click)="distribute('x')">↔</button>
-                  <button type="button" aria-label="Distribute vertical spacing" title="Equal vertical gaps, keeping the first and last layers fixed" [disabled]="!canDistribute()" (click)="distribute('y')">↕</button>
+                <div class="distribution-strip" role="group" aria-label="Distribute selected layers">
+                  <button type="button" aria-label="Distribute horizontal spacing" title="Equal horizontal gaps, keeping the first and last layers fixed" [disabled]="!canDistribute()" (click)="distribute('x')"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 4v16M20 4v16M10 6h4v12h-4zM6 12h2M16 12h2" /></svg><span>Horizontal gaps</span></button>
+                  <button type="button" aria-label="Distribute vertical spacing" title="Equal vertical gaps, keeping the first and last layers fixed" [disabled]="!canDistribute()" (click)="distribute('y')"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 4h16M4 20h16M6 10h12v4H6zM12 6v2M12 16v2" /></svg><span>Vertical gaps</span></button>
                 </div>
                 <div class="inspector-grid">
                   @for (field of transformFields; track field.key) {
@@ -338,7 +338,7 @@
                 @if (managedByParent()) {
                   <p class="inspector-note">Position is managed by the parent layout.</p>
                 }
-                <mui-field label="Parent">
+                <mui-field label="Parent" [stacked]="true" class="transform-parent-field">
                   <mui-select
                     ariaLabel="Parent"
                     [value]="n.parentId ?? ''"
@@ -347,7 +347,7 @@
                     (valueChange)="previewReparent($event || null)"
                   />
                 </mui-field>
-                <mui-field label="Move behavior">
+                <mui-field label="Move behavior" [stacked]="true" class="transform-parent-field">
                   <mui-select ariaLabel="Reparent placement" [value]="reparentPlacement()"
                     [options]="reparentOptions" [disabled]="!canReparent()"
                     (valueChange)="reparentPlacement.set($any($event)); cancelReparent()" />
