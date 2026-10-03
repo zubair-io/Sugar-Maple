@@ -1,0 +1,23 @@
+{
+  "source": "a49b3d2d34c339951faff0a636626ee452e99da6",
+  "sourceTree": "c80b386d14c38d5d3caefbf80b472da718cf30c9",
+  "currentBaseMain": "8c54ac379716ae7421083e6728e8c1dd6d696d50",
+  "snapshotHead": "c7422c1b21f29819b7efa7a70189470da8933d7d",
+  "metadataHead": "4a76e96a473b052eea410c290f81a4dacd799baa",
+  "diagnosticHead": "cbbc2f316c0297b4d0707b06b3189679684b12fe",
+  "anticipatedMergeTree": "c80b386d14c38d5d3caefbf80b472da718cf30c9",
+  "fullTreeEqual": true,
+  "models": 165,
+  "assertions": 2365,
+  "browserSuites": 35,
+  "commandExitCodes": {
+    "models": 0,
+    "typecheck": 0,
+    "macBuild": 0,
+    "browser": 0,
+    "native": 0,
+    "legacyComparison": 0,
+    "sceneComparison": 0
+  },
+  "remaining": "exact-head approvals/CI, dependency delivery and resulting-main verification"
+}
