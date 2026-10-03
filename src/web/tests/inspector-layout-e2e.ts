@@ -18,6 +18,16 @@ try {
     await page.screenshot({ path: 'build/inspector-layout/chrome.png' });
   }
   assert.equal(result.passed, true);
+  await page.evaluate(async () => {
+    await window.sugarMaple.dispatch('selection.set', { id: 'inspector-text' });
+    await window.sugarMaple.dispatch('layout.inspect');
+  });
+  for (const theme of ['dark', 'light']) {
+    await page.getByLabel('Chrome appearance', { exact: true }).selectOption(theme);
+    await page.getByLabel('Font weight', { exact: true }).scrollIntoViewIfNeeded();
+    await page.screenshot({ path: `build/inspector-layout/typography-${theme}.png` });
+  }
+
   assert.deepEqual(errors, []);
   await Bun.write('build/inspector-layout/chrome.json', JSON.stringify(result, null, 2));
   console.log(
