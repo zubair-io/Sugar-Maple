@@ -27,10 +27,11 @@ async function run(args: string[]) {
     stderr: "inherit",
     env: { ...process.env, MAPLE_COMPARISON_EDITOR_URL: editorURL },
   });
-  if ((await child.exited) !== 0) throw Error(`Comparison failed: ${args[0]}`);
+  const exitCode = await child.exited;
   console.log(
-    `Comparison stage completed: ${args[0]}; elapsed ${Math.round(performance.now() - started)} ms`,
+    `Comparison stage ${exitCode === 0 ? "completed" : "failed"}: ${args[0]}; exit ${exitCode}; elapsed ${Math.round(performance.now() - started)} ms`,
   );
+  if (exitCode !== 0) throw Error(`Comparison failed: ${args[0]}`);
   if (serverFailure || server?.child.exitCode !== null)
     throw Error(
       `Owned comparison server stopped: ${serverFailure ?? server?.child.exitCode}`,
