@@ -102,9 +102,55 @@ window.canvasTransformAcceptance = async function () {
       rightVisible: visible(grip("right")),
     });
   }
+  // These explicit authoring commands prove status separately from chrome invariance above.
+  const beforeAgent = await window.sugarMaple.dispatch("document.get");
+  await window.sugarMaple.dispatch("transaction.apply", {
+    documentId: beforeAgent.documentId,
+    expectedRevision: beforeAgent.revision,
+    requestId: crypto.randomUUID(),
+    operations: [{ type: "document.rename", name: "Workspace status fixture" }],
+  });
+  const committed = await window.sugarMaple.dispatch("document.get");
+  let rejected = false;
+  try {
+    await window.sugarMaple.dispatch("transaction.apply", {
+      documentId: committed.documentId,
+      expectedRevision: beforeAgent.revision,
+      requestId: crypto.randomUUID(),
+      operations: [{ type: "document.rename", name: "Must reject" }],
+    });
+  } catch {
+    rejected = true;
+  }
+  check(rejected, "Stale transaction rejected");
+  document.querySelector('[aria-label="MCP connection details"]').click();
+  await settle();
+  const content = document.querySelector(".connection-details").textContent;
+  check(
+    content.includes("Committed · revision " + committed.revision),
+    "Actual committed revision displayed",
+  );
+  check(
+    content.includes("Rejected · revision " + committed.revision),
+    "Actual rejected revision displayed",
+  );
+  document.dispatchEvent(
+    new KeyboardEvent("keydown", { key: "Escape", bubbles: true }),
+  );
+  await window.sugarMaple.dispatch("history.undo", {
+    documentId: committed.documentId,
+    expectedRevision: committed.revision,
+  });
+  await settle();
+  check(
+    JSON.stringify(
+      (await window.sugarMaple.dispatch("document.get")).document,
+    ) === JSON.stringify(beforeAgent.document),
+    "Explicit agent fixture undo restores document",
+  );
   return {
     passed: true,
-    checks: 2,
+    checks: 4,
     states: results,
     scope:
       "Actual sized production WKWebView, DOM keyboard resizing and stored preference, chrome geometry/themes/MCP focus; pointer/reload are separately tested in Chrome. No physical input or native restart persistence claim.",
