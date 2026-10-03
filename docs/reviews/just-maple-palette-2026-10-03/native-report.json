@@ -1,0 +1,30 @@
+{
+  "engine" : "WKWebView",
+  "memory" : {
+    "ownerPeakRSSBytes" : 192577536,
+    "scope" : "This benchmark UI process only; WebKit content\/GPU\/network process memory is not included"
+  },
+  "nativeBridge" : "In-memory benchmark recovery\/status\/autosave only; production native disk\/MCP\/clipboard costs excluded",
+  "os" : "Version 27.0 (Build 26A428)",
+  "result" : {
+    "checks" : 2,
+    "passed" : true,
+    "scope" : "Rendered production chrome and Repeat Grid draft\/preview\/error\/focus\/drop states; exact scene\/history preservation. Synthetic DOM events do not prove physical input or VoiceOver.",
+    "themes" : [
+      {
+        "buttonContrast" : 12.186231381577144,
+        "drawing" : "rgb(38, 37, 36)",
+        "errorContrast" : 5.4838725022584018,
+        "inputContrast" : 13.928878777679465,
+        "theme" : "dark"
+      },
+      {
+        "buttonContrast" : 15.169185291778712,
+        "drawing" : "rgb(255, 255, 255)",
+        "errorContrast" : 7.4327384475097835,
+        "inputContrast" : 15.169185291778712,
+        "theme" : "light"
+      }
+    ]
+  }
+}
