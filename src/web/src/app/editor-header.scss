@@ -17,7 +17,7 @@ button:hover {
   grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
   align-items: center;
   border-bottom: 1px solid var(--color-border);
-  background: var(--color-surface);
+  background: var(--chrome-header-bg, var(--color-surface));
 }
 .header-left {
   height: 100%;
@@ -79,7 +79,7 @@ button:hover {
 .document-title {
   width: 130px;
   min-width: 60px;
-  background: var(--color-input-bg);
+  background: var(--chrome-control-bg, var(--color-input-bg));
   border: 1px solid var(--color-primary);
   border-radius: 3px;
   color: var(--color-text-main);
@@ -99,7 +99,7 @@ button:hover {
 }
 .mode-switch {
   display: flex;
-  background: var(--color-input-bg);
+  background: var(--chrome-control-bg, var(--color-input-bg));
   padding: 3px;
   border: 1px solid var(--color-border);
   border-radius: 7px;

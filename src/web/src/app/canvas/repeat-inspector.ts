@@ -232,7 +232,7 @@ import { type SceneNode, type Operation, uid } from '../model/schema';
       max-width: 100%;
       width: 100%;
       padding: 6px;
-      background: var(--color-input-bg);
+      background: var(--chrome-control-bg, var(--color-input-bg));
       border: 1px solid var(--color-border);
       border-radius: 4px;
       color: inherit;

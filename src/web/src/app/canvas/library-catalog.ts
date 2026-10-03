@@ -255,7 +255,7 @@ import { libraryAppearance } from '../model/library-appearance';
       padding: 7px;
       border: 1px solid var(--color-border);
       border-radius: 6px;
-      background: var(--color-input-bg);
+      background: var(--chrome-control-bg, var(--color-input-bg));
       color: var(--color-text-main);
     }
     textarea {
@@ -264,7 +264,7 @@ import { libraryAppearance } from '../model/library-appearance';
     button {
       border:1px solid var(--color-border);
       border-radius:4px;
-      background:var(--color-input-bg);
+      background:var(--chrome-control-bg, var(--color-input-bg));
       color:var(--color-text-main);
       padding: 7px;
       cursor: pointer;
