@@ -118,6 +118,7 @@ await run([process.execPath, "tools/native-web-copy.ts"]);
 await run([process.execPath, "tools/native-inspector-layout.ts"]);
 await run([process.execPath, "tools/native-chrome-theme.ts"]);
 await run([process.execPath, "tools/native-selection-inspector.ts"]);
+await run([process.execPath, "tools/native-sidebar-inspector.ts"]);
 await run([process.execPath, "tools/native-library-diagnostics.ts"]);
 await run([process.execPath, "tools/native-scene-border.ts"]);
 await run([process.execPath, "tools/native-library-preview-acceptance.ts"]);
@@ -157,4 +158,8 @@ await run([
   "--reparent",
 ]);
 
-await run([process.execPath, "tools/native-canvas-transform-mcp.ts", "--repeat"]);
+await run([
+  process.execPath,
+  "tools/native-canvas-transform-mcp.ts",
+  "--repeat",
+]);
