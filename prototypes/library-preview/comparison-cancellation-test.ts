@@ -64,7 +64,7 @@ try {
         clearTimeout(timeout);
       }
       await Promise.all(drains);
-      assert.ok(performance.now() - started < 31000, "Bounded cancellation");
+      assert.ok(performance.now() - started < 30000, "Bounded cancellation");
       assert.equal(
         code === 0,
         scenario === "orphan",
