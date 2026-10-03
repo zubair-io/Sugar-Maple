@@ -1,0 +1,20 @@
+{
+  "source": "da1e5e32d5c56e92320016475bd047538be599c5",
+  "tree": "829d6480da0d2553de046f12dc3f9f0738d34454",
+  "currentMain": "fc847d498e1e70149c02aedf5e3b9c50a71b6b9c",
+  "metadataHead": "a1a0330d66d8c9ac71d84ce6ba299844a89d5be1",
+  "actualAnticipatedMergeTreeMatchesSource": true,
+  "models": 161,
+  "assertions": 2361,
+  "browserSuites": 34,
+  "commandExitCodes": {
+    "models": 0,
+    "typecheck": 0,
+    "macBuild": 0,
+    "browser": 0,
+    "native": 0,
+    "legacyComparison": 0,
+    "sceneComparison": 0
+  },
+  "scope": "full source tree for current main plus metadata candidate; proofs committed afterwards are not runtime source"
+}

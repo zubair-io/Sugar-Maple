@@ -1,0 +1,100 @@
+❯ Building...
+✔ Building...
+Initial chunk files | Names                       |  Raw size
+styles.css          | styles                      |  30.99 kB | 
+chunk-VUJOFXKG.js   | -                           | 987 bytes | 
+main.js             | main                        | 917 bytes | 
+
+                    | Initial total               |  32.90 kB
+
+Lazy chunk files    | Names                       |  Raw size
+chunk-5D3R7WEX.js   | app                         | 597.37 kB | 
+chunk-RY42GGBF.js   | -                           | 204.09 kB | 
+chunk-4SV6GJL6.js   | -                           | 177.64 kB | 
+chunk-JM6PIPUG.js   | sugar-maple-chrome-specimen |  24.84 kB | 
+chunk-ACCVXGQB.js   | preview-application         |   6.21 kB | 
+
+Application bundle generation complete. [2.387 seconds] - 2026-10-03T02:30:55.676Z
+
+Watch mode enabled. Watching for file changes...
+NOTE: Raw file sizes do not reflect development server per-request transformations.
+  ➜  Local:   http://127.0.0.1:51906/
+Owned source checkout editor: http://127.0.0.1:51906; process group 16852
+Comparison stage starting: tools/library-consumer.ts
+PASS: exact Web Awesome 3.14.0 declarations compile; generated Button/Input/Card imports bundle and render offline with real shadow controls, values, slots and declared card spacing
+Comparison stage completed: tools/library-consumer.ts; exit 0; elapsed 1593 ms
+Comparison stage starting: tools/library-preview-acceptance.ts
+bun test v1.4.2 (744846f84)
+
+prototypes/library-preview/scene-contract.test.ts:
+(pass) the bounded library scene carries resolved authored geometry and named slots without mutating the source [17.83ms]
+(pass) source token bindings, local overrides and nested slots survive projection and one-step source undo [6.93ms]
+(pass) resolved responsive boxes and nested rotations are carried instead of replacing them with package intrinsic sizes [5.23ms]
+(pass) native style gaps return actionable diagnostics before replacing a supported scene [4.53ms]
+(pass) scene packets reject inconsistent graphs, unsupported source, privileged keys and aggregate payload excess [11.02ms]
+
+prototypes/library-preview/contract.test.ts:
+(pass) preview shares the real pinned manifest types, variants and bounds [0.48ms]
+(pass) preview messages reject privileged methods, paths, extra keys, wrong versions and unbounded payloads [0.50ms]
+
+ 7 pass
+ 0 fail
+ 55 expect() calls
+Ran 7 tests across 2 files. [261.00ms]
+{"passed":true,"package":{"name":"@awesome.me/webawesome","version":"3.14.0"},"hashes":{"runtime.js":{"bytes":280845,"sha256":"93082769edb42285947792aed7df06fb85d8d09003f1fe71ee62e7a7268288e8"},"runtime.css":{"bytes":155312,"sha256":"f15ad9222cd24a7a5d24b52ad66f3e8520ee259b11a7215a2beb157208cd4cae"},"host.js":{"bytes":103254,"sha256":"dd1f3116145b33e3910519fc68d57f37fea759ec8678b4457fea071ec520ac41"},"host.css":{"bytes":2228,"sha256":"a24540b648d3e441dc8d5daff81c490da0b96b516402398f7a2169fd665fc9b4"},"semantic.html":{"bytes":3050,"sha256":"9aab368f9a08fdfe8ed1a6448e49b4b82858a736798b1ce9fe5fb81e44b22129"},"fixture.json":{"bytes":23547,"sha256":"32d0a10a2321395ec0cd2956fb48a6652dba49c23a091f5ee72a825c3911f2a6"}}}
+PASS: browser-test.ts stops its server when the browser launch boundary throws
+PASS: browser-test.ts stops its server when the browser close boundary throws
+PASS: compare.ts stops its server when the browser launch boundary throws
+PASS: compare.ts stops its server when the browser close boundary throws
+PASS: scene-compare.ts stops its server when the browser launch boundary throws
+PASS: scene-compare.ts stops its server when the browser close boundary throws
+PASS: report-test.ts stops its server when the browser launch boundary throws
+PASS: report-test.ts stops its server when the browser close boundary throws
+PASS: isolated real Web Awesome controls, typed props/events, denied parent/storage/network/bridge, stale rejection, malformed input, opt-in/stop and offline rendering
+PASS: authored geometry and actual package slots/variants/token/overrides, accessible typed events, ephemeral update/undo/reset, disabled/rejection/stop and offline scene rendering
+Comparison stage completed: tools/library-preview-acceptance.ts; exit 0; elapsed 8135 ms
+Comparison stage starting: prototypes/library-preview/native-stop-failure-test.ts
+PASS: complete actual comparison exits naturally after native shutdown failure; real leaked listener fails the unchanged 30-second cleanup deadline
+Comparison stage completed: prototypes/library-preview/native-stop-failure-test.ts; exit 0; elapsed 40076 ms
+Comparison stage starting: prototypes/library-preview/compare.ts
+Comparison native phase: building trusted fixture
+Comparison native phase: trusted build completed
+Comparison native phase: sandboxed helper ready
+PASS: real Canvas/DOM fixture geometry and inspector undo; actual DOM input, package typed events and native rendered consumers; four pipeline timings and asset costs recorded
+Comparison stage completed: prototypes/library-preview/compare.ts; exit 0; elapsed 10404 ms
+Comparison stage starting: run
+$ bun run --cwd src/web build
+$ bun --bun ../../node_modules/@angular/cli/bin/ng.js build --base-href ./
+❯ Building...
+✔ Building...
+Initial chunk files | Names                       |  Raw size | Estimated transfer size
+main-EWMWBZWE.js    | main                        | 179.77 kB |                52.43 kB
+styles-LVZSUZJI.css | styles                      |  27.01 kB |                 4.67 kB
+
+                    | Initial total               | 206.78 kB |                57.10 kB
+
+Lazy chunk files    | Names                       |  Raw size | Estimated transfer size
+chunk-1ppeyNPG.js   | -                           | 409.22 kB |                82.79 kB
+chunk-C3Vy3xxd.js   | app                         | 354.11 kB |                87.06 kB
+chunk-C0TADieB.js   | -                           |  55.97 kB |                13.87 kB
+chunk-B4AcCPSZ.js   | sugar-maple-chrome-specimen |   7.72 kB |                 2.38 kB
+chunk-C4bhhRzy.js   | preview-application         |   2.50 kB |                 1.11 kB
+
+Application bundle generation complete. [2.863 seconds] - 2026-10-03T02:31:59.159Z
+
+▲ [WARNING] src/app/app.scss exceeded maximum budget. Budget 4.00 kB was not met by 3.65 kB with a total of 7.65 kB.
+
+
+Output location: /Users/riabuz/.codex/worktrees/mac-build-recovery/_SugarMaple/src/web/dist/sugar-maple-editor
+
+Comparison stage completed: run; exit 0; elapsed 3187 ms
+Comparison stage starting: prototypes/library-preview/package-cost.ts
+{"editor":{"raw":1649914,"gzip":885389,"brotli":838127},"library":{"files":[{"name":"runtime.js","raw":280845,"gzip":73072,"brotli":61690,"sha256":"93082769edb42285947792aed7df06fb85d8d09003f1fe71ee62e7a7268288e8"},{"name":"runtime.css","raw":155312,"gzip":16517,"brotli":11061,"sha256":"f15ad9222cd24a7a5d24b52ad66f3e8520ee259b11a7215a2beb157208cd4cae"}],"raw":436157,"gzip":89589,"brotli":72751},"host":{"raw":105482,"brotli":25538},"semantic":{"files":[{"name":"semantic.html","raw":3050,"gzip":691,"brotli":457,"sha256":"9aab368f9a08fdfe8ed1a6448e49b4b82858a736798b1ce9fe5fb81e44b22129"}],"raw":3050,"gzip":691,"brotli":457}}
+Comparison stage completed: prototypes/library-preview/package-cost.ts; exit 0; elapsed 1836 ms
+Comparison stage starting: prototypes/library-preview/comparison-report.ts
+Wrote source-bound real-library comparison report
+Comparison stage completed: prototypes/library-preview/comparison-report.ts; exit 0; elapsed 13 ms
+Comparison stage starting: prototypes/library-preview/report-test.ts
+PASS: comparison report renders all four real images and supports path/column controls
+Comparison stage completed: prototypes/library-preview/report-test.ts; exit 0; elapsed 2506 ms
+PASS: fresh source checkout comparison passes without using unrelated port 4200; no live owned server descendants
