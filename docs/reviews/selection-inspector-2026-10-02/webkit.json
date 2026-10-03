@@ -1,0 +1,46 @@
+{
+  "engine" : "WKWebView",
+  "memory" : {
+    "ownerPeakRSSBytes" : 191234048,
+    "scope" : "This benchmark UI process only; WebKit content\/GPU\/network process memory is not included"
+  },
+  "nativeBridge" : "In-memory benchmark recovery\/status\/autosave only; production native disk\/MCP\/clipboard costs excluded",
+  "os" : "Version 27.0 (Build 26A428)",
+  "result" : {
+    "checks" : 14,
+    "geometry" : [
+      {
+        "fields" : 9,
+        "theme" : "dark",
+        "width" : 260
+      },
+      {
+        "fields" : 9,
+        "theme" : "dark",
+        "width" : 320
+      },
+      {
+        "fields" : 9,
+        "theme" : "dark",
+        "width" : 420
+      },
+      {
+        "fields" : 9,
+        "theme" : "light",
+        "width" : 260
+      },
+      {
+        "fields" : 9,
+        "theme" : "light",
+        "width" : 320
+      },
+      {
+        "fields" : 9,
+        "theme" : "light",
+        "width" : 420
+      }
+    ],
+    "passed" : true,
+    "scope" : "Production multi-selection shared\/Mixed\/applicability, world transforms, root filtering, atomic undo, lock\/managed\/invalid guards and read-only mode insertion. DOM events do not prove physical native input."
+  }
+}
