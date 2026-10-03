@@ -1,0 +1,14 @@
+{
+  "source": "35da29564cb711a1e90f55d06300e7ad2d42b4ec",
+  "base": "8ba79a7bec38e5ae24c40ef03964798397a18924",
+  "fullBrowserSource": "d7d04a9",
+  "fullNativeSource": "d7d04a9",
+  "productionSourceUnchangedSinceFullSuites": true,
+  "nativePhysicalInputAccepted": false,
+  "nativeAppRestartPreferencesAccepted": false,
+  "testedWidths": [
+    1440,
+    1024,
+    800
+  ]
+}
