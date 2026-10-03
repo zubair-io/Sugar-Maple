@@ -16,8 +16,8 @@ interface Field {
   kinds?: readonly string[];
 }
 const fields = [
-  { key: 'width', label: 'Width', min: 1 },
-  { key: 'height', label: 'Height', min: 1 },
+  { key: 'width', label: 'Width', min: 1, max: 10000 },
+  { key: 'height', label: 'Height', min: 1, max: 10000 },
   { key: 'rotation', label: 'Rotation' },
   { key: 'opacity', label: 'Opacity', min: 0, max: 1, step: 0.01 },
   {
@@ -30,6 +30,7 @@ const fields = [
     key: 'strokeWidth',
     label: 'Border width',
     min: 0,
+    max: 50,
     kinds: ['artboard', 'frame', 'rectangle', 'ellipse', 'button', 'input', 'path'],
   },
   {
@@ -38,7 +39,7 @@ const fields = [
     text: true,
     kinds: ['artboard', 'frame', 'rectangle', 'ellipse', 'button', 'input', 'path'],
   },
-  { key: 'fontSize', label: 'Font size', min: 6, kinds: textKinds },
+  { key: 'fontSize', label: 'Font size', min: 6, max: 500, kinds: textKinds },
   { key: 'fontWeight', label: 'Font weight', min: 100, max: 900, step: 100, kinds: textKinds },
   { key: 'lineHeight', label: 'Line height', min: 0.5, max: 5, step: 0.1, kinds: textKinds },
   {
@@ -104,10 +105,24 @@ export class SelectionInspector {
   }
   patch(key: Key, event: Event) {
     if (this.disabled(key)) return;
-    const field = fields.find((f) => f.key === key)!;
+    const field = fields.find((f) => f.key === key)! as Field;
     const raw = (event.target as HTMLInputElement).value;
     if (!raw.trim()) return;
-    const value = 'text' in field ? raw : Number(raw);
+    const value = field.text ? raw : Number(raw);
+    if (field.text && !/^#[0-9a-f]{6}$/i.test(raw)) {
+      this.e.error.set('Enter a six-digit hex color, such as #2563eb.');
+      return;
+    }
+    if (
+      typeof value === 'number' &&
+      ((field.min !== undefined && value < field.min) ||
+        (field.max !== undefined && value > field.max))
+    ) {
+      this.e.error.set(
+        `${field.label} must be between ${field.min ?? '−∞'} and ${field.max ?? '∞'}.`,
+      );
+      return;
+    }
     if (typeof value === 'number' && !Number.isFinite(value)) return;
     this.e.perform(
       this.roots().map((n) => ({
