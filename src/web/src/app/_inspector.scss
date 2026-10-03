@@ -31,11 +31,27 @@
   min-width: 0;
 }
 .compact-field > span {
-  width: 20px;
-  flex: 0 0 20px;
+  width: 34px;
+  flex: 0 0 34px;
   color: var(--color-text-muted);
   font-size: 11px;
   text-align: center;
+}
+#transform-details .compact-field > span {
+  width: 20px;
+  flex-basis: 20px;
+}
+#typography-details .compact-field,
+#style-details .compact-field {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 4px;
+}
+#typography-details .compact-field > span,
+#style-details .compact-field > span {
+  width: auto;
+  flex: none;
+  text-align: left;
 }
 .inspector .compact-field input {
   flex: 1;

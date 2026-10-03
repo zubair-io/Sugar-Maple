@@ -16,7 +16,7 @@ async function run(args: string[]) {
     stderr: "inherit",
   });
   if (await child.exited)
-    throw Error("Native web copy acceptance failed: " + args[0]);
+    throw Error("Native inspector layout acceptance failed: " + args[0]);
 }
 await run([
   "swiftc",
@@ -33,6 +33,7 @@ await run([
   resolve(output, "report.json"),
   resolve(output, "webkit.png"),
   "--transforms",
+  "--always-scrollbars",
 ]);
 const report = await Bun.file(resolve(output, "report.json")).json();
 if (report.result?.passed !== true || report.result?.checks !== 3)

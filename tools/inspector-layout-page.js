@@ -22,6 +22,7 @@ window.canvasTransformAcceptance = async function () {
         y: 60 + i * 20,
         width: 120,
         height: 80,
+        strokeWidth: 2,
       },
     })),
   });
@@ -65,7 +66,7 @@ window.canvasTransformAcceptance = async function () {
       );
       check(
         boxes[i].width >= 30 && boxes[i].height >= 30,
-        `${width}: alignment target remains usable`,
+        `${width}: alignment target remains usable (${boxes[i].width} × ${boxes[i].height})`,
       );
       check(
         boxes[i].x >= sectionBox.x && boxes[i].right <= sectionBox.right + 1,
@@ -122,12 +123,105 @@ window.canvasTransformAcceptance = async function () {
     );
     results.push({ width, alignment: boxes, fields });
   }
+  const current = await window.sugarMaple.dispatch("document.get");
+  await window.sugarMaple.dispatch("transaction.apply", {
+    documentId: current.documentId,
+    expectedRevision: current.revision,
+    requestId: crypto.randomUUID(),
+    operations: [
+      {
+        type: "node.add",
+        node: {
+          id: "inspector-text",
+          pageId: current.document.pages[0].id,
+          kind: "text",
+          name: "Typography fixture",
+          text: "Readable type",
+          x: 80,
+          y: 80,
+          width: 240,
+          height: 44,
+          strokeWidth: 2,
+        },
+      },
+    ],
+  });
+  const typography = [];
+  const appearanceCheckpoint = JSON.stringify(
+    await window.sugarMaple.dispatch("document.checkpoint"),
+  );
+  for (const theme of ["dark", "light"]) {
+    const appearance = document.querySelector(
+      '[aria-label="Chrome appearance"]',
+    );
+    appearance.value = theme;
+    appearance.dispatchEvent(new Event("change", { bubbles: true }));
+    await settle();
+    check(
+      JSON.stringify(
+        await window.sugarMaple.dispatch("document.checkpoint"),
+      ) === appearanceCheckpoint,
+      "Theme switch preserves authored document/history",
+    );
+    for (const id of ["inspector-text", ids[0]]) {
+      await window.sugarMaple.dispatch("selection.set", { id });
+      await settle();
+      const checkpoint = JSON.stringify(
+        await window.sugarMaple.dispatch("document.checkpoint"),
+      );
+      for (const width of [260, 320, 420]) {
+        workspace.style.gridTemplateColumns = `280px minmax(0, 1fr) ${width}px`;
+        await settle();
+        const section = document.querySelector(
+          id === "inspector-text" ? "#typography-details" : "#style-details",
+        );
+        const labels = [...section.querySelectorAll(".compact-field > span")];
+        check(
+          labels.length >= (id === "inspector-text" ? 4 : 1),
+          "Descriptive fields are present",
+        );
+        for (const label of labels) {
+          const context = document.createElement("canvas").getContext("2d");
+          context.font = getComputedStyle(label).font;
+          check(
+            context.measureText(label.textContent.trim()).width <=
+              label.clientWidth + 1,
+            `${theme}/${width}: complete ${label.textContent} label is readable`,
+          );
+          const input = label.parentElement.querySelector("input");
+          check(
+            bounds(input).width >= 64 &&
+              bounds(input).right <= bounds(section).right + 1,
+            `${theme}/${width}: descriptive input remains readable and contained`,
+          );
+        }
+        check(
+          JSON.stringify(
+            await window.sugarMaple.dispatch("document.checkpoint"),
+          ) === checkpoint,
+          "Appearance and field-width inspection preserve document/history",
+        );
+        typography.push({
+          theme,
+          width,
+          kind: id === "inspector-text" ? "text" : "rectangle",
+          labels: labels.map((l) => l.textContent.trim()),
+        });
+      }
+    }
+  }
+  document.querySelector('[aria-label="Chrome appearance"]').value = "dark";
+  document
+    .querySelector('[aria-label="Chrome appearance"]')
+    .dispatchEvent(new Event("change", { bubbles: true }));
+  await window.sugarMaple.dispatch("selection.set", { id: ids[0] });
   workspace.style.removeProperty("grid-template-columns");
   await settle();
   return {
     passed: true,
     checks: 3,
     widths: results,
+    descriptiveFields: typography,
     scope:
       "Production inspector layout at constrained 260/320/420px, exact checkpoint preservation; no panel-resize or physical input claim",
   };
