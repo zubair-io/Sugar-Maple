@@ -87,13 +87,13 @@
           <p>{{ e.doc().name }} · revision {{ e.revision() }}</p>
           <p>{{ e.status() }}</p>
           <strong>Recent agent transactions</strong>
-          @for (outcome of e.agentOutcomes(); track $index) {
+          @for (outcome of agentOutcomes(); track $index) {
             @if (outcome.documentId === e.doc().id) {
               <p>{{ outcome.status }} · revision {{ outcome.revision }}</p>
             }
           }
-          @if (!e.agentOutcomes().length) {
-            <p>No agent transactions in this app session.</p>
+          @if (!agentOutcomes().length) {
+            <p>No agent transactions for this document in this app session.</p>
           }
           <small
             >Committed is document state; rendered capture and durable save have separate

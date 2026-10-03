@@ -1,4 +1,4 @@
-import { Injectable, OnDestroy, computed, signal } from '@angular/core';
+import { Injectable, OnDestroy, computed, signal, untracked } from '@angular/core';
 const key = 'sugar-maple.workspace.v1';
 const limits = { left: [220, 400], right: [260, 420] } as const;
 type Side = keyof typeof limits;
@@ -71,8 +71,12 @@ export class WorkspacePreferences implements OnDestroy {
     this.save();
   }
   open(side: Side) {
-    this.state.update((s) => ({ ...s, [side + 'Open']: true, requested: side }));
-    this.save();
+    untracked(() => {
+      const state = this.state();
+      if ((side === 'left' ? state.leftOpen : state.rightOpen) && state.requested === side) return;
+      this.state.set({ ...state, [side + 'Open']: true, requested: side });
+      this.save();
+    });
   }
   resize(side: Side, value: number) {
     if (Number.isFinite(value)) this.state.update((s) => ({ ...s, [side]: clamp(side, value) }));
@@ -125,6 +129,10 @@ export class WorkspacePreferences implements OnDestroy {
       { signal: controller.signal },
     );
     element.addEventListener('pointercancel', () => finish(true), { signal: controller.signal });
+    element.addEventListener('lostpointercapture', () => finish(true), {
+      signal: controller.signal,
+    });
+    window.addEventListener('blur', () => finish(true), { signal: controller.signal });
     window.addEventListener(
       'keydown',
       (e) => {
