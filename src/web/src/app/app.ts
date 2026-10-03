@@ -132,7 +132,9 @@ export class App {
     { value: '', label: 'No folder' },
     ...this.e.doc().folders.map((f) => ({ value: f.id, label: f.name })),
   ]);
+  readonly selectionParent = computed(() => { const roots = this.e.selectedRoots(); const parent = roots[0]?.parentId ?? ''; return roots.every(n => (n.parentId ?? '') === parent) ? parent : '__mixed__'; });
   readonly parentSelectOptions = computed(() => [
+    ...(this.selectionParent() === '__mixed__' ? [{value:'__mixed__',label:'Mixed parents',disabled:true}] : []),
     { value: '', label: 'Page root' },
     ...this.parentOptions().map((n) => ({ value: n.id, label: n.name, disabled: !this.projection.canEdit(n) })),
   ]);
