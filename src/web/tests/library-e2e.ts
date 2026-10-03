@@ -1,3 +1,4 @@
+import { editorURL } from './editor-url';
 import { chromium, expect } from '@playwright/test';
 import { strict as assert } from 'node:assert';
 import { webAwesomeManifest as manifest } from '../../../tools/library-fixture';
@@ -9,7 +10,7 @@ page.on('pageerror', (error) => errors.push(error.message));
 const checkpoint = () => page.evaluate(() => window.sugarMaple.dispatch('document.checkpoint'));
 const key = libraryKey(manifest);
 try {
-  await page.goto('http://127.0.0.1:4200');
+  await page.goto(editorURL());
   await page.waitForFunction(() => window.sugarMaple.ready);
   await page.getByRole('button', { name: 'Assets', exact: true }).click();
   const contrast = await page
