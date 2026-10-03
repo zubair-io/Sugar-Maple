@@ -1,0 +1,104 @@
+{
+  "passed": true,
+  "cases": [
+    {
+      "scenario": "SIGINT",
+      "code": 1,
+      "groups": [
+        99495,
+        99628,
+        99640
+      ],
+      "live": [],
+      "canaryPreserved": true,
+      "elapsedMs": 1568,
+      "scope": "controlled trusted hanging/listening child"
+    },
+    {
+      "scenario": "SIGTERM",
+      "code": 1,
+      "groups": [
+        99765,
+        99970,
+        99975
+      ],
+      "live": [],
+      "canaryPreserved": true,
+      "elapsedMs": 1770,
+      "scope": "controlled trusted hanging/listening child"
+    },
+    {
+      "scenario": "fail",
+      "code": 1,
+      "groups": [
+        232,
+        531,
+        547
+      ],
+      "live": [],
+      "canaryPreserved": true,
+      "elapsedMs": 433,
+      "scope": "controlled trusted hanging/listening child"
+    },
+    {
+      "scenario": "timeout",
+      "code": 1,
+      "groups": [
+        629,
+        934,
+        957
+      ],
+      "live": [],
+      "canaryPreserved": true,
+      "elapsedMs": 1117,
+      "scope": "controlled trusted hanging/listening child"
+    },
+    {
+      "scenario": "server-loss",
+      "code": 1,
+      "groups": [
+        1209,
+        1508,
+        1513
+      ],
+      "live": [],
+      "canaryPreserved": true,
+      "elapsedMs": 1330,
+      "scope": "controlled trusted hanging/listening child"
+    },
+    {
+      "scenario": "orphan",
+      "code": 0,
+      "groups": [
+        1642,
+        1734,
+        1739
+      ],
+      "live": [],
+      "canaryPreserved": true,
+      "elapsedMs": 320,
+      "scope": "controlled trusted hanging/listening child"
+    },
+    {
+      "scenario": "native",
+      "code": 1,
+      "groups": [
+        1770,
+        1955,
+        1965,
+        1978,
+        1999,
+        2107,
+        2259,
+        2281,
+        2318,
+        2326,
+        2336
+      ],
+      "live": [],
+      "canaryPreserved": true,
+      "elapsedMs": 559,
+      "scope": "actual bounded sandboxed SwiftUI helper"
+    }
+  ]
+}
