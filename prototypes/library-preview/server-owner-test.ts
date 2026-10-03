@@ -23,6 +23,9 @@ const log = resolve(
 mkdirSync(resolve("build"), { recursive: true });
 let child: ReturnType<typeof Bun.spawn> | undefined;
 try {
+  // Bun writers overwrite from offset zero without truncating an older suffix.
+  // A short failed rerun must not retain another source/run's diagnostics.
+  await Bun.write(log, "");
   const writer = Bun.file(log).writer();
   child = Bun.spawn(
     [
