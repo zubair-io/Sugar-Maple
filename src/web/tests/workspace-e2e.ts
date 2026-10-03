@@ -155,7 +155,7 @@ try {
     } catch {
       rejected = true;
     }
-    return { before: before.document, committed, rejected };
+    return { before: before.document, expectedRevision: before.revision, committed, rejected };
   });
   assert.equal(outcomes.rejected, true);
   await page.getByRole('button', { name: 'MCP connection details' }).click();
@@ -163,7 +163,7 @@ try {
     `Committed · revision ${outcomes.committed.revision}`,
   );
   await expect(page.getByRole('dialog')).toContainText(
-    `Rejected · revision ${outcomes.committed.revision}`,
+    `Rejected · expected revision ${outcomes.expectedRevision}`,
   );
   await page.keyboard.press('Escape');
   await page.evaluate(async () => {
@@ -182,6 +182,32 @@ try {
   await page.getByRole('button', { name: 'MCP connection details' }).click();
   await expect(page.getByRole('dialog')).toContainText('No agent transactions for this document');
   await expect(page.getByRole('dialog')).not.toContainText('Committed · revision');
+  const background = await checkpoint();
+  const rejectedBackground = await page.evaluate(async (target) => {
+    try {
+      await window.sugarMaple.dispatch('transaction.apply', {
+        documentId: target.documentId,
+        expectedRevision: 73,
+        requestId: crypto.randomUUID(),
+        operations: [{ type: 'document.rename', name: 'Must reject background' }],
+      });
+      return false;
+    } catch {
+      return true;
+    }
+  }, outcomes.committed);
+  assert.equal(rejectedBackground, true);
+  assert.deepEqual(
+    await checkpoint(),
+    background,
+    'Background rejection preserves active checkpoint',
+  );
+  await expect(page.getByRole('dialog')).toContainText('No agent transactions for this document');
+  await expect(page.getByRole('dialog')).not.toContainText('expected revision 73');
+  await page.keyboard.press('Escape');
+  await page.getByRole('tab').first().click();
+  await page.getByRole('button', { name: 'MCP connection details' }).click();
+  await expect(page.getByRole('dialog')).toContainText('Rejected · expected revision 73');
   await page.keyboard.press('Escape');
   // Preference input is a versioned local boundary, independent of document persistence.
   for (const scenario of ['bounds', 'corrupt', 'denied'] as const) {
