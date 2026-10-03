@@ -1,12 +1,16 @@
 <div class="app-shell" [attr.inert]="e.ready() ? null : ''">
   <editor-header class="maple-chrome" (preview)="startPreview()" />
-  <div class="workspace" [class.no-left]="!left()" [class.no-right]="!right()">
+  <div class="workspace" [class.no-left]="!left()" [class.no-right]="!right()" [style.--left-panel-width]="workspace.state().left + 'px'" [style.--right-panel-width]="workspace.state().right + 'px'">
     <aside
       class="sidebar maple-chrome"
       id="left-panel"
       aria-label="Pages, layers, assets and tokens"
       [hidden]="!left()"
     >
+      <div class="panel-divider left-divider" tabindex="0" role="separator" aria-orientation="vertical"
+        aria-label="Resize left panel" aria-valuemin="220" aria-valuemax="400"
+        [attr.aria-valuenow]="workspace.state().left" title="Resize panel; Left/Right changes 10px, Home/End reaches bounds"
+        (pointerdown)="workspace.startResize('left', $event)" (keydown)="workspace.keyboard('left', $event)"></div>
       <nav class="tabs" aria-label="Sidebar sections">
         @for (t of ['Pages', 'Layers', 'Assets', 'Tokens']; track t) {
           <button
@@ -182,7 +186,7 @@
       <div class="canvas-toolbar maple-chrome">
         <button
           class="panel-toggle"
-          (click)="left.set(!left())"
+          (click)="workspace.toggle('left')"
           aria-label="Toggle left panel"
           [title]="left() ? 'Collapse left panel' : 'Expand left panel'"
           [attr.aria-expanded]="left()"
@@ -195,7 +199,7 @@
           </svg>
         </button>
         <div class="tools">
-          <mui-toolbar [entries]="creationTools()" (itemSelected)="createFromToolbar($event)" />
+          <mui-toolbar [entries]="creationTools()" [maxVisible]="Math.max(1, Math.min(7, Math.floor((workspace.canvasWidth() - 230) / 32)))" (itemSelected)="createFromToolbar($event)" />
           <mui-button
             variant="ghost"
             size="sm"
@@ -211,7 +215,7 @@
         <button (click)="fit()">Fit</button
         ><button
           class="panel-toggle"
-          (click)="right.set(!right())"
+          (click)="workspace.toggle('right')"
           aria-label="Toggle right panel"
           [title]="right() ? 'Collapse right panel' : 'Expand right panel'"
           [attr.aria-expanded]="right()"
@@ -274,6 +278,10 @@
       aria-label="Details and comments"
       [hidden]="!right()"
     >
+      <div class="panel-divider right-divider" tabindex="0" role="separator" aria-orientation="vertical"
+        aria-label="Resize right panel" aria-valuemin="260" aria-valuemax="420"
+        [attr.aria-valuenow]="workspace.state().right" title="Resize panel; Left/Right changes 10px, Home/End reaches bounds"
+        (pointerdown)="workspace.startResize('right', $event)" (keydown)="workspace.keyboard('right', $event)"></div>
       <mui-inspector-panel
         title="Inspector"
         [tabs]="inspectorTabs"
@@ -845,15 +853,9 @@
     </aside>
   </div>
   <footer class="maple-chrome">
-    <label class="appearance"
-      >Appearance<mui-select
-        ariaLabel="Chrome appearance"
-        [value]="theme.appearance()"
-        [options]="theme.options"
-        (valueChange)="theme.set($event)"
-    /></label>
-    <button (click)="e.undo()" [disabled]="!e.store.canUndo" title="Undo Cmd+Z">↶</button
-    ><button (click)="e.redo()" [disabled]="!e.store.canRedo">↷</button><span>{{ e.status() }}</span
+    <label class="appearance">Appearance<select aria-label="Chrome appearance" [ngModel]="theme.appearance()" (ngModelChange)="theme.set($event)"><option value="dark">Dark</option><option value="light">Light</option></select></label>
+    <button (click)="e.undo()" [disabled]="!e.store.canUndo" aria-label="Undo" title="Undo Cmd+Z">↶</button
+    ><button (click)="e.redo()" [disabled]="!e.store.canRedo" aria-label="Redo" title="Redo Shift+Cmd+Z">↷</button><span>{{ e.status() }}</span
     ><span class="footer-center">{{ e.mcp() }}</span
     ><button (click)="preset(1440)">Desktop</button><button (click)="preset(834)">Tablet</button
     ><button (click)="preset(393)">Mobile</button
@@ -865,7 +867,7 @@
       step="0.05"
       [ngModel]="zoom()"
       (ngModelChange)="zoom.set(+$event)"
-    /><span>{{ (zoom() * 100).toFixed(0) }}%</span>
+    /><select class="zoom-menu" aria-label="Zoom actions" value="none" (change)="zoomAction($event)"><option value="none">{{ (zoom() * 100).toFixed(0) }}%</option><option value="100">100%</option><option value="all">Fit All</option><option value="selection" [disabled]="!e.selection().length">Zoom Selection</option></select>
   </footer>
   @if (e.error()) {
     <div role="alert" class="error-toast maple-chrome">
