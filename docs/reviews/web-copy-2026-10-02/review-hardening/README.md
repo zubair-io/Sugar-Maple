@@ -1,6 +1,6 @@
 # Export-helper hardening and current-main verification
 
-Final implementation source `abaf31b929172bd6a2fc5fa7cd73bac79b52e6df`, based on delivered main `29c1b4700f6f185134be5306310e4155f5034cbe`. Fresh 155 models / 2,298 assertions, typecheck, Mac packaging/signing, all 34 browser/consumer suites, the full native suite and both complete preview ownership comparisons passed. Fresh native coverage includes seven production WK handoff/keyboard cases and actual MCP SDK exports. Tailwind 4/classes/declarations/complete CSS consumers retain token identity and agree within .1 points at 1440/834/393. Current Chrome/WK images were inspected. Runtime/fixture checksums and logs are attached; earlier proof retains its original sources.
+Final implementation source `abaf31b929172bd6a2fc5fa7cd73bac79b52e6df`, based on delivered main `29c1b4700f6f185134be5306310e4155f5034cbe`. Fresh 155 models / 2,298 assertions, typecheck, Mac packaging/signing, all 33 browser/consumer suites, the full native suite and both complete preview ownership comparisons passed. Fresh native coverage includes seven production WK handoff/keyboard cases and actual MCP SDK exports. Tailwind 4/classes/declarations/complete CSS consumers retain token identity and agree within .1 points at 1440/834/393. Current Chrome/WK images were inspected. Runtime/fixture checksums and logs are attached; earlier proof retains its original sources.
 
 ## Completed review findings
 

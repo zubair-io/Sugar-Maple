@@ -1,9 +1,10 @@
+import { editorURL } from './editor-url';
 import { chromium, expect } from '@playwright/test';
 import { strict as assert } from 'node:assert';
 import { blankDocument, NodeSchema } from '../src/app/model/schema';
 import { DocumentStore } from '../src/app/model/store';
 
-const url = process.env['SUGAR_MAPLE_TEST_URL'] ?? 'http://127.0.0.1:4200';
+const url = editorURL();
 const doc = blankDocument('Large layer tree');
 for (let group = 0; group < 50; group++) {
   const parentId = 'group-' + group;

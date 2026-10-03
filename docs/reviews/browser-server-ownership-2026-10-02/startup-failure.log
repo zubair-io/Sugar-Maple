@@ -1,0 +1,14 @@
+Browser source/cleanup report: /Users/riabuz/.codex/worktrees/mcp-contract-hardening/_SugarMaple/build/browser-owner-proof/missing-checkout/build/browser-acceptance-10484bbf-42e1-4d3c-b644-34625c888539.json
+
+82 |         interrupted ||
+83 |         failure ||
+84 |         server.child.exitCode !== null ||
+85 |         performance.now() > deadline
+86 |       )
+87 |         throw Error(
+                   ^
+error: Owned browser server failed: Error: Owned process failed (1): ENOENT: No such file or directory: Could not change directory to "/Users/riabuz/.codex/worktrees/mcp-contract-hardening/_SugarMaple/build/browser-owner-proof/missing-checkout/src/web" (chdir)
+
+      at runOwnedBrowserSuite (/Users/riabuz/.codex/worktrees/mcp-contract-hardening/_SugarMaple/tools/owned-browser-server.ts:87:15)
+
+Bun v1.4.2 (macOS arm64)

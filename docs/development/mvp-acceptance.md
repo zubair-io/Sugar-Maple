@@ -65,7 +65,7 @@ bun src/web/tests/handoff-e2e.ts
 - Generated Angular templates treat design text as literal content. A separate strict-template consumer compiles the export; Tailwind 4 generates the exported utility classes and a real browser verifies geometry against semantic HTML.
 - SVG/PNG and SwiftUI currently reject responsive-size nodes rather than silently emitting fixed approximations. Rotated-parent pointer manipulation, eight-handle resizing, snapping, full pin constraints remain open.
 
-Run all browser/consumer jobs with `bun run test:e2e`; it starts and cleans up its own dev server when needed. Chrome must be installed. CI installs Chrome and runs these jobs as well as the model tests and production build.
+Run all browser/consumer jobs with `bun run test:e2e`; it owns a fresh loopback dev server from this checkout on an OS-assigned port and passes that URL to every fixture. It never reuses the conventional-port server. Source/revision, fixture results and process-group cleanup are recorded in `build/browser-acceptance-<run-id>.json`. Standalone fixtures may use an explicitly selected `SUGAR_MAPLE_TEST_URL`. Chrome must be installed. CI installs Chrome and runs these jobs as well as the model tests and production build.
 
 Native pointer acceptance (with the app running): `bun tools/native-pointer-test.ts setup`, drag the blue rectangle once, then `bun tools/native-pointer-test.ts verify`. The verification reads the changed coordinates through MCP, captures the actual window, and undoes the pointer gesture and original agent batch separately. This flow was exercised against the local WKWebView build. Layout settling includes an occluded-window fallback because WKWebView suspends animation-frame callbacks in the background.
 

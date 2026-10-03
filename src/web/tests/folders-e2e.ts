@@ -1,8 +1,9 @@
+import { editorURL } from './editor-url';
 import { chromium, expect } from '@playwright/test';
 import { strict as assert } from 'node:assert';
 const b = await chromium.launch({ channel: 'chrome', headless: true });
 const p = await b.newPage({ viewport: { width: 1440, height: 1000 } });
-await p.goto('http://127.0.0.1:4200');
+await p.goto(editorURL());
 await p.waitForFunction(() => window.sugarMaple.ready);
 await p.getByLabel('New folder name', { exact: true }).fill('Home');
 await p.getByRole('button', { name: 'Add folder', exact: true }).click();

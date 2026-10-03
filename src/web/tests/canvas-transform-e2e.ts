@@ -1,3 +1,4 @@
+import { editorURL } from './editor-url';
 import { chromium, expect, type Page } from '@playwright/test';
 import { strict as assert } from 'node:assert';
 import { flatten, project, transform } from '../src/app/canvas/scene-layout';
@@ -7,7 +8,7 @@ import {
   type ResizeHandle,
 } from '../src/app/canvas/transform-geometry';
 const browser = await chromium.launch({ channel: 'chrome', headless: true });
-const url = process.env.SUGAR_MAPLE_TEST_URL ?? 'http://127.0.0.1:4200';
+const url = editorURL();
 const get = (page: Page) => page.evaluate(() => window.sugarMaple.dispatch('document.get'));
 async function apply(page: Page, operations: any[]) {
   return page.evaluate(async (operations) => {

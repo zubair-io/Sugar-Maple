@@ -1,3 +1,4 @@
+import { editorURL } from './editor-url';
 import { nodeBox, expectSceneCount } from './canvas-browser';
 import { chromium, expect } from '@playwright/test';
 import { mkdir } from 'node:fs/promises';
@@ -5,7 +6,7 @@ const browser = await chromium.launch({ channel: 'chrome', headless: true });
 const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
 const errors: string[] = [];
 page.on('pageerror', (e) => errors.push(e.message));
-await page.goto('http://127.0.0.1:4200');
+await page.goto(editorURL());
 await page.getByRole('button', { name: 'Create an artboard' }).click();
 await expectSceneCount(page, 1);
 await page.getByRole('button', { name: 'Add text', exact: true }).click();
