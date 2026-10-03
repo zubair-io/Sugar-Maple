@@ -1,0 +1,13 @@
+{
+  "source": "82bbbc1def8daa2a2077d8a15156ee44371e4df9",
+  "models": 161,
+  "assertions": 2361,
+  "controlledCases": 7,
+  "allOwnedGroupsReaped": true,
+  "unrelatedListenerPreserved": true,
+  "legacySceneGreenRuntimeSource": "399dbd8f565fd45b8326f8006b20bae95578c96e",
+  "latestLegacyFailureSource": "8ce4f22",
+  "latestLegacyExitCode": 1,
+  "latestLegacyFailure": "Native reply timed out after trusted build; cleanup completed with no live owned groups",
+  "publishChecks": "exact-head CI and current-base delivery still required"
+}
