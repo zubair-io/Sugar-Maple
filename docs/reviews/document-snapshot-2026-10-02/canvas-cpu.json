@@ -1,0 +1,24 @@
+{
+  "date": "2026-10-02T23:13:06.938Z",
+  "environment": "Chrome headless, local development build, 1440×1000 CSS pixels; CPU flush, not end-to-end input latency",
+  "results": [
+    {
+      "nodes": 1000,
+      "drawn": 110,
+      "total": 1000,
+      "paintMs": 0.7000000476837158,
+      "frames": 5,
+      "flushMs": 0.7000000476837158,
+      "framesSince": 1
+    },
+    {
+      "nodes": 5000,
+      "drawn": 198,
+      "total": 5000,
+      "paintMs": 2.3000001907348633,
+      "frames": 7,
+      "flushMs": 2.3000001907348633,
+      "framesSince": 1
+    }
+  ]
+}

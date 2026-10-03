@@ -1,0 +1,21 @@
+{
+  "source": "acf85faecef83667867f17312d61eac340981023",
+  "baseMain": "9c3bcb90017c88a05d11a328960bf6307e925680",
+  "baseMetadata": "4a76e96a473b052eea410c290f81a4dacd799baa",
+  "models": 165,
+  "assertions": 2365,
+  "browserSuites": 35,
+  "commandExitCodes": {
+    "models": 0,
+    "typecheck": 0,
+    "macBuild": 0,
+    "browser": 0,
+    "native": 0
+  },
+  "originalHeadRecoveredApproval": {
+    "head": "66ed4185b309c3e67b713111d31f3125b9d883ec",
+    "session": "3642204062956740181",
+    "recoveryRun": 37085943778
+  },
+  "remaining": "metadata dependency, updated exact-head review/CI, merge and main verification"
+}
