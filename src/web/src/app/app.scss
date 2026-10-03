@@ -349,15 +349,13 @@ pre {
 }
 .asset-grid button {
   background: var(--color-bg-hover);
-  height: 70px;
+  height: 44px;
   text-transform: capitalize;
   font-size: 10px;
 }
-.asset-grid span {
-  display: block;
-  font-size: 24px;
-  margin-bottom: 6px;
-}
+.asset-grid mui-icon {display:block;margin:0 auto 4px;}
+.token-row {flex-wrap:wrap;gap:4px;}
+.token-row code {font-size:10px;overflow-wrap:anywhere;}
 .file-button {
   cursor: pointer;
 }
@@ -470,7 +468,7 @@ footer > span:last-child {
 }
 
 .page-row:has(mui-button) {
-  min-height: 44px;
+  min-height: 36px;
 }
 .page-row > mui-button {
   flex-shrink: 0;

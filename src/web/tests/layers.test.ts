@@ -9,15 +9,21 @@ test('layer search retains ancestor context, authored sibling order and original
     { id: 'nested', parentId: 'child', name: 'Needle detail', hidden: false },
     { id: 'second', parentId: null, name: 'Other root', hidden: false },
   ];
-  expect(layerRows(nodes, '').map(r => [r.node.id, r.depth])).toEqual([
-    ['root', 0], ['child', 1], ['nested', 2], ['other', 1], ['second', 0],
+  expect(layerRows(nodes, '').map((r) => [r.node.id, r.depth])).toEqual([
+    ['root', 0],
+    ['child', 1],
+    ['nested', 2],
+    ['other', 1],
+    ['second', 0],
   ]);
   const filtered = layerRows(nodes, '  NEEDLE  ');
-  expect(filtered.map(r => [r.node.id, r.depth])).toEqual([
-    ['root', 0], ['child', 1], ['nested', 2],
+  expect(filtered.map((r) => [r.node.id, r.depth])).toEqual([
+    ['root', 0],
+    ['child', 1],
+    ['nested', 2],
   ]);
   expect(filtered[1].node).toBe(nodes[0]);
-  expect(layerRows(nodes, 'Frame').map(r => r.node.id)).toEqual(['root']);
+  expect(layerRows(nodes, 'Frame').map((r) => r.node.id)).toEqual(['root']);
   expect(layerRows(nodes, 'absent')).toEqual([]);
   expect(layerRows([], '')).toEqual([]);
 });
@@ -27,13 +33,46 @@ test('large layer trees and broad matching searches use bounded linear node read
   const nodes: { id: string; parentId: string | null; name: string }[] = [];
   for (let group = 0; group < 100; group++) {
     const root = 'group-' + group;
-    for (let child = -1; child < 50; child++) nodes.push(new Proxy({
-      id: child < 0 ? root : root + '-' + child,
-      parentId: child < 0 ? null : root,
-      name: 'Match ' + child,
-    }, { get(target, key, receiver) { reads++; return Reflect.get(target, key, receiver); } }));
+    for (let child = -1; child < 50; child++)
+      nodes.push(
+        new Proxy(
+          {
+            id: child < 0 ? root : root + '-' + child,
+            parentId: child < 0 ? null : root,
+            name: 'Match ' + child,
+          },
+          {
+            get(target, key, receiver) {
+              reads++;
+              return Reflect.get(target, key, receiver);
+            },
+          },
+        ),
+      );
   }
   expect(layerRows(nodes, '').length).toBe(5100);
   expect(layerRows(nodes, 'match').length).toBe(5100);
   expect(reads).toBeLessThan(nodes.length * 20);
+});
+
+test('collapsed trees retain authored context and search reveals nested matches without changing collapse preferences', () => {
+  const nodes = [
+    { id: 'root', parentId: null, name: 'Frame' },
+    { id: 'child', parentId: 'root', name: 'Child' },
+    { id: 'leaf', parentId: 'child', name: 'Needle' },
+    { id: 'other', parentId: null, name: 'Other' },
+  ];
+  const collapsed = new Set(['root', 'child']);
+  expect(
+    layerRows(nodes, '', collapsed).map((row) => [row.node.id, row.position, row.size]),
+  ).toEqual([
+    ['root', 1, 2],
+    ['other', 2, 2],
+  ]);
+  expect(layerRows(nodes, 'needle', collapsed).map((row) => row.node.id)).toEqual([
+    'root',
+    'child',
+    'leaf',
+  ]);
+  expect([...collapsed]).toEqual(['root', 'child']);
 });

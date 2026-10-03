@@ -1,0 +1,23 @@
+@if (editing()) {
+  <input
+    #field
+    aria-label="Page name"
+    maxlength="128"
+    [value]="draft()"
+    (input)="draft.set($any($event.target).value)"
+    (blur)="finish($event)"
+    (keydown.enter)="finish($event)"
+    (keydown.escape)="cancel($event)"
+  />
+} @else {
+  <button
+    #button
+    [attr.aria-current]="active() ? 'page' : null"
+    [title]="name() + ' — F2 or double-click to rename'"
+    (click)="selected.emit()"
+    (dblclick)="start($event)"
+    (keydown.f2)="start($event)"
+  >
+    ▤ {{ name() }}
+  </button>
+}

@@ -1,3 +1,5 @@
+import { PrototypeInspector } from './prototype-inspector';
+import { PageTitle } from './page-title';
 import { NodeTextEditor } from './canvas/node-text-editor';
 import { LibraryCatalog } from './canvas/library-catalog';
 import { RepeatInspector } from './canvas/repeat-inspector';
@@ -41,6 +43,7 @@ import { SelectionInspector } from './selection-inspector';
 import { WorkspacePreferences } from './workspace-preferences';
 import {
   MuiInputComponent,
+  MuiIconComponent,
   MuiToolbarComponent,
   MuiInspectorPanelComponent,
   type MuiToolbarEntry,
@@ -50,6 +53,8 @@ import { ChromeTheme } from './chrome/maple/sugar-maple-chrome-theme';
 @Component({
   selector: 'app-root',
   imports: [
+    PageTitle,
+    PrototypeInspector,
     NodeTextEditor,
     EditorHeader,
     CommentCanvas,
@@ -67,6 +72,7 @@ import { ChromeTheme } from './chrome/maple/sugar-maple-chrome-theme';
     MuiSectionComponent,
     MuiFieldComponent,
     MuiInputComponent,
+    MuiIconComponent,
     MuiToolbarComponent,
     LayersPanel,
     SelectionInspector,
@@ -156,24 +162,7 @@ export class App {
   readonly variantSelectOptions = computed(() =>
     this.options(['Default', ...Object.keys(this.master()?.variants ?? {})]),
   );
-  readonly linkSelectOptions = computed(() => [
-    { value: '', label: 'No action' },
-    ...this.e
-      .doc()
-      .nodes.filter((n) => n.kind === 'artboard')
-      .map((n) => ({
-        value: n.id,
-        label: `${this.e.doc().pages.find((p) => p.id === n.pageId)?.name} / ${n.name}`,
-      })),
-  ]);
   readonly inputTypeOptions = this.options(['text', 'password', 'email']);
-  readonly actionOptions = [
-    { value: 'navigate', label: 'Navigate' },
-    { value: 'openOverlay', label: 'Open overlay' },
-    { value: 'closeOverlay', label: 'Close overlay' },
-    { value: 'back', label: 'Back' },
-  ];
-  readonly transitionOptions = this.options(['instant', 'dissolve']);
   readonly layoutOptions = this.options(['free', 'horizontal', 'vertical', 'grid']);
   readonly textAlignOptions = this.options(['auto', 'left', 'center', 'right']);
   readonly sizingOptions = this.options(['fixed', 'fill', 'hug', 'percent']);
@@ -259,7 +248,10 @@ export class App {
     'input',
   ] as const;
   readonly targets = ExportTargetSchema.options;
-  readonly exportOptions = this.targets.map(value => ({value, label: value === 'tailwind-classes' ? 'Tailwind classes only' : value === 'css-declarations' ? 'CSS declarations only' : value === 'html-css' ? 'Complete HTML + CSS' : value === 'web-library' ? 'Mapped web library' : value === 'swift-library' ? 'Mapped SwiftUI (macOS)' : value}));
+  readonly exportLabels: Record<ExportTarget,string> = {html:'Semantic HTML subtree',angular:'Angular template subtree',tailwind:'Tailwind HTML subtree','tailwind-classes':'Tailwind classes only',css:'Subtree CSS stylesheet','css-declarations':'CSS declarations only','html-css':'Complete HTML + CSS',swiftui:'SwiftUI view (macOS)',editable:'Editable element JSON',svg:'SVG selection','web-library':'Mapped web library','swift-library':'Mapped SwiftUI (macOS)'};
+  readonly exportOptions = this.targets.map(value => ({value,label:this.exportLabels[value]}));
+  readonly exportLabel = computed(() => this.exportLabels[this.target()]);
+  readonly documentComponents = computed(() => this.e.doc().nodes.filter(n => n.isComponent && !this.repeatTemplateIds().has(n.id)));
   readonly modes = ['Design', 'Prototype', 'Developer'] as const;
   constructor() {
     effect(() => {
@@ -393,10 +385,6 @@ export class App {
   movePage(folderId: string) {
     this.e.perform([{ type: 'page.update', id: this.e.pageId(), folderId: folderId || null }]);
     this.collapsedFolders.update((ids) => ids.filter((v) => v !== folderId));
-  }
-  renamePage(id: string, name: string) {
-    const next = prompt('Page name', name);
-    if (next?.trim()) this.e.perform([{ type: 'page.update', id, name: next.trim() }]);
   }
   reorder(direction: number) {
     const n = this.e.node();

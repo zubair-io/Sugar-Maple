@@ -27,12 +27,12 @@ try {
       },
     }),
   );
-  await page.getByRole('button', { name: 'Copy code', exact: true }).click();
+  await page.locator('[data-copy-current-target]').click();
   await expect
     .poll(() => page.evaluate(() => (window as any).lastCopied))
     .toBe(report.exported['tailwind-classes'].code);
   await page.getByRole('combobox', { name: 'Export target' }).selectOption('css-declarations');
-  await page.getByRole('button', { name: 'Copy code', exact: true }).click();
+  await page.locator('[data-copy-current-target]').click();
   await expect
     .poll(() => page.evaluate(() => (window as any).lastCopied))
     .toBe(report.exported['css-declarations'].code);
@@ -48,7 +48,7 @@ try {
       },
     }),
   );
-  await page.getByRole('button', { name: 'Copy code', exact: true }).click();
+  await page.locator('[data-copy-current-target]').click();
   await expect(page.getByRole('alert')).toContainText('Clipboard permission denied');
   await expect(page.locator('pre').first()).toHaveText(report.exported['css-declarations'].code);
   await page.locator('pre').first().focus();
