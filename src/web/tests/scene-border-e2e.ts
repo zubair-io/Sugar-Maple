@@ -1,3 +1,4 @@
+import { editorURL } from './editor-url';
 import { chromium } from '@playwright/test';
 import { strict as assert } from 'node:assert';
 import { sceneBorderFixture } from '../../../tools/scene-border-fixture';
@@ -6,7 +7,7 @@ try {
   const page = await browser.newPage({ viewport: { width: 1440, height: 1100 } }),
     errors: string[] = [];
   page.on('pageerror', (error) => errors.push(error.message));
-  await page.goto('http://127.0.0.1:4200');
+  await page.goto(editorURL());
   await page.waitForFunction(() => window.sugarMaple.ready);
   await page.evaluate(async (nodes) => {
     const d = await window.sugarMaple.dispatch('document.get');

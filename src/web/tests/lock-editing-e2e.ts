@@ -1,3 +1,4 @@
+import { editorURL } from './editor-url';
 import { chromium, expect, type Page } from '@playwright/test';
 import { strict as assert } from 'node:assert';
 const browser = await chromium.launch({ channel: 'chrome', headless: true });
@@ -35,7 +36,7 @@ try {
   const page = await context.newPage(), errors: string[] = [];
   page.on('pageerror', error => errors.push(error.message));
   page.on('console', message => { if (message.type() === 'error') errors.push(message.text()); });
-  await page.goto(process.env.SUGAR_MAPLE_TEST_URL ?? 'http://127.0.0.1:4200');
+  await page.goto(editorURL());
   await page.waitForFunction(() => window.sugarMaple.ready);
   const d = await get(page), pageId = d.document.pages[0].id;
   await tx(page, [

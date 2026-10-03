@@ -1,3 +1,4 @@
+import { editorURL } from './editor-url';
 import { chromium, expect } from '@playwright/test';
 import { strict as assert } from 'node:assert';
 import fixture from '../../../tools/preview-fixture';
@@ -7,7 +8,7 @@ const page = await context.newPage();
 const errors: string[] = [];
 page.on('pageerror', error => errors.push(error.message));
 try {
-  await page.goto('http://127.0.0.1:4200');
+  await page.goto(editorURL());
   await page.waitForFunction(() => window.sugarMaple.ready);
   await page.evaluate(async nodes => {
     const d = await window.sugarMaple.dispatch('document.get');
@@ -59,7 +60,7 @@ try {
   await expect(page.getByRole('button',{name:'▶ Preview'})).toBeFocused();
   await page.context().setOffline(false);
   const isolated = await page.context().newPage();
-  await isolated.goto('http://127.0.0.1:4200/#preview');
+  await isolated.goto(editorURL('#preview'));
   await isolated.waitForFunction(() => window.sugarMaplePreview?.ready);
   assert.equal(await isolated.evaluate(() => typeof window.sugarMaple),'undefined');
   await isolated.evaluate(value => window.sugarMaplePreview!.receive(value), fixture);

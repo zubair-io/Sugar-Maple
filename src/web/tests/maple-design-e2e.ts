@@ -1,3 +1,4 @@
+import { editorURL } from './editor-url';
 import { nodeBox, expectSceneCount } from './canvas-browser';
 import { chromium, expect } from '@playwright/test';
 import { maplePhone } from './fixtures/maple-phone';
@@ -5,7 +6,7 @@ import { strict as assert } from 'node:assert';
 import { mkdirSync } from 'node:fs';
 const browser = await chromium.launch({ channel: 'chrome', headless: true });
 const page = await browser.newPage({ viewport: { width: 1440, height: 1100 } });
-await page.goto('http://127.0.0.1:4200');
+await page.goto(editorURL());
 await page.waitForFunction(() => window.sugarMaple.ready);
 const initial = await page.evaluate(() => window.sugarMaple.dispatch('document.get'));
 const operations = maplePhone(initial.document.pages[0].id);

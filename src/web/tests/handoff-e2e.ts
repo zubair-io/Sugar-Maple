@@ -1,9 +1,10 @@
+import { editorURL } from './editor-url';
 import { expectSceneCount } from './canvas-browser';
 import { chromium, expect } from '@playwright/test';
 const browser = await chromium.launch({ channel: 'chrome', headless: true });
 try {
   const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
-  await page.goto('http://127.0.0.1:4200');
+  await page.goto(editorURL());
   await page.getByRole('button', { name: 'Assets', exact: true }).click();
   await page
     .getByLabel('Import image / SVG', { exact: true })

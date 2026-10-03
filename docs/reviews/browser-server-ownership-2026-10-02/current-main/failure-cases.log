@@ -1,0 +1,1 @@
+PASS: forced fixture failure kills an owned leaked descendant; signal interruption and missing-checkout startup reject and clean up; unrelated listener survives unprobed

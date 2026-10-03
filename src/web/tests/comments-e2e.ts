@@ -1,8 +1,9 @@
+import { editorURL } from './editor-url';
 import { chromium, expect } from '@playwright/test';
 import { strict as assert } from 'node:assert';
 const b = await chromium.launch({ channel: 'chrome', headless: true });
 const p = await b.newPage({ viewport: { width: 1440, height: 1000 } });
-await p.goto('http://127.0.0.1:4200');
+await p.goto(editorURL());
 await p.waitForFunction(() => window.sugarMaple.ready);
 await p.getByRole('button', { name: 'Add artboard', exact: true }).click();
 const originalNodes = (await p.evaluate(() => window.sugarMaple.dispatch('document.get'))).document

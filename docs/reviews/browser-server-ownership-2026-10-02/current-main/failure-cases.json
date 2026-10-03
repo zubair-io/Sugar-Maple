@@ -1,0 +1,46 @@
+{
+  "passed": true,
+  "cases": [
+    {
+      "mode": "fixture-failure",
+      "code": 1,
+      "report": {
+        "checkout": "/Users/riabuz/.codex/worktrees/mcp-contract-hardening/_SugarMaple",
+        "revision": "88addf16c3e70d6094be7ea254b6af66c83a3405",
+        "dirty": "",
+        "url": "http://127.0.0.1:49435",
+        "testsPassed": [],
+        "cleanupPassed": true
+      },
+      "passed": true
+    },
+    {
+      "mode": "interrupt",
+      "code": 1,
+      "report": {
+        "checkout": "/Users/riabuz/.codex/worktrees/mcp-contract-hardening/_SugarMaple",
+        "revision": "88addf16c3e70d6094be7ea254b6af66c83a3405",
+        "dirty": "",
+        "url": "http://127.0.0.1:49452",
+        "testsPassed": [],
+        "cleanupPassed": true
+      },
+      "passed": true
+    },
+    {
+      "mode": "startup-failure",
+      "code": 1,
+      "report": {
+        "checkout": "/Users/riabuz/.codex/worktrees/mcp-contract-hardening/_SugarMaple/build/browser-owner-proof/missing-checkout",
+        "revision": "88addf16c3e70d6094be7ea254b6af66c83a3405",
+        "dirty": "",
+        "url": "",
+        "testsPassed": [],
+        "cleanupPassed": true
+      },
+      "passed": true
+    }
+  ],
+  "conventionalPortRequestsDuringRuns": 0,
+  "canaryPreserved": true
+}

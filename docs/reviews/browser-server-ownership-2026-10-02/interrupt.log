@@ -1,0 +1,17 @@
+Owned browser editor: http://127.0.0.1:55279; checkout /Users/riabuz/.codex/worktrees/mcp-contract-hardening/_SugarMaple; revision 4965fd85b9b556d016ec4b201b5e8c567dd71da3
+Browser source/cleanup report: /Users/riabuz/.codex/worktrees/mcp-contract-hardening/_SugarMaple/build/browser-acceptance-2693bd57-e606-4da4-be31-f61d68f2c528.json
+
+47 |   const done = new Promise<{ code: number | null; signal: NodeJS.Signals | null; maxRSSKiB: number; bytes: number }>((resolve, reject) => {
+48 |     const cleanup = () => { closed = true; clearTimeout(deadline); clearInterval(monitor); budget.signal?.removeEventListener('abort', abort); };
+49 |     child.once('error', error => { cleanup(); reject(error); });
+50 |     child.once('close', (code, signal) => {
+51 |       cleanup();
+52 |       if (reason) reject(Error(reason));
+                              ^
+error: Browser suite interrupted
+      at <anonymous> (/Users/riabuz/.codex/worktrees/mcp-contract-hardening/_SugarMaple/prototypes/library-preview/native/supervise.ts:52:26)
+      at emit (node:events:103:22)
+      at #maybeClose (node:child_process:827:16)
+      at #handleOnExit (node:child_process:570:72)
+
+Bun v1.4.2 (macOS arm64)

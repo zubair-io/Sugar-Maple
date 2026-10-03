@@ -1,3 +1,4 @@
+import { editorURL } from './editor-url';
 import { chromium, expect, type Page } from '@playwright/test';
 import { strict as assert } from 'node:assert';
 import { embeddedAsset } from '../src/app/model/assets';
@@ -22,7 +23,7 @@ try {
   const page = await browser.newPage({ viewport: { width: 1440, height: 1100 } }), errors: string[] = [];
   page.on('pageerror', error => errors.push(error.message));
   page.on('console', message => { if (message.type() === 'error') errors.push(message.text()); });
-  await page.goto(process.env.SUGAR_MAPLE_TEST_URL ?? 'http://127.0.0.1:4200'); await page.waitForFunction(() => window.sugarMaple.ready);
+  await page.goto(editorURL()); await page.waitForFunction(() => window.sugarMaple.ready);
   await page.evaluate(async () => {
     const d = await window.sugarMaple.dispatch('document.get');
     await window.sugarMaple.dispatch('transaction.apply', { documentId: d.documentId, expectedRevision: d.revision, requestId: crypto.randomUUID(),

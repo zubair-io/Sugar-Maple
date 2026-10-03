@@ -1,0 +1,42 @@
+{
+  "passed": true,
+  "sourceCases": [
+    {
+      "url": "http://127.0.0.1:54016",
+      "targets": [
+        "html",
+        "angular",
+        "tailwind",
+        "css",
+        "swiftui",
+        "editable",
+        "svg",
+        "web-library",
+        "swift-library"
+      ],
+      "expectedCopy": "false",
+      "passed": true
+    },
+    {
+      "url": "http://127.0.0.1:54019",
+      "targets": [
+        "html",
+        "angular",
+        "tailwind",
+        "tailwind-classes",
+        "css",
+        "css-declarations",
+        "html-css",
+        "swiftui",
+        "editable",
+        "svg",
+        "web-library",
+        "swift-library"
+      ],
+      "expectedCopy": "true",
+      "passed": true
+    }
+  ],
+  "conventionalPortRequestsDuringRuns": 0,
+  "canaryPreserved": true
+}

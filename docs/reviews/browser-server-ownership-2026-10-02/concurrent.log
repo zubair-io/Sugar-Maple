@@ -1,0 +1,1 @@
+PASS: two real checkout editors on distinct owned ephemeral ports expose their own export schemas; unrelated 4200 listener remains intact and unprobed
