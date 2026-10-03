@@ -1,0 +1,7 @@
+{
+  "passed": true,
+  "childExitCode": 1,
+  "logVisibleBeforeChildExit": true,
+  "stdoutAndStderrStreamed": true,
+  "nonzeroChildRejected": true
+}
