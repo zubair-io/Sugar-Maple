@@ -1,0 +1,72 @@
+❯ Building...
+✔ Building...
+Initial chunk files | Names                       |  Raw size
+styles.css          | styles                      |  32.19 kB | 
+chunk-VUJOFXKG.js   | -                           | 987 bytes | 
+main.js             | main                        | 917 bytes | 
+
+                    | Initial total               |  34.09 kB
+
+Lazy chunk files    | Names                       |  Raw size
+chunk-CJWLE3UZ.js   | app                         | 630.98 kB | 
+chunk-ZWQJLIPQ.js   | -                           | 204.10 kB | 
+chunk-QXMKMRO4.js   | -                           | 177.65 kB | 
+chunk-3POTRHW2.js   | sugar-maple-chrome-specimen |  24.85 kB | 
+chunk-YNOJQMVV.js   | preview-application         |   6.21 kB | 
+
+Application bundle generation complete. [1.394 seconds] - 2026-10-03T04:59:37.771Z
+
+Watch mode enabled. Watching for file changes...
+NOTE: Raw file sizes do not reflect development server per-request transformations.
+  ➜  Local:   http://127.0.0.1:56577/
+Owned source checkout editor: http://127.0.0.1:56577; process group 50596
+Comparison stage starting: tools/library-consumer.ts
+Owned comparison stage group: 50667
+PASS: exact Web Awesome 3.14.0 declarations compile; generated Button/Input/Card imports bundle and render offline with real shadow controls, values, slots and declared card spacing
+Comparison stage completed: tools/library-consumer.ts; exit 0; elapsed 1498 ms
+Comparison stage starting: tools/library-preview-acceptance.ts
+Owned comparison stage group: 50736
+bun test v1.4.2 (744846f84)
+{"passed":true,"package":{"name":"@awesome.me/webawesome","version":"3.14.0"},"hashes":{"runtime.js":{"bytes":280845,"sha256":"93082769edb42285947792aed7df06fb85d8d09003f1fe71ee62e7a7268288e8"},"runtime.css":{"bytes":155312,"sha256":"f15ad9222cd24a7a5d24b52ad66f3e8520ee259b11a7215a2beb157208cd4cae"},"host.js":{"bytes":103254,"sha256":"dd1f3116145b33e3910519fc68d57f37fea759ec8678b4457fea071ec520ac41"},"host.css":{"bytes":2228,"sha256":"a24540b648d3e441dc8d5daff81c490da0b96b516402398f7a2169fd665fc9b4"},"semantic.html":{"bytes":3050,"sha256":"9aab368f9a08fdfe8ed1a6448e49b4b82858a736798b1ce9fe5fb81e44b22129"},"fixture.json":{"bytes":23547,"sha256":"43b793a5d3d8de44059c294086f76efc89d503d86cbfa0d9fce49c451c4ac24e"}}}
+PASS: browser-test.ts stops its server when the browser launch boundary throws
+PASS: browser-test.ts stops its server when the browser close boundary throws
+PASS: compare.ts stops its server when the browser launch boundary throws
+PASS: compare.ts stops its server when the browser close boundary throws
+PASS: scene-compare.ts stops its server when the browser launch boundary throws
+PASS: scene-compare.ts stops its server when the browser close boundary throws
+PASS: report-test.ts stops its server when the browser launch boundary throws
+PASS: report-test.ts stops its server when the browser close boundary throws
+PASS: isolated real Web Awesome controls, typed props/events, denied parent/storage/network/bridge, stale rejection, malformed input, opt-in/stop and offline rendering
+PASS: authored geometry and actual package slots/variants/token/overrides, accessible typed events, ephemeral update/undo/reset, disabled/rejection/stop and offline scene rendering
+Comparison stage completed: tools/library-preview-acceptance.ts; exit 0; elapsed 7679 ms
+Comparison stage starting: prototypes/library-preview/native-stop-failure-test.ts
+Owned comparison stage group: 51105
+PASS: complete actual comparison exits naturally after native shutdown failure; real leaked listener fails the unchanged 30-second cleanup deadline
+Comparison stage completed: prototypes/library-preview/native-stop-failure-test.ts; exit 0; elapsed 43866 ms
+Comparison stage starting: prototypes/library-preview/scene-compare.ts
+Owned comparison stage group: 53370
+Comparison native phase: building trusted fixture
+Comparison native phase: trusted build completed
+PASS: default: actual Canvas, DOM, package geometry, source identity and unchanged checkpoint; native checks queued
+PASS: source-update: actual Canvas, DOM, package geometry, source identity and unchanged checkpoint; native checks queued
+PASS: source-undo: actual Canvas, DOM, package geometry, source identity and unchanged checkpoint; native checks queued
+PASS: primary: actual Canvas, DOM, package geometry, source identity and unchanged checkpoint; native checks queued
+PASS: disabled: actual Canvas, DOM, package geometry, source identity and unchanged checkpoint; native checks queued
+PASS: nested-overrides: actual Canvas, DOM, package geometry, source identity and unchanged checkpoint; native checks queued
+PASS: nested-rotations: actual Canvas, DOM, package geometry, source identity and unchanged checkpoint; native checks queued
+PASS: authored-border: actual Canvas, DOM, package geometry, source identity and unchanged checkpoint; native checks queued
+PASS: restored: actual Canvas, DOM, package geometry, source identity and unchanged checkpoint; native checks queued
+Comparison native phase: sandboxed helper ready; ordered native checks starting
+PASS: all 40 ordered native checks and 30 measured samples on one bounded helper; elapsed 2706 ms
+PASS: actual editor authored-scene comparison across Canvas, semantic DOM, pinned package and sandboxed SwiftUI; source edit/undo/input boundaries and measured observations recorded
+Comparison stage completed: prototypes/library-preview/scene-compare.ts; exit 0; elapsed 15454 ms
+Comparison stage starting: prototypes/library-preview/scene-comparison-report.ts
+Owned comparison stage group: 54097
+PASS: authored-scene comparison report generated from measured captures and explicit unsupported records
+Comparison stage completed: prototypes/library-preview/scene-comparison-report.ts; exit 0; elapsed 42 ms
+Comparison stage starting: prototypes/library-preview/scene-report-test.ts
+Owned comparison stage group: 54099
+PASS: real scene comparison report states, captured images, unsupported native boundary, filtering, narrow serving and responsive layout
+Comparison stage completed: prototypes/library-preview/scene-report-test.ts; exit 0; elapsed 1047 ms
+Comparison owned process cleanup: {"groups":[50596,50667,50681,50736,50765,50774,50781,50791,50804,50815,50829,50841,50855,51002,51105,51108,51116,51138,51158,51166,51200,51231,51242,51265,51278,51637,51799,53370,53378,53519,53528,53536,53587,53617,53624,53637,53642,53951,54097,54099,54103],"live":[]}
+PASS: fresh source checkout comparison passes without using unrelated port 4200; no live owned server descendants

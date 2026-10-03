@@ -1,0 +1,88 @@
+❯ Building...
+✔ Building...
+Initial chunk files | Names                       |  Raw size
+styles.css          | styles                      |  32.19 kB | 
+chunk-VUJOFXKG.js   | -                           | 987 bytes | 
+main.js             | main                        | 917 bytes | 
+
+                    | Initial total               |  34.09 kB
+
+Lazy chunk files    | Names                       |  Raw size
+chunk-CJWLE3UZ.js   | app                         | 630.98 kB | 
+chunk-ZWQJLIPQ.js   | -                           | 204.10 kB | 
+chunk-QXMKMRO4.js   | -                           | 177.65 kB | 
+chunk-3POTRHW2.js   | sugar-maple-chrome-specimen |  24.85 kB | 
+chunk-YNOJQMVV.js   | preview-application         |   6.21 kB | 
+
+Application bundle generation complete. [1.520 seconds] - 2026-10-03T04:58:22.071Z
+
+Watch mode enabled. Watching for file changes...
+NOTE: Raw file sizes do not reflect development server per-request transformations.
+  ➜  Local:   http://127.0.0.1:55973/
+Owned source checkout editor: http://127.0.0.1:55973; process group 46722
+Comparison stage starting: tools/library-consumer.ts
+Owned comparison stage group: 46759
+PASS: exact Web Awesome 3.14.0 declarations compile; generated Button/Input/Card imports bundle and render offline with real shadow controls, values, slots and declared card spacing
+Comparison stage completed: tools/library-consumer.ts; exit 0; elapsed 5245 ms
+Comparison stage starting: tools/library-preview-acceptance.ts
+Owned comparison stage group: 47014
+bun test v1.4.2 (744846f84)
+{"passed":true,"package":{"name":"@awesome.me/webawesome","version":"3.14.0"},"hashes":{"runtime.js":{"bytes":280845,"sha256":"93082769edb42285947792aed7df06fb85d8d09003f1fe71ee62e7a7268288e8"},"runtime.css":{"bytes":155312,"sha256":"f15ad9222cd24a7a5d24b52ad66f3e8520ee259b11a7215a2beb157208cd4cae"},"host.js":{"bytes":103254,"sha256":"dd1f3116145b33e3910519fc68d57f37fea759ec8678b4457fea071ec520ac41"},"host.css":{"bytes":2228,"sha256":"a24540b648d3e441dc8d5daff81c490da0b96b516402398f7a2169fd665fc9b4"},"semantic.html":{"bytes":3050,"sha256":"9aab368f9a08fdfe8ed1a6448e49b4b82858a736798b1ce9fe5fb81e44b22129"},"fixture.json":{"bytes":23547,"sha256":"df8da024a7970eadaebf690acc209d6d17e305ef9c35a50e236a8db8cc01a361"}}}
+PASS: browser-test.ts stops its server when the browser launch boundary throws
+PASS: browser-test.ts stops its server when the browser close boundary throws
+PASS: compare.ts stops its server when the browser launch boundary throws
+PASS: compare.ts stops its server when the browser close boundary throws
+PASS: scene-compare.ts stops its server when the browser launch boundary throws
+PASS: scene-compare.ts stops its server when the browser close boundary throws
+PASS: report-test.ts stops its server when the browser launch boundary throws
+PASS: report-test.ts stops its server when the browser close boundary throws
+PASS: isolated real Web Awesome controls, typed props/events, denied parent/storage/network/bridge, stale rejection, malformed input, opt-in/stop and offline rendering
+PASS: authored geometry and actual package slots/variants/token/overrides, accessible typed events, ephemeral update/undo/reset, disabled/rejection/stop and offline scene rendering
+Comparison stage completed: tools/library-preview-acceptance.ts; exit 0; elapsed 8212 ms
+Comparison stage starting: prototypes/library-preview/native-stop-failure-test.ts
+Owned comparison stage group: 47397
+PASS: complete actual comparison exits naturally after native shutdown failure; real leaked listener fails the unchanged 30-second cleanup deadline
+Comparison stage completed: prototypes/library-preview/native-stop-failure-test.ts; exit 0; elapsed 40815 ms
+Comparison stage starting: prototypes/library-preview/compare.ts
+Owned comparison stage group: 49728
+Comparison native phase: building trusted fixture
+Comparison native phase: trusted build completed
+Comparison native phase: sandboxed helper ready
+PASS: real Canvas/DOM fixture geometry and inspector undo; actual DOM input, package typed events and native rendered consumers; four pipeline timings and asset costs recorded
+Comparison stage completed: prototypes/library-preview/compare.ts; exit 0; elapsed 13629 ms
+Comparison stage starting: run
+Owned comparison stage group: 50384
+❯ Building...
+✔ Building...
+Initial chunk files | Names                       |  Raw size | Estimated transfer size
+main-3QNSCUBM.js    | main                        | 179.77 kB |                52.50 kB
+styles-DOXCDFZJ.css | styles                      |  28.04 kB |                 4.86 kB
+
+                    | Initial total               | 207.81 kB |                57.36 kB
+
+Lazy chunk files    | Names                       |  Raw size | Estimated transfer size
+chunk-dRTmYWN6.js   | -                           | 409.22 kB |                82.89 kB
+chunk-DYuE8VvR.js   | app                         | 365.83 kB |                89.08 kB
+chunk-ZzVKZxrf.js   | -                           |  55.97 kB |                13.87 kB
+chunk-C8IOFTai.js   | sugar-maple-chrome-specimen |   7.72 kB |                 2.39 kB
+chunk-BmbFHcpL.js   | preview-application         |   2.50 kB |                 1.12 kB
+
+Application bundle generation complete. [2.227 seconds] - 2026-10-03T04:59:32.744Z
+
+Output location: /Users/riabuz/.codex/worktrees/comparison-cancellation/_SugarMaple/src/web/dist/sugar-maple-editor
+
+Comparison stage completed: run; exit 0; elapsed 2717 ms
+Comparison stage starting: prototypes/library-preview/package-cost.ts
+Owned comparison stage group: 50473
+{"editor":{"raw":1662703,"gzip":888270,"brotli":840534},"library":{"files":[{"name":"runtime.js","raw":280845,"gzip":73072,"brotli":61690,"sha256":"93082769edb42285947792aed7df06fb85d8d09003f1fe71ee62e7a7268288e8"},{"name":"runtime.css","raw":155312,"gzip":16517,"brotli":11061,"sha256":"f15ad9222cd24a7a5d24b52ad66f3e8520ee259b11a7215a2beb157208cd4cae"}],"raw":436157,"gzip":89589,"brotli":72751},"host":{"raw":105482,"brotli":25538},"semantic":{"files":[{"name":"semantic.html","raw":3050,"gzip":691,"brotli":457,"sha256":"9aab368f9a08fdfe8ed1a6448e49b4b82858a736798b1ce9fe5fb81e44b22129"}],"raw":3050,"gzip":691,"brotli":457}}
+Comparison stage completed: prototypes/library-preview/package-cost.ts; exit 0; elapsed 1796 ms
+Comparison stage starting: prototypes/library-preview/comparison-report.ts
+Owned comparison stage group: 50535
+Wrote source-bound real-library comparison report
+Comparison stage completed: prototypes/library-preview/comparison-report.ts; exit 0; elapsed 40 ms
+Comparison stage starting: prototypes/library-preview/report-test.ts
+Owned comparison stage group: 50540
+PASS: comparison report renders all four real images and supports path/column controls
+Comparison stage completed: prototypes/library-preview/report-test.ts; exit 0; elapsed 1120 ms
+Comparison owned process cleanup: {"groups":[46722,46759,46778,47014,47048,47055,47073,47090,47106,47123,47136,47146,47160,47314,47397,47400,47413,47673,47693,47706,47749,47810,47824,47838,47844,47848,48019,49728,49770,50113,50124,50136,50166,50193,50202,50214,50216,50222,50384,50473,50535,50540,50544],"live":[]}
+PASS: fresh source checkout comparison passes without using unrelated port 4200; no live owned server descendants
