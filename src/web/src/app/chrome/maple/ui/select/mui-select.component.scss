@@ -10,7 +10,7 @@ select {
   width: 100%;
   border-radius: 8px;
   border: 1px solid var(--color-border);
-  background-color: var(--color-input-bg);
+  background-color: var(--chrome-control-bg, var(--color-input-bg));
   padding: 6px 30px 6px 10px;
   font: 13px var(--font-sans, sans-serif);
   color: var(--color-text-main);

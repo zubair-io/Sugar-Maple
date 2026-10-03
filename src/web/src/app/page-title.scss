@@ -24,7 +24,7 @@ button {
   cursor: pointer;
 }
 input {
-  background: var(--color-input-bg);
+  background: var(--chrome-control-bg, var(--color-input-bg));
   border-color: var(--color-border);
 }
 button:focus-visible,

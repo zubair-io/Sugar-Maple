@@ -134,7 +134,7 @@ button:hover {
   justify-content: space-between;
   height: 44px;
   border-bottom: 1px solid var(--color-border);
-  background: var(--color-surface);
+  background: var(--chrome-header-bg);
   padding: 0 10px;
   z-index: 2;
 }
@@ -149,11 +149,18 @@ button:hover {
   gap: 4px;
   padding: 4px 10px;
   border-bottom: 1px solid var(--color-border);
-  background: var(--color-surface);
+  background: var(--chrome-header-bg);
 }
 .drawing-toolbar label { display: flex; align-items: center; gap: 4px; font-size: 11px; }
 .drawing-toolbar input[type='color'] { width: 28px; height: 24px; padding: 0; }
-.drawing-toolbar input[type='number'] { width: 42px; padding: 2px 4px; }
+.drawing-toolbar input[type='number'] {
+  width: 42px;
+  padding: 2px 4px;
+  background: var(--chrome-control-bg);
+  color: var(--color-text-main);
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+}
 .drawing-hint { flex-basis: 100%; color: var(--color-text-muted); font-size: 11px; }
 
 .viewport {
@@ -264,7 +271,7 @@ kbd {
 .sidebar input {
   width: 65%;
   min-width: 0;
-  background: var(--color-input-bg);
+  background: var(--chrome-control-bg);
   border: 1px solid var(--color-border);
   border-radius: maple.$maple-radius-sm;
   color: var(--color-text-main);
@@ -333,7 +340,7 @@ pre {
   overflow-wrap: anywhere;
   margin: 12px;
   padding: 12px;
-  background: var(--color-input-bg);
+  background: var(--chrome-control-bg);
   border: 1px solid var(--color-border);
   border-radius: 5px;
   color: var(--color-text-main);
@@ -482,7 +489,7 @@ footer > span:last-child {
   min-width: 0;
 }
 footer {
-  background: var(--color-surface);
+  background: var(--chrome-header-bg);
 }
 .appearance {
   display: flex;
