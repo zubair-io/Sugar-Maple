@@ -1,4 +1,13 @@
-import { Component, ElementRef, effect, inject, output, signal, viewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  computed,
+  effect,
+  inject,
+  output,
+  signal,
+  viewChild,
+} from '@angular/core';
 import { EditorService } from './editor.service';
 import { MuiButtonComponent } from './chrome/maple/ui/button/mui-button.component';
 import { MuiPopoverComponent } from './chrome/maple/ui/popover/mui-popover.component';
@@ -13,6 +22,9 @@ export class EditorHeader {
   readonly e = inject(EditorService);
   readonly preview = output<void>();
   readonly mcpOpen = signal(false);
+  readonly agentOutcomes = computed(() =>
+    this.e.agentOutcomes().filter((o) => o.documentId === this.e.doc().id),
+  );
   readonly modes = ['Design', 'Prototype', 'Developer'] as const;
   readonly editing = signal<string | null>(null);
   readonly nameInput = viewChild<ElementRef<HTMLInputElement>>('nameInput');
