@@ -1,0 +1,15 @@
+{
+  "source": "83529266532904b7da94d5cf59b4a645b30da3c4",
+  "webBundleRuntimeSource": "434d7c3686fd12bffa104e608d9b1f6fe5cf12fb",
+  "bundleRuntimeIdenticalToSource": true,
+  "models": 161,
+  "assertions": 2361,
+  "browserSuites": 37,
+  "browserCleanup": true,
+  "nativeRepeatChecks": 21,
+  "fullNativeExitCode": 0,
+  "beforeSource": "4c1f18b8967b5d041e74d5dee6f370e2ef5cc103",
+  "beforeExpectedFailure": true,
+  "pointerId": 700001,
+  "physicalPointerOrVoiceOverAcceptance": false
+}
