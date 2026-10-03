@@ -123,7 +123,7 @@ article.pulse {
   0%,
   40% {
     background: #c4493a70;
-    box-shadow: 0 0 0 3px var(--color-primary)55;
+    box-shadow: 0 0 0 3px var(--color-primary) 55;
   }
   100% {
     background: var(--color-primary-dim);
@@ -134,4 +134,15 @@ article.pulse {
   article.pulse {
     animation: none;
   }
+}
+
+.reply-error {
+  color: var(--color-text-main);
+  font-size: 12px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+  margin: 4px 0;
+}
+textarea[aria-invalid='true'] {
+  border-color: var(--color-primary);
 }

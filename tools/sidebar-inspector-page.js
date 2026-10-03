@@ -342,6 +342,18 @@ window.canvasTransformAcceptance = async function () {
       await click(".inspector button", "Comments");
       const article = document.querySelector("page-comments article"),
         reply = article.querySelector("textarea");
+      reply.value = "x".repeat(4001);
+      reply.dispatchEvent(new Event("input", { bubbles: true }));
+      await settle();
+      await click("page-comments article button", "Reply");
+      const error = article.querySelector('[role="alert"]');
+      check(
+        error?.textContent.includes("4,000") &&
+          reply.getAttribute("aria-invalid") === "true" &&
+          reply.getAttribute("aria-describedby") === error.id &&
+          reply.value.length === 4001,
+        "Reply error is inline and associated; draft retained",
+      );
       reply.focus();
       await settle();
       const panel = document
@@ -360,7 +372,21 @@ window.canvasTransformAcceptance = async function () {
       );
       if (window.sidebarCapture)
         await window.sidebarCapture(`comments-${width}-${theme}`);
-      geometry.push({ theme, width, commentWidth: box.width });
+      check(document.activeElement === reply, "Reply owns focus");
+      geometry.push({
+        theme,
+        width,
+        commentWidth: box.width,
+        errorVisible: true,
+        focused: true,
+      });
+      reply.value = "";
+      reply.dispatchEvent(new Event("input", { bubbles: true }));
+      await settle();
+      check(
+        !article.querySelector('[role="alert"]'),
+        "Correcting reply clears local error",
+      );
       await click(".inspector button", "Details");
     }
   }
@@ -380,7 +406,12 @@ window.canvasTransformAcceptance = async function () {
     appearance.value = window.sidebarEvidence.theme;
     appearance.dispatchEvent(new Event("change", { bubbles: true }));
     await click(".inspector button", "Comments");
-    document.querySelector("page-comments textarea").focus();
+    const reply = document.querySelector("page-comments textarea");
+    reply.value = "x".repeat(4001);
+    reply.dispatchEvent(new Event("input", { bubbles: true }));
+    await settle();
+    await click("page-comments article button", "Reply");
+    reply.focus();
     await settle();
     check(
       (await checkpoint()) === beforeMatrix,
