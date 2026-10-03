@@ -114,6 +114,68 @@ window.canvasTransformAcceptance = async function () {
         theme + ": source palette paints " + selector,
       );
     }
+    const headerPaint =
+      theme === "dark" ? "rgb(38, 37, 36)" : "rgb(253, 251, 247)";
+    const controlPaint =
+      theme === "dark" ? "rgb(28, 25, 23)" : "rgb(253, 251, 247)";
+    for (const selector of [
+      ".topbar",
+      ".canvas-toolbar",
+      ".drawing-toolbar",
+      "footer",
+    ]) {
+      const header = document.querySelector(selector);
+      check(header, theme + ": actual header exists " + selector);
+      const style = getComputedStyle(header);
+      check(
+        style.backgroundColor === headerPaint,
+        theme + ": actual header paint " + selector,
+      );
+      check(
+        contrast(style.color, style.backgroundColor) >= 4.5,
+        theme + ": header text contrast " + selector,
+      );
+    }
+    for (const selector of [
+      '[aria-label="Layer name"]',
+      '[aria-label="Grid rows"]',
+      '[aria-label="Named grid data"]',
+      '[aria-label="Drawing stroke width"]',
+      "footer select",
+    ]) {
+      const field = document.querySelector(selector);
+      check(field, theme + ": actual field exists " + selector);
+      const style = getComputedStyle(field);
+      check(
+        style.backgroundColor === controlPaint,
+        theme + ": actual field paint " + selector,
+      );
+      check(
+        contrast(style.color, style.backgroundColor) >= 4.5,
+        theme + ": field text contrast " + selector,
+      );
+    }
+    const nameButton = document.querySelector(".file-tab.active .tab-title");
+    nameButton.dispatchEvent(new MouseEvent("dblclick", { bubbles: true }));
+    await settle();
+    const rename = document.querySelector(".document-title");
+    check(rename, theme + ": actual header rename input");
+    check(
+      getComputedStyle(rename).backgroundColor === controlPaint,
+      theme + ": header rename field paint",
+    );
+    rename.dispatchEvent(
+      new KeyboardEvent("keydown", {
+        key: "Escape",
+        bubbles: true,
+        cancelable: true,
+      }),
+    );
+    await settle();
+    check(
+      !document.querySelector(".document-title"),
+      theme + ": rename canceled",
+    );
     const activeControls = [
       ...document.querySelectorAll(
         '.drawing-toolbar button[aria-pressed="true"], .canvas-toolbar button[aria-pressed="true"]',
