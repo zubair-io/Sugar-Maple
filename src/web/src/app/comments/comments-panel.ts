@@ -24,6 +24,7 @@ export class CommentsPanel {
   readonly status = this.ui.status;
   readonly replies = this.ui.replies;
   readonly notice = signal('');
+  readonly replyErrors = signal<Record<string, string>>({});
   readonly page = computed(() => this.e.doc().pages.find((p) => p.id === this.e.pageId()));
   readonly threads = computed(() =>
     this.e
@@ -54,15 +55,27 @@ export class CommentsPanel {
     });
   }
   setReply(id: string, text: string) {
+    this.replyErrors.update((errors) => ({ ...errors, [id]: '' }));
     this.replies.update((d) => ({ ...d, [id]: text }));
   }
   reply(id: string) {
     const text = this.replies()[id] ?? '';
     if (!text.trim()) return;
+    if (text.length > 4000) {
+      this.replyErrors.update((errors) => ({
+        ...errors,
+        [id]: 'Keep replies within 4,000 characters.',
+      }));
+      return;
+    }
     if (this.e.perform([{ type: 'comment.reply', id, text }])) {
       this.setReply(id, '');
       this.notice.set('Reply added; thread is open');
-    }
+    } else
+      this.replyErrors.update((errors) => ({
+        ...errors,
+        [id]: 'Could not add this reply. Review the editor error and try again.',
+      }));
   }
   resolve(id: string, resolved: boolean) {
     if (this.e.perform([{ type: 'comment.resolve', id, resolved }]))
