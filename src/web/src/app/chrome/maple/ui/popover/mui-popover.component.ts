@@ -76,13 +76,17 @@ export class MuiPopoverComponent implements OnDestroy {
   constructor() {
     effect(() => {
       if (this.open()) {
-        this.returnFocus = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+        this.returnFocus =
+          document.activeElement instanceof HTMLElement ? document.activeElement : null;
         // Defer attaching the outside-click listener by one macrotask: the
         // click that flips `open` to true is still bubbling to `document`
         // when this effect first runs (effects fire during change
         // detection, before that same click event finishes propagating in
         // some dispatch orders), so an immediate `addEventListener` here
         // can catch its own opening click and close the panel instantly.
+        // Escape must work while the opening click is still deferred.
+        // Unlike the outside-click listener, it cannot catch that click.
+        document.addEventListener('keydown', this.onDocumentKeydown);
         this.openTimer = setTimeout(() => this.attachListeners(), 0);
         // Focus containment basics: once the panel exists, move focus
         // inside it so keyboard/AT users land in the panel rather than
@@ -107,6 +111,7 @@ export class MuiPopoverComponent implements OnDestroy {
   }
 
   private focusInside(): void {
+    if (!this.open()) return;
     const panelEl = this.panel()?.nativeElement;
     if (!panelEl) return;
     (panelEl.querySelector<HTMLElement>('[autofocus]') ?? panelEl).focus();
@@ -115,12 +120,10 @@ export class MuiPopoverComponent implements OnDestroy {
   private attachListeners(): void {
     if (this.listenersAttached) return;
     document.addEventListener('click', this.onDocumentClick);
-    document.addEventListener('keydown', this.onDocumentKeydown);
     this.listenersAttached = true;
   }
 
   private detachListeners(): void {
-    if (!this.listenersAttached) return;
     document.removeEventListener('click', this.onDocumentClick);
     document.removeEventListener('keydown', this.onDocumentKeydown);
     this.listenersAttached = false;
