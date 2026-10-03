@@ -103,6 +103,17 @@ window.canvasTransformAcceptance = async function () {
       contrast(toolbarStyle.color, toolbarStyle.backgroundColor) >= 4.5,
       theme + ": drawing text contrast",
     );
+    // Pinned Just-Maple sidebar paints. A missing SCSS-only token used to
+    // leave the dark panels transparent; the source light color is warm stone.
+    const sidebarPaint =
+      theme === "dark" ? "rgb(41, 37, 36)" : "rgb(245, 242, 235)";
+    for (const selector of [".sidebar", ".inspector"]) {
+      check(
+        getComputedStyle(document.querySelector(selector)).backgroundColor ===
+          sidebarPaint,
+        theme + ": source palette paints " + selector,
+      );
+    }
     const activeControls = [
       ...document.querySelectorAll(
         '.drawing-toolbar button[aria-pressed="true"], .canvas-toolbar button[aria-pressed="true"]',
@@ -111,6 +122,14 @@ window.canvasTransformAcceptance = async function () {
     check(
       activeControls.length >= 2,
       theme + ": selected tool and snapping are visible",
+    );
+    // Sample settled paints, not a frame halfway through a theme transition.
+    await Promise.all(
+      activeControls.flatMap((control) =>
+        control
+          .getAnimations()
+          .map((animation) => animation.finished.catch(() => {})),
+      ),
     );
     for (const control of activeControls) {
       const style = getComputedStyle(control);
