@@ -1,0 +1,10 @@
+{
+  "checkout": "/Users/riabuz/.codex/worktrees/mcp-contract-hardening/_SugarMaple",
+  "revision": "6da814ed945016dcafe247be2c7e5a0703dc90d8",
+  "dirty": "",
+  "url": "http://127.0.0.1:52176",
+  "testsPassed": [
+    "src/web/tests/inspector-layout-e2e.ts"
+  ],
+  "cleanupPassed": true
+}
