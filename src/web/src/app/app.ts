@@ -38,6 +38,7 @@ import { exportNode, exportSupport, ExportTarget } from './model/export';
 import { ExportTargetSchema } from './model/tool-contract';
 import { LayersPanel } from './layers-panel';
 import { SelectionInspector } from './selection-inspector';
+import { WorkspacePreferences } from './workspace-preferences';
 import {
   MuiInputComponent,
   MuiToolbarComponent,
@@ -186,8 +187,9 @@ export class App {
 
   readonly search = signal('');
 
-  readonly left = signal(true);
-  readonly right = signal(true);
+  readonly workspace = inject(WorkspacePreferences);
+  readonly left = this.workspace.leftVisible;
+  readonly right = this.workspace.rightVisible;
   readonly commentUi = inject(CommentUi);
 
   readonly code = computed(() => {
@@ -268,7 +270,7 @@ export class App {
         untracked(() => this.cancelReparent());
     });
     effect(() => {
-      if (this.commentUi.openRequest()) this.right.set(true);
+      if (this.commentUi.openRequest()) this.workspace.open('right');
     });
     window.sugarMaple.viewport = {
       hasDraft: () => this.projection.drawingPending() || this.projection.repeatPending() || Object.keys(this.projection.draft()).length > 0,
@@ -470,8 +472,16 @@ export class App {
       }),
     };
   }
-  fit() {
-    const nodes = this.projection.roots().map((i) => i.bounds);
+  zoomAction(event:Event) {
+    const select = event.target as HTMLSelectElement;
+    if(select.value === '100')this.zoom.set(1);
+    if(select.value === 'all')this.fit();
+    if(select.value === 'selection')this.fit(true);
+    select.value = 'none';
+  }
+  fit(selection = false) {
+    const items = selection ? this.e.selectedRoots().flatMap(n => { const i = this.projection.byId().get(n.id); return i ? [i] : []; }) : this.projection.roots();
+    const nodes = items.map((i) => i.bounds);
     if (!nodes.length) return;
     const minX = Math.min(...nodes.map((n) => n.x)),
       minY = Math.min(...nodes.map((n) => n.y));
@@ -622,6 +632,7 @@ export class App {
     selection.addRange(range);
     event.preventDefault();
   }
+  @HostListener('window:resize') resizeWindow() { this.workspace.windowWidth.set(window.innerWidth); }
   @HostListener('window:keydown', ['$event']) key(event: KeyboardEvent) {
     if (this.preview() || event.defaultPrevented) return;
     const typing = (event.target as HTMLElement).matches('input,textarea,select,[contenteditable]') || !!(event.target as HTMLElement).closest('[data-copy-payload]');

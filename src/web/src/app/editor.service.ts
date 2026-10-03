@@ -55,6 +55,7 @@ export class EditorService {
   readonly error = signal('');
   readonly textDraft = signal(false);
   private textEdit: TextEditControl | null = null;
+  readonly agentOutcomes = signal<{documentId:string;revision:number;status:'Committed'|'Rejected'}[]>([]);
   readonly mcp = signal(window.webkit ? 'Starting' : 'Mac app required for MCP');
   readonly mode = signal<'Design' | 'Prototype' | 'Developer'>('Design');
   readonly nativePreviewRoot = signal<string | null>(null);
@@ -712,8 +713,12 @@ export class EditorService {
           await this.validateAssetOperations(args.operations);
           this.assertNoTextDraft();
           const result = this.store.transact(args, 'agent');
+          this.agentOutcomes.update(items => [{documentId:result.documentId,revision:result.revision,status:'Committed' as const},...items].slice(0,5));
           this.refresh();
           return result;
+        } catch(error) {
+          this.agentOutcomes.update(items => [{documentId:this.doc().id,revision:this.revision(),status:'Rejected' as const},...items].slice(0,5));
+          throw error;
         } finally {
           this.mcp.set(previousStatus);
         }

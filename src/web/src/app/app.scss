@@ -22,15 +22,15 @@ button:hover {
 }
 .workspace {
   display: grid;
-  grid-template-columns: 280px minmax(0, 1fr) 320px;
+  grid-template-columns: var(--left-panel-width, 280px) minmax(0, 1fr) var(--right-panel-width, 320px);
   flex: 1;
   min-height: 0;
 }
 .workspace.no-left {
-  grid-template-columns: minmax(0, 1fr) 320px;
+  grid-template-columns: minmax(0, 1fr) var(--right-panel-width, 320px);
 }
 .workspace.no-right {
-  grid-template-columns: 280px minmax(0, 1fr);
+  grid-template-columns: var(--left-panel-width, 280px) minmax(0, 1fr);
 }
 .workspace.no-left.no-right {
   grid-template-columns: 1fr;
@@ -362,7 +362,8 @@ pre {
   cursor: pointer;
 }
 footer {
-  height: 44px;
+  height: 28px;
+  box-sizing: border-box;
   display: flex;
   align-items: center;
   gap: 8px;
@@ -382,6 +383,10 @@ footer input {
 }
 .footer-center {
   margin: auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 footer > span:last-child {
   width: 30px;
@@ -400,16 +405,6 @@ footer > span:last-child {
   z-index: 100;
 }
 @media (max-width: 1150px) {
-  .workspace {
-    grid-template-columns: 220px minmax(0, 1fr) 260px;
-  }
-  .workspace.no-left {
-    grid-template-columns: minmax(0, 1fr) 260px;
-  }
-  .workspace.no-right {
-    grid-template-columns: 220px minmax(0, 1fr);
-  }
-
   .empty-canvas h1 {
     font-size: 18px;
   }
