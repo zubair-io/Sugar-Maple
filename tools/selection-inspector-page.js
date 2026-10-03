@@ -360,9 +360,52 @@ window.canvasTransformAcceptance = async function () {
   await mode("Design");
   clickText('[aria-label="Sidebar sections"] button', "Layers");
   await select(["multi-a", "multi-b"]);
+  const workspace = document.querySelector(".workspace"),
+    originalColumns = workspace.style.gridTemplateColumns;
+  const appearance = document.querySelector('[aria-label="Chrome appearance"]'),
+    originalTheme = appearance.value;
+  const beforeChrome = await checkpoint(),
+    geometry = [];
+  for (const theme of ["dark", "light"]) {
+    appearance.value = theme;
+    appearance.dispatchEvent(new Event("change", { bubbles: true }));
+    for (const width of [260, 320, 420]) {
+      workspace.style.gridTemplateColumns = `280px minmax(0, 1fr) ${width}px`;
+      await settle();
+      const panel = document
+        .querySelector("selection-inspector")
+        .getBoundingClientRect();
+      const inputs = [
+        ...document.querySelectorAll("selection-inspector input"),
+      ];
+      for (const input of inputs) {
+        const b = input.getBoundingClientRect(),
+          label = input.parentElement;
+        check(
+          b.width >= 80 && b.x >= panel.x && b.right <= panel.right + 1,
+          `${theme}/${width}: shared field contained and readable`,
+        );
+        check(
+          label.scrollWidth <= label.clientWidth + 1,
+          `${theme}/${width}: descriptive shared label contained`,
+        );
+      }
+      geometry.push({ theme, width, fields: inputs.length });
+    }
+  }
+  workspace.style.gridTemplateColumns = originalColumns;
+  appearance.value = originalTheme;
+  appearance.dispatchEvent(new Event("change", { bubbles: true }));
+  document.querySelector('[aria-label="Dismiss error"]')?.click();
+  await settle();
+  check(
+    (await checkpoint()) === beforeChrome,
+    "Shared inspector appearance/geometry preserve exact checkpoint",
+  );
   return {
     passed: true,
     checks,
+    geometry,
     scope:
       "Production multi-selection shared/Mixed/applicability, world transforms, root filtering, atomic undo, lock/managed/invalid guards and read-only mode insertion. DOM events do not prove physical native input.",
   };

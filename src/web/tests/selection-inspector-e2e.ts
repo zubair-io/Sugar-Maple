@@ -19,6 +19,9 @@ try {
   }
   assert.equal(result.passed, true);
   assert.deepEqual(errors, []);
+  await page.getByLabel('Chrome appearance', { exact: true }).selectOption('light');
+  await page.evaluate(() => window.sugarMaple.dispatch('layout.inspect'));
+  await page.screenshot({ path: 'build/selection-inspector/chrome-light.png' });
   await Bun.write('build/selection-inspector/chrome.json', JSON.stringify(result, null, 2));
   console.log('PASS: truthful multi-selection, atomic batch/undo and mode insertion guards');
 } finally {
