@@ -1,0 +1,7 @@
+{
+  "passed": true,
+  "exitCode": 1,
+  "stdout": "Comparison stage starting: build/comparison-ci-diagnostics/failure.ts\nDIAGNOSTIC_STDOUT_PHASE_STARTED\nComparison stage failed: build/comparison-ci-diagnostics/failure.ts; exit 9; elapsed 2516 ms\n",
+  "stderr": "DIAGNOSTIC_STDERR_PHASE_STARTED\n 9 |   });\n10 |   const exitCode = await child.exited;\n11 |   console.log(\n12 |     `Comparison stage ${exitCode === 0 ? \"completed\" : \"failed\"}: ${args[0]}; exit ${exitCode}; elapsed ${Math.round(performance.now() - started)} ms`,\n13 |   );\n14 |   if (exitCode !== 0) throw Error(`Comparison failed: ${args[0]}`);\n                                 ^\nerror: Comparison failed: build/comparison-ci-diagnostics/failure.ts\n      at run (/Users/riabuz/.codex/worktrees/mcp-contract-hardening/_SugarMaple/build/comparison-ci-diagnostics/failure-stage.ts:14:29)\n\nBun v1.4.2 (macOS arm64)\n",
+  "elapsedMs": 2533.935125
+}
