@@ -1,0 +1,59 @@
+{
+  "passed": true,
+  "checks": 8,
+  "cases": [
+    "page rename",
+    "layer expansion and icons",
+    "contextual prototype destination",
+    "valid destination and deletion undo",
+    "explicit interaction removal",
+    "developer output labeling",
+    "layer mode guard",
+    "locked and comment appearance matrix"
+  ],
+  "geometry": [
+    {
+      "theme": "dark",
+      "width": 260,
+      "commentWidth": 231,
+      "errorVisible": true,
+      "focused": true
+    },
+    {
+      "theme": "dark",
+      "width": 320,
+      "commentWidth": 291,
+      "errorVisible": true,
+      "focused": true
+    },
+    {
+      "theme": "dark",
+      "width": 420,
+      "commentWidth": 391,
+      "errorVisible": true,
+      "focused": true
+    },
+    {
+      "theme": "light",
+      "width": 260,
+      "commentWidth": 231,
+      "errorVisible": true,
+      "focused": true
+    },
+    {
+      "theme": "light",
+      "width": 320,
+      "commentWidth": 291,
+      "errorVisible": true,
+      "focused": true
+    },
+    {
+      "theme": "light",
+      "width": 420,
+      "commentWidth": 391,
+      "errorVisible": true,
+      "focused": true
+    }
+  ],
+  "scope": "Production DOM keyboard/page/tree/prototype/copy/locked/comments acceptance. No physical native input or VoiceOver claim."
+}
