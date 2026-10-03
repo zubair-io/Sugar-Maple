@@ -162,15 +162,33 @@ export async function runComparison(
     closing = true;
     clearInterval(scan);
     clearTimeout(force);
+    const cleanupDeadline = performance.now() + 30000;
     if (stage?.child.pid) registry.captureDescendants(stage.child.pid);
+    if (server?.child.pid) registry.captureDescendants(server.child.pid);
     stage?.stop("Comparison finished");
     server?.stop("Comparison finished");
     try {
-      const result = await registry.cleanup();
-      await Promise.all([
-        stage?.done.catch(() => {}),
-        server?.done.catch(() => {}),
-      ]);
+      const result = await registry.cleanup(cleanupDeadline);
+      let timer: ReturnType<typeof setTimeout> | undefined;
+      try {
+        await Promise.race([
+          Promise.all([
+            stage?.done.catch(() => {}),
+            server?.done.catch(() => {}),
+          ]),
+          new Promise((_, reject) => {
+            timer = setTimeout(
+              () =>
+                reject(
+                  Error("Comparison process handles exceeded cleanup deadline"),
+                ),
+              Math.max(1, cleanupDeadline - performance.now()),
+            );
+          }),
+        ]);
+      } finally {
+        clearTimeout(timer);
+      }
       console.log(
         "Comparison owned process cleanup: " + JSON.stringify(result),
       );
