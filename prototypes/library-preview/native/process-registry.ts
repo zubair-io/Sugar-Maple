@@ -91,14 +91,13 @@ export function comparisonProcessRegistry() {
           record(path, row.group);
         }
     },
-    async cleanup() {
+    async cleanup(deadline = performance.now() + 30000) {
       const records: Record[] = readFileSync(path, "utf8")
         .trim()
         .split("\n")
         .filter(Boolean)
         .map((line) => JSON.parse(line));
       const groups = new Map(records.map((item) => [item.group, item]));
-      const deadline = performance.now() + 30000;
       while (true) {
         const rows = processes(),
           live = rows.filter(
