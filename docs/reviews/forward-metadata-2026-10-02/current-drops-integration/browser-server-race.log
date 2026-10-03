@@ -1,0 +1,29 @@
+PASS: Maple chrome controls, numeric bounds, per-input error descriptions, overflow focus, nested/disabled tree activation, keyboard tabs, light/dark persistence, local fonts, utility isolation, production Shift-selection/search, mode guards, unchanged document and Canvas pixels, no editor in specimen or remote requests
+PASS: 10,000-layer bounded DOM, sibling ARIA, off-window keyboard navigation, focused control retention, single-step visibility/undo, external selection reveal, Shift-selection, contextual search, resize and panel recreation
+57695 |   else if (error.error.name === "TargetClosedError")
+57696 |     e = new TargetClosedError2(error.error.message);
+57697 |   else if (error.error.name === "AbortError")
+57698 |     e = new AbortError2(error.error.message);
+57699 |   else
+57700 |     e = Object.assign(new PlaywrightError(error.error.message), { name: error.error.name });
+                                  ^
+error: goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:4200/
+Call log:
+[2m  - navigating to "http://127.0.0.1:4200/", waiting until "load"[22m
+
+  log: [ "  - navigating to \"http://127.0.0.1:4200/\", waiting until \"load\"" ],
+
+      at /Users/riabuz/.codex/worktrees/mac-build-recovery/_SugarMaple/node_modules/.bun/playwright-core@1.63.0/node_modules/playwright-core/lib/coreBundle.js:57700:27
+
+Bun v1.4.2 (macOS arm64)
+57 |   ]) {
+58 |     const test = Bun.spawn([process.execPath, `src/web/tests/${name}.ts`], {
+59 |       stdout: "inherit",
+60 |       stderr: "inherit",
+61 |     });
+62 |     if (await test.exited) throw Error(`${name} failed`);
+                                      ^
+error: editor-e2e failed
+      at /Users/riabuz/.codex/worktrees/mac-build-recovery/_SugarMaple/tools/browser-acceptance.ts:62:34
+
+Bun v1.4.2 (macOS arm64)
