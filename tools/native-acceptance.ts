@@ -120,6 +120,7 @@ await run([process.execPath, "tools/native-inspector-layout.ts"]);
 await run([process.execPath, "tools/native-chrome-theme.ts"]);
 await run([process.execPath, "tools/native-selection-inspector.ts"]);
 await run([process.execPath, "tools/native-workspace.ts"]);
+await run([process.execPath, "tools/native-sidebar-inspector.ts"]);
 await run([process.execPath, "tools/native-library-diagnostics.ts"]);
 await run([process.execPath, "tools/native-scene-border.ts"]);
 await run([process.execPath, "tools/native-library-preview-acceptance.ts"]);
