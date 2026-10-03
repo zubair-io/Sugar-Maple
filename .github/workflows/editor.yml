@@ -37,4 +37,18 @@ jobs:
       - run: bun tools/native-acceptance.ts
       - run: bun --bun src/web/node_modules/@playwright/test/cli.js install chrome
       - run: bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture
+        timeout-minutes: 11
       - run: bun prototypes/library-preview/server-owner-test.ts --trust-native-fixture --scene
+        timeout-minutes: 11
+      - name: Retain isolated comparison diagnostics
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: isolated-comparison-diagnostics
+          path: |
+            build/library-preview-comparison-final-acceptance.log
+            build/library-scene-comparison-final-acceptance.log
+            build/library-preview-server-owner.json
+            build/library-scene-server-owner.json
+          if-no-files-found: warn
+          retention-days: 3
