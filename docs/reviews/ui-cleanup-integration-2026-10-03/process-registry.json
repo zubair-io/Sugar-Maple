@@ -1,0 +1,33 @@
+{
+  "passed": true,
+  "cases": [
+    {
+      "scenario": "transient-denial",
+      "group": 98072,
+      "attempts": 2,
+      "elapsedMs": 307,
+      "canaryPreserved": true
+    },
+    {
+      "scenario": "persistent-denial",
+      "group": 98078,
+      "attempts": 3,
+      "elapsedMs": 306,
+      "canaryPreserved": true
+    },
+    {
+      "scenario": "foreign-uid",
+      "group": 98083,
+      "attempts": 0,
+      "elapsedMs": 29,
+      "canaryPreserved": true
+    },
+    {
+      "scenario": "changed-start",
+      "group": 98086,
+      "attempts": 0,
+      "elapsedMs": 29,
+      "canaryPreserved": true
+    }
+  ]
+}
