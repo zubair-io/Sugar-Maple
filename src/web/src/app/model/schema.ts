@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { ForwardMetadataSchema, assertMetadataRecordKeys } from './forward-metadata';
 import { LibraryManifestSchema, LibraryReferenceSchema, LibraryPropsSchema, LibraryKeySchema, validateLibraryBindings } from './library-schema';
 import { assetKeyPattern, assetReferencePattern, validateAssets } from './assets';
 
@@ -143,13 +144,13 @@ export const NodeSchema = z
   })
   .strict();
 export type SceneNode = z.infer<typeof NodeSchema>;
-export const FolderSchema = z.object({ id, name: z.string().min(1).max(200), order: finite });
+export const FolderSchema = z.object({ id, name: z.string().min(1).max(200), order: finite }).catchall(ForwardMetadataSchema);
 export const PageSchema = z.object({
   id,
   name: z.string().min(1).max(200),
   order: finite,
   folderId: id.nullable().default(null),
-});
+}).catchall(ForwardMetadataSchema);
 const commentText = z.string().trim().min(1).max(4000);
 const commentAnchor = z.object({ x: finite, y: finite }).strict().nullable().default(null);
 const commentAuthor = z.enum(['human', 'agent']);
@@ -194,7 +195,7 @@ export const DocumentSchema = z.object({
   tokens: z.record(z.string().regex(/^[\w.-]+$/), color),
   libraries: z.record(LibraryKeySchema, LibraryManifestSchema).default({}),
   assets: z.record(z.string().regex(assetKeyPattern), z.string().max(6_666_700)).default({}),
-});
+}).catchall(ForwardMetadataSchema);
 export type SceneDocument = z.infer<typeof DocumentSchema>;
 const patchNode = z
   .object(
@@ -339,6 +340,7 @@ export function blankDocument(name = 'Untitled'): SceneDocument {
   };
 }
 export function validateDocument(value: unknown): SceneDocument {
+  assertMetadataRecordKeys(value);
   const doc = DocumentSchema.parse(value);
   validateAssets(doc.assets);
   validateLibraryBindings(doc);
