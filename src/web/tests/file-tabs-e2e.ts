@@ -25,7 +25,7 @@ try {
     'true',
   );
   assert.deepEqual((await doc()).document, first.document);
-  await page.getByRole('button', { name: '↶', exact: true }).click();
+  await page.getByRole('button', { name: 'Undo', exact: true }).click();
   assert.equal((await doc()).document.pages.length, 1);
   await page.getByRole('tab', { name: 'First file', exact: true }).press('F2');
   await page.getByLabel('Document name', { exact: true }).fill('Cancelled');
