@@ -42,7 +42,11 @@ try {
   );
   const streams = [child.stdout, child.stderr] as ReadableStream<Uint8Array>[];
   const drains = streams.map(async (stream) => {
-    for await (const bytes of stream) writer.write(bytes);
+    for await (const bytes of stream) {
+      writer.write(bytes);
+      await writer.flush();
+      process.stdout.write(bytes);
+    }
   });
   const code = await child.exited;
   await Promise.all(drains);
