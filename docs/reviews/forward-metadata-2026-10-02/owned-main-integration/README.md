@@ -1,0 +1,5 @@
+# Metadata integration with owned browser main
+
+Source `5c1dd5e` rebases the complete metadata repair and public legacy-load tests onto verified main `9c3bcb9`. The added metadata browser fixture uses the owned editor URL helper; every test runs against this checkout's fresh ephemeral server. All 160 model tests / 2,348 assertions, typecheck, Mac build, 34 browser suites and complete native acceptance pass. Source/cleanup attribution is retained in browser-owner.json. No mixed-source legacy-port run is counted.
+
+Previous metadata session `5393429272626002463` is authoritatively COMPLETED. Inspect-only recovery 37085942325 returned no complete ordered final artifact, so no approval is inferred. Earlier original blocking legacy-load feedback was addressed by explicit public constructor/checkpoint/journal tests; those tests are retained. Fresh exact-head review/CI and resulting-main verification remain required. Separate detached snapshot/receipt repair #107 is not included in this source.
