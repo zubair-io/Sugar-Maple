@@ -1,0 +1,5 @@
+# Snapshot integrity on owned browser main
+
+Source `acf85fa` carries the complete detached-snapshot/receipt repair on metadata candidate `4a76e96` and verified main `9c3bcb9`. The existing snapshot fixture already consumes the owned URL environment; metadata uses the shared helper. All 165 model tests / 2,365 assertions, typecheck, Mac build, 35 complete browser/consumer suites and full native acceptance pass. Browser attribution and successful cleanup are retained in browser-owner.json. The earlier combined `a6673fa` proof predates the owned harness and is not substituted for this run.
+
+Inspect-only recovery 37085943778 recovered actual VERDICT: approve for original head `66ed4185` from session `3642204062956740181`. The report found no issues with snapshot/receipt detachment and private internal projections. That is historical approval of its exact earlier head; recovery did not rewrite status and this rebased head needs its own independent review/CI and delivery checks. Metadata #101 remains a dependency. No physical latency, hardware input or full VoiceOver claim is made.
