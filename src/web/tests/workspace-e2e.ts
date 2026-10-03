@@ -9,6 +9,11 @@ try {
   page.on('pageerror', (e) => errors.push(e.message));
   await page.goto(editorURL());
   await page.waitForFunction(() => window.sugarMaple.ready);
+  await page.addScriptTag({ path: 'tools/workspace-page.js' });
+  assert.equal(
+    (await page.evaluate(() => (window as any).popoverImmediateEscapeAcceptance())).passed,
+    true,
+  );
   const checkpoint = () => page.evaluate(() => window.sugarMaple.dispatch('document.checkpoint'));
   const baseline = await checkpoint();
   const left = page.getByRole('separator', { name: 'Resize left panel' }),

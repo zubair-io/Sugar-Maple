@@ -230,7 +230,7 @@
     },
     {
       "path": "sugar-maple-chrome-specimen.ts",
-      "sha256": "84df91ab6a37769eaf705c2f1a1e1b62b373579f72ed87f785a07119d5ce61a7",
+      "sha256": "9cdd383f97faffe221ced85e7677fc13be3ff500840efc85d14d60a1cb457e2c",
       "upstreamPath": null,
       "upstreamBlob": null,
       "upstreamSHA256": null,
@@ -430,7 +430,7 @@
     },
     {
       "path": "ui/popover/mui-popover.component.ts",
-      "sha256": "1c11119777e3f63b9cece68dd653ffda584b0156272e3ab71f803f9e6b73ba19",
+      "sha256": "79cd5bc27ae0dce17fdfa88a33d9781d7568dbf9f7424c99215230d55401a25f",
       "upstreamPath": "src/web/projects/maple-common/src/lib/ui/popover/mui-popover.component.ts",
       "upstreamBlob": "66e95547da080a10c9596b6acf2efd6ab277360b",
       "upstreamSHA256": "4fffad02420f5d9e9f95cef68d5b3451902c8cc6dd25e55bbfab230a2033c7ca",
