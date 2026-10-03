@@ -1,0 +1,24 @@
+{
+  "source": "859b17df216b0c22dd8d4ebca86e91237c4e69d4",
+  "priorHead": "4a76e96a473b052eea410c290f81a4dacd799baa",
+  "blockedSession": "8641490732266778838",
+  "before": {
+    "metadataTestsPass": 5,
+    "metadataTestsFail": 1,
+    "failure": "absent-map injected in-memory state; public loader cases passed"
+  },
+  "models": 161,
+  "assertions": 2361,
+  "browserSuites": 34,
+  "commandExitCodes": {
+    "focused": 0,
+    "models": 0,
+    "typecheck": 0,
+    "macBuild": 0,
+    "browser": 0,
+    "native": 0
+  },
+  "publicLegacyCRDTExtraFieldIgnored": true,
+  "newRawCRDTLoadAPI": false,
+  "remaining": "new exact-head approval/CI, current-main integration, merge and main verification"
+}
