@@ -1,0 +1,59 @@
+❯ Building...
+✔ Building...
+Initial chunk files | Names                       |  Raw size
+styles.css          | styles                      |  30.99 kB | 
+chunk-VUJOFXKG.js   | -                           | 987 bytes | 
+main.js             | main                        | 917 bytes | 
+
+                    | Initial total               |  32.90 kB
+
+Lazy chunk files    | Names                       |  Raw size
+chunk-RRVPITPA.js   | app                         | 596.64 kB | 
+chunk-RY42GGBF.js   | -                           | 204.09 kB | 
+chunk-GDBO2EGR.js   | -                           | 176.23 kB | 
+chunk-JM6PIPUG.js   | sugar-maple-chrome-specimen |  24.84 kB | 
+chunk-3YTJMRQJ.js   | preview-application         |   6.21 kB | 
+
+Application bundle generation complete. [2.431 seconds] - 2026-10-03T02:09:54.847Z
+
+Watch mode enabled. Watching for file changes...
+NOTE: Raw file sizes do not reflect development server per-request transformations.
+  ➜  Local:   http://127.0.0.1:56935/
+Owned source checkout editor: http://127.0.0.1:56935; process group 78485
+Comparison stage starting: build/native-phase-check/before-scene.ts
+Comparison native phase: building trusted fixture
+Comparison native phase: trusted build completed
+Comparison native phase: sandboxed helper ready
+PASS: default: actual Canvas, DOM, package, SwiftUI geometry, source identity and unchanged checkpoint
+PASS: source-update: actual Canvas, DOM, package, SwiftUI geometry, source identity and unchanged checkpoint
+PASS: source-undo: actual Canvas, DOM, package, SwiftUI geometry, source identity and unchanged checkpoint
+PASS: primary: actual Canvas, DOM, package; actionable native limitation geometry, source identity and unchanged checkpoint
+PASS: disabled: actual Canvas, DOM, package, SwiftUI geometry, source identity and unchanged checkpoint
+PASS: nested-overrides: actual Canvas, DOM, package, SwiftUI geometry, source identity and unchanged checkpoint
+PASS: nested-rotations: actual Canvas, DOM, package, SwiftUI geometry, source identity and unchanged checkpoint
+PASS: authored-border: actual Canvas, DOM, package, SwiftUI geometry, source identity and unchanged checkpoint
+PASS: restored: actual Canvas, DOM, package, SwiftUI geometry, source identity and unchanged checkpoint
+262 |   }
+263 |   renderScene(value: unknown, reset = false) {
+264 |     const scene = validateLibraryScene(value),
+265 |       unsupported = nativeSceneDiagnostics(scene);
+266 |     if (unsupported.length) throw Error(unsupported.join("\n"));
+267 |     if (this.closed) throw Error(`Native preview stopped: ${this.stopReason}`);
+                                 ^
+error: Native preview stopped: Error: Wall-time budget exceeded
+      at renderScene (/Users/riabuz/.codex/worktrees/mac-build-recovery/_SugarMaple/prototypes/library-preview/native/controller.ts:267:28)
+      at /Users/riabuz/.codex/worktrees/mac-build-recovery/_SugarMaple/build/native-phase-check/before-scene.ts:732:18
+
+Bun v1.4.2 (macOS arm64)
+Comparison stage failed: build/native-phase-check/before-scene.ts; exit 1; elapsed 68975 ms
+29 |   });
+30 |   const exitCode = await child.exited;
+31 |   console.log(
+32 |     `Comparison stage ${exitCode === 0 ? "completed" : "failed"}: ${args[0]}; exit ${exitCode}; elapsed ${Math.round(performance.now() - started)} ms`,
+33 |   );
+34 |   if (exitCode !== 0) throw Error(`Comparison failed: ${args[0]}`);
+                                 ^
+error: Comparison failed: build/native-phase-check/before-scene.ts
+      at run (/Users/riabuz/.codex/worktrees/mac-build-recovery/_SugarMaple/build/native-phase-check/before-owner.ts:34:29)
+
+Bun v1.4.2 (macOS arm64)
