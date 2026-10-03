@@ -1,0 +1,13 @@
+bun test v1.4.2 (744846f84)
+
+src/web/tests/web-copy.test.ts:
+(pass) classes and declaration payloads are pasteable fragments with token identity and no markup [1.72ms]
+(pass) complete CSS rules cover visible descendants and packaged markup references those exact rules [0.28ms]
+(pass) malformed token names cannot escape declaration or stylesheet boundaries [0.11ms]
+(pass) invalid token colors reject at authoring/loading and at the public export helper boundary [7.24ms]
+(pass) fragment support inspects only its selected node even on a deeply nested valid document [484.47ms]
+
+ 5 pass
+ 0 fail
+ 50 expect() calls
+Ran 5 tests across 1 file. [522.00ms]

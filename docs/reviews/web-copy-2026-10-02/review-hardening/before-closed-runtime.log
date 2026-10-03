@@ -1,0 +1,33 @@
+40 |       assert.ok(Date.now() < deadline, 'Helper must reject privileged packet keys'); await Bun.sleep(10);
+41 |     }
+42 |   }
+43 |   native.stop('Test-owned runtime cancellation');
+44 |   await native.owner.done.catch(() => {});
+45 |   assert.throws(() => native.render(fixtureProps()), /Native preview stopped: Test-owned runtime cancellation/);
+              ^
+AssertionError: The input did not match the regular expression /Native preview stopped: Test-owned runtime cancellation/. Input:
+
+'Error: Wait for native ready before rendering'
+
+ generatedMessage: true,
+   expected: /Native preview stopped: Test-owned runtime cancellation/,
+   operator: "throws",
+       diff: "simple",
+       code: "ERR_ASSERTION"
+
+      at /Users/riabuz/Projects/_Sugar Maple/prototypes/library-preview/native/test.ts:45:10
+
+234 |     });
+235 |   }
+236 |   render(value: PreviewProps) {
+237 |     const props = nativeProps(value);
+238 |     if (this.closed || (this.revision === -1 && this.waiting))
+239 |       throw Error("Wait for native ready before rendering");
+                  ^
+error: Wait for native ready before rendering
+      at render (/Users/riabuz/Projects/_Sugar Maple/prototypes/library-preview/native/controller.ts:239:13)
+      at getActual (node:assert:340:7)
+      at throws (node:assert:430:33)
+      at /Users/riabuz/Projects/_Sugar Maple/prototypes/library-preview/native/test.ts:45:10
+
+Bun v1.4.2 (macOS arm64)
