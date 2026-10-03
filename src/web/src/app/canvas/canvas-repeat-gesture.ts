@@ -69,6 +69,7 @@ export class CanvasRepeatGesture {
       g.pageId === e.pageId() &&
       g.revision === e.revision() &&
       e.mode() === 'Design' &&
+      !this.p.drawingTool() &&
       e.selection().length === 1 &&
       e.selection()[0] === g.item.node.id
     );
@@ -90,7 +91,14 @@ export class CanvasRepeatGesture {
       size.columns !== g.size.columns ||
       Math.abs(size.gap - g.size.gap) > 1e-8;
     this.p.repeatDraft.set(
-      changed ? { ...size, namespace: g.namespace, preserveCount: g.kind === 'gap' } : null,
+      changed
+        ? {
+            ...size,
+            namespace: g.namespace,
+            preserveCount: g.kind === 'gap',
+            source: { documentId: g.documentId, pageId: g.pageId, revision: g.revision },
+          }
+        : null,
     );
   }
   commit(event: CanvasPointerEvent) {

@@ -149,10 +149,11 @@ export class CanvasSurface {
       this.p.drawingTool();
       const board = this.board();
       untracked(() => {
-        this.tool.deactivate();
+        const repeatCurrent = this.tool.repeat.current();
+        if (!repeatCurrent) this.tool.deactivate();
         const drawingCurrent = this.drawing.cancelIfStale();
         if (this.p.e.mode() !== 'Design') this.p.drawingTool.set(null);
-        if (!drawingCurrent) board?.onBlur();
+        if (!drawingCurrent && !repeatCurrent) board?.onBlur();
       });
     });
     afterRenderEffect(() => {
