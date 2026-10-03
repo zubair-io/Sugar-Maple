@@ -1,0 +1,21 @@
+{
+  "passed": true,
+  "checks": 2,
+  "themes": [
+    {
+      "theme": "dark",
+      "inputContrast": 13.928878777679465,
+      "buttonContrast": 12.186231381577144,
+      "errorContrast": 7.5917935164152,
+      "drawing": "rgb(38, 37, 36)"
+    },
+    {
+      "theme": "light",
+      "inputContrast": 13.904934333334364,
+      "buttonContrast": 15.169185291778712,
+      "errorContrast": 6.473919607879619,
+      "drawing": "rgb(255, 255, 255)"
+    }
+  ],
+  "scope": "Rendered production chrome and Repeat Grid draft/preview/error/focus/drop states; exact scene/history preservation. Synthetic DOM events do not prove physical input or VoiceOver."
+}
