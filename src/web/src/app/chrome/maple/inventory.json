@@ -374,11 +374,11 @@
     },
     {
       "path": "ui/inspector-panel/mui-inspector-panel.component.html",
-      "sha256": "6cccfa6cbc0c14257837097ac089ae79a9e32debe54137d6c14b8d2ae27c9cb8",
+      "sha256": "dd3af76c3ade990d39145050fccb9be66007ae9335342a5565e72db5aabeae3c",
       "upstreamPath": "src/web/projects/maple-common/src/lib/ui/inspector-panel/mui-inspector-panel.component.html",
       "upstreamBlob": "08851f59fc01e48e1531f475204b16ded29a292d",
       "upstreamSHA256": "6cccfa6cbc0c14257837097ac089ae79a9e32debe54137d6c14b8d2ae27c9cb8",
-      "classification": "exact pinned source"
+      "classification": "adapted pinned source"
     },
     {
       "path": "ui/inspector-panel/mui-inspector-panel.component.ts",
