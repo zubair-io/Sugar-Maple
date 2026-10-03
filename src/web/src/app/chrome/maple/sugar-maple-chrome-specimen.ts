@@ -176,7 +176,7 @@ import { ChromeTheme } from './sugar-maple-chrome-theme';
       height: 100%;
       overflow: auto;
       padding: 28px;
-      background: var(--chrome-bg);
+      background: var(--chrome-bg, var(--color-bg));
     }
     :host([data-chrome-theme='light']) {
       --chrome-bg: #fdfbf7;
