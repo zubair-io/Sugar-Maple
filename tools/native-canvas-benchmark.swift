@@ -54,7 +54,14 @@ import Darwin
         let args = CommandLine.arguments
         let flags = Array(args.dropFirst(6))
         let transforms = flags.contains("--transforms")
-        guard args.count >= 6 && Set(flags).isSubset(of: ["--transforms", "--always-scrollbars"]) else { fatalError("Pass resources, fixture, page harness, report and screenshot; optional --transforms / --always-scrollbars") }
+        let sizeFlags = flags.filter { $0.hasPrefix("--size=") }
+        guard args.count >= 6 && sizeFlags.count <= 1 && flags.allSatisfy({ ["--transforms", "--always-scrollbars"].contains($0) || $0.hasPrefix("--size=") }) else { fatalError("Pass resources, fixture, page harness, report and screenshot; optional --transforms / --always-scrollbars / --size=WIDTHxHEIGHT") }
+        var size = NSSize(width:1440, height:1000)
+        if let flag = sizeFlags.first {
+            let parts = String(flag.dropFirst(7)).split(separator:"x")
+            guard parts.count == 2, let width = Double(parts[0]), let height = Double(parts[1]), width >= 580, width <= 2000, height >= 600, height <= 2000 else { fatalError("Invalid benchmark window size") }
+            size = NSSize(width:width, height:height)
+        }
         if flags.contains("--always-scrollbars") {
             // Process-local preference: exercise permanent native gutters without
             // changing the user's persistent system appearance settings.
@@ -69,7 +76,7 @@ import Darwin
         config.websiteDataStore = .nonPersistent()
         config.setURLSchemeHandler(BenchmarkResources(URL(fileURLWithPath: args[1], isDirectory: true)), forURLScheme: "sugar-maple")
         config.userContentController.addScriptMessageHandler(BenchmarkBridge(fixture), contentWorld: .page, name: "native")
-        let webView = WKWebView(frame: NSRect(x:0, y:0, width:1440, height:1000), configuration:config)
+        let webView = WKWebView(frame: NSRect(x:0, y:0, width:size.width, height:size.height), configuration:config)
         let window = NSWindow(contentRect: webView.frame, styleMask:[.titled, .closable], backing:.buffered, defer:false)
         window.title = "Sugar Maple isolated Canvas benchmark"
         window.isReleasedWhenClosed = false
