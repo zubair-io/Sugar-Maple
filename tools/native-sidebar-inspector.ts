@@ -27,19 +27,32 @@ await run([
   "-o",
   executable,
 ]);
-await run([
-  executable,
-  resolve(root, "src/web/dist/sugar-maple-editor/browser"),
-  fixture,
-  resolve(root, "tools/sidebar-inspector-page.js"),
-  resolve(output, "report.json"),
-  resolve(output, "webkit.png"),
-  "--transforms",
-  "--always-scrollbars",
-]);
-const report = await Bun.file(resolve(output, "report.json")).json();
-if (report.result?.passed !== true || report.result?.checks !== 8)
-  throw Error("Incomplete native sidebar/contextual inspector proof");
+for (const theme of ["light", "dark"])
+  for (const width of [260, 320, 420]) {
+    const script = resolve(output, `evidence-${width}-${theme}.js`);
+    await Bun.write(
+      script,
+      `window.sidebarEvidence=${JSON.stringify({ theme, width })};\n` +
+        (await Bun.file(
+          resolve(root, "tools/sidebar-inspector-page.js"),
+        ).text()),
+    );
+    await run([
+      executable,
+      resolve(root, "src/web/dist/sugar-maple-editor/browser"),
+      fixture,
+      script,
+      resolve(output, `${width}-${theme}.json`),
+      resolve(output, `${width}-${theme}.png`),
+      "--transforms",
+      "--always-scrollbars",
+    ]);
+    const report = await Bun.file(
+      resolve(output, `${width}-${theme}.json`),
+    ).json();
+    if (report.result?.passed !== true || report.result?.checks !== 8)
+      throw Error("Incomplete native sidebar/contextual inspector proof");
+  }
 console.log(
   "PASS: production WK keyboard page/tree, contextual prototype/copy and locked/comments acceptance",
 );
