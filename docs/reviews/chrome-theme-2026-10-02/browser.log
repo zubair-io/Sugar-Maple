@@ -1,0 +1,8 @@
+Owned browser editor: http://127.0.0.1:52876; checkout /Users/riabuz/.codex/worktrees/mac-build-recovery/_SugarMaple; revision f8c79f16371d6a4700a8c7c7113ecad37859344a
+PASS: drawing and Repeat Grid theme contrast, real preview/error/drop/focus states, exact checkpoint preservation
+PASS: real CSV/JSON file UI, named mappings, preview/cancel, empty/oversized/corrupt data rejection without mutation, explicit truncation, one-batch import, stable resizing, template editing, native-ready agent decode rejection, offline image preview and strict Angular/Tailwind/HTML/SVG consumers
+PASS: 11 production Repeat Grid drop/file-folder mapping/history/recovery cases
+PASS: 20 real Repeat Grid Canvas pointer/keyboard/cancel/history cases
+PASS: real line/arrow/freehand/path gestures in a rotated frame, draft/capture boundary, polyline point undo, close/cancel, locked/managed/stale guards, SVG handoff and one exact undo at DPR2 zoom 0.5
+PASS: real line/arrow/freehand/path gestures in a rotated frame, draft/capture boundary, polyline point undo, close/cancel, locked/managed/stale guards, SVG handoff and one exact undo at DPR2 zoom 1.5
+Browser source/cleanup report: /Users/riabuz/.codex/worktrees/mac-build-recovery/_SugarMaple/build/browser-acceptance-a91bab52-e5fa-4a13-851b-69a1e4b96388.json
