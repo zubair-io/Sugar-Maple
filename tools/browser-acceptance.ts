@@ -3,6 +3,7 @@ import { runOwnedBrowserSuite } from "./owned-browser-server";
 await runOwnedBrowserSuite(
   [
     "chrome-e2e",
+    "workspace-e2e",
     "layers-window-e2e",
     "editor-e2e",
     "canvas-e2e",
