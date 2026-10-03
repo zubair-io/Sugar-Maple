@@ -1,0 +1,14 @@
+bun test v1.4.2 (744846f84)
+
+src/web/tests/forward-metadata.test.ts:
+(pass) opaque document/page/folder metadata survives editing, undo/redo and serialized journal recovery [14.32ms]
+(pass) unknown metadata remains JSON data and does not weaken commands or future schema rejection [1.05ms]
+(pass) reserved or cyclic metadata rejects explicitly instead of silently dropping JSON fields [0.35ms]
+(pass) reading a scene cannot mutate stored metadata or the recovery base outside a command [0.22ms]
+(pass) legacy documents without metadata initialize safe scene reads through every public load path [3.04ms]
+(pass) legacy in-memory scene without metadata map remains readable through edit, undo and recovery [0.36ms]
+
+ 6 pass
+ 0 fail
+ 63 expect() calls
+Ran 6 tests across 1 file. [87.00ms]
