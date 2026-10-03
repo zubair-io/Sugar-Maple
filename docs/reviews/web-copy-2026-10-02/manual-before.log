@@ -1,0 +1,63 @@
+$ bun run --cwd src/web start
+$ bun --bun ../../node_modules/@angular/cli/bin/ng.js serve --host 127.0.0.1
+52 |   await expect(page.locator('pre').first()).toHaveText(report.exported['css-declarations'].code);
+53 |   await page.locator('pre').first().focus();
+54 |   await expect(page.locator('pre').first()).toBeFocused();
+55 |   const beforeManual = await page.evaluate(() => window.sugarMaple.dispatch('document.checkpoint'));
+56 |   await page.locator('pre').first().press('Control+a');
+57 |   assert.equal(await page.evaluate(() => window.getSelection()?.toString()), report.exported['css-declarations'].code);
+              ^
+AssertionError: Expected values to be strictly equal:
++ actual - expected
+
++ ''
+- 'margin:0px;font-family:"Maple Sans", system-ui, sans-serif;line-height:1.2;letter-spacing:0px;white-space:pre-wrap;text-align:center;appearance:none;position:relative;left:0px;top:0px;width:100%;height:44px;min-width:0px;min-height:0px;flex-grow:0;background:#2468ac;color:#18181b;border-radius:0px;border:0px solid #d4d4d8;opacity:1;font-size:16px;font-weight:400;transform:rotate(0deg);box-sizing:border-box;display:block;flex-direction:row;grid-template-columns:repeat(2, minmax(0, 1fr));gap:16px;padding:0px;flex-shrink:0;overflow:hidden;--brand-primary:#2468ac;background:var(--brand-primary)'
+
+ generatedMessage: true,
+     actual: "",
+   expected: "margin:0px;font-family:\"Maple Sans\", system-ui, sans-serif;line-height:1.2;letter-spacing:0px;white-space:pre-wrap;text-align:center;appearance:none;position:relative;left:0px;top:0px;width:100%;height:44px;min-width:0px;min-height:0px;flex-grow:0;background:#2468ac;color:#18181b;border-radius:0px;border:0px solid #d4d4d8;opacity:1;font-size:16px;font-weight:400;transform:rotate(0deg);box-sizing:border-box;display:block;flex-direction:row;grid-template-columns:repeat(2, minmax(0, 1fr));gap:16px;padding:0px;flex-shrink:0;overflow:hidden;--brand-primary:#2468ac;background:var(--brand-primary)",
+   operator: "strictEqual",
+       diff: "simple",
+       code: "ERR_ASSERTION"
+
+      at /Users/riabuz/Projects/_Sugar Maple/src/web/tests/web-copy-e2e.ts:57:10
+
+Bun v1.4.2 (macOS arm64)
+error: script "start" exited with code 143
+fatal error: all goroutines are asleep - deadlock!
+error: script "dev" exited with code 143
+ 6 |     try { if ((await fetch('http://127.0.0.1:4200')).ok) break; } catch {}
+ 7 |     if (performance.now()>deadline || owner.exitCode!==null) throw Error('Owned editor failed to start');
+ 8 |     await Bun.sleep(100);
+ 9 |   }
+10 |   const test=Bun.spawn([process.execPath,'src/web/tests/web-copy-e2e.ts'],{stdout:'inherit',stderr:'inherit'});
+11 |   if (await test.exited) throw Error('Final source copy consumer failed');
+                                    ^
+error: Final source copy consumer failed
+      at /Users/riabuz/Projects/_Sugar Maple/build/web-copy/focused-run.ts:11:32
+
+Bun v1.4.2 (macOS arm64)
+
+goroutine 1 [chan receive]:
+github.com/evanw/esbuild/internal/helpers.(*ThreadSafeWaitGroup).Wait(...)
+	github.com/evanw/esbuild/internal/helpers/waitgroup.go:36
+main.runService.func2()
+	github.com/evanw/esbuild/cmd/esbuild/service.go:114 +0x8c
+main.runService(0x1)
+	github.com/evanw/esbuild/cmd/esbuild/service.go:160 +0x560
+main.main()
+	github.com/evanw/esbuild/cmd/esbuild/main.go:252 +0xb5c
+
+goroutine 35 [chan receive]:
+main.runService.func1()
+	github.com/evanw/esbuild/cmd/esbuild/service.go:98 +0x40
+created by main.runService in goroutine 1
+	github.com/evanw/esbuild/cmd/esbuild/service.go:97 +0x188
+
+goroutine 36 [chan receive]:
+main.(*serviceType).sendRequest(0x122cdb484ff0, {0x101745060, 0x122cdd1000c0})
+	github.com/evanw/esbuild/cmd/esbuild/service.go:192 +0x134
+main.runService.func3()
+	github.com/evanw/esbuild/cmd/esbuild/service.go:125 +0x44
+created by main.runService in goroutine 1
+	github.com/evanw/esbuild/cmd/esbuild/service.go:122 +0x2a8

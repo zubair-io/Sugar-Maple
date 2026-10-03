@@ -1,0 +1,15 @@
+{
+  "engine": "WKWebView",
+  "memory": {
+    "ownerPeakRSSBytes": 193658880,
+    "scope": "This benchmark UI process only; WebKit content/GPU/network process memory is not included"
+  },
+  "nativeBridge": "In-memory benchmark recovery/status/autosave only; production native disk/MCP/clipboard costs excluded",
+  "os": "Version 27.0 (Build 26A428)",
+  "result": {
+    "checks": 7,
+    "limitation": "Native UI checks use DOM events; OS clipboard/input and full VoiceOver are separate.",
+    "passed": true,
+    "sourceUnchanged": true
+  }
+}

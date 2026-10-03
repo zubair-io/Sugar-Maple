@@ -1,0 +1,21 @@
+46 |   });
+47 |   const code = await child.exited;
+48 |   await Promise.all(drains);
+49 |   await writer.end();
+50 |   assert.equal(code, 0, await Bun.file(log).text());
+51 |   assert.equal(
+              ^
+AssertionError: The conventional-port listener is never used as an editor
+
+2 !== 0
+
+ generatedMessage: false,
+     actual: 2,
+   expected: 0,
+   operator: "strictEqual",
+       diff: "simple",
+       code: "ERR_ASSERTION"
+
+      at /Users/riabuz/Projects/_Sugar Maple/prototypes/library-preview/server-owner-test.ts:51:10
+
+Bun v1.4.2 (macOS arm64)

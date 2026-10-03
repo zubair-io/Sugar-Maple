@@ -1,0 +1,15 @@
+4 | 
+5 | if (!process.argv.includes("--trust-native-fixture"))
+6 |   throw Error("Explicit native fixture opt-in required");
+7 | const canary = `unrelated listener ${crypto.randomUUID()}`;
+8 | let requests = 0;
+9 | const sentinel = Bun.serve({
+                         ^
+error: Failed to start server. Is port 4200 in use?
+ syscall: "listen",
+   errno: 0,
+    code: "EADDRINUSE"
+
+      at /Users/riabuz/Projects/_Sugar Maple/prototypes/library-preview/server-owner-test.ts:9:22
+
+Bun v1.4.2 (macOS arm64)

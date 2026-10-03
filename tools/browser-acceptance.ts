@@ -44,6 +44,7 @@ try {
     "preview-inspect-e2e",
     "handoff-e2e",
     "web-consumer",
+    "web-copy-e2e",
     "maple-design-e2e",
     "components-e2e",
     "repeat-data-e2e",
