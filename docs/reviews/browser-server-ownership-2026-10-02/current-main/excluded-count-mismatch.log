@@ -1,0 +1,21 @@
+ 5 | const cases=[{cwd:'/Users/riabuz/.codex/worktrees/mac-build-recovery/_SugarMaple',key:'metadata',expected:33},{cwd:'/Users/riabuz/Projects/_Sugar Maple',key:'web-copy',expected:34}];
+ 6 | try {
+ 7 |  const children=cases.map(c=>Bun.spawn([process.execPath,'tools/browser-acceptance.ts'],{cwd:c.cwd,env:process.env,stdout:'pipe',stderr:'pipe'}));
+ 8 |  const outputs=children.map(async(c,i)=>{const drains=[new Response(c.stdout).text(),new Response(c.stderr).text()];const code=await c.exited;const [out,err]=await Promise.all(drains);await Bun.write(`build/browser-owner-proof/full-${cases[i].key}.log`,out+'\n'+err);return {code,out,err};});
+ 9 |  const values=await Promise.all(outputs);assert.deepEqual(values.map(v=>v.code),[0,0]);
+10 |  const reports=await Promise.all(values.map(async(v,i)=>{const match=v.out.match(/Browser source\/cleanup report: (.+)/);assert.ok(match);const report=await Bun.file(match[1].trim()).json();assert.equal(report.cleanupPassed,true);assert.equal(report.testsPassed.length,cases[i].expected);assert.equal(report.dirty,'');return report;}));
+                                                                                                                                                                                                                                                  ^
+AssertionError: Expected values to be strictly equal:
+
+33 !== 34
+
+ generatedMessage: true,
+     actual: 33,
+   expected: 34,
+   operator: "strictEqual",
+       diff: "simple",
+       code: "ERR_ASSERTION"
+
+      at /Users/riabuz/.codex/worktrees/mcp-contract-hardening/_SugarMaple/build/browser-owner-proof/concurrent-full.ts:10:238
+
+Bun v1.4.2 (macOS arm64)
