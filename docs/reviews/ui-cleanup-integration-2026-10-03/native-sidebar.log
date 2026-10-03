@@ -1,0 +1,7 @@
+PASS: fresh visible WKWebView production Canvas transform keyboard/geometry acceptance; /Users/riabuz/.codex/worktrees/mac-build-recovery/_SugarMaple/build/native-sidebar-inspector/260-light.json
+PASS: fresh visible WKWebView production Canvas transform keyboard/geometry acceptance; /Users/riabuz/.codex/worktrees/mac-build-recovery/_SugarMaple/build/native-sidebar-inspector/320-light.json
+PASS: fresh visible WKWebView production Canvas transform keyboard/geometry acceptance; /Users/riabuz/.codex/worktrees/mac-build-recovery/_SugarMaple/build/native-sidebar-inspector/420-light.json
+PASS: fresh visible WKWebView production Canvas transform keyboard/geometry acceptance; /Users/riabuz/.codex/worktrees/mac-build-recovery/_SugarMaple/build/native-sidebar-inspector/260-dark.json
+PASS: fresh visible WKWebView production Canvas transform keyboard/geometry acceptance; /Users/riabuz/.codex/worktrees/mac-build-recovery/_SugarMaple/build/native-sidebar-inspector/320-dark.json
+PASS: fresh visible WKWebView production Canvas transform keyboard/geometry acceptance; /Users/riabuz/.codex/worktrees/mac-build-recovery/_SugarMaple/build/native-sidebar-inspector/420-dark.json
+PASS: production WK keyboard page/tree, contextual prototype/copy and locked/comments acceptance

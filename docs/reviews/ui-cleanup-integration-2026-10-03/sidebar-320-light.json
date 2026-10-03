@@ -1,0 +1,68 @@
+{
+  "engine" : "WKWebView",
+  "memory" : {
+    "ownerPeakRSSBytes" : 196116480,
+    "scope" : "This benchmark UI process only; WebKit content\/GPU\/network process memory is not included"
+  },
+  "nativeBridge" : "In-memory benchmark recovery\/status\/autosave only; production native disk\/MCP\/clipboard costs excluded",
+  "os" : "Version 27.0 (Build 26A428)",
+  "result" : {
+    "cases" : [
+      "page rename",
+      "layer expansion and icons",
+      "contextual prototype destination",
+      "valid destination and deletion undo",
+      "explicit interaction removal",
+      "developer output labeling",
+      "layer mode guard",
+      "locked and comment appearance matrix"
+    ],
+    "checks" : 8,
+    "geometry" : [
+      {
+        "commentWidth" : 231,
+        "errorVisible" : true,
+        "focused" : true,
+        "theme" : "dark",
+        "width" : 260
+      },
+      {
+        "commentWidth" : 291,
+        "errorVisible" : true,
+        "focused" : true,
+        "theme" : "dark",
+        "width" : 320
+      },
+      {
+        "commentWidth" : 391,
+        "errorVisible" : true,
+        "focused" : true,
+        "theme" : "dark",
+        "width" : 420
+      },
+      {
+        "commentWidth" : 231,
+        "errorVisible" : true,
+        "focused" : true,
+        "theme" : "light",
+        "width" : 260
+      },
+      {
+        "commentWidth" : 291,
+        "errorVisible" : true,
+        "focused" : true,
+        "theme" : "light",
+        "width" : 320
+      },
+      {
+        "commentWidth" : 391,
+        "errorVisible" : true,
+        "focused" : true,
+        "theme" : "light",
+        "width" : 420
+      }
+    ],
+    "passed" : true,
+    "scope" : "Production DOM keyboard\/page\/tree\/prototype\/copy\/locked\/comments acceptance. No physical native input or VoiceOver claim."
+  }
+}
