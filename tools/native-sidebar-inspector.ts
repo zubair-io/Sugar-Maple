@@ -41,5 +41,5 @@ const report = await Bun.file(resolve(output, "report.json")).json();
 if (report.result?.passed !== true || report.result?.checks !== 8)
   throw Error("Incomplete native sidebar/contextual inspector proof");
 console.log(
-  "PASS: production WK sidebar/contextual values/batch/undo/guard and mode insertion acceptance",
+  "PASS: production WK keyboard page/tree, contextual prototype/copy and locked/comments acceptance",
 );
