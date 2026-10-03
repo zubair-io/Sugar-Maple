@@ -92,5 +92,92 @@ window.canvasTransformAcceptance = async () => {
   if (JSON.stringify((await get()).document) !== original)
     throw Error("Exact redo failed");
   checks++;
-  return { passed: true, checks, document: (await get()).document };
+  // Many-page/comment reads exercise the public boundary without refreshing the
+  // cached document for each comment. Count actual clone inputs, not signal calls.
+  const operations = [],
+    expectedNames = new Map();
+  for (let page = 0; page < 20; page++) {
+    const id = "snapshot-many-page-" + page,
+      name = "Many page " + page;
+    operations.push({ type: "page.add", id, name });
+    expectedNames.set(id, name);
+    for (let comment = 0; comment < 5; comment++)
+      operations.push({
+        type: "comment.add",
+        id: "snapshot-many-comment-" + page + "-" + comment,
+        pageId: id,
+        text: "Many comment " + comment,
+      });
+  }
+  const beforeMany = await get();
+  await api.dispatch("transaction.apply", {
+    documentId: beforeMany.documentId,
+    expectedRevision: beforeMany.revision,
+    requestId: crypto.randomUUID(),
+    operations,
+  });
+  const clone = window.structuredClone,
+    clones = [];
+  window.structuredClone = function (value, options) {
+    clones.push({
+      fullScene: value?.version === 1 && Array.isArray(value?.nodes),
+      comments: Array.isArray(value?.comments),
+    });
+    return clone.call(window, value, options);
+  };
+  let many, cloneCounts;
+  try {
+    const listed = await api.dispatch("comments.list");
+    if (
+      listed.comments.length !== 101 ||
+      listed.comments.some(
+        (comment) =>
+          comment.id !== "snapshot-comment" &&
+          comment.pageName !== expectedNames.get(comment.pageId),
+      )
+    )
+      throw Error("Many-page comment names are incorrect");
+    const commentClones = clones.splice(0);
+    many = await get();
+    const documentClones = clones.splice(0);
+    if (
+      commentClones.length !== 1 ||
+      commentClones[0].fullScene ||
+      documentClones.length !== 1 ||
+      !documentClones[0].fullScene
+    )
+      throw Error(
+        "Public reads cloned cached scene repeatedly: " +
+          JSON.stringify({ commentClones, documentClones }),
+      );
+    cloneCounts = {
+      comments: commentClones.length,
+      commentsFullScene: 0,
+      document: documentClones.length,
+    };
+  } finally {
+    window.structuredClone = clone;
+  }
+  const filtered = await api.dispatch("comments.list", {
+    pageId: "snapshot-many-page-19",
+    status: "all",
+  });
+  if (
+    filtered.comments.length !== 5 ||
+    filtered.comments.some((comment) => comment.pageName !== "Many page 19")
+  )
+    throw Error("Many-page comment filtering failed");
+  await api.dispatch("history.undo", {
+    documentId: many.documentId,
+    expectedRevision: many.revision,
+  });
+  if (JSON.stringify((await get()).document) !== original)
+    throw Error("Many-comment fixture undo failed");
+  checks++;
+  return {
+    passed: true,
+    checks,
+    cloneCounts,
+    document: (await get()).document,
+  };
 };
