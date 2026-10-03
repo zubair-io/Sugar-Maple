@@ -14,6 +14,7 @@ export interface RepeatSize {
 export interface RepeatDraft extends RepeatSize {
   namespace: string;
   preserveCount?: boolean;
+  source?: { documentId: string; pageId: string; revision: number };
 }
 export function repeatMetrics(doc: SceneDocument, grid: SceneNode) {
   const template = doc.nodes.find((n) => n.id === grid.repeatTemplateId),
