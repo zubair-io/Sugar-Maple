@@ -38,8 +38,8 @@ await run([
   "--transforms",
 ]);
 const report = await Bun.file(resolve(folder, "native-report.json")).json();
-if (report.result?.passed !== true || report.result?.checks !== 19)
+if (report.result?.passed !== true || report.result?.checks !== 20)
   throw Error("Incomplete native Repeat Grid proof");
 console.log(
-  "PASS: 19 production WK Repeat Grid control/data/history cases; synthetic DOM pointer IDs use a local capture shim",
+  "PASS: 20 production WK Repeat Grid control/data/history cases; synthetic DOM pointer IDs use a local capture shim",
 );
