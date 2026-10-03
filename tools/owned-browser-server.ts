@@ -17,30 +17,52 @@ export async function runOwnedBrowserSuite(scripts: string[]) {
       if ((error as NodeJS.ErrnoException).code !== "ESRCH") throw error;
     }
   };
+  const liveGroups = (ids: number[]) => {
+    const ps = Bun.spawnSync(["/bin/ps", "-axo", "pid=,pgid=,uid=,stat="]);
+    if (ps.exitCode !== 0)
+      throw Error("Browser cleanup process inspection failed");
+    return ps.stdout
+      .toString()
+      .trim()
+      .split("\n")
+      .flatMap((line) => {
+        const [pid, group, uid, state] = line.trim().split(/\s+/);
+        return ids.includes(Number(group)) && !state.startsWith("Z")
+          ? [{ pid: Number(pid), group: Number(group), uid: Number(uid) }]
+          : [];
+      });
+  };
   async function cleanGroups(ids: number[]) {
-    for (const id of ids) killGroup(id);
     const deadline = performance.now() + 30000;
     while (true) {
-      const ps = Bun.spawnSync(["/bin/ps", "-axo", "pid=,pgid=,stat="]);
-      if (ps.exitCode !== 0)
-        throw Error("Browser cleanup process inspection failed");
-      const live = ps.stdout
-        .toString()
-        .trim()
-        .split("\n")
-        .filter((line) => {
-          const [, group, state] = line.trim().split(/\s+/);
-          return ids.includes(Number(group)) && !state.startsWith("Z");
-        });
+      const live = liveGroups(ids);
       if (!live.length) {
         for (const id of ids) groups.delete(id);
         return;
+      }
+      if (live.some((p) => p.uid !== process.getuid?.()))
+        throw Error(
+          "Browser cleanup found a foreign process owner; refusing to signal its group",
+        );
+      for (const id of new Set(live.map((p) => p.group))) {
+        try {
+          killGroup(id);
+        } catch (error) {
+          // Darwin may return EPERM for a group that disappeared after ps.
+          // A fresh empty inventory proves cleanup; any live member still fails.
+          if (
+            (error as NodeJS.ErrnoException).code !== "EPERM" ||
+            liveGroups([id]).length
+          )
+            throw error;
+        }
       }
       if (performance.now() > deadline)
         throw Error("Owned browser processes survived cleanup");
       await Bun.sleep(100);
     }
   }
+  let suiteFailure: unknown;
   const report = {
     checkout: process.cwd(),
     revision: Bun.spawnSync(["git", "rev-parse", "HEAD"])
@@ -52,6 +74,8 @@ export async function runOwnedBrowserSuite(scripts: string[]) {
     url: "",
     testsPassed: [] as string[],
     cleanupPassed: false,
+    failure: "",
+    cleanupFailure: "",
   };
   const reportPath = resolve(
     `build/browser-acceptance-${crypto.randomUUID()}.json`,
@@ -151,17 +175,31 @@ export async function runOwnedBrowserSuite(scripts: string[]) {
         );
       report.testsPassed.push(script);
     }
+  } catch (error) {
+    suiteFailure = error;
+    report.failure = String(error).slice(0, 4000);
   } finally {
     test?.stop("Browser suite finished");
     server?.stop("Browser suite finished");
     await test?.done.catch(() => {});
     await server?.done.catch(() => {});
-    await cleanGroups([...groups]);
-    report.cleanupPassed = true;
+    try {
+      await cleanGroups([...groups]);
+      report.cleanupPassed = true;
+    } catch (error) {
+      report.cleanupFailure = String(error).slice(0, 4000);
+      suiteFailure = suiteFailure
+        ? new AggregateError(
+            [suiteFailure, error],
+            "Browser fixture and cleanup failed",
+          )
+        : error;
+    }
     process.off("SIGINT", stop);
     process.off("SIGTERM", stop);
     await Bun.write(reportPath, JSON.stringify(report, null, 2));
     console.log(`Browser source/cleanup report: ${reportPath}`);
   }
+  if (suiteFailure) throw suiteFailure;
   return report;
 }
