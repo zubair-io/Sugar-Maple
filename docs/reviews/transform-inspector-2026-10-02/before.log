@@ -1,0 +1,31 @@
+Owned browser editor: http://127.0.0.1:52305; checkout /Users/riabuz/.codex/worktrees/mcp-contract-hardening/_SugarMaple; revision 8c54ac379716ae7421083e6728e8c1dd6d696d50
+Browser source/cleanup report: /Users/riabuz/.codex/worktrees/mcp-contract-hardening/_SugarMaple/build/browser-acceptance-2c7a5ce1-b5df-4660-9ede-e405533c8564.json
+48 |     const cleanup = () => { closed = true; clearTimeout(deadline); clearInterval(monitor); budget.signal?.removeEventListener('abort', abort); };
+49 |     child.once('error', error => { cleanup(); reject(error); });
+50 |     child.once('close', (code, signal) => {
+51 |       cleanup();
+52 |       if (reason) reject(Error(reason));
+53 |       else if (code !== 0) reject(Error(`Owned process failed (${code ?? signal}): ${stderr.slice(0, 2000)}`));
+                                       ^
+error: Owned process failed (1): 1 | // Shared production Chrome/WKWebView visual geometry checks. Width variations
+2 | // constrain the layout fixture; they do not claim a shipped panel-resize control.
+3 | window.canvasTransformAcceptance = async function () {
+4 |   const check = (value, message) => { if (!value) throw Error(message); };
+                                                            ^
+error: evaluate: Error: 260: alignment uses an icon rather than letter placeholders
+    at check (tools/inspector-layout-page.js:4:57)
+    at window.canvasTransformAcceptance (tools/inspector-layout-page.js:33:7)
+    at async <anonymous>:337:30
+  log: [],
+
+      at check (tools/inspector-layout-page.js:4:57)
+      at window.canvasTransformAcceptance (tools/inspector-layout-page.js:33:7)
+
+Bun v1.4.2 (macOS arm64)
+
+      at <anonymous> (/Users/riabuz/.codex/worktrees/mcp-contract-hardening/_SugarMaple/prototypes/library-preview/native/supervise.ts:53:35)
+      at emit (node:events:103:22)
+      at #maybeClose (node:child_process:827:16)
+      at #handleOnExit (node:child_process:570:72)
+
+Bun v1.4.2 (macOS arm64)

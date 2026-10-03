@@ -1,0 +1,17 @@
+{
+  "engine" : "WKWebView",
+  "memory" : {
+    "ownerPeakRSSBytes" : 192331776,
+    "scope" : "This benchmark UI process only; WebKit content\/GPU\/network process memory is not included"
+  },
+  "nativeBridge" : "In-memory benchmark recovery\/status\/autosave only; production native disk\/MCP\/clipboard costs excluded",
+  "os" : "Version 27.0 (Build 26A428)",
+  "result" : {
+    "checks" : 16,
+    "consoleErrors" : [
+
+    ],
+    "passed" : true,
+    "scope" : "Production WKWebView DOM alignment\/distribution\/toggle controls and independent rotated geometry at zoom 0.5\/1.5; synthetic DOM input, not native OS pointer\/VoiceOver acceptance"
+  }
+}

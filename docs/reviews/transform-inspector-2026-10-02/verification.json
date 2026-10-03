@@ -1,0 +1,19 @@
+{
+  "source": "f530cac1ae80970e0325d035fc04fd1a2d686c8d",
+  "base": "8c54ac379716ae7421083e6728e8c1dd6d696d50",
+  "browserSuites": 34,
+  "nativeVisualWidths": [
+    260,
+    320,
+    420
+  ],
+  "nativePlacementChecks": 16,
+  "beforeFailure": "260: alignment uses an icon rather than letter placeholders",
+  "afterAllChecksPass": true,
+  "limitations": [
+    "Width variation constrains the layout fixture; resizable inspector UI is not shipped by this fix.",
+    "Native visual test uses actual visible WKWebView with benchmark in-memory bridge, not production disk/MCP.",
+    "Typecheck and Mac build ran before committing identical runtime bytes; the full browser run is clean-source attributed.",
+    "This does not establish whole-editor visual usability, VoiceOver or physical input latency."
+  ]
+}
