@@ -1,0 +1,73 @@
+{
+  "source": "9cdb5a5421ab3a59a376ac363d9674627f3539e7",
+  "base": "9ae1415cf34cb0a85fcb69e6dd7efccb99e3c086",
+  "models": 167,
+  "assertions": 2381,
+  "focusedBrowserSuites": 6,
+  "browserCleanup": true,
+  "nativeCheckGroups": 89,
+  "profiles": [
+    {
+      "kind": "workspace",
+      "width": 1440,
+      "checks": 4
+    },
+    {
+      "kind": "workspace",
+      "width": 1024,
+      "checks": 4
+    },
+    {
+      "kind": "workspace",
+      "width": 800,
+      "checks": 4
+    },
+    {
+      "kind": "sidebar",
+      "width": 260,
+      "appearance": "light",
+      "checks": 8
+    },
+    {
+      "kind": "sidebar",
+      "width": 320,
+      "appearance": "light",
+      "checks": 8
+    },
+    {
+      "kind": "sidebar",
+      "width": 420,
+      "appearance": "light",
+      "checks": 8
+    },
+    {
+      "kind": "sidebar",
+      "width": 260,
+      "appearance": "dark",
+      "checks": 8
+    },
+    {
+      "kind": "sidebar",
+      "width": 320,
+      "appearance": "dark",
+      "checks": 8
+    },
+    {
+      "kind": "sidebar",
+      "width": 420,
+      "appearance": "dark",
+      "checks": 8
+    },
+    {
+      "kind": "snapshot",
+      "checks": 8
+    },
+    {
+      "kind": "repeat",
+      "checks": 21
+    }
+  ],
+  "processRegistryCases": 4,
+  "fullReleaseCI": "Required; not yet run",
+  "physicalInputVoiceOverNativeRestart": "not claimed"
+}

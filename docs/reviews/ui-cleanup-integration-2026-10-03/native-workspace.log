@@ -1,0 +1,4 @@
+PASS: fresh visible WKWebView production Canvas transform keyboard/geometry acceptance; /Users/riabuz/.codex/worktrees/mac-build-recovery/_SugarMaple/build/native-workspace/1440.json
+PASS: fresh visible WKWebView production Canvas transform keyboard/geometry acceptance; /Users/riabuz/.codex/worktrees/mac-build-recovery/_SugarMaple/build/native-workspace/1024.json
+PASS: fresh visible WKWebView production Canvas transform keyboard/geometry acceptance; /Users/riabuz/.codex/worktrees/mac-build-recovery/_SugarMaple/build/native-workspace/800.json
+PASS: actual production WK shell at1440/1024/800 in both appearances, keyboard resizing/bounds/preferences and MCP focus with exact checkpoint preservation

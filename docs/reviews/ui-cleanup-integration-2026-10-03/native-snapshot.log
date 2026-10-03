@@ -1,0 +1,2 @@
+PASS: fresh visible WKWebView production Canvas transform keyboard/geometry acceptance; /Users/riabuz/.codex/worktrees/mac-build-recovery/_SugarMaple/build/native-document-snapshot/report.json
+PASS: four production WK public read snapshots cannot mutate scene/history, followed by exact undo/redo; JavaScript calls, no new OS-input claim
