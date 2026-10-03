@@ -212,8 +212,8 @@ import { libraryAppearance } from '../model/library-appearance';
     }
     section {
       display: grid;
-      gap: 10px;
-      padding: 12px 0;
+      gap: 6px;
+      padding: 8px;
     }
     h3,
     h4,
@@ -223,10 +223,10 @@ import { libraryAppearance } from '../model/library-appearance';
     .appearance {
       padding: 8px 0;
       gap: 6px;
-      border-block: 1px solid var(--chrome-border, #cbd5e1);
+      border-block: 1px solid var(--color-border);
     }
     h3 {
-      font-size: 14px;
+      font-size: 12px;
     }
     h4,
     label,
@@ -253,18 +253,23 @@ import { libraryAppearance } from '../model/library-appearance';
     select,
     textarea {
       padding: 7px;
-      border: 1px solid var(--chrome-border, #cbd5e1);
+      border: 1px solid var(--color-border);
       border-radius: 6px;
-      background: var(--chrome-surface, #fff);
-      color: var(--chrome-text, #111827);
+      background: var(--color-input-bg);
+      color: var(--color-text-main);
     }
     textarea {
-      min-height: 90px;
+      min-height: 56px;
     }
     button {
+      border:1px solid var(--color-border);
+      border-radius:4px;
+      background:var(--color-input-bg);
+      color:var(--color-text-main);
       padding: 7px;
       cursor: pointer;
     }
+    button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible {outline:2px solid var(--color-primary);outline-offset:-2px;}
     input[type='checkbox'] {
       justify-self: start;
     }
