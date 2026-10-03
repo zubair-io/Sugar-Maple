@@ -44,6 +44,8 @@
       <label
         >Reply<textarea
           [attr.aria-label]="'Reply to comment ' + thread.id"
+          [attr.aria-invalid]="replyErrors()[thread.id] ? true : null"
+          [attr.aria-describedby]="replyErrors()[thread.id] ? 'reply-error-' + thread.id : null"
           rows="2"
           maxlength="4000"
           placeholder="Add a reply…"
@@ -51,6 +53,11 @@
           (ngModelChange)="setReply(thread.id, $event)"
         ></textarea>
       </label>
+      @if (replyErrors()[thread.id]) {
+        <p class="reply-error" role="alert" [id]="'reply-error-' + thread.id">
+          {{ replyErrors()[thread.id] }}
+        </p>
+      }
       <button [disabled]="!(replies()[thread.id] ?? '').trim()" (click)="reply(thread.id)">
         Reply
       </button>
