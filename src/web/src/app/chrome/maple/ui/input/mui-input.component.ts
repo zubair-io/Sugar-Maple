@@ -110,7 +110,7 @@ export class MuiInputComponent {
         : '';
     const disabledState = this.disabled() ? 'opacity-45 pointer-events-none' : '';
     return [
-      'field relative flex items-center gap-1 bg-input-bg border rounded-lg transition-[border-color,box-shadow] duration-200',
+      'field relative flex items-center gap-1 bg-[var(--chrome-control-bg,var(--color-input-bg))] border rounded-lg transition-[border-color,box-shadow] duration-200',
       padding,
       borderColor,
       focusRing,

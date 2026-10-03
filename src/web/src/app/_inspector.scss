@@ -5,7 +5,7 @@
 .inspector .inspector-name-row input {
   width: 100%;
   height: 32px;
-  background: var(--color-surface);
+  background: var(--chrome-control-bg, var(--color-input-bg));
 }
 .inspector mui-field input,
 .inspector mui-field textarea {

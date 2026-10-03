@@ -120,6 +120,8 @@
   --chrome-muted: var(--color-text-muted);
   --chrome-border: var(--color-border);
   --color-active-text: var(--color-text-main);
+  --chrome-header-bg: var(--color-surface);
+  --chrome-control-bg: var(--color-input-bg);
 }
 .maple-chrome .mui-chrome-menu-item-base {
   display: flex;
@@ -162,6 +164,8 @@
   --color-error-text: #991b1b;
   --color-star: #855b00;
   --color-active-text: var(--color-primary);
+  --chrome-header-bg: var(--color-bg);
+  --chrome-control-bg: var(--color-bg);
 }
 .maple-chrome {
   color-scheme: dark;

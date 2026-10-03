@@ -77,7 +77,7 @@ textarea {
   resize: none;
   padding: 8px;
   color: inherit;
-  background: var(--color-input-bg);
+  background: var(--chrome-control-bg, var(--color-input-bg));
   border: 1px solid var(--color-border);
   border-radius: 6px;
   font: inherit;
