@@ -123,6 +123,7 @@ export class NativePreview {
   readonly owner;
   private revision = -1;
   private closed = false;
+  private stopReason = "";
   private buffer = Buffer.alloc(0);
   private mode: 1 | 2 = 1;
   private scene: LibraryScene | null = null;
@@ -235,7 +236,8 @@ export class NativePreview {
   }
   render(value: PreviewProps) {
     const props = nativeProps(value);
-    if (this.closed || (this.revision === -1 && this.waiting))
+    if (this.closed) throw Error(`Native preview stopped: ${this.stopReason}`);
+    if (this.revision === -1 && this.waiting)
       throw Error("Wait for native ready before rendering");
     const result = this.pending();
     this.revision++;
@@ -262,7 +264,8 @@ export class NativePreview {
     const scene = validateLibraryScene(value),
       unsupported = nativeSceneDiagnostics(scene);
     if (unsupported.length) throw Error(unsupported.join("\n"));
-    if (this.closed || (this.revision === -1 && this.waiting))
+    if (this.closed) throw Error(`Native preview stopped: ${this.stopReason}`);
+    if (this.revision === -1 && this.waiting)
       throw Error("Wait for native ready before rendering");
     if (
       this.scene?.documentId === scene.documentId &&
@@ -293,6 +296,7 @@ export class NativePreview {
   }
   stop(reason = "Native preview stopped") {
     if (this.closed) return;
+    this.stopReason = reason;
     this.closed = true;
     if (this.waiting) {
       clearTimeout(this.waiting.timer);

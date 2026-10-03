@@ -1,0 +1,1 @@
+PASS: trusted sandboxed SwiftUI renders real controls, denies private host canary, rejects unsupported variants and superseded replies

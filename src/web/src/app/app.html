@@ -762,7 +762,16 @@
                   [options]="exportOptions"
                   (valueChange)="target.set($any($event))"
               /></label>
-              <pre tabindex="0">{{ code() }}</pre>
+              <pre tabindex="0" data-copy-payload (keydown)="selectCopyPayload($event)">{{ code() }}</pre>
+              @for (note of exportSupport().notes; track note) {
+                <p>{{ note }}</p>
+              }
+              @if (exportSupport().setup) {
+                <details>
+                  <summary>Required font CSS</summary>
+                  <pre tabindex="0" data-copy-payload (keydown)="selectCopyPayload($event)" aria-label="Required font CSS">{{ exportSupport().setup }}</pre>
+                </details>
+              }
               <div class="actions">
                 <button (click)="e.exportAsset('svg')">Export SVG</button
                 ><button (click)="e.exportAsset('png')">Export PNG</button
