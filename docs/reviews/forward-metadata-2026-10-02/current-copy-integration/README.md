@@ -1,0 +1,7 @@
+# Metadata with merged web-copy integration
+
+Source `844916176e6201b430cfb1fedcd51d69808c7cd0` integrates unchanged candidate `0c1a20b` with merged web-copy main `b21acdc`. Its `src`, `tools`, `prototypes`, reviewer code and dependency bytes exactly match Git's anticipated exact main/candidate merge tree `c602a7c8364a30239a08c0e48e01eeed6df5a225`. The tested full tree `3f829168ed1d6812174a8ba56e08ef561c272c7c` additionally contains the earlier historical drops-integration QA documentation. Full-tree identity is not claimed. No live PR head was changed.
+
+Fresh 160 models / 2,348 assertions, typecheck, Mac packaging/signing, all 34 browser/consumer suites and full native acceptance pass. Current Copy UI/actual native MCP exports and Repeat Grid controls/drops coexist with metadata constructor/checkpoint/undo regressions, real IndexedDB recovered history and .syrup metadata round trips. Logs and exact source checksums are attached. The browser run used its exclusive conventional-port server; #108/#109 separately repair general browser ownership. Earlier mixed-source runs are excluded in their original evidence.
+
+Current-head approval, merge and resulting-main CI remain outstanding. Original metadata reviewer/session blocking report retains its original source. The new session `4440353289967215949` was authoritatively COMPLETED without a usable final artifact before a fresh independent attempt began on unchanged head. Snapshot/receipt integrity #106/#107 remains a separate child; broad #6/#7 contracts remain open.
