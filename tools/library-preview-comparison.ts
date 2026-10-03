@@ -1,119 +1,214 @@
 import { resolve } from "node:path";
 import { supervise } from "../prototypes/library-preview/native/supervise";
-if (!process.argv.includes("--trust-native-fixture"))
-  throw Error("Explicit native fixture opt-in required");
-const sceneComparison = process.argv.includes("--scene");
-// Own a fresh server from this checkout, rather than accepting an unrelated
-// process on the conventional port. No existing editor/server is stopped.
-// Let Angular/Vite bind port 0 itself. Observe only our child's reported bound
-// address, avoiding a reserve/release race and probes of unrelated listeners.
-let editorURL = "",
-  serverOutput = "";
-let server: ReturnType<typeof supervise> | undefined;
-let serverFailure: unknown;
-async function ready() {
-  if (!editorURL) return false;
+import { comparisonProcessRegistry } from "../prototypes/library-preview/native/process-registry";
+
+// Only trusted repository callers supply stages; document/protocol input never
+// reaches this interface. The CLI below always selects the complete comparison.
+export async function runComparison(
+  stages: string[][],
+  stageWallMilliseconds = 600000,
+) {
+  let editorURL = "",
+    serverOutput = "",
+    failure: unknown;
+  let server: ReturnType<typeof supervise> | undefined,
+    stage: ReturnType<typeof supervise> | undefined;
+  let force: ReturnType<typeof setTimeout> | undefined,
+    scan: ReturnType<typeof setInterval> | undefined;
+  let closing = false;
+  const registry = comparisonProcessRegistry();
+  const stopStage = (reason: string) => {
+    if (!stage?.child.pid || stage.child.exitCode !== null) return;
+    registry.captureDescendants(stage.child.pid);
+    // Let nested supervisors and Playwright close their detached children first.
+    try {
+      process.kill(-stage.child.pid, "SIGTERM");
+    } catch (error) {
+      if ((error as NodeJS.ErrnoException).code !== "ESRCH") failure ||= error;
+    }
+    force ??= setTimeout(() => stage?.stop(reason), 1000);
+  };
+  const interrupt = () => {
+    failure ||= Error("Comparison interrupted");
+    stopStage("Comparison interrupted");
+    if (!stage) server?.stop("Comparison interrupted");
+  };
+  process.on("SIGINT", interrupt);
+  process.on("SIGTERM", interrupt);
   try {
-    return (await fetch(editorURL, { signal: AbortSignal.timeout(1000) })).ok;
-  } catch {
-    return false;
-  }
-}
-async function run(args: string[]) {
-  const started = performance.now();
-  console.log(`Comparison stage starting: ${args[0]}`);
-  const child = Bun.spawn([process.execPath, ...args], {
-    stdout: "inherit",
-    stderr: "inherit",
-    env: { ...process.env, MAPLE_COMPARISON_EDITOR_URL: editorURL },
-  });
-  const exitCode = await child.exited;
-  console.log(
-    `Comparison stage ${exitCode === 0 ? "completed" : "failed"}: ${args[0]}; exit ${exitCode}; elapsed ${Math.round(performance.now() - started)} ms`,
-  );
-  if (exitCode !== 0) throw Error(`Comparison failed: ${args[0]}`);
-  if (serverFailure || server?.child.exitCode !== null)
-    throw Error(
-      `Owned comparison server stopped: ${serverFailure ?? server?.child.exitCode}`,
-    );
-}
-try {
-  server = supervise(
-    [
-      process.execPath,
-      "run",
-      "--cwd",
-      "src/web",
-      "start",
-      "--host",
-      "127.0.0.1",
-      "--port",
-      "0",
-    ],
-    {
-      wallMilliseconds: 600000,
-      rssKiB: 2097152,
-      outputBytes: 2000000,
-      onOutput: (bytes) => {
-        process.stdout.write(bytes);
-        serverOutput = (serverOutput + bytes.toString())
-          .slice(-10000)
-          .replace(/\x1b\[[0-9;]*m/g, "");
-        const address = serverOutput.match(
-          /Local:\s+(http:\/\/127\.0\.0\.1:(\d+))\//,
-        );
-        if (address && Number(address[2]) > 0 && Number(address[2]) <= 65535)
-          editorURL = address[1];
+    server = supervise(
+      [
+        process.execPath,
+        "run",
+        "--cwd",
+        "src/web",
+        "start",
+        "--host",
+        "127.0.0.1",
+        "--port",
+        "0",
+      ],
+      {
+        wallMilliseconds: 600000,
+        rssKiB: 2097152,
+        outputBytes: 2000000,
+        onOutput: (bytes) => {
+          process.stdout.write(bytes);
+          serverOutput = (serverOutput + bytes.toString())
+            .slice(-10000)
+            .replace(/\x1b\[[0-9;]*m/g, "");
+          const address = serverOutput.match(
+            /Local:\s+(http:\/\/127\.0\.0\.1:(\d+))\//,
+          );
+          if (address && Number(address[2]) > 0 && Number(address[2]) <= 65535)
+            editorURL = address[1];
+        },
       },
-    },
-    {
-      ...process.env,
-      PATH: resolve("node_modules/.bin") + ":" + process.env.PATH,
-    },
-  );
-  void server.done.catch((error) => {
-    serverFailure = error;
-  });
-  const deadline = Date.now() + 60000;
-  while (!(await ready())) {
-    if (
-      Date.now() > deadline ||
-      serverFailure ||
-      server.child.exitCode !== null
-    )
-      throw Error(
-        `Owned comparison server failed: ${serverFailure ?? server.stats().stderr}`,
+      {
+        ...process.env,
+        ...registry.env,
+        PATH: resolve("node_modules/.bin") + ":" + process.env.PATH,
+      },
+    );
+    registry.record(server.child.pid!);
+    void server.done.then(
+      () => {
+        if (!closing) {
+          failure ||= Error("Owned comparison server stopped");
+          stopStage("Owned comparison server stopped");
+        }
+      },
+      (error) => {
+        if (!closing) {
+          failure ||= error;
+          stopStage("Owned comparison server stopped");
+        }
+      },
+    );
+    const deadline = performance.now() + 60000;
+    while (true) {
+      if (
+        failure ||
+        server.child.exitCode !== null ||
+        performance.now() > deadline
+      )
+        throw Error(
+          `Owned comparison server failed: ${failure ?? server.stats().stderr}`,
+        );
+      if (editorURL) {
+        try {
+          if (
+            (await fetch(editorURL, { signal: AbortSignal.timeout(1000) })).ok
+          )
+            break;
+        } catch {
+          /* Retry only the address reported by this owned child. */
+        }
+      }
+      await Bun.sleep(100);
+    }
+    console.log(
+      `Owned source checkout editor: ${editorURL}; process group ${server.child.pid}`,
+    );
+    for (const args of stages) {
+      if (failure) throw failure;
+      const started = performance.now();
+      console.log(`Comparison stage starting: ${args[0]}`);
+      stage = supervise(
+        [process.execPath, ...args],
+        {
+          wallMilliseconds: Math.min(stageWallMilliseconds, 600000),
+          rssKiB: 2097152,
+          outputBytes: 2000000,
+          onOutput: (bytes) => process.stdout.write(bytes),
+        },
+        {
+          ...process.env,
+          ...registry.env,
+          MAPLE_COMPARISON_EDITOR_URL: editorURL,
+        },
       );
-    await Bun.sleep(100);
+      registry.record(stage.child.pid!);
+      console.log(`Owned comparison stage group: ${stage.child.pid}`);
+      scan = setInterval(() => {
+        try {
+          if (stage?.child.pid) registry.captureDescendants(stage.child.pid);
+        } catch (error) {
+          failure ||= error;
+          stopStage("Comparison process inspection failed");
+        }
+      }, 100);
+      try {
+        await stage.done;
+      } catch (error) {
+        console.log(
+          `Comparison stage failed: ${args[0]}; exit ${stage.child.exitCode ?? stage.child.signalCode}; elapsed ${Math.round(performance.now() - started)} ms`,
+        );
+        throw failure ?? error;
+      } finally {
+        clearInterval(scan);
+        scan = undefined;
+        clearTimeout(force);
+        force = undefined;
+      }
+      console.log(
+        `Comparison stage completed: ${args[0]}; exit 0; elapsed ${Math.round(performance.now() - started)} ms`,
+      );
+      stage = undefined;
+      if (failure || server.child.exitCode !== null)
+        throw failure ?? Error("Owned comparison server stopped");
+    }
+  } finally {
+    closing = true;
+    clearInterval(scan);
+    clearTimeout(force);
+    if (stage?.child.pid) registry.captureDescendants(stage.child.pid);
+    stage?.stop("Comparison finished");
+    server?.stop("Comparison finished");
+    try {
+      const result = await registry.cleanup();
+      await Promise.all([
+        stage?.done.catch(() => {}),
+        server?.done.catch(() => {}),
+      ]);
+      console.log(
+        "Comparison owned process cleanup: " + JSON.stringify(result),
+      );
+    } finally {
+      process.off("SIGINT", interrupt);
+      process.off("SIGTERM", interrupt);
+      registry.remove();
+    }
   }
-  console.log(
-    `Owned source checkout editor: ${editorURL}; process group ${server.child.pid}`,
-  );
-  await run(["tools/library-consumer.ts"]);
-  await run(["tools/library-preview-acceptance.ts"]);
-  await run([
-    "prototypes/library-preview/native-stop-failure-test.ts",
-    "--trust-native-fixture",
-    ...(sceneComparison ? ["--scene"] : []),
+}
+
+if (import.meta.main) {
+  if (!process.argv.includes("--trust-native-fixture"))
+    throw Error("Explicit native fixture opt-in required");
+  const scene = process.argv.includes("--scene");
+  await runComparison([
+    ["tools/library-consumer.ts"],
+    ["tools/library-preview-acceptance.ts"],
+    [
+      "prototypes/library-preview/native-stop-failure-test.ts",
+      "--trust-native-fixture",
+      ...(scene ? ["--scene"] : []),
+    ],
+    ...(scene
+      ? [
+          [
+            "prototypes/library-preview/scene-compare.ts",
+            "--trust-native-fixture",
+          ],
+          ["prototypes/library-preview/scene-comparison-report.ts"],
+          ["prototypes/library-preview/scene-report-test.ts"],
+        ]
+      : [
+          ["prototypes/library-preview/compare.ts", "--trust-native-fixture"],
+          ["run", "build:web"],
+          ["prototypes/library-preview/package-cost.ts"],
+          ["prototypes/library-preview/comparison-report.ts"],
+          ["prototypes/library-preview/report-test.ts"],
+        ]),
   ]);
-  if (sceneComparison) {
-    await run([
-      "prototypes/library-preview/scene-compare.ts",
-      "--trust-native-fixture",
-    ]);
-    await run(["prototypes/library-preview/scene-comparison-report.ts"]);
-    await run(["prototypes/library-preview/scene-report-test.ts"]);
-  } else {
-    await run([
-      "prototypes/library-preview/compare.ts",
-      "--trust-native-fixture",
-    ]);
-    await run(["run", "build:web"]);
-    await run(["prototypes/library-preview/package-cost.ts"]);
-    await run(["prototypes/library-preview/comparison-report.ts"]);
-    await run(["prototypes/library-preview/report-test.ts"]);
-  }
-} finally {
-  server?.stop("Comparison finished");
-  await server?.done.catch(() => {});
 }
