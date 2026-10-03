@@ -1,0 +1,22 @@
+{
+  "source": "59e28ec89a76eb3bb008293727526c126b7f64dc",
+  "sourceTree": "302c7875b0cc8300a42f13fa5a20e748881f3ae7",
+  "baseMain": "8c54ac379716ae7421083e6728e8c1dd6d696d50",
+  "metadataHead": "4a76e96a473b052eea410c290f81a4dacd799baa",
+  "anticipatedMergeTree": "302c7875b0cc8300a42f13fa5a20e748881f3ae7",
+  "fullTreeEqual": true,
+  "snapshotIncluded": false,
+  "models": 160,
+  "assertions": 2348,
+  "browserSuites": 34,
+  "commandExitCodes": {
+    "models": 0,
+    "typecheck": 0,
+    "macBuild": 0,
+    "browser": 0,
+    "native": 0,
+    "legacyComparison": 0,
+    "sceneComparison": 0
+  },
+  "remaining": "exact-head approving review, merge and main verification"
+}
