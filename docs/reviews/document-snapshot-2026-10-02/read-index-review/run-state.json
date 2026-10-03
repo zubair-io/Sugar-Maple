@@ -1,0 +1,18 @@
+{
+  "base": "bd7cba8cc613d2458a1295a90ac0b841885639e3",
+  "source": "473be0f5495b65be0a1dd5660b297f92fffac641",
+  "models": 166,
+  "assertions": 2378,
+  "browserSuites": 38,
+  "fullNativePassed": true,
+  "cloneCounts": {
+    "commentsOutput": 1,
+    "commentsFullScene": 0,
+    "documentOutput": 1
+  },
+  "readFixture": {
+    "additionalPages": 20,
+    "additionalComments": 100
+  },
+  "priorReview": "BLOCK session11598854268906171848 retained; new exact head requires fresh review/CI"
+}
