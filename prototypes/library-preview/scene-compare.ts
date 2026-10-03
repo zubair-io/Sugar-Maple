@@ -252,11 +252,10 @@ try {
   await web.getByRole("button", { name: "Run pinned library preview" }).click();
   await expect(web.getByRole("status")).toHaveText("Running locally");
   const child = web.frameLocator("#runtime iframe");
-  const runtimeStart = performance.now();
-  native = new NativePreview(build, () => {});
-  await native.ready;
-  console.log("Comparison native phase: sandboxed helper ready");
-  const coldSpawnMilliseconds = performance.now() - runtimeStart;
+  // Preserve source order and every native assertion, but start the bounded
+  // helper only for its own work. Screenshots and other-engine RAF/IPC waits
+  // must not spend the native fixture's unchanged 60-second lifetime.
+  const nativeJobs: ((helper: NativePreview) => Promise<void>)[] = [];
   let lastSource: Awaited<ReturnType<typeof captureSource>>;
   const feedWeb = (scene: LibraryScene, reset: boolean) =>
     web.evaluate(
@@ -354,50 +353,52 @@ try {
       },
       nativeDiagnostics: diagnostics,
     };
-    if (diagnostics.length) {
-      assert.throws(
-        () => native!.renderScene(source.scene, reset),
-        /unsupported/,
-      );
-      record.native = {
-        supported: false,
-        message: diagnostics.join("\n"),
-        currentSupportedScenePreserved: true,
-      };
-    } else {
-      const renderStart = performance.now(),
-        rendered = await native!.renderScene(source.scene, reset);
-      assert.ok(rendered.version === 2 && rendered.kind === "rendered");
-      record.native = {
-        supported: true,
-        renderMilliseconds: performance.now() - renderStart,
-        boxes: rendered.boxes,
-        revision: rendered.revision,
-        pixelWidth: rendered.width,
-        pixelHeight: rendered.height,
-      };
-      record.maxDelta.native = delta(
-        rendered.boxes,
-        source.expected,
-        name + " actual SwiftUI",
-      );
-      await Bun.write(
-        resolve(folder, name + "-native.png"),
-        Buffer.from(rendered.png, "base64"),
-      );
-      if (name === "nested-overrides") {
-        record.native.paint = await nativePaint(
-          editor,
-          rendered.png,
-          rendered.boxes.button,
-          source.scene.width,
+    nativeJobs.push(async (helper) => {
+      if (diagnostics.length) {
+        assert.throws(
+          () => helper.renderScene(source.scene, reset),
+          /unsupported/,
         );
-        assert.ok(
-          record.native.paint.purple > 100 && record.native.paint.yellow > 0,
-          "Actual native Button displays authored fill and text paint",
+        record.native = {
+          supported: false,
+          message: diagnostics.join("\n"),
+          currentSupportedScenePreserved: true,
+        };
+      } else {
+        const renderStart = performance.now(),
+          rendered = await helper.renderScene(source.scene, reset);
+        assert.ok(rendered.version === 2 && rendered.kind === "rendered");
+        record.native = {
+          supported: true,
+          renderMilliseconds: performance.now() - renderStart,
+          boxes: rendered.boxes,
+          revision: rendered.revision,
+          pixelWidth: rendered.width,
+          pixelHeight: rendered.height,
+        };
+        record.maxDelta.native = delta(
+          rendered.boxes,
+          source.expected,
+          name + " actual SwiftUI",
         );
+        await Bun.write(
+          resolve(folder, name + "-native.png"),
+          Buffer.from(rendered.png, "base64"),
+        );
+        if (name === "nested-overrides") {
+          record.native.paint = await nativePaint(
+            editor,
+            rendered.png,
+            rendered.boxes.button,
+            source.scene.width,
+          );
+          assert.ok(
+            record.native.paint.purple > 100 && record.native.paint.yellow > 0,
+            "Actual native Button displays authored fill and text paint",
+          );
+        }
       }
-    }
+    });
     await expect(child.locator("[data-node-id=header]")).toHaveAttribute(
       "slot",
       "header",
@@ -439,7 +440,7 @@ try {
     records.push(record);
     lastSource = source;
     console.log(
-      `PASS: ${name}: actual Canvas, DOM, package${diagnostics.length ? "; actionable native limitation" : ", SwiftUI"} geometry, source identity and unchanged checkpoint`,
+      `PASS: ${name}: actual Canvas, DOM, package geometry, source identity and unchanged checkpoint; native checks queued`,
     );
     return source;
   }
@@ -506,7 +507,10 @@ try {
   ).toBeFocused();
   await dom.getByRole("button", { name: "Reset preview", exact: true }).click();
   await feedWeb(lastSource!.scene, true);
-  await native.renderScene(lastSource!.scene, true);
+  const resetScene = lastSource!.scene;
+  nativeJobs.push(async (helper) => {
+    await helper.renderScene(resetScene, true);
+  });
   await expect(
     dom.getByRole("textbox", { name: "Email", exact: true }),
   ).toHaveValue("consumer@example.test");
@@ -727,10 +731,31 @@ try {
     at = performance.now();
     await feedWeb(source.scene, false);
     samples.web.push(performance.now() - at);
-    at = performance.now();
-    await native.renderScene(source.scene);
-    samples.native.push(performance.now() - at);
+    nativeJobs.push(async (helper) => {
+      const nativeAt = performance.now();
+      await helper.renderScene(source.scene);
+      samples.native.push(performance.now() - nativeAt);
+    });
   }
+  const beforeNative = await checkpoint(editor);
+  const runtimeStart = performance.now();
+  native = new NativePreview(build, () => {});
+  await native.ready;
+  console.log(
+    "Comparison native phase: sandboxed helper ready; ordered native checks starting",
+  );
+  const coldSpawnMilliseconds = performance.now() - runtimeStart;
+  for (const job of nativeJobs) await job(native);
+  assert.equal(samples.native.length, 30);
+  assert.deepEqual(
+    await checkpoint(editor),
+    beforeNative,
+    "Native consumer never mutates source/checkpoint",
+  );
+  const nativePhaseMilliseconds = performance.now() - runtimeStart;
+  console.log(
+    `PASS: all ${nativeJobs.length} ordered native checks and 30 measured samples on one bounded helper; elapsed ${Math.round(nativePhaseMilliseconds)} ms`,
+  );
   const fileCosts = [];
   for (const name of new Bun.Glob("**/*").scanSync({
     cwd: build.bundle,
@@ -765,13 +790,17 @@ try {
           dom: "Same source feed plus observed label update; IPC/Angular scheduling included",
           web: "Same scene MessageChannel + Lit update + two RAF opportunities",
           native:
-            "Same scene IPC + intentional 50ms snapshot scheduling + PNG encode/reply",
+            "Same captured scenes, ordered on one helper after other-engine checks; IPC + intentional 50ms snapshot scheduling + PNG encode/reply; excludes source/other-engine wait",
         },
         costs: {
           web: await Bun.file("build/library-preview/build.json").json(),
           native: {
             buildMilliseconds,
             coldSpawnMilliseconds,
+            phaseMilliseconds: nativePhaseMilliseconds,
+            orderedChecks: nativeJobs.length,
+            singleHelper: true,
+            wallBudgetMilliseconds: 60000,
             fileCosts,
             bundleBytes: fileCosts.reduce((sum, file) => sum + file.bytes, 0),
             launcherBytes: (await Bun.file(build.limit).arrayBuffer())
@@ -796,6 +825,7 @@ try {
           "Native physical keyboard/accessibility evidence is separate, source-bound to bbed36b",
           "These different timing boundaries cannot rank physical input latency/FPS",
           "Native helper includes a fixed 50ms scheduling wait",
+          "Native receives captured scenes as an ordered batch after other-engine checks; this does not measure simultaneous live editing across four runtimes",
           "No whole-product VoiceOver, hostile arbitrary source or distribution/memory parity claim",
         ],
         productionDecision:
