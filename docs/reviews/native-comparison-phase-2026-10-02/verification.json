@@ -1,0 +1,24 @@
+{
+  "sourceRevision": "c129dc3210821957d8d5636b5f01bd9548405fd0",
+  "baseRevision": "8c54ac379716ae7421083e6728e8c1dd6d696d50",
+  "controlledOtherEngineDelayMillisecondsPerSample": 2100,
+  "sampleCount": 30,
+  "nativeWallBudgetMilliseconds": 60000,
+  "controlledBeforeFailedWithNativeWallBudget": true,
+  "controlledAfterPassed": true,
+  "controlledAfterNativePhaseMilliseconds": 4340,
+  "legacyFullOwnerPassed": true,
+  "sceneFullOwnerPassed": true,
+  "codeSha256": "8adc8a26e330256c09d946076d2c90f20da602e420889f4923eb91f8206a38f7",
+  "controlledFixtures": {
+    "before-owner.ts": "247088d24c9f9a967a38b5c0e4be206c318d0d21a0d85fd9a8df57b78dfce045",
+    "after-owner.ts": "42f0e2cc6928012d4d258c079ec472e0d54c9d876cc183bfcaab365ffd5502a8",
+    "before-scene.ts": "82ee091c4c8fbaac78c498ef0a145964ef040914ec1fdcb2368e6a3fa36f08d0",
+    "after-scene.ts": "cefbe086e8743882391afa3dfc0a3c469022ebe9e9eee784cc8c991df8ca7c76"
+  },
+  "limitations": [
+    "Controlled wait establishes native idle-lifetime failure, not the cause of the earlier opaque CI stall.",
+    "Ordered batches preserve source revisions and native checks but do not measure simultaneous editing or physical input latency.",
+    "Local comparison CLI cancellation remains open in issue 110."
+  ]
+}
