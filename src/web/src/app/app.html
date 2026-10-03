@@ -223,7 +223,7 @@
         </button>
       </div>
       @if (e.mode() === 'Design') {
-        <div class="drawing-toolbar" role="toolbar" aria-label="Drawing tools">
+        <div class="drawing-toolbar maple-chrome" role="toolbar" aria-label="Drawing tools">
           <mui-button variant="ghost" size="sm" ariaLabel="Select tool" title="Select and transform layers (V)"
             [ariaPressed]="!projection.drawingTool()" [active]="!projection.drawingTool()" (pressed)="setDrawing(null)">Select</mui-button>
           @for (tool of drawingTools; track tool.kind) {

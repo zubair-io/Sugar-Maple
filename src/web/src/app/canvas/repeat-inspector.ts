@@ -232,14 +232,14 @@ import { type SceneNode, type Operation, uid } from '../model/schema';
       max-width: 100%;
       width: 100%;
       padding: 6px;
-      background: #242428;
-      border: 1px solid #555;
+      background: var(--color-input-bg);
+      border: 1px solid var(--color-border);
       border-radius: 4px;
       color: inherit;
     }
     .drop-zone {
       padding: 10px;
-      border: 1px dashed #777;
+      border: 1px dashed var(--color-border-hi);
       border-radius: 4px;
       display: grid;
       gap: 6px;
@@ -248,8 +248,8 @@ import { type SceneNode, type Operation, uid } from '../model/schema';
       pointer-events: none;
     }
     .drop-active {
-      border-color: #34d399;
-      background: #123b2e;
+      border-color: var(--color-success-text);
+      background: var(--color-success-bg);
     }
     .dimensions {
       display: grid;
@@ -257,7 +257,7 @@ import { type SceneNode, type Operation, uid } from '../model/schema';
       gap: 8px;
     }
     .hint {
-      color: #aaa;
+      color: var(--color-text-muted);
       line-height: 1.5;
     }
     .check {
@@ -276,22 +276,32 @@ import { type SceneNode, type Operation, uid } from '../model/schema';
     td,
     th {
       padding: 4px;
-      border: 1px solid #555;
+      border: 1px solid var(--color-border);
       overflow-wrap: anywhere;
       text-align: left;
     }
     button {
       padding: 6px;
-      border: 1px solid #555;
+      border: 1px solid var(--color-border);
       border-radius: 4px;
-      background: #333;
+      background: var(--color-surface);
       color: inherit;
+    }
+    input:focus-visible,
+    textarea:focus-visible,
+    select:focus-visible,
+    button:focus-visible {
+      outline: 2px solid var(--color-primary);
+      outline-offset: 2px;
+    }
+    button:enabled:hover {
+      background: var(--color-surface-hover);
     }
     button:disabled {
       opacity: 0.5;
     }
     [role='alert'] {
-      color: #fca5a5;
+      color: var(--color-error-text);
     }
   `,
 })
