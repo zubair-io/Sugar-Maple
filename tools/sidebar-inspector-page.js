@@ -330,11 +330,15 @@ window.canvasTransformAcceptance = async function () {
         document.querySelector('[aria-label="Layer name"]').disabled,
         "Inherited locked selection read-only",
       );
+      if (window.sidebarCapture)
+        await window.sidebarCapture(`locked-design-${width}-${theme}`);
       await mode("Prototype");
       check(
         document.querySelector('[aria-label="Prototype action"]').disabled,
         "Inherited locked prototype read-only",
       );
+      if (window.sidebarCapture)
+        await window.sidebarCapture(`locked-prototype-${width}-${theme}`);
       await click(".inspector button", "Comments");
       const article = document.querySelector("page-comments article"),
         reply = article.querySelector("textarea");
@@ -354,6 +358,8 @@ window.canvasTransformAcceptance = async function () {
         parseFloat(getComputedStyle(reply).outlineWidth) >= 2,
         "Reply focus visible",
       );
+      if (window.sidebarCapture)
+        await window.sidebarCapture(`comments-${width}-${theme}`);
       geometry.push({ theme, width, commentWidth: box.width });
       await click(".inspector button", "Details");
     }
@@ -369,6 +375,18 @@ window.canvasTransformAcceptance = async function () {
   await mode("Developer");
   await selected("qa-button");
   await settle();
+  if (window.sidebarEvidence) {
+    workspace.style.gridTemplateColumns = `280px minmax(0, 1fr) ${window.sidebarEvidence.width}px`;
+    appearance.value = window.sidebarEvidence.theme;
+    appearance.dispatchEvent(new Event("change", { bubbles: true }));
+    await click(".inspector button", "Comments");
+    document.querySelector("page-comments textarea").focus();
+    await settle();
+    check(
+      (await checkpoint()) === beforeMatrix,
+      "Evidence view preserves exact checkpoint",
+    );
+  }
   return {
     passed: true,
     checks: checks.length,
