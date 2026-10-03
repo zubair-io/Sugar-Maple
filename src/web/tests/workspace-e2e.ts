@@ -32,6 +32,18 @@ try {
   await page.mouse.move(grip!.x + 63, grip!.y + 120);
   await page.mouse.up();
   await expect(left).toHaveAttribute('aria-valuenow', '290');
+  // Escape and unexpected capture loss restore the pre-drag width.
+  for (const cancel of ['escape', 'capture'] as const) {
+    const box = (await left.boundingBox())!;
+    await page.mouse.move(box.x + 3, box.y + 120);
+    await page.mouse.down();
+    await page.mouse.move(box.x + 43, box.y + 120);
+    await expect(left).toHaveAttribute('aria-valuenow', '330');
+    if (cancel === 'escape') await page.keyboard.press('Escape');
+    else await left.dispatchEvent('lostpointercapture', { pointerId: 1 });
+    await page.mouse.up();
+    await expect(left).toHaveAttribute('aria-valuenow', '290');
+  }
   assert.deepEqual(await checkpoint(), baseline);
   await page.reload();
   await page.waitForFunction(() => window.sugarMaple.ready);
@@ -74,7 +86,10 @@ try {
       });
       assert.equal(geometry.header.height, 48);
       assert.equal(geometry.footer.height, 28);
-      assert.ok(geometry.canvas.width >= 320, `${width}/${appearance}: ${JSON.stringify(geometry)}`);
+      assert.ok(
+        geometry.canvas.width >= 320,
+        `${width}/${appearance}: ${JSON.stringify(geometry)}`,
+      );
       assert.ok(
         geometry.toolbar.scroll <= geometry.toolbar.client + 1,
         `${width} toolbar contained`,
@@ -98,6 +113,26 @@ try {
   await page.setViewportSize({ width: 1440, height: 900 });
   await expect(left).toBeVisible();
   await expect(right).toBeVisible();
+  await page.setViewportSize({ width: 800, height: 768 });
+  await page.evaluate(() => window.sugarMaple.dispatch('layout.inspect'));
+  await left.press('End');
+  await page.getByRole('button', { name: 'More', exact: true }).click();
+  await page.getByRole('button', { name: 'Add input', exact: true }).click();
+  const authored = await page.evaluate(() => window.sugarMaple.dispatch('document.get'));
+  assert.equal(authored.document.nodes.at(-1)?.kind, 'input', 'Overflow action actually inserts');
+  await page.getByLabel('Zoom actions', { exact: true }).selectOption('100');
+  assert.equal(await page.evaluate(() => window.sugarMaple.viewport.camera().zoom), 1);
+  await page.getByLabel('Zoom actions', { exact: true }).selectOption('selection');
+  await page.evaluate(() => window.sugarMaple.dispatch('layout.inspect'));
+  const selected = await page.evaluate(() => window.sugarMaple.viewport.camera());
+  assert.ok(selected.zoom > 0, 'Zoom Selection produces a valid camera');
+  await page.evaluate(async () => {
+    const d = await window.sugarMaple.dispatch('document.get');
+    await window.sugarMaple.dispatch('history.undo', {
+      documentId: d.documentId,
+      expectedRevision: d.revision,
+    });
+  });
   const current = await checkpoint();
   assert.deepEqual(current.document, baseline.document);
   assert.deepEqual(errors, []);
