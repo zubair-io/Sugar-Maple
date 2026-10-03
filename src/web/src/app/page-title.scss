@@ -1,0 +1,34 @@
+:host {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+}
+button,
+input {
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  height: 30px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  padding: 4px 6px;
+  color: var(--color-text-main);
+  font: inherit;
+}
+button {
+  background: transparent;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
+}
+input {
+  background: var(--color-input-bg);
+  border-color: var(--color-border);
+}
+button:focus-visible,
+input:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: -2px;
+}

@@ -1,0 +1,56 @@
+<section aria-label="Prototype interaction">
+  <h3>On click / tap</h3>
+  @if (!editable()) {
+    <p role="status">Show and unlock this layer to edit its interaction.</p>
+  }
+  <fieldset [disabled]="!editable()">
+    <mui-field label="Action"
+      ><mui-select
+        ariaLabel="Prototype action"
+        [value]="action()"
+        [options]="actionOptions"
+        [disabled]="!editable()"
+        (valueChange)="setAction($event)"
+    /></mui-field>
+    @if (requiresTarget()) {
+      <mui-field [label]="action() === 'openOverlay' ? 'Overlay destination' : 'Navigate to'"
+        ><mui-select
+          ariaLabel="Navigate to"
+          [value]="node().targetId ?? ''"
+          [options]="targets()"
+          [disabled]="!editable()"
+          (valueChange)="setTarget($event)"
+      /></mui-field>
+      @if (!validTarget() || pending()) {
+        <p role="status">
+          Choose a visible artboard to
+          {{ pending() ? 'save this interaction' : 'enable this interaction' }}. Preview cannot
+          follow it yet.
+        </p>
+      } @else {
+        <mui-field label="Transition"
+          ><mui-select
+            ariaLabel="Transition"
+            [value]="node().transition"
+            [options]="transitions"
+            [disabled]="!editable()"
+            (valueChange)="setTransition($event)"
+        /></mui-field>
+      }
+    } @else {
+      <p>
+        {{
+          action() === 'back' ? 'Return to the previous screen.' : 'Close the active overlay.'
+        }}
+        The stored destination stays available when you switch actions.
+      </p>
+    }
+    @if (configured()) {
+      <button type="button" (click)="clear()">Remove interaction</button>
+    }
+  </fieldset>
+  <p>
+    Open Preview to test this interaction. Preview history and overlay state remain separate from
+    the document.
+  </p>
+</section>

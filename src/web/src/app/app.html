@@ -67,13 +67,7 @@
               [class.active]="e.pageId() === row.id"
               [style.padding-left.px]="row.folderId ? 20 : 0"
             >
-              <button
-                [attr.aria-current]="e.pageId() === row.id ? 'page' : null"
-                (dblclick)="renamePage(row.id, row.name)"
-                (click)="selectPage(row.id)"
-              >
-                ▤ {{ row.name }}
-              </button>
+              <page-title [id]="row.id" [name]="row.name" [active]="e.pageId() === row.id" (selected)="selectPage(row.id)" />
               <mui-button
                 variant="ghost"
                 size="sm"
@@ -117,27 +111,26 @@
       } @else if (tab() === 'Assets') {
         <library-catalog />
         <div class="section-heading">DOCUMENT COMPONENTS</div>
-        @for (component of e.doc().nodes; track component.id) {
-          @if (component.isComponent && !repeatTemplateIds().has(component.id)) {
+        @for (component of documentComponents(); track component.id) {
             <button
               [attr.aria-label]="'Insert component ' + component.name"
               [disabled]="e.mode() !== 'Design'"
               [title]="e.mode() !== 'Design' ? 'Switch to Design to insert a component' : 'Insert component'"
               (click)="insertComponent(component.id)"
             >
-              ◇ {{ component.name }}
+              ◇ {{ component.name }} · {{ component.kind }}
             </button>
-          }
-        }
+        } @empty {<p class="muted">No document components yet. Select a layer in Design and choose Make component.</p>}
         <div class="section-heading">PRIMITIVES</div>
         <div class="asset-grid">
           @for (kind of kinds; track kind) {
             <button
               [disabled]="e.mode() !== 'Design'"
               [title]="'Add ' + kind"
+              [attr.aria-label]="'Insert primitive ' + kind"
               (click)="e.add(kind)"
             >
-              <span>◇</span>{{ kind }}
+              <mui-icon [name]="$any('design-' + kind)" size="sm" />{{ kind }}
             </button>
           }
         </div>
@@ -159,9 +152,8 @@
         ><button (click)="e.saveTokens()">Export DTCG colors</button>
         @for (token of e.doc().tokens | keyvalue; track token.key) {
           <label
-            >{{ token.key
-            }}<input
-              type="color"
+            class="token-row">{{ token.key }}<code [attr.aria-label]="'Color value ' + token.key">{{ token.value }}</code><input
+              type="color" [attr.aria-label]="'Edit color ' + token.key"
               [value]="token.value"
               (change)="e.perform([{ type: 'token.set', name: token.key, value: value($event) }])"
           /></label>
@@ -773,31 +765,7 @@
               </div>
               </fieldset>
             } @else if (e.mode() === 'Prototype') {
-              <fieldset class="layer-editing" [disabled]="!!e.lockedBy(n)">
-              <div class="inspector-subheading">On click / tap</div>
-              <mui-field label="Action"
-                ><mui-select
-                  ariaLabel="Prototype action"
-                  [value]="n.prototypeAction"
-                  [options]="actionOptions"
-                  (valueChange)="patch('prototypeAction', $event)"
-              /></mui-field>
-              <label
-                >Navigate to<mui-select
-                  ariaLabel="Navigate to"
-                  [value]="n.targetId ?? ''"
-                  [options]="linkSelectOptions()"
-                  (valueChange)="patch('targetId', $event || null)"
-              /></label>
-              <label
-                >Transition<mui-select
-                  ariaLabel="Transition"
-                  [value]="n.transition"
-                  [options]="transitionOptions"
-                  (valueChange)="patch('transition', $event)"
-              /></label>
-              <p class="muted">Open Preview to follow this link.</p>
-              </fieldset>
+              <prototype-inspector [node]="n" />
             } @else {
               <div class="inspector-subheading">Developer handoff</div>
               <library-catalog [inspector]="true" />
@@ -815,7 +783,7 @@
                   [options]="exportOptions"
                   (valueChange)="target.set($any($event))"
               /></label>
-              <pre tabindex="0" data-copy-payload (keydown)="selectCopyPayload($event)">{{ code() }}</pre>
+              <pre tabindex="0" data-copy-payload [attr.aria-label]="exportLabel() + ' payload'" (keydown)="selectCopyPayload($event)">{{ code() }}</pre>
               @for (note of exportSupport().notes; track note) {
                 <p>{{ note }}</p>
               }
@@ -828,7 +796,7 @@
               <div class="actions">
                 <button (click)="e.exportAsset('svg')">Export SVG</button
                 ><button (click)="e.exportAsset('png')">Export PNG</button
-                ><button (click)="e.copy(target())">Copy code</button
+                ><button [attr.data-copy-current-target]="target()" (click)="e.copy(target())">Copy {{ exportLabel() }}</button
                 ><button (click)="e.copy('name')">Copy name</button
                 ><button (click)="e.copy('editable')">Copy element</button>
               </div>

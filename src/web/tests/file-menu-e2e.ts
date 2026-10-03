@@ -100,7 +100,7 @@ assert.equal(JSON.parse(structured.text).version,2);
 assert.equal(JSON.parse(structured.text).nodes[1].text,'مرحبا ☕');
 await page.getByRole('button', { name: 'Copy name', exact: true }).click();
 assert.equal(await page.evaluate(() => (window as any).fileCalls.filter((c:any) => c.action === 'clipboard.write').at(-1).format),'text');
-await page.getByRole('button', { name: 'Copy code', exact: true }).click();
+await page.locator('[data-copy-current-target]').click();
 assert.equal(await page.evaluate(() => (window as any).fileCalls.filter((c:any) => c.action === 'clipboard.write').at(-1).format),'text');
 await page.evaluate(text => { (window as any).nativeClipboard = text; },structured.text);
 await page.getByRole('button', { name: 'Design', exact: true }).click();
