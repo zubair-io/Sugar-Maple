@@ -103,6 +103,26 @@ window.canvasTransformAcceptance = async function () {
       contrast(toolbarStyle.color, toolbarStyle.backgroundColor) >= 4.5,
       theme + ": drawing text contrast",
     );
+    const activeControls = [
+      ...document.querySelectorAll(
+        '.drawing-toolbar button[aria-pressed="true"], .canvas-toolbar button[aria-pressed="true"]',
+      ),
+    ];
+    check(
+      activeControls.length >= 2,
+      theme + ": selected tool and snapping are visible",
+    );
+    for (const control of activeControls) {
+      const style = getComputedStyle(control);
+      check(
+        contrast(
+          style.color,
+          style.backgroundColor,
+          toolbarStyle.backgroundColor,
+        ) >= 4.5,
+        theme + ": readable active control " + control.textContent.trim(),
+      );
+    }
     const section = document.querySelector("repeat-inspector section");
     const input = document.querySelector('[aria-label="Grid rows"]');
     const normal = button("Resize grid");
