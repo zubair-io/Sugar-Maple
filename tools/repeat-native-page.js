@@ -128,7 +128,7 @@ window.canvasTransformAcceptance = async function () {
                 after: window.sugarMaple.viewport.stats(),
                 delivery,
                 handleValue: slider(kind)?.getAttribute("aria-valuenow"),
-                camera: (await settle()).camera,
+                camera: window.sugarMaple.viewport.camera(),
               }),
           );
         let rejected = false;
