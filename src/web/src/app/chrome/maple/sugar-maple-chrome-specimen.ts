@@ -176,10 +176,10 @@ import { ChromeTheme } from './sugar-maple-chrome-theme';
       height: 100%;
       overflow: auto;
       padding: 28px;
-      background: var(--color-bg);
+      background: var(--chrome-bg);
     }
     :host([data-chrome-theme='light']) {
-      background: #fafaf9;
+      --chrome-bg: #fdfbf7;
     }
     .specimen {
       max-width: 980px;

@@ -76,7 +76,7 @@
 }
 .is-active {
   background: var(--color-primary-dim);
-  color: var(--color-primary);
+  color: var(--color-active-text, var(--color-primary));
   border-color: var(--color-primary);
 }
 .is-full-width {
