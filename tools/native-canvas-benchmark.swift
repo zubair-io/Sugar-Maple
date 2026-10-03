@@ -52,8 +52,14 @@ import Darwin
     }
     @MainActor static func measure() async throws {
         let args = CommandLine.arguments
-        let transforms = args.count == 7 && args[6] == "--transforms"
-        guard args.count == 6 || transforms else { fatalError("Pass resources, fixture, page harness, report and screenshot; optional --transforms") }
+        let flags = Array(args.dropFirst(6))
+        let transforms = flags.contains("--transforms")
+        guard args.count >= 6 && Set(flags).isSubset(of: ["--transforms", "--always-scrollbars"]) else { fatalError("Pass resources, fixture, page harness, report and screenshot; optional --transforms / --always-scrollbars") }
+        if flags.contains("--always-scrollbars") {
+            // Process-local preference: exercise permanent native gutters without
+            // changing the user's persistent system appearance settings.
+            UserDefaults.standard.setVolatileDomain(["AppleShowScrollBars": "Always"], forName: UserDefaults.argumentDomain)
+        }
         let fixture = try JSONSerialization.jsonObject(with: Data(contentsOf: URL(fileURLWithPath: args[2])))
         guard let value = fixture as? [String:Any], let document = value["document"] as? [String:Any], let nodes = document["nodes"] as? [[String:Any]] else { fatalError("Invalid fixture") }
         let config = WKWebViewConfiguration()
