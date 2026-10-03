@@ -1,0 +1,9 @@
+# Multi-selection and mode insertion acceptance
+
+Issue #117. Prototype/Developer empty-state, keyboard and document-component insertions cannot author a new node; explicit MCP transactions keep their existing capability. Design multi-selection exposes shared/Mixed applicable values and updates selected roots in one validated human batch/undo. World-bounds translation supports rotated parents; inherited locks and managed positions guard the entire affected batch. Parent/move preview, alignment, distribution and grouping remain reachable.
+
+Source identities are in run-state.json. Current-main integration passes155 model tests/2298 assertions, typecheck, Mac build,36 browser suites with owned-server cleanup, and full native acceptance. Full-browser source predates the later help-density change; the focused browser/native cases verify that change and six260/320/420 Light/Dark geometry combinations at the final clean source. Production UI/Swift bytes are identical between the full-native source and final focused source. Inventory is current.
+
+The shared14-case fixture covers atomic edits/undo, root filtering, mixed typography/kinds, rotated movement, lock/managed/invalid-color guards and both non-Design insertion modes. WK input is DOM-level; OS pointer/keyboard capture, IME and VoiceOver are separate release gates. Images were inspected for field readability and containment.
+
+One initial full native run failed the existing Repeat Grid draft projection assertion. It is retained, not counted as passing. An unchanged-source focused rerun, a complete rerun, six independent diagnostic runs and the current-main full suite passed without relaxing assertions. The cause is unresolved in #121; richer failure context is retained. This PR does not close #121 or broad native/UI/MVP release parents.
