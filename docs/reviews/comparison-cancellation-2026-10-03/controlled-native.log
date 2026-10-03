@@ -1,0 +1,287 @@
+❯ Building...
+✔ Building...
+Initial chunk files | Names                       |  Raw size
+styles.css          | styles                      |  32.19 kB | 
+chunk-VUJOFXKG.js   | -                           | 987 bytes | 
+main.js             | main                        | 917 bytes | 
+
+                    | Initial total               |  34.09 kB
+
+Lazy chunk files    | Names                       |  Raw size
+chunk-CJWLE3UZ.js   | app                         | 630.98 kB | 
+chunk-ZWQJLIPQ.js   | -                           | 204.10 kB | 
+chunk-QXMKMRO4.js   | -                           | 177.65 kB | 
+chunk-3POTRHW2.js   | sugar-maple-chrome-specimen |  24.85 kB | 
+chunk-YNOJQMVV.js   | preview-application         |   6.21 kB | 
+
+Application bundle generation complete. [2.635 seconds] - 2026-10-03T05:17:11.077Z
+
+Watch mode enabled. Watching for file changes...
+NOTE: Raw file sizes do not reflect development server per-request transformations.
+  ➜  Local:   http://127.0.0.1:49668/
+Owned source checkout editor: http://127.0.0.1:49668; process group 99495
+Comparison stage starting: prototypes/library-preview/comparison-cancellation-stage.ts
+Owned comparison stage group: 99628
+listener ready http://127.0.0.1:49701/
+Cancellation fixture helper ready: 99640
+Comparison stage failed: prototypes/library-preview/comparison-cancellation-stage.ts; exit SIGKILL; elapsed 1270 ms
+Comparison owned process cleanup: {"groups":[99495,99628,99640],"live":[]}
+34 |       if ((error as NodeJS.ErrnoException).code !== "ESRCH") failure ||= error;
+35 |     }
+36 |     force ??= setTimeout(() => stage?.stop(reason), 1000);
+37 |   };
+38 |   const interrupt = () => {
+39 |     failure ||= Error("Comparison interrupted");
+                     ^
+error: Comparison interrupted
+      at interrupt (/Users/riabuz/.codex/worktrees/comparison-cancellation/_SugarMaple/tools/library-preview-comparison.ts:39:17)
+
+Bun v1.4.2 (macOS arm64)
+❯ Building...
+✔ Building...
+Initial chunk files | Names                       |  Raw size
+styles.css          | styles                      |  32.19 kB | 
+chunk-VUJOFXKG.js   | -                           | 987 bytes | 
+main.js             | main                        | 917 bytes | 
+
+                    | Initial total               |  34.09 kB
+
+Lazy chunk files    | Names                       |  Raw size
+chunk-CJWLE3UZ.js   | app                         | 630.98 kB | 
+chunk-ZWQJLIPQ.js   | -                           | 204.10 kB | 
+chunk-QXMKMRO4.js   | -                           | 177.65 kB | 
+chunk-3POTRHW2.js   | sugar-maple-chrome-specimen |  24.85 kB | 
+chunk-YNOJQMVV.js   | preview-application         |   6.21 kB | 
+
+Application bundle generation complete. [1.730 seconds] - 2026-10-03T05:17:14.897Z
+
+Watch mode enabled. Watching for file changes...
+NOTE: Raw file sizes do not reflect development server per-request transformations.
+  ➜  Local:   http://127.0.0.1:49732/
+Owned source checkout editor: http://127.0.0.1:49732; process group 99765
+Comparison stage starting: prototypes/library-preview/comparison-cancellation-stage.ts
+Owned comparison stage group: 99970
+listener ready http://127.0.0.1:49761/
+Cancellation fixture helper ready: 99975
+Comparison stage failed: prototypes/library-preview/comparison-cancellation-stage.ts; exit SIGKILL; elapsed 1274 ms
+Comparison owned process cleanup: {"groups":[99765,99970,99975],"live":[]}
+34 |       if ((error as NodeJS.ErrnoException).code !== "ESRCH") failure ||= error;
+35 |     }
+36 |     force ??= setTimeout(() => stage?.stop(reason), 1000);
+37 |   };
+38 |   const interrupt = () => {
+39 |     failure ||= Error("Comparison interrupted");
+                     ^
+error: Comparison interrupted
+      at interrupt (/Users/riabuz/.codex/worktrees/comparison-cancellation/_SugarMaple/tools/library-preview-comparison.ts:39:17)
+
+Bun v1.4.2 (macOS arm64)
+❯ Building...
+✔ Building...
+Initial chunk files | Names                       |  Raw size
+styles.css          | styles                      |  32.19 kB | 
+chunk-VUJOFXKG.js   | -                           | 987 bytes | 
+main.js             | main                        | 917 bytes | 
+
+                    | Initial total               |  34.09 kB
+
+Lazy chunk files    | Names                       |  Raw size
+chunk-CJWLE3UZ.js   | app                         | 630.98 kB | 
+chunk-ZWQJLIPQ.js   | -                           | 204.10 kB | 
+chunk-QXMKMRO4.js   | -                           | 177.65 kB | 
+chunk-3POTRHW2.js   | sugar-maple-chrome-specimen |  24.85 kB | 
+chunk-YNOJQMVV.js   | preview-application         |   6.21 kB | 
+
+Application bundle generation complete. [2.837 seconds] - 2026-10-03T05:17:20.407Z
+
+Watch mode enabled. Watching for file changes...
+NOTE: Raw file sizes do not reflect development server per-request transformations.
+  ➜  Local:   http://127.0.0.1:49792/
+Owned source checkout editor: http://127.0.0.1:49792; process group 232
+Comparison stage starting: prototypes/library-preview/comparison-cancellation-stage.ts
+Owned comparison stage group: 531
+listener ready http://127.0.0.1:49834/
+Cancellation fixture helper ready: 547
+Comparison stage failed: prototypes/library-preview/comparison-cancellation-stage.ts; exit 1; elapsed 141 ms
+Comparison owned process cleanup: {"groups":[232,531,547],"live":[]}
+117 |     child.once("close", (code, signal) => {
+118 |       cleanup();
+119 |       if (reason) reject(Error(reason));
+120 |       else if (code !== 0)
+121 |         reject(
+122 |           Error(
+                ^
+error: Owned process failed (1): 24 |   await new Promise<void>((resolve) =>
+25 |     helper.child.stdout.once("data", () => resolve()),
+26 |   );
+27 |   console.log("Cancellation fixture helper ready: " + helper.child.pid);
+28 | }
+29 | if (scenario === "fail") throw Error("Controlled comparison stage failure");
+                                    ^
+error: Controlled comparison stage failure
+      at /Users/riabuz/.codex/worktrees/comparison-cancellation/_SugarMaple/prototypes/library-preview/comparison-cancellation-stage.ts:29:32
+
+Bun v1.4.2 (macOS arm64)
+
+      at <anonymous> (/Users/riabuz/.codex/worktrees/comparison-cancellation/_SugarMaple/prototypes/library-preview/native/supervise.ts:122:11)
+      at emit (node:events:103:22)
+      at #maybeClose (node:child_process:827:16)
+      at #handleOnExit (node:child_process:570:72)
+
+Bun v1.4.2 (macOS arm64)
+❯ Building...
+✔ Building...
+Initial chunk files | Names                       |  Raw size
+styles.css          | styles                      |  32.19 kB | 
+chunk-VUJOFXKG.js   | -                           | 987 bytes | 
+main.js             | main                        | 917 bytes | 
+
+                    | Initial total               |  34.09 kB
+
+Lazy chunk files    | Names                       |  Raw size
+chunk-CJWLE3UZ.js   | app                         | 630.98 kB | 
+chunk-ZWQJLIPQ.js   | -                           | 204.10 kB | 
+chunk-QXMKMRO4.js   | -                           | 177.65 kB | 
+chunk-3POTRHW2.js   | sugar-maple-chrome-specimen |  24.85 kB | 
+chunk-YNOJQMVV.js   | preview-application         |   6.21 kB | 
+
+Application bundle generation complete. [2.187 seconds] - 2026-10-03T05:17:23.536Z
+
+Watch mode enabled. Watching for file changes...
+NOTE: Raw file sizes do not reflect development server per-request transformations.
+  ➜  Local:   http://127.0.0.1:49844/
+Owned source checkout editor: http://127.0.0.1:49844; process group 629
+Comparison stage starting: prototypes/library-preview/comparison-cancellation-stage.ts
+Owned comparison stage group: 934
+listener ready http://127.0.0.1:49881/
+Cancellation fixture helper ready: 957
+Comparison stage failed: prototypes/library-preview/comparison-cancellation-stage.ts; exit SIGKILL; elapsed 1005 ms
+Comparison owned process cleanup: {"groups":[629,934,957],"live":[]}
+114 |       cleanup();
+115 |       reject(error);
+116 |     });
+117 |     child.once("close", (code, signal) => {
+118 |       cleanup();
+119 |       if (reason) reject(Error(reason));
+                               ^
+error: Wall-time budget exceeded
+      at /Users/riabuz/.codex/worktrees/comparison-cancellation/_SugarMaple/prototypes/library-preview/native/supervise.ts:119:26
+      at emit (node:events:103:22)
+      at #maybeClose (node:child_process:827:16)
+      at #handleOnExit (node:child_process:570:72)
+      at processTicksAndRejections (unknown:7:39)
+
+Bun v1.4.2 (macOS arm64)
+❯ Building...
+✔ Building...
+Initial chunk files | Names                       |  Raw size
+styles.css          | styles                      |  32.19 kB | 
+chunk-VUJOFXKG.js   | -                           | 987 bytes | 
+main.js             | main                        | 917 bytes | 
+
+                    | Initial total               |  34.09 kB
+
+Lazy chunk files    | Names                       |  Raw size
+chunk-CJWLE3UZ.js   | app                         | 630.98 kB | 
+chunk-ZWQJLIPQ.js   | -                           | 204.10 kB | 
+chunk-QXMKMRO4.js   | -                           | 177.65 kB | 
+chunk-3POTRHW2.js   | sugar-maple-chrome-specimen |  24.85 kB | 
+chunk-YNOJQMVV.js   | preview-application         |   6.21 kB | 
+
+Application bundle generation complete. [3.606 seconds] - 2026-10-03T05:17:29.480Z
+
+Watch mode enabled. Watching for file changes...
+NOTE: Raw file sizes do not reflect development server per-request transformations.
+  ➜  Local:   http://127.0.0.1:49912/
+Owned source checkout editor: http://127.0.0.1:49912; process group 1209
+Comparison stage starting: prototypes/library-preview/comparison-cancellation-stage.ts
+Owned comparison stage group: 1508
+listener ready http://127.0.0.1:49954/
+Cancellation fixture helper ready: 1513
+Comparison stage failed: prototypes/library-preview/comparison-cancellation-stage.ts; exit SIGKILL; elapsed 1273 ms
+Comparison owned process cleanup: {"groups":[1209,1508,1513],"live":[]}
+117 |     child.once("close", (code, signal) => {
+118 |       cleanup();
+119 |       if (reason) reject(Error(reason));
+120 |       else if (code !== 0)
+121 |         reject(
+122 |           Error(
+                ^
+error: Owned process failed (SIGKILL): $ bun --bun ../../node_modules/@angular/cli/bin/ng.js serve --host 127.0.0.1 --host "127.0.0.1" --port "0"
+Option 'host' has been specified multiple times. The value '127.0.0.1' will be used.
+
+      at /Users/riabuz/.codex/worktrees/comparison-cancellation/_SugarMaple/prototypes/library-preview/native/supervise.ts:122:11
+      at emit (node:events:103:22)
+      at #maybeClose (node:child_process:827:16)
+      at emit (node:events:97:22)
+      at emitCloseNT (internal:streams/destroy:78:14)
+      at processTicksAndRejections (unknown:7:39)
+
+Bun v1.4.2 (macOS arm64)
+❯ Building...
+✔ Building...
+Initial chunk files | Names                       |  Raw size
+styles.css          | styles                      |  32.19 kB | 
+chunk-VUJOFXKG.js   | -                           | 987 bytes | 
+main.js             | main                        | 917 bytes | 
+
+                    | Initial total               |  34.09 kB
+
+Lazy chunk files    | Names                       |  Raw size
+chunk-CJWLE3UZ.js   | app                         | 630.98 kB | 
+chunk-ZWQJLIPQ.js   | -                           | 204.10 kB | 
+chunk-QXMKMRO4.js   | -                           | 177.65 kB | 
+chunk-3POTRHW2.js   | sugar-maple-chrome-specimen |  24.85 kB | 
+chunk-YNOJQMVV.js   | preview-application         |   6.21 kB | 
+
+Application bundle generation complete. [1.607 seconds] - 2026-10-03T05:17:32.925Z
+
+Watch mode enabled. Watching for file changes...
+NOTE: Raw file sizes do not reflect development server per-request transformations.
+  ➜  Local:   http://127.0.0.1:49977/
+Owned source checkout editor: http://127.0.0.1:49977; process group 1642
+Comparison stage starting: prototypes/library-preview/comparison-cancellation-stage.ts
+Owned comparison stage group: 1734
+listener ready http://127.0.0.1:50009/
+Cancellation fixture helper ready: 1739
+Comparison stage completed: prototypes/library-preview/comparison-cancellation-stage.ts; exit 0; elapsed 99 ms
+Comparison owned process cleanup: {"groups":[1642,1734,1739],"live":[]}
+❯ Building...
+✔ Building...
+Initial chunk files | Names                       |  Raw size
+styles.css          | styles                      |  32.19 kB | 
+chunk-VUJOFXKG.js   | -                           | 987 bytes | 
+main.js             | main                        | 917 bytes | 
+
+                    | Initial total               |  34.09 kB
+
+Lazy chunk files    | Names                       |  Raw size
+chunk-CJWLE3UZ.js   | app                         | 630.98 kB | 
+chunk-ZWQJLIPQ.js   | -                           | 204.10 kB | 
+chunk-QXMKMRO4.js   | -                           | 177.65 kB | 
+chunk-3POTRHW2.js   | sugar-maple-chrome-specimen |  24.85 kB | 
+chunk-YNOJQMVV.js   | preview-application         |   6.21 kB | 
+
+Application bundle generation complete. [2.255 seconds] - 2026-10-03T05:17:36.033Z
+
+Watch mode enabled. Watching for file changes...
+NOTE: Raw file sizes do not reflect development server per-request transformations.
+  ➜  Local:   http://127.0.0.1:50022/
+Owned source checkout editor: http://127.0.0.1:50022; process group 1770
+Comparison stage starting: prototypes/library-preview/comparison-cancellation-stage.ts
+Owned comparison stage group: 1955
+Cancellation fixture helper ready: 2336
+Comparison stage failed: prototypes/library-preview/comparison-cancellation-stage.ts; exit SIGTERM; elapsed 3235 ms
+Comparison owned process cleanup: {"groups":[1770,1955,1965,1978,1999,2107,2259,2281,2318,2326,2336],"live":[]}
+34 |       if ((error as NodeJS.ErrnoException).code !== "ESRCH") failure ||= error;
+35 |     }
+36 |     force ??= setTimeout(() => stage?.stop(reason), 1000);
+37 |   };
+38 |   const interrupt = () => {
+39 |     failure ||= Error("Comparison interrupted");
+                     ^
+error: Comparison interrupted
+      at interrupt (/Users/riabuz/.codex/worktrees/comparison-cancellation/_SugarMaple/tools/library-preview-comparison.ts:39:17)
+
+Bun v1.4.2 (macOS arm64)
+PASS: SIGINT/SIGTERM, failure, timeout, server loss and natural-exit detached-helper cleanup preserve unrelated listener
