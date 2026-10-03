@@ -1,0 +1,12 @@
+{
+  "source": "2c362bee76e8f5872fd3b47be9cc6ae2a1a63a08",
+  "base": "8ba79a7bec38e5ae24c40ef03964798397a18924",
+  "fullBrowserSource": "d4d8e08",
+  "fullNativeSource": "c723f6ba6b6b4cb563ff4e9c7653a2c9d27391c6",
+  "productionSourceUnchangedFromFullNative": true,
+  "nativeCases": 14,
+  "appearanceWidthCases": 6,
+  "initialNativeFailureSource": "6fd55e3",
+  "unresolvedRepeatFinding": 121,
+  "hardwareInputOrVoiceOverAccepted": false
+}

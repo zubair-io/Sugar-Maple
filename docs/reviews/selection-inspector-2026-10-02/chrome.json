@@ -1,0 +1,37 @@
+{
+  "passed": true,
+  "checks": 14,
+  "geometry": [
+    {
+      "theme": "dark",
+      "width": 260,
+      "fields": 9
+    },
+    {
+      "theme": "dark",
+      "width": 320,
+      "fields": 9
+    },
+    {
+      "theme": "dark",
+      "width": 420,
+      "fields": 9
+    },
+    {
+      "theme": "light",
+      "width": 260,
+      "fields": 9
+    },
+    {
+      "theme": "light",
+      "width": 320,
+      "fields": 9
+    },
+    {
+      "theme": "light",
+      "width": 420,
+      "fields": 9
+    }
+  ],
+  "scope": "Production multi-selection shared/Mixed/applicability, world transforms, root filtering, atomic undo, lock/managed/invalid guards and read-only mode insertion. DOM events do not prove physical native input."
+}
