@@ -673,33 +673,33 @@ export class EditorService {
       case 'document.read':
         return readScope(this.doc(), this.revision(), args, this.selection());
       case 'comments.list': {
-        const query = CommentsQuerySchema.parse(args);
-        if (query.pageId && !this.doc().pages.some((p) => p.id === query.pageId))
-          throw Error('Page not found');
-        return {
+        const query = CommentsQuerySchema.parse(args), document = this.doc();
+        const pageNames = new Map(document.pages.map((page) => [page.id, page.name]));
+        if (query.pageId && !pageNames.has(query.pageId)) throw Error('Page not found');
+        return structuredClone({
           ...this.store.result(),
-          comments: this.doc()
-            .comments.filter(
-              (c) =>
-                (!query.pageId || c.pageId === query.pageId) &&
-                (query.status === 'all' || c.resolved === (query.status === 'resolved')),
+          comments: document.comments
+            .filter((comment) =>
+              (!query.pageId || comment.pageId === query.pageId) &&
+              (query.status === 'all' || comment.resolved === (query.status === 'resolved')),
             )
-            .map((c) => ({
-              ...c,
-              pageName: this.doc().pages.find((p) => p.id === c.pageId)!.name,
-            })),
-        };
+            .map((comment) => ({ ...comment, pageName: pageNames.get(comment.pageId)! })),
+        });
       }
       case 'document.checkpoint':
         return this.store.checkpoint();
-      case 'document.get':
+      case 'document.get': {
+        // The signal is a cached projection, refreshed once after a command.
+        // Public results must still detach nested values from that cache.
+        const document = this.doc();
         return {
           ...this.store.result(),
-          document: this.doc(),
+          document: structuredClone(document),
           durable: !this.dirty(),
           persistence: this.status(),
-          assetDiagnostics: this.assets.diagnostics(this.doc().nodes, this.doc().assets),
+          assetDiagnostics: this.assets.diagnostics(document.nodes, document.assets),
         };
+      }
       case 'document.new':
         await this.requireSaved();
         this.replace(blankDocument(args.name ?? 'Untitled'));

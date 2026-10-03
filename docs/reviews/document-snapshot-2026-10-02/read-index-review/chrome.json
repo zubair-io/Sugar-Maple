@@ -1,0 +1,130 @@
+{
+  "passed": true,
+  "checks": 8,
+  "cloneCounts": {
+    "comments": 1,
+    "commentsFullScene": 0,
+    "document": 1
+  },
+  "document": {
+    "version": 1,
+    "id": "2a44bf44-9e7e-409b-944a-96895e6c05e4",
+    "name": "Untitled",
+    "comments": [
+      {
+        "id": "snapshot-comment",
+        "pageId": "f2bcd192-245b-419c-95e4-655d122b7d36",
+        "anchor": null,
+        "createdAt": "2026-10-03T04:31:38.692Z",
+        "messages": [
+          {
+            "id": "1ca26ba4-11cf-4d2f-8d2e-44407a2bd364",
+            "text": "Original comment",
+            "author": "agent",
+            "createdAt": "2026-10-03T04:31:38.692Z"
+          }
+        ],
+        "resolved": false,
+        "resolvedBy": null,
+        "resolvedAt": null
+      }
+    ],
+    "folders": [
+      {
+        "id": "snapshot-folder",
+        "name": "Original folder",
+        "order": 0
+      }
+    ],
+    "pages": [
+      {
+        "id": "f2bcd192-245b-419c-95e4-655d122b7d36",
+        "name": "Page 1",
+        "order": 0,
+        "folderId": "snapshot-folder"
+      }
+    ],
+    "nodes": [
+      {
+        "id": "snapshot-gradient",
+        "pageId": "f2bcd192-245b-419c-95e4-655d122b7d36",
+        "parentId": null,
+        "kind": "rectangle",
+        "name": "Original gradient",
+        "x": 0,
+        "y": 0,
+        "width": 200,
+        "height": 100,
+        "widthMode": "fixed",
+        "heightMode": "fixed",
+        "widthPercent": 100,
+        "heightPercent": 100,
+        "rotation": 0,
+        "radius": 0,
+        "gradient": {
+          "type": "linear",
+          "angle": 180,
+          "centerX": 50,
+          "centerY": 50,
+          "radiusX": 50,
+          "radiusY": 50,
+          "stops": [
+            {
+              "offset": 0,
+              "color": "#112233",
+              "opacity": 1
+            },
+            {
+              "offset": 1,
+              "color": "#ffffff",
+              "opacity": 1
+            }
+          ]
+        },
+        "fillEnabled": true,
+        "fill": "#ffffff",
+        "color": "#18181b",
+        "stroke": "#d4d4d8",
+        "strokeWidth": 0,
+        "opacity": 1,
+        "text": "",
+        "fontSize": 16,
+        "fontWeight": 400,
+        "fontFamily": "system-ui",
+        "lineHeight": 1.2,
+        "letterSpacing": 0,
+        "textAlign": "auto",
+        "layout": "free",
+        "gap": 16,
+        "padding": 16,
+        "columns": 2,
+        "hidden": false,
+        "locked": false,
+        "order": 0,
+        "inputType": "text",
+        "initialValue": "",
+        "accessibleLabel": "",
+        "disabled": false,
+        "prototypeAction": "navigate",
+        "targetId": null,
+        "transition": "instant",
+        "asset": "",
+        "pathData": "",
+        "viewBox": "0 0 100 100",
+        "libraryRef": null,
+        "librarySlot": "",
+        "componentId": null,
+        "isComponent": false,
+        "variantName": "Default",
+        "variants": {},
+        "overrides": [],
+        "repeatTemplateId": null,
+        "repeatIndex": null,
+        "fillToken": ""
+      }
+    ],
+    "tokens": {},
+    "assets": {},
+    "libraries": {}
+  }
+}
