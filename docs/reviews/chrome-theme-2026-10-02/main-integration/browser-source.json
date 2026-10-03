@@ -1,0 +1,10 @@
+{
+  "checkout": "/Users/riabuz/.codex/worktrees/mac-build-recovery/_SugarMaple",
+  "revision": "4334426a5afd770605284744a4f11ae34d1a6b5d",
+  "dirty": "",
+  "url": "http://127.0.0.1:49805",
+  "testsPassed": [
+    "src/web/tests/chrome-theme-e2e.ts"
+  ],
+  "cleanupPassed": true
+}
