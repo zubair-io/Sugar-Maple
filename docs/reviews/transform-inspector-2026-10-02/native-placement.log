@@ -1,0 +1,2 @@
+PASS: fresh visible WKWebView production Canvas transform keyboard/geometry acceptance; /Users/riabuz/.codex/worktrees/mcp-contract-hardening/_SugarMaple/build/native-canvas-placement/report.json
+PASS: 16 production WKWebView alignment/distribution DOM cases, zoom 0.5/1.5, independent rotated geometry, locked ancestors, snapping preference without history, exact undo and no console errors

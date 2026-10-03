@@ -1,0 +1,11 @@
+# Transform inspector visual repair
+
+The user observed unreadable Transform controls in a flashing native test window. Functional geometry tests had passed while the panel still displayed letter-only alignment actions and excessive field spacing. This is a product UI defect, not evidence that all editor UI was complete.
+
+Source `f530cac1ae80970e0325d035fc04fd1a2d686c8d` replaces L/C/R/T/M/B placeholders with monochrome alignment icons and explicit distribution labels, preserving accessible names/tooltips and the existing handlers. It reduces specificity of generic inspector label/input rules so the existing compact field rules apply in Angular. Numeric labels and values fit their two-column rows. Parent/Move behavior use the existing stacked field contract so selected values remain readable.
+
+The new shared Chrome/WKWebView fixture fails before with letter placeholders at 260px and passes after at 260/320/420px. It checks icon presence, one-row alignment, target sizes, numeric input width, compact padding, select text fit, absence of overflow and unchanged exact checkpoint/history. Widths are layout-fixture constraints, not a claim of shipped panel-resize controls. Native screenshot uses the actual production bundle in a visible WKWebView; the bridge is the benchmark's in-memory fixture.
+
+All 34 browser/consumer suites pass on the clean source revision. Actual WK visual checks and all 16 existing native alignment/distribution/undo cases pass sequentially. Typecheck and Mac build pass on the identical final runtime bytes before the source commit. Original malformed selection-API test attempt was corrected before the genuine fail-before run and is not counted as defect proof.
+
+Before/after browser and native screenshots, full browser attribution/cleanup and native reports are retained. The before native image is an earlier production transform fixture with the unchanged inspector styles; the genuine before browser regression runs source main 8c54ac3. Existing Inspector heading/other panels and full release visual/accessibility acceptance remain outside this scoped fix. Exact-head review/CI, current-base merge and resulting-main verification remain required. Refs #114, #9, #8, #21.
