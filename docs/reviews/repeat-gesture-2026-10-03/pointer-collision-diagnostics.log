@@ -1,0 +1,12 @@
+Native benchmark failed: Error Domain=WKErrorDomain Code=4 "A JavaScript exception occurred" UserInfo={WKJavaScriptExceptionLineNumber=0, WKJavaScriptExceptionMessage=Error: WK preview is guarded trace=[{"type":"pointermove","trusted":true,"pointerType":"mouse","pointerId":1,"x":-0.41015625,"y":782.4765625},{"type":"pointerup","trusted":false,"pointerType":"pen","pointerId":1,"x":1298,"y":403},{"type":"pointerdown","trusted":false,"pointerType":"pen","pointerId":1,"x":662,"y":568},{"type":"blur","trusted":true},{"type":"focus","trusted":true},{"type":"blur","trusted":true},{"type":"focus","trusted":true},{"type":"pointermove","trusted":false,"pointerType":"pen","pointerId":1,"x":662,"y":922},{"type":"pointerup","trusted":false,"pointerType":"pen","pointerId":1,"x":662,"y":922},{"type":"pointerdown","trusted":false,"pointerType":"pen","pointerId":1,"x":662,"y":403},{"type":"blur","trusted":true},{"type":"focus","trusted":true},{"type":"blur","trusted":true},{"type":"focus","trusted":true},{"type":"pointermove","trusted":false,"pointerType":"pen","pointerId":1,"x":680,"y":403},{"type":"blur","trusted":true}], WKJavaScriptExceptionColumnNumber=0, NSLocalizedDescription=A JavaScript exception occurred}
+17 |     cwd: root,
+18 |     stdout: "inherit",
+19 |     stderr: "inherit",
+20 |   });
+21 |   if (await child.exited)
+22 |     throw Error("Native Repeat Grid failed: " + command[0]);
+               ^
+error: Native Repeat Grid failed: /Users/riabuz/.codex/worktrees/mcp-contract-hardening/_SugarMaple/build/repeat-handles/native-repeat-handles
+      at run (/Users/riabuz/.codex/worktrees/mcp-contract-hardening/_SugarMaple/tools/native-repeat-handles.ts:22:11)
+
+Bun v1.4.2 (macOS arm64)
