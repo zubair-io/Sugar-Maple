@@ -1,0 +1,15 @@
+{
+  "checkout": "/Users/riabuz/.codex/worktrees/mac-build-recovery/_SugarMaple",
+  "revision": "d91f143343d77154426d3f250d787614bd24bde0",
+  "dirty": "M docs/development/maple-chrome.md\n M src/web/src/app/_inspector.scss\n M src/web/src/app/_workspace.scss\n M src/web/src/app/app.scss\n M src/web/src/app/canvas/library-catalog.ts\n M src/web/src/app/canvas/repeat-inspector.ts\n M src/web/src/app/chrome/maple/inventory.json\n M src/web/src/app/chrome/maple/ui/input/mui-input.component.ts\n M src/web/src/app/chrome/maple/ui/select/mui-select.component.scss\n M src/web/src/app/comments/comment-canvas.scss\n M src/web/src/app/comments/comments-panel.scss\n M src/web/src/app/editor-header.scss\n M src/web/src/app/page-title.scss\n M src/web/src/app/prototype-inspector.scss\n M src/web/src/app/selection-inspector.scss\n M src/web/src/tailwind.css\n M src/web/tests/chrome-e2e.ts\n M tools/chrome-theme-page.js",
+  "url": "http://127.0.0.1:58277",
+  "testsPassed": [
+    "src/web/tests/chrome-e2e.ts",
+    "src/web/tests/chrome-theme-e2e.ts",
+    "src/web/tests/sidebar-inspector-e2e.ts",
+    "src/web/tests/selection-inspector-e2e.ts"
+  ],
+  "cleanupPassed": true,
+  "failure": "",
+  "cleanupFailure": ""
+}
