@@ -75,6 +75,9 @@ function patches(items: Item[], deltas: { x: number; y: number }[]) {
   }
   return result;
 }
+export function translation(items: Item[], dx: number, dy: number) {
+  return patches(items, items.map(() => ({ x: dx, y: dy })));
+}
 export function alignment(items: Item[], edge: Edge) {
   if (!items.length) return [];
   const parent = items.length === 1 ? items[0].ancestors.at(-1) : undefined;
