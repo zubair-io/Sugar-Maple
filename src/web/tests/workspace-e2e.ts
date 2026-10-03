@@ -135,6 +135,60 @@ try {
   });
   const current = await checkpoint();
   assert.deepEqual(current.document, baseline.document);
+  // Preference input is a versioned local boundary, independent of document persistence.
+  for (const scenario of ['bounds', 'corrupt', 'denied'] as const) {
+    const context = await browser.newContext({ viewport: { width: 1440, height: 900 } });
+    await context.addInitScript((scenario) => {
+      const key = 'sugar-maple.workspace.v1',
+        originalGet = Storage.prototype.getItem,
+        originalSet = Storage.prototype.setItem;
+      if (scenario === 'bounds')
+        localStorage.setItem(
+          key,
+          JSON.stringify({
+            version: 1,
+            left: 9999,
+            right: -10,
+            leftOpen: false,
+            rightOpen: true,
+            requested: 'invalid',
+          }),
+        );
+      if (scenario === 'corrupt') localStorage.setItem(key, '{');
+      if (scenario === 'denied') {
+        Storage.prototype.getItem = function (name) {
+          if (name === key) throw new DOMException('Unavailable', 'SecurityError');
+          return originalGet.call(this, name);
+        };
+        Storage.prototype.setItem = function (name, value) {
+          if (name === key) throw new DOMException('Unavailable', 'SecurityError');
+          return originalSet.call(this, name, value);
+        };
+      }
+    }, scenario);
+    const fallback = await context.newPage();
+    await fallback.goto(editorURL());
+    await fallback.waitForFunction(() => window.sugarMaple.ready);
+    const before = await fallback.evaluate(() => window.sugarMaple.dispatch('document.checkpoint'));
+    const fleft = fallback.getByRole('separator', { name: 'Resize left panel' }),
+      fright = fallback.getByRole('separator', { name: 'Resize right panel' });
+    if (scenario === 'bounds') {
+      await expect(fleft).toBeHidden();
+      await fallback.getByLabel('Toggle left panel', { exact: true }).click();
+      await expect(fleft).toHaveAttribute('aria-valuenow', '400');
+      await expect(fright).toHaveAttribute('aria-valuenow', '260');
+    } else {
+      await expect(fleft).toHaveAttribute('aria-valuenow', '280');
+      await expect(fright).toHaveAttribute('aria-valuenow', '320');
+    }
+    await fleft.press('Home');
+    await expect(fleft).toHaveAttribute('aria-valuenow', '220');
+    assert.deepEqual(
+      await fallback.evaluate(() => window.sugarMaple.dispatch('document.checkpoint')),
+      before,
+    );
+    await context.close();
+  }
   assert.deepEqual(errors, []);
   console.log(
     'PASS: actual pointer/keyboard resizing, persisted widths/collapse/reload, constrained panel policy, 48/28 shell, overflow/appearance/MCP focus at1440/1024/800 and document invariance',
