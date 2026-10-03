@@ -1,0 +1,17 @@
+{
+  "source": "58ea93d991cb50c0c771c775c6f359d2a284ea37",
+  "base": "9c3bcb90017c88a05d11a328960bf6307e925680",
+  "localFullComparisonsExitCodes": [
+    0,
+    0
+  ],
+  "realFailedStageCheckExitCode": 0,
+  "priorHeadCI": {
+    "run": 37085239507,
+    "conclusion": "failure",
+    "substage": "scene native-stop-failure-test, 30 observation loop",
+    "reason": "Native preview stopped: Error: Wall-time budget exceeded"
+  },
+  "unchangedNativeWallMs": 60000,
+  "remaining": "exact-head approving review, CI and main verification; original stall cause and local composite cancellation"
+}
