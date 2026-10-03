@@ -2,7 +2,7 @@ import { resolve } from "node:path";
 import { mkdirSync } from "node:fs";
 import { DocumentStore } from "../src/web/src/app/model/store";
 if (process.platform !== "darwin")
-  throw Error("Native inspector layout acceptance requires macOS");
+  throw Error("Native multi-selection inspector acceptance requires macOS");
 const root = resolve(import.meta.dir, ".."),
   output = resolve(root, "build/native-selection-inspector");
 mkdirSync(output, { recursive: true });
@@ -16,7 +16,9 @@ async function run(args: string[]) {
     stderr: "inherit",
   });
   if (await child.exited)
-    throw Error("Native inspector layout acceptance failed: " + args[0]);
+    throw Error(
+      "Native multi-selection inspector acceptance failed: " + args[0],
+    );
 }
 await run([
   "swiftc",
@@ -37,7 +39,7 @@ await run([
 ]);
 const report = await Bun.file(resolve(output, "report.json")).json();
 if (report.result?.passed !== true || report.result?.checks !== 14)
-  throw Error("Incomplete native inspector layout proof");
+  throw Error("Incomplete native multi-selection inspector proof");
 console.log(
   "PASS: production WK multi-selection values/batch/undo/guard and mode insertion acceptance",
 );
