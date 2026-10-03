@@ -11,6 +11,9 @@ try {
   await page.waitForFunction(() => window.sugarMaple.ready);
   await page.addScriptTag({ path: 'tools/sidebar-inspector-page.js' });
   mkdirSync('build/sidebar-inspector', { recursive: true });
+  await page.exposeFunction('sidebarCapture', async (name: string) => {
+    await page.screenshot({ path: `build/sidebar-inspector/${name}.png` });
+  });
   let result;
   try {
     result = await page.evaluate(() => (window as any).canvasTransformAcceptance());
