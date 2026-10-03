@@ -123,7 +123,7 @@ try {
   assert.deepEqual(await fixtureStyle(), authored);
   const light = await inputStyle();
   assert.equal(light.color, 'rgb(41, 37, 36)');
-  assert.equal(light.background, 'rgb(255, 255, 255)');
+  assert.equal(light.background, 'rgb(253, 251, 247)');
   await page.screenshot({ path: 'build/evidence/chrome-specimen-light.png', fullPage: true });
   await page.reload();
   await expect(page.getByRole('combobox', { name: 'Chrome appearance' })).toHaveValue('light');
