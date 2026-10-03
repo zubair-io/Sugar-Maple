@@ -1,0 +1,19 @@
+17 |    while(!(await Bun.file(ready).exists())) {assert.ok(child.exitCode===null&&performance.now()<deadline);await Bun.sleep(100);}
+18 |    child.kill('SIGTERM');
+19 |   }
+20 |   const code=await child.exited;assert.notEqual(code,0);
+21 |   const out=await stdout,err=await stderr;
+22 |   const match=out.match(/Browser source\/cleanup report: (.+)/);assert.ok(match,out+'\n'+err);
+                                                                            ^
+AssertionError: 
+
+ generatedMessage: false,
+     actual: null,
+   expected: true,
+   operator: "==",
+       diff: "simple",
+       code: "ERR_ASSERTION"
+
+      at /Users/riabuz/.codex/worktrees/mcp-contract-hardening/_SugarMaple/build/browser-owner-proof/failure-cases.ts:22:72
+
+Bun v1.4.2 (macOS arm64)
