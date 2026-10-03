@@ -35,7 +35,7 @@ await run([
   "--transforms",
 ]);
 const report = await Bun.file(resolve(output, "report.json")).json();
-if (report.result?.passed !== true || report.result?.checks !== 7)
+if (report.result?.passed !== true || report.result?.checks !== 8)
   throw Error("Incomplete WK document snapshot proof");
 console.log(
   "PASS: four production WK public read snapshots cannot mutate scene/history, followed by exact undo/redo; JavaScript calls, no new OS-input claim",
