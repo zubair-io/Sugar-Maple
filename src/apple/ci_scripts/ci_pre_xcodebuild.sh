@@ -5,7 +5,7 @@ set -eu
 case ${CI_TAG:-} in
   v*)
     VERSION=${CI_TAG#v}
-    printf '%s\n' "$VERSION" | grep -Eq '^[0-9]+\.[0-9]+\.[0-9]+$' || {
+    printf '%s\n' "$VERSION" | grep -Eq '^(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)$' || {
       echo 'error: Production tags must be vMAJOR.MINOR.PATCH' >&2; exit 1;
     }
     SCRIPT_DIR=$(CDPATH='' cd -- "$(dirname -- "$0")" && pwd)
