@@ -30,6 +30,9 @@ npm, which Apple’s runner does not provide. No global installation is required
 
 ## Verify
 
+For TestFlight and signed production downloads, see the
+[release delivery setup](docs/development/releases.md).
+
 ```sh
 bun test src/web/tests
 bun run --cwd src/web typecheck

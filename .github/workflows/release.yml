@@ -1,0 +1,113 @@
+name: release
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'MAJOR.MINOR.PATCH for an artifact-only signed/notarized validation'
+        required: true
+        default: '1.0.0'
+permissions:
+  contents: read
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  macos:
+    if: github.repository == 'zubair-io/Sugar-Maple' && (github.ref_type == 'tag' || github.ref == 'refs/heads/main')
+    runs-on: macos-15
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - name: Validate version and signing material
+        env:
+          DISPATCH_VERSION: ${{ inputs.version }}
+          MACOS_CERT_P12_BASE64: ${{ secrets.MACOS_CERT_P12_BASE64 }}
+          MACOS_CERT_PASSWORD: ${{ secrets.MACOS_CERT_PASSWORD }}
+          APPSTORE_KEY_ID: ${{ secrets.APPSTORE_KEY_ID }}
+          APPSTORE_ISSUER_ID: ${{ secrets.APPSTORE_ISSUER_ID }}
+          APPSTORE_PRIVATE_KEY: ${{ secrets.APPSTORE_PRIVATE_KEY }}
+        run: |
+          set -euo pipefail
+          version="$DISPATCH_VERSION"
+          [ "$GITHUB_REF_TYPE" != tag ] || version="${GITHUB_REF_NAME#v}"
+          [[ "$version" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]] || { echo '::error::Use vMAJOR.MINOR.PATCH tags or a stable dispatch version'; exit 1; }
+          for field in MACOS_CERT_P12_BASE64 MACOS_CERT_PASSWORD APPSTORE_KEY_ID APPSTORE_ISSUER_ID APPSTORE_PRIVATE_KEY; do
+            [ -n "${!field}" ] || { echo "::error::Missing release secret: $field"; exit 1; }
+          done
+          echo "RELEASE_VERSION=$version" >> "$GITHUB_ENV"
+      - name: Prepare isolated signing keychain
+        env:
+          MACOS_CERT_P12_BASE64: ${{ secrets.MACOS_CERT_P12_BASE64 }}
+          MACOS_CERT_PASSWORD: ${{ secrets.MACOS_CERT_PASSWORD }}
+          APPSTORE_PRIVATE_KEY: ${{ secrets.APPSTORE_PRIVATE_KEY }}
+        run: |
+          set -euo pipefail
+          umask 077
+          keychain="$RUNNER_TEMP/sugar-maple-release.keychain-db"
+          password="$(uuidgen)"
+          echo "::add-mask::$password"
+          security list-keychains -d user | sed -E 's/^[[:space:]]*"//; s/"[[:space:]]*$//' > "$RUNNER_TEMP/keychains.before"
+          security create-keychain -p "$password" "$keychain"
+          security set-keychain-settings -lut 7200 "$keychain"
+          security unlock-keychain -p "$password" "$keychain"
+          printf '%s' "$MACOS_CERT_P12_BASE64" | openssl base64 -d -A > "$RUNNER_TEMP/cert.p12"
+          security import "$RUNNER_TEMP/cert.p12" -k "$keychain" -P "$MACOS_CERT_PASSWORD" -T /usr/bin/codesign
+          security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k "$password" "$keychain" >/dev/null
+          keychains=()
+          while IFS= read -r path; do keychains+=("$path"); done < "$RUNNER_TEMP/keychains.before"
+          security list-keychains -d user -s "$keychain" "${keychains[@]}"
+          printf '%s' "$APPSTORE_PRIVATE_KEY" > "$RUNNER_TEMP/AuthKey.p8"
+          rm "$RUNNER_TEMP/cert.p12"
+      - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6
+        with:
+          bun-version: '1.4.2'
+      - run: bun install --frozen-lockfile
+      - name: Build, sign and notarize the universal app and DMG
+        env:
+          APPLE_TEAM_ID: QREP66JW5U
+          RELEASE_BUILD_NUMBER: ${{ github.run_number }}
+          RELEASE_OUTPUT_DIR: ${{ runner.temp }}/out
+          NOTARY_KEY_PATH: ${{ runner.temp }}/AuthKey.p8
+          APPSTORE_KEY_ID: ${{ secrets.APPSTORE_KEY_ID }}
+          APPSTORE_ISSUER_ID: ${{ secrets.APPSTORE_ISSUER_ID }}
+        run: bash tools/release-mac.sh
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: macos-release
+          path: |
+            ${{ runner.temp }}/out/*.dmg
+            ${{ runner.temp }}/out/SHA256SUMS.txt
+            ${{ runner.temp }}/out/*-notarization.json
+          if-no-files-found: error
+      - name: Restore keychain state and remove credentials
+        if: always()
+        run: |
+          if [ -s "$RUNNER_TEMP/keychains.before" ]; then
+            keychains=()
+            while IFS= read -r path; do keychains+=("$path"); done < "$RUNNER_TEMP/keychains.before"
+            security list-keychains -d user -s "${keychains[@]}"
+          fi
+          security delete-keychain "$RUNNER_TEMP/sugar-maple-release.keychain-db" 2>/dev/null || true
+          rm -f "$RUNNER_TEMP/AuthKey.p8" "$RUNNER_TEMP/cert.p12"
+  publish:
+    needs: macos
+    if: github.ref_type == 'tag'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: macos-release
+          path: release
+      - name: Publish validated production download
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "$GITHUB_REF_NAME" --repo "$GITHUB_REPOSITORY" \
+            --verify-tag --title "Sugar Maple ${GITHUB_REF_NAME#v}" --generate-notes \
+            release/*.dmg release/SHA256SUMS.txt

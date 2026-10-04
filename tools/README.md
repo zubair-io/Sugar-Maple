@@ -8,6 +8,7 @@ for prerequisites and the scope of each check.
 | Purpose | Entry points and related fixtures |
 | --- | --- |
 | Build the bundled editor and Mac host | `build-editor.sh`, `build-mac.ts` |
+| Sign, notarize and verify a universal production download | `release-mac.sh`; see `docs/development/releases.md` |
 | Connect to the same native document through MCP | `mcp-stdio.ts`, `mcp-config.ts`, `mcp-smoke.ts`, `mcp-integration.ts` and feature-specific `mcp-*-test.ts` |
 | Verify real native persistence, transport, clipboard and preview boundaries | `native-acceptance.ts`, the Swift native fixtures, and feature-specific `native-*.ts` runners |
 | Exercise the editor in Chrome and isolated native QA copies | `browser-acceptance.ts`, `prepare-*-qa.ts`, `owned-browser-server.ts` and `*-page.js` fixtures |
