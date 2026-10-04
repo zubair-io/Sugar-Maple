@@ -1,5 +1,10 @@
 name: Editor
 on:
+  workflow_call:
+    outputs:
+      validated_sha:
+        description: Exact revision that passed the full Editor checks
+        value: ${{ jobs.validated.outputs.sha }}
   pull_request:
   push:
     branches: [main]
@@ -14,6 +19,7 @@ jobs:
         with:
           bun-version: '1.4.2'
       - run: bun install --frozen-lockfile
+      - run: python3 -m unittest discover -s tools -p 'test_release_*.py'
       - run: bun tools/maple-inventory.ts
       - run: bun test src/web/tests
       - run: bun run --cwd src/web typecheck
@@ -34,6 +40,7 @@ jobs:
         with:
           bun-version: '1.4.2'
       - run: bun install --frozen-lockfile
+      - run: python3 -m unittest discover -s src/apple/ci_scripts -p 'test_*.py'
       - run: xcodebuild -version
       - run: bun run build:mac
         timeout-minutes: 10
@@ -60,3 +67,13 @@ jobs:
             build/library-scene-server-owner.json
           if-no-files-found: warn
           retention-days: 3
+
+  validated:
+    name: Editor validation
+    needs: [web, macos]
+    runs-on: ubuntu-latest
+    outputs:
+      sha: ${{ steps.revision.outputs.sha }}
+    steps:
+      - id: revision
+        run: echo "sha=$GITHUB_SHA" >> "$GITHUB_OUTPUT"
