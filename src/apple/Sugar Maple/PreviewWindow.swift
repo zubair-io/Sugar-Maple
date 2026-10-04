@@ -35,7 +35,7 @@ final class PreviewWindow: NSObject, NSWindowDelegate, WKNavigationDelegate, WKS
         webView.navigationDelegate = self
         if let owner {
             ownerObserver = NotificationCenter.default.addObserver(forName: NSWindow.willCloseNotification, object: owner, queue: .main) { [weak self] _ in
-                Task { @MainActor in self?.close() }
+                Task { @MainActor [weak self] in self?.close() }
             }
         }
         webView.load(URLRequest(url: URL(string: "sugar-maple://preview/index.html#preview")!))
