@@ -2,18 +2,20 @@
 # Maple's post-clone pattern, adapted to Sugar Maple's Angular dependencies.
 # Everything installs within this build; no sibling checkout or global tools.
 set -eu
-SCRIPT_DIR=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
-REPO_ROOT=${CI_PRIMARY_REPOSITORY_PATH:-$(CDPATH= cd -- "$SCRIPT_DIR/../../.." && pwd)}
+SCRIPT_DIR=$(CDPATH='' cd -- "$(dirname -- "$0")" && pwd)
+REPO_ROOT=${CI_PRIMARY_REPOSITORY_PATH:-$(CDPATH='' cd -- "$SCRIPT_DIR/../../.." && pwd)}
 BUN_VERSION=1.4.2
 NODE_VERSION=26.9.0
 case $(uname -m) in
   arm64)
     BUN_ARCH=aarch64
+    BUN_SHA256=90987a3a16d7db556d886ac3d551e7b6d3edf0a1cf43acaed622e8676be1d12f
     NODE_ARCH=arm64
     NODE_SHA256=6f3de7ed853ee283b4bf24b6e426618f1d357401ce5815db1866eb85eb4b05d9
     ;;
   x86_64)
     BUN_ARCH=x64
+    BUN_SHA256=80520d7e17526308c9185d261679ac6d27798d3803a0e9f7ff9121ab8affb012
     NODE_ARCH=x64
     NODE_SHA256=06b2e742ed9025dc84adc830243b3f731956eac9c321bccd0ede384209af02a8
     ;;
@@ -33,6 +35,7 @@ export PATH="$BOOTSTRAP/node-v${NODE_VERSION}-darwin-${NODE_ARCH}/bin:$PATH"
 curl --fail --location --retry 3 --retry-all-errors \
   "https://github.com/oven-sh/bun/releases/download/bun-v${BUN_VERSION}/bun-darwin-${BUN_ARCH}.zip" \
   --output "$BOOTSTRAP/bun.zip"
+printf '%s  %s\n' "$BUN_SHA256" "$BOOTSTRAP/bun.zip" | shasum -a 256 -c -
 unzip -q "$BOOTSTRAP/bun.zip" -d "$BOOTSTRAP"
 BUN="$BOOTSTRAP/bun-darwin-${BUN_ARCH}/bun"
 [ "$($BUN --version)" = "$BUN_VERSION" ] || { echo 'error: Bun version mismatch' >&2; exit 1; }
