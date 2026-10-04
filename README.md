@@ -23,6 +23,11 @@ bun run dev
 
 For Xcode development, run `bun run build:web` first, then open `src/apple/Sugar Maple.xcodeproj`, select **Sugar Maple / My Mac**, and Run. Rebuild web assets after editor changes before relaunching Xcode's app. The bundled editor build phase fails clearly if assets are missing.
 
+Xcode Cloud runs `src/apple/ci_scripts/ci_post_clone.sh` to install pinned
+dependencies and build the bundled editor before Xcode. It supplies a temporary,
+checksum-verified Node/npm runtime because the lockfile's Node installer needs
+npm, which Apple’s runner does not provide. No global installation is required.
+
 ## Verify
 
 ```sh
