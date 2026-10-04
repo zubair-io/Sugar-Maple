@@ -1,20 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<plist version="1.0"><dict>
-  <key>UTExportedTypeDeclarations</key><array><dict>
-    <key>UTTypeIdentifier</key><string>io.zubair.SugarMaple.document</string>
-    <key>UTTypeDescription</key><string>Sugar Maple Document</string>
-    <key>UTTypeConformsTo</key><array><string>com.apple.package</string></array>
-    <key>UTTypeTagSpecification</key><dict><key>public.filename-extension</key><array><string>syrup</string></array></dict>
-  </dict><dict>
-    <key>UTTypeIdentifier</key><string>io.zubair.sugarmaple.elements</string>
-    <key>UTTypeDescription</key><string>Editable Sugar Maple Elements</string>
-    <key>UTTypeConformsTo</key><array><string>public.json</string></array>
-  </dict></array>
-  <key>CFBundleDocumentTypes</key><array><dict>
-    <key>CFBundleTypeName</key><string>Sugar Maple Document</string>
-    <key>CFBundleTypeRole</key><string>None</string>
-    <key>LSTypeIsPackage</key><true/>
-    <key>LSItemContentTypes</key><array><string>io.zubair.SugarMaple.document</string></array>
-  </dict></array>
-</dict></plist>
+<plist version="1.0">
+<dict>
+	<key>CFBundleDocumentTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeName</key>
+			<string>Sugar Maple Document</string>
+			<key>CFBundleTypeRole</key>
+			<string>None</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>io.zubair.SugarMaple.document</string>
+			</array>
+			<key>LSTypeIsPackage</key>
+			<true/>
+		</dict>
+	</array>
+	<key>UTExportedTypeDeclarations</key>
+	<array>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>com.apple.package</string>
+			</array>
+			<key>UTTypeDescription</key>
+			<string>Sugar Maple Document</string>
+			<key>UTTypeIdentifier</key>
+			<string>io.zubair.SugarMaple.document</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>syrup</string>
+				</array>
+			</dict>
+		</dict>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.json</string>
+			</array>
+			<key>UTTypeDescription</key>
+			<string>Editable Sugar Maple Elements</string>
+			<key>UTTypeIdentifier</key>
+			<string>io.zubair.sugarmaple.elements</string>
+		</dict>
+	</array>
+</dict>
+</plist>
