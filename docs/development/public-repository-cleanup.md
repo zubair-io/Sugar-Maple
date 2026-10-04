@@ -31,13 +31,14 @@ arbitrary imported code are safe.
 
 ## History delivery and existing clones
 
-Merge and validate the current code before rewriting history. Use a separate
-clone to remove only the four paths above across all writable remote branches
-and tags, preserve the other contents of each branch, and publish with explicit
-leases against the captured remote heads. Keep recovery bundles and removed
-files in a private local directory outside the public checkout. Verify the
-filtered main tree matches the reviewed cleanup tree and check a fresh remote
-clone for the removed paths.
+The retired handoff and copied prototype exceeded the review action's diff-size
+budget. Remove only the four paths above in a separate clone first, verify that
+every other file on every branch is unchanged, and publish with explicit leases
+against the captured remote heads. Then review and validate the compact app and
+setup changes against the cleaned main branch before merging them. Keep recovery
+bundles and removed files in a private local directory outside the public
+checkout. Verify the final main tree matches the reviewed tree and check a fresh
+remote clone for the removed paths. The review size limit remains unchanged.
 
 History rewriting changes commit IDs after the removed content was introduced.
 Use a fresh clone for new work. If an existing checkout has local edits, preserve
