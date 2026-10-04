@@ -17,6 +17,16 @@ __pycache__/
 .env
 .env.*
 !.env.example
+*.p8
+*.p12
+*.pfx
+mcp-token
+
+# Private design handoffs and retired standalone experiments
+/designs/just-maple/
+/prototypes/whiteboard-ui/
+/tools/delete_jules_sessions.py
+/tools/tests/test_delete_jules_sessions.py
 
 # Local issue exports and publishing data; keep architecture documentation
 /docs/planning/issues/
