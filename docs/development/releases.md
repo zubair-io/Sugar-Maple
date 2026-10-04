@@ -45,6 +45,17 @@ Saving the workflow alone does not configure its secrets or prove delivery.
 App Store eligibility is a build property; public App Store publication also
 requires metadata, review and account-holder agreements.
 
+## Encryption metadata
+
+The current app uses Apple CryptoKit SHA256 for document integrity and Apple
+Security/Web Crypto for random local authentication IDs. The bundled editor
+does not implement its own encryption algorithms. Debug and Release generate
+`ITSAppUsesNonExemptEncryption = NO`, matching Maple and Apple's
+[OS-only encryption guidance](https://developer.apple.com/help/app-store-connect/reference/app-information/export-compliance-documentation-for-encryption/).
+Revisit that declaration if shipped dependencies or encryption features change.
+The existing build 6 must still have its Missing Compliance prompt answered in
+App Store Connect; changing source does not alter an already uploaded build.
+
 ## GitHub tag publication
 
 A stable tag starts Cloud prod and `.github/workflows/release.yml`. Cloud checks
