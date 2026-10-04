@@ -44,6 +44,8 @@ jobs:
       - run: xcodebuild -version
       - run: bun run build:mac
         timeout-minutes: 10
+      - name: Verify generated encryption metadata
+        run: test "$(/usr/libexec/PlistBuddy -c 'Print :ITSAppUsesNonExemptEncryption' 'build/DerivedData/Build/Products/Debug/Sugar Maple.app/Contents/Info.plist')" = false
       - run: bun tools/native-acceptance.ts
       - run: bun prototypes/library-preview/process-registry-test.ts
       - run: bun prototypes/library-preview/comparison-cancellation-test.ts --trust-native-fixture
