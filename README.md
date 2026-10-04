@@ -50,6 +50,22 @@ bun run test:mcp
 
 Neither sibling reference checkout is required to build.
 
+## Repository layout
+
+`src/web` is the shipping Angular editor and `src/apple` is the macOS host,
+app icon, shared scheme and Xcode Cloud build hooks. `designs/brand` contains
+Sugar Maple's own editable icon source. Separate product design handoffs belong
+outside this repository.
+
+[`tools`](tools/README.md) contains build, MCP, export-consumer, browser/native
+QA and benchmark programs. These are project tooling, not bundled app features.
+[`prototypes/library-preview`](prototypes/library-preview/README.md) is the
+maintained, CI-backed experiment for real JavaScript/Swift library previews;
+it is not shipped or enabled in the editor. The obsolete standalone Whiteboard
+POC has been removed because its canvas implementation is integrated into
+`src/web`. `docs` contains product decisions, development instructions and
+recorded QA evidence; `.github` contains CI and code-review automation.
+
 ## Specifications and delivery
 
 - [Desktop editor UI](docs/design/editor-ui.md)

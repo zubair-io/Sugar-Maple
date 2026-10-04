@@ -74,7 +74,7 @@ SwiftUI supports fixed-size vector paths through [native vector handoff](vector-
 
 ## Reproduction
 
-Run `bun install --frozen-lockfile`, `bun run test`, `bun run --cwd src/web typecheck`, `bun run build:web`, `bun run test:e2e` and `bun run build:mac`. For isolated native UI/MCP acceptance, follow [MCP development instructions](mcp.md#canvas-acceptance-and-isolated-native-qa). The original standalone experiment is retained in `prototypes/whiteboard-ui`; its three tests, typecheck and build pass. Existing session-cleanup utility tests use fake API responses and passed without contacting an external service.
+Run `bun install --frozen-lockfile`, `bun run test`, `bun run --cwd src/web typecheck`, `bun run build:web`, `bun run test:e2e` and `bun run build:mac`. For isolated native UI/MCP acceptance, follow [MCP development instructions](mcp.md#canvas-acceptance-and-isolated-native-qa). The original standalone Whiteboard experiment was removed during the public repository cleanup after its canvas architecture was integrated into `src/web`. The measurements below remain historical POC evidence; current renderer and interaction checks live in the shipping editor's tests and native acceptance tools.
 
 ## Portable typography (issue #46)
 
