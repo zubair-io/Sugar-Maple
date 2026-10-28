@@ -4,6 +4,8 @@ Build and launch with `bun run dev:mac`. The Swift Mac host listens only at `htt
 
 The random per-launch bearer token is stored with mode 0600 at `~/Library/Application Support/SugarMaple/mcp-token` for the development build. It is never printed in logs. An occupied port is reported in the Mac app. Browser Origins are rejected; use a local MCP client, not a browser fetch. A signed sandboxed distribution may place application support inside its container; set `SUGAR_MAPLE_TOKEN_FILE` for the adapter if needed.
 
+In the Mac app, open **MCP** in the titlebar, then use **Copy URL** and **Copy MCP Token** to configure a local HTTP client. Paste the token into its bearer token field (or use the `Authorization: Bearer <token>` header). Copying happens inside the app, so Terminal does not need access to its sandbox container. The panel confirms successful copies and reports failures; copy the new token after restarting Sugar Maple.
+
 For stdio-capable clients:
 
 ```json

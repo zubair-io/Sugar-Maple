@@ -21,7 +21,13 @@ final class MCPServer {
     private let now: () -> TimeInterval
     private var connections: [UUID: NWConnection] = [:]
     private var stopped = false
+    private(set) var isReady = false
+    var endpoint: String { "http://127.0.0.1:\(port)/mcp" }
     private let tokenURL: URL
+    func tokenForClipboard() throws -> String {
+        guard isReady, !stopped else { throw HostError.message("MCP is not ready. Check the connection status and try again.") }
+        return token
+    }
     init(host: any MCPHosting, now: @escaping () -> TimeInterval = { ProcessInfo.processInfo.systemUptime }) throws {
         self.now = now
         self.host = host
@@ -47,9 +53,12 @@ final class MCPServer {
                     do {
                         try Data(credential.utf8).write(to: credentialURL, options: .atomic)
                         try FileManager.default.setAttributes([.posixPermissions: 0o600], ofItemAtPath: tokenURL.path)
+                        self.isReady = true
                         host?.serverStatus = "Ready · 127.0.0.1:\(endpointPort)"
                     } catch { host?.serverStatus = "MCP credential error: \(error.localizedDescription)" }
-                case .failed(let error): host?.serverStatus = "MCP port \(endpointPort) unavailable: \(error.localizedDescription)"
+                case .failed(let error):
+                    self.isReady = false
+                    host?.serverStatus = "MCP port \(endpointPort) unavailable: \(error.localizedDescription)"
                 default: break
                 }
             }
@@ -63,6 +72,7 @@ final class MCPServer {
     func stop() {
         guard !stopped else { return }
         stopped = true
+        isReady = false
         listener.cancel()
         for connection in connections.values { connection.cancel() }
         connections.removeAll()

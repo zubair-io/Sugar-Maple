@@ -174,3 +174,22 @@ button:hover {
   color: var(--color-text-muted);
   line-height: 1.5;
 }
+.connection-url {
+  display: grid;
+  gap: 4px;
+}
+.connection-url input {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  padding: 6px;
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  background: var(--chrome-control-bg, var(--color-input-bg));
+  color: var(--color-text-main);
+  font: inherit;
+}
+.connection-actions {
+  display: flex;
+  gap: 6px;
+}

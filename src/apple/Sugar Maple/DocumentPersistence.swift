@@ -68,7 +68,7 @@ actor DocumentPersistence {
     func save(_ data: Data, to chosenURL: URL? = nil) throws -> Bool {
         try loadBindings()
         let (id, name) = try identity(data)
-        guard data.count <= 32_000_000 else { throw CocoaError(.fileWriteOutOfSpace) }
+        guard data.count <= DocumentPackage.maximumCheckpointBytes else { throw DocumentPackage.checkpointSizeError }
         let drafts = root.appendingPathComponent("Documents", isDirectory: true)
         try FileManager.default.createDirectory(at: drafts, withIntermediateDirectories: true)
         let old = bindings?[id]

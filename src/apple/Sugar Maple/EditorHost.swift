@@ -124,7 +124,11 @@ final class EditorHost: NSObject, WKScriptMessageHandlerWithReply, WKNavigationD
             guard let value = body["value"] as? [String: Any] else { throw HostError.message("Missing preview scene") }
             try previewWindow?.update(value)
             return ["ok": true]
-        case "status": return ["status": serverStatus]
+        case "status": return ["status": serverStatus, "mcpURL": server?.endpoint ?? "http://127.0.0.1:\(mcpPort)/mcp", "canCopyToken": server?.isReady == true]
+        case "mcp.copyToken":
+            guard let server else { throw HostError.message("MCP is unavailable. Check the connection status and try again.") }
+            try NativeClipboard.write(server.tokenForClipboard())
+            return ["ok": true]
         case "window.close":
             webView.window?.performClose(nil)
             return ["ok": true]

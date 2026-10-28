@@ -70,9 +70,16 @@ import Darwin
         let support = host!.support
         let server = try MCPServer(host:host!, now:{ clock.value })
         defer { server.stop() }
+        do {
+            _ = try server.tokenForClipboard()
+            preconditionFailure("Token must not be copied before readiness")
+        } catch { precondition(error.localizedDescription.contains("not ready")) }
         try await wait("listener readiness") { host!.serverStatus.hasPrefix("Ready") }
         let tokenURL = support.appendingPathComponent("mcp-token")
         let token = try String(contentsOf:tokenURL, encoding:.utf8)
+        let clipboardToken = try server.tokenForClipboard()
+        precondition(server.isReady && clipboardToken == token)
+        precondition(server.endpoint == "http://127.0.0.1:\(port)/mcp")
         let permissions = try FileManager.default.attributesOfItem(atPath:tokenURL.path)[.posixPermissions] as! NSNumber
         precondition(permissions.intValue & 0o777 == 0o600)
         let directoryPermissions = try FileManager.default.attributesOfItem(atPath:support.path)[.posixPermissions] as! NSNumber
@@ -107,6 +114,11 @@ import Darwin
         let (_, disconnected) = try await request(port, token:token)
         precondition(errorCode(disconnected) == "disconnected")
         server.stop(); server.stop()
+        precondition(!server.isReady)
+        do {
+            _ = try server.tokenForClipboard()
+            preconditionFailure("Stopped server must not supply a token")
+        } catch { precondition(error.localizedDescription.contains("not ready")) }
         precondition(!FileManager.default.fileExists(atPath:tokenURL.path))
         // Restart the real listener on the same port/profile; old credentials must fail.
         let restarted = try TestMCPHost(port:port, root:support)
