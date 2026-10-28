@@ -23,7 +23,7 @@ import Foundation
         let file = root.appendingPathComponent("document.json")
         let handle = try FileHandle(forWritingTo: file)
         defer { try? handle.close() }
-        for size: UInt64 in [32_000_001, 3_000_000_000] {
+        for size: UInt64 in [UInt64(DocumentPackage.maximumCheckpointBytes) + 1, 3_000_000_000] {
             try handle.truncate(atOffset: size)
             let attributes = try FileManager.default.attributesOfItem(atPath: file.path)
             precondition((attributes[.size] as? NSNumber)?.uint64Value == size)
@@ -33,6 +33,6 @@ import Foundation
             }
         }
         print("PASS: real .syrup save/reopen preserves opaque document/page/folder metadata, invalid-write preservation and external-change conflict")
-        print("PASS: actual read/fingerprint reject sparse 32 MB + 1 byte and 3 GB checkpoints with explicit unsigned 64-bit size checks")
+        print("PASS: actual read/fingerprint reject sparse 512 MB + 1 byte and 3 GB checkpoints with explicit unsigned 64-bit size checks")
     }
 }

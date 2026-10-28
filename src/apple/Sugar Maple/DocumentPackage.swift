@@ -2,6 +2,10 @@ import Foundation
 import CryptoKit
 
 enum DocumentPackage {
+    static let maximumCheckpointBytes = 512_000_000
+    static var checkpointSizeError: NSError {
+        NSError(domain: "SugarMaple", code: 413, userInfo: [NSLocalizedDescriptionKey: "This document, including undo history, exceeds Sugar Maple’s 512 MB save limit. Freeing disk space will not resolve this limit."])
+    }
     static func validate(_ value: Any) throws -> [String: Any] {
         guard let checkpoint = value as? [String: Any],
               let document = checkpoint["document"] as? [String: Any],
@@ -27,7 +31,7 @@ enum DocumentPackage {
     static func fingerprint(_ url: URL) throws -> String {
         let file = try checkpointURL(url)
         let attributes = try FileManager.default.attributesOfItem(atPath: file.path)
-        guard (attributes[.size] as? NSNumber)?.uint64Value ?? UInt64.max <= 32_000_000 else { throw CocoaError(.fileReadTooLarge) }
+        guard (attributes[.size] as? NSNumber)?.uint64Value ?? UInt64.max <= UInt64(maximumCheckpointBytes) else { throw CocoaError(.fileReadTooLarge) }
         let bytes = try Data(contentsOf: file)
         return SHA256.hash(data: bytes).map { String(format: "%02x", $0) }.joined()
     }
@@ -38,14 +42,14 @@ enum DocumentPackage {
         }
         let checkpoint = try validate(value)
         let bytes = try JSONSerialization.data(withJSONObject: checkpoint, options: [.sortedKeys])
-        guard bytes.count <= 32_000_000 else { throw NSError(domain: "SugarMaple", code: 413, userInfo: [NSLocalizedDescriptionKey: "This checkpoint exceeds the current 32 MB package limit."]) }
+        guard bytes.count <= maximumCheckpointBytes else { throw checkpointSizeError }
         try FileManager.default.createDirectory(at: url, withIntermediateDirectories: true)
         try bytes.write(to: file, options: .atomic)
     }
     static func read(_ url: URL) throws -> [String: Any] {
         let file = try checkpointURL(url)
         let attributes = try FileManager.default.attributesOfItem(atPath: file.path)
-        guard (attributes[.size] as? NSNumber)?.uint64Value ?? UInt64.max <= 32_000_000 else { throw CocoaError(.fileReadTooLarge) }
+        guard (attributes[.size] as? NSNumber)?.uint64Value ?? UInt64.max <= UInt64(maximumCheckpointBytes) else { throw CocoaError(.fileReadTooLarge) }
         return try validate(JSONSerialization.jsonObject(with: Data(contentsOf: file)))
     }
 }

@@ -78,6 +78,19 @@ import Foundation
         precondition((validValue?["document"] as? [String: Any])?["name"] as? String == "External change")
         let afterBadReads = try await reopened.load()!
         precondition(afterBadReads == recovery)
+        // The former 32 MB gate incorrectly reported a full disk. Large checkpoints
+        // must persist and reopen with their complete history/opaque metadata.
+        var large = try JSONSerialization.jsonObject(with: first) as! [String: Any]
+        large["historyFixture"] = String(repeating: "x", count: 33_000_000)
+        let largeData = try JSONSerialization.data(withJSONObject: large)
+        let largeURL = root.appendingPathComponent("Large.syrup")
+        try await reopened.save(largeData, to: largeURL)
+        let largeRead = try DocumentPackage.read(largeURL)
+        precondition(NSDictionary(dictionary: large).isEqual(to: largeRead))
+        let sizeError = DocumentPackage.checkpointSizeError
+        precondition(sizeError.code == 413 && sizeError.code != CocoaError.fileWriteOutOfSpace.rawValue)
+        precondition(sizeError.localizedDescription.contains("512 MB"))
         print("PASS: real autosave packages, independent documents, title rename, collisions, invalid names, case-only rename, rename undo, migration, restart, external conflict, recovery preservation and corrupt native Open rejection")
+        print("PASS: checkpoint above the former 32 MB limit saves/reopens intact; size-limit errors do not claim disk exhaustion")
     }
 }

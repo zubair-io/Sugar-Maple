@@ -1,4 +1,5 @@
 import { applyLibrary, trackLibraryOverrides } from './libraries';
+import { maximumCheckpointBytes } from './persistence-limits';
 import { applyComment } from './comments';
 import { synchronizeComponents } from './component-sync';
 import { delta, applyDelta, JournalSchema, type JournalEntry } from './journal';
@@ -198,10 +199,10 @@ export class DocumentStore {
           base: this.base,
           journal: [...this.journal, entry],
         }).replace(/\//g, '\\/'),
-      ).length > 32_000_000
+      ).length > maximumCheckpointBytes
     )
       throw Error(
-        'Import would exceed the 32 MB saved checkpoint limit; reduce the libraries, images or data',
+        'Import would exceed the 512 MB saved checkpoint limit, including undo history; reduce the libraries, images or data',
       );
     this.ydoc.transact(() => this.write(doc), origin);
     this.revision++;

@@ -76,7 +76,7 @@
         aria-label="MCP connection details"
         [attr.aria-expanded]="mcpOpen()"
         [title]="e.mcp()"
-        (click)="mcpOpen.set(!mcpOpen())"
+        (click)="toggleMCP()"
       >
         ◉<span>{{ e.native ? 'MCP' : 'Browser' }}</span>
       </button>
@@ -84,6 +84,17 @@
         <section class="connection-details" aria-label="MCP connection and transaction status">
           <strong>MCP connection</strong>
           <p>{{ e.mcp() }}</p>
+          @if (e.native) {
+            <label class="connection-url">Server URL
+              <input aria-label="MCP server URL" readonly [value]="mcpURL()" />
+            </label>
+            <div class="connection-actions">
+              <mui-button variant="secondary" size="sm" [disabled]="!mcpURL() || copyingConnection()" (pressed)="copyConnection('url')">Copy URL</mui-button>
+              <mui-button variant="secondary" size="sm" [disabled]="!canCopyToken() || copyingConnection()" (pressed)="copyConnection('token')">Copy MCP Token</mui-button>
+            </div>
+            <small>Paste the token into your MCP client’s bearer token field. Restarting Sugar Maple creates a new token.</small>
+            <p role="status">{{ connectionFeedback() }}</p>
+          }
           <p>{{ e.doc().name }} · revision {{ e.revision() }}</p>
           <p>{{ e.status() }}</p>
           <strong>Recent agent transactions</strong>

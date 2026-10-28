@@ -8,7 +8,7 @@ Use **Assets → Library manifest file** to choose JSON, or paste JSON and selec
 
 `manifestVersion: 1` identifies the schema. `revision` versions the mapping independently from `package.version`; the document key is `<id>@<revision>`. A new mapping revision can therefore keep the same pinned package. `dependencies` declares exact package versions. `webStyles` and each component's `web.module` are paths inside that primary package, and `web.symbol` records its actual exported class. A component declares `semanticKind`, size, typed `props`, `slots`, `variants`, `defaultVariant`, an optional web mapping and an optional SwiftUI mapping. Property defaults, variants, enum choices, bounds and semantic bindings are validated together before an import mutates anything.
 
-The fixture is the complete format example. Unknown schema keys, invalid identifiers, arbitrary imports, event-handler attributes, unsupported semantic mappings and same-key metadata collisions fail atomically. Limits are 1 MB per manifest, 100 components, 100 props and 50 variants per component, 50 dependency pins and 50 pinned versions per document. The native 32 MB checkpoint limit includes the complete undo journal.
+The fixture is the complete format example. Unknown schema keys, invalid identifiers, arbitrary imports, event-handler attributes, unsupported semantic mappings and same-key metadata collisions fail atomically. Limits are 1 MB per manifest, 100 components, 100 props and 50 variants per component, 50 dependency pins and 50 pinned versions per document. The native 512 MB checkpoint limit includes the complete undo journal.
 
 `transaction.apply` accepts these operations under the existing document/revision/request-ID guard:
 
